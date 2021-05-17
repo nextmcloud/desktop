@@ -105,407 +105,485 @@ Window {
         Accessible.name: qsTr("Nextcloud desktop main dialog")
 
         Rectangle {
-            id: trayWindowHeaderBackground
+            id: trayWindowMagentaBarBackground
 
             anchors.left:   trayWindowBackground.left
             anchors.right:  trayWindowBackground.right
             anchors.top:    trayWindowBackground.top
-            height:         Style.trayWindowHeaderHeight
-            color:          Style.ncBlue
+            height:         100
+            color:          Style.magenta
 
-            RowLayout {
-                id: trayWindowHeaderLayout
 
-                spacing:        0
-                anchors.fill:   parent
+            Rectangle {
+                id: trayWindowTLogoBarBackground
 
-                Button {
-                    id: currentAccountButton
+                anchors.left:   trayWindowMagentaBarBackground.left
+                anchors.right:  trayWindowMagentaBarBackground.right
+                anchors.top:    trayWindowMagentaBarBackground.top
+                height:         48
+                color:          Style.magenta
 
-                    Layout.preferredWidth:  Style.currentAccountButtonWidth
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
-                    display:                AbstractButton.IconOnly
-                    flat:                   true
+                Image {
+                    id: magentaTLogo
 
-                    Accessible.role: Accessible.ButtonMenu
-                    Accessible.name: qsTr("Current account")
-                    Accessible.onPressAction: currentAccountButton.clicked()
+                    cache: false
+                    source: "qrc:///client/theme/magenta/logo.png"
+                    anchors.fill: parent
+                }
+            }
 
-                    MouseArea {
-                        id: accountBtnMouseArea
 
-                        anchors.fill:   parent
-                        hoverEnabled:   Style.hoverEffectsEnabled
+            Rectangle {
+                id: trayWindowHeaderBackground
 
-                        // We call open() instead of popup() because we want to position it
-                        // exactly below the dropdown button, not the mouse
-                        onClicked: {
-                            syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
-                            if (accountMenu.visible) {
-                                accountMenu.close()
-                            } else {
-                                accountMenu.open()
+                anchors.left:   trayWindowMagentaBarBackground.left
+                anchors.right:  trayWindowMagentaBarBackground.right
+                anchors.top:    trayWindowTLogoBarBackground.bottom
+                height:         Style.trayWindowHeaderHeight
+                radius:         10
+                color:          "white"
+
+                RowLayout {
+                    id: trayWindowHeaderLayout
+
+                    spacing:        0
+                    anchors.fill:   parent
+
+                    Button {
+                        id: currentAccountButton
+
+                        Layout.preferredWidth:  160//Style.currentAccountButtonWidth
+                        Layout.preferredHeight: Style.trayWindowHeaderHeight
+                        display:                AbstractButton.IconOnly
+                        flat:                   true
+
+                        Accessible.role: Accessible.ButtonMenu
+                        Accessible.name: qsTr("Current account")
+                        Accessible.onPressAction: currentAccountButton.clicked()
+
+                        MouseArea {
+                            id: accountBtnMouseArea
+
+                            anchors.fill:   parent
+                            hoverEnabled:   Style.hoverEffectsEnabled
+
+                            // We call open() instead of popup() because we want to position it
+                            // exactly below the dropdown button, not the mouse
+                            onClicked: {
+                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
+                                if (accountMenu.visible) {
+                                    accountMenu.close()
+                                } else {
+                                    accountMenu.open()
+                                }
+                            }
+
+                            Menu {
+                                id: accountMenu
+
+                                // x coordinate grows towards the right
+                                // y coordinate grows towards the bottom
+                                x: (currentAccountButton.x + 2)
+                                y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 2)
+
+                                width: (Style.currentAccountButtonWidth - 2)
+                                height: Math.min(implicitHeight, maxMenuHeight)
+                                closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+
+                                background: Rectangle {
+                                    border.color: Style.menuBorder
+                                    radius: Style.currentAccountButtonRadius
+                                }
+
+                                Accessible.role: PopupMenu
+                                Accessible.name: qsTr("Account switcher and settings menu")
+
+                                onClosed: {
+                                    // HACK: reload account Instantiator immediately by restting it - could be done better I guess
+                                    // see also onVisibleChanged above
+                                    userLineInstantiator.active = false;
+                                    userLineInstantiator.active = true;
+                                }
+
+                                Instantiator {
+                                    id: userLineInstantiator
+                                    model: UserModel
+                                    delegate: UserLine {}
+                                    onObjectAdded: accountMenu.insertItem(index, object)
+                                    onObjectRemoved: accountMenu.removeItem(object)
+                                }
+
+                                MenuItem {
+                                    id: addAccountButton
+                                    height: Style.addAccountButtonHeight
+                                    hoverEnabled: true
+
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.menu.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered ? Style.lightHover : "transparent"
+                                        }
+                                    }
+
+                                    RowLayout {
+                                        anchors.fill: parent
+                                        spacing: 0
+
+                                        Image {
+                                            Layout.leftMargin: 12
+                                            verticalAlignment: Qt.AlignCenter
+                                            source: "qrc:///client/theme/black/add.svg"
+                                            sourceSize.width: Style.headerButtonIconSize
+                                            sourceSize.height: Style.headerButtonIconSize
+                                        }
+                                        Label {
+                                            Layout.leftMargin: 14
+                                            text: qsTr("Add account")
+                                            color: Style.nmcTextColor
+                                            font.family: "Segoe UI"
+                                            font.pixelSize: Style.topLinePixelSize
+                                        }
+                                        // Filler on the right
+                                        Item {
+                                            Layout.fillWidth: true
+                                            Layout.fillHeight: true
+                                        }
+                                    }
+                                    onClicked: UserModel.addAccount()
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: qsTr("Add new account")
+                                    Accessible.onPressAction: addAccountButton.clicked()
+                                }
+
+                                MenuSeparator {
+                                    contentItem: Rectangle {
+                                        implicitHeight: 1
+                                        color: Style.menuBorder
+                                    }
+                                }
+
+                                MenuItem {
+                                    id: syncPauseButton
+                                    font.family: "Segoe UI"
+                                    font.pixelSize: Style.topLinePixelSize
+                                    hoverEnabled: true
+                                    onClicked: Systray.pauseResumeSync()
+
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.menu.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered ? Style.lightHover : "transparent"
+                                        }
+                                    }
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
+                                    Accessible.onPressAction: syncPauseButton.clicked()
+                                }
+
+                                MenuItem {
+                                    id: settingsButton
+                                    text: qsTr("Settings")
+                                    font.family: "Segoe UI"
+                                    font.pixelSize: Style.topLinePixelSize
+
+                                    hoverEnabled: true
+                                    onClicked: Systray.openSettings()
+
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.menu.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered ? Style.lightHover : "transparent"
+                                        }
+                                    }
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: text
+                                    Accessible.onPressAction: settingsButton.clicked()
+                                }
+
+                                MenuItem {
+                                    id: exitButton
+                                    text: qsTr("Exit");
+                                    font.family: "Segoe UI"
+                                    font.pixelSize: Style.topLinePixelSize
+                                    hoverEnabled: true
+                                    onClicked: Systray.shutdown()
+
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.menu.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered ? Style.lightHover : "transparent"
+                                        }
+                                    }
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: text
+                                    Accessible.onPressAction: exitButton.clicked()
+                                }
                             }
                         }
 
+                        background: Rectangle {
+                            color: accountBtnMouseArea.containsMouse ? "white" : "transparent"
+                            opacity: 0.2
+                        }
+
+                        RowLayout {
+                            id: accountControlRowLayout
+
+                            height: Style.trayWindowHeaderHeight
+                            width:  160//Style.currentAccountButtonWidth
+                            spacing: 0
+
+                            Image {
+                                id: currentAccountAvatar
+
+                                Layout.leftMargin: 16
+                                verticalAlignment: Qt.AlignCenter
+                                cache: false
+                                source: "qrc:///client/theme/magenta/user/default.png"
+                                width: 24
+                                height: 24
+
+                                Layout.preferredHeight: 24//Style.accountAvatarSize
+                                Layout.preferredWidth: 24//Style.accountAvatarSize
+
+                                Accessible.role: Accessible.Graphic
+                                Accessible.name: qsTr("Current user avatar")
+
+                                Rectangle {
+                                    id: currentAccountStateIndicatorBackground
+                                    width: Style.accountAvatarStateIndicatorSize + 2
+                                    height: width
+                                    anchors.bottom: currentAccountAvatar.bottom
+                                    anchors.right: currentAccountAvatar.right
+                                    color: Style.ncBlue
+                                    radius: width*0.5
+                                }
+
+                                Rectangle {
+                                    width: Style.accountAvatarStateIndicatorSize + 2
+                                    height: width
+                                    anchors.bottom: currentAccountAvatar.bottom
+                                    anchors.right: currentAccountAvatar.right
+                                    color: accountBtnMouseArea.containsMouse ? "white" : "transparent"
+                                    opacity: 0.2
+                                    radius: width*0.5
+                                }
+
+                                Image {
+                                    id: currentAccountStateIndicator
+                                    source: UserModel.isUserConnected(UserModel.currentUserId)
+                                            ? Style.stateOnlineImageSource
+                                            : Style.stateOfflineImageSource
+                                    cache: false
+                                    x: currentAccountStateIndicatorBackground.x + 1
+                                    y: currentAccountStateIndicatorBackground.y + 1
+                                    sourceSize.width: Style.accountAvatarStateIndicatorSize
+                                    sourceSize.height: Style.accountAvatarStateIndicatorSize
+
+                                    Accessible.role: Accessible.Indicator
+                                    Accessible.name: UserModel.isUserConnected(UserModel.currentUserId()) ? qsTr("Connected") : qsTr("Disconnected")
+                                }
+                            }
+
+                            Label {
+                                id: currentAccountUser
+
+                                //width: 88//Math.min(hiddenText.implicitWidth, 88)//Style.currentAccountLabelWidth
+                                Layout.leftMargin: 6
+                                Layout.maximumWidth: 100
+                                text: UserModel.currentUser.name
+                                elide: Text.ElideRight
+                                color: Style.nmcTextColor
+                                font.family: "Segoe UI"
+                                font.pixelSize: Style.topLinePixelSize
+                            }
+
+
+                            ColorOverlay {
+                                cached: true
+                                color: Style.nmcTextColor
+                                width: source.width
+                                height: source.height
+                                source: Image {
+                                    Layout.alignment: Qt.AlignRight
+                                    verticalAlignment: Qt.AlignCenter
+                                    Layout.margins: Style.accountDropDownCaretMargin
+                                    source: "qrc:///client/theme/black/caret-down.svg"
+                                    sourceSize.width: Style.accountDropDownCaretSize
+                                    sourceSize.height: Style.accountDropDownCaretSize
+                                }
+                            }
+                        }
+                    }
+
+                    // Filler between account dropdown and header app buttons
+                    Item {
+                        id: trayWindowHeaderSpacer
+                        Layout.fillWidth: true
+                    }
+                    // Left fixed filler between header items
+                    Item {
+                        id: trayWindowHeaderLeftSpacer
+                        Layout.preferredWidth: 16
+                    }
+
+                    HeaderButton {
+                        id: openAccountServerButton
+
+                        visible: true    //UserModel.currentUser.currentUserServer() !== ""
+                        icon.source: "qrc:///client/theme/magenta/news/default@svg.svg"
+                        text: "Webseite öffnen"
+                        onClicked: UserModel.openCurrentAccountServer()
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Open website of current account")
+                        Accessible.onPressAction: openAccountServerButton.clicked()
+                    }
+
+                    // Fixed filler between header buttons
+                    Item {
+                        id: trayWindowHeaderButtonSpacer
+                        Layout.preferredWidth: 16
+                    }
+
+                    HeaderButton {
+                        id: openLocalFolderButton
+
+                        visible: UserModel.currentUser.hasLocalFolder
+                        icon.source: "qrc:///client/theme/magenta/folder/default@svg.svg"
+                        text: "Ordner öffnen"
+                        onClicked: UserModel.openCurrentAccountLocalFolder()
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Open local folder of current account")
+                        Accessible.onPressAction: openLocalFolderButton.clicked()
+                    }
+/*
+                    HeaderButton {
+                        id: trayWindowTalkButton
+
+                        visible: UserModel.currentUser.serverHasTalk
+                        icon.source: "qrc:///client/theme/white/talk-app.svg"
+                        onClicked: UserModel.openCurrentAccountTalk()
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Open Nextcloud Talk in browser")
+                        Accessible.onPressAction: trayWindowTalkButton.clicked()
+                    }
+*/
+
+                    HeaderButton {
+                        id: trayWindowAppsButton
+
+                        visible: false
+                        icon.source: "qrc:///client/theme/white/more-apps.svg"
+                        onClicked: {
+                            if(appsMenu.count <= 0) {
+                                UserModel.openCurrentAccountServer()
+                            } else if (appsMenu.visible) {
+                                appsMenu.close()
+                            } else {
+                                appsMenu.open()
+                            }
+                        }
+
+                        Accessible.role: Accessible.ButtonMenu
+                        Accessible.name: qsTr("More apps")
+                        Accessible.onPressAction: trayWindowAppsButton.clicked()
+
                         Menu {
-                            id: accountMenu
-
-                            // x coordinate grows towards the right
-                            // y coordinate grows towards the bottom
-                            x: (currentAccountButton.x + 2)
-                            y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 2)
-
-                            width: (Style.currentAccountButtonWidth - 2)
+                            id: appsMenu
+                            y: (trayWindowAppsButton.y + trayWindowAppsButton.height + 2)
+                            readonly property Item listContentItem: contentItem.contentItem
+                            width: Math.min(listContentItem.childrenRect.width + 4, Style.trayWindowWidth / 2)
                             height: Math.min(implicitHeight, maxMenuHeight)
                             closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
                             background: Rectangle {
                                 border.color: Style.menuBorder
-                                radius: Style.currentAccountButtonRadius
+                                radius: 2
                             }
 
-                            Accessible.role: PopupMenu
-                            Accessible.name: qsTr("Account switcher and settings menu")
-
-                            onClosed: {
-                                // HACK: reload account Instantiator immediately by restting it - could be done better I guess
-                                // see also onVisibleChanged above
-                                userLineInstantiator.active = false;
-                                userLineInstantiator.active = true;
-                            }
+                            Accessible.role: Accessible.PopupMenu
+                            Accessible.name: qsTr("Apps menu")
 
                             Instantiator {
-                                id: userLineInstantiator
-                                model: UserModel
-                                delegate: UserLine {}
-                                onObjectAdded: accountMenu.insertItem(index, object)
-                                onObjectRemoved: accountMenu.removeItem(object)
-                            }
+                                id: appsMenuInstantiator
+                                model: UserAppsModel
+                                onObjectAdded: appsMenu.insertItem(index, object)
+                                onObjectRemoved: appsMenu.removeItem(object)
+                                delegate: MenuItem {
+                                    id: appEntry
+                                    text: appName
+                                    font.pixelSize: Style.topLinePixelSize
+                                    icon.source: appIconUrl
+                                    width: contentItem.implicitWidth + leftPadding + rightPadding
+                                    onTriggered: UserAppsModel.openAppUrl(appUrl)
+                                    hoverEnabled: true
 
-                            MenuItem {
-                                id: addAccountButton
-                                height: Style.addAccountButtonHeight
-                                hoverEnabled: true
+                                    background: Item {
+                                        width: appsMenu.width
+                                        height: parent.height
 
-                                background: Item {
-                                    height: parent.height
-                                    width: parent.menu.width
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        anchors.margins: 1
-                                        color: parent.parent.hovered ? Style.lightHover : "transparent"
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: appEntry.hovered ? Style.lightHover : "transparent"
+                                        }
                                     }
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: qsTr("Open %1 in browser").arg(appName)
+                                    Accessible.onPressAction: appEntry.triggered()
                                 }
-
-                                RowLayout {
-                                    anchors.fill: parent
-                                    spacing: 0
-
-                                    Image {
-                                        Layout.leftMargin: 12
-                                        verticalAlignment: Qt.AlignCenter
-                                        source: "qrc:///client/theme/black/add.svg"
-                                        sourceSize.width: Style.headerButtonIconSize
-                                        sourceSize.height: Style.headerButtonIconSize
-                                    }
-                                    Label {
-                                        Layout.leftMargin: 14
-                                        text: qsTr("Add account")
-                                        color: "black"
-                                        font.pixelSize: Style.topLinePixelSize
-                                    }
-                                    // Filler on the right
-                                    Item {
-                                        Layout.fillWidth: true
-                                        Layout.fillHeight: true
-                                    }
-                                }
-                                onClicked: UserModel.addAccount()
-
-                                Accessible.role: Accessible.MenuItem
-                                Accessible.name: qsTr("Add new account")
-                                Accessible.onPressAction: addAccountButton.clicked()
-                            }
-
-                            MenuSeparator {
-                                contentItem: Rectangle {
-                                    implicitHeight: 1
-                                    color: Style.menuBorder
-                                }
-                            }
-
-                            MenuItem {
-                                id: syncPauseButton
-                                font.pixelSize: Style.topLinePixelSize
-                                hoverEnabled: true
-                                onClicked: Systray.pauseResumeSync()
-
-                                background: Item {
-                                    height: parent.height
-                                    width: parent.menu.width
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        anchors.margins: 1
-                                        color: parent.parent.hovered ? Style.lightHover : "transparent"
-                                    }
-                                }
-
-                                Accessible.role: Accessible.MenuItem
-                                Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
-                                Accessible.onPressAction: syncPauseButton.clicked()
-                            }
-
-                            MenuItem {
-                                id: settingsButton
-                                text: qsTr("Settings")
-                                font.pixelSize: Style.topLinePixelSize
-                                hoverEnabled: true
-                                onClicked: Systray.openSettings()
-
-                                background: Item {
-                                    height: parent.height
-                                    width: parent.menu.width
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        anchors.margins: 1
-                                        color: parent.parent.hovered ? Style.lightHover : "transparent"
-                                    }
-                                }
-
-                                Accessible.role: Accessible.MenuItem
-                                Accessible.name: text
-                                Accessible.onPressAction: settingsButton.clicked()
-                            }
-
-                            MenuItem {
-                                id: exitButton
-                                text: qsTr("Exit");
-                                font.pixelSize: Style.topLinePixelSize
-                                hoverEnabled: true
-                                onClicked: Systray.shutdown()
-
-                                background: Item {
-                                    height: parent.height
-                                    width: parent.menu.width
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        anchors.margins: 1
-                                        color: parent.parent.hovered ? Style.lightHover : "transparent"
-                                    }
-                                }
-
-                                Accessible.role: Accessible.MenuItem
-                                Accessible.name: text
-                                Accessible.onPressAction: exitButton.clicked()
                             }
                         }
                     }
 
-                    background: Rectangle {
-                        color: accountBtnMouseArea.containsMouse ? "white" : "transparent"
-                        opacity: 0.2
+                    // Right fixed filler between header items
+                    Item {
+                        id: trayWindowHeaderRightSpacer
+                        Layout.preferredWidth: 16
                     }
 
-                    RowLayout {
-                        id: accountControlRowLayout
-
-                        height: Style.trayWindowHeaderHeight
-                        width:  Style.currentAccountButtonWidth
-                        spacing: 0
-
-                        Image {
-                            id: currentAccountAvatar
-
-                            Layout.leftMargin: 8
-                            verticalAlignment: Qt.AlignCenter
-                            cache: false
-                            source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
-                            Layout.preferredHeight: Style.accountAvatarSize
-                            Layout.preferredWidth: Style.accountAvatarSize
-
-                            Accessible.role: Accessible.Graphic
-                            Accessible.name: qsTr("Current user avatar")
-
-                            Rectangle {
-                                id: currentAccountStateIndicatorBackground
-                                width: Style.accountAvatarStateIndicatorSize + 2
-                                height: width
-                                anchors.bottom: currentAccountAvatar.bottom
-                                anchors.right: currentAccountAvatar.right
-                                color: Style.ncBlue
-                                radius: width*0.5
-                            }
-
-                            Rectangle {
-                                width: Style.accountAvatarStateIndicatorSize + 2
-                                height: width
-                                anchors.bottom: currentAccountAvatar.bottom
-                                anchors.right: currentAccountAvatar.right
-                                color: accountBtnMouseArea.containsMouse ? "white" : "transparent"
-                                opacity: 0.2
-                                radius: width*0.5
-                            }
-
-                            Image {
-                                id: currentAccountStateIndicator
-                                source: UserModel.isUserConnected(UserModel.currentUserId)
-                                        ? Style.stateOnlineImageSource
-                                        : Style.stateOfflineImageSource
-                                cache: false
-                                x: currentAccountStateIndicatorBackground.x + 1
-                                y: currentAccountStateIndicatorBackground.y + 1
-                                sourceSize.width: Style.accountAvatarStateIndicatorSize
-                                sourceSize.height: Style.accountAvatarStateIndicatorSize
-
-                                Accessible.role: Accessible.Indicator
-                                Accessible.name: UserModel.isUserConnected(UserModel.currentUserId()) ? qsTr("Connected") : qsTr("Disconnected")
-                            }
-                        }
-
-                        Column {
-                            id: accountLabels
-                            spacing: 4
-                            Layout.alignment: Qt.AlignLeft
-                            Layout.leftMargin: 6
-                            Label {
-                                id: currentAccountUser
-
-                                width: Style.currentAccountLabelWidth
-                                text: UserModel.currentUser.name
-                                elide: Text.ElideRight
-                                color: Style.ncTextColor
-                                font.pixelSize: Style.topLinePixelSize
-                                font.bold: true
-                            }
-                            Label {
-                                id: currentAccountServer
-                                width: Style.currentAccountLabelWidth
-                                text: UserModel.currentUser.server
-                                elide: Text.ElideRight
-                                color: Style.ncTextColor
-                                font.pixelSize: Style.subLinePixelSize
-                            }
-                        }
-
-                        ColorOverlay {
-                            cached: true
-                            color: Style.ncTextColor
-                            width: source.width
-                            height: source.height
-                            source: Image {
-                                Layout.alignment: Qt.AlignRight
-                                verticalAlignment: Qt.AlignCenter
-                                Layout.margins: Style.accountDropDownCaretMargin
-                                source: "qrc:///client/theme/white/caret-down.svg"
-                                sourceSize.width: Style.accountDropDownCaretSize
-                                sourceSize.height: Style.accountDropDownCaretSize
-                            }
-                        }
-                    }
                 }
+            }   // Rectangle trayWindowHeaderBackground
 
-                // Filler between account dropdown and header app buttons
-                Item {
-                    id: trayWindowHeaderSpacer
-                    Layout.fillWidth: true
-                }
+        }
 
-                HeaderButton {
-                    id: openLocalFolderButton
+        Rectangle {
+            id: trayWindowGradientBarBackground
 
-                    visible: UserModel.currentUser.hasLocalFolder
-                    icon.source: "qrc:///client/theme/white/folder.svg"
-                    onClicked: UserModel.openCurrentAccountLocalFolder()
-
-                    Accessible.role: Accessible.Button
-                    Accessible.name: qsTr("Open local folder of current account")
-                    Accessible.onPressAction: openLocalFolderButton.clicked()
-                }
-
-                HeaderButton {
-                    id: trayWindowTalkButton
-
-                    visible: UserModel.currentUser.serverHasTalk
-                    icon.source: "qrc:///client/theme/white/talk-app.svg"
-                    onClicked: UserModel.openCurrentAccountTalk()
-
-                    Accessible.role: Accessible.Button
-                    Accessible.name: qsTr("Open Nextcloud Talk in browser")
-                    Accessible.onPressAction: trayWindowTalkButton.clicked()
-                }
-
-                HeaderButton {
-                    id: trayWindowAppsButton
-                    icon.source: "qrc:///client/theme/white/more-apps.svg"
-                    onClicked: {
-                        if(appsMenu.count <= 0) {
-                            UserModel.openCurrentAccountServer()
-                        } else if (appsMenu.visible) {
-                            appsMenu.close()
-                        } else {
-                            appsMenu.open()
-                        }
-                    }
-
-                    Accessible.role: Accessible.ButtonMenu
-                    Accessible.name: qsTr("More apps")
-                    Accessible.onPressAction: trayWindowAppsButton.clicked()
-
-                    Menu {
-                        id: appsMenu
-                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + 2)
-                        readonly property Item listContentItem: contentItem.contentItem
-                        width: Math.min(listContentItem.childrenRect.width + 4, Style.trayWindowWidth / 2)
-                        height: Math.min(implicitHeight, maxMenuHeight)
-                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-
-                        background: Rectangle {
-                            border.color: Style.menuBorder
-                            radius: 2
-                        }
-
-                        Accessible.role: Accessible.PopupMenu
-                        Accessible.name: qsTr("Apps menu")
-
-                        Instantiator {
-                            id: appsMenuInstantiator
-                            model: UserAppsModel
-                            onObjectAdded: appsMenu.insertItem(index, object)
-                            onObjectRemoved: appsMenu.removeItem(object)
-                            delegate: MenuItem {
-                                id: appEntry
-                                text: appName
-                                font.pixelSize: Style.topLinePixelSize
-                                icon.source: appIconUrl
-                                width: contentItem.implicitWidth + leftPadding + rightPadding
-                                onTriggered: UserAppsModel.openAppUrl(appUrl)
-                                hoverEnabled: true
-
-                                background: Item {
-                                    width: appsMenu.width
-                                    height: parent.height
-
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        anchors.margins: 1
-                                        color: appEntry.hovered ? Style.lightHover : "transparent"
-                                    }
-                                }
-
-                                Accessible.role: Accessible.MenuItem
-                                Accessible.name: qsTr("Open %1 in browser").arg(appName)
-                                Accessible.onPressAction: appEntry.triggered()
-                            }
-                        }
-                    }
-                }
+            anchors.left:   trayWindowBackground.left
+            anchors.right:  trayWindowBackground.right
+            anchors.top:    trayWindowMagentaBarBackground.bottom
+            height:         8
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "black" }
+                GradientStop { position: 1.0; color: "white" }
             }
-        }   // Rectangle trayWindowHeaderBackground
+            opacity: 0.1
+        }
 
         ListView {
             id: activityListView
-            anchors.top: trayWindowHeaderBackground.bottom
+            anchors.top: trayWindowGradientBarBackground.bottom
             anchors.left: trayWindowBackground.left
             anchors.right: trayWindowBackground.right
             anchors.bottom: trayWindowBackground.bottom

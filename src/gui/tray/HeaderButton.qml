@@ -12,20 +12,33 @@ import Style 1.0
 Button {
     id: root
 
-    display: AbstractButton.IconOnly
+    display: AbstractButton.TextUnderIcon
     flat: true
+    padding: 0
     hoverEnabled: Style.hoverEffectsEnabled
 
     icon.width: Style.headerButtonIconSize
     icon.height: Style.headerButtonIconSize
-    icon.color: Style.ncTextColor
+    icon.color: root.hovered ? Style.magenta : Style.nmcTextColor
+
+    font.family: "Segoe UI"
+    font.pixelSize: 9
+
 
     Layout.alignment: Qt.AlignRight
-    Layout.preferredWidth:  Style.trayWindowHeaderHeight
+    Layout.minimumWidth: 72
+    Layout.preferredWidth:  72//Style.trayWindowHeaderHeight
     Layout.preferredHeight: Style.trayWindowHeaderHeight
 
-    background: Rectangle {
+    /*ColorOverlay {
+        cached: true
+        color: root.hovered ? Style.magenta : "transparent"
+        anchors.fill: root
+        source: root
+    }*/
+
+    /*background: Rectangle {
         color: root.hovered ? "white" : "transparent"
         opacity: 0.2
-    }
+    }*/
 }

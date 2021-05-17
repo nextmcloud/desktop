@@ -17,7 +17,7 @@ MenuItem {
         RowLayout {
             id: userLineLayout
             spacing: 0
-            width: Style.currentAccountButtonWidth
+            width: 160//Style.currentAccountButtonWidth
             height: parent.height
 
             Button {
@@ -67,9 +67,10 @@ MenuItem {
                         Layout.leftMargin: 4
                         verticalAlignment: Qt.AlignCenter
                         cache: false
-                        source: model.avatar != "" ? model.avatar : "image://avatars/fallbackBlack"
-                        Layout.preferredHeight: (userLineLayout.height -16)
-                        Layout.preferredWidth: (userLineLayout.height -16)
+                        source: "qrc:///client/theme/magenta/user/default.png"
+                        //source: model.avatar != "" ? model.avatar : "image://avatars/fallbackBlack"
+                        Layout.preferredHeight: (userLineLayout.height -36)
+                        Layout.preferredWidth: (userLineLayout.height -36)
                         Rectangle {
                             id: accountStateIndicatorBackground
                             width: accountStateIndicator.sourceSize.width + 2
@@ -105,17 +106,9 @@ MenuItem {
                             width: 128
                             text: name
                             elide: Text.ElideRight
-                            color: "black"
-                            font.pixelSize: 12
-                            font.bold: true
-                        }
-                        Label {
-                            id: accountServer
-                            width: 128
-                            text: server
-                            elide: Text.ElideRight
-                            color: "black"
-                            font.pixelSize: 10
+                            color: Style.nmcTextColor
+                            font.family: "Segoe UI"
+                            font.pixelSize: Style.topLinePixelSize
                         }
                     }
                 }
@@ -166,6 +159,7 @@ MenuItem {
 
                     MenuItem {
                         text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
+                        font.family: "Segoe UI"
                         font.pixelSize: Style.topLinePixelSize
                         hoverEnabled: true
                         onClicked: {
@@ -199,6 +193,7 @@ MenuItem {
                     MenuItem {
                         id: removeAccountButton
                         text: qsTr("Remove account")
+                        font.family: "Segoe UI"
                         font.pixelSize: Style.topLinePixelSize
                         hoverEnabled: true
                         onClicked: {

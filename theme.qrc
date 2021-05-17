@@ -9,6 +9,11 @@
         <file alias="theme/colored/Nextcloud-icon-256.png">theme/colored/256-Nextcloud-icon.png</file>
         <file alias="theme/colored/Nextcloud-icon-512.png">theme/colored/512-Nextcloud-icon.png</file>
         <file alias="theme/colored/Nextcloud-icon-1024.png">theme/colored/1024-Nextcloud-icon.png</file>
+        <file>theme/magenta/logo.png</file>
+        <file>theme/magenta/folder/default@svg.svg</file>
+        <file>theme/magenta/news/default@svg.svg</file>
+        <file>theme/magenta/user/default@svg.svg</file>
+        <file>theme/magenta/user/default.png</file>
         <file>theme/colored/state-error-32.png</file>
         <file>theme/colored/state-error-64.png</file>
         <file>theme/colored/state-error-128.png</file>
