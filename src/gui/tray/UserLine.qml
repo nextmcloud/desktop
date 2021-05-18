@@ -17,7 +17,7 @@ MenuItem {
         RowLayout {
             id: userLineLayout
             spacing: 0
-            width: 160//Style.currentAccountButtonWidth
+            width: Style.currentAccountButtonWidth
             height: parent.height
 
             Button {
@@ -190,7 +190,7 @@ MenuItem {
                         }
                     }
 
-                    MenuItem {
+                    /*MenuItem {
                         id: removeAccountButton
                         text: qsTr("Remove account")
                         font.family: "Segoe UI"
@@ -214,7 +214,7 @@ MenuItem {
                         Accessible.role: Accessible.Button
                         Accessible.name: text
                         Accessible.onPressAction: removeAccountButton.clicked()
-                    }
+                    }*/
                 }
             }
         }

@@ -152,7 +152,7 @@ Window {
                     Button {
                         id: currentAccountButton
 
-                        Layout.preferredWidth:  160//Style.currentAccountButtonWidth
+                        Layout.preferredWidth:  Style.currentAccountButtonWidth
                         Layout.preferredHeight: Style.trayWindowHeaderHeight
                         display:                AbstractButton.IconOnly
                         flat:                   true
@@ -213,7 +213,7 @@ Window {
                                     onObjectRemoved: accountMenu.removeItem(object)
                                 }
 
-                                MenuItem {
+                                /*MenuItem {
                                     id: addAccountButton
                                     height: Style.addAccountButtonHeight
                                     hoverEnabled: true
@@ -257,7 +257,7 @@ Window {
                                     Accessible.role: Accessible.MenuItem
                                     Accessible.name: qsTr("Add new account")
                                     Accessible.onPressAction: addAccountButton.clicked()
-                                }
+                                }*/
 
                                 MenuSeparator {
                                     contentItem: Rectangle {
@@ -346,7 +346,7 @@ Window {
                             id: accountControlRowLayout
 
                             height: Style.trayWindowHeaderHeight
-                            width:  160//Style.currentAccountButtonWidth
+                            width:  Style.currentAccountButtonWidth
                             spacing: 0
 
                             Image {
