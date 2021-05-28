@@ -638,8 +638,8 @@ Window {
                     anchors.left: activityItem.left
                     anchors.leftMargin: 8
                     anchors.rightMargin: 8
-                    Layout.preferredWidth: shareButton.icon.width
-                    Layout.preferredHeight: shareButton.icon.height
+                    Layout.preferredWidth: 24//shareButton.icon.width
+                    Layout.preferredHeight: 24//shareButton.icon.height
                     verticalAlignment: Qt.AlignCenter
                     cache: true
                     source: icon
@@ -650,7 +650,7 @@ Window {
                 Column {
                     id: activityTextColumn
                     anchors.left: activityIcon.right
-                    anchors.right: activityActionsLayout.left
+                    anchors.right: parent.right//activityActionsLayout.left
                     anchors.leftMargin: 8
                     spacing: 4
                     Layout.alignment: Qt.AlignLeft
@@ -700,7 +700,7 @@ Window {
                         }
                     }
                 }
-                RowLayout {
+                /*RowLayout {
                     id: activityActionsLayout
                     anchors.right: activityItem.right
                     spacing: 0
@@ -869,7 +869,7 @@ Window {
                         Accessible.name: qsTr("Share %1").arg(displayPath)
                         Accessible.onPressAction: shareButton.clicked()
                     }
-                }
+                }*/
             }
 
             /*add: Transition {
