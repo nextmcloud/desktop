@@ -76,6 +76,9 @@ FolderMan::FolderMan(QObject *parent)
     connect(AccountManager::instance(), &AccountManager::removeAccountFolders,
         this, &FolderMan::slotRemoveFoldersForAccount);
 
+    connect(AccountManager::instance(), &AccountManager::accountSyncConnectionRemoved,
+        this, &FolderMan::slotAccountRemoved);
+
     connect(_lockWatcher.data(), &LockWatcher::fileUnlocked,
         this, &FolderMan::slotWatchedFileUnlocked);
 
@@ -902,6 +905,15 @@ void FolderMan::runEtagJobIfPossible(Folder *folder)
     QMetaObject::invokeMethod(folder, "slotRunEtagJob", Qt::QueuedConnection);
 }
 
+void FolderMan::slotAccountRemoved(AccountState *accountState)
+{
+    for (const auto &folder : qAsConst(_folderMap)) {
+        if (folder->accountState() == accountState) {
+            folder->onAssociatedAccountRemoved();
+        }
+    }
+}
+
 void FolderMan::slotRemoveFoldersForAccount(AccountState *accountState)
 {
     QVarLengthArray<Folder *, 16> foldersToRemove;
@@ -1477,7 +1489,7 @@ QString FolderMan::trayTooltipStatusString(
     case SyncResult::Success:
     case SyncResult::Problem:
         if (hasUnresolvedConflicts) {
-            folderMessage = tr("Sync was successful, unresolved conflicts.");
+            folderMessage = tr("Sync finished with unresolved conflicts.");
         } else {
             folderMessage = tr("Last Sync was successful.");
         }

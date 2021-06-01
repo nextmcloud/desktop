@@ -86,17 +86,6 @@ bool OwncloudSetupWizard::bringWizardToFrontIfVisible()
         return false;
     }
 
-    if (wiz->_ocWizard->currentId() == WizardCommon::Page_ShibbolethCreds) {
-        // Try to find if there is a browser open and raise that instead (Issue #6105)
-        const auto allWindow = qApp->topLevelWidgets();
-        auto it = std::find_if(allWindow.cbegin(), allWindow.cend(), [](QWidget *w)
-            { return QLatin1String(w->metaObject()->className()) == QLatin1String("OCC::ShibbolethWebView"); });
-        if (it != allWindow.cend()) {
-            ownCloudGui::raiseDialog(*it);
-            return true;
-        }
-    }
-
     ownCloudGui::raiseDialog(wiz->_ocWizard);
     return true;
 }
@@ -116,7 +105,7 @@ void OwncloudSetupWizard::startWizard()
     // if its a relative path, prepend with users home dir, otherwise use as absolute path
 
     if (!QDir(localFolder).isAbsolute()) {
-        localFolder = QDir::homePath() + QDir::separator() + localFolder;
+        localFolder = QDir::homePath() + QLatin1Char('/') + localFolder;
     }
 
     _ocWizard->setProperty("localFolder", localFolder);
@@ -131,7 +120,12 @@ void OwncloudSetupWizard::startWizard()
 
     _ocWizard->setRemoteFolder(_remoteFolder);
 
-    _ocWizard->setStartId(WizardCommon::Page_ServerSetup);
+#ifdef WITH_PROVIDERS
+    const auto startPage = WizardCommon::Page_Welcome;
+#else // WITH_PROVIDERS
+    const auto startPage = WizardCommon::Page_ServerSetup;
+#endif // WITH_PROVIDERS
+    _ocWizard->setStartId(startPage);
 
     _ocWizard->restart();
 
@@ -408,7 +402,7 @@ void OwncloudSetupWizard::slotAuthError()
 
     // bring wizard to top
     _ocWizard->bringToTop();
-    if (_ocWizard->currentId() == WizardCommon::Page_ShibbolethCreds || _ocWizard->currentId() == WizardCommon::Page_OAuthCreds || _ocWizard->currentId() == WizardCommon::Page_Flow2AuthCreds) {
+    if (_ocWizard->currentId() == WizardCommon::Page_OAuthCreds || _ocWizard->currentId() == WizardCommon::Page_Flow2AuthCreds) {
         _ocWizard->back();
     }
     _ocWizard->displayError(errorMsg, _ocWizard->currentId() == WizardCommon::Page_ServerSetup && checkDowngradeAdvised(reply));

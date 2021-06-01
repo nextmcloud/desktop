@@ -14,6 +14,8 @@
         <file>theme/magenta/news/default@svg.svg</file>
         <file>theme/magenta/user/default@svg.svg</file>
         <file>theme/magenta/user/default.png</file>
+        <file>theme/magenta/share/default@svg.svg</file>
+        <file>theme/magenta/share/default.png</file>
         <file>theme/colored/state-error-32.png</file>
         <file>theme/colored/state-error-64.png</file>
         <file>theme/colored/state-error-128.png</file>

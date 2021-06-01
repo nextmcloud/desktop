@@ -53,6 +53,7 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
     connect(this, &User::guiLog, Logger::instance(), &Logger::guiLog);
 
     connect(_account->account().data(), &Account::accountChangedAvatar, this, &User::avatarChanged);
+    connect(_account.data(), &AccountState::statusChanged, this, &User::statusChanged);
 
     connect(_activityModel, &ActivityListModel::sendNotificationRequest, this, &User::slotSendNotificationRequest);
 }
@@ -87,7 +88,7 @@ void User::slotBuildNotificationDisplay(const ActivityList &list)
 
             // Assemble a tray notification for the NEW notification
             ConfigFile cfg;
-            if (cfg.optionalServerNotifications()) {
+            if (cfg.optionalServerNotifications() && isDesktopNotificationsAllowed()) {
                 if (AccountManager::instance()->accounts().count() == 1) {
                     emit guiLog(activity._subject, "");
                 } else {
@@ -185,6 +186,8 @@ void User::slotRefreshImmediately() {
 
 void User::slotRefresh()
 {
+    slotRefreshUserStatus();
+    
     if (checkPushNotificationsAreReady()) {
         // we are relying on WebSocket push notifications - ignore refresh attempts from UI
         _timeSinceLastCheck[_account.data()].invalidate();
@@ -214,6 +217,14 @@ void User::slotRefresh()
 void User::slotRefreshActivities()
 {
     _activityModel->slotRefreshActivity();
+}
+
+void User::slotRefreshUserStatus() 
+{
+    // TODO: check for _account->account()->capabilities().userStatus() 
+    if (_account.data() && _account.data()->isConnected()) {
+        _account.data()->fetchUserStatus();
+    }
 }
 
 void User::slotRefreshNotifications()
@@ -413,19 +424,15 @@ void User::slotAddError(const QString &folderAlias, const QString &message, Erro
     }
 }
 
-bool User::isValueableActivity(const Folder *folder, const SyncFileItemPtr &item) const
+bool User::isActivityOfCurrentAccount(const Folder *folder) const
 {
-    // Ignore activity from a different account
-    if (folder->accountState() != _account.data()) {
-        return false;
-    }
+    return folder->accountState() == _account.data();
+}
 
+bool User::isUnsolvableConflict(const SyncFileItemPtr &item) const
+{
     // We just care about conflict issues that we are able to resolve
-    if (item->_status == SyncFileItem::Conflict && !Utility::isConflictFile(item->_file)) {
-        return false;
-    }
-
-    return true;
+    return item->_status == SyncFileItem::Conflict && !Utility::isConflictFile(item->_file);
 }
 
 void User::slotItemCompleted(const QString &folder, const SyncFileItemPtr &item)
@@ -435,56 +442,67 @@ void User::slotItemCompleted(const QString &folder, const SyncFileItemPtr &item)
     if (!folderInstance)
         return;
 
-    if (isValueableActivity(folderInstance, item)) {
-        qCWarning(lcActivity) << "Item " << item->_file << " retrieved resulted in " << item->_errorString;
+    if (!isActivityOfCurrentAccount(folderInstance)) {
+        return;
+    }
 
-        Activity activity;
-        activity._type = Activity::SyncFileItemType; //client activity
-        activity._status = item->_status;
-        activity._dateTime = QDateTime::currentDateTime();
-        activity._message = item->_originalFile;
-        activity._link = folderInstance->accountState()->account()->url();
-        activity._accName = folderInstance->accountState()->account()->displayName();
-        activity._file = item->_file;
-        activity._folder = folder;
-        activity._fileAction = "";
+    if (isUnsolvableConflict(item)) {
+        return;
+    }
 
-        if (item->_instruction == CSYNC_INSTRUCTION_REMOVE) {
-            activity._fileAction = "file_deleted";
-        } else if (item->_instruction == CSYNC_INSTRUCTION_NEW) {
-            activity._fileAction = "file_created";
-        } else if (item->_instruction == CSYNC_INSTRUCTION_RENAME) {
-            activity._fileAction = "file_renamed";
+    qCWarning(lcActivity) << "Item " << item->_file << " retrieved resulted in " << item->_errorString;
+
+    Activity activity;
+    activity._type = Activity::SyncFileItemType; //client activity
+    activity._status = item->_status;
+    activity._dateTime = QDateTime::currentDateTime();
+    activity._message = item->_originalFile;
+    activity._link = folderInstance->accountState()->account()->url();
+    activity._accName = folderInstance->accountState()->account()->displayName();
+    activity._file = item->_file;
+    activity._folder = folder;
+    activity._fileAction = "";
+
+    if (item->_instruction == CSYNC_INSTRUCTION_REMOVE) {
+        activity._fileAction = "file_deleted";
+    } else if (item->_instruction == CSYNC_INSTRUCTION_NEW) {
+        activity._fileAction = "file_created";
+    } else if (item->_instruction == CSYNC_INSTRUCTION_RENAME) {
+        activity._fileAction = "file_renamed";
+    } else {
+        activity._fileAction = "file_changed";
+    }
+
+    if (item->_status == SyncFileItem::NoStatus || item->_status == SyncFileItem::Success) {
+        qCWarning(lcActivity) << "Item " << item->_file << " retrieved successfully.";
+
+        if (item->_direction != SyncFileItem::Up) {
+            activity._message = tr("Synced %1").arg("");
+            activity._subject = item->_originalFile;
+        } else if (activity._fileAction == "file_renamed") {
+            activity._message = tr("You renamed %1").arg("");
+            activity._subject = item->_originalFile;
+        } else if (activity._fileAction == "file_deleted") {
+            activity._message = tr("You deleted %1").arg("");
+            activity._subject = item->_originalFile;
+        } else if (activity._fileAction == "file_created") {
+            activity._message = tr("You created %1").arg("");
+            activity._subject = item->_originalFile;
         } else {
-            activity._fileAction = "file_changed";
+            activity._message = tr("You changed %1").arg("");
+            activity._subject = item->_originalFile;
         }
 
-        if (item->_status == SyncFileItem::NoStatus || item->_status == SyncFileItem::Success) {
-            qCWarning(lcActivity) << "Item " << item->_file << " retrieved successfully.";
+        _activityModel->addSyncFileItemToActivityList(activity);
+    } else {
+        qCWarning(lcActivity) << "Item " << item->_file << " retrieved resulted in error " << item->_errorString;
+        activity._subject = item->_errorString;
 
-            if (item->_direction != SyncFileItem::Up) {
-                activity._message = tr("Synced %1").arg(item->_originalFile);
-            } else if (activity._fileAction == "file_renamed") {
-                activity._message = tr("You renamed %1").arg(item->_originalFile);
-            } else if (activity._fileAction == "file_deleted") {
-                activity._message = tr("You deleted %1").arg(item->_originalFile);
-            } else if (activity._fileAction == "file_created") {
-                activity._message = tr("You created %1").arg(item->_originalFile);
-            } else {
-                activity._message = tr("You changed %1").arg(item->_originalFile);
-            }
-
-            _activityModel->addSyncFileItemToActivityList(activity);
+        if (item->_status == SyncFileItem::Status::FileIgnored) {
+            _activityModel->addIgnoredFileToList(activity);
         } else {
-            qCWarning(lcActivity) << "Item " << item->_file << " retrieved resulted in error " << item->_errorString;
-            activity._subject = item->_errorString;
-
-            if (item->_status == SyncFileItem::Status::FileIgnored) {
-                _activityModel->addIgnoredFileToList(activity);
-            } else {
-                // add 'protocol error' to activity list
-                _activityModel->addErrorToActivityList(activity);
-            }
+            // add 'protocol error' to activity list
+            _activityModel->addErrorToActivityList(activity);
         }
     }
 }
@@ -555,6 +573,21 @@ QString User::server(bool shortened) const
     return serverUrl;
 }
 
+UserStatus::Status User::status() const
+{
+    return _account->status();
+}
+
+QString User::statusMessage() const
+{
+    return _account->statusMessage();
+}
+
+QUrl User::statusIcon() const
+{
+    return _account->statusIcon();
+}
+
 QImage User::avatar() const
 {
     return AvatarJob::makeCircularAvatar(_account->account()->avatar());
@@ -602,6 +635,12 @@ bool User::isCurrentUser() const
 bool User::isConnected() const
 {
     return (_account->connectionStatus() == AccountState::ConnectionStatus::Connected);
+}
+
+
+bool User::isDesktopNotificationsAllowed() const
+{
+    return _account.data()->isDesktopNotificationsAllowed();
 }
 
 void User::removeAccount() const
@@ -665,6 +704,16 @@ Q_INVOKABLE bool UserModel::isUserConnected(const int &id)
     return _users[id]->isConnected();
 }
 
+Q_INVOKABLE QUrl UserModel::statusIcon(int id)
+{
+    if (id < 0 || id >= _users.size()) {
+        return {};
+    }
+
+    return _users[id]->statusIcon();
+}
+
+
 QImage UserModel::avatarById(const int &id)
 {
     if (id < 0 || id >= _users.size())
@@ -699,6 +748,11 @@ void UserModel::addUser(AccountStatePtr &user, const bool &isCurrent)
 
         connect(u, &User::avatarChanged, this, [this, row] {
            emit dataChanged(index(row, 0), index(row, 0), {UserModel::AvatarRole});
+        });
+
+        connect(u, &User::statusChanged, this, [this, row] {
+            emit dataChanged(index(row, 0), index(row, 0), {UserModel::StatusIconRole, 
+                                                            UserModel::StatusMessageRole});
         });
 
         _users << u;
@@ -839,6 +893,10 @@ QVariant UserModel::data(const QModelIndex &index, int role) const
         return _users[index.row()]->name();
     } else if (role == ServerRole) {
         return _users[index.row()]->server();
+    } else if (role == StatusIconRole) {
+        return _users[index.row()]->statusIcon();
+    } else if (role == StatusMessageRole) {
+        return _users[index.row()]->statusMessage();
     } else if (role == AvatarRole) {
         return _users[index.row()]->avatarUrl();
     } else if (role == IsCurrentUserRole) {
@@ -856,6 +914,8 @@ QHash<int, QByteArray> UserModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[NameRole] = "name";
     roles[ServerRole] = "server";
+    roles[StatusIconRole] = "statusIcon";
+    roles[StatusMessageRole] = "statusMessage";
     roles[AvatarRole] = "avatar";
     roles[IsCurrentUserRole] = "isCurrentUser";
     roles[IsConnectedRole] = "isConnected";

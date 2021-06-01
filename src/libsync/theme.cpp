@@ -139,6 +139,26 @@ QUrl Theme::stateOfflineImageSource() const
     return imagePathToUrl(themeImagePath("state-offline", 16));
 }
 
+QUrl Theme::statusOnlineImageSource() const
+{
+    return imagePathToUrl(themeImagePath("user-status-online", 16));
+}
+
+QUrl Theme::statusDoNotDisturbImageSource() const
+{
+    return imagePathToUrl(themeImagePath("user-status-dnd", 16));
+}
+
+QUrl Theme::statusAwayImageSource() const
+{
+    return imagePathToUrl(themeImagePath("user-status-away", 16));
+}
+
+QUrl Theme::statusInvisibleImageSource() const
+{
+    return imagePathToUrl(themeImagePath("user-status-invisible", 16));
+}
+
 QString Theme::version() const
 {
     return MIRALL_VERSION_STRING;
@@ -246,6 +266,12 @@ QString Theme::themeImagePath(const QString &name, int size, bool sysTray) const
     }
 }
 
+bool Theme::isHidpi(QPaintDevice *dev)
+{
+    const auto devicePixelRatio = dev ? dev->devicePixelRatio() : qApp->primaryScreen()->devicePixelRatio();
+    return devicePixelRatio > 1;
+}
+
 QIcon Theme::uiThemeIcon(const QString &iconName, bool uiHasDarkBg) const
 {
     QString themeResBasePath = ":/client/theme/";
@@ -256,8 +282,7 @@ QIcon Theme::uiThemeIcon(const QString &iconName, bool uiHasDarkBg) const
 
 QString Theme::hidpiFileName(const QString &fileName, QPaintDevice *dev)
 {
-    qreal devicePixelRatio = dev ? dev->devicePixelRatio() : qApp->primaryScreen()->devicePixelRatio();
-    if (devicePixelRatio <= 1.0) {
+    if (!Theme::isHidpi(dev)) {
         return fileName;
     }
     // try to find a 2x version
@@ -272,6 +297,16 @@ QString Theme::hidpiFileName(const QString &fileName, QPaintDevice *dev)
         }
     }
     return fileName;
+}
+
+QString Theme::hidpiFileName(const QString &iconName, const QColor &backgroundColor, QPaintDevice *dev)
+{
+    const auto isDarkBackground = Theme::isDarkColor(backgroundColor);
+
+    const QString themeResBasePath = ":/client/theme/";
+    const QString iconPath = themeResBasePath + (isDarkBackground ? "white/" : "black/") + iconName;
+
+    return Theme::hidpiFileName(iconPath, dev);
 }
 
 
@@ -539,6 +574,29 @@ QColor Theme::wizardHeaderTitleColor() const
 QColor Theme::wizardHeaderBackgroundColor() const
 {
     return {APPLICATION_WIZARD_HEADER_BACKGROUND_COLOR};
+}
+
+QPixmap Theme::wizardApplicationLogo() const
+{
+    if (!Theme::isBranded()) {
+        return QPixmap(Theme::hidpiFileName(":/client/theme/colored/wizard-nextcloud.png"));
+    }
+#ifdef APPLICATION_WIZARD_USE_CUSTOM_LOGO
+    const auto useSvg = shouldPreferSvg();
+    const auto logoBasePath = QStringLiteral(":/client/theme/colored/wizard_logo");
+    if (useSvg) {
+        const auto maxHeight = Theme::isHidpi() ? 200 : 100;
+        const auto maxWidth = 2 * maxHeight;
+        const auto icon = QIcon(logoBasePath + ".svg");
+        const auto size = icon.actualSize(QSize(maxWidth, maxHeight));
+        return icon.pixmap(size);
+    } else {
+        return QPixmap(hidpiFileName(logoBasePath + ".png"));
+    }
+#else
+    const auto size = Theme::isHidpi() ?: 200 : 100;
+    return applicationIcon().pixmap(size);
+#endif
 }
 
 QPixmap Theme::wizardHeaderLogo() const

@@ -13,6 +13,7 @@
  */
 
 #include "discovery.h"
+#include "common/filesystembase.h"
 #include "common/syncjournaldb.h"
 #include "syncfileitem.h"
 #include <QDebug>
@@ -177,9 +178,15 @@ void ProcessDirectoryJob::process()
         // local stat function.
         // Recall file shall not be ignored (#4420)
         bool isHidden = e.localEntry.isHidden || (f.first[0] == '.' && f.first != QLatin1String(".sys.admin#recall#"));
+#ifdef Q_OS_WIN
+        // exclude ".lnk" files as they are not essential, but, causing troubles when enabling the VFS due to QFileInfo::isDir() and other methods are freezing, which causes the ".lnk" files to start hydrating and freezing the app eventually.
+        const bool isServerEntryWindowsShortcut = !e.localEntry.isValid() && e.serverEntry.isValid() && !e.serverEntry.isDirectory && FileSystem::isLnkFile(e.serverEntry.name);
+#else
+        const bool isServerEntryWindowsShortcut = false;
+#endif
         if (handleExcluded(path._target, e.localEntry.name,
                 e.localEntry.isDirectory || e.serverEntry.isDirectory, isHidden,
-                e.localEntry.isSymLink))
+                e.localEntry.isSymLink || isServerEntryWindowsShortcut))
             continue;
 
         if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original)) {
@@ -715,6 +722,7 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
             // Not modified locally (ParentNotChanged)
             if (noServerEntry) {
                 // not on the server: Removed on the server, delete locally
+                qCInfo(lcDisco) << "File" << item->_file << "is not anymore on server. Going to delete it locally.";
                 item->_instruction = CSYNC_INSTRUCTION_REMOVE;
                 item->_direction = SyncFileItem::Down;
             } else if (dbEntry._type == ItemTypeVirtualFileDehydration) {
@@ -739,6 +747,7 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
         } else if (!serverModified) {
             // Removed locally: also remove on the server.
             if (!dbEntry._serverHasIgnoredFiles) {
+                qCInfo(lcDisco) << "File" << item->_file << "was deleted locally. Going to delete it on the server.";
                 item->_instruction = CSYNC_INSTRUCTION_REMOVE;
                 item->_direction = SyncFileItem::Up;
             }
@@ -777,6 +786,7 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
         } else if (!typeChange && ((dbEntry._modtime == localEntry.modtime && dbEntry._fileSize == localEntry.size) || localEntry.isDirectory)) {
             // Local file unchanged.
             if (noServerEntry) {
+                qCInfo(lcDisco) << "File" << item->_file << "is not anymore on server. Going to delete it locally.";
                 item->_instruction = CSYNC_INSTRUCTION_REMOVE;
                 item->_direction = SyncFileItem::Down;
             } else if (dbEntry._type == ItemTypeVirtualFileDehydration || localEntry.type == ItemTypeVirtualFileDehydration) {
