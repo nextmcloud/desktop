@@ -300,7 +300,7 @@ Window {
                             id: accountControlRowLayout
 
                             height: Style.trayWindowHeaderHeight
-                            width:  Style.currentAccountButtonWidth
+                            //width:  Style.currentAccountButtonWidth
                             spacing: 0
 
                             Image {
@@ -310,11 +310,11 @@ Window {
                                 verticalAlignment: Qt.AlignCenter
                                 cache: false
                                 source: "qrc:///client/theme/magenta/user/default.png"
-                                width: 24
-                                height: 24
+                                width: Style.headerButtonIconSize
+                                height: Style.headerButtonIconSize
 
-                                Layout.preferredHeight: 24//Style.accountAvatarSize
-                                Layout.preferredWidth: 24//Style.accountAvatarSize
+                                Layout.preferredHeight: Style.headerButtonIconSize
+                                Layout.preferredWidth: Style.headerButtonIconSize
 
                                 Accessible.role: Accessible.Graphic
                                 Accessible.name: qsTr("Current user avatar")
@@ -358,9 +358,8 @@ Window {
                             Label {
                                 id: currentAccountUser
 
-                                //width: 88//Math.min(hiddenText.implicitWidth, 88)//Style.currentAccountLabelWidth
                                 Layout.leftMargin: 6
-                                Layout.maximumWidth: 100
+                                Layout.maximumWidth: Style.accountLabelWidth
                                 text: UserModel.currentUser.name
                                 elide: Text.ElideRight
                                 color: Style.nmcTextColor
@@ -394,7 +393,7 @@ Window {
                     // Left fixed filler between header items
                     Item {
                         id: trayWindowHeaderLeftSpacer
-                        Layout.preferredWidth: 16
+                        Layout.preferredWidth: Style.headerSpacerSize
                     }
 
                     HeaderButton {
@@ -402,7 +401,7 @@ Window {
 
                         visible: true    //UserModel.currentUser.currentUserServer() !== ""
                         icon.source: "qrc:///client/theme/magenta/news/default@svg.svg"
-                        text: "Webseite öffnen"
+                        text: qsTr("Open website")
                         onClicked: UserModel.openCurrentAccountServer()
 
                         Accessible.role: Accessible.Button
@@ -413,7 +412,7 @@ Window {
                     // Fixed filler between header buttons
                     Item {
                         id: trayWindowHeaderButtonSpacer
-                        Layout.preferredWidth: 16
+                        Layout.preferredWidth: Style.headerSpacerSize
                     }
 
                     HeaderButton {
@@ -421,7 +420,7 @@ Window {
 
                         visible: UserModel.currentUser.hasLocalFolder
                         icon.source: "qrc:///client/theme/magenta/folder/default@svg.svg"
-                        text: "Ordner öffnen"
+                        text: qsTr("Open folder")
                         onClicked: UserModel.openCurrentAccountLocalFolder()
 
                         Accessible.role: Accessible.Button
@@ -433,7 +432,7 @@ Window {
                     // Right fixed filler between header items
                     Item {
                         id: trayWindowHeaderRightSpacer
-                        Layout.preferredWidth: 16
+                        Layout.preferredWidth: Style.headerSpacerSize
                     }
 
                 }

@@ -27,36 +27,6 @@ Button {
 
     Layout.alignment: Qt.AlignRight
     Layout.minimumWidth: 72
-    Layout.preferredWidth:  72//Style.trayWindowHeaderHeight
+    Layout.preferredWidth:  72
     Layout.preferredHeight: Style.trayWindowHeaderHeight
-
-    /*contentItem: Item {
-        id: content
-        spacing: 0
-        padding: 0
-        anchors.fill: parent
-        ColumnLayout {
-            Button {
-                id: contentIcon
-                flat: true
-                padding: 0
-                hoverEnabled: Style.hoverEffectsEnabled
-                display: AbstractButton.IconOnly
-                icon: root.icon
-            }
-            Label {
-                id: contentText
-                width: root.width
-                text: root.text
-                font: root.font
-                color: root.hovered ? Style.magenta : Style.nmcTextColor
-                horizontalAlignment: Text.AlignHCenter
-            }
-        }
-    }*/
-
-    /*background: Rectangle {
-        color: root.hovered ? "white" : "transparent"
-        opacity: 0.2
-    }*/
 }

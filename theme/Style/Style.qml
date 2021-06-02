@@ -35,7 +35,7 @@ QtObject {
 
     property int accountAvatarSize: (trayWindowHeaderHeight - 16)
     property int accountAvatarStateIndicatorSize: 12
-    property int accountLabelWidth: 128
+    property int accountLabelWidth: 100
 
     property int accountDropDownCaretSize: 20
     property int accountDropDownCaretMargin: 8
@@ -43,6 +43,7 @@ QtObject {
     property int addAccountButtonHeight: 50
 
     property int headerButtonIconSize: 24
+	property int headerSpacerSize: 16
 
     property int activityLabelBaseWidth: 240
 
