@@ -123,12 +123,31 @@ Window {
                 height:         48
                 color:          Style.magenta
 
+                Rectangle {
+                    id: trayWindowTLogoBarTopSpacer
+
+                    anchors.left:   trayWindowTLogoBarBackground.left
+                    anchors.right:  trayWindowTLogoBarBackground.right
+                    anchors.top:    trayWindowTLogoBarBackground.top
+                    height:         10
+                    color:          Style.magenta
+                }
+                Rectangle {
+                    id: trayWindowTLogoBarLeftSpacer
+
+                    anchors.left:   trayWindowTLogoBarBackground.left
+                    anchors.top:    trayWindowTLogoBarTopSpacer.bottom
+                    height:         38
+                    width:          20
+                    color:          Style.magenta
+                }
                 Image {
                     id: magentaTLogo
 
+                    anchors.left:   trayWindowTLogoBarLeftSpacer.right
+                    anchors.top:    trayWindowTLogoBarTopSpacer.bottom
                     cache: false
-                    source: "qrc:///client/theme/magenta/logo.png"
-                    anchors.fill: parent
+                    source: "qrc:///client/theme/magenta/logomc.svg"
                 }
             }
 
@@ -184,7 +203,7 @@ Window {
                                 // x coordinate grows towards the right
                                 // y coordinate grows towards the bottom
                                 x: (currentAccountButton.x + 2)
-                                y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 2)
+                                y: (currentAccountButton.y + Style.trayWindowHeaderHeight - 4)
 
                                 width: (Style.currentAccountButtonWidth - 2)
                                 height: Math.min(implicitHeight, maxMenuHeight)
@@ -449,9 +468,9 @@ Window {
             height:         8
             gradient: Gradient {
                 GradientStop { position: 0.0; color: "black" }
-                GradientStop { position: 1.0; color: "white" }
+                GradientStop { position: 0.25; color: "white" }
             }
-            opacity: 0.1
+            opacity: 0.6
         }
 
         ListView {
@@ -541,7 +560,6 @@ Window {
                         id: activityTextInfo
                         text: (type === "Sync") ? displayPath
                             : (type === "File") ? subject
-                            : (type === "Activity") ? message
                             : (type === "Notification") ? message
                             : ""
                         height: (text === "") ? 0 : activityTextTitle.height
@@ -588,6 +606,7 @@ Window {
                         width: parent.height
                         height: parent.height
                         visible: (path !== "" && (activityMouseArea.containsMouse || shareButton.hovered)) ? false : true
+                        color: activityMouseArea.containsMouse ? Style.lightHover : "transparent"
                     }
                     Button {
                         id: shareButton
@@ -615,6 +634,12 @@ Window {
                     }
                 }
             }
+
+            /*onAdd: {
+                if (model.count >= 10) {
+                    model.remove(10);
+                }
+            }*/
 
             /*add: Transition {
                 NumberAnimation { properties: "y"; from: -60; duration: 100; easing.type: Easing.Linear }
