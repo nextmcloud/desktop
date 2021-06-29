@@ -57,6 +57,8 @@ public:
     AccountConnectedRole,
     SyncFileStatusRole};
 
+	static const int maxVisibleActivities = 30;
+
     explicit ActivityListModel(AccountState *accountState, QObject* parent = nullptr);
 
     QVariant data(const QModelIndex &index, int role) const override;

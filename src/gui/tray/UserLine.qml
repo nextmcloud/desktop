@@ -9,7 +9,7 @@ import com.nextcloud.desktopclient 1.0
 
 MenuItem {
     id: userLine
-    height: Style.trayWindowHeaderHeight
+    height: Style.accountMenuTopItemHeight
 
     Accessible.role: Accessible.MenuItem
     Accessible.name: qsTr("Account entry")
@@ -17,7 +17,7 @@ MenuItem {
         RowLayout {
             id: userLineLayout
             spacing: 0
-            width: Style.currentAccountButtonWidth
+            width: Style.accountMenuWidth
             height: parent.height
 
             Button {
@@ -29,7 +29,14 @@ MenuItem {
                 flat: true
 
                 Accessible.role: Accessible.Button
-                Accessible.name: qsTr("Switch to account") + " " + name
+                Accessible.name: model.isConnected ? qsTr("Log out") : qsTr("Log in")
+                Accessible.onPressAction: {
+                    if (UserModel.isConnected) {
+                        UserModel.logout(index)
+                    } else {
+                        UserModel.login(index)
+                    }
+                }
 
                 MouseArea {
                     anchors.fill: parent
@@ -38,11 +45,8 @@ MenuItem {
                         accountStateIndicatorBackground.color = (containsMouse ? "#f6f6f6" : "white")
                     }
                     onClicked: {
-                        if (!isCurrentUser) {
-                            UserModel.switchCurrentUser(id)
-                        } else {
-                            accountMenu.close()
-                        }
+                        model.isConnected ? UserModel.logout(index) : UserModel.login(index)
+                        accountMenu.close()
                     }
                 }
 
@@ -64,47 +68,26 @@ MenuItem {
                     spacing: 0
                     Image {
                         id: accountAvatar
-                        Layout.leftMargin: 4
+                        Layout.topMargin: Style.accountMenuPadding
+                        Layout.leftMargin: Style.accountMenuPadding
+                        Layout.rightMargin: 0
+                        Layout.bottomMargin: Style.accountMenuHalfPadding
                         verticalAlignment: Qt.AlignCenter
                         cache: false
-                        source: "qrc:///client/theme/magenta/user/default.png"
-                        //source: model.avatar != "" ? model.avatar : "image://avatars/fallbackBlack"
-                        Layout.preferredHeight: (userLineLayout.height -36)
-                        Layout.preferredWidth: (userLineLayout.height -36)
-                        Rectangle {
-                            id: accountStateIndicatorBackground
-                            width: accountStateIndicator.sourceSize.width + 2
-                            height: width
-                            anchors.bottom: accountAvatar.bottom
-                            anchors.right: accountAvatar.right
-                            color: "white"
-                            radius: width*0.5
-                        }
-                        Image {
-                            id: accountStateIndicator
-                            source: model.isConnected
-                                    ? Style.stateOnlineImageSource
-                                    : Style.stateOfflineImageSource
-                            cache: false
-                            x: accountStateIndicatorBackground.x + 1
-                            y: accountStateIndicatorBackground.y + 1
-                            sourceSize.width: Style.accountAvatarStateIndicatorSize
-                            sourceSize.height: Style.accountAvatarStateIndicatorSize
-
-                            Accessible.role: Accessible.Indicator
-                            Accessible.name: model.isConnected ? qsTr("Account connected") : qsTr("Account not connected")
-                        }
+                        source: "qrc:///client/theme/magenta/action/logout/default.png"
+                        Layout.preferredHeight: Style.headerButtonIconSize
+                        Layout.preferredWidth: Style.headerButtonIconSize
                     }
 
                     Column {
                         id: accountLabels
-                        spacing: 4
+                        spacing: 0
                         Layout.alignment: Qt.AlignLeft
-                        Layout.leftMargin: 6
+                        Layout.leftMargin: Style.accountMenuHalfPadding
                         Label {
                             id: accountUser
-                            width: 128
-                            text: name
+                            width: (Style.accountMenuWidth - Style.headerButtonIconSize - Style.accountMenuHalfPadding)
+                            text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
                             elide: Text.ElideRight
                             color: Style.nmcTextColor
                             font.family: "Segoe UI"
@@ -114,109 +97,6 @@ MenuItem {
                 }
             } // accountButton
 
-            Button {
-                id: userMoreButton
-                Layout.preferredWidth: (userLineLayout.width * (1/6))
-                Layout.preferredHeight: userLineLayout.height
-                flat: true
-
-                icon.source: "qrc:///client/theme/more.svg"
-                icon.color: "transparent"
-
-                Accessible.role: Accessible.ButtonMenu
-                Accessible.name: qsTr("Account actions")
-                Accessible.onPressAction: userMoreButtonMouseArea.clicked()
-
-                MouseArea {
-                    id: userMoreButtonMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        if (userMoreButtonMenu.visible) {
-                            userMoreButtonMenu.close()
-                        } else {
-                            userMoreButtonMenu.popup()
-                        }
-                    }
-                }
-                background:
-                    Rectangle {
-                    color: userMoreButtonMouseArea.containsMouse ? "grey" : "transparent"
-                    opacity: 0.2
-                    height: userMoreButton.height - 2
-                    y: userMoreButton.y + 1
-                }
-
-                Menu {
-                    id: userMoreButtonMenu
-                    width: 120
-                    closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-
-                    background: Rectangle {
-                        border.color: Style.menuBorder
-                        radius: 2
-                    }
-
-                    MenuItem {
-                        text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
-                        font.family: "Segoe UI"
-                        font.pixelSize: Style.topLinePixelSize
-                        hoverEnabled: true
-                        onClicked: {
-                            model.isConnected ? UserModel.logout(index) : UserModel.login(index)
-                            accountMenu.close()
-                        }
-
-                        background: Item {
-                            height: parent.height
-                            width: parent.menu.width
-                            Rectangle {
-                                anchors.fill: parent
-                                anchors.margins: 1
-                                color: parent.parent.hovered ? Style.lightHover : "transparent"
-                            }
-                        }
-
-                        Accessible.role: Accessible.Button
-                        Accessible.name: model.isConnected ? qsTr("Log out") : qsTr("Log in")
-
-                        onPressed: {
-                            if (model.isConnected) {
-                                UserModel.logout(index)
-                            } else {
-                                UserModel.login(index)
-                            }
-                            accountMenu.close()
-                        }
-                    }
-
-                    /*MenuItem {
-                        id: removeAccountButton
-                        text: qsTr("Remove account")
-                        font.family: "Segoe UI"
-                        font.pixelSize: Style.topLinePixelSize
-                        hoverEnabled: true
-                        onClicked: {
-                            UserModel.removeAccount(index)
-                            accountMenu.close()
-                        }
-
-                        background: Item {
-                            height: parent.height
-                            width: parent.menu.width
-                            Rectangle {
-                                anchors.fill: parent
-                                anchors.margins: 1
-                                color: parent.parent.hovered ? Style.lightHover : "transparent"
-                            }
-                        }
-
-                        Accessible.role: Accessible.Button
-                        Accessible.name: text
-                        Accessible.onPressAction: removeAccountButton.clicked()
-                    }*/
-                }
-            }
         }
 
         Connections {

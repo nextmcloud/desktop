@@ -6,10 +6,12 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 
+
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
 
 import com.nextcloud.desktopclient 1.0
+
 
 Window {
     id:         trayWindow
@@ -46,6 +48,7 @@ Window {
         userLineInstantiator.active = false;
         userLineInstantiator.active = true;
     }
+
 
     Connections {
         target: UserModel
@@ -203,9 +206,9 @@ Window {
                                 // x coordinate grows towards the right
                                 // y coordinate grows towards the bottom
                                 x: (currentAccountButton.x + 2)
-                                y: (currentAccountButton.y + Style.trayWindowHeaderHeight - 4)
+                                y: (currentAccountButton.y + Style.trayWindowHeaderHeight - 6)
 
-                                width: (Style.currentAccountButtonWidth - 2)
+                                width: Style.accountMenuWidth
                                 height: Math.min(implicitHeight, maxMenuHeight)
                                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
@@ -232,17 +235,15 @@ Window {
                                     onObjectRemoved: accountMenu.removeItem(object)
                                 }
 
-                                MenuSeparator {
-                                    contentItem: Rectangle {
-                                        implicitHeight: 1
-                                        color: Style.menuBorder
-                                    }
-                                }
-
                                 MenuItem {
                                     id: syncPauseButton
+                                    display: AbstractButton.TextBesideIcon
+                                    icon.source: "qrc:///client/theme/magenta/action/pause/default.png"
                                     font.family: "Segoe UI"
                                     font.pixelSize: Style.topLinePixelSize
+                                    horizontalPadding: Style.accountMenuPadding
+                                    verticalPadding: Style.accountMenuHalfPadding
+                                    spacing: Style.accountMenuSpacing
                                     hoverEnabled: true
                                     onClicked: Systray.pauseResumeSync()
 
@@ -263,10 +264,14 @@ Window {
 
                                 MenuItem {
                                     id: settingsButton
+                                    display: AbstractButton.TextBesideIcon
+                                    icon.source: "qrc:///client/theme/magenta/action/settings/default.png"
                                     text: qsTr("Settings")
                                     font.family: "Segoe UI"
                                     font.pixelSize: Style.topLinePixelSize
-
+                                    horizontalPadding: Style.accountMenuPadding
+                                    verticalPadding: Style.accountMenuHalfPadding
+                                    spacing: Style.accountMenuSpacing
                                     hoverEnabled: true
                                     onClicked: Systray.openSettings()
 
@@ -287,9 +292,15 @@ Window {
 
                                 MenuItem {
                                     id: exitButton
+                                    display: AbstractButton.TextBesideIcon
+                                    icon.source: "qrc:///client/theme/magenta/action/circle-close/default.png"
                                     text: qsTr("Exit");
                                     font.family: "Segoe UI"
                                     font.pixelSize: Style.topLinePixelSize
+                                    horizontalPadding: Style.accountMenuPadding
+                                    topPadding: Style.accountMenuHalfPadding
+                                    bottomPadding: Style.accountMenuPadding
+                                    spacing: Style.accountMenuSpacing
                                     hoverEnabled: true
                                     onClicked: Systray.shutdown()
 
@@ -319,13 +330,12 @@ Window {
                             id: accountControlRowLayout
 
                             height: Style.trayWindowHeaderHeight
-                            //width:  Style.currentAccountButtonWidth
                             spacing: 0
 
                             Image {
                                 id: currentAccountAvatar
 
-                                Layout.leftMargin: 16
+                                Layout.leftMargin: Style.accountMenuPadding
                                 verticalAlignment: Qt.AlignCenter
                                 cache: false
                                 source: "qrc:///client/theme/magenta/user/default.png"
@@ -418,7 +428,7 @@ Window {
                     HeaderButton {
                         id: openAccountServerButton
 
-                        visible: true    //UserModel.currentUser.currentUserServer() !== ""
+                        visible: true
                         icon.source: "qrc:///client/theme/magenta/news/default@svg.svg"
                         text: qsTr("Open website")
                         onClicked: UserModel.openCurrentAccountServer()
@@ -467,11 +477,12 @@ Window {
             anchors.top:    trayWindowMagentaBarBackground.bottom
             height:         8
             gradient: Gradient {
-                GradientStop { position: 0.0; color: "black" }
-                GradientStop { position: 0.25; color: "white" }
+                GradientStop { position: 0.0; color: "#e5e5e5" }
+                GradientStop { position: 0.125; color: "white" }
             }
-            opacity: 0.6
+            opacity: 1.0
         }
+
 
         ListView {
             id: activityListView
@@ -531,8 +542,8 @@ Window {
                     anchors.left: activityItem.left
                     anchors.leftMargin: 8
                     anchors.rightMargin: 8
-                    Layout.preferredWidth: 24//shareButton.icon.width
-                    Layout.preferredHeight: 24//shareButton.icon.height
+                    Layout.preferredWidth: Style.headerButtonIconSize
+                    Layout.preferredHeight: Style.headerButtonIconSize
                     verticalAlignment: Qt.AlignCenter
                     cache: true
                     source: icon
@@ -635,30 +646,6 @@ Window {
                 }
             }
 
-            /*onAdd: {
-                if (model.count >= 10) {
-                    model.remove(10);
-                }
-            }*/
-
-            /*add: Transition {
-                NumberAnimation { properties: "y"; from: -60; duration: 100; easing.type: Easing.Linear }
-            }
-
-            remove: Transition {
-                NumberAnimation { property: "opacity"; from: 1.0; to: 0; duration: 100 }
-            }
-
-            removeDisplaced: Transition {
-                SequentialAnimation {
-                    PauseAnimation { duration: 100}
-                    NumberAnimation { properties: "y"; duration: 100; easing.type: Easing.Linear }
-                }
-            }
-
-            displaced: Transition {
-                NumberAnimation { properties: "y"; duration: 100; easing.type: Easing.Linear }
-            }*/
         }
 
     }       // Rectangle trayWindowBackground

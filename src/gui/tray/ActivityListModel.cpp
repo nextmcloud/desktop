@@ -541,7 +541,7 @@ void ActivityListModel::combineActivityLists()
     endResetModel();
 
     if (resultList.count() > 0) {
-        beginInsertRows(QModelIndex(), 0, resultList.count() - 1);
+        beginInsertRows(QModelIndex(), 0, ((maxVisibleActivities <= resultList.count()) ? maxVisibleActivities - 1 : resultList.count() - 1));
         _finalList = resultList;
         endInsertRows();
     }

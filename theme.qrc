@@ -16,6 +16,14 @@
         <file>theme/magenta/user/default.png</file>
         <file>theme/magenta/share/default@svg.svg</file>
         <file>theme/magenta/share/default.png</file>
+        <file>theme/magenta/action/circle-close/default@svg.svg</file>
+        <file>theme/magenta/action/circle-close/default.png</file>
+        <file>theme/magenta/action/logout/default@svg.svg</file>
+        <file>theme/magenta/action/logout/default.png</file>
+        <file>theme/magenta/action/pause/default@svg.svg</file>
+        <file>theme/magenta/action/pause/default.png</file>
+        <file>theme/magenta/action/settings/default@svg.svg</file>
+        <file>theme/magenta/action/settings/default.png</file>
         <file>theme/colored/state-error-32.png</file>
         <file>theme/colored/state-error-64.png</file>
         <file>theme/colored/state-error-128.png</file>
