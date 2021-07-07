@@ -284,6 +284,26 @@
         <translation>Uplatnit ručně provedené změny</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="84"/>
+        <source>End-to-End Encryption with Virtual Files</source>
+        <translation>Šifrování mezi koncovými body u virtuálních souborů</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="85"/>
+        <source>You seem to have the Virtual Files feature enabled on this folder. At  the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="93"/>
+        <source>Don&apos;t encrypt folder</source>
+        <translation>Nešifrovat složku</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="94"/>
+        <source>Encrypt folder</source>
+        <translation>Zašifrovat složku</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="208"/>
         <location filename="../src/gui/accountsettings.cpp" line="229"/>
         <source>This account supports end-to-end encryption</source>
@@ -316,24 +336,24 @@
         <translation>Odebrat</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="231"/>
-        <source>Enable encryption</source>
-        <translation>Zapnout šifrování</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="232"/>
         <source>Account</source>
         <translation>Účet</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="245"/>
-        <source>Warning</source>
-        <translation>Varování</translation>
+        <location filename="../src/gui/accountsettings.cpp" line="231"/>
+        <source>Enable encryption</source>
+        <translation>Zapnout šifrování</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="261"/>
         <source>Show E2E mnemonic</source>
         <translation>Zobrazit mnemotechnickou frázi pro šifr mezi konc. body</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="245"/>
+        <source>Warning</source>
+        <translation>Varování</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="304"/>
@@ -670,6 +690,11 @@ Současně tato akce zruší jakoukoli právě probíhající synchronizaci.</tr
     </message>
     <message>
         <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
+        <source>Certificate &amp; Key (pkcs12):</source>
+        <translation>Certifikát a klíč (pkcs12):</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
         <source>Certificate &amp; Key (pkcs12) :</source>
         <translation>Certifikát a klíč (pkcs12):</translation>
     </message>
@@ -919,6 +944,11 @@ Současně tato akce zruší jakoukoli právě probíhající synchronizaci.</tr
         <location filename="../src/gui/connectionvalidator.cpp" line="147"/>
         <source>Authentication error: Either username or password are wrong.</source>
         <translation>Chyba ověření se: Uživatelské jméno nebo heslo není správné.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
+        <source>Timeout</source>
+        <translation>Časový limit</translation>
     </message>
     <message>
         <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
@@ -1748,6 +1778,11 @@ Pokud to byla pouze chyba a chcete si tyto soubory ponechat, budou ze serveru zn
         <translation> (experimentální)</translation>
     </message>
     <message>
+        <location filename="../src/gui/folderwizard.cpp" line="545"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation>Ve Windows kořenovém adresáři oddílu disku nejsou virtuální soubory podporovány. Vyberte platný adresář v disku.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/folderwizard.cpp" line="548"/>
         <source>Virtual files are not available for the selected folder</source>
         <translation>Pro označenou složku nejsou virtuální soubory k dispozici</translation>
@@ -2113,6 +2148,11 @@ Položky u kterých je umožněno mazání budou smazány, pokud brání tomu, a
     </message>
     <message>
         <location filename="../src/gui/legalnotice.cpp" line="55"/>
+        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Autorská práva 2017-2021 Nextcloud GmbH&lt;br /&gt;Autorská práva 2012-2021 ownCloud GmbH&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/legalnotice.cpp" line="55"/>
         <source>&lt;p&gt;Copyright 2017-2020 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2018 ownCloud GmbH&lt;/p&gt;</source>
         <translation>&lt;p&gt;Autorská práva 2017-2020 Nextcloud GmbH&lt;br /&gt;Autorská práva 2012-2018 ownCloud GmbH&lt;/p&gt;</translation>
     </message>
@@ -2403,6 +2443,11 @@ Záznamy událostí budou zapisovány do %1</translation>
         <translation>Došlo k chybě při přístupu ke koncovému bodu „token“: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
+        <location filename="../src/gui/creds/oauth.cpp" line="117"/>
+        <source>There was an error accessing the &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/creds/oauth.cpp" line="121"/>
         <source>Empty JSON from OAuth2 redirect</source>
         <translation>Vyprázdnit JSON z OAuth2 přesměrování</translation>
@@ -2544,6 +2589,11 @@ můžete být požádáni o dodatečná oprávnění.</translation>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="88"/>
         <source>(experimental)</source>
         <translation> (experimentální)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="232"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation>Ve Windows kořenovém adresáři oddílu disku nejsou virtuální soubory podporovány. Vyberte platný adresář v disku.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="252"/>
@@ -2801,6 +2851,11 @@ Nedoporučuje se jí používat.</translation>
         <translation>OK</translation>
     </message>
     <message>
+        <location filename="../src/gui/owncloudsetupwizard.cpp" line="453"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="455"/>
         <source>failed.</source>
         <translation>nezdařilo se.</translation>
@@ -2911,12 +2966,12 @@ Nedoporučuje se jí používat.</translation>
         <translation>%1 Průvodce spojením</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="401"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="404"/>
         <source>Enable experimental feature?</source>
         <translation>Zapnout experimentální funkci?</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="402"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="405"/>
         <source>When the &quot;virtual files&quot; mode is enabled no files will be downloaded initially. Instead, a tiny &quot;%1&quot; file will be created for each file that exists on the server. The contents can be downloaded by running these files or by using their context menu.
 
 The virtual files mode is mutually exclusive with selective sync. Currently unselected folders will be translated to online-only folders and your selective sync settings will be reset.
@@ -2933,12 +2988,12 @@ Přepnutí do tohoto režimu přeruší případné právě spuštěná synchron
 Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, prosíme nahlaste případné chyby, které objevíte.</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="416"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="419"/>
         <source>Enable experimental placeholder mode</source>
         <translation>Zapnout experimentální režim výplně</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="417"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="420"/>
         <source>Stay safe</source>
         <translation>Zůstaňte v bezpečí</translation>
     </message>
@@ -3124,52 +3179,52 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="418"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1012"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1029"/>
         <source>File has changed since discovery</source>
         <translation>Soubor se mezitím změnil</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="530"/>
         <source>File %1 can not be downloaded because of a local file name clash!</source>
         <translation>Soubor %1 nemohl být stažen z důvodu kolize názvu se souborem v místním systému!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="444"/>
         <source>File %1 cannot be downloaded because of a local file name clash!</source>
         <translation>Soubor %1 nemohl být stažen z důvodu kolize názvu se souborem v místním systému!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="565"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="582"/>
         <source>The download would reduce free local disk space below the limit</source>
         <translation>Stahování by snížilo volné místo na místním disku pod nastavený limit</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="569"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="586"/>
         <source>Free space on disk is less than %1</source>
         <translation>Volného místa na úložišti je méně než %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="692"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="709"/>
         <source>File was deleted from server</source>
         <translation>Soubor byl smazán ze serveru</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="759"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="776"/>
         <source>The file could not be downloaded completely.</source>
         <translation>Soubor nemohl být kompletně stažen.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="766"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="783"/>
         <source>The downloaded file is empty despite that the server announced it should have been %1.</source>
         <translation>Stažený soubor je prázdný, přestože server oznámil, že by měl mít velikost %1.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="957"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="974"/>
         <source>File %1 cannot be saved because of a local file name clash!</source>
         <translation>Soubor %1 nemohl být uložen z důvodu kolize názvu s místním souborem!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1077"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1094"/>
         <source>Error writing metadata to the database</source>
         <translation>Chyba zápisu metadat do databáze</translation>
     </message>
@@ -3198,6 +3253,11 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
         <source>Attention, possible case sensitivity clash with %1</source>
         <translation>Pozor, možná kolize s %1 z důvodu rozlišování malých/VELKÝCH písmen</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
+        <source>Could not create folder %1</source>
+        <translation>Nepodařilo se vytvořit složku %1</translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
@@ -3595,7 +3655,7 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="146"/>
         <source>Note</source>
-        <translation type="unfinished"/>
+        <translation>Poznámka</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="171"/>
@@ -3605,7 +3665,7 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
         <source>Set password</source>
-        <translation type="unfinished"/>
+        <translation>Nastavit heslo</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="239"/>
@@ -3620,7 +3680,7 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="294"/>
         <source>Expires</source>
-        <translation type="unfinished"/>
+        <translation>Platnost končí</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="150"/>
@@ -3746,6 +3806,16 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <translation>Žádné výsledky pro „%1“</translation>
     </message>
     <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="391"/>
+        <source>Password for share required</source>
+        <translation>K sdílení je vyžadováno heslo</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="392"/>
+        <source>Please enter a password for your email share:</source>
+        <translation>Zadejte heslo e-mailového sdílení</translation>
+    </message>
+    <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="386"/>
         <source>I shared something with you</source>
         <translation>Něco jsem vám nasdílel(a)</translation>
@@ -3764,18 +3834,22 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <translation>lze upravovat</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="122"/>
+        <location filename="../src/gui/shareuserline.ui" line="97"/>
+        <source>Can edit</source>
+        <translation>Může upravovat</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareuserline.ui" line="131"/>
         <source>Note:</source>
         <translation>Poznámka:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="148"/>
-        <location filename="../src/gui/shareuserline.ui" line="192"/>
-        <source>…</source>
-        <translation>…</translation>
+        <location filename="../src/gui/shareuserline.ui" line="187"/>
+        <source>Password:</source>
+        <translation>Heslo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="172"/>
+        <location filename="../src/gui/shareuserline.ui" line="259"/>
         <source>Expires:</source>
         <translation>Platnost skončí:</translation>
     </message>
@@ -3785,12 +3859,12 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <translation>Příjemce tohoto sdílení může sám dále nasdílet dalším</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="466"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="528"/>
         <source>Note to recipient</source>
         <translation>Poznámka pro příjemce</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="476"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="542"/>
         <source>Set expiration date</source>
         <translation>Nastavit datum skončení platnosti</translation>
     </message>
@@ -3813,6 +3887,11 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <location filename="../src/gui/shareusergroupwidget.cpp" line="471"/>
         <source>Can delete</source>
         <translation>Může mazat</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="588"/>
+        <source>Password protect</source>
+        <translation>Chránit heslem</translation>
     </message>
 </context>
 <context>
@@ -4346,14 +4425,14 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <translation>Název souboru je příliš dlouhý.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="514"/>
-        <source>Using virtual files with suffix, but suffix is not set</source>
-        <translation>Používají se virtuální soubory s příponou, ale přípona není nastavena</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="521"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation>Soubor/složka je ignorován, protože je skrytý.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="514"/>
+        <source>Using virtual files with suffix, but suffix is not set</source>
+        <translation>Používají se virtuální soubory s příponou, ale přípona není nastavena</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="524"/>
@@ -4486,6 +4565,11 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <translation>&lt;p&gt;Verze %1. Další informace získáte kliknutím &lt;a href=&apos;%2&apos;&gt;sem&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
+        <location filename="../src/libsync/theme.cpp" line="469"/>
+        <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;&lt;small&gt;pomocí zásuvného modulu pro virtuální soubory: %1&lt;/small&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/theme.cpp" line="482"/>
         <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
         <translation>&lt;p&gt;Toto vydání bylo poskytnuto %1&lt;/p&gt;</translation>
@@ -4548,34 +4632,24 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
     </message>
 </context>
 <context>
-    <name>OCC::UserStatus</name>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="55"/>
-        <source>Away</source>
-        <translation>Pryč</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="57"/>
-        <source>Do not disturb</source>
-        <translation>Nerušit</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="60"/>
-        <source>Offline</source>
-        <translation>Offline</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="62"/>
-        <source>Online</source>
-        <translation>Online</translation>
-    </message>
-</context>
-<context>
     <name>OCC::Vfs</name>
     <message>
         <location filename="../src/common/vfs.cpp" line="82"/>
         <source>The Virtual filesystem feature requires a NTFS file system, %1 is using %2</source>
         <translation>Funkce virtuální souborový systém vyžaduje souborový systém NTFS, %1 používá %2</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::VfsCfApi</name>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="314"/>
+        <source>Download of End-to-End encrypted file failed</source>
+        <translation>Stažení souboru, šifrovaného mezi koncovými body, se nezdařilo</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="315"/>
+        <source>It seems that you are trying to download a virtual file that is End-to-End encrypted. Implicitly downloading such files is not supported at the moment. To workaround this issue, go to the settings and mark the encrypted folder with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5097,6 +5171,26 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <source>New folder</source>
         <translation>Nová složka</translation>
     </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="53"/>
+        <source>Away</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Do not disturb</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="58"/>
+        <source>Offline</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Online</source>
+        <translation type="unfinished"/>
+    </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="471"/>
         <source>%n day ago</source>
@@ -5167,16 +5261,6 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <translation>Přepnout na účet</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is online</source>
-        <translation>Stávající stav uživatele je online</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is do not disturb</source>
-        <translation>Stávající stav uživatele je nerušit</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account connected</source>
         <translation>Účet připojen</translation>
@@ -5185,6 +5269,16 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account not connected</source>
         <translation>Účet nepřipojen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is online</source>
+        <translation>Stávající stav uživatele je online</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is do not disturb</source>
+        <translation>Stávající stav uživatele je nerušit</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="140"/>
@@ -5433,6 +5527,11 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <location filename="../src/gui/main.cpp" line="45"/>
         <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &apos;trayer&apos; and try again.</source>
         <translation>%1 vyžaduje fungující oznamovací oblast systémového panelu. Pokud používáte XFCE, řiďte se &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;těmito pokyny&lt;/a&gt;. V ostatních případech nainstalujte do svého systému aplikaci pro oznamovací oblast syst. panelu, např. „trayer“, a zkuste to znovu.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main.cpp" line="45"/>
+        <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &quot;trayer&quot; and try again.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5765,6 +5864,29 @@ Toto je nový, experimentální režim. Pokud se jej rozhodnete používat, pros
         <location filename="../src/gui/creds/webflowcredentialsdialog.cpp" line="34"/>
         <source>Log in</source>
         <translation>Přihlásit se</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::UserStatus</name>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Away</source>
+        <translation>Pryč</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="57"/>
+        <source>Do not disturb</source>
+        <translation>Nerušit</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Offline</source>
+        <translation>Offline</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="62"/>
+        <source>Online</source>
+        <translation>Online</translation>
     </message>
 </context>
 </TS>

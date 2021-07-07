@@ -284,6 +284,26 @@
         <translation>应用手工修改</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="84"/>
+        <source>End-to-End Encryption with Virtual Files</source>
+        <translation>虚拟文件端到端加密</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="85"/>
+        <source>You seem to have the Virtual Files feature enabled on this folder. At  the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
+        <translation>您似乎在此文件夹上启用了虚拟文件功能。目前，不可能隐式下载端到端加密的虚拟文件。为了获得虚拟文件和端到端加密的最佳体验，请确保加密文件夹被标记为“始终在本地可用”。 </translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="93"/>
+        <source>Don&apos;t encrypt folder</source>
+        <translation>不加密文件夹</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="94"/>
+        <source>Encrypt folder</source>
+        <translation>加密文件夹</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="208"/>
         <location filename="../src/gui/accountsettings.cpp" line="229"/>
         <source>This account supports end-to-end encryption</source>
@@ -316,24 +336,24 @@
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="231"/>
-        <source>Enable encryption</source>
-        <translation>启用加密</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="232"/>
         <source>Account</source>
         <translation>账号</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="245"/>
-        <source>Warning</source>
-        <translation>警告</translation>
+        <location filename="../src/gui/accountsettings.cpp" line="231"/>
+        <source>Enable encryption</source>
+        <translation>启用加密</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="261"/>
         <source>Show E2E mnemonic</source>
         <translation>显示 E2E 助记词</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="245"/>
+        <source>Warning</source>
+        <translation>警告</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="304"/>
@@ -666,6 +686,11 @@ This action will abort any currently running synchronization.</source>
     </message>
     <message>
         <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
+        <source>Certificate &amp; Key (pkcs12):</source>
+        <translation>证书和密钥 (pkcs12):</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
         <source>Certificate &amp; Key (pkcs12) :</source>
         <translation>证书与密匙（pkcs12）：</translation>
     </message>
@@ -915,6 +940,11 @@ This action will abort any currently running synchronization.</source>
         <location filename="../src/gui/connectionvalidator.cpp" line="147"/>
         <source>Authentication error: Either username or password are wrong.</source>
         <translation>认证失败：用户名或密码错误</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
+        <source>Timeout</source>
+        <translation>超时</translation>
     </message>
     <message>
         <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
@@ -1740,6 +1770,11 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>(实验性)</translation>
     </message>
     <message>
+        <location filename="../src/gui/folderwizard.cpp" line="545"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation>Windows分区根目录不支持虚拟文件作为本地文件夹。请在驱动器号下选择有效的子文件夹。</translation>
+    </message>
+    <message>
         <location filename="../src/gui/folderwizard.cpp" line="548"/>
         <source>Virtual files are not available for the selected folder</source>
         <translation>虚拟文件对所选文件夹不可用</translation>
@@ -2105,6 +2140,11 @@ Items where deletion is allowed will be deleted if they prevent a directory from
     </message>
     <message>
         <location filename="../src/gui/legalnotice.cpp" line="55"/>
+        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
+        <translation>&lt;p&gt;版权所有 2017-2021 Nextcloud GmbH&lt;br /&gt;版权所有 2012-2021 ownCloud GmbH&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/legalnotice.cpp" line="55"/>
         <source>&lt;p&gt;Copyright 2017-2020 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2018 ownCloud GmbH&lt;/p&gt;</source>
         <translation>&lt;p&gt;版权 2017-2020 Nextcloud 有限责任公司 &lt;br /&gt;版权 2012-2018 ownCloud 有限责任公司 &lt;/ p&gt;</translation>
     </message>
@@ -2392,6 +2432,11 @@ Logs will be written to %1</source>
         <translation>访问“token”端时出错：&lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
+        <location filename="../src/gui/creds/oauth.cpp" line="117"/>
+        <source>There was an error accessing the &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
+        <translation>访问 &quot;token&quot; 端点时出错：&lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
+    </message>
+    <message>
         <location filename="../src/gui/creds/oauth.cpp" line="121"/>
         <source>Empty JSON from OAuth2 redirect</source>
         <translation>来自 OAuth2 重定向的空 JSON</translation>
@@ -2533,6 +2578,11 @@ for additional privileges during the process.</source>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="88"/>
         <source>(experimental)</source>
         <translation>(实验性)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="232"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation>Windows 分区根目录不支持虚拟文件作为本地文件夹。请在驱动器号下选择有效的子文件夹。 </translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="252"/>
@@ -2790,6 +2840,11 @@ It is not advisable to use it.</source>
         <translation>成功</translation>
     </message>
     <message>
+        <location filename="../src/gui/owncloudsetupwizard.cpp" line="453"/>
+        <source>OK</source>
+        <translation>好</translation>
+    </message>
+    <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="455"/>
         <source>failed.</source>
         <translation>失败</translation>
@@ -2900,12 +2955,12 @@ It is not advisable to use it.</source>
         <translation>%1 链接向导</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="401"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="404"/>
         <source>Enable experimental feature?</source>
         <translation>启用实验性功能？</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="402"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="405"/>
         <source>When the &quot;virtual files&quot; mode is enabled no files will be downloaded initially. Instead, a tiny &quot;%1&quot; file will be created for each file that exists on the server. The contents can be downloaded by running these files or by using their context menu.
 
 The virtual files mode is mutually exclusive with selective sync. Currently unselected folders will be translated to online-only folders and your selective sync settings will be reset.
@@ -2916,12 +2971,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>当“虚拟文件”模式被启用时，最初不会下载任何文件，而是为服务器上存在的每个文件创建一个小的“%1”文件。内容可以通过运行这些文件或使用它们的上下文菜单来下载。虚拟文件模式与选择性同步是互斥的。当前未选择的文件夹将被翻译成“仅在线”的文件夹，并且您选择的同步设置将被重置。切换到此模式将中止任何当前正在运行的同步。这是一种新的实验性模式。如果您决定使用它，请报告出现的任何问题。</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="416"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="419"/>
         <source>Enable experimental placeholder mode</source>
         <translation>启用实验占位符模式</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="417"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="420"/>
         <source>Stay safe</source>
         <translation>保持安全</translation>
     </message>
@@ -3107,52 +3162,52 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="418"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1012"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1029"/>
         <source>File has changed since discovery</source>
         <translation>自从发现文件以来，它已经被修改了</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="530"/>
         <source>File %1 can not be downloaded because of a local file name clash!</source>
         <translation>由于本地文件名冲突，文件 %1 无法下载。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="444"/>
         <source>File %1 cannot be downloaded because of a local file name clash!</source>
         <translation>文件 %1 无法被下载，因为一个本地文件名冲突！</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="565"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="582"/>
         <source>The download would reduce free local disk space below the limit</source>
         <translation>下载将减少低于限制的空闲本地磁盘空间</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="569"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="586"/>
         <source>Free space on disk is less than %1</source>
         <translation>空闲磁盘空间少于 %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="692"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="709"/>
         <source>File was deleted from server</source>
         <translation>已从服务器删除文件</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="759"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="776"/>
         <source>The file could not be downloaded completely.</source>
         <translation>文件无法完整下载。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="766"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="783"/>
         <source>The downloaded file is empty despite that the server announced it should have been %1.</source>
         <translation>虽然服务器宣称已完成 %1，但实际下载文件为空。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="957"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="974"/>
         <source>File %1 cannot be saved because of a local file name clash!</source>
         <translation>由于本地文件名冲突，文件 %1 无法保存。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1077"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1094"/>
         <source>Error writing metadata to the database</source>
         <translation>向数据库写入元数据错误</translation>
     </message>
@@ -3181,6 +3236,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
         <source>Attention, possible case sensitivity clash with %1</source>
         <translation>小心！%1 的文件名可能有大小写冲突</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
+        <source>Could not create folder %1</source>
+        <translation>无法创建文件夹 %1</translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
@@ -3578,7 +3638,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="146"/>
         <source>Note</source>
-        <translation type="unfinished"/>
+        <translation>备注</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="171"/>
@@ -3588,7 +3648,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
         <source>Set password</source>
-        <translation type="unfinished"/>
+        <translation>设置密码</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="239"/>
@@ -3603,7 +3663,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="294"/>
         <source>Expires</source>
-        <translation type="unfinished"/>
+        <translation>到期</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="150"/>
@@ -3729,6 +3789,16 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>没有 &apos;%1&apos; 相关结果</translation>
     </message>
     <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="391"/>
+        <source>Password for share required</source>
+        <translation>需要共享密码 </translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="392"/>
+        <source>Please enter a password for your email share:</source>
+        <translation>请为你的电邮共享输入一个密码：</translation>
+    </message>
+    <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="386"/>
         <source>I shared something with you</source>
         <translation>我向您共享了一些东西</translation>
@@ -3747,18 +3817,22 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>可编辑</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="122"/>
+        <location filename="../src/gui/shareuserline.ui" line="97"/>
+        <source>Can edit</source>
+        <translation>可以编辑</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareuserline.ui" line="131"/>
         <source>Note:</source>
         <translation>备注：</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="148"/>
-        <location filename="../src/gui/shareuserline.ui" line="192"/>
-        <source>…</source>
-        <translation>… </translation>
+        <location filename="../src/gui/shareuserline.ui" line="187"/>
+        <source>Password:</source>
+        <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="172"/>
+        <location filename="../src/gui/shareuserline.ui" line="259"/>
         <source>Expires:</source>
         <translation>过期：</translation>
     </message>
@@ -3768,12 +3842,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>允许重新共享</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="466"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="528"/>
         <source>Note to recipient</source>
         <translation>给收件人的备注</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="476"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="542"/>
         <source>Set expiration date</source>
         <translation>设置到期日</translation>
     </message>
@@ -3796,6 +3870,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/shareusergroupwidget.cpp" line="471"/>
         <source>Can delete</source>
         <translation>可以删除</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="588"/>
+        <source>Password protect</source>
+        <translation>密码保护</translation>
     </message>
 </context>
 <context>
@@ -4329,14 +4408,14 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>文件名过长。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="514"/>
-        <source>Using virtual files with suffix, but suffix is not set</source>
-        <translation>使用带后缀的虚拟文件，但未设置后缀。</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="521"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation>已忽略隐藏的文件和文件夹。</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="514"/>
+        <source>Using virtual files with suffix, but suffix is not set</source>
+        <translation>使用带后缀的虚拟文件，但未设置后缀。</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="524"/>
@@ -4469,6 +4548,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>&lt;p&gt;版本 %1。详情请点击&lt;a href=&apos;%2&apos;&gt;这里&lt;/a&gt;。&lt;/p&gt;</translation>
     </message>
     <message>
+        <location filename="../src/libsync/theme.cpp" line="469"/>
+        <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;&lt;small&gt;正使用虚拟文件插件：%1&lt;/small&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/theme.cpp" line="482"/>
         <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
         <translation>&lt;p&gt;该版本由 %1 提供&lt;/p&gt;</translation>
@@ -4531,34 +4615,24 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
 </context>
 <context>
-    <name>OCC::UserStatus</name>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="55"/>
-        <source>Away</source>
-        <translation>离开</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="57"/>
-        <source>Do not disturb</source>
-        <translation>勿扰</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="60"/>
-        <source>Offline</source>
-        <translation>离线</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="62"/>
-        <source>Online</source>
-        <translation>在线</translation>
-    </message>
-</context>
-<context>
     <name>OCC::Vfs</name>
     <message>
         <location filename="../src/common/vfs.cpp" line="82"/>
         <source>The Virtual filesystem feature requires a NTFS file system, %1 is using %2</source>
         <translation>虚拟文件系统特性需要一个NTFS文件系统，%1 正使用 %2</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::VfsCfApi</name>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="314"/>
+        <source>Download of End-to-End encrypted file failed</source>
+        <translation>下载端到端加密文件失败</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="315"/>
+        <source>It seems that you are trying to download a virtual file that is End-to-End encrypted. Implicitly downloading such files is not supported at the moment. To workaround this issue, go to the settings and mark the encrypted folder with &quot;Make always available locally&quot;.</source>
+        <translation>你似乎正尝试下载一个端到端加密的虚拟文件。目前不支持隐式下载此类文件。要解决此问题，请进入设置，并将加密文件夹标记为“始终在本地可用”。</translation>
     </message>
 </context>
 <context>
@@ -5080,6 +5154,26 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <source>New folder</source>
         <translation>新文件夹</translation>
     </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="53"/>
+        <source>Away</source>
+        <translation>离开</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Do not disturb</source>
+        <translation>勿扰</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="58"/>
+        <source>Offline</source>
+        <translation>离线</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Online</source>
+        <translation>在线</translation>
+    </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="471"/>
         <source>%n day ago</source>
@@ -5150,16 +5244,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>切换到账号</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is online</source>
-        <translation>当前用户状态为“在线”</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is do not disturb</source>
-        <translation>当前用户状态为“请勿打扰”</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account connected</source>
         <translation>账号已连接</translation>
@@ -5168,6 +5252,16 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account not connected</source>
         <translation>账号未连接</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is online</source>
+        <translation>当前用户状态为“在线”</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is do not disturb</source>
+        <translation>当前用户状态为“请勿打扰”</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="140"/>
@@ -5416,6 +5510,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/main.cpp" line="45"/>
         <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &apos;trayer&apos; and try again.</source>
         <translation>%1 依赖于系统托盘程序。如果您在运行 XFCE，请按 &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;这个指南&lt;/a&gt; 来设置。否则，请安装一个系统托盘程序，比如 trayer，然后再试。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main.cpp" line="45"/>
+        <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &quot;trayer&quot; and try again.</source>
+        <translation>%1 需要一个工作的系统托盘。如果您正在运行XFCE，请遵照&lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;这些说明&lt;/a&gt;操作。否则，请安装系统托盘应用程序，如“trayer”，然后重试。</translation>
     </message>
 </context>
 <context>
@@ -5748,6 +5847,29 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/creds/webflowcredentialsdialog.cpp" line="34"/>
         <source>Log in</source>
         <translation>登录</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::UserStatus</name>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Away</source>
+        <translation>离开</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="57"/>
+        <source>Do not disturb</source>
+        <translation>勿扰</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Offline</source>
+        <translation>离线</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="62"/>
+        <source>Online</source>
+        <translation>在线</translation>
     </message>
 </context>
 </TS>

@@ -222,7 +222,7 @@
     <message>
         <location filename="../src/libsync/abstractpropagateremotedeleteencrypted.cpp" line="181"/>
         <source>&quot;%1 Failed to unlock encrypted folder %2&quot;.</source>
-        <translation>&quot;％1 暗号化されたフォルダ ％2 のロックを解除できませんでした。”</translation>
+        <translation>&quot;%1 暗号化されたフォルダ %2 のロックを解除できませんでした。”</translation>
     </message>
 </context>
 <context>
@@ -284,6 +284,26 @@
         <translation>手動による変更を適用</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="84"/>
+        <source>End-to-End Encryption with Virtual Files</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="85"/>
+        <source>You seem to have the Virtual Files feature enabled on this folder. At  the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="93"/>
+        <source>Don&apos;t encrypt folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="94"/>
+        <source>Encrypt folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="208"/>
         <location filename="../src/gui/accountsettings.cpp" line="229"/>
         <source>This account supports end-to-end encryption</source>
@@ -316,19 +336,14 @@
         <translation>削除</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="231"/>
-        <source>Enable encryption</source>
-        <translation>暗号化を有効にする</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="232"/>
         <source>Account</source>
         <translation>アカウント</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="245"/>
-        <source>Warning</source>
-        <translation>警告</translation>
+        <location filename="../src/gui/accountsettings.cpp" line="231"/>
+        <source>Enable encryption</source>
+        <translation>暗号化を有効にする</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="261"/>
@@ -336,10 +351,15 @@
         <translation>E2E ニーモニックを表示</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="245"/>
+        <source>Warning</source>
+        <translation>警告</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="304"/>
         <source>You cannot encrypt a folder with contents, please remove the files.
 Wait for the new sync, then encrypt it.</source>
-        <translation>フォルダが空でないと暗号化できません。ファイルを削除してください。
+        <translation>フォルダーが空でないと暗号化できません。ファイルを削除してください。
 新しい同期を待ってから、暗号化します。</translation>
     </message>
     <message>
@@ -409,7 +429,7 @@ Wait for the new sync, then encrypt it.</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="573"/>
         <source>Enable virtual file support %1 …</source>
-        <translation>仮想ファイルを有効にする ％1…</translation>
+        <translation>仮想ファイルを有効にする %1…</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="573"/>
@@ -453,7 +473,7 @@ Wait for the new sync, then encrypt it.</source>
 The only advantage of disabling virtual file support is that the selective sync feature will become available again.
 
 This action will abort any currently running synchronization.</source>
-        <translation>この操作により、仮想ファイルが無効になります。その結果、現在「オンラインでのみ利用可能」とマークされているフォルダのコンテンツがダウンロードされます。
+        <translation>この操作により、仮想ファイルが無効になります。その結果、現在「オンラインでのみ利用可能」とマークされているフォルダーのコンテンツがダウンロードされます。
 
 仮想ファイルを無効にすることの唯一の利点は、選択的同期機能が再び利用可能になることです。
 
@@ -517,7 +537,7 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1085"/>
         <source>Connected to %1.</source>
-        <translation>%1 に接続しています。</translation>
+        <translation>%1 に接続中</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1089"/>
@@ -670,6 +690,11 @@ This action will abort any currently running synchronization.</source>
     </message>
     <message>
         <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
+        <source>Certificate &amp; Key (pkcs12):</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
         <source>Certificate &amp; Key (pkcs12) :</source>
         <translation>証明書と鍵 (pkcs12) :</translation>
     </message>
@@ -734,7 +759,7 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/application.cpp" line="312"/>
         <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your user.</source>
-        <translation>％1の設定ファイルのアクセス中にエラーが発生しました。 ユーザーがファイルにアクセスできることを確認してください。</translation>
+        <translation>%1の設定ファイルのアクセス中にエラーが発生しました。 ユーザーがファイルにアクセスできることを確認してください。</translation>
     </message>
     <message>
         <location filename="../src/gui/application.cpp" line="315"/>
@@ -813,7 +838,7 @@ This action will abort any currently running synchronization.</source>
         <location filename="../src/gui/conflictdialog.ui" line="57"/>
         <location filename="../src/gui/conflictdialog.ui" line="165"/>
         <source>Click to open the file</source>
-        <translation>クリークしてファイルを開く</translation>
+        <translation>クリックしてファイルを開く</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.ui" line="96"/>
@@ -922,6 +947,11 @@ This action will abort any currently running synchronization.</source>
     </message>
     <message>
         <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
+        <source>Timeout</source>
+        <translation>タイムアウト</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
         <source>timeout</source>
         <translation>タイムアウト</translation>
     </message>
@@ -989,7 +1019,7 @@ This action will abort any currently running synchronization.</source>
         <location filename="../src/libsync/encryptfolderjob.cpp" line="79"/>
         <source>Could not generate the metadata for encryption, Unlocking the folder.
 This can be an issue with your OpenSSL libraries.</source>
-        <translation>暗号化用のメタデータを生成できませんでした。フォルダのロックを解除します。
+        <translation>暗号化用のメタデータを生成できませんでした。フォルダーのロックを解除します。
 これは、OpenSSLライブラリの問題の可能性があります。</translation>
     </message>
 </context>
@@ -1202,12 +1232,12 @@ This can be an issue with your OpenSSL libraries.</source>
     <message>
         <location filename="../src/gui/folder.cpp" line="1157"/>
         <source>The folder %1 was created but was excluded from synchronization previously. Data inside it will not be synchronized.</source>
-        <translation>フォルダ％1は作成されましたが、以前に同期から除外されました。 中のデータは同期されません。</translation>
+        <translation>フォルダ%1は作成されましたが、以前に同期から除外されました。 中のデータは同期されません。</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1160"/>
         <source>The file %1 was created but was excluded from synchronization previously. It will not be synchronized.</source>
-        <translation>ファイル％1は作成されましたが、以前に同期から除外されました。 このファイルは同期されません。</translation>
+        <translation>ファイル %1 は作成されましたが、以前に同期から除外されました。 このファイルは同期されません。</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1171"/>
@@ -1216,7 +1246,7 @@ This can be an issue with your OpenSSL libraries.</source>
 This means that the synchronization client might not upload local changes immediately and will instead only scan for local changes and upload them occasionally (every two hours by default).
 
 %1</source>
-        <translation>同期フォルダの変更を確実に追跡できませんでした。
+        <translation>同期フォルダーの変更を確実に追跡できませんでした。
 
 これは、同期クライアントはすぐにローカルの変更をアップロードしない場合がありますが、代わりにローカルの変更をスキャンし（デフォルトでは2時間ごとに）時折それらをアップロードすることを意味します。
 
@@ -1228,7 +1258,7 @@ This means that the synchronization client might not upload local changes immedi
 These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
 If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
 If you decide to delete the files, they will be unavailable to you, unless you are the owner.</source>
-        <translation>同期フォルダー &apos;％1&apos;のすべてのファイルがサーバー上で削除されました。
+        <translation>同期フォルダー &apos;%1&apos;のすべてのファイルがサーバー上で削除されました。
 これらの削除はローカルの同期フォルダーに同期され、復元する権限がない場合、ファイルは利用できなくなります。
 削除されたファイルを復元する場合、ファイルを復元する権限があれば、ファイルはサーバーに再同期されます。
 ファイルを削除する場合、あなたがファイルを所有していない限り、ファイルは利用できなくなります。</translation>
@@ -1238,7 +1268,7 @@ If you decide to delete the files, they will be unavailable to you, unless you a
         <source>All files got deleted from your local sync folder '%1'.
 These files will be deleted from the server and will not be available on your other devices if they will not be restored.
 If this action was unintended you can restore the lost data now.</source>
-        <translation>ローカル同期フォルダー &apos;％1&apos;からすべてのファイルが削除されました。
+        <translation>ローカル同期フォルダー &apos;%1&apos;からすべてのファイルが削除されました。
 これらのファイルはサーバーから削除され、復元されない場合、他のデバイスで使用できなくなります。
 この操作が意図しないものであった場合、削除されたデータはすぐに復元できます。</translation>
     </message>
@@ -1285,7 +1315,7 @@ Continuing the sync as normal will cause all your files to be overwritten by an 
 These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
 If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
 If you decide to delete the files, they will be unavailable to you, unless you are the owner.</source>
-        <translation>同期フォルダ &apos;％1&apos;フォルダ内のすべてのファイルがサーバー上で削除されました。
+        <translation>同期フォルダ &apos;%1&apos;フォルダ内のすべてのファイルがサーバー上で削除されました。
 これらの削除はローカル同期フォルダーと同期され、復元する権限がない限り、ファイルは使用できなくなります。 
 ファイルを復元したい場合、権限があればサーバーと再同期されます。
 ファイルを削除することにした場合、所有者でない限り、ファイルは利用できなくなります。</translation>
@@ -1295,7 +1325,7 @@ If you decide to delete the files, they will be unavailable to you, unless you a
         <source>All the files in your local sync folder '%1' were deleted. These deletes will be synchronized with your server, making such files unavailable unless restored.
 Are you sure you want to sync those actions with the server?
 If this was an accident and you decide to keep your files, they will be re-synced from the server.</source>
-        <translation>ローカル同期フォルダ &apos;％1&apos;内のすべてのファイルが削除されました。この削除はサーバーに同期され、復元されない限りそのファイルは使用できなくなります。
+        <translation>ローカル同期フォルダ &apos;%1&apos;内のすべてのファイルが削除されました。この削除はサーバーに同期され、復元されない限りそのファイルは使用できなくなります。
 このアクションをサーバーと同期してもよろしいですか？
 これが操作ミスであり、ファイルを維持することにした場合、ファイルはサーバーから再同期されます。</translation>
     </message>
@@ -1325,7 +1355,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/foldercreationdialog.ui" line="42"/>
         <source>Enter folder name</source>
-        <translation>フォルダー名のを入力</translation>
+        <translation>フォルダー名を入力</translation>
     </message>
     <message>
         <location filename="../src/gui/foldercreationdialog.ui" line="61"/>
@@ -1340,7 +1370,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/foldercreationdialog.cpp" line="76"/>
         <source>Could not create a folder! Check your write permissions.</source>
-        <translation>フォルダを作成できませんでした！書き込み権限を確認してください。</translation>
+        <translation>フォルダーを作成できませんでした！書き込み権限を確認してください。</translation>
     </message>
 </context>
 <context>
@@ -1521,7 +1551,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="299"/>
         <source>Synchronizing VirtualFiles with local folder</source>
-        <translation>仮想ファイルをローカルフォルダーと同期する</translation>
+        <translation>ローカルフォルダーに仮想ファイルで同期中</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="301"/>
@@ -1732,7 +1762,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/folderwizard.cpp" line="473"/>
         <source>You are already syncing &lt;i&gt;%1&lt;/i&gt;, which is a subfolder of &lt;i&gt;%2&lt;/i&gt;.</source>
-        <translation>&lt;i&gt;％2 &lt;/i&gt;のサブフォルダーである&lt;i&gt;％1 &lt;/i&gt;を既に同期しています。</translation>
+        <translation>&lt;i&gt;%2 &lt;/i&gt;のサブフォルダーである&lt;i&gt;%1 &lt;/i&gt;を既に同期しています。</translation>
     </message>
 </context>
 <context>
@@ -1746,6 +1776,11 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <location filename="../src/gui/folderwizard.cpp" line="512"/>
         <source>(experimental)</source>
         <translation>(試験的)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderwizard.cpp" line="545"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/folderwizard.cpp" line="548"/>
@@ -1805,7 +1840,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/generalsettings.ui" line="41"/>
         <source>Legal notice</source>
-        <translation>法的通知</translation>
+        <translation>法律上の告知</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="66"/>
@@ -1928,14 +1963,14 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <source>The update channel determines which client updates will be offered for installation. The &quot;stable&quot; channel contains only upgrades that are considered reliable, while the versions in the &quot;beta&quot; channel may contain newer features and bugfixes, but have not yet been tested thoroughly.
 
 Note that this selects only what pool upgrades are taken from, and that there are no downgrades: So going back from the beta channel to the stable channel usually cannot be done immediately and means waiting for a stable version that is newer than the currently installed beta version.</source>
-        <translation>アップデートチャネルで、どのタイプのアップデートでクライアントにインストールするかを決定します。”安定版&quot; チャネルには、信頼できると考えられるアップグレードのみが含まれ、”ベータ版&quot; チャネルのバージョンには、新しい機能やバグフィックスが含まれているかもしれませんが、まだ十分にテストされていません。
+        <translation>クライアントをアップデートするときにどの更新チャネルからダウンロードするかを指定します。”安定版&quot; チャネルでは、信頼性が高いと考えられるパッケージのみ利用できます。一方、”ベータ版&quot; チャネルでは、新しい機能やバグ修正のあるパッケージが入っていますが、テストが十分とは限りません。
 
-これは、アップグレードがどのプールのようなものから取得されるかのみを選択し、ダウングレードはできないことに注意してください。ベータ版から安定版への移行は、通常すぐにはできず、現在インストールされているベータ版よりも新しいものの安定版を待たなければなりません。</translation>
+これはアップデートをどちらのチャネルからダウンロードするのかを決めるだけで、パッケージをダウングレードすることはできないことに注意してください。その為、ベータ版から安定版へ変更しても、通常はすぐに古いパッケージに戻されるわけではありません。現在インストールされているベータ版よりも新しい安定版が出るまで待つ必要があります。</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="324"/>
         <source>Change update channel</source>
-        <translation>アップデートチャンネルを変更</translation>
+        <translation>更新チャネルを変更</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="325"/>
@@ -2102,12 +2137,17 @@ Items where deletion is allowed will be deleted if they prevent a directory from
         <location filename="../src/gui/legalnotice.ui" line="14"/>
         <location filename="../src/gui/legalnotice.ui" line="25"/>
         <source>Legal notice</source>
-        <translation>法的通知</translation>
+        <translation>法律上の告知</translation>
     </message>
     <message>
         <location filename="../src/gui/legalnotice.ui" line="57"/>
         <source>Close</source>
         <translation>閉じる</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/legalnotice.cpp" line="55"/>
+        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/legalnotice.cpp" line="55"/>
@@ -2132,9 +2172,9 @@ Items where deletion is allowed will be deleted if they prevent a directory from
         <source>The client can write debug logs to a temporary folder. These logs are very helpful for diagnosing problems.
 Since log files can get large, the client will start a new one for each sync run and compress older ones. It will also delete log files after a couple of hours to avoid consuming too much disk space.
 If enabled, logs will be written to %1</source>
-        <translation>クライアントは、デバッグログを一時フォルダに書き込むようにできます。これらのログは、問題の診断に非常に役立ちます。
+        <translation>クライアントは、デバッグログを一時フォルダーに書き込むようにできます。これらのログは、問題の診断に非常に役立ちます。
 ログファイルは大きくなる可能性があるため、クライアントは同期の実行ごとに新しいログファイルを開始し、古いログファイルを圧縮します。また、ディスク領域の消費を防ぐために、数時間後にログファイルが削除されます。
-有効にすると、ログは ％1 に書き込まれます</translation>
+有効にすると、ログは %1 に書き込まれます</translation>
     </message>
     <message>
         <location filename="../src/gui/logbrowser.cpp" line="64"/>
@@ -2178,9 +2218,9 @@ Note that using any logging command line options will override this setting.</so
         <source>When this option is enabled and no other logging is configured, logs will be written to a temporary folder and expire after a few hours. This setting persists across client restarts.
 
 Logs will be written to %1</source>
-        <translation>このオプションが有効になっていて、他のログが設定されていない場合、ログは一時フォルダに書き込まれ、数時間後に期限切れになります。 この設定はクライアントの再起動後も持続します。
+        <translation>このオプションが有効になっていて、他のログが設定されていない場合、ログは一時フォルダーに書き込まれ、数時間後に期限切れになります。 この設定はクライアントの再起動後も持続します。
 
-ログは％1に書き込まれます</translation>
+ログは %1 に書き込まれます</translation>
     </message>
     <message>
         <location filename="../src/gui/logbrowser.cpp" line="115"/>
@@ -2401,6 +2441,11 @@ Logs will be written to %1</source>
         <translation>トークン&apos;エンドポイントにアクセス中にエラーが発生しました： &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
+        <location filename="../src/gui/creds/oauth.cpp" line="117"/>
+        <source>There was an error accessing the &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/creds/oauth.cpp" line="121"/>
         <source>Empty JSON from OAuth2 redirect</source>
         <translation>OAuth2のリダイレクトのJSONが空</translation>
@@ -2423,7 +2468,7 @@ Logs will be written to %1</source>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="139"/>
         <source>&lt;h1&gt;Wrong user&lt;/h1&gt;&lt;p&gt;You logged-in with user &lt;em&gt;%1&lt;/em&gt;, but must login with user &lt;em&gt;%2&lt;/em&gt;.&lt;br&gt;Please log out of %3 in another tab, then &lt;a href=&apos;%4&apos;&gt;click here&lt;/a&gt; and log in as user %2&lt;/p&gt;</source>
-        <translation>&lt;h1&gt;間違ったユーザー&lt;/h1&gt;&lt;p&gt;ユーザー&lt;em&gt;％1&lt;/em&gt;でログインしましたが、ユーザー&lt;em&gt;％2&lt;/em&gt;でログインする必要があります。&lt;br&gt;別のタブで％3からログアウトしてから、&lt;a href=&apos;%4&apos;&gt;ここをクリック&lt;/a&gt;してユーザー％2&lt;/p&gt;としてログインしてください。</translation>
+        <translation>&lt;h1&gt;間違ったユーザー&lt;/h1&gt;&lt;p&gt;ユーザー&lt;em&gt;%1&lt;/em&gt;でログインしましたが、ユーザー&lt;em&gt;%2&lt;/em&gt;でログインする必要があります。&lt;br&gt;別のタブで%3からログアウトしてから、&lt;a href=&apos;%4&apos;&gt;ここをクリック&lt;/a&gt;してユーザー%2&lt;/p&gt;としてログインしてください。</translation>
     </message>
 </context>
 <context>
@@ -2472,7 +2517,7 @@ for additional privileges during the process.</source>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="152"/>
         <source>Could not download update. Please open %1 to download the update manually.</source>
-        <translation>アップデートをダウンロードできませんでした。更新を手動でダウンロードするには、％1 を開いてください。</translation>
+        <translation>アップデートをダウンロードできませんでした。更新を手動でダウンロードするには、%1 を開いてください。</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="154"/>
@@ -2482,7 +2527,7 @@ for additional privileges during the process.</source>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="156"/>
         <source>New %1 is available. Please open %2 to download the update.</source>
-        <translation>新しい ％1 が利用可能です。更新をダウンロードするには、％2 を開いてください。</translation>
+        <translation>新しい %1 が利用可能です。更新をダウンロードするには、%2 を開いてください。</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="158"/>
@@ -2535,12 +2580,17 @@ for additional privileges during the process.</source>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="88"/>
         <source>Use &amp;virtual files instead of downloading content immediately %1</source>
-        <translation>コンテンツをすぐにダウンロードする代わりに &amp;仮想ファイルを使用する ％1</translation>
+        <translation>コンテンツをすぐにダウンロードする代わりに &amp;仮想ファイルを使用する %1</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="88"/>
         <source>(experimental)</source>
         <translation>(試験的)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="232"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="252"/>
@@ -2592,7 +2642,7 @@ for additional privileges during the process.</source>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="527"/>
         <source>There isn&apos;t enough free space in the local folder!</source>
-        <translation>ローカルフォルダに十分な空き容量がありません。</translation>
+        <translation>ローカルフォルダーに十分な空き容量がありません。</translation>
     </message>
 </context>
 <context>
@@ -2705,7 +2755,7 @@ for additional privileges during the process.</source>
     <message>
         <location filename="../src/gui/wizard/owncloudsetuppage.cpp" line="96"/>
         <source>This is the link to your %1 web interface when you open it in the browser.&lt;br/&gt;It looks like https://cloud.example.com or https://example.com/cloud</source>
-        <translation>％1 のWeb画面をブラウザで開くときのURL&lt;br/&gt;https://cloud.example.com や https://example.com/cloud のようなものです</translation>
+        <translation>%1 のWeb画面をブラウザで開くときのURLです。&lt;br/&gt;https://cloud.example.com や https://example.com/cloud のようになります。</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudsetuppage.cpp" line="185"/>
@@ -2798,6 +2848,11 @@ It is not advisable to use it.</source>
         <translation>OK</translation>
     </message>
     <message>
+        <location filename="../src/gui/owncloudsetupwizard.cpp" line="453"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="455"/>
         <source>failed.</source>
         <translation>失敗。</translation>
@@ -2882,7 +2937,7 @@ It is not advisable to use it.</source>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="613"/>
         <source>Cannot remove and back up the folder because the folder or a file in it is open in another program. Please close the folder or file and hit retry or cancel the setup.</source>
-        <translation>フォルダまたはその中のファイルが別のプログラムで開かれているため、フォルダを削除およびバックアップできません。フォルダまたはファイルを閉じて、再試行を押すか、セットアップをキャンセルしてください。</translation>
+        <translation>フォルダーまたはその中のファイルが別のプログラムで開かれているため、フォルダーを削除およびバックアップできません。フォルダーまたはファイルを閉じて、再試行を押すか、セットアップをキャンセルしてください。</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="666"/>
@@ -2908,12 +2963,12 @@ It is not advisable to use it.</source>
         <translation>%1 接続ウィザード</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="401"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="404"/>
         <source>Enable experimental feature?</source>
         <translation>試験的な機能を有効化しますか?</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="402"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="405"/>
         <source>When the &quot;virtual files&quot; mode is enabled no files will be downloaded initially. Instead, a tiny &quot;%1&quot; file will be created for each file that exists on the server. The contents can be downloaded by running these files or by using their context menu.
 
 The virtual files mode is mutually exclusive with selective sync. Currently unselected folders will be translated to online-only folders and your selective sync settings will be reset.
@@ -2921,21 +2976,21 @@ The virtual files mode is mutually exclusive with selective sync. Currently unse
 Switching to this mode will abort any currently running synchronization.
 
 This is a new, experimental mode. If you decide to use it, please report any issues that come up.</source>
-        <translation>&quot;仮想ファイル&quot; モードを有効にした場合、最初にファイルがダウンロードされません。同期ダウンロードされる代わりに、サーバー上に存在するファイルごとにローカルに小さな ”％1&quot; ファイルが作成されます。これらのファイルを実行した時やコンテキストメニューを使用するとコンテンツをダウンロードできます。
+        <translation>&quot;仮想ファイル&quot; モードを有効にした場合、最初にファイルがダウンロードされません。同期ダウンロードされる代わりに、サーバー上に存在するファイルごとにローカルに小さな ”%1&quot; ファイルが作成されます。これらのファイルを実行した時やコンテキストメニューを使用するとコンテンツをダウンロードできます。
 
-仮想ファイルモードは、選択同期モードとどちらかの排他利用です。現在選択されていないフォルダはオンライン専用フォルダに変換され、選択同期モードの設定はリセットされます。
+仮想ファイルモードは、選択同期モードとどちらかの排他利用です。現在選択されていないフォルダーはオンライン専用フォルダに変換され、選択同期モードの設定はリセットされます。
 
 このモードに切り替えると、現在実行中の同期は中止されます。
 
 これは新しい機能で、実験モードです。使用していて問題があったら報告をおねがいします。</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="416"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="419"/>
         <source>Enable experimental placeholder mode</source>
         <translation>試験的なプレースホルダーモードを有効にする</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="417"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="420"/>
         <source>Stay safe</source>
         <translation>セキュリティーを確保</translation>
     </message>
@@ -3066,12 +3121,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1257"/>
         <source>Not allowed because you don&apos;t have permission to add subfolders to that folder</source>
-        <translation>そのフォルダにサブフォルダを追加する権限がありません</translation>
+        <translation>そのフォルダーにサブフォルダーを追加する権限がありません</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1262"/>
         <source>Not allowed because you don&apos;t have permission to add files in that folder</source>
-        <translation>そのフォルダにファイルを追加する権限がありません</translation>
+        <translation>そのフォルダーにファイルを追加する権限がありません</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1275"/>
@@ -3121,52 +3176,52 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="418"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1012"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1029"/>
         <source>File has changed since discovery</source>
         <translation>ファイルは発見以降に変更されました</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="530"/>
         <source>File %1 can not be downloaded because of a local file name clash!</source>
         <translation>ファイル %1 はローカルファイル名が衝突しているためダウンロードできません！</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="444"/>
         <source>File %1 cannot be downloaded because of a local file name clash!</source>
         <translation>ローカルファイル名が競合しているため、ファイル %1 をダウンロードできませんでした</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="565"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="582"/>
         <source>The download would reduce free local disk space below the limit</source>
         <translation>ダウンロードすることによりローカルディスクの空き容量が制限を下回ります。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="569"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="586"/>
         <source>Free space on disk is less than %1</source>
         <translation>ディスク空き容量が %1 よりも少なくなっています</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="692"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="709"/>
         <source>File was deleted from server</source>
         <translation>ファイルはサーバーから削除されました</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="759"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="776"/>
         <source>The file could not be downloaded completely.</source>
         <translation>このファイルのダウンロードは完了しませんでした</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="766"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="783"/>
         <source>The downloaded file is empty despite that the server announced it should have been %1.</source>
         <translation>サーバーが通知しているファイルは %1 であるべきですが、ダウンロードファイルは空でした。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="957"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="974"/>
         <source>File %1 cannot be saved because of a local file name clash!</source>
         <translation>%1 はローカルファイル名が衝突しているため保存できません！</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1077"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1094"/>
         <source>Error writing metadata to the database</source>
         <translation>メタデータのデータベースへの書き込みに失敗</translation>
     </message>
@@ -3195,6 +3250,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
         <source>Attention, possible case sensitivity clash with %1</source>
         <translation>注意: %1 で大文字小文字が競合している可能性</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
+        <source>Could not create folder %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
@@ -3338,7 +3398,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/libsync/propagateupload.cpp" line="420"/>
         <source>Failed to unlock encrypted folder.</source>
-        <translation>暗号化されたフォルダの解除に失敗しました。</translation>
+        <translation>暗号化されたフォルダーの解除に失敗しました。</translation>
     </message>
     <message>
         <location filename="../src/libsync/propagateupload.cpp" line="769"/>
@@ -3592,7 +3652,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="146"/>
         <source>Note</source>
-        <translation type="unfinished"/>
+        <translation>ノート</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="171"/>
@@ -3602,7 +3662,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
         <source>Set password</source>
-        <translation type="unfinished"/>
+        <translation>パスワードを設定</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="239"/>
@@ -3743,6 +3803,16 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>&apos;%1&apos; は見つかりませんでした</translation>
     </message>
     <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="391"/>
+        <source>Password for share required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="392"/>
+        <source>Please enter a password for your email share:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="386"/>
         <source>I shared something with you</source>
         <translation>私はあなたと何かを共有しました</translation>
@@ -3761,18 +3831,22 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>編集を許可</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="122"/>
+        <location filename="../src/gui/shareuserline.ui" line="97"/>
+        <source>Can edit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/shareuserline.ui" line="131"/>
         <source>Note:</source>
         <translation>メモ:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="148"/>
-        <location filename="../src/gui/shareuserline.ui" line="192"/>
-        <source>…</source>
-        <translation>…</translation>
+        <location filename="../src/gui/shareuserline.ui" line="187"/>
+        <source>Password:</source>
+        <translation>パスワード：</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="172"/>
+        <location filename="../src/gui/shareuserline.ui" line="259"/>
         <source>Expires:</source>
         <translation>有効期限:</translation>
     </message>
@@ -3782,12 +3856,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>再共有可能</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="466"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="528"/>
         <source>Note to recipient</source>
         <translation>受信者へのメモ</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="476"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="542"/>
         <source>Set expiration date</source>
         <translation>有効期限を設定</translation>
     </message>
@@ -3810,6 +3884,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/shareusergroupwidget.cpp" line="471"/>
         <source>Can delete</source>
         <translation>削除可能</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="588"/>
+        <source>Password protect</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4041,7 +4120,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/sslbutton.cpp" line="205"/>
         <source>No support for SSL session tickets/identifiers</source>
-        <translation>SSLセッションチケット/識別子は対応していません</translation>
+        <translation>SSLセッションチケット/識別子に対応していません</translation>
     </message>
     <message>
         <location filename="../src/gui/sslbutton.cpp" line="215"/>
@@ -4177,7 +4256,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="147"/>
         <source>No space on %1 server available.</source>
-        <translation>％1サーバーに空きスペースがありません。</translation>
+        <translation>%1サーバーに空きスペースがありません。</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="150"/>
@@ -4343,14 +4422,14 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>ファイル名が長すぎます</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="514"/>
-        <source>Using virtual files with suffix, but suffix is not set</source>
-        <translation>サフィックス付きの仮想ファイルを使用していますが、サフィックスが設定されていません</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="521"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation>隠しファイル/フォルダーのため無視されました</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="514"/>
+        <source>Using virtual files with suffix, but suffix is not set</source>
+        <translation>サフィックス付きの仮想ファイルを使用していますが、サフィックスが設定されていません</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="524"/>
@@ -4405,7 +4484,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="1077"/>
         <source>Aborted</source>
-        <translation>中止した</translation>
+        <translation>中断しました</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="1094"/>
@@ -4483,6 +4562,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>&lt;p&gt;バージョン %1. 詳細な情報は&lt;a href=&apos;%2&apos;&gt;ここ&lt;/a&gt;をクリックしてください。&lt;/p&gt;</translation>
     </message>
     <message>
+        <location filename="../src/libsync/theme.cpp" line="469"/>
+        <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/libsync/theme.cpp" line="482"/>
         <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
         <translation>&lt;p&gt;このリリースは%1によって提供されました&lt;/p&gt;</translation>
@@ -4498,27 +4582,27 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/tray/UserModel.cpp" line="480"/>
         <source>Synced %1</source>
-        <translation>「%1」を同期しました</translation>
+        <translation>%1 を同期しました</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserModel.cpp" line="482"/>
         <source>You renamed %1</source>
-        <translation>あなたは「%1」の名前を変更しました</translation>
+        <translation>%1 の名前を変更しました</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserModel.cpp" line="484"/>
         <source>You deleted %1</source>
-        <translation>あなたは「%1$s」を削除しました</translation>
+        <translation>%1 を削除しました</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserModel.cpp" line="486"/>
         <source>You created %1</source>
-        <translation>あなたは「%1$s」を作成しました</translation>
+        <translation>%1 を作成しました</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserModel.cpp" line="488"/>
         <source>You changed %1</source>
-        <translation>あなたは「%1$s」を変更しました</translation>
+        <translation>%1 を変更しました</translation>
     </message>
 </context>
 <context>
@@ -4545,34 +4629,24 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
 </context>
 <context>
-    <name>OCC::UserStatus</name>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="55"/>
-        <source>Away</source>
-        <translation>離席中</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="57"/>
-        <source>Do not disturb</source>
-        <translation>邪魔しないでください</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="60"/>
-        <source>Offline</source>
-        <translation>オフライン</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="62"/>
-        <source>Online</source>
-        <translation>オンライン</translation>
-    </message>
-</context>
-<context>
     <name>OCC::Vfs</name>
     <message>
         <location filename="../src/common/vfs.cpp" line="82"/>
         <source>The Virtual filesystem feature requires a NTFS file system, %1 is using %2</source>
         <translation>ヴァーチャルファイルシステム機能にはNTFSファイルシステムが必要です。%1 は %2 を使用しています。</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::VfsCfApi</name>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="314"/>
+        <source>Download of End-to-End encrypted file failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="315"/>
+        <source>It seems that you are trying to download a virtual file that is End-to-End encrypted. Implicitly downloading such files is not supported at the moment. To workaround this issue, go to the settings and mark the encrypted folder with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4585,7 +4659,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/wizard/webview.cpp" line="204"/>
         <source>The host &quot;%1&quot; provided an invalid certificate. Continue?</source>
-        <translation>ホスト &quot;％1&quot;によって無効な証明書が提供されました。 続けますか？</translation>
+        <translation>ホスト &quot;%1&quot;によって無効な証明書が提供されました。 続けますか？</translation>
     </message>
 </context>
 <context>
@@ -4986,7 +5060,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="733"/>
         <source>Erase local folder and start a clean sync</source>
-        <translation>ローカルフォルダを消去して、クリーン同期を開始します</translation>
+        <translation>ローカルフォルダーを消去して、クリーン同期を開始します</translation>
     </message>
 </context>
 <context>
@@ -5051,17 +5125,17 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/wizard/owncloudsetupnocredspage.ui" line="245"/>
         <source>This is the link to your %1 web interface when you open it in the browser.&lt;br/&gt;It looks like https://cloud.example.com or https://example.com/cloud</source>
-        <translation>これは、％1 のWeb画面をブラウザで開くときのURLです。&lt;br/&gt;https://cloud.example.com や https://example.com/cloud のようなものです</translation>
+        <translation>%1 のWeb画面をブラウザで開くときのURLです。&lt;br/&gt;https://cloud.example.com や https://example.com/cloud のようになります。</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudsetupnocredspage.ui" line="259"/>
         <source>This is the link to your %1 web interface when you open it in the browser.</source>
-        <translation>これは、％1 のWeb画面をブラウザで開くときのURLです。</translation>
+        <translation>これは、%1 のWeb画面をブラウザで開くときのURLです。</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudsetupnocredspage.ui" line="343"/>
         <source>Register with a provider</source>
-        <translation>プロバイダに登録する</translation>
+        <translation>プロバイダーに登録する</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudsetupnocredspage.ui" line="359"/>
@@ -5093,6 +5167,26 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/foldercreationdialog.cpp" line="41"/>
         <source>New folder</source>
         <translation>新しいフォルダー</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="53"/>
+        <source>Away</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Do not disturb</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="58"/>
+        <source>Offline</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Online</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="471"/>
@@ -5164,16 +5258,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>アカウントに変更</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is online</source>
-        <translation>現在のユーザーステータスはオンラインです</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is do not disturb</source>
-        <translation>現在のユーザーステータスは取り込み中です</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account connected</source>
         <translation>アカウント接続済</translation>
@@ -5182,6 +5266,16 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account not connected</source>
         <translation>アカウントは接続していません</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is online</source>
+        <translation>現在のユーザーステータスはオンラインです</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is do not disturb</source>
+        <translation>現在のユーザーステータスは取り込み中です</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="140"/>
@@ -5370,7 +5464,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/tray/Window.qml" line="447"/>
         <source>Open local folder of current account</source>
-        <translation>現在のアカウントのローカルフォルダを開く</translation>
+        <translation>現在のアカウントのローカルフォルダーを開く</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="458"/>
@@ -5430,6 +5524,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/main.cpp" line="45"/>
         <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &apos;trayer&apos; and try again.</source>
         <translation>%1は動作しているシステムトレイで必要とします。XFCEを動作させている場合、&lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;これらのインストラクション&lt;/a&gt;を追ってください。でなければ、「トレイヤー」のようなシステムトレイアプリケーションをインストールして、再度お試しください。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main.cpp" line="45"/>
+        <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &quot;trayer&quot; and try again.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5762,6 +5861,29 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/creds/webflowcredentialsdialog.cpp" line="34"/>
         <source>Log in</source>
         <translation>ログイン</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::UserStatus</name>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Away</source>
+        <translation>離席中</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="57"/>
+        <source>Do not disturb</source>
+        <translation>取り込み中</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Offline</source>
+        <translation>オフライン</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="62"/>
+        <source>Online</source>
+        <translation>オンライン</translation>
     </message>
 </context>
 </TS>

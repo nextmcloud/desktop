@@ -284,6 +284,26 @@
         <translation>Aplicar alterações manuais</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="84"/>
+        <source>End-to-End Encryption with Virtual Files</source>
+        <translation>Criptografia Ponta a Ponta com Arquivos Virtuais </translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="85"/>
+        <source>You seem to have the Virtual Files feature enabled on this folder. At  the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
+        <translation>Parece que o recurso Arquivos Virtuais está ativado nesta pasta. No momento, não é possível baixar implicitamente arquivos virtuais criptografados de ponta a ponta. Para obter a melhor experiência com arquivos virtuais e criptografia de ponta a ponta, certifique-se de que a pasta criptografada esteja marcada com &quot;Tornar sempre disponível localmente&quot;. </translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="93"/>
+        <source>Don&apos;t encrypt folder</source>
+        <translation>Não criptografar pasta </translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="94"/>
+        <source>Encrypt folder</source>
+        <translation>Criptografar pasta </translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="208"/>
         <location filename="../src/gui/accountsettings.cpp" line="229"/>
         <source>This account supports end-to-end encryption</source>
@@ -316,24 +336,24 @@
         <translation>Remover</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="231"/>
-        <source>Enable encryption</source>
-        <translation>Ativar criptografia</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="232"/>
         <source>Account</source>
         <translation>Conta</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="245"/>
-        <source>Warning</source>
-        <translation>Aviso</translation>
+        <location filename="../src/gui/accountsettings.cpp" line="231"/>
+        <source>Enable encryption</source>
+        <translation>Ativar criptografia</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="261"/>
         <source>Show E2E mnemonic</source>
         <translation>Exibir mnemônico E2E</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="245"/>
+        <source>Warning</source>
+        <translation>Aviso</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="304"/>
@@ -670,6 +690,11 @@ Esta ação irá cancelar qualquer sincronização atualmente em execução.</tr
     </message>
     <message>
         <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
+        <source>Certificate &amp; Key (pkcs12):</source>
+        <translation>Certificado &amp; Chave (pkcs12):</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
         <source>Certificate &amp; Key (pkcs12) :</source>
         <translation>Chave &amp; Certificado (pkcs12) :</translation>
     </message>
@@ -919,6 +944,11 @@ Esta ação irá cancelar qualquer sincronização atualmente em execução.</tr
         <location filename="../src/gui/connectionvalidator.cpp" line="147"/>
         <source>Authentication error: Either username or password are wrong.</source>
         <translation>Erro de autenticação. Nome de usuário ou senha errados.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
+        <source>Timeout</source>
+        <translation>Venceu o tempo</translation>
     </message>
     <message>
         <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
@@ -1749,6 +1779,11 @@ Se isso foi um acidente e você decidir manter seus arquivos, eles serão sincro
         <translation>(experimental)</translation>
     </message>
     <message>
+        <location filename="../src/gui/folderwizard.cpp" line="545"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation>Arquivos virtuais não são suportados como partição raiz do Windows como pasta local. Escolha uma subpasta válida na letra da unidade. </translation>
+    </message>
+    <message>
         <location filename="../src/gui/folderwizard.cpp" line="548"/>
         <source>Virtual files are not available for the selected folder</source>
         <translation>Os arquivos virtuais não estão disponíveis para a pasta selecionada </translation>
@@ -2114,6 +2149,11 @@ Os itens em que a exclusão é permitida serão excluídos se impedirem a remoç
     </message>
     <message>
         <location filename="../src/gui/legalnotice.cpp" line="55"/>
+        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Direito autoral 2017-2021 Nextcloud GmbH&lt;br /&gt;Direito autoral 2012-2021 ownCloud GmbH&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/legalnotice.cpp" line="55"/>
         <source>&lt;p&gt;Copyright 2017-2020 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2018 ownCloud GmbH&lt;/p&gt;</source>
         <translation>&lt;p&gt;Copyright 2017-2020 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2018 ownCloud GmbH&lt;/p&gt;</translation>
     </message>
@@ -2403,6 +2443,11 @@ Logs serão gravados em %1</translation>
         <translation>Ocorreu um erro ao acessar o ponto final do token: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
+        <location filename="../src/gui/creds/oauth.cpp" line="117"/>
+        <source>There was an error accessing the &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
+        <translation>Ocorreu um erro ao acessar o &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
+    </message>
+    <message>
         <location filename="../src/gui/creds/oauth.cpp" line="121"/>
         <source>Empty JSON from OAuth2 redirect</source>
         <translation>JSON vazio do redirecionamento OAuth2 </translation>
@@ -2544,6 +2589,11 @@ pode solicitar por privilégios adicionais durante o processo.</translation>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="88"/>
         <source>(experimental)</source>
         <translation>(experimental)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="232"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation>Arquivos virtuais não são suportados como partição raiz do Windows como pasta local. Escolha uma subpasta válida na letra da unidade. </translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="252"/>
@@ -2801,6 +2851,11 @@ Não é aconselhado usá-la.</translation>
         <translation>ok</translation>
     </message>
     <message>
+        <location filename="../src/gui/owncloudsetupwizard.cpp" line="453"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="455"/>
         <source>failed.</source>
         <translation>falhou.</translation>
@@ -2911,12 +2966,12 @@ Não é aconselhado usá-la.</translation>
         <translation>Assistente de Conexão %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="401"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="404"/>
         <source>Enable experimental feature?</source>
         <translation>Ativar recurso experimental? </translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="402"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="405"/>
         <source>When the &quot;virtual files&quot; mode is enabled no files will be downloaded initially. Instead, a tiny &quot;%1&quot; file will be created for each file that exists on the server. The contents can be downloaded by running these files or by using their context menu.
 
 The virtual files mode is mutually exclusive with selective sync. Currently unselected folders will be translated to online-only folders and your selective sync settings will be reset.
@@ -2934,12 +2989,12 @@ Mudar para este modo abortará qualquer sincronização em execução.
 Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer problemas que surgirem. </translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="416"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="419"/>
         <source>Enable experimental placeholder mode</source>
         <translation>Ativar modo de marcador de posição experimental </translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="417"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="420"/>
         <source>Stay safe</source>
         <translation>Fique seguro </translation>
     </message>
@@ -3125,52 +3180,52 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="418"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1012"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1029"/>
         <source>File has changed since discovery</source>
         <translation>O arquivo foi alterado desde a descoberta</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="530"/>
         <source>File %1 can not be downloaded because of a local file name clash!</source>
         <translation>O arquivo %1 não pode ser baixado devido a um conflito local no nome do arquivo!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="444"/>
         <source>File %1 cannot be downloaded because of a local file name clash!</source>
         <translation>O arquivo %1 não pode ser baixado devido a um conflito local no nome do arquivo!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="565"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="582"/>
         <source>The download would reduce free local disk space below the limit</source>
         <translation>O download reduziria o espaço livre no disco local abaixo do limite</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="569"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="586"/>
         <source>Free space on disk is less than %1</source>
         <translation>O espaço livre no disco é inferior a %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="692"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="709"/>
         <source>File was deleted from server</source>
         <translation>O arquivo foi excluído do servidor</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="759"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="776"/>
         <source>The file could not be downloaded completely.</source>
         <translation>O arquivo não pôde ser baixado completamente.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="766"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="783"/>
         <source>The downloaded file is empty despite that the server announced it should have been %1.</source>
         <translation>O arquivo baixado está vazio apesar do servidor ter anunciado que ele deveria ter %1.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="957"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="974"/>
         <source>File %1 cannot be saved because of a local file name clash!</source>
         <translation>O arquivo %1 não pôde ser salvo devido a um conflito com um nome de arquivo local!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1077"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1094"/>
         <source>Error writing metadata to the database</source>
         <translation>Ocorreu um erro ao escrever metadados no banco de dados</translation>
     </message>
@@ -3199,6 +3254,11 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
         <source>Attention, possible case sensitivity clash with %1</source>
         <translation>Atenção, possível caso de conflito de minúscula/maiúscula com %1</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
+        <source>Could not create folder %1</source>
+        <translation>Não foi possível criar a pasta %1</translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
@@ -3596,7 +3656,7 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="146"/>
         <source>Note</source>
-        <translation type="unfinished"/>
+        <translation>Nota</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="171"/>
@@ -3606,7 +3666,7 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
         <source>Set password</source>
-        <translation type="unfinished"/>
+        <translation>Definir senha</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="239"/>
@@ -3621,7 +3681,7 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="294"/>
         <source>Expires</source>
-        <translation type="unfinished"/>
+        <translation>Expira</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="150"/>
@@ -3747,6 +3807,16 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <translation>Sem resultados para &apos;%1&apos;</translation>
     </message>
     <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="391"/>
+        <source>Password for share required</source>
+        <translation>É necessária uma senha de compartilhamento</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="392"/>
+        <source>Please enter a password for your email share:</source>
+        <translation>Digite uma senha para seu compartilhamento por e-mail:</translation>
+    </message>
+    <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="386"/>
         <source>I shared something with you</source>
         <translation>Eu compartilhei algo com você</translation>
@@ -3765,18 +3835,22 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <translation>pode editar</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="122"/>
+        <location filename="../src/gui/shareuserline.ui" line="97"/>
+        <source>Can edit</source>
+        <translation>Pode editar</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareuserline.ui" line="131"/>
         <source>Note:</source>
         <translation>Nota:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="148"/>
-        <location filename="../src/gui/shareuserline.ui" line="192"/>
-        <source>…</source>
-        <translation>…</translation>
+        <location filename="../src/gui/shareuserline.ui" line="187"/>
+        <source>Password:</source>
+        <translation>Senha:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="172"/>
+        <location filename="../src/gui/shareuserline.ui" line="259"/>
         <source>Expires:</source>
         <translation>Expira em:</translation>
     </message>
@@ -3786,12 +3860,12 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <translation>Pode recompartilhar</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="466"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="528"/>
         <source>Note to recipient</source>
         <translation>Nota para o destinatário</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="476"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="542"/>
         <source>Set expiration date</source>
         <translation>Definir data de validade </translation>
     </message>
@@ -3814,6 +3888,11 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <location filename="../src/gui/shareusergroupwidget.cpp" line="471"/>
         <source>Can delete</source>
         <translation>Pode excluir</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="588"/>
+        <source>Password protect</source>
+        <translation>Proteger com senha</translation>
     </message>
 </context>
 <context>
@@ -4347,14 +4426,14 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <translation>O nome do arquivo é muito longo.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="514"/>
-        <source>Using virtual files with suffix, but suffix is not set</source>
-        <translation>Usando arquivos virtuais com sufixo, mas o sufixo não está definido </translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="521"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation>Arquivo/Pasta ignorado porque está oculto.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="514"/>
+        <source>Using virtual files with suffix, but suffix is not set</source>
+        <translation>Usando arquivos virtuais com sufixo, mas o sufixo não está definido </translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="524"/>
@@ -4454,7 +4533,7 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
     <message>
         <location filename="../src/gui/systray.cpp" line="100"/>
         <source>Exit %1</source>
-        <translation>Sair %1</translation>
+        <translation>Sair do %1</translation>
     </message>
     <message>
         <location filename="../src/gui/systray.cpp" line="107"/>
@@ -4485,6 +4564,11 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <location filename="../src/libsync/theme.cpp" line="478"/>
         <source>&lt;p&gt;Version %1. For more information please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Versão %1. Para mais informações clique &lt;a href=&apos;%2&apos;&gt;aqui&lt;/a&gt;.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/theme.cpp" line="469"/>
+        <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;&lt;small&gt;Usando o plugin de arquivos virtuais:  %1&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="482"/>
@@ -4549,34 +4633,24 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
     </message>
 </context>
 <context>
-    <name>OCC::UserStatus</name>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="55"/>
-        <source>Away</source>
-        <translation>Fora do Escritório</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="57"/>
-        <source>Do not disturb</source>
-        <translation>Não Perturbe</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="60"/>
-        <source>Offline</source>
-        <translation>Desconectado</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="62"/>
-        <source>Online</source>
-        <translation>Conectado</translation>
-    </message>
-</context>
-<context>
     <name>OCC::Vfs</name>
     <message>
         <location filename="../src/common/vfs.cpp" line="82"/>
         <source>The Virtual filesystem feature requires a NTFS file system, %1 is using %2</source>
         <translation>O recurso de sistema de arquivos virtual requer um sistema de arquivos NTFS,  %1 está usando %2</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::VfsCfApi</name>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="314"/>
+        <source>Download of End-to-End encrypted file failed</source>
+        <translation>Falha ao baixar o arquivo criptografado de ponta a ponta </translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="315"/>
+        <source>It seems that you are trying to download a virtual file that is End-to-End encrypted. Implicitly downloading such files is not supported at the moment. To workaround this issue, go to the settings and mark the encrypted folder with &quot;Make always available locally&quot;.</source>
+        <translation>Parece que você está tentando baixar um arquivo virtual criptografado de ponta a ponta. Baixar implícito de tais arquivos não é suportado no momento. Para contornar esse problema, vá para as configurações e marque a pasta criptografada com &quot;Tornar sempre disponível localmente&quot;. </translation>
     </message>
 </context>
 <context>
@@ -5098,6 +5172,26 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <source>New folder</source>
         <translation>Nova pasta </translation>
     </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="53"/>
+        <source>Away</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Do not disturb</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="58"/>
+        <source>Offline</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Online</source>
+        <translation type="unfinished"/>
+    </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="471"/>
         <source>%n day ago</source>
@@ -5168,16 +5262,6 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <translation>Mudar para a conta</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is online</source>
-        <translation>Online é o status atual do usuário</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is do not disturb</source>
-        <translation>Não Perturbe é o status atual do usuário</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account connected</source>
         <translation>Conta conectada</translation>
@@ -5186,6 +5270,16 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account not connected</source>
         <translation>Conta não conectada</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is online</source>
+        <translation>Online é o status atual do usuário</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is do not disturb</source>
+        <translation>Não Perturbe é o status atual do usuário</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="140"/>
@@ -5434,6 +5528,11 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <location filename="../src/gui/main.cpp" line="45"/>
         <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &apos;trayer&apos; and try again.</source>
         <translation>%1 requer uma área de notificação em funcionamento. Se você estiver executando o XFCE, siga &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt; estas instruções&lt;/a&gt;. Caso contrário, instale um aplicativo de área de notificação, como o &apos;trayer&apos; e tente novamente.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main.cpp" line="45"/>
+        <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &quot;trayer&quot; and try again.</source>
+        <translation>%1 requer uma área de notificação em funcionamento. Se você estiver executando o XFCE, siga &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;estas instruções&lt;/a&gt;. Caso contrário, instale um aplicativo de área de notificação, como o &quot;trayer&quot; e tente novamente.</translation>
     </message>
 </context>
 <context>
@@ -5766,6 +5865,29 @@ Este é um novo modo experimental. Se você decidir usá-lo, relate quaisquer pr
         <location filename="../src/gui/creds/webflowcredentialsdialog.cpp" line="34"/>
         <source>Log in</source>
         <translation>Entrar</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::UserStatus</name>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Away</source>
+        <translation>Fora do Escritório</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="57"/>
+        <source>Do not disturb</source>
+        <translation>Não Perturbe</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Offline</source>
+        <translation>Desconectado</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="62"/>
+        <source>Online</source>
+        <translation>Conectado</translation>
     </message>
 </context>
 </TS>

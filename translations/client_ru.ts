@@ -284,6 +284,26 @@
         <translation>Применить ручные изменения</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="84"/>
+        <source>End-to-End Encryption with Virtual Files</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="85"/>
+        <source>You seem to have the Virtual Files feature enabled on this folder. At  the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="93"/>
+        <source>Don&apos;t encrypt folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="94"/>
+        <source>Encrypt folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="208"/>
         <location filename="../src/gui/accountsettings.cpp" line="229"/>
         <source>This account supports end-to-end encryption</source>
@@ -316,24 +336,24 @@
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="231"/>
-        <source>Enable encryption</source>
-        <translation>Включить шифрование</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="232"/>
         <source>Account</source>
         <translation>Учётная запись</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="245"/>
-        <source>Warning</source>
-        <translation>Предупреждение</translation>
+        <location filename="../src/gui/accountsettings.cpp" line="231"/>
+        <source>Enable encryption</source>
+        <translation>Включить шифрование</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="261"/>
         <source>Show E2E mnemonic</source>
         <translation>Показать мнемофразу E2E</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="245"/>
+        <source>Warning</source>
+        <translation>Предупреждение</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="304"/>
@@ -669,6 +689,11 @@ This action will abort any currently running synchronization.</source>
     </message>
     <message>
         <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
+        <source>Certificate &amp; Key (pkcs12):</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
         <source>Certificate &amp; Key (pkcs12) :</source>
         <translation>Сертификат и ключ (pkcs12)</translation>
     </message>
@@ -918,6 +943,11 @@ This action will abort any currently running synchronization.</source>
         <location filename="../src/gui/connectionvalidator.cpp" line="147"/>
         <source>Authentication error: Either username or password are wrong.</source>
         <translation>Ошибка авторизации: Имя пользователя или пароль не верны.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
+        <source>Timeout</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
@@ -1745,6 +1775,11 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>(экспериментальная функция)</translation>
     </message>
     <message>
+        <location filename="../src/gui/folderwizard.cpp" line="545"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/folderwizard.cpp" line="548"/>
         <source>Virtual files are not available for the selected folder</source>
         <translation>Использование виртуальные файлов недоступно для выбранной папки</translation>
@@ -2109,6 +2144,11 @@ Items where deletion is allowed will be deleted if they prevent a directory from
     </message>
     <message>
         <location filename="../src/gui/legalnotice.cpp" line="55"/>
+        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/legalnotice.cpp" line="55"/>
         <source>&lt;p&gt;Copyright 2017-2020 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2018 ownCloud GmbH&lt;/p&gt;</source>
         <translation>&lt;p&gt;© Nextcloud GmbH, 2017—2020&lt;br /&gt;© ownCloud GmbH, 2012—2018&lt;/p&gt;</translation>
     </message>
@@ -2399,6 +2439,11 @@ Logs will be written to %1</source>
         <translation>При доступе к конечной точке &apos;токена&apos; произошла ошибка: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
+        <location filename="../src/gui/creds/oauth.cpp" line="117"/>
+        <source>There was an error accessing the &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/creds/oauth.cpp" line="121"/>
         <source>Empty JSON from OAuth2 redirect</source>
         <translation>При перенаправлении с Oauth2 получен пустой ответ в формате JSON</translation>
@@ -2540,6 +2585,11 @@ for additional privileges during the process.</source>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="88"/>
         <source>(experimental)</source>
         <translation>(экспериментальная функция)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="232"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="252"/>
@@ -2798,6 +2848,11 @@ It is not advisable to use it.</source>
         <translation>OK</translation>
     </message>
     <message>
+        <location filename="../src/gui/owncloudsetupwizard.cpp" line="453"/>
+        <source>OK</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="455"/>
         <source>failed.</source>
         <translation>не удалось.</translation>
@@ -2908,12 +2963,12 @@ It is not advisable to use it.</source>
         <translation>Мастер подключения %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="401"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="404"/>
         <source>Enable experimental feature?</source>
         <translation>Использовать экспериментальную функцию?</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="402"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="405"/>
         <source>When the &quot;virtual files&quot; mode is enabled no files will be downloaded initially. Instead, a tiny &quot;%1&quot; file will be created for each file that exists on the server. The contents can be downloaded by running these files or by using their context menu.
 
 The virtual files mode is mutually exclusive with selective sync. Currently unselected folders will be translated to online-only folders and your selective sync settings will be reset.
@@ -2930,12 +2985,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 Так как эта функция является экспериментальной, сообщайте разработчикам об ошибках в её работе.</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="416"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="419"/>
         <source>Enable experimental placeholder mode</source>
         <translation>Использовать экспериментальную функцию подстановки</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="417"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="420"/>
         <source>Stay safe</source>
         <translation>Остаться в безопасности</translation>
     </message>
@@ -3121,52 +3176,52 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="418"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1012"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1029"/>
         <source>File has changed since discovery</source>
         <translation>После обнаружения файл был изменен</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="530"/>
         <source>File %1 can not be downloaded because of a local file name clash!</source>
         <translation>Файл «%1» не может быть загружен из-за локального конфликта имён.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="444"/>
         <source>File %1 cannot be downloaded because of a local file name clash!</source>
         <translation>Файл %1 не может быть загружен из-за локального конфликта имён.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="565"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="582"/>
         <source>The download would reduce free local disk space below the limit</source>
         <translation>Загрузка файлов с сервера уменьшит доступное пространство на локальном диске ниже допустимого предела</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="569"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="586"/>
         <source>Free space on disk is less than %1</source>
         <translation>Свободного места на диске меньше чем %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="692"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="709"/>
         <source>File was deleted from server</source>
         <translation>Файл удалён с сервера</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="759"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="776"/>
         <source>The file could not be downloaded completely.</source>
         <translation>Невозможно полностью загрузить файл.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="766"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="783"/>
         <source>The downloaded file is empty despite that the server announced it should have been %1.</source>
         <translation>Скачанный файл пуст, хотя сервер сообщил, что его размер должен составлять %1.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="957"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="974"/>
         <source>File %1 cannot be saved because of a local file name clash!</source>
         <translation>Файл «%1» не может быть сохранён по причине локального конфликта имён.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1077"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1094"/>
         <source>Error writing metadata to the database</source>
         <translation>Ошибка записи метаданных в базу данных</translation>
     </message>
@@ -3195,6 +3250,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
         <source>Attention, possible case sensitivity clash with %1</source>
         <translation>Внимание, возможен конфликт чувствительности к регистру имён с «%1»</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
+        <source>Could not create folder %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
@@ -3743,6 +3803,16 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Нет результатов для &apos;%1&apos;</translation>
     </message>
     <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="391"/>
+        <source>Password for share required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="392"/>
+        <source>Please enter a password for your email share:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="386"/>
         <source>I shared something with you</source>
         <translation>Я поделился с тобой</translation>
@@ -3761,18 +3831,22 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>разрешить редактировать</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="122"/>
+        <location filename="../src/gui/shareuserline.ui" line="97"/>
+        <source>Can edit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/shareuserline.ui" line="131"/>
         <source>Note:</source>
         <translation>Примечание:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="148"/>
-        <location filename="../src/gui/shareuserline.ui" line="192"/>
-        <source>…</source>
-        <translation>…</translation>
+        <location filename="../src/gui/shareuserline.ui" line="187"/>
+        <source>Password:</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="172"/>
+        <location filename="../src/gui/shareuserline.ui" line="259"/>
         <source>Expires:</source>
         <translation>Истекает:</translation>
     </message>
@@ -3782,12 +3856,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>разрешить делиться</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="466"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="528"/>
         <source>Note to recipient</source>
         <translation>Примечание для получателя</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="476"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="542"/>
         <source>Set expiration date</source>
         <translation>Установить срок действия</translation>
     </message>
@@ -3810,6 +3884,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/shareusergroupwidget.cpp" line="471"/>
         <source>Can delete</source>
         <translation>разрешить удалять</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="588"/>
+        <source>Password protect</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4343,14 +4422,14 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Имя файла слишком длинное.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="514"/>
-        <source>Using virtual files with suffix, but suffix is not set</source>
-        <translation>Для виртуальных файлов настроено использование специального суффикса, но суффикс не указан</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="521"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation>Файл или папка исключены из синхронизации, так как являются скрытыми.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="514"/>
+        <source>Using virtual files with suffix, but suffix is not set</source>
+        <translation>Для виртуальных файлов настроено использование специального суффикса, но суффикс не указан</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="524"/>
@@ -4483,6 +4562,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>&lt;p&gt;Версия %1. Для получения дополнительной информации нажмите &lt;a href=&apos;%2&apos;&gt;сюда&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
+        <location filename="../src/libsync/theme.cpp" line="469"/>
+        <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/libsync/theme.cpp" line="482"/>
         <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
         <translation>&lt;p&gt;Этот выпуск подготовлен %1&lt;/p&gt;</translation>
@@ -4545,34 +4629,24 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
 </context>
 <context>
-    <name>OCC::UserStatus</name>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="55"/>
-        <source>Away</source>
-        <translation>Отошёл</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="57"/>
-        <source>Do not disturb</source>
-        <translation>Не беспокоить</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="60"/>
-        <source>Offline</source>
-        <translation>Не в сети</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="62"/>
-        <source>Online</source>
-        <translation>В сети</translation>
-    </message>
-</context>
-<context>
     <name>OCC::Vfs</name>
     <message>
         <location filename="../src/common/vfs.cpp" line="82"/>
         <source>The Virtual filesystem feature requires a NTFS file system, %1 is using %2</source>
         <translation>Для использования виртуальной файловой системы требуется NTFS, %1 использует %2</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::VfsCfApi</name>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="314"/>
+        <source>Download of End-to-End encrypted file failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="315"/>
+        <source>It seems that you are trying to download a virtual file that is End-to-End encrypted. Implicitly downloading such files is not supported at the moment. To workaround this issue, go to the settings and mark the encrypted folder with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5095,6 +5169,26 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <source>New folder</source>
         <translation>Новая папка</translation>
     </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="53"/>
+        <source>Away</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Do not disturb</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="58"/>
+        <source>Offline</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Online</source>
+        <translation type="unfinished"/>
+    </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="471"/>
         <source>%n day ago</source>
@@ -5165,16 +5259,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Переключить учётную запись</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is online</source>
-        <translation>Текущий статус пользователя - в сети</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is do not disturb</source>
-        <translation>Текущий статус пользователя - не беспокоить</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account connected</source>
         <translation>Аккаунт подключен</translation>
@@ -5183,6 +5267,16 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account not connected</source>
         <translation>Учётная запись не подключена</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is online</source>
+        <translation>Текущий статус пользователя - в сети</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is do not disturb</source>
+        <translation>Текущий статус пользователя - не беспокоить</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="140"/>
@@ -5431,6 +5525,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/main.cpp" line="45"/>
         <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &apos;trayer&apos; and try again.</source>
         <translation>%1 требует работающей панели системных значков. Если вы используете XFCE, следуйте &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;этим инструкциям&lt;/a&gt;. В противном случае, установите приложение панели системных значков, например, &apos;trayer&apos;, и попробуйте ещё раз.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main.cpp" line="45"/>
+        <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &quot;trayer&quot; and try again.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5763,6 +5862,29 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/creds/webflowcredentialsdialog.cpp" line="34"/>
         <source>Log in</source>
         <translation>Вход в систему</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::UserStatus</name>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Away</source>
+        <translation>Отошёл</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="57"/>
+        <source>Do not disturb</source>
+        <translation>Не беспокоить</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Offline</source>
+        <translation>Не в сети</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="62"/>
+        <source>Online</source>
+        <translation>В сети</translation>
     </message>
 </context>
 </TS>

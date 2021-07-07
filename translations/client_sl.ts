@@ -284,6 +284,26 @@
         <translation>Uveljavi ročno narejene spremembe</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="84"/>
+        <source>End-to-End Encryption with Virtual Files</source>
+        <translation>Celovito šifriranje E2E za navidezne datoteke</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="85"/>
+        <source>You seem to have the Virtual Files feature enabled on this folder. At  the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="93"/>
+        <source>Don&apos;t encrypt folder</source>
+        <translation>Ne šifriraj mape</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="94"/>
+        <source>Encrypt folder</source>
+        <translation>Šifriraj mapo</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="208"/>
         <location filename="../src/gui/accountsettings.cpp" line="229"/>
         <source>This account supports end-to-end encryption</source>
@@ -316,24 +336,24 @@
         <translation>Odstrani račun</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="231"/>
-        <source>Enable encryption</source>
-        <translation>Omogoči šifriranje</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="232"/>
         <source>Account</source>
         <translation>Račun</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="245"/>
-        <source>Warning</source>
-        <translation>Opozorilo</translation>
+        <location filename="../src/gui/accountsettings.cpp" line="231"/>
+        <source>Enable encryption</source>
+        <translation>Omogoči šifriranje</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="261"/>
         <source>Show E2E mnemonic</source>
         <translation>Pokaži mnemoniko E2E</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="245"/>
+        <source>Warning</source>
+        <translation>Opozorilo</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="304"/>
@@ -670,6 +690,11 @@ S tem dejanjem prav tako prekinete vsa trenutna usklajevanja v izvajanju.</trans
     </message>
     <message>
         <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
+        <source>Certificate &amp; Key (pkcs12):</source>
+        <translation>Potrdilo in ključ (pkcs12):</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
         <source>Certificate &amp; Key (pkcs12) :</source>
         <translation>Potrdilo in ključ (pkcs12) :</translation>
     </message>
@@ -919,6 +944,11 @@ S tem dejanjem prav tako prekinete vsa trenutna usklajevanja v izvajanju.</trans
         <location filename="../src/gui/connectionvalidator.cpp" line="147"/>
         <source>Authentication error: Either username or password are wrong.</source>
         <translation>Napaka overitve: uporabniško ime ali geslo je napačno.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
+        <source>Timeout</source>
+        <translation>Časovni zamik</translation>
     </message>
     <message>
         <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
@@ -1749,6 +1779,11 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>(preizkusno)</translation>
     </message>
     <message>
+        <location filename="../src/gui/folderwizard.cpp" line="545"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation>Kot krajevne datoteke na ravni korenske mape v okolju Windows navidezne datoteke niso podprte. Izbrati je treba ustrezno podrejeno mapo na črkovnem pogonu.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/folderwizard.cpp" line="548"/>
         <source>Virtual files are not available for the selected folder</source>
         <translation>Navidezne datoteke niso na voljo za izbrano mapo</translation>
@@ -2114,6 +2149,11 @@ Predmeti v mapah, ki jih je dovoljeno izbrisati, bodo odstranjeni, če prepreču
     </message>
     <message>
         <location filename="../src/gui/legalnotice.cpp" line="55"/>
+        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Avtorske pravice 2017–2021 Nextcloud GmbH&lt;br /&gt;Avtorske pravice 2012–2021 ownCloud GmbH&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/legalnotice.cpp" line="55"/>
         <source>&lt;p&gt;Copyright 2017-2020 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2018 ownCloud GmbH&lt;/p&gt;</source>
         <translation>&lt;/p&gt;Avtorske pravice 2017–2020 Nextcloud GmbH&lt;br /&gt;Avtorske pravice 2012–2018 ownCloud GmbH&lt;/p&gt;</translation>
     </message>
@@ -2402,6 +2442,11 @@ Logs will be written to %1</source>
         <translation>Prišlo je do napake med dostopom do končne točke: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
+        <location filename="../src/gui/creds/oauth.cpp" line="117"/>
+        <source>There was an error accessing the &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/creds/oauth.cpp" line="121"/>
         <source>Empty JSON from OAuth2 redirect</source>
         <translation>Preusmeritev OAuth2 prek prazne vsebine JSON</translation>
@@ -2543,6 +2588,11 @@ zahteva skrbniška dovoljenja za dokončanje opravila.</translation>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="88"/>
         <source>(experimental)</source>
         <translation>(preizkusno)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="232"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation>Kot krajevne datoteke na ravni korenske mape v okolju Windows navidezne datoteke niso podprte. Izbrati je treba ustrezno podrejeno mapo na črkovnem pogonu.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="252"/>
@@ -2800,6 +2850,11 @@ Uporaba možnosti ni priporočljiva.</translation>
         <translation>je v redu</translation>
     </message>
     <message>
+        <location filename="../src/gui/owncloudsetupwizard.cpp" line="453"/>
+        <source>OK</source>
+        <translation>V redu</translation>
+    </message>
+    <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="455"/>
         <source>failed.</source>
         <translation>je spodletelo.</translation>
@@ -2910,12 +2965,12 @@ Uporaba možnosti ni priporočljiva.</translation>
         <translation>Čarovnik za povezavo %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="401"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="404"/>
         <source>Enable experimental feature?</source>
         <translation>Ali želite omogočiti preizkusne možnosti?</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="402"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="405"/>
         <source>When the &quot;virtual files&quot; mode is enabled no files will be downloaded initially. Instead, a tiny &quot;%1&quot; file will be created for each file that exists on the server. The contents can be downloaded by running these files or by using their context menu.
 
 The virtual files mode is mutually exclusive with selective sync. Currently unselected folders will be translated to online-only folders and your selective sync settings will be reset.
@@ -2932,12 +2987,12 @@ Preklop v ta način prekine vsa trenutno dejavna usklajevanja.
 To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o težavah, na katere naletite.</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="416"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="419"/>
         <source>Enable experimental placeholder mode</source>
         <translation>Omogoči preizkusni način vsebnikov</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="417"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="420"/>
         <source>Stay safe</source>
         <translation>Ostanite varni</translation>
     </message>
@@ -3123,52 +3178,52 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="418"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1012"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1029"/>
         <source>File has changed since discovery</source>
         <translation>Datoteka je bila spremenjena po usklajevanju seznama datotek</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="530"/>
         <source>File %1 can not be downloaded because of a local file name clash!</source>
         <translation>Datoteke %1 ni mogoče prejeti zaradi neskladja z imenom krajevne datoteke!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="444"/>
         <source>File %1 cannot be downloaded because of a local file name clash!</source>
         <translation>Datoteke %1 ni mogoče prejeti zaradi neskladja z imenom krajevne datoteke!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="565"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="582"/>
         <source>The download would reduce free local disk space below the limit</source>
         <translation>Prejem predmetov bi zmanjšal prostor na krajevnem disku pod določeno omejitev.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="569"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="586"/>
         <source>Free space on disk is less than %1</source>
         <translation>Na disku je prostora manj kot %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="692"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="709"/>
         <source>File was deleted from server</source>
         <translation>Datoteka je izbrisana s strežnika</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="759"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="776"/>
         <source>The file could not be downloaded completely.</source>
         <translation>Datoteke ni mogoče prejeti v celoti.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="766"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="783"/>
         <source>The downloaded file is empty despite that the server announced it should have been %1.</source>
         <translation>Prejeta datoteka je prazna, čeprav je s strešnika javljena velikost %1.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="957"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="974"/>
         <source>File %1 cannot be saved because of a local file name clash!</source>
         <translation>Datoteke %1 ni mogoče shraniti zaradi neskladja z imenom obstoječe datoteke!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1077"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1094"/>
         <source>Error writing metadata to the database</source>
         <translation>Napaka zapisovanja metapodatkov v podatkovno zbirko</translation>
     </message>
@@ -3197,6 +3252,11 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
         <source>Attention, possible case sensitivity clash with %1</source>
         <translation>Pozor! Mogoče je neskladje v velikosti črk imena %1</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
+        <source>Could not create folder %1</source>
+        <translation>Ni mogoče ustvariti mape %1</translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
@@ -3594,7 +3654,7 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="146"/>
         <source>Note</source>
-        <translation type="unfinished"/>
+        <translation>Opomba</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="171"/>
@@ -3604,7 +3664,7 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
         <source>Set password</source>
-        <translation type="unfinished"/>
+        <translation>Nastavi geslo</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="239"/>
@@ -3619,7 +3679,7 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="294"/>
         <source>Expires</source>
-        <translation type="unfinished"/>
+        <translation>Poteče</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="150"/>
@@ -3745,6 +3805,16 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <translation>Za iskalni niz »%1« ni zadetkov</translation>
     </message>
     <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="391"/>
+        <source>Password for share required</source>
+        <translation>Zahtevano je geslo za mesto souporabe</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="392"/>
+        <source>Please enter a password for your email share:</source>
+        <translation>Vpisati je treba geslo za mesto souporabe prek elektronske pošte:</translation>
+    </message>
+    <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="386"/>
         <source>I shared something with you</source>
         <translation>Nekaj vam dajem v souporabo</translation>
@@ -3763,18 +3833,22 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <translation>lahko ureja</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="122"/>
+        <location filename="../src/gui/shareuserline.ui" line="97"/>
+        <source>Can edit</source>
+        <translation>Lahko ureja</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareuserline.ui" line="131"/>
         <source>Note:</source>
         <translation>Opomba:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="148"/>
-        <location filename="../src/gui/shareuserline.ui" line="192"/>
-        <source>…</source>
-        <translation type="unfinished"/>
+        <location filename="../src/gui/shareuserline.ui" line="187"/>
+        <source>Password:</source>
+        <translation>Geslo:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="172"/>
+        <location filename="../src/gui/shareuserline.ui" line="259"/>
         <source>Expires:</source>
         <translation>Poteče:</translation>
     </message>
@@ -3784,12 +3858,12 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <translation>Lahko omogoči souporabo</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="466"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="528"/>
         <source>Note to recipient</source>
         <translation>Sporočilo za prejemnika</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="476"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="542"/>
         <source>Set expiration date</source>
         <translation>Nastavi datum preteka</translation>
     </message>
@@ -3812,6 +3886,11 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <location filename="../src/gui/shareusergroupwidget.cpp" line="471"/>
         <source>Can delete</source>
         <translation>Lahko izbriše</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="588"/>
+        <source>Password protect</source>
+        <translation>Zaščiti z geslom</translation>
     </message>
 </context>
 <context>
@@ -4345,14 +4424,14 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <translation>Ime datoteke je predolgo.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="514"/>
-        <source>Using virtual files with suffix, but suffix is not set</source>
-        <translation>V uporabi so navidezne datoteke s pripono, a ta ni nastavljena.</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="521"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation>Datoteka/Mapa ni usklajevana, ker je skrita.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="514"/>
+        <source>Using virtual files with suffix, but suffix is not set</source>
+        <translation>V uporabi so navidezne datoteke s pripono, a ta ni nastavljena.</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="524"/>
@@ -4485,6 +4564,11 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <translation>&lt;p&gt;Nameščena je različica %1. Več podrobnosti je zabeleženih v &lt;a href=&apos;%2&apos;&gt;priročniku Nextcloud&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
+        <location filename="../src/libsync/theme.cpp" line="469"/>
+        <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;&lt;small&gt;Uporablja vstavek navideznih datotek: %1&lt;/small&gt;&lt;/p&gt;</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/theme.cpp" line="482"/>
         <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
         <translation>&lt;p&gt;Objavo je omogočila skupina %1&lt;/p&gt;</translation>
@@ -4547,34 +4631,24 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
     </message>
 </context>
 <context>
-    <name>OCC::UserStatus</name>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="55"/>
-        <source>Away</source>
-        <translation>Ne spremljam</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="57"/>
-        <source>Do not disturb</source>
-        <translation>Ne moti</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="60"/>
-        <source>Offline</source>
-        <translation>Začasno brez povezave</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="62"/>
-        <source>Online</source>
-        <translation>Na voljo</translation>
-    </message>
-</context>
-<context>
     <name>OCC::Vfs</name>
     <message>
         <location filename="../src/common/vfs.cpp" line="82"/>
         <source>The Virtual filesystem feature requires a NTFS file system, %1 is using %2</source>
         <translation>Navidezni datotečni sistem zahteva uporabo NTFS, Na %1 pa je v uporabi %2.</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::VfsCfApi</name>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="314"/>
+        <source>Download of End-to-End encrypted file failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="315"/>
+        <source>It seems that you are trying to download a virtual file that is End-to-End encrypted. Implicitly downloading such files is not supported at the moment. To workaround this issue, go to the settings and mark the encrypted folder with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5096,6 +5170,26 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <source>New folder</source>
         <translation>Nova mapa</translation>
     </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="53"/>
+        <source>Away</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Do not disturb</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="58"/>
+        <source>Offline</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Online</source>
+        <translation type="unfinished"/>
+    </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="471"/>
         <source>%n day ago</source>
@@ -5166,16 +5260,6 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <translation>Preklopi v drug račun</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is online</source>
-        <translation>Trenutno je uporabnik povezan</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is do not disturb</source>
-        <translation>Trenutno uporabnik ne želi motenj</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account connected</source>
         <translation>Račun je povezan</translation>
@@ -5184,6 +5268,16 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account not connected</source>
         <translation>Račun ni povezan</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is online</source>
+        <translation>Trenutno je uporabnik povezan</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is do not disturb</source>
+        <translation>Trenutno uporabnik ne želi motenj</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="140"/>
@@ -5432,6 +5526,11 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <location filename="../src/gui/main.cpp" line="45"/>
         <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &apos;trayer&apos; and try again.</source>
         <translation>%1 zahteva uporabo sistemske obvestilne vrstice. Pri uporabnikih namizja XFCE je treba upoštevati &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;posebne nastavitve&lt;/a&gt;. V kolikor to ni mogoče, je treba namestiti katerikoli sistem obveščanja, kot je na primer program »trayer«.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main.cpp" line="45"/>
+        <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &quot;trayer&quot; and try again.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5764,6 +5863,29 @@ To je nov preizkusni način. Če ga boste uporabili, pošljite tudi poročila o 
         <location filename="../src/gui/creds/webflowcredentialsdialog.cpp" line="34"/>
         <source>Log in</source>
         <translation>Log in</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::UserStatus</name>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Away</source>
+        <translation>Ne spremljam</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="57"/>
+        <source>Do not disturb</source>
+        <translation>Ne moti</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Offline</source>
+        <translation>Začasno brez povezave</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="62"/>
+        <source>Online</source>
+        <translation>Na voljo</translation>
     </message>
 </context>
 </TS>

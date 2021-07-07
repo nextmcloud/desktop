@@ -284,6 +284,26 @@
         <translation>Àplica càmbios fatos a manu</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="84"/>
+        <source>End-to-End Encryption with Virtual Files</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="85"/>
+        <source>You seem to have the Virtual Files feature enabled on this folder. At  the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="93"/>
+        <source>Don&apos;t encrypt folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="94"/>
+        <source>Encrypt folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="208"/>
         <location filename="../src/gui/accountsettings.cpp" line="229"/>
         <source>This account supports end-to-end encryption</source>
@@ -316,24 +336,24 @@
         <translation>Boga</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="231"/>
-        <source>Enable encryption</source>
-        <translation>Ativa tzifradura</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="232"/>
         <source>Account</source>
         <translation>Contu</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="245"/>
-        <source>Warning</source>
-        <translation>Avisu</translation>
+        <location filename="../src/gui/accountsettings.cpp" line="231"/>
+        <source>Enable encryption</source>
+        <translation>Ativa tzifradura</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="261"/>
         <source>Show E2E mnemonic</source>
         <translation>Mustra E2E mnemònicu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="245"/>
+        <source>Warning</source>
+        <translation>Avisu</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="304"/>
@@ -670,6 +690,11 @@ Custa atzione at a firmare cale si siat sincronizatzione immoe in esecutzione.</
     </message>
     <message>
         <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
+        <source>Certificate &amp; Key (pkcs12):</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
         <source>Certificate &amp; Key (pkcs12) :</source>
         <translation>Certificadu &amp; Crae (pkcs12) :</translation>
     </message>
@@ -919,6 +944,11 @@ Custa atzione at a firmare cale si siat sincronizatzione immoe in esecutzione.</
         <location filename="../src/gui/connectionvalidator.cpp" line="147"/>
         <source>Authentication error: Either username or password are wrong.</source>
         <translation>Errore de autenticatzione: su nùmene utente o sa crae sunt isballiados.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
+        <source>Timeout</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/connectionvalidator.cpp" line="159"/>
@@ -1749,6 +1779,11 @@ Si custu fiat un&apos;errore e detzides de mantènnere is archìvios tuos, custo
         <translation>(isperimentale)</translation>
     </message>
     <message>
+        <location filename="../src/gui/folderwizard.cpp" line="545"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/folderwizard.cpp" line="548"/>
         <source>Virtual files are not available for the selected folder</source>
         <translation>Imprea archìvios virtuales imbetzes de iscarrigare deretu is cuntenutos</translation>
@@ -1801,7 +1836,7 @@ Si custu fiat un&apos;errore e detzides de mantènnere is archìvios tuos, custo
         <location filename="../src/gui/generalsettings.ui" line="20"/>
         <location filename="../src/gui/generalsettings.ui" line="32"/>
         <source>About</source>
-        <translation>Informatziones</translation>
+        <translation>In contu de</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="41"/>
@@ -2114,6 +2149,11 @@ Is elementos in ue est permitidu ant a èssere cantzellados si impedint de catza
     </message>
     <message>
         <location filename="../src/gui/legalnotice.cpp" line="55"/>
+        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/legalnotice.cpp" line="55"/>
         <source>&lt;p&gt;Copyright 2017-2020 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2018 ownCloud GmbH&lt;/p&gt;</source>
         <translation>&lt;p&gt;Copyright 2017-2020 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2018 ownCloud GmbH&lt;/p&gt;</translation>
     </message>
@@ -2403,6 +2443,11 @@ Logs ant a èssere iscritos in %1</translation>
         <translation> Ddoe at àpidu un&apos;errore intrende a su terminale de su terminadore de is &apos;token&apos;: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
+        <location filename="../src/gui/creds/oauth.cpp" line="117"/>
+        <source>There was an error accessing the &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/creds/oauth.cpp" line="121"/>
         <source>Empty JSON from OAuth2 redirect</source>
         <translation>JSON bòidos dae sa re-aderetada a OAuth2 </translation>
@@ -2544,6 +2589,11 @@ privilègios in prus durante su protzessu.</translation>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="88"/>
         <source>(experimental)</source>
         <translation>(isperimentale)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="232"/>
+        <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="252"/>
@@ -2801,6 +2851,11 @@ Si cunsìgiat de non ddu impreare.</translation>
         <translation>ok</translation>
     </message>
     <message>
+        <location filename="../src/gui/owncloudsetupwizard.cpp" line="453"/>
+        <source>OK</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="455"/>
         <source>failed.</source>
         <translation>faddidu.</translation>
@@ -2911,12 +2966,12 @@ Si cunsìgiat de non ddu impreare.</translation>
         <translation>Protzedura ghiada de connessione de %1 </translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="401"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="404"/>
         <source>Enable experimental feature?</source>
         <translation>Boles ativare sa funtzionalidade isperimentale?</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="402"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="405"/>
         <source>When the &quot;virtual files&quot; mode is enabled no files will be downloaded initially. Instead, a tiny &quot;%1&quot; file will be created for each file that exists on the server. The contents can be downloaded by running these files or by using their context menu.
 
 The virtual files mode is mutually exclusive with selective sync. Currently unselected folders will be translated to online-only folders and your selective sync settings will be reset.
@@ -2932,12 +2987,12 @@ Passende a custa modalidade s&apos;at a interrumpire cale si siat sincronizatzio
 Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnala is problemas chi ant a essire a campu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="416"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="419"/>
         <source>Enable experimental placeholder mode</source>
         <translation>Ativa sa modalidade isperimentale marcalogu</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="417"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="420"/>
         <source>Stay safe</source>
         <translation>Abarra in su seguru</translation>
     </message>
@@ -3123,52 +3178,52 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="418"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1012"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1029"/>
         <source>File has changed since discovery</source>
         <translation>Archìviu cambiadu in pessu rilevadu</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="530"/>
         <source>File %1 can not be downloaded because of a local file name clash!</source>
         <translation> S&apos;archìviu %1 non podet èssere iscarrigadu pro unu cunflitu cun un&apos;archìviu locale!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="513"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="444"/>
         <source>File %1 cannot be downloaded because of a local file name clash!</source>
         <translation>S&apos;archìviu %1 nn faghet a dd&apos;iscarrigare pro unu cunflitu cun su nùmene de s&apos;archìviu locale!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="565"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="582"/>
         <source>The download would reduce free local disk space below the limit</source>
         <translation>S&apos;iscarrigamentu at a torrare a suta de su lìmite su logu lìberu in su discu locale </translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="569"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="586"/>
         <source>Free space on disk is less than %1</source>
         <translation>Su logu lìberu in su discu est prus pagu de %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="692"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="709"/>
         <source>File was deleted from server</source>
         <translation>S&apos;archìviu est cantzelladu dae su serbidore</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="759"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="776"/>
         <source>The file could not be downloaded completely.</source>
         <translation>No at fatu a iscarrigare s&apos;archìviu de su totu</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="766"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="783"/>
         <source>The downloaded file is empty despite that the server announced it should have been %1.</source>
         <translation> S&apos;archìviu iscarrigadu est bòidu mancari su serbidore indicaret una mannària de %1.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="957"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="974"/>
         <source>File %1 cannot be saved because of a local file name clash!</source>
         <translation>S&apos;archìviu %1 non podet èssere sarvadu pro unu cunflitu in unu&apos;archìviu locale!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1077"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1094"/>
         <source>Error writing metadata to the database</source>
         <translation>Errore iscriende is metadatos in su base de datos</translation>
     </message>
@@ -3197,6 +3252,11 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
         <source>Attention, possible case sensitivity clash with %1</source>
         <translation>Avisu, podet dare chi ddoe est un&apos;errore dèpidu a s&apos;impreu de is maiùsculas o minùsculas cun %1</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
+        <source>Could not create folder %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
@@ -3471,7 +3531,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/selectivesyncdialog.cpp" line="296"/>
         <source>An error occurred while loading the list of sub folders.</source>
-        <translation>Ddoe est istadu un&apos;errore carrighende sa lista de suta cartellas.</translation>
+        <translation>B&apos;at àpidu un&apos;errore carrighende sa lista de suta cartellas.</translation>
     </message>
 </context>
 <context>
@@ -3594,7 +3654,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="146"/>
         <source>Note</source>
-        <translation type="unfinished"/>
+        <translation>Nota</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="171"/>
@@ -3604,7 +3664,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
         <source>Set password</source>
-        <translation type="unfinished"/>
+        <translation>Imposta crae</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="239"/>
@@ -3619,7 +3679,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="294"/>
         <source>Expires</source>
-        <translation type="unfinished"/>
+        <translation>Iscade</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="150"/>
@@ -3745,6 +3805,16 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <translation>Perunu resurtadu pro &apos;%1&apos;</translation>
     </message>
     <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="391"/>
+        <source>Password for share required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="392"/>
+        <source>Please enter a password for your email share:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="386"/>
         <source>I shared something with you</source>
         <translation>Apo cumpartzidu una cosa cun tegus</translation>
@@ -3763,18 +3833,22 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <translation>faghet a modificare</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="122"/>
+        <location filename="../src/gui/shareuserline.ui" line="97"/>
+        <source>Can edit</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/shareuserline.ui" line="131"/>
         <source>Note:</source>
         <translation>Nota:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="148"/>
-        <location filename="../src/gui/shareuserline.ui" line="192"/>
-        <source>…</source>
-        <translation>…</translation>
+        <location filename="../src/gui/shareuserline.ui" line="187"/>
+        <source>Password:</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/shareuserline.ui" line="172"/>
+        <location filename="../src/gui/shareuserline.ui" line="259"/>
         <source>Expires:</source>
         <translation>Iscadet:</translation>
     </message>
@@ -3784,12 +3858,12 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <translation>Faghet a torrare a cumpartzire</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="466"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="528"/>
         <source>Note to recipient</source>
         <translation>Nota a sa persone destinatària</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="476"/>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="542"/>
         <source>Set expiration date</source>
         <translation>Imposta data de iscadèntzia</translation>
     </message>
@@ -3812,6 +3886,11 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <location filename="../src/gui/shareusergroupwidget.cpp" line="471"/>
         <source>Can delete</source>
         <translation>Faghet a cantzellare</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="588"/>
+        <source>Password protect</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -4209,7 +4288,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="165"/>
         <source>An error occurred while opening a folder</source>
-        <translation>Est acontèssidu un errore aberende una cartella</translation>
+        <translation>B&apos;at àpidu un&apos;errore aberende una cartella</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="168"/>
@@ -4345,14 +4424,14 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <translation>Su nùmene de s&apos;archìviu est tropu longu.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="514"/>
-        <source>Using virtual files with suffix, but suffix is not set</source>
-        <translation>Impreu de is archìvios virtuales, ma su sufissu non est impostadu</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="521"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation>Archìviu/Cartella ignoradu ca est cuadu.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="514"/>
+        <source>Using virtual files with suffix, but suffix is not set</source>
+        <translation>Impreu de is archìvios virtuales, ma su sufissu non est impostadu</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="524"/>
@@ -4485,6 +4564,11 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <translation>&lt;p&gt;Versione %1. Pro àteras informatziones incarca &lt;a href=&apos;%2&apos;&gt;inoghe&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
+        <location filename="../src/libsync/theme.cpp" line="469"/>
+        <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/libsync/theme.cpp" line="482"/>
         <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
         <translation>&lt;p&gt;Custa versione est dispensada dae %1&lt;/p&gt;</translation>
@@ -4547,34 +4631,24 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     </message>
 </context>
 <context>
-    <name>OCC::UserStatus</name>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="55"/>
-        <source>Away</source>
-        <translation>A tesu</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="57"/>
-        <source>Do not disturb</source>
-        <translation>No istorbes</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="60"/>
-        <source>Offline</source>
-        <translation>Fora de lìnia</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatus.cpp" line="62"/>
-        <source>Online</source>
-        <translation>In lìnia</translation>
-    </message>
-</context>
-<context>
     <name>OCC::Vfs</name>
     <message>
         <location filename="../src/common/vfs.cpp" line="82"/>
         <source>The Virtual filesystem feature requires a NTFS file system, %1 is using %2</source>
         <translation> Sa funtzionalidade de s&apos;archìviu de sistema rechedet unu archìviu de sistema NTFS, %1 est impreende %2</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::VfsCfApi</name>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="314"/>
+        <source>Download of End-to-End encrypted file failed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/vfs_cfapi.cpp" line="315"/>
+        <source>It seems that you are trying to download a virtual file that is End-to-End encrypted. Implicitly downloading such files is not supported at the moment. To workaround this issue, go to the settings and mark the encrypted folder with &quot;Make always available locally&quot;.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5096,6 +5170,26 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <source>New folder</source>
         <translation>Cartella noa</translation>
     </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="53"/>
+        <source>Away</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Do not disturb</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="58"/>
+        <source>Offline</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Online</source>
+        <translation type="unfinished"/>
+    </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="471"/>
         <source>%n day ago</source>
@@ -5104,7 +5198,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="473"/>
         <source>%n days ago</source>
-        <translation><numerusform>%n dies a oe</numerusform><numerusform>%n days ago</numerusform></translation>
+        <translation><numerusform>%n dies a oe</numerusform><numerusform>%n dies a oe</numerusform></translation>
     </message>
     <message>
         <location filename="../src/common/utility.cpp" line="477"/>
@@ -5166,16 +5260,6 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <translation>Passa a su contu</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is online</source>
-        <translation>S&apos;istadu atuale de s&apos;utente est in lìnia</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
-        <source>Current user status is do not disturb</source>
-        <translation>S&apos;istadu atuale de s&apos;utente est chi non si cheret istorbadu</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account connected</source>
         <translation>Contu connètidu</translation>
@@ -5184,6 +5268,16 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
         <location filename="../src/gui/tray/UserLine.qml" line="94"/>
         <source>Account not connected</source>
         <translation>Contu non connètidu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is online</source>
+        <translation>S&apos;istadu atuale de s&apos;utente est in lìnia</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/UserLine.qml" line="92"/>
+        <source>Current user status is do not disturb</source>
+        <translation>S&apos;istadu atuale de s&apos;utente est chi non si cheret istorbadu</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="140"/>
@@ -5392,33 +5486,33 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/tray/Window.qml" line="522"/>
         <source>Open %1 in browser</source>
-        <translation type="unfinished"/>
+        <translation>Aberi %1 in su navigadore</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="547"/>
         <source>Activity list</source>
-        <translation type="unfinished"/>
+        <translation>Lista atividades</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="563"/>
         <source>Open %1 locally</source>
-        <translation type="unfinished"/>
+        <translation>Aberi %1 in local</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="720"/>
         <location filename="../src/gui/tray/Window.qml" line="723"/>
         <source>Show more actions</source>
-        <translation type="unfinished"/>
+        <translation>Mustra àteras atziones</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="812"/>
         <source>Open share dialog</source>
-        <translation type="unfinished"/>
+        <translation>Aberi bentana de cumpartzidura</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="816"/>
         <source>Share %1</source>
-        <translation type="unfinished"/>
+        <translation>Cumpartzi %1</translation>
     </message>
 </context>
 <context>
@@ -5426,11 +5520,16 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/main.cpp" line="44"/>
         <source>System Tray not available</source>
-        <translation type="unfinished"/>
+        <translation>Sa safata de sistema no est a disponimentu</translation>
     </message>
     <message>
         <location filename="../src/gui/main.cpp" line="45"/>
         <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &apos;trayer&apos; and try again.</source>
+        <translation> %1 rechedet una safata de sistema. Si ses impreende XFCE, sighi &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;custa istrutziones&lt;/a&gt;. Sinunca, installa un&apos;aplicatzione safata de sistema comente a &apos;trayer&apos; e torra a proare.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/main.cpp" line="45"/>
+        <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &quot;trayer&quot; and try again.</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -5439,7 +5538,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/libsync/theme.cpp" line="441"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;&lt;small&gt;Cumpiladu dae sa versione Git &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 impreende Qt %5, %6&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -5447,27 +5546,27 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="33"/>
         <source>Virtual file created</source>
-        <translation type="unfinished"/>
+        <translation>Archìviu virtuale creadu</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="35"/>
         <source>Replaced by virtual file</source>
-        <translation type="unfinished"/>
+        <translation>Cambiadu cun un&apos;archìviu virtuale</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="37"/>
         <source>Downloaded</source>
-        <translation type="unfinished"/>
+        <translation>Iscarrigadu</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="40"/>
         <source>Uploaded</source>
-        <translation type="unfinished"/>
+        <translation>Carrigadu</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="43"/>
         <source>Server version downloaded, copied changed local file into conflict file</source>
-        <translation type="unfinished"/>
+        <translation>Versione de su serbidore iscarrigada, s&apos;archìviu locale modificadu est istadu copiadu comente archìviu de cunflitu</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="45"/>
@@ -5477,17 +5576,17 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="48"/>
         <source>Moved to %1</source>
-        <translation type="unfinished"/>
+        <translation>Tramudadu a %1</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="50"/>
         <source>Ignored</source>
-        <translation type="unfinished"/>
+        <translation>Ignoradu</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="52"/>
         <source>Filesystem access error</source>
-        <translation type="unfinished"/>
+        <translation>Errore de intrada a su sistema de is archìvios</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="54"/>
@@ -5497,48 +5596,48 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="56"/>
         <source>Updated local metadata</source>
-        <translation type="unfinished"/>
+        <translation>Metadatos locales agiornados</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="59"/>
         <location filename="../src/libsync/progressdispatcher.cpp" line="61"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>Disconnotu</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="72"/>
         <source>downloading</source>
-        <translation type="unfinished"/>
+        <translation>iscarrighende</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="74"/>
         <source>uploading</source>
-        <translation type="unfinished"/>
+        <translation>carrighende</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="76"/>
         <source>deleting</source>
-        <translation type="unfinished"/>
+        <translation>cantzellende</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="79"/>
         <source>moving</source>
-        <translation type="unfinished"/>
+        <translation>tramudende</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="81"/>
         <source>ignoring</source>
-        <translation type="unfinished"/>
+        <translation>ignorende</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="84"/>
         <source>error</source>
-        <translation type="unfinished"/>
+        <translation>errore</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="86"/>
         <source>updating local metadata</source>
-        <translation type="unfinished"/>
+        <translation>carrighende metadatos locales</translation>
     </message>
 </context>
 <context>
@@ -5546,52 +5645,52 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/libsync/theme.cpp" line="84"/>
         <source>Status undefined</source>
-        <translation type="unfinished"/>
+        <translation>Istadu indefinidu</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="87"/>
         <source>Waiting to start sync</source>
-        <translation type="unfinished"/>
+        <translation>Isetende de cumintzare sa sincronizatzione</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="90"/>
         <source>Sync is running</source>
-        <translation type="unfinished"/>
+        <translation>Sincronizatzione in esecutzione</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="93"/>
         <source>Sync Success</source>
-        <translation type="unfinished"/>
+        <translation>Sincronizatzione resèssida</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="96"/>
         <source>Sync Success, some files were ignored.</source>
-        <translation type="unfinished"/>
+        <translation>Sincronizatzione resèssida, calicunu archìviu est istadu ignoradu.</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="99"/>
         <source>Sync Error</source>
-        <translation type="unfinished"/>
+        <translation>Errore de sincronizatzione</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="102"/>
         <source>Setup Error</source>
-        <translation type="unfinished"/>
+        <translation>Errore de cunfiguratzione</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="105"/>
         <source>Preparing to sync</source>
-        <translation type="unfinished"/>
+        <translation>Ammaniende pro sa sincronizatzione</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="108"/>
         <source>Aborting …</source>
-        <translation type="unfinished"/>
+        <translation>Firmada ...</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="111"/>
         <source>Sync is paused</source>
-        <translation type="unfinished"/>
+        <translation>Sincronizatzione in pasu</translation>
     </message>
 </context>
 <context>
@@ -5599,52 +5698,52 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/guiutility.cpp" line="46"/>
         <source>Could not open browser</source>
-        <translation type="unfinished"/>
+        <translation>No at fatu a abèrrere su navigadore</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="47"/>
         <source>There was an error when launching the browser to go to URL %1. Maybe no default browser is configured?</source>
-        <translation type="unfinished"/>
+        <translation>B&apos;at àpidu un&apos;errore aviende su navigadore pro sigire s&apos;URL %1. Fortzis non as cunfiguradu unu navadore predefinidu?</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="70"/>
         <source>Could not open email client</source>
-        <translation type="unfinished"/>
+        <translation>No at fatu a abèrrere su cliente de posta eletrònica</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="71"/>
         <source>There was an error when launching the email client to create a new message. Maybe no default email client is configured?</source>
-        <translation type="unfinished"/>
+        <translation>B&apos;at àpidu un errore aviende su cliente de posta eletrònica pro iscrìere unu messàgiu. Mancari no as ancora cunfiguradu perunu cliente de posta eletrònica predefinidu?</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="86"/>
         <source>Always available locally</source>
-        <translation type="unfinished"/>
+        <translation>Semper a disponimentu in logu</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="88"/>
         <source>Currently available locally</source>
-        <translation type="unfinished"/>
+        <translation>Como a disponimentu in logu</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="90"/>
         <source>Some available online only</source>
-        <translation type="unfinished"/>
+        <translation>Unos cantos a disponimentu isceti in lìnia</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="93"/>
         <source>Available online only</source>
-        <translation type="unfinished"/>
+        <translation>A disponimentu isceti in sa rete</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="100"/>
         <source>Make always available locally</source>
-        <translation type="unfinished"/>
+        <translation>Faghe·ddu semper a disponimentu in logu</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="105"/>
         <source>Free up local space</source>
-        <translation type="unfinished"/>
+        <translation>Fàghe logu </translation>
     </message>
 </context>
 <context>
@@ -5652,7 +5751,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/activityitemdelegate.cpp" line="229"/>
         <source>More information</source>
-        <translation type="unfinished"/>
+        <translation>Àteras informatziones</translation>
     </message>
     <message>
         <location filename="../src/gui/activityitemdelegate.cpp" line="230"/>
@@ -5662,12 +5761,12 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/activityitemdelegate.cpp" line="231"/>
         <source>Join</source>
-        <translation type="unfinished"/>
+        <translation>Intra</translation>
     </message>
     <message>
         <location filename="../src/gui/activityitemdelegate.cpp" line="252"/>
         <source>Open Browser</source>
-        <translation type="unfinished"/>
+        <translation>Aberi navigadore</translation>
     </message>
 </context>
 <context>
@@ -5680,17 +5779,17 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/activitywidget.cpp" line="192"/>
         <source>Synced</source>
-        <translation type="unfinished"/>
+        <translation>Sincronizadu</translation>
     </message>
     <message>
         <location filename="../src/gui/activitywidget.cpp" line="231"/>
         <source>Retry all uploads</source>
-        <translation type="unfinished"/>
+        <translation>Torra a intentare totu is carrigamentos</translation>
     </message>
     <message>
         <location filename="../src/gui/activitywidget.cpp" line="346"/>
         <source>&lt;br/&gt;Account %1 does not have activities enabled.</source>
-        <translation type="unfinished"/>
+        <translation>&lt;br/&gt;Contu %1 no at atividades ativadas.</translation>
     </message>
 </context>
 <context>
@@ -5698,7 +5797,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/libsync/discoveryphase.cpp" line="637"/>
         <source>Aborted by the user</source>
-        <translation type="unfinished"/>
+        <translation>Firmadu dae s&apos;utente</translation>
     </message>
 </context>
 <context>
@@ -5706,12 +5805,12 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/wizard/flow2authcredspage.cpp" line="36"/>
         <source>Connect to %1</source>
-        <translation type="unfinished"/>
+        <translation>Connete a %1</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/flow2authcredspage.cpp" line="37"/>
         <source>Login in your browser (Login Flow v2)</source>
-        <translation type="unfinished"/>
+        <translation> Intra tràmite su navigadore tuo (Login Flow v2)</translation>
     </message>
 </context>
 <context>
@@ -5719,12 +5818,12 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/creds/shibbolethcredentials.cpp" line="254"/>
         <source>Login Error</source>
-        <translation type="unfinished"/>
+        <translation>Errore intrende</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/shibbolethcredentials.cpp" line="254"/>
         <source>You must sign in as user %1</source>
-        <translation type="unfinished"/>
+        <translation>Ti depes marcare comente utente %1</translation>
     </message>
 </context>
 <context>
@@ -5732,22 +5831,22 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/creds/shibboleth/shibbolethwebview.cpp" line="83"/>
         <source>%1 - Authenticate</source>
-        <translation type="unfinished"/>
+        <translation>%1 - Autenticatzione</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/shibboleth/shibbolethwebview.cpp" line="93"/>
         <source>SSL Cipher Debug View</source>
-        <translation type="unfinished"/>
+        <translation> Vista debug tzifràriu SSL</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/shibboleth/shibbolethwebview.cpp" line="101"/>
         <source>Reauthentication required</source>
-        <translation type="unfinished"/>
+        <translation>Autenticatzione noa recherta</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/shibboleth/shibbolethwebview.cpp" line="101"/>
         <source>Your session has expired. You need to re-login to continue to use the client.</source>
-        <translation type="unfinished"/>
+        <translation> Sa sessione tua si nch&apos;est iscàdida. Depes torrare a intrare pro sighire a impreare su cliente.</translation>
     </message>
 </context>
 <context>
@@ -5755,7 +5854,7 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/synclogdialog.ui" line="14"/>
         <source>Synchronisation Log</source>
-        <translation type="unfinished"/>
+        <translation>Registru de sincronizatzione</translation>
     </message>
 </context>
 <context>
@@ -5763,7 +5862,30 @@ Custa est una modalidade noa, isperimentale. Si detzides de dda impreare, sinnal
     <message>
         <location filename="../src/gui/creds/webflowcredentialsdialog.cpp" line="34"/>
         <source>Log in</source>
-        <translation type="unfinished"/>
+        <translation>Intra</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::UserStatus</name>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="55"/>
+        <source>Away</source>
+        <translation>A tesu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="57"/>
+        <source>Do not disturb</source>
+        <translation>No istorbes</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="60"/>
+        <source>Offline</source>
+        <translation>Fora de lìnia</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/userstatus.cpp" line="62"/>
+        <source>Online</source>
+        <translation>In lìnia</translation>
     </message>
 </context>
 </TS>

@@ -427,6 +427,12 @@ void PropagateDownloadFile::startAfterIsEncryptedIsChecked()
         }
         propagator()->_journal->deleteFileRecord(_item->_originalFile);
         updateMetadata(false);
+
+        if (!_item->_remotePerm.isNull() && !_item->_remotePerm.hasPermission(RemotePermissions::CanWrite)) {
+            // make sure ReadOnly flag is preserved for placeholder, similarly to regular files
+            FileSystem::setFileReadOnly(propagator()->fullLocalPath(_item->_file), true);
+        }
+
         return;
     }
     if (vfs->mode() == Vfs::Off && _item->_type == ItemTypeVirtualFile) {
@@ -434,6 +440,11 @@ void PropagateDownloadFile::startAfterIsEncryptedIsChecked()
         _item->_type = ItemTypeFile;
     }
     if (_item->_type == ItemTypeVirtualFile) {
+        if (propagator()->localFileNameClash(_item->_file)) {
+            done(SyncFileItem::NormalError, tr("File %1 cannot be downloaded because of a local file name clash!").arg(QDir::toNativeSeparators(_item->_file)));
+            return;
+        }
+
         qCDebug(lcPropagateDownload) << "creating virtual file" << _item->_file;
         auto r = vfs->createPlaceholder(*_item);
         if (!r) {
@@ -441,6 +452,12 @@ void PropagateDownloadFile::startAfterIsEncryptedIsChecked()
             return;
         }
         updateMetadata(false);
+
+        if (!_item->_remotePerm.isNull() && !_item->_remotePerm.hasPermission(RemotePermissions::CanWrite)) {
+            // make sure ReadOnly flag is preserved for placeholder, similarly to regular files
+            FileSystem::setFileReadOnly(propagator()->fullLocalPath(_item->_file), true);
+        }
+
         return;
     }
 
