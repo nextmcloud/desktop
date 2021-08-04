@@ -959,13 +959,11 @@ void SocketApi::sendSharingContextMenuOptions(const FileData &fileData, SocketLi
             && !capabilities.sharePublicLinkEnforcePassword();
 
         if (canCreateDefaultPublicLink) {
-            listener->sendMessage(QLatin1String("MENU_ITEM:COPY_PUBLIC_LINK") + flagString + tr("Copy public link"));
+            listener->sendMessage(QLatin1String("MENU_ITEM:COPY_PUBLIC_LINK") + flagString + tr("Copy share link"));
         } else if (publicLinksEnabled) {
-            listener->sendMessage(QLatin1String("MENU_ITEM:MANAGE_PUBLIC_LINKS") + flagString + tr("Copy public link"));
+            listener->sendMessage(QLatin1String("MENU_ITEM:MANAGE_PUBLIC_LINKS") + flagString + tr("Copy share link"));
         }
     }
-
-    listener->sendMessage(QLatin1String("MENU_ITEM:COPY_PRIVATE_LINK") + flagString + tr("Copy internal link"));
 
     // Disabled: only providing email option for private links would look odd,
     // and the copy option is more general.
