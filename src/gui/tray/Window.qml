@@ -475,10 +475,10 @@ Window {
             anchors.left:   trayWindowBackground.left
             anchors.right:  trayWindowBackground.right
             anchors.top:    trayWindowMagentaBarBackground.bottom
-            height:         8
+            height:         1
             gradient: Gradient {
-                GradientStop { position: 0.0; color: "#e5e5e5" }
-                GradientStop { position: 0.125; color: "white" }
+                GradientStop { position: 0.0; color: "gray" }
+                GradientStop { position: 10; color: "#e5e5e5" }
             }
             opacity: 1.0
         }
