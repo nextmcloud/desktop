@@ -469,7 +469,7 @@ Window {
 
         }
 
-        Rectangle {
+       /* Rectangle {
             id: trayWindowGradientBarBackground
 
             anchors.left:   trayWindowBackground.left
@@ -481,6 +481,17 @@ Window {
                 GradientStop { position: 10; color: "#e5e5e5" }
             }
             opacity: 1.0
+        }*/
+        MenuSeparator {
+            id: trayWindowGradientBarBackground
+            padding: 0
+            topPadding: 108
+            bottomPadding: 8
+            contentItem: Rectangle {
+                implicitWidth: 360
+                implicitHeight: 1
+                color: "#e5e5e5"
+            }
         }
 
 
