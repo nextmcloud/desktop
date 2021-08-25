@@ -47,6 +47,10 @@
 
 using namespace QKeychain;
 
+namespace {
+constexpr int pushNotificationsReconnectInterval = 1000 * 60 * 2;
+}
+
 namespace OCC {
 
 Q_LOGGING_CATEGORY(lcAccount, "nextcloud.sync.account", QtInfoMsg)
@@ -55,10 +59,12 @@ const char app_password[] = "_app-password";
 Account::Account(QObject *parent)
     : QObject(parent)
     , _capabilities(QVariantMap())
-    , _davPath(Theme::instance()->webDavPath())
 {
     qRegisterMetaType<AccountPtr>("AccountPtr");
     qRegisterMetaType<Account *>("Account*");
+
+    _pushNotificationsReconnectTimer.setInterval(pushNotificationsReconnectInterval);
+    connect(&_pushNotificationsReconnectTimer, &QTimer::timeout, this, &Account::trySetupPushNotifications);
 }
 
 AccountPtr Account::create()
@@ -78,18 +84,7 @@ Account::~Account() = default;
 
 QString Account::davPath() const
 {
-    if (capabilities().chunkingNg()) {
-        // The chunking-ng means the server prefer to use the new webdav URL
-        return QLatin1String("/remote.php/dav/files/") + davUser() + QLatin1Char('/');
-    }
-
-    // make sure to have a trailing slash
-    if (!_davPath.endsWith('/')) {
-        QString dp(_davPath);
-        dp.append('/');
-        return dp;
-    }
-    return _davPath;
+    return QLatin1String("/remote.php/dav/files/") + davUser() + QLatin1Char('/');
 }
 
 void Account::setSharedThis(AccountPtr sharedThis)
@@ -104,7 +99,7 @@ AccountPtr Account::sharedFromThis()
 
 QString Account::davUser() const
 {
-    return _davUser.isEmpty() ? _credentials->user() : _davUser;
+    return _davUser.isEmpty() && _credentials ? _credentials->user() : _davUser;
 }
 
 void Account::setDavUser(const QString &newDavUser)
@@ -203,25 +198,42 @@ void Account::setCredentials(AbstractCredentials *cred)
     trySetupPushNotifications();
 }
 
+void Account::setPushNotificationsReconnectInterval(int interval)
+{
+    _pushNotificationsReconnectTimer.setInterval(interval);
+}
+
 void Account::trySetupPushNotifications()
 {
+    // Stop the timer to prevent parallel setup attempts
+    _pushNotificationsReconnectTimer.stop();
+
     if (_capabilities.availablePushNotifications() != PushNotificationType::None) {
         qCInfo(lcAccount) << "Try to setup push notifications";
 
         if (!_pushNotifications) {
             _pushNotifications = new PushNotifications(this, this);
 
-            connect(_pushNotifications, &PushNotifications::ready, this, [this]() { emit pushNotificationsReady(this); });
+            connect(_pushNotifications, &PushNotifications::ready, this, [this]() {
+                _pushNotificationsReconnectTimer.stop();
+                emit pushNotificationsReady(this);
+            });
 
-            const auto deletePushNotifications = [this]() {
-                qCInfo(lcAccount) << "Delete push notifications object because authentication failed or connection lost";
-                _pushNotifications->deleteLater();
-                _pushNotifications = nullptr;
-                emit pushNotificationsDisabled(this);
+            const auto disablePushNotifications = [this]() {
+                qCInfo(lcAccount) << "Disable push notifications object because authentication failed or connection lost";
+                if (!_pushNotifications) {
+                    return;
+                }
+                if (!_pushNotifications->isReady()) {
+                    emit pushNotificationsDisabled(this);
+                }
+                if (!_pushNotificationsReconnectTimer.isActive()) {
+                    _pushNotificationsReconnectTimer.start();
+                }
             };
 
-            connect(_pushNotifications, &PushNotifications::connectionLost, this, deletePushNotifications);
-            connect(_pushNotifications, &PushNotifications::authenticationFailed, this, deletePushNotifications);
+            connect(_pushNotifications, &PushNotifications::connectionLost, this, disablePushNotifications);
+            connect(_pushNotifications, &PushNotifications::authenticationFailed, this, disablePushNotifications);
         }
         // If push notifications already running it is no problem to call setup again
         _pushNotifications->setup();
@@ -545,15 +557,6 @@ void Account::setServerVersion(const QString &version)
     auto oldServerVersion = _serverVersion;
     _serverVersion = version;
     emit serverVersionChanged(this, oldServerVersion, version);
-}
-
-void Account::setNonShib(bool nonShib)
-{
-    if (nonShib) {
-        _davPath = Theme::instance()->webDavPathNonShib();
-    } else {
-        _davPath = Theme::instance()->webDavPath();
-    }
 }
 
 void Account::writeAppPasswordOnce(QString appPassword){

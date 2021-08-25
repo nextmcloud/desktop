@@ -40,6 +40,16 @@ bool Capabilities::shareAPI() const
     }
 }
 
+bool Capabilities::shareEmailPasswordEnabled() const
+{
+    return _capabilities["files_sharing"].toMap()["sharebymail"].toMap()["password"].toMap()["enabled"].toBool();
+}
+
+bool Capabilities::shareEmailPasswordEnforced() const
+{
+    return _capabilities["files_sharing"].toMap()["sharebymail"].toMap()["password"].toMap()["enforced"].toBool();
+}
+
 bool Capabilities::sharePublicLink() const
 {
     if (_capabilities["files_sharing"].toMap().contains("public")) {
@@ -179,7 +189,9 @@ bool Capabilities::chunkingNg() const
 
 bool Capabilities::userStatus() const
 {
-    return _capabilities.contains("notifications") && _capabilities["notifications"].toMap().contains("user-status");
+    return _capabilities.contains("notifications") &&
+        _capabilities["notifications"].toMap().contains("ocs-endpoints") &&
+        _capabilities["notifications"].toMap()["ocs-endpoints"].toStringList().contains("user-status");
 }
 
 PushNotificationTypes Capabilities::availablePushNotifications() const

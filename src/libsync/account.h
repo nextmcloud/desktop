@@ -124,8 +124,6 @@ public:
      * @returns the (themeable) dav path for the account.
      */
     QString davPath() const;
-    void setDavPath(const QString &s) { _davPath = s; }
-    void setNonShib(bool nonShib);
 
     /** Returns webdav entry URL, based on url() */
     QUrl davUrl() const;
@@ -251,7 +249,9 @@ public:
     // Check for the directEditing capability
     void fetchDirectEditors(const QUrl &directEditingURL, const QString &directEditingETag);
 
+    void trySetupPushNotifications();
     PushNotifications *pushNotifications() const;
+    void setPushNotificationsReconnectInterval(int interval);
 
 public slots:
     /// Used when forgetting credentials
@@ -293,12 +293,12 @@ protected Q_SLOTS:
 private:
     Account(QObject *parent = nullptr);
     void setSharedThis(AccountPtr sharedThis);
-    void trySetupPushNotifications();
 
     QWeakPointer<Account> _sharedThis;
     QString _id;
     QString _davUser;
     QString _displayName;
+    QTimer _pushNotificationsReconnectTimer;
 #ifndef TOKEN_AUTH_ONLY
     QImage _avatarImg;
 #endif
@@ -327,7 +327,6 @@ private:
 
     static QString _configFileName;
 
-    QString _davPath; // defaults to value from theme, might be overwritten in brandings
     ClientSideEncryption _e2e;
 
     /// Used in RemoteWipe

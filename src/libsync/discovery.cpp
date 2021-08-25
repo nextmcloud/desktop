@@ -177,7 +177,7 @@ void ProcessDirectoryJob::process()
         // For windows, the hidden state is also discovered within the vio
         // local stat function.
         // Recall file shall not be ignored (#4420)
-        bool isHidden = e.localEntry.isHidden || (f.first[0] == '.' && f.first != QLatin1String(".sys.admin#recall#"));
+        bool isHidden = e.localEntry.isHidden || (!f.first.isEmpty() && f.first[0] == '.' && f.first != QLatin1String(".sys.admin#recall#"));
 #ifdef Q_OS_WIN
         // exclude ".lnk" files as they are not essential, but, causing troubles when enabling the VFS due to QFileInfo::isDir() and other methods are freezing, which causes the ".lnk" files to start hydrating and freezing the app eventually.
         const bool isServerEntryWindowsShortcut = !e.localEntry.isValid() && e.serverEntry.isValid() && !e.serverEntry.isDirectory && FileSystem::isLnkFile(e.serverEntry.name);
@@ -278,12 +278,15 @@ bool ProcessDirectoryJob::handleExcluded(const QString &path, const QString &loc
                     item->_errorString = tr("The file name is a reserved name on this file system.");
                 }
             }
+            item->_status = SyncFileItem::FileNameInvalid;
             break;
         case CSYNC_FILE_EXCLUDE_TRAILING_SPACE:
             item->_errorString = tr("Filename contains trailing spaces.");
+            item->_status = SyncFileItem::FileNameInvalid;
             break;
         case CSYNC_FILE_EXCLUDE_LONG_FILENAME:
             item->_errorString = tr("Filename is too long.");
+            item->_status = SyncFileItem::FileNameInvalid;
             break;
         case CSYNC_FILE_EXCLUDE_HIDDEN:
             item->_errorString = tr("File/Folder is ignored because it's hidden.");
@@ -328,6 +331,13 @@ void ProcessDirectoryJob::processFile(PathTuple path,
                               << " | e2ee: " << dbEntry._isE2eEncrypted << "/" << serverEntry.isE2eEncrypted
                               << " | e2eeMangledName: " << dbEntry.e2eMangledName() << "/" << serverEntry.e2eMangledName;
 
+    if (localEntry.isValid()
+        && !serverEntry.isValid()
+        && !dbEntry.isValid()
+        && localEntry.modtime < _lastSyncTimestamp) {
+        qCWarning(lcDisco) << "File" << path._original << "was modified before the last sync run and is not in the sync journal and server";
+    }
+
     if (_discoveryData->isRenamed(path._original)) {
         qCDebug(lcDisco) << "Ignoring renamed";
         return; // Ignore this.
@@ -338,6 +348,10 @@ void ProcessDirectoryJob::processFile(PathTuple path,
     item->_originalFile = path._original;
     item->_previousSize = dbEntry._fileSize;
     item->_previousModtime = dbEntry._modtime;
+
+    if (dbEntry._modtime == localEntry.modtime && dbEntry._type == ItemTypeVirtualFile && localEntry.type == ItemTypeFile) {
+        item->_type = ItemTypeFile;
+    }
 
     // The item shall only have this type if the db request for the virtual download
     // was successful (like: no conflicting remote remove etc). This decision is done
@@ -513,7 +527,8 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(
         if (!localEntry.isValid()
             && item->_type == ItemTypeFile
             && opts._vfs->mode() != Vfs::Off
-            && _pinState != PinState::AlwaysLocal) {
+            && _pinState != PinState::AlwaysLocal
+            && !FileSystem::isExcludeFile(item->_file)) {
             item->_type = ItemTypeVirtualFile;
             if (isVfsWithSuffix())
                 addVirtualFileSuffix(tmp_path._original);
@@ -699,8 +714,9 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
         item->_type = ItemTypeVirtualFile;
     }
 
-    if (dbEntry.isVirtualFile() && !virtualFileDownload)
+    if (dbEntry.isVirtualFile() && (!localEntry.isValid() || localEntry.isVirtualFile) && !virtualFileDownload) {
         item->_type = ItemTypeVirtualFile;
+    }
 
     _childModified |= serverModified;
 
@@ -884,20 +900,71 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
     item->_type = localEntry.isDirectory ? ItemTypeDirectory : localEntry.isVirtualFile ? ItemTypeVirtualFile : ItemTypeFile;
     _childModified = true;
 
-    auto postProcessLocalNew = [item, localEntry, this]() {
-        if (localEntry.isVirtualFile) {
-            // Remove the spurious file if it looks like a placeholder file
-            // (we know placeholder files contain " ", but only in the suffix case)
-            if (localEntry.size <= 1 || !isVfsWithSuffix()) {
-                qCWarning(lcDisco) << "Wiping virtual file without db entry for" << _currentFolder._local + "/" + localEntry.name;
-                item->_instruction = CSYNC_INSTRUCTION_REMOVE;
-                item->_direction = SyncFileItem::Down;
-            } else {
-                qCWarning(lcDisco) << "Virtual file without db entry for" << _currentFolder._local << localEntry.name
-                                   << "but looks odd, keeping";
-                item->_instruction = CSYNC_INSTRUCTION_IGNORE;
-            }
+    auto postProcessLocalNew = [item, localEntry, path, this]() {
+        // TODO: We may want to execute the same logic for non-VFS mode, as, moving/renaming the same folder by 2 or more clients at the same time is not possible in Web UI.
+        // Keeping it like this (for VFS files and folders only) just to fix a user issue.
+
+        if (!(_discoveryData && _discoveryData->_syncOptions._vfs && _discoveryData->_syncOptions._vfs->mode() != Vfs::Off)) {
+            // for VFS files and folders only
+            return;
         }
+
+        if (!localEntry.isVirtualFile && !localEntry.isDirectory) {
+            return;
+        }
+
+        Q_ASSERT(item->_instruction == CSYNC_INSTRUCTION_NEW);
+        if (item->_instruction != CSYNC_INSTRUCTION_NEW) {
+            qCWarning(lcDisco) << "Trying to wipe a virtual item" << path._local << " with item->_instruction" << item->_instruction;
+            return;
+        }
+
+        // must be a dehydrated placeholder
+        const bool isFilePlaceHolder = !localEntry.isDirectory && _discoveryData->_syncOptions._vfs->isDehydratedPlaceholder(_discoveryData->_localDir + path._local);
+
+        // either correct availability, or a result with error if the folder is new or otherwise has no availability set yet
+        const auto folderPlaceHolderAvailability = localEntry.isDirectory ? _discoveryData->_syncOptions._vfs->availability(path._local) : Vfs::AvailabilityResult(Vfs::AvailabilityError::NoSuchItem);
+
+        const auto folderPinState = localEntry.isDirectory ? _discoveryData->_syncOptions._vfs->pinState(path._local) : Optional<PinStateEnums::PinState>(PinState::Unspecified);
+
+        if (!isFilePlaceHolder && !folderPlaceHolderAvailability.isValid() && !folderPinState.isValid()) {
+            // not a file placeholder and not a synced folder placeholder (new local folder)
+            return;
+        }
+
+        const auto isFolderPinStateOnlineOnly = (folderPinState.isValid() && *folderPinState == PinState::OnlineOnly);
+
+        const auto isfolderPlaceHolderAvailabilityOnlineOnly = (folderPlaceHolderAvailability.isValid() && *folderPlaceHolderAvailability == VfsItemAvailability::OnlineOnly);
+
+        // a folder is considered online-only if: no files are hydrated, or, if it's an empty folder
+        const auto isOnlineOnlyFolder = isfolderPlaceHolderAvailabilityOnlineOnly || !folderPlaceHolderAvailability && isFolderPinStateOnlineOnly;
+
+        if (!isFilePlaceHolder && !isOnlineOnlyFolder) {
+            if (localEntry.isDirectory && folderPlaceHolderAvailability.isValid() && !isOnlineOnlyFolder) {
+                // a VFS folder but is not online0only (has some files hydrated)
+                qCInfo(lcDisco) << "Virtual directory without db entry for" << path._local << "but it contains hydrated file(s), so let's keep it and reupload.";
+                emit _discoveryData->addErrorToGui(SyncFileItem::SoftError, tr("Conflict when uploading some files to a folder. Those, conflicted, are going to get cleared!"), path._local);
+                return;
+            }
+            qCWarning(lcDisco) << "Virtual file without db entry for" << path._local
+                               << "but looks odd, keeping";
+            item->_instruction = CSYNC_INSTRUCTION_IGNORE;
+
+            return;
+        }
+
+        if (isOnlineOnlyFolder) {
+            // if we're wiping a folder, we will only get this function called once and will wipe a folder along with it's files and also display one error in GUI
+            qCInfo(lcDisco) << "Wiping virtual folder without db entry for" << path._local;
+            emit _discoveryData->addErrorToGui(SyncFileItem::SoftError, tr("Conflict when uploading a folder. It's going to get cleared!"), path._local);
+        } else {
+            qCInfo(lcDisco) << "Wiping virtual file without db entry for" << path._local;
+            emit _discoveryData->addErrorToGui(SyncFileItem::SoftError, tr("Conflict when uploading a file. It's going to get removed!"), path._local);
+        }
+        item->_instruction = CSYNC_INSTRUCTION_REMOVE;
+        item->_direction = SyncFileItem::Down;
+        // this flag needs to be unset, otherwise a folder would get marked as new in the processSubJobs
+        _childModified = false;
     };
 
     // Check if it is a move
@@ -1045,7 +1112,7 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
     } else {
         // We must query the server to know if the etag has not changed
         _pendingAsyncJobs++;
-        QString serverOriginalPath = _discoveryData->adjustRenamedPath(originalPath, SyncFileItem::Down);
+        QString serverOriginalPath = _discoveryData->_remoteFolder + _discoveryData->adjustRenamedPath(originalPath, SyncFileItem::Down);
         if (base.isVirtualFile() && isVfsWithSuffix())
             chopVirtualFileSuffix(serverOriginalPath);
         auto job = new RequestEtagJob(_discoveryData->_account, serverOriginalPath, this);
@@ -1185,7 +1252,8 @@ void ProcessDirectoryJob::processFileFinalize(
         recurse = false;
     }
     if (recurse) {
-        auto job = new ProcessDirectoryJob(path, item, recurseQueryLocal, recurseQueryServer, this);
+        auto job = new ProcessDirectoryJob(path, item, recurseQueryLocal, recurseQueryServer,
+            _lastSyncTimestamp, this);
         job->setInsideEncryptedTree(isInsideEncryptedTree() || item->_isEncrypted);
         if (removed) {
             job->setParent(_discoveryData);
@@ -1228,7 +1296,7 @@ void ProcessDirectoryJob::processBlacklisted(const PathTuple &path, const OCC::L
     qCInfo(lcDisco) << "Discovered (blacklisted) " << item->_file << item->_instruction << item->_direction << item->isDirectory();
 
     if (item->isDirectory() && item->_instruction != CSYNC_INSTRUCTION_IGNORE) {
-        auto job = new ProcessDirectoryJob(path, item, NormalQuery, InBlackList, this);
+        auto job = new ProcessDirectoryJob(path, item, NormalQuery, InBlackList, _lastSyncTimestamp, this);
         connect(job, &ProcessDirectoryJob::finished, this, &ProcessDirectoryJob::subJobFinished);
         _queuedJobs.push_back(job);
     } else {

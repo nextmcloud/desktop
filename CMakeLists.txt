@@ -1,22 +1,13 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.6)
 set(CMAKE_CXX_STANDARD 14)
 
 project(client)
 
-if(UNIT_TESTING)
-    include(CTest)
-    enable_testing()
-endif()
+include(FeatureSummary)
 
 set(BIN_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 
-
-set(OEM_THEME_DIR "" CACHE STRING "Define directory containing a custom theme")
-if ( EXISTS ${OEM_THEME_DIR}/OEM.cmake )
-     include ( ${OEM_THEME_DIR}/OEM.cmake )
-else ()
-     include ( ${CMAKE_SOURCE_DIR}/NEXTCLOUD.cmake )
-endif()
+include(${CMAKE_SOURCE_DIR}/NEXTCLOUD.cmake)
 
 # Default suffix if the theme doesn't define one
 if(NOT DEFINED APPLICATION_VIRTUALFILE_SUFFIX)
@@ -44,6 +35,8 @@ if (NOT DEFINED PACKAGE)
 endif()
 
 set( CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules )
+
+include(ECMCoverageOption)
 
 if(NOT CRASHREPORTER_EXECUTABLE)
     set(CRASHREPORTER_EXECUTABLE "${APPLICATION_EXECUTABLE}_crash_reporter")
@@ -111,9 +104,9 @@ set(SHAREDIR ${DATADIR})
 # BUILD_OWNCLOUD_OSX_BUNDLE was not initialized OR set to true on OSX
 if(APPLE AND (NOT DEFINED BUILD_OWNCLOUD_OSX_BUNDLE OR BUILD_OWNCLOUD_OSX_BUNDLE))
     set(BUILD_OWNCLOUD_OSX_BUNDLE ON)
-    set(OWNCLOUD_OSX_BUNDLE "${APPLICATION_EXECUTABLE}.app")
-    set(LIB_INSTALL_DIR "${APPLICATION_EXECUTABLE}.app/Contents/MacOS")
-    set(BIN_INSTALL_DIR "${APPLICATION_EXECUTABLE}.app/Contents/MacOS")
+    set(OWNCLOUD_OSX_BUNDLE "${APPLICATION_NAME}.app")
+    set(LIB_INSTALL_DIR "${APPLICATION_NAME}.app/Contents/MacOS")
+    set(BIN_INSTALL_DIR "${APPLICATION_NAME}.app/Contents/MacOS")
 
 # BUILD_OWNCLOUD_OSX_BUNDLE was disabled on OSX
 elseif(APPLE AND NOT BUILD_OWNCLOUD_OSX_BUNDLE)
@@ -187,19 +180,24 @@ if(BUILD_CLIENT)
         find_package(Sparkle)
     endif()
 
-    if(UNIX)
-        find_package(INotify REQUIRED)
-    else()
-        find_package(INotify)
+    if(UNIX AND NOT APPLE)
+        find_package(Inotify REQUIRED)
     endif()
     find_package(Sphinx)
     find_package(PdfLatex)
     find_package(OpenSSL 1.1 REQUIRED )
 
    find_package(ZLIB REQUIRED)
-   find_package(GLib2)
-   find_package(Gio)
-   find_package(Libcloudproviders)
+
+   if(NOT WIN32 AND NOT APPLE)
+      find_package(PkgConfig REQUIRED)
+      pkg_check_modules(CLOUDPROVIDERS cloudproviders IMPORTED_TARGET)
+
+      if(CLOUDPROVIDERS_FOUND)
+        pkg_check_modules(GIO REQUIRED gio-2.0 IMPORTED_TARGET)
+        pkg_check_modules(GLIB2 REQUIRED glib-2.0 IMPORTED_TARGET)
+      endif()
+   endif()
 endif()
 
 if (NOT DEFINED APPLICATION_ICON_NAME)
@@ -231,8 +229,6 @@ if (APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 endif()
 
-include(SanitizerFlags)
-
 # Handle Translations, pick all client_* files from trans directory.
 file( GLOB TRANS_FILES ${CMAKE_SOURCE_DIR}/translations/client_*.ts)
 set(TRANSLATIONS ${TRANS_FILES})
@@ -253,8 +249,8 @@ if(BUILD_SHELL_INTEGRATION)
     add_subdirectory(shell_integration)
 endif()
 
-include(CTest)
 if(BUILD_TESTING)
+    include(CTest)
     enable_testing()
     add_subdirectory(test)
 endif()
@@ -269,3 +265,5 @@ elseif(BUILD_CLIENT)
     install( FILES sync-exclude.lst DESTINATION ${SYSCONFDIR}/${APPLICATION_SHORTNAME} )
     configure_file(sync-exclude.lst bin/sync-exclude.lst COPYONLY)
 endif()
+
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES INCLUDE_QUIET_PACKAGES)

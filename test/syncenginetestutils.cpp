@@ -6,6 +6,8 @@
  */
 
 #include "syncenginetestutils.h"
+#include "httplogger.h"
+#include "accessmanager.h"
 
 
 #include <memory>
@@ -286,7 +288,11 @@ FakePropfindReply::FakePropfindReply(FileInfo &remoteRootFileInfo, QNetworkAcces
     auto writeFileResponse = [&](const FileInfo &fileInfo) {
         xml.writeStartElement(davUri, QStringLiteral("response"));
 
-        xml.writeTextElement(davUri, QStringLiteral("href"), prefix + QString::fromUtf8(QUrl::toPercentEncoding(fileInfo.path(), "/")));
+        QString url = prefix + QString::fromUtf8(QUrl::toPercentEncoding(fileInfo.path(), "/"));
+        if (!url.endsWith(QChar('/'))) {
+            url.append(QChar('/'));
+        }
+        xml.writeTextElement(davUri, QStringLiteral("href"), url);
         xml.writeStartElement(davUri, QStringLiteral("propstat"));
         xml.writeStartElement(davUri, QStringLiteral("prop"));
 
@@ -803,31 +809,34 @@ QNetworkReply *FakeQNAM::createRequest(QNetworkAccessManager::Operation op, cons
     bool isUpload = request.url().path().startsWith(sUploadUrl.path());
     FileInfo &info = isUpload ? _uploadFileInfo : _remoteRootFileInfo;
 
+    auto newRequest = request;
+    newRequest.setRawHeader("X-Request-ID", OCC::AccessManager::generateRequestId());
     auto verb = request.attribute(QNetworkRequest::CustomVerbAttribute);
     FakeReply *reply = nullptr;
     if (verb == QLatin1String("PROPFIND"))
         // Ignore outgoingData always returning somethign good enough, works for now.
-        reply = new FakePropfindReply { info, op, request, this };
+        reply = new FakePropfindReply { info, op, newRequest, this };
     else if (verb == QLatin1String("GET") || op == QNetworkAccessManager::GetOperation)
-        reply = new FakeGetReply { info, op, request, this };
+        reply = new FakeGetReply { info, op, newRequest, this };
     else if (verb == QLatin1String("PUT") || op == QNetworkAccessManager::PutOperation)
-        reply = new FakePutReply { info, op, request, outgoingData->readAll(), this };
+        reply = new FakePutReply { info, op, newRequest, outgoingData->readAll(), this };
     else if (verb == QLatin1String("MKCOL"))
-        reply = new FakeMkcolReply { info, op, request, this };
+        reply = new FakeMkcolReply { info, op, newRequest, this };
     else if (verb == QLatin1String("DELETE") || op == QNetworkAccessManager::DeleteOperation)
-        reply = new FakeDeleteReply { info, op, request, this };
+        reply = new FakeDeleteReply { info, op, newRequest, this };
     else if (verb == QLatin1String("MOVE") && !isUpload)
-        reply = new FakeMoveReply { info, op, request, this };
+        reply = new FakeMoveReply { info, op, newRequest, this };
     else if (verb == QLatin1String("MOVE") && isUpload)
-        reply = new FakeChunkMoveReply { info, _remoteRootFileInfo, op, request, this };
+        reply = new FakeChunkMoveReply { info, _remoteRootFileInfo, op, newRequest, this };
     else {
         qDebug() << verb << outgoingData;
         Q_UNREACHABLE();
     }
+    OCC::HttpLogger::logRequest(reply, op, outgoingData);
     return reply;
 }
 
-FakeFolder::FakeFolder(const FileInfo &fileTemplate)
+FakeFolder::FakeFolder(const FileInfo &fileTemplate, const OCC::Optional<FileInfo> &localFileInfo, const QString &remotePath)
     : _localModifier(_tempDir.path())
 {
     // Needs to be done once
@@ -836,7 +845,11 @@ FakeFolder::FakeFolder(const FileInfo &fileTemplate)
 
     QDir rootDir { _tempDir.path() };
     qDebug() << "FakeFolder operating on" << rootDir;
-    toDisk(rootDir, fileTemplate);
+    if (localFileInfo) {
+        toDisk(rootDir, *localFileInfo);
+    } else {
+        toDisk(rootDir, fileTemplate);
+    }
 
     _fakeQnam = new FakeQNAM(fileTemplate);
     _account = OCC::Account::create();
@@ -846,7 +859,7 @@ FakeFolder::FakeFolder(const FileInfo &fileTemplate)
     _account->setServerVersion(QStringLiteral("10.0.0"));
 
     _journalDb = std::make_unique<OCC::SyncJournalDb>(localPath() + QStringLiteral(".sync_test.db"));
-    _syncEngine = std::make_unique<OCC::SyncEngine>(_account, localPath(), QString(), _journalDb.get());
+    _syncEngine = std::make_unique<OCC::SyncEngine>(_account, localPath(), remotePath, _journalDb.get());
     // Ignore temporary files from the download. (This is in the default exclude list, but we don't load it)
     _syncEngine->excludedFiles().addManualExclude(QStringLiteral("]*.~*"));
 
@@ -977,7 +990,7 @@ void FakeFolder::fromDisk(QDir &dir, FileInfo &templateFi)
     }
 }
 
-FileInfo &findOrCreateDirs(FileInfo &base, PathComponents components)
+static FileInfo &findOrCreateDirs(FileInfo &base, PathComponents components)
 {
     if (components.isEmpty())
         return base;
@@ -1029,5 +1042,4 @@ FakeReply::FakeReply(QObject *parent)
     setRawHeader(QByteArrayLiteral("Date"), QDateTime::currentDateTimeUtc().toString(Qt::RFC2822Date).toUtf8());
 }
 
-FakeReply::~FakeReply()
-= default;
+FakeReply::~FakeReply() = default;

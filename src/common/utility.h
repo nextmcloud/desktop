@@ -235,6 +235,11 @@ namespace Utility {
      */
     OCSYNC_EXPORT QByteArray conflictFileBaseNameFromPattern(const QByteArray &conflictName);
 
+    /**
+     * @brief Check whether the path is a root of a Windows drive partition ([c:/, d:/, e:/, etc.)
+     */
+    OCSYNC_EXPORT bool isPathWindowsDrivePartitionRoot(const QString &path);
+
 #ifdef Q_OS_WIN
     OCSYNC_EXPORT bool registryKeyExists(HKEY hRootKey, const QString &subKey);
     OCSYNC_EXPORT QVariant registryGetKeyValue(HKEY hRootKey, const QString &subKey, const QString &valueName);
@@ -250,9 +255,6 @@ namespace Utility {
     OCSYNC_EXPORT void UnixTimeToLargeIntegerFiletime(time_t t, LARGE_INTEGER *hundredNSecs);
 
     OCSYNC_EXPORT QString formatWinError(long error);
-    inline QString formatLastWinError() {
-        return formatWinError(GetLastError());
-    };
 
     class OCSYNC_EXPORT NtfsPermissionLookupRAII
     {

@@ -16,6 +16,7 @@
 
 #include <map>
 #include <string>
+#include <algorithm>
 
 #include <cstdio>
 
@@ -32,6 +33,7 @@
 #include <QIODevice>
 #include <QUuid>
 #include <QScopeGuard>
+#include <QRandomGenerator>
 
 #include <qt5keychain/keychain.h>
 #include "common/utility.h"
@@ -236,12 +238,60 @@ namespace {
             return _pkey;
         }
 
+        operator EVP_PKEY*() const
+        {
+            return _pkey;
+        }
+
     private:
         Q_DISABLE_COPY(PKey)
 
         PKey() = default;
 
         EVP_PKEY* _pkey = nullptr;
+    };
+
+    class X509Certificate {
+    public:
+        ~X509Certificate()
+        {
+            X509_free(_certificate);
+        }
+
+        // The move constructor is needed for pre-C++17 where
+        // return-value optimization (RVO) is not obligatory
+        // and we have a static functions that return
+        // an instance of this class
+        X509Certificate(X509Certificate&& other)
+        {
+            std::swap(_certificate, other._certificate);
+        }
+
+        X509Certificate& operator=(X509Certificate&& other) = delete;
+
+        static X509Certificate readCertificate(Bio &bio)
+        {
+            X509Certificate result;
+            result._certificate = PEM_read_bio_X509(bio, nullptr, nullptr, nullptr);
+            return result;
+        }
+
+        operator X509*()
+        {
+            return _certificate;
+        }
+
+        operator X509*() const
+        {
+            return _certificate;
+        }
+
+    private:
+        Q_DISABLE_COPY(X509Certificate)
+
+        X509Certificate() = default;
+
+        X509* _certificate = nullptr;
     };
 
     QByteArray BIO2ByteArray(Bio &b) {
@@ -706,8 +756,8 @@ QByteArray decryptStringAsymmetric(EVP_PKEY *privateKey, const QByteArray& data)
     QByteArray out(outlen, '\0');
 
     if (EVP_PKEY_decrypt(ctx, unsignedData(out), &outlen, (unsigned char *)data.constData(), data.size()) <= 0) {
-        qCInfo(lcCseDecryption()) << "Could not decrypt the data.";
-        ERR_print_errors_fp(stdout); // This line is not printing anything.
+        const auto error = handleErrors();
+        qCCritical(lcCseDecryption()) << "Could not decrypt the data." << error;
         return {};
     } else {
         qCInfo(lcCseDecryption()) << "data decrypted successfully";
@@ -798,6 +848,56 @@ void ClientSideEncryption::fetchFromKeyChain(const AccountPtr &account)
     job->setKey(kck);
     connect(job, &ReadPasswordJob::finished, this, &ClientSideEncryption::publicKeyFetched);
     job->start();
+}
+
+bool ClientSideEncryption::checkPublicKeyValidity(const AccountPtr &account) const
+{
+    QByteArray data = EncryptionHelper::generateRandom(64);
+
+    Bio publicKeyBio;
+    QByteArray publicKeyPem = account->e2e()->_publicKey.toPem();
+    BIO_write(publicKeyBio, publicKeyPem.constData(), publicKeyPem.size());
+    auto publicKey = PKey::readPublicKey(publicKeyBio);
+
+    auto encryptedData = EncryptionHelper::encryptStringAsymmetric(publicKey, data.toBase64());
+
+    Bio privateKeyBio;
+    QByteArray privateKeyPem = account->e2e()->_privateKey;
+    BIO_write(privateKeyBio, privateKeyPem.constData(), privateKeyPem.size());
+    auto key = PKey::readPrivateKey(privateKeyBio);
+
+    QByteArray decryptResult = QByteArray::fromBase64(EncryptionHelper::decryptStringAsymmetric( key, QByteArray::fromBase64(encryptedData)));
+
+    if (data != decryptResult) {
+        qCInfo(lcCse()) << "invalid private key";
+        return false;
+    }
+
+    return true;
+}
+
+bool ClientSideEncryption::checkServerPublicKeyValidity(const QByteArray &serverPublicKeyString) const
+{
+    Bio serverPublicKeyBio;
+    BIO_write(serverPublicKeyBio, serverPublicKeyString.constData(), serverPublicKeyString.size());
+    const auto serverPublicKey = PKey::readPrivateKey(serverPublicKeyBio);
+
+    Bio certificateBio;
+    const auto certificatePem = _certificate.toPem();
+    BIO_write(certificateBio, certificatePem.constData(), certificatePem.size());
+    const auto x509Certificate = X509Certificate::readCertificate(certificateBio);
+    if (!x509Certificate) {
+        qCInfo(lcCse()) << "Client certificate is invalid. Could not check it against the server public key";
+        return false;
+    }
+
+    if (X509_verify(x509Certificate, serverPublicKey) == 0) {
+        qCInfo(lcCse()) << "Client certificate is not valid against the server public key";
+        return false;
+    }
+
+    qCDebug(lcCse()) << "Client certificate is valid against server public key";
+    return true;
 }
 
 void ClientSideEncryption::publicKeyFetched(Job *incoming)
@@ -1085,8 +1185,7 @@ void ClientSideEncryption::generateCSR(const AccountPtr &account, EVP_PKEY *keyP
             QString cert = json.object().value("ocs").toObject().value("data").toObject().value("public-key").toString();
             _certificate = QSslCertificate(cert.toLocal8Bit(), QSsl::Pem);
             _publicKey = _certificate.publicKey();
-            qCInfo(lcCse()) << "Certificate saved, Encrypting Private Key.";
-            encryptPrivateKey(account);
+            fetchAndValidatePublicKeyFromServer(account);
         }
         qCInfo(lcCse()) << retCode;
     });
@@ -1174,7 +1273,7 @@ void ClientSideEncryption::decryptPrivateKey(const AccountPtr &account, const QB
 
             qCInfo(lcCse()) << "Private key: " << _privateKey;
 
-            if (!_privateKey.isNull()) {
+            if (!_privateKey.isNull() && checkPublicKeyValidity(account)) {
                 writePrivateKey(account);
                 writeCertificate(account);
                 writeMnemonic(account);
@@ -1219,15 +1318,45 @@ void ClientSideEncryption::getPublicKeyFromServer(const AccountPtr &account)
                 QString publicKey = doc.object()["ocs"].toObject()["data"].toObject()["public-keys"].toObject()[account->davUser()].toString();
                 _certificate = QSslCertificate(publicKey.toLocal8Bit(), QSsl::Pem);
                 _publicKey = _certificate.publicKey();
-                qCInfo(lcCse()) << publicKey;
-                qCInfo(lcCse()) << "Found Public key, requesting Private Key.";
-                getPrivateKeyFromServer(account);
+                qCInfo(lcCse()) << "Found Public key, requesting Server Public Key. Public key:" << publicKey;
+                fetchAndValidatePublicKeyFromServer(account);
             } else if (retCode == 404) {
                 qCInfo(lcCse()) << "No public key on the server";
                 generateKeyPair(account);
             } else {
                 qCInfo(lcCse()) << "Error while requesting public key: " << retCode;
             }
+    });
+    job->start();
+}
+
+void ClientSideEncryption::fetchAndValidatePublicKeyFromServer(const AccountPtr &account)
+{
+    qCInfo(lcCse()) << "Retrieving public key from server";
+    auto job = new JsonApiJob(account, baseUrl() + "server-key", this);
+    connect(job, &JsonApiJob::jsonReceived, [this, account](const QJsonDocument& doc, int retCode) {
+        if (retCode == 200) {
+            const auto serverPublicKey = doc.object()["ocs"].toObject()["data"].toObject()["public-key"].toString().toLatin1();
+            qCInfo(lcCse()) << "Found Server Public key, checking it. Server public key:" << serverPublicKey;
+            if (checkServerPublicKeyValidity(serverPublicKey)) {
+                if (_privateKey.isEmpty()) {
+                    qCInfo(lcCse()) << "Valid Server Public key, requesting Private Key.";
+                    getPrivateKeyFromServer(account);
+                } else {
+                    qCInfo(lcCse()) << "Certificate saved, Encrypting Private Key.";
+                    encryptPrivateKey(account);
+                }
+            } else {
+                qCInfo(lcCse()) << "Error invalid server public key";
+                _certificate = QSslCertificate();
+                _publicKey = QSslKey();
+                _privateKey = QByteArray();
+                getPublicKeyFromServer(account);
+                return;
+            }
+        } else {
+            qCInfo(lcCse()) << "Error while requesting server public key: " << retCode;
+        }
     });
     job->start();
 }

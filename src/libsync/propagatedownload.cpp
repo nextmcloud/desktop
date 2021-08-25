@@ -344,11 +344,13 @@ void GETFileJob::slotReadyRead()
 
 void GETFileJob::cancel()
 {
-    if (reply()->isRunning()) {
-        reply()->abort();
+    const auto networkReply = reply();
+    if (networkReply && networkReply->isRunning()) {
+        networkReply->abort();
     }
-
-    emit canceled();
+    if (_device && _device->isOpen()) {
+        _device->close();
+    }
 }
 
 void GETFileJob::onTimedOut()
@@ -397,7 +399,7 @@ void PropagateDownloadFile::start()
         });
         connect(_downloadEncryptedHelper, &PropagateDownloadEncrypted::failed, [this] {
           done(SyncFileItem::NormalError,
-               tr("File %1 can not be downloaded because encryption information is missing.").arg(QDir::toNativeSeparators(_item->_file)));
+               tr("File %1 cannot be downloaded because encryption information is missing.").arg(QDir::toNativeSeparators(_item->_file)));
         });
         _downloadEncryptedHelper->start();
     }
@@ -527,7 +529,7 @@ void PropagateDownloadFile::startDownload()
 
     // do a klaas' case clash check.
     if (propagator()->localFileNameClash(_item->_file)) {
-        done(SyncFileItem::NormalError, tr("File %1 can not be downloaded because of a local file name clash!").arg(QDir::toNativeSeparators(_item->_file)));
+        done(SyncFileItem::NormalError, tr("File %1 cannot be downloaded because of a local file name clash!").arg(QDir::toNativeSeparators(_item->_file)));
         return;
     }
 
@@ -652,12 +654,10 @@ void PropagateDownloadFile::slotGetFinished()
     ASSERT(job);
 
     _item->_httpErrorCode = job->reply()->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    _item->_responseTimeStamp = job->responseTimestamp();
     _item->_requestId = job->requestId();
 
     QNetworkReply::NetworkError err = job->reply()->error();
     if (err != QNetworkReply::NoError) {
-
         // If we sent a 'Range' header and get 416 back, we want to retry
         // without the header.
         const bool badRangeHeader = job->resumeStart() > 0 && _item->_httpErrorCode == 416;
@@ -728,6 +728,8 @@ void PropagateDownloadFile::slotGetFinished()
         return;
     }
 
+    _item->_responseTimeStamp = job->responseTimestamp();
+
     if (!job->etag().isEmpty()) {
         // The etag will be empty if we used a direct download URL.
         // (If it was really empty by the server, the GETFileJob will have errored
@@ -780,7 +782,7 @@ void PropagateDownloadFile::slotGetFinished()
     if (_tmpFile.size() == 0 && _item->_size > 0) {
         FileSystem::remove(_tmpFile.fileName());
         done(SyncFileItem::NormalError,
-            tr("The downloaded file is empty despite that the server announced it should have been %1.")
+            tr("The downloaded file is empty, but the server said it should have been %1.")
                 .arg(Utility::octetsToString(_item->_size)));
         return;
     }
@@ -822,7 +824,7 @@ void PropagateDownloadFile::slotGetFinished()
 }
 
 void PropagateDownloadFile::slotChecksumFail(const QString &errMsg)
-{
+{ 
     FileSystem::remove(_tmpFile.fileName());
     propagator()->_anotherSyncNeeded = true;
     done(SyncFileItem::SoftError, errMsg); // tr("The file downloaded with a broken checksum, will be redownloaded."));
@@ -1088,10 +1090,13 @@ void PropagateDownloadFile::downloadFinished()
 
 void PropagateDownloadFile::updateMetadata(bool isConflict)
 {
-    QString fn = propagator()->fullLocalPath(_item->_file);
-
-    if (!propagator()->updateMetadata(*_item)) {
-        done(SyncFileItem::FatalError, tr("Error writing metadata to the database"));
+    const QString fn = propagator()->fullLocalPath(_item->_file);
+    const auto result = propagator()->updateMetadata(*_item);
+    if (!result) {
+        done(SyncFileItem::FatalError, tr("Error updating metadata: %1").arg(result.error()));
+        return;
+    } else if (*result == Vfs::ConvertToPlaceholderResult::Locked) {
+        done(SyncFileItem::SoftError, tr("The file %1 is currently in use").arg(_item->_file));
         return;
     }
 

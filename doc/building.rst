@@ -184,9 +184,9 @@ Then, in Terminal:
       
    .. code-block:: bash
 
-        % echo 'export CMAKE_INSTALL_PREFIX=~/Builds' >> ~/.nextcloud_build_variables
+      % echo 'export CMAKE_INSTALL_PREFIX=~/Builds' >> ~/.nextcloud_build_variables
       
-      Replace ``~/Builds`` with a different directory if you'd like the build to end up elsewhere.
+   Replace ``~/Builds`` with a different directory if you'd like the build to end up elsewhere.
    
 ..
 
@@ -218,7 +218,7 @@ follow `Windows Installer Build (Cross-Compile)`_ instead.
 2. Get the QtKeychain_ sources as well as the latest versions of the Nextcloud client
    from Git as follows
 
-   .. code-block::
+   .. code-block:: bash
    
       git clone https://github.com/frankosterfeld/qtkeychain.git
       git clone git://github.com/nextcloud/client.git
@@ -259,7 +259,7 @@ follow `Windows Installer Build (Cross-Compile)`_ instead.
 .. _`Windows Installer Build (Cross-Compile)`:
 
 Windows Installer (i.e. Deployment) Build (Cross-Compile)
----------------------------------------
+---------------------------------------------------------
 
 Due to the large number of dependencies, building the client installer for Windows
 is **currently only officially supported on openSUSE**, by using the MinGW cross compiler.
@@ -372,6 +372,38 @@ The following are known cmake parameters:
 * ``CMAKE_PREFIX_PATH=/path/to/Qt5.2.0/5.2.0/yourarch/lib/cmake/``: Builds using Qt5.
 * ``BUILD_WITH_QT4=ON``: Builds using Qt4 (even if Qt5 is found).
 * ``CMAKE_INSTALL_PREFIX=path``: Set an install prefix. This is mandatory on Mac OS
+
+Address Sanitizer
+=================
+
+You can enable the address sanitizer to detect memory corruptions and other mistakes.
+The are the following sanitizers are available:
+
+
+* Address Sanitizer
+* Leak anitizer
+* Memory sanitizer
+* Undefined sanitizer
+* Threads sanitizer
+
+You can enable one or more sanitizers through CMake. For example, to
+enable the address and the undefined sanitizer, execute CMake like
+``cmake .. -D ECM_ENABLE_SANITIZERS="address;undefined"``.
+Keep in mind that not all combinations of sanitizers work together, and on some
+platforms, not all types of sanitizers are available. For example, on Windows there is
+currently only the address sanitizer available. If you are on Windows, you need to
+make sure that the linker can find the sanitizer dlls at runtime. If you installed
+Visual Studio in the standard location, you could find them in
+**C:/ProgramFiles (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/Llvm/x64/lib/clang/10.0.0/lib/windows**.
+Make sure you add this location to your path. You may also need to
+`upgrade your Visual Studio version <https://docs.microsoft.com/en-us/cpp/sanitizers/asan?view=msvc-160#install-the-addresssanitizer>`_.
+
+.. note:: If you use Visual Studio on Windows, you can enable the
+          sanitizer if you click on **Manage Configurations**, scroll
+          down to the section **CMake Command Arguments** and enter then
+          ``-D ECM_ENABLE_SANITIZERS="address"`` in the text input field below.
+          After that, click on **Save and generate CMake cache to load variables**
+          right above the table.
 
 .. _CMake: http://www.cmake.org/download
 .. _CSync: http://www.csync.org

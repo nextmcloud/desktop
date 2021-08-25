@@ -152,7 +152,7 @@ Conflict files are always created on the client and never on the server.
             "capabilities":{
                 "core":{
                   "pollinterval":60,
-                  "webdav-root":"remote.php/webdav"
+                  "webdav-root":"remote.php/dav"
                 },
                 "dav":{
                   "chunking":"1.0"
@@ -369,3 +369,77 @@ is renamed or moved.
 Example:
 
   <oc:id>00000020oc5cfy6qqizm</oc:id>
+  
+End-to-end Encryption
+---------------------
+
+Nextcloud is built around the fundamental assumption that, as you can host your own Nextcloud server, you can trust it with your data. This assumption means data on the Nextcloud server can be provided to users through a browser interface. Users can browse their files online, access their calendars and mail and other data from the respective apps and share and collaboratively edit documents with others including guests and users without an account. While data on the server can be encrypted, this is largely designed to protect it from malicious storage solutions or theft of the whole hardware. System administrators always have access to the data.
+
+But for a subset of data, this assumption of trust might not hold true. For example, at an enterprise, the documents of the Human Resources department or the financial department are too sensitive to allow system administrators who manage the server, access them. As a private user, you might trust your hosting provider with the vast majority of your data but not with medical records. And even if there is trust in the server administration team, a breach of the server can never entirely be ruled out and for some data, even a tiny risk is unacceptable.
+
+The Nextcloud End-to-end Encryption feature (E2EE) was designed to offer protection against a full compromise of the server. See for more details our blog about the `threat model for the encryption solutions in Nextcloud`_ and our `webpage about End-to-end Encryption`_. If the end-to-end encryption app is enabled on the server, users can use one of the clients to select a local folder and enable this feature. This will ensure the client encrypts data before it is transmitted to the server.
+
+The first time E2EE is enabled on a folder in any of the clients, the user is prompted with a private key consisting of 12 security words. The user is strongly recommended to record these somewhere secure as the complete loss of this private key means there is no way to access their data anymore. The key is also securely stored in the device's key storage and can be shown on demand. Making the folder available on a second device requires entering this key. Future versions of Nextcloud clients will be able to display a QR code to simplify the process of adding devices. Sharing with other users will not require any special keys or passwords.
+
+Encrypting files locally means the server has no access to them. This brings with it a number of limitations:
+
+* E2EE files can not be accessed or previewed through the web interface
+* E2EE files can not be edited with Online Office solutions
+* E2EE files can not be shared with a public link
+* E2EE files can not be searched, tagged, commented on and have no versioning or trash bin
+* E2EE files can not be accessed in other Nextcloud Apps. This means they have no chat sidebar, can not be attached to emails or deck cards, shared in Talk rooms and so on
+* E2EE results in slower syncing of file and works poorly or not at all with large files and large quantities of files
+
+These limitations are fundamental to how securely implemented end-to-end encryption works. We realize there are some solutions that call their technology 'end-to-end encryption' but with browser access. Reality is that offering browser access to end-to-end encrypted files would essentially negate any of the benefits of end-to-end encryption. Serving a file in the browser means the server needs to be able to read the files. But if the server can read the files, administrator or a malicious attacker who gained access to the server, can too. Decrypting the file in the browser does not solve this security risk in the least, as the javascript code that would be needed to decrypt the file comes FROM the server, and of course a compromised server would simply send modified javascript code which sends a copy of the encryption keys to the attacker without anybody noticing. See for more details our blog about the `threat model for the encryption solutions in Nextcloud`_ and our `webpage about End-to-end Encryption`_.
+
+The E2EE design of Nextcloud allows for sharing on a per-folder level to individual users (not groups), but, as of early 2021, this feature is still on the road map for implementation in the clients.
+
+Due to all these limitations that are inherent to true end-to-end encryption, it is only recommended for a small subset of files, in just a small number of folders. Encrypting your entire sync folder is likely to result in poor performance and sync errors and if you do not trust your server at all, Nextcloud is perhaps not the right solution for your use case. You might instead want to use encrypted archives or another solution.
+
+.. note::
+    * End-to-end Encryption works with Virtual Files (VFS) but only on a per-folder level. Folders with E2EE have to be made available offline in their entirety to access the files, they can not be retrieved on demand in the folder.
+
+.. _`webpage about End-to-end Encryption`: http://nextcloud.com/endtoend
+.. _`threat model for the encryption solutions in Nextcloud`: https://nextcloud.com/blog/encryption-in-nextcloud/
+
+Virtual Files
+-------------
+
+.. note::
+    * This feature is currently only available on ``Windows`` by default. ``Linux`` implementation is experimental and must be enabled by adding ``showExperimentalOptions=true`` to the ``nextcloud.cfg`` configuration file in the ``App Data`` folder. ``macOS``, at the moment, is using the same backend as ``Linux`` one. It can be enabled with the same ``showExperimentalOptions`` flag.
+
+Oftentimes, users are working with a huge amount of files that are big in size. Synchronizing every such file to a device that's running a Nextcloud desktop client is not always possible due to the user's device storage space limitation.
+Let's assume that your desktop client is connected to a server that has 1TB of data. You want all those files at hand, so you can quickly access any file via the file explorer. Your device has 512GB local storage device.
+Obviously, it's not possible to synchronize even half of 1TB of data that is on the server. What should you do in this case? Of course, you can just utilize the Selective Sync feature, and keep switching between different folders, in such a way that you only synchronize those folders that you are currently working with.
+Needless to say, this is far from being convenient.
+
+That's why, starting from 3.2.0, we are introducing the VFS (Virtual Files) feature. You may have had experience working with a similar feature in other cloud sync clients. This feature is known by different names: Files On-Demand, SmartSync, etc.
+The VFS does not occupy much space on the user's storage. It just creates placeholders for each file and folder. These files are quite small and only contain metadata needed to display them properly and to fetch the actual file when needed.
+
+One will see a hydration (in other words - file download) process when double-clicking on a file that must become available. There will be a progress-bar popup displayed if the file is large enough. So, the hydration process can be observed and it makes it easy to then find out, how long, it would take to fetch the actual file from the server.
+The "Hydration" can be thought of as "downloading" or "fetching" the file contents. As soon as hydration is complete, the file will then be opened normally as now it is a real file on the user's storage. It won't disappear, and, from now on, will always be available, unless it is manually dehydrated.
+
+.. image:: images/vfs_hydration_progress_bar.png
+   :alt: VFS hydration progress bar
+
+As long as the VFS is enabled, a user can choose to remove files that are no longer needed from the local storage. This can be achieved by right-clicking the file/folder in the explorer, and then, choosing "Free up local space" from the context menu.
+Alternatively, space can be freed up by right-clicking the sync folder in the Settings dialog. It is also possible to make files always hydrated, or, in other words, always available locally. A user just needs to choose the "Make always available locally" option in the aforementioned context menus.
+
+.. image:: images/vfs_context_menu_options.png
+   :alt: VFS context menu options
+
+The VFS can also be disabled if needed, so, the entire folder will then be synced normally. This option is available in the context menu of a sync folder in the Settings dialog. Once disabled, the VFS can also be enabled back by using the same context menu.
+Files that must be removed from the local storage only, need to be dehydrated via the "Free up local space" option, so, the placeholder will get created in place of real files.
+
+.. note::
+    * End-to-end Encryption works with Virtual Files (VFS) but only on a per-folder level. Folders with E2EE can be made available offline in their entirety, but the individual files in them can not be retrieved on demand. This is mainly due to two technical reasons. First, the Windows VFS API is not designed for handling encrypted files. Second, while the VFS is designed to deal mostly with large files, E2EE is mostly recommended for use with small files as encrypting and decrypting large files puts large demands on the computer infrastructure.
+
+
+User Status
+-----------
+
+Starting from 3.2.0, user status is displayed in the Nextcloud desktop client's tray window. The icon and a text message are displayed as long as those are set in the user's account menu in the Web UI (server's website). At the moment, setting the status from the desktop client is not available.
+The status is updated almost immediately after it is set in the Web UI. Default user status is always "Online" if no other status is available from the server-side.
+
+.. image:: images/status_feature_example.png
+   :alt: User Status feature in the tray window

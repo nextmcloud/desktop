@@ -11,12 +11,6 @@ if ( APPLE )
     )
 endif()
 
-IF(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD|NetBSD|OpenBSD")
-    list(APPEND OS_SPECIFIC_LINK_LIBRARIES
-	inotify
-    )
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD|NetBSD|OpenBSD")
-
 set(libsync_SRCS
     account.cpp
     pushnotifications.cpp
@@ -64,25 +58,7 @@ set(libsync_SRCS
     creds/abstractcredentials.cpp
     creds/credentialscommon.cpp
     creds/keychainchunk.cpp
-    vfs/suffix/vfs_suffix.cpp
 )
-
-if (WIN32)
-    set(libsync_SRCS ${libsync_SRCS}
-        vfs/cfapi/cfapiwrapper.cpp
-        vfs/cfapi/hydrationjob.cpp
-        vfs/cfapi/vfs_cfapi.cpp
-    )
-    add_definitions(-D_WIN32_WINNT=_WIN32_WINNT_WIN10)
-    list(APPEND OS_SPECIFIC_LINK_LIBRARIES cldapi)
-elseif(LINUX) # elseif(LINUX OR APPLE)
-    set(libsync_SRCS ${libsync_SRCS} vfs/xattr/vfs_xattr.cpp)
-    if (APPLE)
-        set(libsync_SRCS ${libsync_SRCS} vfs/xattr/xattrwrapper_mac.cpp)
-    else()
-        set(libsync_SRCS ${libsync_SRCS} vfs/xattr/xattrwrapper_linux.cpp)
-    endif()
-endif()
 
 if(TOKEN_AUTH_ONLY)
     set (libsync_SRCS ${libsync_SRCS} creds/tokencredentials.cpp)
@@ -135,10 +111,9 @@ if (NOT TOKEN_AUTH_ONLY)
     target_link_libraries(${synclib_NAME} PUBLIC Qt5::Widgets Qt5::Svg qt5keychain)
 endif()
 
-if(INOTIFY_FOUND)
-    target_include_directories(${synclib_NAME} PRIVATE ${INOTIFY_INCLUDE_DIR})
-    link_directories(${INOTIFY_LIBRARY_DIR})
-    target_link_libraries(${synclib_NAME} ${INOTIFY_LIBRARY} )
+if(Inotify_FOUND)
+    target_include_directories(${synclib_NAME} PRIVATE ${Inotify_INCLUDE_DIRS})
+    target_link_libraries(${synclib_NAME} PUBLIC ${Inotify_LIBRARIES})
 endif()
 
 GENERATE_EXPORT_HEADER( ${synclib_NAME}
@@ -166,3 +141,6 @@ if(NOT BUILD_OWNCLOUD_OSX_BUNDLE)
 else()
     install(TARGETS ${synclib_NAME} DESTINATION ${OWNCLOUD_OSX_BUNDLE}/Contents/MacOS)
 endif()
+
+
+add_subdirectory(vfs)

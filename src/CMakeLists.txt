@@ -2,9 +2,17 @@
 if(NOT TOKEN_AUTH_ONLY)
 endif()
 
+include(ECMEnableSanitizers)
+
 set(synclib_NAME ${APPLICATION_EXECUTABLE}sync)
 
-find_package(Qt5 5.12 COMPONENTS Core Network Xml Concurrent WebEngineWidgets WebEngine REQUIRED)
+find_package(Qt5 5.12 COMPONENTS Core Network Xml Concurrent REQUIRED)
+find_package(Qt5 5.12 COMPONENTS WebEngineWidgets WebEngine)
+
+if(Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
+  add_compile_definitions(WITH_WEBENGINE=1)
+endif()
+
 get_target_property (QT_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
 message(STATUS "Using Qt ${Qt5Core_VERSION} (${QT_QMAKE_EXECUTABLE})")
 
@@ -30,10 +38,12 @@ if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_FORTIFY_SOURCE=2")
   endif()
 
-  # Calling Qt's qCWarning(category, ...) with no params for "..." is a GNU
-  # extension (C++11 §16.3/4 forbids them). Silence clang's warnings.
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-gnu-zero-variadic-macro-arguments")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments")
+  if (CMAKE_CXX_COMPILER MATCHES "Clang")
+    # Calling Qt's qCWarning(category, ...) with no params for "..." is a GNU
+    # extension (C++11 §16.3/4 forbids them). Silence clang's warnings.
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-gnu-zero-variadic-macro-arguments")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-zero-variadic-macro-arguments")
+  endif()
 endif()
 
 if(WIN32)

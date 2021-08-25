@@ -105,6 +105,8 @@ Folder::Folder(const FolderDefinition &definition,
         this, &Folder::slotLogPropagationStart);
     connect(_engine.data(), &SyncEngine::syncError, this, &Folder::slotSyncError);
 
+    connect(_engine.data(), &SyncEngine::addErrorToGui, this, &Folder::slotAddErrorToGui);
+
     _scheduleSelfTimer.setSingleShot(true);
     _scheduleSelfTimer.setInterval(SyncEngine::minimumFileAgeForUpload);
     connect(&_scheduleSelfTimer, &QTimer::timeout,
@@ -250,7 +252,7 @@ bool Folder::isBusy() const
 
 bool Folder::isSyncRunning() const
 {
-    return _engine->isSyncRunning() || _vfs->isHydrating();
+    return _engine->isSyncRunning() || (_vfs && _vfs->isHydrating());
 }
 
 QString Folder::remotePath() const
@@ -936,6 +938,11 @@ void Folder::slotSyncError(const QString &message, ErrorCategory category)
     emit ProgressDispatcher::instance()->syncError(alias(), message, category);
 }
 
+void Folder::slotAddErrorToGui(SyncFileItem::Status status, const QString &errorMessage, const QString &subject)
+{
+    emit ProgressDispatcher::instance()->addErrorToGui(alias(), status, errorMessage, subject);
+}
+
 void Folder::slotSyncStarted()
 {
     qCInfo(lcFolder) << "#### Propagation start ####################################################";
@@ -1240,8 +1247,11 @@ bool Folder::virtualFilesEnabled() const
 void Folder::slotAboutToRemoveAllFiles(SyncFileItem::Direction dir, std::function<void(bool)> callback)
 {
     ConfigFile cfgFile;
-    if (!cfgFile.promptDeleteFiles())
+    if (!cfgFile.promptDeleteFiles()) {
+        callback(false);
         return;
+    }
+
     const QString msg = dir == SyncFileItem::Down ? tr("All files in the sync folder '%1' folder were deleted on the server.\n"
                                                  "These deletes will be synchronized to your local sync folder, making such files "
                                                  "unavailable unless you have a right to restore. \n"

@@ -408,6 +408,12 @@ bool SyncJournalDb::checkConnect()
         return sqlFail(QStringLiteral("Create table metadata"), createQuery);
     }
 
+    createQuery.prepare("CREATE TABLE IF NOT EXISTS key_value_store(key VARCHAR(4096), value VARCHAR(4096), PRIMARY KEY(key));");
+
+    if (!createQuery.exec()) {
+        return sqlFail(QStringLiteral("Create table key_value_store"), createQuery);
+    }
+
     createQuery.prepare("CREATE TABLE IF NOT EXISTS downloadinfo("
                         "path VARCHAR(4096),"
                         "tmpfile VARCHAR(4096),"
@@ -892,7 +898,7 @@ qint64 SyncJournalDb::getPHash(const QByteArray &file)
     return h;
 }
 
-bool SyncJournalDb::setFileRecord(const SyncJournalFileRecord &_record)
+Result<void, QString> SyncJournalDb::setFileRecord(const SyncJournalFileRecord &_record)
 {
     SyncJournalFileRecord record = _record;
     QMutexLocker locker(&_mutex);
@@ -934,7 +940,7 @@ bool SyncJournalDb::setFileRecord(const SyncJournalFileRecord &_record)
             "INSERT OR REPLACE INTO metadata "
             "(phash, pathlen, path, inode, uid, gid, mode, modtime, type, md5, fileid, remotePerm, filesize, ignoredChildrenRemote, contentChecksum, contentChecksumTypeId, e2eMangledName, isE2eEncrypted) "
             "VALUES (?1 , ?2, ?3 , ?4 , ?5 , ?6 , ?7,  ?8 , ?9 , ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18);"), _db)) {
-            return false;
+            return _setFileRecordQuery.error();
         }
 
         _setFileRecordQuery.bindValue(1, phash);
@@ -957,16 +963,87 @@ bool SyncJournalDb::setFileRecord(const SyncJournalFileRecord &_record)
         _setFileRecordQuery.bindValue(18, record._isE2eEncrypted);
 
         if (!_setFileRecordQuery.exec()) {
-            return false;
+            return _setFileRecordQuery.error();
         }
 
         // Can't be true anymore.
         _metadataTableIsEmpty = false;
 
-        return true;
+        return {};
     } else {
         qCWarning(lcDb) << "Failed to connect database.";
-        return false; // checkConnect failed.
+        return tr("Failed to connect database."); // checkConnect failed.
+    }
+}
+
+void SyncJournalDb::keyValueStoreSet(const QString &key, QVariant value)
+{
+    QMutexLocker locker(&_mutex);
+    if (!checkConnect()) {
+        return;
+    }
+
+    if (!_setKeyValueStoreQuery.initOrReset(QByteArrayLiteral("INSERT OR REPLACE INTO key_value_store (key, value) VALUES(?1, ?2);"), _db)) {
+        return;
+    }
+
+    _setKeyValueStoreQuery.bindValue(1, key);
+    _setKeyValueStoreQuery.bindValue(2, value);
+    _setKeyValueStoreQuery.exec();
+}
+
+qint64 SyncJournalDb::keyValueStoreGetInt(const QString &key, qint64 defaultValue)
+{
+    QMutexLocker locker(&_mutex);
+    if (!checkConnect()) {
+        return defaultValue;
+    }
+
+    if (!_getKeyValueStoreQuery.initOrReset(QByteArrayLiteral("SELECT value FROM key_value_store WHERE key = ?1;"), _db)) {
+        return defaultValue;
+    }
+
+    _getKeyValueStoreQuery.bindValue(1, key);
+    _getKeyValueStoreQuery.exec();
+
+    if (!_getKeyValueStoreQuery.next().hasData) {
+        return defaultValue;
+    }
+
+    return _getKeyValueStoreQuery.int64Value(0);
+}
+
+QVariant SyncJournalDb::keyValueStoreGet(const QString &key, QVariant defaultValue)
+{
+    QMutexLocker locker(&_mutex);
+    if (!checkConnect()) {
+        return defaultValue;
+    }
+
+    if (!_getKeyValueStoreQuery.initOrReset(QByteArrayLiteral("SELECT value FROM key_value_store WHERE key = ?1;"), _db)) {
+        return defaultValue;
+    }
+
+    _getKeyValueStoreQuery.bindValue(1, key);
+    _getKeyValueStoreQuery.exec();
+
+    if (!_getKeyValueStoreQuery.next().hasData) {
+        return defaultValue;
+    }
+
+    return _getKeyValueStoreQuery.stringValue(0);
+}
+
+void SyncJournalDb::keyValueStoreDelete(const QString &key)
+{
+    if (!_deleteKeyValueStoreQuery.initOrReset("DELETE FROM key_value_store WHERE key=?1;", _db)) {
+        qCWarning(lcDb) << "Failed to initOrReset _deleteKeyValueStoreQuery";
+        Q_ASSERT(false);
+    }
+    _deleteKeyValueStoreQuery.bindValue(1, key);
+    if (!_deleteKeyValueStoreQuery.exec()) {
+        qCWarning(lcDb) << "Failed to exec _deleteKeyValueStoreQuery for key" << key;
+        Q_ASSERT(false);
     }
 }
 

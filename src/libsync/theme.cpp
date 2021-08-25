@@ -466,8 +466,8 @@ QString Theme::about() const
               .arg(QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)) + QString(" (%1)").arg(osName))
               .arg(helpUrl());
 
-    devString += QString("<p><small>Using virtual files plugin: %1</small></p>")
-        .arg(Vfs::modeToString(bestAvailableVfsMode()));
+    devString += tr("<p><small>Using virtual files plugin: %1</small></p>")
+                     .arg(Vfs::modeToString(bestAvailableVfsMode()));
 
     return devString;
 }
@@ -641,16 +641,6 @@ QPixmap Theme::wizardHeaderBanner() const
 bool Theme::wizardSelectiveSyncDefaultNothing() const
 {
     return false;
-}
-
-QString Theme::webDavPath() const
-{
-    return QLatin1String("remote.php/webdav/");
-}
-
-QString Theme::webDavPathNonShib() const
-{
-    return QLatin1String("remote.php/nonshib-webdav/");
 }
 
 bool Theme::linkSharing() const

@@ -14,6 +14,8 @@
 
 
 #include "accountsettings.h"
+#include "common/syncjournalfilerecord.h"
+#include "qmessagebox.h"
 #include "ui_accountsettings.h"
 
 #include "theme.h"
@@ -55,16 +57,17 @@
 #include <QVariant>
 #include <QJsonDocument>
 #include <QToolTip>
-#include <qstringlistmodel.h>
-#include <qpropertyanimation.h>
 
 #include "account.h"
 
 namespace {
-constexpr auto propertyFolderInfo = "folderInfo";
+constexpr auto propertyFolder = "folder";
+constexpr auto propertyPath = "path";
 }
 
 namespace OCC {
+
+class AccountSettings;
 
 Q_LOGGING_CATEGORY(lcAccountSettings, "nextcloud.gui.account.settings", QtInfoMsg)
 
@@ -77,6 +80,28 @@ static const char progressBarStyleC[] =
     "QProgressBar::chunk {"
     "background-color: %1; width: 1px;"
     "}";
+
+void showEnableE2eeWithVirtualFilesWarningDialog(std::function<void(void)> onAccept)
+{
+    const auto messageBox = new QMessageBox;
+    messageBox->setAttribute(Qt::WA_DeleteOnClose);
+    messageBox->setText(AccountSettings::tr("End-to-End Encryption with Virtual Files"));
+    messageBox->setInformativeText(AccountSettings::tr("You seem to have the Virtual Files feature enabled on this folder. At "
+                                                       " the moment, it is not possible to implicitly download virtual files that are "
+                                                       "End-to-End encrypted. To get the best experience with Virtual Files and"
+                                                       " End-to-End Encryption, make sure the encrypted folder is marked with"
+                                                       " \"Make always available locally\"."));
+    messageBox->setIcon(QMessageBox::Warning);
+    const auto dontEncryptButton = messageBox->addButton(QMessageBox::StandardButton::Cancel);
+    Q_ASSERT(dontEncryptButton);
+    dontEncryptButton->setText(AccountSettings::tr("Don't encrypt folder"));
+    const auto encryptButton = messageBox->addButton(QMessageBox::StandardButton::Ok);
+    Q_ASSERT(encryptButton);
+    encryptButton->setText(AccountSettings::tr("Encrypt folder"));
+    QObject::connect(messageBox, &QMessageBox::accepted, onAccept);
+
+    messageBox->open();
+}
 
 /**
  * Adjusts the mouse cursor based on the region it is on over the folder tree view.
@@ -245,9 +270,10 @@ void AccountSettings::slotEncryptFolderFinished(int status)
         QMessageBox::warning(nullptr, tr("Warning"), job->errorString());
     }
 
-    const auto folderInfo = job->property(propertyFolderInfo).value<FolderStatusModel::SubFolderInfo*>();
-    Q_ASSERT(folderInfo);
-    const auto index = _model->indexForPath(folderInfo->_folder, folderInfo->_path);
+    const auto folder = job->property(propertyFolder).value<Folder *>();
+    Q_ASSERT(folder);
+    const auto path = job->property(propertyPath).value<QString>();
+    const auto index = _model->indexForPath(folder, path);
     Q_ASSERT(index.isValid());
     _model->resetAndFetch(index.parent());
 
@@ -315,15 +341,37 @@ void AccountSettings::slotMarkSubfolderEncrypted(FolderStatusModel::SubFolderInf
         return;
     }
 
-    // Folder info have directory paths in Foo/Bar/ convention...
-    Q_ASSERT(!folderInfo->_path.startsWith('/') && folderInfo->_path.endsWith('/'));
-    // But EncryptFolderJob expects directory path Foo/Bar convention
-    const auto path = folderInfo->_path.chopped(1);
+    const auto folder = folderInfo->_folder;
+    Q_ASSERT(folder);
 
-    auto job = new OCC::EncryptFolderJob(accountsState()->account(), folderInfo->_folder->journalDb(), path, folderInfo->_fileId, this);
-    job->setProperty(propertyFolderInfo, QVariant::fromValue(folderInfo));
-    connect(job, &OCC::EncryptFolderJob::finished, this, &AccountSettings::slotEncryptFolderFinished);
-    job->start();
+    const auto folderAlias = folder->alias();
+    const auto path = folderInfo->_path;
+    const auto fileId = folderInfo->_fileId;
+    const auto encryptFolder = [this, fileId, path, folderAlias] {
+        const auto folder = FolderMan::instance()->folder(folderAlias);
+        if (!folder) {
+            qCWarning(lcAccountSettings) << "Could not encrypt folder because folder" << folderAlias << "does not exist anymore";
+            QMessageBox::warning(nullptr, tr("Encryption failed"), tr("Could not encrypt folder because the folder does not exist anymore"));
+            return;
+        }
+
+        // Folder info have directory paths in Foo/Bar/ convention...
+        Q_ASSERT(!path.startsWith('/') && path.endsWith('/'));
+        // But EncryptFolderJob expects directory path Foo/Bar convention
+        const auto choppedPath = path.chopped(1);
+        auto job = new OCC::EncryptFolderJob(accountsState()->account(), folder->journalDb(), choppedPath, fileId, this);
+        job->setProperty(propertyFolder, QVariant::fromValue(folder));
+        job->setProperty(propertyPath, QVariant::fromValue(path));
+        connect(job, &OCC::EncryptFolderJob::finished, this, &AccountSettings::slotEncryptFolderFinished);
+        job->start();
+    };
+
+    if (folder->virtualFilesEnabled()
+        && folder->vfs().mode() == Vfs::WindowsCfApi) {
+        showEnableE2eeWithVirtualFilesWarningDialog(encryptFolder);
+        return;
+    }
+    encryptFolder();
 }
 
 void AccountSettings::slotEditCurrentIgnoredFiles()
@@ -463,20 +511,10 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
 
         const auto path = rec.isValid() ? rec._path : remotePath;
 
-        auto availability = folder->vfs().availability(path);
-        if (availability) {
-            ac = availabilityMenu->addAction(Utility::vfsCurrentAvailabilityText(*availability));
-            ac->setEnabled(false);
-        }
-
         ac = availabilityMenu->addAction(Utility::vfsPinActionText());
-        ac->setEnabled(!availability || *availability != VfsItemAvailability::AlwaysLocal);
         connect(ac, &QAction::triggered, this, [this, folder, path] { slotSetSubFolderAvailability(folder, path, PinState::AlwaysLocal); });
 
         ac = availabilityMenu->addAction(Utility::vfsFreeSpaceActionText());
-        ac->setEnabled(!availability
-                || !(*availability == VfsItemAvailability::OnlineOnly
-                    || *availability == VfsItemAvailability::AllDehydrated));
         connect(ac, &QAction::triggered, this, [this, folder, path] { slotSetSubFolderAvailability(folder, path, PinState::OnlineOnly); });
     }
 
@@ -546,20 +584,11 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
 
     if (folder->virtualFilesEnabled()) {
         auto availabilityMenu = menu->addMenu(tr("Availability"));
-        auto availability = folder->vfs().availability(QString());
-        if (availability) {
-            ac = availabilityMenu->addAction(Utility::vfsCurrentAvailabilityText(*availability));
-            ac->setEnabled(false);
-        }
 
         ac = availabilityMenu->addAction(Utility::vfsPinActionText());
-        ac->setEnabled(!availability || *availability != VfsItemAvailability::AlwaysLocal);
         connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::AlwaysLocal); });
 
         ac = availabilityMenu->addAction(Utility::vfsFreeSpaceActionText());
-        ac->setEnabled(!availability
-                || !(*availability == VfsItemAvailability::OnlineOnly
-                    || *availability == VfsItemAvailability::AllDehydrated));
         connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::OnlineOnly); });
 
         ac = menu->addAction(tr("Disable virtual file support …"));
@@ -571,6 +600,9 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         const auto mode = bestAvailableVfsMode();
         if (mode == Vfs::WindowsCfApi || ConfigFile().showExperimentalOptions()) {
             ac = menu->addAction(tr("Enable virtual file support %1 …").arg(mode == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
+            // TODO: remove when UX decision is made
+            ac->setEnabled(!Utility::isPathWindowsDrivePartitionRoot(folder->path()));
+            //
             connect(ac, &QAction::triggered, this, &AccountSettings::slotEnableVfsCurrentFolder);
         }
     }
@@ -1073,7 +1105,7 @@ void AccountSettings::slotAccountStateChanged()
             if (user.isEmpty()) {
                 user = cred->user();
             }
-            serverWithUser = tr("%1 as <i>%2</i>").arg(server, Utility::escape(user));
+            serverWithUser = tr("%1 as %2").arg(server, Utility::escape(user));
         }
 
         switch (state) {

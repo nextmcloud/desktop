@@ -17,6 +17,7 @@
 #include <QScopedPointer>
 
 #include "common/vfs.h"
+#include "common/plugin.h"
 
 namespace OCC {
 class HydrationJob;
@@ -43,7 +44,7 @@ public:
 
     Result<void, QString> createPlaceholder(const SyncFileItem &item) override;
     Result<void, QString> dehydratePlaceholder(const SyncFileItem &item) override;
-    Result<void, QString> convertToPlaceholder(const QString &filename, const SyncFileItem &item, const QString &replacesFile) override;
+    Result<Vfs::ConvertToPlaceholderResult, QString> convertToPlaceholder(const QString &filename, const SyncFileItem &item, const QString &replacesFile) override;
 
     bool needsMetadataUpdate(const SyncFileItem &) override;
     bool isDehydratedPlaceholder(const QString &filePath) override;
@@ -55,6 +56,8 @@ public:
 
     void cancelHydration(const QString &requestId, const QString &path);
 
+    int finalizeHydrationJob(const QString &requestId);
+
 public slots:
     void requestHydration(const QString &requestId, const QString &path);
     void fileStatusChanged(const QString &systemFileName, SyncFileStatus fileStatus) override;
@@ -62,7 +65,7 @@ public slots:
 signals:
     void hydrationRequestReady(const QString &requestId);
     void hydrationRequestFailed(const QString &requestId);
-    void hydrationRequestFinished(const QString &requestId, int status);
+    void hydrationRequestFinished(const QString &requestId);
 
 protected:
     void startImpl(const VfsSetupParams &params) override;
@@ -70,7 +73,7 @@ protected:
 private:
     void scheduleHydrationJob(const QString &requestId, const QString &folderPath);
     void onHydrationJobFinished(HydrationJob *job);
-    void onHydrationJobCanceled(HydrationJob *job);
+    HydrationJob *findHydrationJob(const QString &requestId) const;
 
     struct HasHydratedDehydrated {
         bool hasHydrated = false;
@@ -83,6 +86,13 @@ private:
     HydratationAndPinStates computeRecursiveHydrationAndPinStates(const QString &path, const Optional<PinState> &basePinState);
 
     QScopedPointer<VfsCfApiPrivate> d;
+};
+
+class CfApiVfsPluginFactory : public QObject, public DefaultPluginFactory<VfsCfApi>
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.owncloud.PluginFactory" FILE "vfspluginmetadata.json")
+    Q_INTERFACES(OCC::PluginFactory)
 };
 
 } // namespace OCC
