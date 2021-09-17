@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="49" viewBox="0 0 48 49">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" y1="0.996" x2="0.5" y2="-0.002" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#53baf2"/>
+      <stop offset="1" stop-color="#7ecbf5"/>
+    </linearGradient>
+  </defs>
+  <g id="blue_folder_icon" transform="translate(-12 -257.5)">
+    <g id="folder_graphical_1_" data-name="folder_graphical (1)" transform="translate(12 258)">
+      <g id="Asset" transform="translate(0 0)">
+        <g id="Gruppe_320" data-name="Gruppe 320" transform="translate(0)">
+          <rect id="Rechteck_809" data-name="Rechteck 809" width="48" height="49" transform="translate(0 -0.5)" fill="none"/>
+        </g>
+      </g>
+      <g id="Icons" transform="translate(3.501 8.403)">
+        <g id="Gruppe_321" data-name="Gruppe 321">
+          <path id="Pfad_373" data-name="Pfad 373" d="M20.157,9H5.8A1.8,1.8,0,0,0,4,10.795v4.487H26.438Z" transform="translate(-4.003 -9)" fill="#53baf2"/>
+          <path id="Pfad_374" data-name="Pfad 374" d="M20.157,9H5.8A1.8,1.8,0,0,0,4,10.795v4.487H26.438Z" transform="translate(-4.003 -9)" fill="#317cb3" opacity="0.25"/>
+          <path id="Pfad_375" data-name="Pfad 375" d="M43.745,16H4V40.627a1.411,1.411,0,0,0,1.472,1.331h38.27a1.411,1.411,0,0,0,1.472-1.331v-23.3A1.411,1.411,0,0,0,43.745,16Z" transform="translate(-4.003 -9.718)" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+    </g>
+    <g id="folder_graphical_1_2" data-name="folder_graphical (1)" transform="translate(12 258)">
+      <g id="Asset-2" data-name="Asset" transform="translate(0 0)">
+        <g id="Gruppe_320-2" data-name="Gruppe 320" transform="translate(0)">
+          <rect id="Rechteck_809-2" data-name="Rechteck 809" width="48" height="49" transform="translate(0 -0.5)" fill="none"/>
+        </g>
+      </g>
+      <g id="Icons-2" data-name="Icons" transform="translate(3.501 8.403)">
+        <g id="Gruppe_321-2" data-name="Gruppe 321">
+          <path id="Pfad_373-2" data-name="Pfad 373" d="M20.157,9H5.8A1.8,1.8,0,0,0,4,10.795v4.487H26.438Z" transform="translate(-4.003 -9)" fill="#53baf2"/>
+          <path id="Pfad_374-2" data-name="Pfad 374" d="M20.157,9H5.8A1.8,1.8,0,0,0,4,10.795v4.487H26.438Z" transform="translate(-4.003 -9)" fill="#317cb3" opacity="0.25"/>
+          <path id="Pfad_375-2" data-name="Pfad 375" d="M43.745,16H4V40.627a1.411,1.411,0,0,0,1.472,1.331h38.27a1.411,1.411,0,0,0,1.472-1.331v-23.3A1.411,1.411,0,0,0,43.745,16Z" transform="translate(-4.003 -9.718)" fill="url(#linear-gradient)"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
