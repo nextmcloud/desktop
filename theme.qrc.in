@@ -1,15 +1,15 @@
 <RCC>
     <qresource prefix="/client">
-        <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-16.png">theme/colored/16-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-24.png">theme/colored/24-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-32.png">theme/colored/32-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-48.png">theme/colored/48-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-64.png">theme/colored/64-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-128.png">theme/colored/128-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-256.png">theme/colored/256-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-512.png">theme/colored/512-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-1024.png">theme/colored/1024-@APPLICATION_ICON_NAME@-icon.png</file>
-	<file>theme/magenta/logomc.svg</file>
+        <file alias="theme/colored/magentacloud-icon-16.png">theme/colored/16-magentacloud-icon.png</file>
+        <file alias="theme/colored/magentacloud-icon-24.png">theme/colored/24-magentacloud-icon.png</file>
+        <file alias="theme/colored/magentacloud-icon-32.png">theme/colored/32-magentacloud-icon.png</file>
+        <file alias="theme/colored/magentacloud-icon-48.png">theme/colored/48-magentacloud-icon.png</file>
+        <file alias="theme/colored/magentacloud-icon-64.png">theme/colored/64-magentacloud-icon.png</file>
+        <file alias="theme/colored/magentacloud-icon-128.png">theme/colored/128-magentacloud-icon.png</file>
+        <file alias="theme/colored/magentacloud-icon-256.png">theme/colored/256-magentacloud-icon.png</file>
+        <file alias="theme/colored/magentacloud-icon-512.png">theme/colored/512-magentacloud-icon.png</file>
+        <file alias="theme/colored/magentacloud-icon-1024.png">theme/colored/1024-magentacloud-icon.png</file>
+        <file>theme/magenta/logomc.svg</file>
         <file>theme/magenta/folder/default@svg.svg</file>
         <file>theme/magenta/news/default@svg.svg</file>
         <file>theme/magenta/user/default@svg.svg</file>
@@ -24,7 +24,7 @@
         <file>theme/magenta/action/pause/default.png</file>
         <file>theme/magenta/action/settings/default@svg.svg</file>
         <file>theme/magenta/action/settings/default.png</file>
-	<file>theme/colored/state-error-32.png</file>
+        <file>theme/colored/state-error-32.png</file>
         <file>theme/colored/state-error-64.png</file>
         <file>theme/colored/state-error-128.png</file>
         <file>theme/colored/state-error-256.png</file>
@@ -204,7 +204,7 @@
         <file>theme/account.svg</file>
         <file>theme/colored/add.svg</file>
         <file>theme/colored/delete.svg</file>
-        <file>theme/colored/@APPLICATION_ICON_NAME@-icon.svg</file>
+        <file>theme/colored/magentacloud-icon.svg</file>
         <file>theme/add.svg</file>
         <file>theme/share.svg</file>
         <file>theme/reply.svg</file>
@@ -213,5 +213,11 @@
         <file>theme/colored/user-status-invisible.svg</file>
         <file>theme/colored/user-status-away.svg</file>
         <file>theme/colored/user-status-dnd.svg</file>
+        <file>theme/colored/folder-ok.svg</file>
+        <file>theme/colored/folder-ok-16.png</file>
+        <file>theme/colored/folder-ok-32.png</file>
+        <file>theme/colored/folder-ok-64.png</file>
+        <file>theme/colored/folder-ok-128.png</file>
+        <file>theme/colored/folder-ok-256.png</file>
     </qresource>
 </RCC>
