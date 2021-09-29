@@ -157,7 +157,8 @@ private:
     // _permissionEdit is a checkbox
     QAction *_permissionReshare;
     QAction *_deleteShareButton;
-    QAction *_permissionCreate;
+  QAction *_permissionRead;
+  QAction *_permissionUpload;
     QAction *_permissionChange;
     QAction *_permissionDelete;
 };

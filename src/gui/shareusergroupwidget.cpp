@@ -330,16 +330,12 @@ void ShareUserGroupWidget::slotCompleterActivated(const QModelIndex &index)
     if (sharee->type() == Sharee::Federated
         && _account->serverVersionInt() < Account::makeServerVersion(9, 1, 0)) {
         int permissions = SharePermissionRead | SharePermissionUpdate;
-        if (!_isFile) {
-            permissions |= SharePermissionCreate | SharePermissionDelete;
-        }
         _manager->createShare(_sharePath, Share::ShareType(sharee->type()),
             sharee->shareWith(), SharePermission(permissions));
     } else {
 
         // Default permissions on creation
-        int permissions = SharePermissionCreate | SharePermissionUpdate
-                | SharePermissionDelete | SharePermissionShare;
+        int permissions = SharePermissionRead | SharePermissionUpdate | SharePermissionShare;
         _manager->createShare(_sharePath, Share::ShareType(sharee->type()),
             sharee->shareWith(), SharePermission(permissions));
     }
@@ -430,18 +426,12 @@ ShareUserLine::ShareUserLine(QSharedPointer<Share> share,
     // adds permissions
     // can edit permission
     bool enabled = (maxSharingPermissions & SharePermissionUpdate);
-    if(!_isFile) enabled = enabled && (maxSharingPermissions & SharePermissionCreate &&
-                                      maxSharingPermissions & SharePermissionDelete);
-    _ui->permissionsEdit->setEnabled(enabled);
-    connect(_ui->permissionsEdit, &QAbstractButton::clicked, this, &ShareUserLine::slotEditPermissionsChanged);
+    if(!_isFile) enabled = enabled && (maxSharingPermissions & SharePermissionRead);
+    //_ui->permissionsEdit->setEnabled(enabled);
+   // connect(_ui->permissionsEdit, &QAbstractButton::clicked, this, &ShareUserLine::slotEditPermissionsChanged);
 
     // create menu with checkable permissions
     auto *menu = new QMenu(this);
-    _permissionReshare= new QAction(tr("Can reshare"), this);
-    _permissionReshare->setCheckable(true);
-    _permissionReshare->setEnabled(maxSharingPermissions & SharePermissionShare);
-    menu->addAction(_permissionReshare);
-    connect(_permissionReshare, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
 
     menu->addSeparator();
 
@@ -451,32 +441,57 @@ ShareUserLine::ShareUserLine(QSharedPointer<Share> share,
 
     menu->addAction(_deleteShareButton);
     connect(_deleteShareButton, &QAction::triggered, this, &ShareUserLine::on_deleteShareButton_clicked);
+    auto *permissionMenu = new QMenu(this);
 
+    auto *permissionsGroup = new QActionGroup(this);
+    permissionsGroup->setExclusive(true);
     /*
      * Files can't have create or delete permissions
      */
     if (!_isFile) {
-        _permissionCreate = new QAction(tr("Can create"), this);
-        _permissionCreate->setCheckable(true);
-        _permissionCreate->setEnabled(maxSharingPermissions & SharePermissionCreate);
-        menu->addAction(_permissionCreate);
-        connect(_permissionCreate, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+        _permissionRead = permissionsGroup->addAction(tr("Read only"));
+        _permissionRead->setCheckable(true);
+        _permissionRead->setEnabled(maxSharingPermissions & SharePermissionRead);
+        menu->addAction(_permissionRead);
+        permissionMenu->addAction(_permissionRead);
+        connect(_permissionRead, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
 
-        _permissionChange = new QAction(tr("Can change"), this);
+        _permissionChange = permissionsGroup->addAction(tr("Can edit"));
         _permissionChange->setCheckable(true);
         _permissionChange->setEnabled(maxSharingPermissions & SharePermissionUpdate);
         menu->addAction(_permissionChange);
+        permissionMenu->addAction(_permissionChange);
         connect(_permissionChange, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
 
-        _permissionDelete = new QAction(tr("Can delete"), this);
-        _permissionDelete->setCheckable(true);
-        _permissionDelete->setEnabled(maxSharingPermissions & SharePermissionDelete);
-        menu->addAction(_permissionDelete);
-        connect(_permissionDelete, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+        _permissionUpload = permissionsGroup->addAction(tr("File drop (upload only)"));
+        _permissionUpload->setCheckable(true);
+        _permissionUpload->setEnabled(maxSharingPermissions & SharePermissionCreate);
+        menu->addAction(_permissionUpload);
+        permissionMenu->addAction(_permissionUpload);
+        connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+    } else {
+        _permissionRead = permissionsGroup->addAction(tr("Read only"));
+        _permissionRead->setCheckable(true);
+        _permissionRead->setEnabled(maxSharingPermissions & SharePermissionRead);
+        menu->addAction(_permissionRead);
+        permissionMenu->addAction(_permissionRead);
+        connect(_permissionRead, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+
+        _permissionChange = permissionsGroup->addAction(tr("Can edit"));
+        _permissionChange->setCheckable(true);
+        _permissionChange->setEnabled(maxSharingPermissions & SharePermissionUpdate);
+        menu->addAction(_permissionChange);
+        permissionMenu->addAction(_permissionChange);
+        connect(_permissionChange, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
     }
 
     _ui->permissionToolButton->setMenu(menu);
     _ui->permissionToolButton->setPopupMode(QToolButton::InstantPopup);
+
+    _ui->permissionsMenu->setMenu(permissionMenu);
+    _ui->permissionsMenu->setPopupMode(QToolButton::InstantPopup);
+
+    //_ui->passwordProgressIndicator->setVisible(false);
 
     // Set the permissions checkboxes
     displayPermissions();
@@ -575,39 +590,6 @@ ShareUserLine::~ShareUserLine()
 void ShareUserLine::slotEditPermissionsChanged()
 {
     setEnabled(false);
-
-    // Can never manually be set to "partial".
-    // This works because the state cycle for clicking is
-    // unchecked -> partial -> checked -> unchecked.
-    if (_ui->permissionsEdit->checkState() == Qt::PartiallyChecked) {
-        _ui->permissionsEdit->setCheckState(Qt::Checked);
-    }
-
-    Share::Permissions permissions = SharePermissionRead;
-
-    //  folders edit = CREATE, READ, UPDATE, DELETE
-    //  files edit = READ + UPDATE
-    if (_ui->permissionsEdit->checkState() == Qt::Checked) {
-
-        /*
-         * Files can't have create or delete permisisons
-         */
-        if (!_isFile) {
-            if (_permissionChange->isEnabled())
-                permissions |= SharePermissionUpdate;
-            if (_permissionCreate->isEnabled())
-                permissions |= SharePermissionCreate;
-            if (_permissionDelete->isEnabled())
-                permissions |= SharePermissionDelete;
-        } else {
-            permissions |= SharePermissionUpdate;
-        }
-    }
-
-    if(_isFile && _permissionReshare->isEnabled() && _permissionReshare->isChecked())
-        permissions |= SharePermissionShare;
-
-    _share->setPermissions(permissions);
 }
 
 void ShareUserLine::slotPermissionsChanged()
@@ -615,23 +597,33 @@ void ShareUserLine::slotPermissionsChanged()
     setEnabled(false);
 
     Share::Permissions permissions = SharePermissionRead;
-
-    if (_permissionReshare->isChecked())
-        permissions |= SharePermissionShare;
+    _ui->currentPermissions->setElideMode(Qt::ElideRight);
 
     if (!_isFile) {
-        if (_permissionChange->isChecked())
+        if (_permissionRead->isChecked()) {
+            _share->setPermissions(permissions);
+            _ui->currentPermissions->setText(_permissionRead->text());
+        } else if (_permissionChange->isChecked()) {
             permissions |= SharePermissionUpdate;
-        if (_permissionCreate->isChecked())
+            _share->setPermissions(permissions);
+            _ui->currentPermissions->setText(_permissionChange->text());
+        } else if (_permissionUpload->isChecked()) {
             permissions |= SharePermissionCreate;
-        if (_permissionDelete->isChecked())
-            permissions |= SharePermissionDelete;
+            _share->setPermissions(permissions);
+            _ui->currentPermissions->setText(_permissionUpload->text());
+        }
     } else {
-        if (_ui->permissionsEdit->isChecked())
+        if (_permissionRead->isChecked()) {
+            _share->setPermissions(permissions);
+            _ui->currentPermissions->setText(_permissionRead->text());
+        } else if (_permissionChange->isChecked()) {
             permissions |= SharePermissionUpdate;
+            _share->setPermissions(permissions);
+            _ui->currentPermissions->setText(_permissionChange->text());
+        } 
     }
 
-    _share->setPermissions(permissions);
+    //_share->setPermissions(permissions);
 }
 
 void ShareUserLine::slotDeleteAnimationFinished()
@@ -675,25 +667,16 @@ void ShareUserLine::displayPermissions()
 {
     auto perm = _share->getPermissions();
 
-//  folders edit = CREATE, READ, UPDATE, DELETE
-//  files edit = READ + UPDATE
-    if (perm & SharePermissionUpdate && (_isFile ||
-                                         (perm & SharePermissionCreate && perm & SharePermissionDelete))) {
-        _ui->permissionsEdit->setCheckState(Qt::Checked);
-    } else if (!_isFile && perm & (SharePermissionUpdate | SharePermissionCreate | SharePermissionDelete)) {
-        _ui->permissionsEdit->setCheckState(Qt::PartiallyChecked);
-    } else if(perm & SharePermissionRead) {
-        _ui->permissionsEdit->setCheckState(Qt::Unchecked);
-    }
+    //  folders edit = CREATE, READ, UPDATE, DELETE
+    //  files edit = READ + UPDATE
 
-//  edit is independent of reshare
-    if (perm & SharePermissionShare)
-        _permissionReshare->setChecked(true);
-
-    if(!_isFile){
-        _permissionCreate->setChecked(perm & SharePermissionCreate);
+    if (!_isFile) {
+        _permissionRead->setChecked(perm & SharePermissionRead);
         _permissionChange->setChecked(perm & SharePermissionUpdate);
-        _permissionDelete->setChecked(perm & SharePermissionDelete);
+        _permissionUpload->setChecked(perm & SharePermissionCreate);
+    } else {
+        _permissionRead->setChecked(perm & SharePermissionRead);
+        _permissionChange->setChecked(perm & SharePermissionUpdate);
     }
 }
 
