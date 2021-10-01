@@ -16,7 +16,6 @@
 #define SHAREUSERGROUPWIDGET_H
 
 #include "accountfwd.h"
-#include "sharemanager.h"
 #include "sharepermissions.h"
 #include "sharee.h"
 #include "QProgressIndicator.h"
@@ -67,7 +66,6 @@ signals:
 
 public slots:
     void getShares();
-    void slotShareCreated(const QSharedPointer<Share> &share);
     void slotStyleChanged();
 
 private slots:
@@ -111,8 +109,6 @@ private:
     ShareManager *_manager;
 
     QProgressIndicator _pi_sharee;
-
-    QString _lastCreatedShareId;
 };
 
 /**
@@ -123,8 +119,7 @@ class ShareUserLine : public QWidget
     Q_OBJECT
 
 public:
-    explicit ShareUserLine(AccountPtr account,
-        QSharedPointer<UserGroupShare> Share,
+    explicit ShareUserLine(QSharedPointer<Share> Share,
         SharePermissions maxSharingPermissions,
         bool isFile,
         QWidget *parent = nullptr);
@@ -139,66 +134,33 @@ signals:
 public slots:
     void slotStyleChanged();
 
-    void focusPasswordLineEdit();
-
 private slots:
     void on_deleteShareButton_clicked();
     void slotPermissionsChanged();
     void slotEditPermissionsChanged();
-    void slotPasswordCheckboxChanged();
     void slotDeleteAnimationFinished();
-
-    void refreshPasswordOptions();
-
-    void refreshPasswordLineEditPlaceholder();
-
-    void slotPasswordSet();
-    void slotPasswordSetError(int statusCode, const QString &message);
 
     void slotShareDeleted();
     void slotPermissionsSet();
 
     void slotAvatarLoaded(QImage avatar);
 
-    void setPasswordConfirmed();
-
-    void slotLineEditPasswordReturnPressed();
-
-    void slotConfirmPasswordClicked();
-
 private:
     void displayPermissions();
     void loadAvatar();
     void customizeStyle();
 
-  void showNoteOptions(bool show);
-  void toggleNoteOptions(bool enable);
-  void onNoteConfirmButtonClicked();
-  void setNote(const QString &note);
+    Ui::ShareUserLine *_ui;
+    QSharedPointer<Share> _share;
+    bool _isFile;
 
-  void toggleExpireDateOptions(bool enable);
-  void showExpireDateOptions(bool show);
-  void setExpireDate();
-
-  void togglePasswordSetProgressAnimation(bool show);
-
-  void enableProgessIndicatorAnimation(bool enable);
-  void disableProgessIndicatorAnimation();
-
-  Ui::ShareUserLine *_ui;
-  AccountPtr _account;
-  QSharedPointer<UserGroupShare> _share;
-  bool _isFile;
-
-  // _permissionEdit is a checkbox
-  QAction *_permissionReshare;
-  QAction *_deleteShareButton;
-  QAction *_permissionCreate;
-  QAction *_permissionChange;
-  QAction *_permissionDelete;
-  QAction *_noteLinkAction;
-  QAction *_expirationDateLinkAction;
-  QAction *_passwordProtectLinkAction;
+    // _permissionEdit is a checkbox
+    QAction *_permissionReshare;
+    QAction *_deleteShareButton;
+  QAction *_permissionRead;
+  QAction *_permissionUpload;
+    QAction *_permissionChange;
+    QAction *_permissionDelete;
 };
 }
 
