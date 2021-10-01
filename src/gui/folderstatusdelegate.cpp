@@ -245,10 +245,17 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     }
     QString elidedAlias = aliasFm.elidedText(aliasText, Qt::ElideRight, aliasRect.width());
     painter->setFont(aliasFont);
-    QPen currentPen = painter->pen(); // save the pen
-    painter->setPen(QColor(qRgb(0xe2, 0, 0x74))); // set text color MAGENTA = #e20074
-    painter->drawText(QStyle::visualRect(option.direction, option.rect, aliasRect), textAlign, elidedAlias);
-    painter->setPen(currentPen); // restore the pen
+    if(0 == index.row())
+    {
+        QPen currentPen = painter->pen(); // save the pen
+        painter->setPen(QColor(qRgb(0xe2, 0, 0x74))); // set text color MAGENTA = #e20074
+        painter->drawText(QStyle::visualRect(option.direction, option.rect, aliasRect), textAlign, elidedAlias);
+        painter->setPen(currentPen); // restore the pen
+    }
+    else
+    {
+        painter->drawText(QStyle::visualRect(option.direction, option.rect, aliasRect), textAlign, elidedAlias);
+    }
 
     const bool showProgess = !overallString.isEmpty() || !itemString.isEmpty();
     if (!showProgess) {

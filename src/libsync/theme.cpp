@@ -556,7 +556,7 @@ QIcon Theme::syncStateIcon(SyncResult::Status status, bool sysTray) const
     return themeIcon(statusIcon, sysTray);
 }
 
-QIcon Theme::folderStateIcon(SyncResult::Status status, bool sysTray) const
+QIcon Theme::folderStateIcon(SyncResult::Status status, bool firstRow) const
 {
     // FIXME: Mind the size!
     QString statusIcon;
@@ -588,7 +588,7 @@ QIcon Theme::folderStateIcon(SyncResult::Status status, bool sysTray) const
         statusIcon = QLatin1String("state-error");
     }
 
-    return themeIcon(statusIcon, sysTray);
+    return themeIcon(statusIcon, firstRow);
 }
 
 QIcon Theme::folderDisabledIcon() const
