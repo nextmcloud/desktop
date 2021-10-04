@@ -84,12 +84,17 @@ Account::~Account() = default;
 
 QString Account::davPath() const
 {
-    return QLatin1String("/remote.php/dav/files/") + davUser() + QLatin1Char('/');
+    return davPathBase() + QLatin1Char('/') + davUser() + QLatin1Char('/');
 }
 
 void Account::setSharedThis(AccountPtr sharedThis)
 {
     _sharedThis = sharedThis.toWeakRef();
+}
+
+QString Account::davPathBase()
+{
+    return QStringLiteral("/remote.php/dav/files");
 }
 
 AccountPtr Account::sharedFromThis()
@@ -486,7 +491,27 @@ void Account::slotHandleSslErrors(QNetworkReply *reply, QList<QSslError> errors)
 
 void Account::slotCredentialsFetched()
 {
-    emit credentialsFetched(_credentials.data());
+    if (_davUser.isEmpty()) {
+        qCDebug(lcAccount) << "User id not set. Fetch it.";
+        const auto fetchUserNameJob = new JsonApiJob(sharedFromThis(), QStringLiteral("/ocs/v1.php/cloud/user"));
+        connect(fetchUserNameJob, &JsonApiJob::jsonReceived, this, [this, fetchUserNameJob](const QJsonDocument &json, int statusCode) {
+            fetchUserNameJob->deleteLater();
+            if (statusCode != 100) {
+                qCWarning(lcAccount) << "Could not fetch user id. Login will probably not work.";
+                emit credentialsFetched(_credentials.data());
+                return;
+            }
+
+            const auto objData = json.object().value("ocs").toObject().value("data").toObject();
+            const auto userId = objData.value("id").toString("");
+            setDavUser(userId);
+            emit credentialsFetched(_credentials.data());
+        });
+        fetchUserNameJob->start();
+    } else {
+        qCDebug(lcAccount) << "User id already fetched.";
+        emit credentialsFetched(_credentials.data());
+    }
 }
 
 void Account::slotCredentialsAsked()

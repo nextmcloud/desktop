@@ -16,11 +16,17 @@
 
 #include "common/utility.h"
 #include "account.h"
+#include "creds/webflowcredentials.h"
+#include "networkjobs.h"
 #include "wizard/owncloudwizardcommon.h"
 #include "theme.h"
 #include "linklabel.h"
 
 #include "QProgressIndicator.h"
+
+#include <QJsonDocument>
+#include <QStringLiteral>
+#include <QJsonObject>
 
 namespace OCC {
 
