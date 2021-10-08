@@ -488,12 +488,13 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         }
     }
 
-    ac = menu.addAction(tr("Edit Ignored Files"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
+    // hidden due to NMCLOUD-344
+//    ac = menu.addAction(tr("Edit Ignored Files"));
+//    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
 
-    ac = menu.addAction(tr("Create new folder"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
-    ac->setEnabled(QFile::exists(fileName));
+//    ac = menu.addAction(tr("Create new folder"));
+//    connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
+//    ac->setEnabled(QFile::exists(fileName));
 
     const auto folder = info->_folder;
     if (folder && folder->virtualFilesEnabled()) {
@@ -554,12 +555,13 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
     QAction *ac = menu->addAction(tr("Open folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentFolder);
 
-    ac = menu->addAction(tr("Edit Ignored Files"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
+    // hidden due to NMCLOUD-344
+//    ac = menu->addAction(tr("Edit Ignored Files"));
+//    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
 
-    ac = menu->addAction(tr("Create new folder"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
-    ac->setEnabled(QFile::exists(folder->path()));
+//    ac = menu->addAction(tr("Create new folder"));
+//    connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
+//    ac->setEnabled(QFile::exists(folder->path()));
 
     if (!_ui->_folderList->isExpanded(index) && folder->supportsSelectiveSync()) {
         ac = menu->addAction(tr("Choose what to sync"));

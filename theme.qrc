@@ -219,5 +219,14 @@
         <file>theme/colored/folder-ok-64.png</file>
         <file>theme/colored/folder-ok-128.png</file>
         <file>theme/colored/folder-ok-256.png</file>
+        <file>theme/colored/circle-add-magenta.svg</file>
+        <file>theme/colored/circle-add-magenta-16.png</file>
+        <file>theme/colored/circle-add-magenta-32.png</file>
+        <file>theme/colored/circle-add-magenta-48.png</file>
+        <file>theme/colored/magentacloud-logo.svg</file>
+        <file>theme/colored/magentacloud-logo-16.png</file>
+        <file>theme/colored/magentacloud-logo-32.png</file>
+        <file>theme/colored/magentacloud-logo-48.png</file>
+        <file>theme/colored/magentacloud-logo-64.png</file>
     </qresource>
 </RCC>

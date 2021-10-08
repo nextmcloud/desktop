@@ -168,10 +168,13 @@ public:
       * get an sync state icon
       */
     virtual QIcon syncStateIcon(SyncResult::Status, bool sysTray = false) const;
-    virtual QIcon folderStateIcon(SyncResult::Status, bool firstRow = false) const;
+    virtual QIcon folderOverlayIcon(SyncResult::Status, bool firstRow = false) const;
 
+    virtual QIcon folderOkIcon() const;
     virtual QIcon folderDisabledIcon() const;
     virtual QIcon folderOfflineIcon(bool sysTray = false) const;
+
+    virtual QIcon addButtonIcon() const;
     virtual QIcon applicationIcon() const;
 #endif
 

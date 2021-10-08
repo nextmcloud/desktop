@@ -262,29 +262,41 @@ QVariant FolderStatusModel::data(const QModelIndex &index, int role) const
     case FolderStatusDelegate::FolderStatusIconRole:
         if (accountConnected) {
             auto theme = Theme::instance();
-            auto status = f->syncResult().status();
             if (f->syncPaused()) {
                 return theme->folderDisabledIcon();
             } else {
+                return theme->folderOkIcon();
+            }
+        } else {
+            return Theme::instance()->folderOfflineIcon();
+        }
+    case FolderStatusDelegate::FolderOverlayIconRole:
+        if (accountConnected) {
+            auto theme = Theme::instance();
+            auto status = f->syncResult().status();
+            bool firstRow = (0 == index.row());
+            if (f->syncPaused()) {
+                return QVariant();
+            } else {
                 if (status == SyncResult::SyncPrepare || status == SyncResult::Undefined) {
-                    return theme->folderStateIcon(SyncResult::SyncRunning);
+                    return theme->folderOverlayIcon(SyncResult::SyncRunning);
                 } else {
                     // The "Problem" *result* just means some files weren't
                     // synced, so we show "Success" in these cases. But we
                     // do use the "Problem" *icon* for unresolved conflicts.
                     if (status == SyncResult::Success || status == SyncResult::Problem) {
                         if (f->syncResult().hasUnresolvedConflicts()) {
-                            return theme->folderStateIcon(SyncResult::Problem);
+                            return theme->folderOverlayIcon(SyncResult::Problem);
                         } else {
-                            return theme->folderStateIcon(SyncResult::Success);
+                            return theme->folderOverlayIcon(SyncResult::Success, firstRow);
                         }
                     } else {
-                        return theme->folderStateIcon(status);
+                        return theme->folderOverlayIcon(status, firstRow);
                     }
                 }
             }
         } else {
-            return Theme::instance()->folderOfflineIcon();
+            return QVariant();
         }
     case FolderStatusDelegate::SyncProgressItemString:
         return progress._progressString;

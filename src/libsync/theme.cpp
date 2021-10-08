@@ -556,7 +556,7 @@ QIcon Theme::syncStateIcon(SyncResult::Status status, bool sysTray) const
     return themeIcon(statusIcon, sysTray);
 }
 
-QIcon Theme::folderStateIcon(SyncResult::Status status, bool firstRow) const
+QIcon Theme::folderOverlayIcon(SyncResult::Status status, bool firstRow) const
 {
     // FIXME: Mind the size!
     QString statusIcon;
@@ -576,8 +576,17 @@ QIcon Theme::folderStateIcon(SyncResult::Status status, bool firstRow) const
         break;
     case SyncResult::SyncPrepare:
     case SyncResult::Success:
-        statusIcon = QLatin1String("folder-ok");
+    {
+        if(firstRow)
+        {
+            statusIcon = QLatin1String("magentacloud-logo");
+        }
+        else
+        {
+            statusIcon = QLatin1String("state-ok");
+        }
         break;
+    }
     case SyncResult::Problem:
         statusIcon = QLatin1String("state-warning");
         break;
@@ -588,7 +597,13 @@ QIcon Theme::folderStateIcon(SyncResult::Status status, bool firstRow) const
         statusIcon = QLatin1String("state-error");
     }
 
-    return themeIcon(statusIcon, firstRow);
+    return themeIcon(statusIcon, false);
+}
+
+QIcon Theme::folderOkIcon() const
+{
+    QString folderIcon = QLatin1String("folder-ok");
+    return themeIcon(folderIcon, false);
 }
 
 QIcon Theme::folderDisabledIcon() const
@@ -599,6 +614,12 @@ QIcon Theme::folderDisabledIcon() const
 QIcon Theme::folderOfflineIcon(bool sysTray) const
 {
     return themeIcon(QLatin1String("state-offline"), sysTray);
+}
+
+QIcon Theme::addButtonIcon() const
+{
+    QString buttonIcon = QLatin1String("circle-add-magenta");
+    return themeIcon(buttonIcon, false);
 }
 
 QColor Theme::wizardHeaderTitleColor() const
