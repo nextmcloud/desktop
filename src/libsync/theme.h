@@ -176,6 +176,7 @@ public:
 
     virtual QIcon addButtonIcon() const;
     virtual QIcon applicationIcon() const;
+    virtual QIcon applicationLogo() const;
 #endif
 
     virtual QString statusHeaderText(SyncResult::Status) const;

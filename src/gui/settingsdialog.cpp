@@ -28,6 +28,7 @@
 #include <QLabel>
 #include <QStandardItemModel>
 #include <QStackedWidget>
+#include <QSvgRenderer>
 #include <QPushButton>
 #include <QSettings>
 #include <QToolBar>
@@ -43,14 +44,14 @@
 namespace {
 const QString TOOLBAR_CSS()
 {
-    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0; border: none; border-bottom: 1px solid %2; spacing: 0; } "
-                          "QToolBar QToolButton { background: %1; border: none; border-bottom: 1px solid %2; margin: 0; padding: 5px; } "
+    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
+                          "QToolBar QToolButton { background: %1; font: 14px; color: #666; border: none; border-bottom: 1px solid %2; margin: 0; padding: 5px; } "
                           "QToolBar QToolBarExtension { padding:0; } "
-                          "QToolBar QToolButton:checked { background: %3; color: %4; }");
+                          "QToolBar QToolButton:checked { background: %1; color: #e20074; }"
+                          "QToolBar QToolButton:hover {background-color: #ebebeb; }");
 }
 
 const float buttonSizeRatio = 1.618f; // golden ratio
-
 
 /** display name with two lines that is displayed in the settings
  * If width is bigger than 0, the string will be ellided so it does not exceed that width
@@ -101,6 +102,8 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
 
     setObjectName("Settings"); // required as group for saveGeometry call
 
+    setWindowIcon(Theme::instance()->applicationLogo());
+
     //: This name refers to the application name e.g Nextcloud
     setWindowTitle(tr("%1 Settings").arg(Theme::instance()->appNameGUI()));
 
@@ -114,11 +117,9 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _actionGroup->setExclusive(true);
     connect(_actionGroup, &QActionGroup::triggered, this, &SettingsDialog::slotSwitchPage);
 
-    // Adds space between users + activities and general + network actions
-    auto *spacer = new QWidget();
-    spacer->setMinimumWidth(10);
-    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
-    _toolBar->addWidget(spacer);
+    foreach(auto ai, AccountManager::instance()->accounts()) {
+        accountAdded(ai.data());
+    }
 
     QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/settings.svg"), tr("General"));
     _actionGroup->addAction(generalAction);
@@ -138,9 +139,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _actionGroupWidgets.insert(generalAction, generalSettings);
     _actionGroupWidgets.insert(networkAction, networkSettings);
 
-    foreach(auto ai, AccountManager::instance()->accounts()) {
-        accountAdded(ai.data());
-    }
+    customizeStyle();
 
     QTimer::singleShot(1, this, &SettingsDialog::showFirstPage);
 
@@ -155,8 +154,6 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     addAction(showLogWindow2);
 
     connect(this, &SettingsDialog::onActivate, gui, &ownCloudGui::slotSettingsDialogActivated);
-
-    customizeStyle();
 
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     cfg.restoreGeometry(this);
@@ -194,7 +191,6 @@ void SettingsDialog::changeEvent(QEvent *e)
     case QEvent::PaletteChange:
     case QEvent::ThemeChange:
         customizeStyle();
-
         // Notify the other widgets (Dark-/Light-Mode switching)
         emit styleChanged();
         break;
@@ -212,6 +208,22 @@ void SettingsDialog::changeEvent(QEvent *e)
 void SettingsDialog::slotSwitchPage(QAction *action)
 {
     _ui->stack->setCurrentWidget(_actionGroupWidgets.value(action));
+    customizeStyle();
+    if(action->text() == "Synchronization")
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/folder_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+    else if(action->text() == "General")
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/settings_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+    else if(action->text() == "Network")
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/network_magenta.svg"));
+        action->setIcon(openIcon);
+    }
 }
 
 void SettingsDialog::showFirstPage()
@@ -233,34 +245,40 @@ void SettingsDialog::showIssuesList(AccountState *account)
 void SettingsDialog::accountAdded(AccountState *s)
 {
     auto height = _toolBar->sizeHint().height();
-    bool brandingSingleAccount = !Theme::instance()->multiAccount();
+   // bool brandingSingleAccount = !Theme::instance()->multiAccount();
 
     QAction *accountAction = nullptr;
-    QImage avatar = s->account()->avatar();
-    const QString actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
-    if (avatar.isNull()) {
-        accountAction = createColorAwareAction(QLatin1String(":/client/theme/account.svg"),
-            actionText);
-    } else {
-        QIcon icon(QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatar)));
-        accountAction = createActionWithIcon(icon, actionText);
-    }
+   //QImage avatar = s->account()->avatar();
+    //const QString actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
+    //if (avatar.isNull()) {
+        accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/folder.svg"),
+            "Synchronization");
+   // } else {
+       // QIcon icon(QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatar)));
+       // accountAction = createActionWithIcon(icon, actionText);
+   // }
 
-    if (!brandingSingleAccount) {
-        accountAction->setToolTip(s->account()->displayName());
-        accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
-    }
+    //if (!brandingSingleAccount) {
+       // accountAction->setToolTip(s->account()->displayName());
+       // accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
+    //}
+    // Adds space before users + activities
+    auto *spacer = new QWidget();
+    spacer->setFixedWidth(1);
+    spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _toolBar->insertWidget(accountAction, spacer);
 
-    _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
+    //_toolBar->insertAction(_toolBar->actions().at(0), accountAction);
+    _toolBar->addAction(accountAction);
     auto accountSettings = new AccountSettings(s, this);
-    QString objectName = QLatin1String("accountSettings_");
-    objectName += s->account()->displayName();
+    QString objectName = QLatin1String("Synchronization_");
+    //objectName += s->account()->displayName();
     accountSettings->setObjectName(objectName);
     _ui->stack->insertWidget(0 , accountSettings);
 
     _actionGroup->addAction(accountAction);
     _actionGroupWidgets.insert(accountAction, accountSettings);
-    _actionForAccount.insert(s->account().data(), accountAction);
+   // _actionForAccount.insert(s->account().data(), accountAction);
     accountAction->trigger();
 
     connect(accountSettings, &AccountSettings::folderChanged, _gui, &ownCloudGui::slotFoldersChanged);
@@ -344,7 +362,37 @@ void SettingsDialog::customizeStyle()
     _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, dark, highlightColor, highlightTextColor));
 
     Q_FOREACH (QAction *a, _actionGroup->actions()) {
-        QIcon icon = Theme::createColorAwareIcon(a->property("iconPath").toString(), palette());
+       // QIcon icon = Theme::createColorAwareIcon(a->property("iconPath").toString(), palette());
+        /*QSvgRenderer renderer(a->property("iconPath").toString());
+           QImage img(64, 64, QImage::Format_ARGB32);
+           img.fill(Qt::GlobalColor::transparent);
+           QPainter imgPainter(&img);
+           QImage magenta(64, 64, QImage::Format_ARGB32);
+           magenta.fill(Qt::GlobalColor::transparent);
+           QPainter mgPainter(&magenta);
+
+           magenta.setColorCount(16);
+           magenta.setColor(1,qRgb(0xe2,00,74));
+
+           renderer.render(&imgPainter);
+           renderer.render(&mgPainter);
+
+           //inverted.invertPixels(QImage::InvertRgb);
+          // magenta.setColorCount(16);
+          // magenta.setColor(1,qRgb(0xe2,00,74));
+
+           QIcon icon;
+           //if (Theme::isDarkColor(palette().color(QPalette::Base))) {
+               //icon.addPixmap(QPixmap::fromImage(img));
+          // } else {
+               //icon.addPixmap(QPixmap::fromImage(magenta));
+          // }
+           if (Theme::isDarkColor(palette().color(QPalette::HighlightedText))) {
+               icon.addPixmap(QPixmap::fromImage(magenta), QIcon::Normal, QIcon::On);
+           } else {
+               icon.addPixmap(QPixmap::fromImage(img), QIcon::Normal, QIcon::On);
+           }*/
+        const QIcon icon = QIcon::fromTheme("iconPath", QIcon(a->property("iconPath").toString()));
         a->setIcon(icon);
         auto *btn = qobject_cast<QToolButton *>(_toolBar->widgetForAction(a));
         if (btn)
@@ -375,6 +423,7 @@ public:
         QString objectName = QLatin1String("settingsdialog_toolbutton_");
         objectName += text();
         btn->setObjectName(objectName);
+        btn->setFixedSize(134,80);
 
         btn->setDefaultAction(this);
         btn->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -396,8 +445,11 @@ QAction *SettingsDialog::createActionWithIcon(const QIcon &icon, const QString &
 QAction *SettingsDialog::createColorAwareAction(const QString &iconPath, const QString &text)
 {
     // all buttons must have the same size in order to keep a good layout
-    QIcon coloredIcon = Theme::createColorAwareIcon(iconPath, palette());
-    return createActionWithIcon(coloredIcon, text, iconPath);
+   // QIcon coloredIcon = Theme::createColorAwareIcon(iconPath, palette());
+    const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(iconPath));
+   // QIcon icon = QIcon(iconPath);
+
+    return createActionWithIcon(openIcon, text, iconPath);
 }
 
 } // namespace OCC

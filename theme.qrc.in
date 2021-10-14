@@ -10,6 +10,8 @@
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-512.png">theme/colored/512-@APPLICATION_ICON_NAME@-icon.png</file>
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-1024.png">theme/colored/1024-@APPLICATION_ICON_NAME@-icon.png</file>
         <file>theme/magenta/logomc.svg</file>
+        <file>theme/magenta/folder.svg</file>
+        <file>theme/magenta/folder_magenta.svg</file>
         <file>theme/magenta/folder/default@svg.svg</file>
         <file>theme/magenta/news/default@svg.svg</file>
         <file>theme/magenta/user/default@svg.svg</file>
@@ -193,6 +195,7 @@
         <file>theme/files.svg</file>
         <file>theme/public.svg</file>
         <file>theme/settings.svg</file>
+        <file>theme/settings_magenta.svg</file>
         <file>theme/confirm.svg</file>
         <file>theme/copy.svg</file>
         <file>theme/more.svg</file>
@@ -201,6 +204,7 @@
         <file>theme/lock-https.svg</file>
         <file>theme/lock-broken.svg</file>
         <file>theme/network.svg</file>
+        <file>theme/network_magenta.svg</file>
         <file>theme/account.svg</file>
         <file>theme/colored/add.svg</file>
         <file>theme/colored/delete.svg</file>

@@ -102,6 +102,7 @@ protected slots:
     void slotFolderListClicked(const QModelIndex &indx);
     void doExpand();
     void slotLinkActivated(const QString &link);
+    void slotMoreMemory();
 
     // Encryption Related Stuff.
     void slotShowMnemonic(const QString &mnemonic);
