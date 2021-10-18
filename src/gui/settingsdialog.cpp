@@ -264,7 +264,8 @@ void SettingsDialog::accountAdded(AccountState *s)
     //}
     // Adds space before users + activities
     auto *spacer = new QWidget();
-    spacer->setFixedWidth(1);
+    spacer->setFixedWidth(8);
+    spacer->setMinimumWidth(0);
     spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _toolBar->insertWidget(accountAction, spacer);
 
