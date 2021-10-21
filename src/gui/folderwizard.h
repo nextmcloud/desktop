@@ -119,7 +119,7 @@ private:
  * @brief The FolderWizardSelectiveSync class
  * @ingroup gui
  */
-class FolderWizardSelectiveSync : public QWizardPage
+/*class FolderWizardSelectiveSync : public QWizardPage
 {
     Q_OBJECT
 public:
@@ -138,7 +138,7 @@ private:
     SelectiveSyncWidget *_selectiveSync;
     QCheckBox *_virtualFilesCheckBox = nullptr;
 };
-
+*/
 /**
  * @brief The FolderWizard class
  * @ingroup gui
@@ -162,7 +162,7 @@ public:
 private:
     FolderWizardLocalPath *_folderWizardSourcePage;
     FolderWizardRemotePath *_folderWizardTargetPage;
-    FolderWizardSelectiveSync *_folderWizardSelectiveSyncPage;
+   // FolderWizardSelectiveSync *_folderWizardSelectiveSyncPage;
 };
 
 

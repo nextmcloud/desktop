@@ -466,7 +466,7 @@ bool FolderWizardRemotePath::isComplete() const
         }
         QString curDir = f->remotePathTrailingSlash();
         if (QDir::cleanPath(dir) == QDir::cleanPath(curDir)) {
-            warnStrings.append(tr("This folder is already being synced."));
+            warnStrings.append(tr("This folder is already synchronized in the MagentaCLOUD."));
         } else if (dir.startsWith(curDir)) {
             warnStrings.append(tr("You are already syncing <i>%1</i>, which is a parent folder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
         } else if (curDir.startsWith(dir)) {
@@ -501,7 +501,7 @@ void FolderWizardRemotePath::showWarn(const QString &msg) const
 }
 
 // ====================================================================================
-
+/*
 FolderWizardSelectiveSync::FolderWizardSelectiveSync(const AccountPtr &account)
 {
     auto *layout = new QVBoxLayout(this);
@@ -592,7 +592,7 @@ void FolderWizardSelectiveSync::virtualFilesCheckboxClicked()
         });
     }
 }
-
+*/
 
 // ====================================================================================
 
@@ -604,22 +604,31 @@ void FolderWizardSelectiveSync::virtualFilesCheckboxClicked()
 FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     : QWizard(parent)
     , _folderWizardSourcePage(new FolderWizardLocalPath(account))
-    , _folderWizardTargetPage(nullptr)
-    , _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
+    , _folderWizardTargetPage(new FolderWizardRemotePath(account))
+    //, _folderWizardTargetPage(nullptr)
+    //, _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);
     _folderWizardSourcePage->installEventFilter(this);
-    if (!Theme::instance()->singleSyncFolder()) {
+
+	/*if (!Theme::instance()->singleSyncFolder())
+    {
         _folderWizardTargetPage = new FolderWizardRemotePath(account);
         setPage(Page_Target, _folderWizardTargetPage);
         _folderWizardTargetPage->installEventFilter(this);
     }
     setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
+	*/
+
+    setPage(Page_Target, _folderWizardTargetPage);
+    _folderWizardTargetPage->installEventFilter(this);
+    //setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
 
     setWindowTitle(tr("Add Folder Sync Connection"));
     setOptions(QWizard::CancelButtonOnLeft);
-    setButtonText(QWizard::FinishButton, tr("Add Sync Connection"));
+    //setButtonText(QWizard::FinishButton, tr("Add Sync Connection"));
+    setButtonText(QWizard::FinishButton, tr("Finish"));
 }
 
 FolderWizard::~FolderWizard() = default;
