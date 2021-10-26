@@ -130,8 +130,8 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="398"/>
         <location filename="../src/common/filesystembase.cpp" line="404"/>
-        <source>Could not move &quot;%1&quot; to &quot;%1&quot;</source>
-        <translation>Ezin izan da &quot;%1&quot;  &quot;%1&quot;-ra mugitu</translation>
+        <source>Could not move &quot;%1&quot; to &quot;%2&quot;</source>
+        <translation>Ezin izan da &quot;%1&quot; &quot;%2&quot;-(e)ra mugitu</translation>
     </message>
     <message>
         <location filename="../src/common/filesystembase.cpp" line="438"/>
@@ -2279,6 +2279,69 @@ Ezabatu daitezkeen elementuak ezabatu egingo dira karpeta bat ezabatzea ekiditen
     </message>
 </context>
 <context>
+    <name>OCC::InvalidFilenameDialog</name>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="14"/>
+        <source>Invalid filename</source>
+        <translation>Fitxategi-izen baliogabea</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="23"/>
+        <source>The file could not be synced because it contains characters which are not allowed on this system.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="36"/>
+        <source>Error</source>
+        <translation>Errorea</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="49"/>
+        <source>Please enter a new name for the file:</source>
+        <translation>Mesedez, sartu izen berri bat fitxategiarentzat:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="62"/>
+        <source>New filename</source>
+        <translation>Fitxategi-izen berria</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="71"/>
+        <source>Rename file</source>
+        <translation>Berrizendatu fitxategia</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="73"/>
+        <source>The file %1 could not be synced because the name contains characters which are not allowed on this system.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="74"/>
+        <source>The following characters are not allowed on the system: * &quot; | &amp; ? , ; : \ / ~ &lt; &gt;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="105"/>
+        <source>You don&apos;t have the permission to rename this file. Please ask the author of the file to rename it.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="130"/>
+        <source>Filename contains illegal characters: %1</source>
+        <translation>Fitxategiak karaktere ilegalak dauzka: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="144"/>
+        <source>Could not rename file. Please make sure you are connected to the server.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="155"/>
+        <source>Cannot rename file because a file with the same name does already exist on the server. Please pick another name.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>OCC::LegalNotice</name>
     <message>
         <location filename="../src/gui/legalnotice.ui" line="14"/>
@@ -2461,7 +2524,7 @@ Erregistroak %1(e)an idatziko dira.</translation>
         <translation>&lt;p&gt; %1 bezeroaren bertsio berri bat eskuragarri dago.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt;deskargatu da. Instalatuta dagoen bertsioa %3 da.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/updater/ocupdater.cpp" line="455"/>
+        <location filename="../src/gui/updater/ocupdater.cpp" line="463"/>
         <source>&lt;p&gt;A new version of the %1 Client is available but the updating process failed.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; has been downloaded. The installed version is %3. If you confirm restart and update, your computer may reboot to complete the installation.&lt;/p&gt;</source>
         <translation>&lt;p&gt;% 1 bezeroaren bertsio berria eskuragarri dago baina eguneratze prozesuak huts egin du.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; deskargatu da. Instalatutako bertsioa %3 da. Berrabiaraztea eta eguneratzea baieztatzen baduzu, baliteke ordenagailua berrabiaraztea instalazioa amaitzeko.&lt;/p&gt;</translation>
     </message>
@@ -2687,6 +2750,11 @@ pribilegio gehigarriak eskatzen ahal dizu prozesuan.</translation>
         <translation>%1 berria dago eskuragarri. Egin klik &lt;a href=&apos;%2&apos;&gt;hemen&lt;/a&gt; eguneraketa deskargatzeko.</translation>
     </message>
     <message>
+        <location filename="../src/gui/updater/ocupdater.cpp" line="158"/>
+        <source>Could not download update. Please open &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt; to download the update manually.</source>
+        <translation>Ezin da eguneraketa deskargatu. Mesedez, ireki  &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt; eguneraketa eskuz deskargatzeko.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="157"/>
         <source>Could not download update. Please open %1 to download the update manually.</source>
         <translation>Ezin izan da eguneraketa deskargatu. Ireki %1 eguneraketa eskuz deskargatzeko.</translation>
@@ -2695,6 +2763,11 @@ pribilegio gehigarriak eskatzen ahal dizu prozesuan.</translation>
         <location filename="../src/gui/updater/ocupdater.cpp" line="159"/>
         <source>Could not check for new updates.</source>
         <translation>Ezin da eguneraketarik bilatu.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/updater/ocupdater.cpp" line="166"/>
+        <source>New %1 is available. Please open &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt; to download the update.</source>
+        <translation>%1 berria dago eskuragarri. Mesedez, ireki&lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt; eguneraketa deskargatzeko.</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="161"/>
@@ -3956,11 +4029,6 @@ Modu hau berria eta experimentala da. Erabiltzea erabakitzen baduzu, agertzen di
         <translation>Editatzea baimendu</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="186"/>
-        <source>Allow editing</source>
-        <translation>Baimendu editatzea</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="192"/>
         <source>Read only</source>
         <translation>Irakurtzeko soilik</translation>
@@ -3981,6 +4049,16 @@ Modu hau berria eta experimentala da. Erabiltzea erabakitzen baduzu, agertzen di
         <translation>Pasahitzarekin babestu</translation>
     </message>
     <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="186"/>
+        <source>Allow editing</source>
+        <translation>Baimendu editatzea</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="194"/>
+        <source>View only</source>
+        <translation>Ikusi soilik</translation>
+    </message>
+    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="198"/>
         <source>Allow upload and editing</source>
         <translation>Onartu kargatzea eta edizioa</translation>
@@ -3996,14 +4074,19 @@ Modu hau berria eta experimentala da. Erabiltzea erabakitzen baduzu, agertzen di
         <translation>Fitxategia jaregin (kargatzeko soilik)</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="218"/>
-        <source>Note to recipient</source>
-        <translation>Oharra hartzailearentzat</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="220"/>
         <source>Unshare</source>
         <translation>Ez partekatu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="223"/>
+        <source>Link name</source>
+        <translation>Estekaren izena</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="218"/>
+        <source>Note to recipient</source>
+        <translation>Oharra hartzailearentzat</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="228"/>
@@ -4016,14 +4099,19 @@ Modu hau berria eta experimentala da. Erabiltzea erabakitzen baduzu, agertzen di
         <translation>Ezarri iraungitze-data</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="266"/>
-        <source>Delete share link</source>
-        <translation>Ezabatu partekatze esteka</translation>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="302"/>
+        <source>Delete link</source>
+        <translation>Ezabatu esteka</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="271"/>
         <source>Add another link</source>
         <translation>Gehitu beste esteka bat</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="266"/>
+        <source>Delete share link</source>
+        <translation>Ezabatu partekatze esteka</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="508"/>
@@ -5718,17 +5806,17 @@ Modu hau berria eta experimentala da. Erabiltzea erabakitzen baduzu, agertzen di
         <translation>Zein da zure egoera?</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="164"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="165"/>
         <source>Clear status message after</source>
         <translation>Garbitu egoera mezua ondoren</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="181"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="182"/>
         <source>Clear status message</source>
         <translation>Garbitu egoera mezua ondoren</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="187"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="188"/>
         <source>Set status message</source>
         <translation>Ezarri egoera-mezua</translation>
     </message>

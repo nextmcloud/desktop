@@ -142,6 +142,11 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     , _ui(new Ui::GeneralSettings)
 {
     _ui->setupUi(this);
+    _ui->autoCheckForUpdatesCheckBox->setVisible(true);
+    _ui->restartButton->setVisible(false);
+    _ui->updateChannel->setVisible(false);
+    _ui->updateStateLabel->setVisible(false);
+    _ui->updateButton->setVisible(false);
 
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
@@ -262,7 +267,11 @@ void GeneralSettings::slotUpdateInfo()
 {
     if (ConfigFile().skipUpdateCheck() || !Updater::instance()) {
         // updater disabled on compile
-        _ui->updatesGroupBox->setVisible(false);
+        _ui->autoCheckForUpdatesCheckBox->setVisible(true);
+        _ui->restartButton->setVisible(false);
+        _ui->updateChannel->setVisible(false);
+        _ui->updateStateLabel->setVisible(false);
+        _ui->updateButton->setVisible(false);
         return;
     }
 
@@ -353,7 +362,6 @@ void GeneralSettings::slotUpdateCheckNow()
 
     if (updater) {
         _ui->updateButton->setEnabled(false);
-
         updater->checkForUpdate();
     }
 }
@@ -447,7 +455,11 @@ void GeneralSettings::customizeStyle()
     // updater info
     slotUpdateInfo();
 #else
-    _ui->updatesGroupBox->setVisible(false);
+    _ui->autoCheckForUpdatesCheckBox->setVisible(false);
+    _ui->restartButton->setVisible(false);
+    _ui->updateChannel->setVisible(false);
+    _ui->updateStateLabel->setVisible(false);
+    _ui->updateButton->setVisible(false);
 #endif
 }
 

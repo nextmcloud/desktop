@@ -10,7 +10,7 @@ QtObject {
     property color ncBlue:      Theme.wizardHeaderBackgroundColor
     property color ncTextColor: Theme.wizardHeaderTitleColor
     property color nmcTextColor:"#191919"
-	property color magenta:		"#e20074"
+    property color magenta:		"#e20074"
     property color lightHover:  "#f7f7f7"
     property color menuBorder:  "#bdbdbd"
 

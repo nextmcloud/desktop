@@ -130,7 +130,7 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="398"/>
         <location filename="../src/common/filesystembase.cpp" line="404"/>
-        <source>Could not move &quot;%1&quot; to &quot;%1&quot;</source>
+        <source>Could not move &quot;%1&quot; to &quot;%2&quot;</source>
         <translation>Nie je možne presunúť &quot;%1&quot; do &quot;%2&quot;</translation>
     </message>
     <message>
@@ -2278,6 +2278,69 @@ Položky, pri ktorých je povolené odstraňovanie sa vymažú, ak bránia odstr
     </message>
 </context>
 <context>
+    <name>OCC::InvalidFilenameDialog</name>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="14"/>
+        <source>Invalid filename</source>
+        <translation>Neplatné meno súboru</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="23"/>
+        <source>The file could not be synced because it contains characters which are not allowed on this system.</source>
+        <translation>Súbor nemôže byť synchronizovaný, pretože obsahuje znaky ktoré nie sú na tomto systéme podporované.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="36"/>
+        <source>Error</source>
+        <translation>Chyba</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="49"/>
+        <source>Please enter a new name for the file:</source>
+        <translation>Prosím zadajte nový názov súboru:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="62"/>
+        <source>New filename</source>
+        <translation>Nový názov súboru</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="71"/>
+        <source>Rename file</source>
+        <translation>Premenovať súbor</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="73"/>
+        <source>The file %1 could not be synced because the name contains characters which are not allowed on this system.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="74"/>
+        <source>The following characters are not allowed on the system: * &quot; | &amp; ? , ; : \ / ~ &lt; &gt;</source>
+        <translation>Nasledujúce znaky nie sú na systéme povolené: * &quot; | &amp; ? , ; : \ / ~ &lt; &gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="105"/>
+        <source>You don&apos;t have the permission to rename this file. Please ask the author of the file to rename it.</source>
+        <translation>Nemáte oprávnenie premenovať tento súbor. Prosím požiadajte vlastníka súboru o premenovanie.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="130"/>
+        <source>Filename contains illegal characters: %1</source>
+        <translation>Názov súboru obsahuje neplatné znaky: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="144"/>
+        <source>Could not rename file. Please make sure you are connected to the server.</source>
+        <translation>Nemôžem premenovať súbor. Prosím uistite sa že ste pripojený k serveru.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="155"/>
+        <source>Cannot rename file because a file with the same name does already exist on the server. Please pick another name.</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>OCC::LegalNotice</name>
     <message>
         <location filename="../src/gui/legalnotice.ui" line="14"/>
@@ -2461,7 +2524,7 @@ Záznamy udalostí sa budú zapisovať do %1</translation>
         <translation>&lt;p&gt;Je dostupná nová verzia klienta %1.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; je dostupná na stiahnutie. Nainštalovaná verzia je %3.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/updater/ocupdater.cpp" line="455"/>
+        <location filename="../src/gui/updater/ocupdater.cpp" line="463"/>
         <source>&lt;p&gt;A new version of the %1 Client is available but the updating process failed.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; has been downloaded. The installed version is %3. If you confirm restart and update, your computer may reboot to complete the installation.&lt;/p&gt;</source>
         <translation>&lt;p&gt;K dispozícii je nová verzia klienta %1, ale proces aktualizácie zlyhal. &lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; bolo stiahnuté. Nainštalovaná verzia je %3. Ak potvrdíte reštart a aktualizáciu, váš počítač sa môže reštartovať a dokončiť inštaláciu.&lt;/p&gt;</translation>
     </message>
@@ -2687,6 +2750,11 @@ môžu byť vyžadované dodatočné oprávnenia.</translation>
         <translation>Je dostupná nová %1. Pre stiahnutie kliknite &lt;a href=&apos;%2&apos;&gt; tu &lt;/a&gt; pre stiahnutie aktualizácie.</translation>
     </message>
     <message>
+        <location filename="../src/gui/updater/ocupdater.cpp" line="158"/>
+        <source>Could not download update. Please open &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt; to download the update manually.</source>
+        <translation>Nemôžem stiahnuť aktualizáciu. Kliknite, prosím, na &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt; pre ručné stiahnutie aktualizácie.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="157"/>
         <source>Could not download update. Please open %1 to download the update manually.</source>
         <translation>Nemôžem stiahnuť aktualizáciu. Otvorte prosím %1 pre ručné stiahnutie aktualizácie.</translation>
@@ -2695,6 +2763,11 @@ môžu byť vyžadované dodatočné oprávnenia.</translation>
         <location filename="../src/gui/updater/ocupdater.cpp" line="159"/>
         <source>Could not check for new updates.</source>
         <translation>Nemôžem skontrolovať dostupnosť aktualizácie.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/updater/ocupdater.cpp" line="166"/>
+        <source>New %1 is available. Please open &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt; to download the update.</source>
+        <translation>Je dostupná nová %1. Pre stiahnutie kliknite &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt; pre stiahnutie aktualizácie.</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="161"/>
@@ -3955,11 +4028,6 @@ Toto je nový experimentálny režim. Ak sa ho rozhodnete použiť, nahláste v�
         <translation>Umožniť úpravy</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="186"/>
-        <source>Allow editing</source>
-        <translation>Povoliť úpravy</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="192"/>
         <source>Read only</source>
         <translation>Len na čítanie</translation>
@@ -3980,6 +4048,16 @@ Toto je nový experimentálny režim. Ak sa ho rozhodnete použiť, nahláste v�
         <translation>Chrániť heslom</translation>
     </message>
     <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="186"/>
+        <source>Allow editing</source>
+        <translation>Povoliť úpravy</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="194"/>
+        <source>View only</source>
+        <translation>Iba pre čítanie</translation>
+    </message>
+    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="198"/>
         <source>Allow upload and editing</source>
         <translation>Povoliť nahrávanie a úpravy</translation>
@@ -3995,14 +4073,19 @@ Toto je nový experimentálny režim. Ak sa ho rozhodnete použiť, nahláste v�
         <translation>Odovzdávanie súborov (len nahrávanie)</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="218"/>
-        <source>Note to recipient</source>
-        <translation>Poznámka pre príjemcu</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="220"/>
         <source>Unshare</source>
         <translation>Zneprístupniť</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="223"/>
+        <source>Link name</source>
+        <translation>Názov odkazu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="218"/>
+        <source>Note to recipient</source>
+        <translation>Poznámka pre príjemcu</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="228"/>
@@ -4015,14 +4098,19 @@ Toto je nový experimentálny režim. Ak sa ho rozhodnete použiť, nahláste v�
         <translation>Nastaviť dátum expirácie</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="266"/>
-        <source>Delete share link</source>
-        <translation>Zmazať sprístupnený odkaz</translation>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="302"/>
+        <source>Delete link</source>
+        <translation>Zmazať odkaz</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="271"/>
         <source>Add another link</source>
         <translation>Pridať ďalší odkaz</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="266"/>
+        <source>Delete share link</source>
+        <translation>Zmazať sprístupnený odkaz</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="508"/>
@@ -5717,17 +5805,17 @@ Toto je nový experimentálny režim. Ak sa ho rozhodnete použiť, nahláste v�
         <translation>Aký je váš stav?</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="164"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="165"/>
         <source>Clear status message after</source>
         <translation>Vyčistiť správu o stave po</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="181"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="182"/>
         <source>Clear status message</source>
         <translation>Vyčistiť správu o stave</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="187"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="188"/>
         <source>Set status message</source>
         <translation>Nastaviť správu o stave</translation>
     </message>

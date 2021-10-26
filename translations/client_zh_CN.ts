@@ -130,8 +130,8 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="398"/>
         <location filename="../src/common/filesystembase.cpp" line="404"/>
-        <source>Could not move &quot;%1&quot; to &quot;%1&quot;</source>
-        <translation>无法将 &quot;%1&quot; 移动至 &quot;%1&quot;</translation>
+        <source>Could not move &quot;%1&quot; to &quot;%2&quot;</source>
+        <translation>无法将 &quot;%1&quot; 移动至 &quot;%2&quot;</translation>
     </message>
     <message>
         <location filename="../src/common/filesystembase.cpp" line="438"/>
@@ -2269,6 +2269,69 @@ Items where deletion is allowed will be deleted if they prevent a directory from
     </message>
 </context>
 <context>
+    <name>OCC::InvalidFilenameDialog</name>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="14"/>
+        <source>Invalid filename</source>
+        <translation>无效文件名</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="23"/>
+        <source>The file could not be synced because it contains characters which are not allowed on this system.</source>
+        <translation>不能同步此文件，因为其名称包含了这个系统不允许的字符。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="36"/>
+        <source>Error</source>
+        <translation>错误</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="49"/>
+        <source>Please enter a new name for the file:</source>
+        <translation>请输入新文件名：</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.ui" line="62"/>
+        <source>New filename</source>
+        <translation>新文件名</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="71"/>
+        <source>Rename file</source>
+        <translation>重命名文件</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="73"/>
+        <source>The file %1 could not be synced because the name contains characters which are not allowed on this system.</source>
+        <translation>无法同步文件 %1 ，因它的名称包含了此系统不允许的字符</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="74"/>
+        <source>The following characters are not allowed on the system: * &quot; | &amp; ? , ; : \ / ~ &lt; &gt;</source>
+        <translation>此系统不允许下列字符： * &quot; | &amp; ? , ; : \ / ~ &lt; &gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="105"/>
+        <source>You don&apos;t have the permission to rename this file. Please ask the author of the file to rename it.</source>
+        <translation>您没有重命名此文件的权限。请文件的作者重新命名它。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="130"/>
+        <source>Filename contains illegal characters: %1</source>
+        <translation>文件名包含非法字符：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="144"/>
+        <source>Could not rename file. Please make sure you are connected to the server.</source>
+        <translation>无法重命名文件。请确保您已连接到服务器。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/invalidfilenamedialog.cpp" line="155"/>
+        <source>Cannot rename file because a file with the same name does already exist on the server. Please pick another name.</source>
+        <translation>无法重命名文件，因为服务器上已经存在同名文件。请换一个名字。</translation>
+    </message>
+</context>
+<context>
     <name>OCC::LegalNotice</name>
     <message>
         <location filename="../src/gui/legalnotice.ui" line="14"/>
@@ -2449,7 +2512,7 @@ Logs will be written to %1</source>
         <translation>&lt;p&gt;新版本的 %1 客户端可用但是更新失败。&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; 已经开放下载。已安装的版本是 %3。&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/updater/ocupdater.cpp" line="455"/>
+        <location filename="../src/gui/updater/ocupdater.cpp" line="463"/>
         <source>&lt;p&gt;A new version of the %1 Client is available but the updating process failed.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; has been downloaded. The installed version is %3. If you confirm restart and update, your computer may reboot to complete the installation.&lt;/p&gt;</source>
         <translation>&lt;p&gt;%1 客户端有新版本可用但更新过程失败。&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt;已下载。已安装版本为 %3。如果您确认重新启动和更新，您的计算机可能需要重启以完成安装。&lt;/p&gt;</translation>
     </message>
@@ -2675,6 +2738,11 @@ for additional privileges during the process.</source>
         <translation>新的 %1 现在可用。请点击 &lt;a href=&apos;%2&apos;&gt;此处&lt;/a&gt;以下载更新。</translation>
     </message>
     <message>
+        <location filename="../src/gui/updater/ocupdater.cpp" line="158"/>
+        <source>Could not download update. Please open &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt; to download the update manually.</source>
+        <translation>无法下载更新。请打开 &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt;手动下载更新</translation>
+    </message>
+    <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="157"/>
         <source>Could not download update. Please open %1 to download the update manually.</source>
         <translation>无法下载更新。请打开 %1 手动下载更新。</translation>
@@ -2683,6 +2751,11 @@ for additional privileges during the process.</source>
         <location filename="../src/gui/updater/ocupdater.cpp" line="159"/>
         <source>Could not check for new updates.</source>
         <translation>无法检查新更新。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/updater/ocupdater.cpp" line="166"/>
+        <source>New %1 is available. Please open &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt; to download the update.</source>
+        <translation>有新的 %1 可用。请打开 &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt;下载更新</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="161"/>
@@ -3938,11 +4011,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>允许编辑</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="186"/>
-        <source>Allow editing</source>
-        <translation>允许编辑</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="192"/>
         <source>Read only</source>
         <translation>只读</translation>
@@ -3963,6 +4031,16 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>密码保护</translation>
     </message>
     <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="186"/>
+        <source>Allow editing</source>
+        <translation>允许编辑</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="194"/>
+        <source>View only</source>
+        <translation>仅查看</translation>
+    </message>
+    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="198"/>
         <source>Allow upload and editing</source>
         <translation>允许上传和编辑</translation>
@@ -3978,14 +4056,19 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>文件拖拽（仅上传）</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="218"/>
-        <source>Note to recipient</source>
-        <translation>接收人备注</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="220"/>
         <source>Unshare</source>
         <translation>取消共享</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="223"/>
+        <source>Link name</source>
+        <translation>链接名称</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="218"/>
+        <source>Note to recipient</source>
+        <translation>接收人备注</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="228"/>
@@ -3998,14 +4081,19 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>设置过期日期</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="266"/>
-        <source>Delete share link</source>
-        <translation>删除共享链接</translation>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="302"/>
+        <source>Delete link</source>
+        <translation>删除链接</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="271"/>
         <source>Add another link</source>
         <translation>添加其他链接</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="266"/>
+        <source>Delete share link</source>
+        <translation>删除共享链接</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="508"/>
@@ -5700,17 +5788,17 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>你什么状态？</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="164"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="165"/>
         <source>Clear status message after</source>
         <translation>在指定时间段后清除状态消息</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="181"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="182"/>
         <source>Clear status message</source>
         <translation>清除状态消息</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="187"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="188"/>
         <source>Set status message</source>
         <translation>设置状态消息</translation>
     </message>

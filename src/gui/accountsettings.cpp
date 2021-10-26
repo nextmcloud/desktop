@@ -73,6 +73,8 @@ Q_LOGGING_CATEGORY(lcAccountSettings, "nextcloud.gui.account.settings", QtInfoMs
 
 static const char progressBarStyleC[] =
     "QProgressBar {"
+    "border: 0px solid grey;"
+     "border-radius: 5px; width: 4px;"
     "background-color: #CCCCCC;"
     "text-align: center;"
     "}"
@@ -220,6 +222,7 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     // quotaProgressBar style now set in customizeStyle()
     /*QColor color = palette().highlight().color();
      _ui->quotaProgressBar->setStyleSheet(QString::fromLatin1(progressBarStyleC).arg(color.name()));*/
+    customizeStyle();
 
     // Connect E2E stuff
     connect(this, &AccountSettings::requestMnemonic, _accountState->account()->e2e(), &ClientSideEncryption::slotRequestMnemonic);
@@ -244,8 +247,6 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
 
     connect(&_userInfo, &UserInfo::quotaUpdated,
         this, &AccountSettings::slotUpdateQuota);
-
-    customizeStyle();
 }
 
 void AccountSettings::slotNewMnemonicGenerated()
@@ -1409,7 +1410,8 @@ void AccountSettings::customizeStyle()
    // _ui->connectLabel->setText(msg);
 
     QColor color = palette().highlight().color();
-    _ui->quotaProgressBar->setStyleSheet(QString::fromLatin1(progressBarStyleC).arg(color.name()));
+    QString background(palette().base().color().name());
+    _ui->quotaProgressBar->setStyleSheet(QString::fromLatin1(progressBarStyleC).arg(background,color.name()));
 }
 
 } // namespace OCC
