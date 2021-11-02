@@ -6,51 +6,103 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>423</width>
-    <height>174</height>
+    <width>502</width>
+    <height>440</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string notr="true">Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="2" column="0">
-    <spacer name="verticalSpacer">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="subHeader">
+     <property name="styleSheet">
+      <string notr="true">font: 14px &quot;Segoe UI&quot;;
+color:#e20074</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>349</width>
-       <height>0</height>
+       <width>20</width>
+       <height>16</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Pick a local folder on your computer to sync</string>
+   <item>
+    <widget class="QLabel" name="content">
+     <property name="styleSheet">
+      <string notr="true">font: 14px &quot;Segoe UI&quot;;
+color:#191919</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLineEdit" name="localFolderLineEdit"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="localFolderChooseBtn">
-          <property name="text">
-           <string>&amp;Choose …</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item>
+    <spacer name="verticalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>18</width>
+       <height>16</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="subContent">
+     <property name="styleSheet">
+      <string notr="true">font: 14px &quot;Segoe UI&quot;;
+color:#191919</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>16</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="localFolderLineEdit"/>
+   </item>
+   <item>
+    <widget class="QPushButton" name="localFolderChooseBtn">
+     <property name="text">
+      <string>&amp;Choose …</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLabel" name="warnLabel">
      <property name="palette">
       <palette>
@@ -132,6 +184,45 @@
       <number>3</number>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_6">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_5">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>48</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>349</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

@@ -206,7 +206,7 @@ Application::Application(int &argc, char **argv)
 #endif
 
     setApplicationName(_theme->appName());
-    setWindowIcon(_theme->applicationIcon());
+    //setWindowIcon(_theme->applicationIcon());
 
     if (!ConfigFile().exists()) {
         // Migrate from version <= 2.4

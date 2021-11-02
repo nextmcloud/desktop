@@ -46,15 +46,15 @@ namespace OCC {
 QString FormatWarningsWizardPage::formatWarnings(const QStringList &warnings) const
 {
     QString ret;
-    if (warnings.count() == 1) {
+    //if (warnings.count() == 1) {
         ret = tr("<b>Warning:</b> %1").arg(warnings.first());
-    } else if (warnings.count() > 1) {
+    /*} else if (warnings.count() > 1) {
         ret = tr("<b>Warning:</b>") + " <ul>";
         Q_FOREACH (QString warning, warnings) {
             ret += QString::fromLatin1("<li>%1</li>").arg(warning);
         }
         ret += "</ul>";
-    }
+    }*/
 
     return ret;
 }
@@ -77,6 +77,9 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
 
     _ui.warnLabel->setTextFormat(Qt::RichText);
     _ui.warnLabel->hide();
+    _ui.content->setText(tr("Select a folder on your hard drive, that will be connected to your MangentaCLOUD and permanently connected. All files and sub-folders are automatically uploaded and synchronized."));
+    _ui.subContent->setText(tr("If you don't make a selection, an empty folder will automatically be created for you."));
+    _ui.subHeader->setText(tr("Step 1 from 2: Local Folder"));
 }
 
 FolderWizardLocalPath::~FolderWizardLocalPath() = default;
@@ -149,7 +152,9 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
 
 {
     _ui.setupUi(this);
-    _ui.warnFrame->hide();
+    //_ui.warnFrame->hide();
+    _ui.warnLabel->hide();
+    _ui.folderEntry->hide();
 
     _ui.folderTreeWidget->setSortingEnabled(true);
     _ui.folderTreeWidget->sortByColumn(0, Qt::AscendingOrder);
@@ -167,6 +172,9 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
     _ui.folderTreeWidget->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     // Make sure that there will be a scrollbar when the contents is too wide
     _ui.folderTreeWidget->header()->setStretchLastSection(false);
+    _ui.subHeader->setText(tr("Step 2 from 2: Directory in your CLOUD"));
+    _ui.content->setText(tr("Both folders are permanently linked, the respective contents are automatically compared and updated."));
+    _ui.subContent->setText(tr("Please select or create a target folder in your MangentaCLOUD, where the content will be uploaded and synchronized."));
 }
 
 void FolderWizardRemotePath::slotAddRemoteFolder()
@@ -385,7 +393,7 @@ void FolderWizardRemotePath::slotCurrentItemChanged(QTreeWidgetItem *item)
         if (!dir.startsWith(QLatin1Char('/'))) {
             dir.prepend(QLatin1Char('/'));
         }
-        _ui.folderEntry->setText(dir);
+        //_ui.folderEntry->setText(dir);
     }
 
     emit completeChanged();
@@ -492,10 +500,12 @@ void FolderWizardRemotePath::initializePage()
 void FolderWizardRemotePath::showWarn(const QString &msg) const
 {
     if (msg.isEmpty()) {
-        _ui.warnFrame->hide();
+        //_ui.warnFrame->hide();
+        _ui.warnLabel->hide();
 
     } else {
-        _ui.warnFrame->show();
+        //_ui.warnFrame->show();
+        _ui.warnLabel->show();
         _ui.warnLabel->setText(msg);
     }
 }
