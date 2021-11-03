@@ -23,6 +23,8 @@
 #include <QPointer>
 
 class QNetworkReply;
+class TestFolderStatusModel;
+
 namespace OCC {
 
 Q_DECLARE_LOGGING_CATEGORY(lcFolderStatus)
@@ -146,6 +148,9 @@ private:
         const QStringList &oldBlackList) const;
     const AccountState *_accountState = nullptr;
     bool _dirty = false; // If the selective sync checkboxes were changed
+
+    /* for Unit Test */
+    friend class:: TestFolderStatusModel;
 
     /**
      * Keeps track of items that are fetching data from the server.

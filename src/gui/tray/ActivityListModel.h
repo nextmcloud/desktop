@@ -20,6 +20,7 @@
 #include "ActivityData.h"
 
 class QJsonDocument;
+class TestActivityListModel;
 
 namespace OCC {
 
@@ -117,6 +118,9 @@ private:
     bool _showMoreActivitiesAvailableEntry = false;
 
     QPointer<ConflictDialog> _currentConflictDialog;
+
+    /* for Unit Test */
+    friend class::TestActivityListModel;
 };
 }
 
