@@ -31,6 +31,7 @@ class QModelIndex;
 class QNetworkReply;
 class QListWidgetItem;
 class QLabel;
+class TestAccountSettings;
 
 namespace OCC {
 
@@ -134,6 +135,9 @@ private:
     QAction *_addAccountAction;
 
     bool _menuShown;
+
+    /* for Unit Test */
+    friend class:: TestAccountSettings;
 };
 
 } // namespace OCC
