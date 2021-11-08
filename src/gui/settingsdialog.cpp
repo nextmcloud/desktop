@@ -102,7 +102,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
 
     setObjectName("Settings"); // required as group for saveGeometry call
 
-    //setWindowIcon(Theme::instance()->applicationLogo());
+    setWindowIcon(Theme::instance()->applicationLogo());
 
     //: This name refers to the application name e.g Nextcloud
     setWindowTitle(tr("%1 Settings").arg(Theme::instance()->appNameGUI()));
