@@ -39,6 +39,8 @@
 #include <QSettings>
 #include <QNetworkProxy>
 #include <QStandardPaths>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #define QTLEGACY (QT_VERSION < QT_VERSION_CHECK(5,9,0))
 
@@ -335,6 +337,26 @@ QString ConfigFile::configPath() const
                  if (QFileInfo(oldLocation).isDir()) {
                      QDir().mkpath(newLocation);
                      copy_dir_recursive(oldLocation, newLocation);
+
+                     QDir directory(oldLocation);
+                     QString path = directory.filePath("settings.json");
+                     QFile file(path);
+                     if(file.exists())
+                     {
+                         file.open(QIODevice::ReadOnly | QIODevice::Text);
+                          QByteArray bytes = file.readAll();
+                          file.close();
+                          QJsonDocument document = QJsonDocument::fromJson( bytes );
+                          if( document.isObject() )
+                          {
+                              //qCInfo(lcConfigFile) << "Parul: reading json file - " << name << "also failed";
+                              QJsonObject jsonObj = document.object();
+                              QJsonValue silentUpdates = jsonObj["UseSilentUpdates"];
+                              bool updates = silentUpdates.toBool();
+                              ConfigFile cfg;
+                              cfg.setAutoUpdateCheck(silentUpdates.toBool(),QString());
+                          }
+                     }
                  }
              }
             _confDir = newLocation;

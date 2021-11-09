@@ -48,10 +48,38 @@
 
     <Media Id="1" Cabinet="$(var.AppShortName).cab" EmbedCab="yes" />
 
+  <!--  <UI Id="MigrationDialogUI">
+
+      <DialogRef Id="ExitDialog"/>
+
+      <Dialog Id="MigrationDialog" Width="400" Height="300" Title="$(var.AppName) $(var.PlatformBitness)">
+
+                <Control Id="Finish" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Cancel="yes" Text="Uninstall" >
+                    <Publish Event="DoAction" Value="RemoveOldClient">updateCheckboxResult = 1 and aquisitionCheckboxResult = 1 and Not Installed</Publish>
+                    <Publish Event="OnExit" Value="success"></Publish>
+                </Control>
+                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Bitmap="yes" Width="56" Height="17" Disabled="yes" Text="Cancel" >
+                    <Publish Event="EndDialog" Value="Exit" />
+                </Control>
+                <Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="!(loc.ExitDialogBitmap)" />
+                <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Disabled="yes" Text="Back" />
+                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                <Control Id="Description" Type="Text" X="135" Y="70" Width="220" Height="40" Transparent="yes" NoPrefix="yes" Text="!(loc.ExitDialogDescription)" />
+                <Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.ExitDialogTitle)" />
+                <Control Id="updateCheckbox" Type="CheckBox" Property="updateCheckboxResult" CheckBoxValue="1" Text="automatic updates" X="135" Y="170" Height="30" Width="220" />
+                <Control Id="aquisitionCheckbox" Type="CheckBox" Property="aquisitionCheckboxResult" CheckBoxValue="1" Text="analysis-data aquisition" X="135" Y="190" Height="30" Width="220" />
+    </Dialog>
+      <InstallUISequence>
+            <Show Dialog="MigrationDialog" After="InstallExecute" />
+      </InstallUISequence>
+    </UI> -->
+
     <!-- If already installed: Use previously chosen path (use 32-bit registry like NSIS does) -->
     <Property Id="INSTALLDIR">
         <RegistrySearch Id="RegistryInstallDir" Type="raw" Root="HKLM" Key="Software\$(var.AppVendor)\$(var.AppName)" Win64="no" />
     </Property>
+
+    <Property Id="OLDCLIENTDIR">C:\Windows\System32\</Property>
 
     <!-- Detect legacy NSIS installation -->
     <Property Id="NSIS_UNINSTALLEXE">
@@ -66,11 +94,17 @@
     <!-- Quit / restart application -->
     <util:RestartResource ProcessName="$(var.AppExe)" />
 
+    <CustomAction Id="RemoveOldClient"
+    Directory="OLDCLIENTDIR"
+    ExeCommand="msiexec.exe /X {CE83A4B5-5439-4021-B15F-7AE7AA31BF65} /qb"
+    Return="asyncNoWait" />
+
     <!-- Helper DLL Custom Actions -->
     <SetProperty Id="ExecNsisUninstaller" Value="&quot;$(var.AppShortName)&quot; &quot;[NSIS_UNINSTALLEXE]&quot;" Before="ExecNsisUninstaller" Sequence="execute" />
     <SetProperty Id="RemoveNavigationPaneEntries" Value="&quot;$(var.AppName)&quot;" Before="RemoveNavigationPaneEntries" Sequence="execute" />
 
     <InstallExecuteSequence>
+
         <!-- Install: Remove previous NSIS installation, if detected -->
         <Custom Action="ExecNsisUninstaller" Before="ProcessComponents">NSIS_UNINSTALLEXE AND NOT Installed</Custom>
 
@@ -109,22 +143,31 @@
     -->
 
     <!-- Custom license -->
-    <!--
     <WixVariable Id="WixUILicenseRtf" Value="$(var.AppLicenseRtf)" />
-    -->
 
     <UI>
         <UIRef Id="WixUI_FeatureTree" />
         <UIRef Id="WixUI_ErrorProgressText" />
 
-        <!-- Skip the license page -->
-        <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg" Order="3">1</Publish>
-        <!-- Skip the page on the way back too -->
-        <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3">1</Publish>
+        <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg" Order="3">1</Publish>
+        <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg" Order="3">1</Publish>
+        <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="3">1</Publish>
+
+     <!--   <Publish Dialog="MigrationDialog"
+            Control="Finish"
+            Event="DoAction"
+            Value="RemoveOldClient">NOT Installed</Publish> -->
+
+     <!--   <Publish Dialog="MigrationDialog" Control="cancelButton" Event="EndDialog" Value="ExitDialog">1</Publish> -->
+        <UIRef Id="MigrationDialogUI"/>
+
+        <Publish Dialog="MigrationDialog" Control="Uninstall"
+            Event="DoAction" Value="RemoveOldClient">updateCheckboxResult = 1 and aquisitionCheckboxResult = 1 and Not Installed</Publish>
+        <Publish Dialog="MigrationDialog" Control="Uninstall" Event="EndDialog" Value="Return">1</Publish>
 
         <!-- https://wixtoolset.org/documentation/manual/v3/howtos/ui_and_localization/run_program_after_install.html -->        
-        <Publish Dialog="ExitDialog" 
-            Control="Finish" 
+        <Publish Dialog="ExitDialog"
+            Control="Finish"
             Event="DoAction" 
             Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
 
@@ -138,13 +181,17 @@
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.AppName)" />
     <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" Before="CostInitialize">NOT (LAUNCH=0)</SetProperty>
+    <SetProperty Id="updateCheckboxResult" Value="1" Before="CostInitialize"></SetProperty>
+    <SetProperty Id="aquisitionCheckboxResult" Value="1" Before="CostInitialize"></SetProperty>
 
     <!-- Components -->
     <Directory Id="TARGETDIR" Name="SourceDir">
         <Directory Id="$(var.PlatformProgramFilesFolder)" Name="PFiles">
             <Directory Id="INSTALLDIR" Name="$(var.AppName)">
+                <Directory Id="OLDCLIENTDIR" Name="UninstallString">
                 <!-- Shell Extensions -->
-                <Directory Id="ShellExtDir" Name="shellext" />
+                    <Directory Id="ShellExtDir" Name="shellext" />
+                </Directory>
             </Directory>
         </Directory>
 

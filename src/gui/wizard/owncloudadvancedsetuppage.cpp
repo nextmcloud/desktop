@@ -20,6 +20,7 @@
 #include <QStorageInfo>
 #include <QMessageBox>
 #include <QJsonObject>
+#include <QStandardPaths>
 
 #include "QProgressIndicator.h"
 
@@ -416,6 +417,27 @@ void OwncloudAdvancedSetupPage::setRemoteFolder(const QString &remoteFolder)
 
 void OwncloudAdvancedSetupPage::slotSelectFolder()
 {
+   /* auto oldLocation = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+
+    // Only migrate if the old location exists.
+    if (QFileInfo(oldLocation).isDir()) {
+        QDir directory(oldLocation);
+        QString path = directory.filePath("user.db");
+        QSqlDatabase m_db;
+        m_db = QSqlDatabase::addDatabase("QSQLITE");
+        m_db.setDatabaseName(path);
+        if (!m_db.open())
+           {
+              qDebug() << "Error: connection with database fail";
+           }
+           else
+           {
+              qDebug() << "Database: connection ok";
+           }
+        QSqlQuery query("SELECT SyncFolderPath FROM user");
+        auto syncFolderPath = query.record();
+        QString name = query.value(syncFolderPath).toString();
+    }*/
     QString dir = QFileDialog::getExistingDirectory(nullptr, tr("Local Sync Folder"), QDir::homePath());
     if (!dir.isEmpty()) {
         // TODO: remove when UX decision is made

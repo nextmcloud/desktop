@@ -455,7 +455,7 @@ void GeneralSettings::customizeStyle()
     // updater info
     slotUpdateInfo();
 #else
-    _ui->autoCheckForUpdatesCheckBox->setVisible(false);
+    _ui->autoCheckForUpdatesCheckBox->setVisible(true);
     _ui->restartButton->setVisible(false);
     _ui->updateChannel->setVisible(false);
     _ui->updateStateLabel->setVisible(false);
