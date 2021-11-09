@@ -73,6 +73,7 @@ static const char optionalServerNotificationsC[] = "optionalServerNotifications"
 static const char showInExplorerNavigationPaneC[] = "showInExplorerNavigationPane";
 static const char skipUpdateCheckC[] = "skipUpdateCheck";
 static const char autoUpdateCheckC[] = "autoUpdateCheck";
+static const char TransferUsageDataC[] = "TransferUsageData";
 static const char updateCheckIntervalC[] = "updateCheckInterval";
 static const char updateSegmentC[] = "updateSegment";
 static const char updateChannelC[] = "updateChannel";
@@ -656,6 +657,32 @@ void ConfigFile::setAutoUpdateCheck(bool autoCheck, const QString &connection)
     settings.beginGroup(con);
 
     settings.setValue(QLatin1String(autoUpdateCheckC), QVariant(autoCheck));
+    settings.sync();
+}
+
+bool ConfigFile::transferUsageData(const QString &connection) const
+{
+    QString con(connection);
+    if (connection.isEmpty())
+        con = defaultConnection();
+
+    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, true);
+    fallback = getValue(QLatin1String(TransferUsageDataC), QString(), fallback);
+
+    QVariant value = getPolicySetting(QLatin1String(TransferUsageDataC), fallback);
+    return value.toBool();
+}
+
+void ConfigFile::setTransferUsageData(bool usageData, const QString &connection)
+{
+    QString con(connection);
+    if (connection.isEmpty())
+        con = defaultConnection();
+
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.beginGroup(con);
+
+    settings.setValue(QLatin1String(TransferUsageDataC), QVariant(usageData));
     settings.sync();
 }
 
