@@ -49,11 +49,11 @@ private slots:
     void slotShowInExplorerNavigationPane(bool);
     void slotCreateDebugArchive();
     void loadMiscSettings();
+    void slotTransferUsageData();
 #if defined(BUILD_UPDATER)
     void slotUpdateInfo();
     void slotUpdateCheckNow();
     void slotToggleAutoUpdateCheck();
-    void slotTransferUsageData();
 #endif
 
 private:

@@ -304,6 +304,7 @@ void GeneralSettings::slotToggleAutoUpdateCheck()
     bool isChecked = _ui->autoCheckForUpdatesCheckBox->isChecked();
     cfgFile.setAutoUpdateCheck(isChecked, QString());
 }
+#endif // defined(BUILD_UPDATER)
 
 void GeneralSettings::slotTransferUsageData()
 {
@@ -311,7 +312,6 @@ void GeneralSettings::slotTransferUsageData()
     bool isChecked = _ui->transferUsageDataCheckBox->isChecked();
     cfgFile.setTransferUsageData(isChecked, QString());
 }
-#endif // defined(BUILD_UPDATER)
 
 void GeneralSettings::saveMiscSettings()
 {
