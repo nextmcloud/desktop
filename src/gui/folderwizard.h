@@ -22,10 +22,13 @@
 #include "folder.h"
 #include "accountfwd.h"
 
+#ifndef TEST_FOLD_WIZ
 #include "ui_folderwizardsourcepage.h"
 #include "ui_folderwizardtargetpage.h"
+#endif
 
 class QCheckBox;
+class TestFolderWizard;
 
 namespace OCC {
 
@@ -42,6 +45,9 @@ class FormatWarningsWizardPage : public QWizardPage
     Q_OBJECT
 protected:
     QString formatWarnings(const QStringList &warnings) const;
+
+    /* for Unit Test */
+    friend class:: TestFolderWizard;
 };
 
 /**
@@ -67,6 +73,9 @@ private:
     Ui_FolderWizardSourcePage _ui;
     Folder::Map _folderMap;
     AccountPtr _account;
+
+    /* for Unit Test */
+    friend class:: TestFolderWizard;
 };
 
 
@@ -113,6 +122,9 @@ private:
     AccountPtr _account;
     QTimer _lscolTimer;
     QStringList _encryptedPaths;
+
+    /* for Unit Test */
+    friend class:: TestFolderWizard;
 };
 
 /**
