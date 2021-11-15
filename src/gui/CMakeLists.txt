@@ -29,6 +29,8 @@ set(client_UI_SRCS
     settingsdialog.ui
     sharedialog.ui
     sharelinkwidget.ui
+    shareusermessagewidget.ui
+    shareusergrouppermissionwidget.ui
     shareusergroupwidget.ui
     shareuserline.ui
     sslerrordialog.ui
@@ -84,6 +86,8 @@ set(client_SRCS
     settingsdialog.cpp
     sharedialog.cpp
     sharelinkwidget.cpp
+    shareusermessagewidget.cpp
+    shareusergrouppermissionwidget.cpp
     sharemanager.cpp
     shareusergroupwidget.cpp
     sharee.cpp

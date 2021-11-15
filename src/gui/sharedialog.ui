@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>385</width>
-    <height>150</height>
+    <width>399</width>
+    <height>181</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="shareDialogVerticalLayout">
@@ -33,28 +33,28 @@
        <property name="spacing">
         <number>10</number>
        </property>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_name">
+       <item row="0" column="0" rowspan="2">
+        <widget class="QLabel" name="label_icon">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+          <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
          <property name="minimumSize">
           <size>
-           <width>315</width>
-           <height>0</height>
+           <width>40</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
           </size>
          </property>
          <property name="text">
-          <string>share label</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::PlainText</enum>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
+          <string>Icon</string>
          </property>
         </widget>
        </item>
@@ -89,28 +89,28 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0" rowspan="2">
-        <widget class="QLabel" name="label_icon">
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_name">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
          <property name="minimumSize">
           <size>
-           <width>40</width>
-           <height>40</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>16777215</height>
+           <width>315</width>
+           <height>0</height>
           </size>
          </property>
          <property name="text">
-          <string>Icon</string>
+          <string>share label</string>
+         </property>
+         <property name="textFormat">
+          <enum>Qt::PlainText</enum>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -141,8 +141,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>69</width>
-          <height>69</height>
+          <width>85</width>
+          <height>85</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="scrollAreaVerticalLayout"/>

@@ -43,6 +43,7 @@ class AbstractCredentials;
 class SyncResult;
 class Share;
 class ShareManager;
+class ShareUserGroupPermissionWidget;
 
 /**
  * @brief The ShareDialog (user/group) class
@@ -113,6 +114,8 @@ private:
     QProgressIndicator _pi_sharee;
 
     QString _lastCreatedShareId;
+
+    ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
 };
 
 /**
@@ -191,6 +194,8 @@ private:
   bool _isFile;
 
   // _permissionEdit is a checkbox
+  QAction *_permissionRead;
+  QAction *_permissionUpload;
   QAction *_permissionReshare;
   QAction *_deleteShareButton;
   QAction *_permissionCreate;

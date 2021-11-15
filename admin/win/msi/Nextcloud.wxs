@@ -159,11 +159,11 @@
             Value="RemoveOldClient">NOT Installed</Publish> -->
 
      <!--   <Publish Dialog="MigrationDialog" Control="cancelButton" Event="EndDialog" Value="ExitDialog">1</Publish> -->
-        <UIRef Id="MigrationDialogUI"/>
+      <!--  <UIRef Id="MigrationDialogUI"/>
 
         <Publish Dialog="MigrationDialog" Control="Uninstall"
             Event="DoAction" Value="RemoveOldClient">updateCheckboxResult = 1 and aquisitionCheckboxResult = 1 and Not Installed</Publish>
-        <Publish Dialog="MigrationDialog" Control="Uninstall" Event="EndDialog" Value="Return">1</Publish>
+        <Publish Dialog="MigrationDialog" Control="Uninstall" Event="EndDialog" Value="Return">1</Publish> -->
 
         <!-- https://wixtoolset.org/documentation/manual/v3/howtos/ui_and_localization/run_program_after_install.html -->        
         <Publish Dialog="ExitDialog"
