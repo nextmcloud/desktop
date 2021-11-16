@@ -482,7 +482,8 @@ bool FolderWizardRemotePath::isComplete() const
         }
     }
 
-    showWarn(formatWarnings(warnStrings));
+    if (!warnStrings.empty())
+        showWarn(formatWarnings(warnStrings));
     return true;
 }
 
