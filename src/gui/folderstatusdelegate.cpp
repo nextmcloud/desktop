@@ -147,17 +147,19 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         QIcon addIcon = theme->addButtonIcon();
         int iconSize = 48;
         int topMargin = 8;
-        int leftMargin = 44;
+        int leftMargin = 8;
 
         painter->save();
-        auto iconRect = option.rect;
+        auto addIconRect = option.rect;
         auto headRect = option.rect;
 
         int buttonMargin = (option.rect.height() - topMargin - iconSize)/2;
 
-        //iconRect.setLeft(option.rect.left() + topMargin);
-        iconRect.setLeft(leftMargin);
-        iconRect.setTop(iconRect.top() + buttonMargin);
+        addIconRect.setLeft(option.rect.left() + aliasMargin);
+        addIconRect.setTop(addIconRect.top() + buttonMargin);
+        int iconRectHeight = aliasFm.height() + 2 * (margin + subFm.height());
+        addIconRect.setHeight(iconRectHeight);
+        addIconRect.setWidth(iconRectHeight);
 
         // headline box
         headRect.setTop(headRect.top() + topMargin + buttonMargin);
@@ -169,13 +171,13 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         textRect.setTop(headRect.bottom() + margin);
         textRect.setBottom(textRect.top() + 2*addButtonFm.height() + margin);
 
-        int iconSpace = iconSize + aliasMargin;
-        headRect.setLeft(headRect.left() + iconSpace + leftMargin);
-        textRect.setLeft(textRect.left() + iconSpace + leftMargin);
+        int nextToIcon = addIconRect.right() + aliasMargin;
+        headRect.setLeft(nextToIcon);
+        textRect.setLeft(nextToIcon);
 
         QPixmap pm = addIcon.pixmap(iconSize, iconSize, (opt.state & QStyle::State_Enabled) ? QIcon::Normal : QIcon::Disabled);
-        painter->drawPixmap(QStyle::visualRect(option.direction, iconRect, iconRect).left(),
-            iconRect.top() + topMargin + buttonMargin, pm);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, addIconRect).left() + leftMargin,
+            addIconRect.top() + topMargin + buttonMargin, pm);
 
         if(!(opt.state & QStyle::State_Enabled))
         {
@@ -256,10 +258,10 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     {
         auto overlayIcon = qvariant_cast<QIcon>(index.data(FolderOverlayIconRole));
         int ovlSize = 24;
-        int ovlMargin = 16;
         auto ovlRect = iconRect;
-        ovlRect.setTop(iconRect.bottom() - ovlSize - margin - ovlMargin);
-        ovlRect.setLeft(iconRect.right() - ovlSize - (ovlMargin/2));
+        // the overlay icon position depends on the (variable) status icon size
+        ovlRect.setTop(iconRect.top() + pm.height() - ovlSize - margin);
+        ovlRect.setLeft(iconRect.left() + pm.width() - ovlSize);
         QPixmap opm = overlayIcon.pixmap(ovlSize, ovlSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
         painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, ovlRect).left(),
             ovlRect.top(), opm);
