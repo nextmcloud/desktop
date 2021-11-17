@@ -664,7 +664,10 @@ void OwncloudSetupWizard::slotAssistantFinished(int result)
             if (_ocWizard->useVirtualFileSync()) {
                 folderDefinition.virtualFilesMode = bestAvailableVfsMode();
             }
-            if (folderMan->navigationPaneHelper().showInExplorerNavigationPane())
+            /* Root folder is the only that should be shown in a file manager nav pane
+             * and if the map isn't empty this means that the root folder is already there
+             */
+            if (folderMan->navigationPaneHelper().showInExplorerNavigationPane() && folderMan->map().isEmpty())
                 folderDefinition.navigationPaneClsid = QUuid::createUuid();
 
             auto f = folderMan->addFolder(account, folderDefinition);

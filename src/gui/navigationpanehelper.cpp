@@ -47,8 +47,13 @@ void NavigationPaneHelper::setShowInExplorerNavigationPane(bool show)
     _showInExplorerNavigationPane = show;
     // Re-generate a new CLSID when enabling, possibly throwing away the old one.
     // updateCloudStorageRegistry will take care of removing any unknown CLSID our application owns from the registry.
-    foreach (Folder *folder, _folderMan->map())
-        folder->setNavigationPaneClsid(show ? QUuid::createUuid() : QUuid());
+    foreach (Folder *folder, _folderMan->map()) {
+        // Only route remote folder is shown in a file manager nav pane
+        if (folder->remotePath() == "/") {
+            folder->setNavigationPaneClsid(show ? QUuid::createUuid() : QUuid());
+            break;
+        }
+    }
 
     scheduleUpdateCloudStorageRegistry();
 }
@@ -86,6 +91,7 @@ void NavigationPaneHelper::updateCloudStorageRegistry()
         // We currently don't distinguish between new and existing CLSIDs, if it's there we just
         // save over it. We at least need to update the tile in case we are suddently using multiple accounts.
         foreach (Folder *folder, _folderMan->map()) {
+            // Only the route folder has a valid CLSID because this is the only folder that's shown in a nav pane
             if (!folder->navigationPaneClsid().isNull()) {
                 // If it already exists, unmark it for removal, this is a valid sync root.
                 entriesToRemove.removeOne(folder->navigationPaneClsid());
