@@ -605,7 +605,9 @@ QIcon Theme::folderOverlayIcon(SyncResult::Status status, bool firstRow) const
 QIcon Theme::folderOkIcon() const
 {
     QString folderIcon = QLatin1String("folder-ok");
-    return themeIcon(folderIcon, false);
+    const auto pixmapName = QString::fromLatin1(":/client/theme/%1/%2-%3.png").arg("colored").arg(folderIcon).arg(64);
+    return QPixmap(pixmapName);
+    //return themeIcon(folderIcon, false);
 }
 
 QIcon Theme::folderDisabledIcon() const

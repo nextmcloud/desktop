@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>350</width>
-    <height>70</height>
+    <width>403</width>
+    <height>251</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -17,6 +17,22 @@
    </sizepolicy>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>11</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>You can create links or send shares by mail. If you invite MagentaCloud users, you have more opportunities for collaboration.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QLabel" name="mainOwnerLabel">
      <property name="sizePolicy">
@@ -54,6 +70,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 10pt &quot;Segoe UI&quot; &quot;#666&quot;;</string>
        </property>
        <property name="placeholderText">
         <string>Share with users or groups …</string>

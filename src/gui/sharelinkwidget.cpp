@@ -67,13 +67,14 @@ ShareLinkWidget::ShareLinkWidget(AccountPtr account,
 {
     _ui->setupUi(this);
 
-    _ui->shareLinkToolButton->hide();
+   // _ui->shareLinkToolButton->hide();
 
     //Is this a file or folder?
     QFileInfo fi(localPath);
     _isFile = fi.isFile();
 
-    connect(_ui->enableShareLink, &QPushButton::clicked, this, &ShareLinkWidget::slotCreateShareLink);
+    slotCreateShareLink(true);
+   // connect(_ui->enableShareLink, &QPushButton::clicked, this, &ShareLinkWidget::slotCreateShareLink);
     connect(_ui->lineEdit_password, &QLineEdit::returnPressed, this, &ShareLinkWidget::slotCreatePassword);
     connect(_ui->confirmPassword, &QAbstractButton::clicked, this, &ShareLinkWidget::slotCreatePassword);
     connect(_ui->confirmNote, &QAbstractButton::clicked, this, &ShareLinkWidget::slotCreateNote);
@@ -91,9 +92,9 @@ ShareLinkWidget::ShareLinkWidget(AccountPtr account,
         sharingPossible = false;
     }
 
-    _ui->enableShareLink->setChecked(false);
-    _ui->shareLinkToolButton->setEnabled(false);
-    _ui->shareLinkToolButton->hide();
+    //_ui->enableShareLink->setChecked(false);
+    //_ui->shareLinkToolButton->setEnabled(false);
+    //_ui->shareLinkToolButton->hide();
 
     // Older servers don't support multiple public link shares
     if (!_account->capabilities().sharePublicLinkMultiple()) {
@@ -169,50 +170,75 @@ void ShareLinkWidget::setupUiOptions()
     connect(_linkShare.data(), &LinkShare::passwordSet, this, &ShareLinkWidget::slotPasswordSet);
     connect(_linkShare.data(), &LinkShare::passwordSetError, this, &ShareLinkWidget::slotPasswordSetError);
 
-    // Prepare permissions check and create group action
-    const QDate expireDate = _linkShare.data()->getExpireDate().isValid() ? _linkShare.data()->getExpireDate() : QDate();
     const SharePermissions perm = _linkShare.data()->getPermissions();
     bool checked = false;
     auto *permissionsGroup = new QActionGroup(this);
-
+    QAction *LinkAction;
     // Prepare sharing menu
     _linkContextMenu = new QMenu(this);
+    auto *permissionMenu = new QMenu(this);
 
     // radio button style
     permissionsGroup->setExclusive(true);
 
     if (_isFile) {
+        checked = (perm == SharePermissionRead);
+        _readOnlyLinkAction = permissionsGroup->addAction(tr("Read only"));
+        _readOnlyLinkAction->setCheckable(true);
+        _readOnlyLinkAction->setChecked(checked);
+        LinkAction = _readOnlyLinkAction;
+
         checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
-        _allowEditingLinkAction = _linkContextMenu->addAction(tr("Allow editing"));
+        _allowEditingLinkAction = permissionsGroup->addAction(tr("Can edit"));
         _allowEditingLinkAction->setCheckable(true);
         _allowEditingLinkAction->setChecked(checked);
+        LinkAction = _allowEditingLinkAction;
 
     } else {
         checked = (perm == SharePermissionRead);
         _readOnlyLinkAction = permissionsGroup->addAction(tr("Read only"));
         _readOnlyLinkAction->setCheckable(true);
         _readOnlyLinkAction->setChecked(checked);
+        LinkAction = _readOnlyLinkAction;
 
-        checked = (perm & SharePermissionRead) && (perm & SharePermissionCreate)
-            && (perm & SharePermissionUpdate) && (perm & SharePermissionDelete);
-        _allowUploadEditingLinkAction = permissionsGroup->addAction(tr("Allow upload and editing"));
-        _allowUploadEditingLinkAction->setCheckable(true);
-        _allowUploadEditingLinkAction->setChecked(checked);
+        checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
+        _allowEditingLinkAction = permissionsGroup->addAction(tr("Can edit"));
+        _allowEditingLinkAction->setCheckable(true);
+        _allowEditingLinkAction->setChecked(checked);
+        LinkAction = _readOnlyLinkAction;
 
         checked = (perm == SharePermissionCreate);
         _allowUploadLinkAction = permissionsGroup->addAction(tr("File drop (upload only)"));
         _allowUploadLinkAction->setCheckable(true);
         _allowUploadLinkAction->setChecked(checked);
+        LinkAction = _readOnlyLinkAction;
     }
 
     // Adds permissions actions (radio button style)
     if (_isFile) {
+        _linkContextMenu->addAction(_readOnlyLinkAction);
         _linkContextMenu->addAction(_allowEditingLinkAction);
+
+
+        permissionMenu->addAction(_readOnlyLinkAction);
+        permissionMenu->addAction(_allowEditingLinkAction);
+
+
+
     } else {
         _linkContextMenu->addAction(_readOnlyLinkAction);
-        _linkContextMenu->addAction(_allowUploadEditingLinkAction);
+        _linkContextMenu->addAction(_allowEditingLinkAction);
         _linkContextMenu->addAction(_allowUploadLinkAction);
+
+        permissionMenu->addAction(_readOnlyLinkAction);
+        permissionMenu->addAction(_allowEditingLinkAction);
+        permissionMenu->addAction(_allowUploadLinkAction);
     }
+
+    _linkContextMenu->addSeparator();
+
+    // Prepare permissions check and create group action
+    const QDate expireDate = _linkShare.data()->getExpireDate().isValid() ? _linkShare.data()->getExpireDate() : QDate();
 
     // Adds action to display note widget (check box)
     _noteLinkAction = _linkContextMenu->addAction(tr("Note to recipient"));
@@ -270,17 +296,20 @@ void ShareLinkWidget::setupUiOptions()
     _addAnotherLinkAction = _linkContextMenu->addAction(QIcon(":/client/theme/add.svg"),
         tr("Add another link"));
 
-    _ui->enableShareLink->setIcon(QIcon(":/client/theme/copy.svg"));
-    disconnect(_ui->enableShareLink, &QPushButton::clicked, this, &ShareLinkWidget::slotCreateShareLink);
-    connect(_ui->enableShareLink, &QPushButton::clicked, this, &ShareLinkWidget::slotCopyLinkShare);
+    //_ui->enableShareLink->setIcon(QIcon(":/client/theme/copy.svg"));
+    //disconnect(_ui->enableShareLink, &QPushButton::clicked, this, &ShareLinkWidget::slotCreateShareLink);
+   // connect(_ui->enableShareLink, &QPushButton::clicked, this, &ShareLinkWidget::slotCopyLinkShare);
 
     connect(_linkContextMenu, &QMenu::triggered,
         this, &ShareLinkWidget::slotLinkContextMenuActionTriggered);
 
     _ui->shareLinkToolButton->setMenu(_linkContextMenu);
-    _ui->shareLinkToolButton->setEnabled(true);
-    _ui->enableShareLink->setEnabled(true);
-    _ui->enableShareLink->setChecked(true);
+    _ui->shareLinkToolButton->setPopupMode(QToolButton::InstantPopup);
+
+    _ui->permissionsMenu->setMenu(permissionMenu);
+    _ui->permissionsMenu->setPopupMode(QToolButton::InstantPopup);
+   // _ui->enableShareLink->setEnabled(true);
+   // _ui->enableShareLink->setChecked(true);
 
     // show sharing options
     _ui->shareLinkToolButton->show();
@@ -435,6 +464,8 @@ void ShareLinkWidget::slotAnimationFinished()
     deleteLater();
 }
 
+
+
 void ShareLinkWidget::slotDeleteAnimationFinished()
 {
     // There is a painting bug where a small line of this widget isn't
@@ -515,13 +546,13 @@ void ShareLinkWidget::confirmAndDeleteShare()
         messageBox->addButton(tr("Delete"), QMessageBox::YesRole);
     messageBox->addButton(tr("Cancel"), QMessageBox::NoRole);
 
-    connect(messageBox, &QMessageBox::finished, this,
+    /*connect(messageBox, &QMessageBox::finished, this,
         [messageBox, yesButton, this]() {
             if (messageBox->clickedButton() == yesButton) {
                 this->slotToggleShareLinkAnimation(true);
                 this->_linkShare->deleteShare();
             }
-        });
+        });*/
     messageBox->open();
 }
 
@@ -575,6 +606,8 @@ void ShareLinkWidget::slotLinkContextMenuActionTriggered(QAction *action)
     } else if (action == _unshareLinkAction) {
         confirmAndDeleteShare();
     }
+    _ui->currentPermissions->setElideMode(Qt::ElideRight);
+    _ui->currentPermissions->setText(action->text());
 }
 
 void ShareLinkWidget::slotServerError(int code, const QString &message)
@@ -602,11 +635,9 @@ void ShareLinkWidget::customizeStyle()
 
     _addAnotherLinkAction->setIcon(Theme::createColorAwareIcon(":/client/theme/add.svg"));
 
-    _ui->enableShareLink->setIcon(Theme::createColorAwareIcon(":/client/theme/copy.svg"));
-
     _ui->shareLinkIconLabel->setPixmap(Theme::createColorAwarePixmap(":/client/theme/public.svg"));
 
-    _ui->shareLinkToolButton->setIcon(Theme::createColorAwareIcon(":/client/theme/more.svg"));
+    //_ui->shareLinkToolButton->setIcon(Theme::createColorAwareIcon(":/client/theme/more.svg"));
 
     _ui->confirmNote->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
     _ui->confirmPassword->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));

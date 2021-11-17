@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>365</width>
-    <height>238</height>
+    <height>275</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -34,6 +34,12 @@
      </item>
      <item>
       <widget class="QLabel" name="shareLinkLabel">
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Share link</string>
        </property>
@@ -82,32 +88,18 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="enableShareLink">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../theme.qrc">
-         <normaloff>:/client/theme/add.svg</normaloff>:/client/theme/add.svg</iconset>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QToolButton" name="shareLinkToolButton">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
        </property>
        <property name="icon">
         <iconset resource="../../theme.qrc">
@@ -116,8 +108,76 @@
        <property name="popupMode">
         <enum>QToolButton::InstantPopup</enum>
        </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonIconOnly</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>false</bool>
+       </property>
+       <property name="arrowType">
+        <enum>Qt::DownArrow</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>17</width>
+         <height>25</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="permissionsMenu">
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
+       </property>
+       <property name="icon">
+        <iconset resource="../../theme.qrc">
+         <normaloff>:/client/theme/more.svg</normaloff>:/client/theme/more.svg</iconset>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
        <property name="autoRaise">
         <bool>true</bool>
+       </property>
+       <property name="arrowType">
+        <enum>Qt::DownArrow</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="OCC::ElidedLabel" name="currentPermissions">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color:#e20074;</string>
+       </property>
+       <property name="text">
+        <string>ReadOnly</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
@@ -409,6 +469,11 @@
    <extends>QWidget</extends>
    <header>QProgressIndicator.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>OCC::ElidedLabel</class>
+   <extends>QLabel</extends>
+   <header>elidedlabel.h</header>
   </customwidget>
  </customwidgets>
  <resources>

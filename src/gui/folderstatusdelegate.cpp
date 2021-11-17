@@ -147,6 +147,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         QIcon addIcon = theme->addButtonIcon();
         int iconSize = 48;
         int topMargin = 8;
+        int leftMargin = 44;
 
         painter->save();
         auto iconRect = option.rect;
@@ -155,6 +156,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         int buttonMargin = (option.rect.height() - topMargin - iconSize)/2;
 
         //iconRect.setLeft(option.rect.left() + topMargin);
+        iconRect.setLeft(leftMargin);
         iconRect.setTop(iconRect.top() + buttonMargin);
 
         // headline box
@@ -168,8 +170,8 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         textRect.setBottom(textRect.top() + 2*addButtonFm.height() + margin);
 
         int iconSpace = iconSize + aliasMargin;
-        headRect.setLeft(headRect.left() + iconSpace);
-        textRect.setLeft(textRect.left() + iconSpace);
+        headRect.setLeft(headRect.left() + iconSpace + leftMargin);
+        textRect.setLeft(textRect.left() + iconSpace + leftMargin);
 
         QPixmap pm = addIcon.pixmap(iconSize, iconSize, (opt.state & QStyle::State_Enabled) ? QIcon::Normal : QIcon::Disabled);
         painter->drawPixmap(QStyle::visualRect(option.direction, iconRect, iconRect).left(),
@@ -254,9 +256,10 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     {
         auto overlayIcon = qvariant_cast<QIcon>(index.data(FolderOverlayIconRole));
         int ovlSize = 24;
+        int ovlMargin = 16;
         auto ovlRect = iconRect;
-        ovlRect.setTop(iconRect.bottom() - ovlSize - margin);
-        ovlRect.setLeft(iconRect.right() - ovlSize);
+        ovlRect.setTop(iconRect.bottom() - ovlSize - margin - ovlMargin);
+        ovlRect.setLeft(iconRect.right() - ovlSize - (ovlMargin/2));
         QPixmap opm = overlayIcon.pixmap(ovlSize, ovlSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
         painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, ovlRect).left(),
             ovlRect.top(), opm);

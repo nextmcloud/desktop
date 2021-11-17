@@ -50,10 +50,10 @@ private slots:
     void slotCreateDebugArchive();
     void loadMiscSettings();
     void slotTransferUsageData();
+    void slotToggleAutoUpdateCheck();
 #if defined(BUILD_UPDATER)
     void slotUpdateInfo();
     void slotUpdateCheckNow();
-    void slotToggleAutoUpdateCheck();
 #endif
 
 private:

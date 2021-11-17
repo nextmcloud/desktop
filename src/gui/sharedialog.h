@@ -38,6 +38,8 @@ class ShareUserGroupWidget;
 class ShareManager;
 class LinkShare;
 class Share;
+//class ShareUserGroupPermissionWidget;
+//class ShareUserMessageWidget;
 
 class ShareDialog : public QDialog
 {
@@ -96,6 +98,8 @@ private:
     ShareLinkWidget* _emptyShareLinkWidget = nullptr;
     ShareUserGroupWidget *_userGroupWidget = nullptr;
     QProgressIndicator *_progressIndicator = nullptr;
+   // ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
+   // ShareUserMessageWidget *_shareMessage = nullptr;
 };
 
 } // namespace OCC

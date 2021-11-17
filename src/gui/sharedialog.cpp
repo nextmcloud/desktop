@@ -17,6 +17,8 @@
 #include "sharee.h"
 #include "sharelinkwidget.h"
 #include "shareusergroupwidget.h"
+//#include "shareusergrouppermissionwidget.h"
+//#include "shareusermessagewidget.h"
 
 #include "sharemanager.h"
 
@@ -74,8 +76,11 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
 
     _ui->setupUi(this);
 
+   // _sharePermissionGroup = new ShareUserGroupPermissionWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions);
+   // _shareMessage = new ShareUserMessageWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions);
     // We want to act on account state changes
     connect(_accountState.data(), &AccountState::stateChanged, this, &ShareDialog::slotAccountStateChanged);
+   // connect(_sharePermissionGroup->_ui->nextButton, &QPushButton::clicked, _shareMessage, &ShareUserMessageWidget::slotShowMessage);
 
     // Set icon
     QFileInfo f_info(_localPath);
@@ -275,6 +280,7 @@ void ShareDialog::slotPropfindReceived(const QVariantMap &result)
         _privateLinkUrl = _accountState->account()->deprecatedPrivateLinkUrl(numericFileId).toString(QUrl::FullyEncoded);
     }
 
+    //sharePermissionGroup->show();
     showSharingUi();
 }
 
@@ -314,7 +320,7 @@ void ShareDialog::showSharingUi()
         // Connect styleChanged events to our widget, so it can adapt (Dark-/Light-Mode switching)
         connect(this, &ShareDialog::styleChanged, _userGroupWidget, &ShareUserGroupWidget::slotStyleChanged);
 
-        _ui->verticalLayout->insertWidget(1, _userGroupWidget);
+        _ui->verticalLayout->insertWidget(2, _userGroupWidget);
         _userGroupWidget->getShares();
     }
 

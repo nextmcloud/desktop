@@ -146,6 +146,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
     _ui->serverNotificationsCheckBox->setToolTip(tr("Server notifications that require attention."));
+    connect(_ui->autoCheckForUpdatesCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotToggleAutoUpdateCheck);
 
     slotShowInExplorerNavigationPane(true);
 
@@ -246,6 +247,7 @@ void GeneralSettings::loadMiscSettings()
     _ui->newFolderLimitCheckBox->setChecked(newFolderLimit.first);
     _ui->newFolderLimitSpinBox->setValue(newFolderLimit.second);
     _ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
+    _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
 
     cfgFile.setConfirmExternalStorage(true);
 }
@@ -268,7 +270,6 @@ void GeneralSettings::slotUpdateInfo()
         connect(_ui->restartButton, &QAbstractButton::clicked, ocupdater, &OCUpdater::slotStartInstaller, Qt::UniqueConnection);
         connect(_ui->restartButton, &QAbstractButton::clicked, qApp, &QApplication::quit, Qt::UniqueConnection);
         connect(_ui->updateButton, &QAbstractButton::clicked, this, &GeneralSettings::slotUpdateCheckNow, Qt::UniqueConnection);
-        connect(_ui->autoCheckForUpdatesCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotToggleAutoUpdateCheck);
 
         _ui->restartButton->setVisible(ocupdater->downloadState() == OCUpdater::DownloadComplete);
 
@@ -276,7 +277,6 @@ void GeneralSettings::slotUpdateInfo()
                                       ocupdater->downloadState() != OCUpdater::Downloading &&
                                       ocupdater->downloadState() != OCUpdater::DownloadComplete);
 
-        _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
     }
 #if defined(Q_OS_MAC) && defined(HAVE_SPARKLE)
     else if (auto sparkleUpdater = qobject_cast<SparkleUpdater *>(Updater::instance())) {
@@ -297,6 +297,7 @@ void GeneralSettings::slotUpdateCheckNow()
         updater->checkForUpdate();
     }
 }
+#endif // defined(BUILD_UPDATER)
 
 void GeneralSettings::slotToggleAutoUpdateCheck()
 {
@@ -304,7 +305,6 @@ void GeneralSettings::slotToggleAutoUpdateCheck()
     bool isChecked = _ui->autoCheckForUpdatesCheckBox->isChecked();
     cfgFile.setAutoUpdateCheck(isChecked, QString());
 }
-#endif // defined(BUILD_UPDATER)
 
 void GeneralSettings::slotTransferUsageData()
 {
