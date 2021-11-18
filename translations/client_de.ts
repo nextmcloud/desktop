@@ -1620,6 +1620,16 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation>Ordner-Synchronisierung hinzufügen</translation>
     </message>
     <message>
+        <location filename="../src/gui/folderstatusdelegate.cpp" line="52"/>
+        <source>A local folder and a directory in the cloud will be synced and updated automatically</source>
+        <translation>Ein lokaler Ordner und ein Verzeichnis in der Cloud werden automatisch synchronisiert und aktualisiert</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderstatusdelegate.cpp" line="55"/>
+        <source>Add folder synchronization</source>
+        <translation>Ordner-synchronisierung hinzufügen</translation>
+    </message>
+    <message>
         <location filename="../src/gui/folderstatusdelegate.cpp" line="256"/>
         <source>Synchronized with local folder (%1)</source>
         <translation>Synchronisiert mit lokalem Ordner (%1)</translation>
