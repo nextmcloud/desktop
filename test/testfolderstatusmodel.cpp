@@ -70,9 +70,9 @@ private slots:
         folderStMod._folders.push_back(subFolder);
         folderStMod._folders.push_back(subFolder);
 
-        QString key = "folder-ok,colored";
-        QIcon expectedRet = QIcon("open.xpm");
-        Theme::instance()->_iconCache[key] = expectedRet;
+        QString pixmapName = QString::fromLatin1(":/client/theme/%1/%2-%3.png").
+                             arg("colored").arg("folder-ok").arg(64);
+        QIcon expectedRet = QPixmap(pixmapName);
 
         QObject *parent = new QObject;
         QAbstractItemModel *model = new FolderStatusModel(parent);

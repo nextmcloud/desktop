@@ -27,6 +27,7 @@
 
 class TestFolderMan;
 class TestFolderWizard;
+class TestGeneralSettings;
 
 namespace OCC {
 
@@ -362,6 +363,7 @@ private:
     friend class OCC::Application;
     friend class ::TestFolderMan;
     friend class ::TestFolderWizard;
+    friend class ::TestGeneralSettings;
 };
 
 } // namespace OCC

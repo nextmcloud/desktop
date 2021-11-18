@@ -13,6 +13,8 @@
  */
 
 #include <QTest>
+#include "config.h"
+#include "version.h"
 #include "themeutils.h"
 
 #define private public
@@ -258,14 +260,14 @@ private slots:
 
     void testfolderOkIcon()
     {
+        QString pixmapName = QString::fromLatin1(":/client/theme/%1/%2-%3.png").
+                             arg("colored").arg("folder-ok").arg(64);
+        QIcon expectedRet = QPixmap(pixmapName);
         OCC::Theme *themeObj = OCC::Theme::instance();
-        QString key = "folder-ok,colored";
-        QIcon expectedRet = QIcon("open.xpm");
-        themeObj->_iconCache[key] = expectedRet;
 
         QIcon ret = themeObj->folderOkIcon();
 
-        QCOMPARE(ret, expectedRet);
+        QCOMPARE(ret.availableSizes(), expectedRet.availableSizes());
     }
 
     void testaddButtonIcon()
@@ -291,7 +293,19 @@ private slots:
 
         QCOMPARE(ret, expectedRet);
     }
+
+    void testAbout()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString expectedDevString = tr("<p>%1 Desktop Client Version %2.</p>")
+                                    .arg(APPLICATION_NAME)
+                                    .arg(QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)));
+
+        QString devString = themeObj->about();
+
+        QCOMPARE(devString, expectedDevString);
+    }
 };
 
-QTEST_GUILESS_MAIN(TestTheme)
+QTEST_MAIN(TestTheme)
 #include "testtheme.moc"

@@ -85,6 +85,8 @@ nextcloud_add_test(FolderStatusModel)
 nextcloud_add_test(AccountSettings)
 nextcloud_add_test(ActivityListModel)
 nextcloud_add_test(FolderWizard)
+nextcloud_add_test(GeneralSettings)
+nextcloud_add_test(ConfigFile)
 
 configure_file(test_journal.db "${PROJECT_BINARY_DIR}/bin/test_journal.db" COPYONLY)
 
