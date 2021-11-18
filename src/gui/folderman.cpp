@@ -1108,7 +1108,12 @@ Folder *FolderMan::addFolderInternal(
 
     auto folder = new Folder(folderDefinition, accountState, std::move(vfs), this);
 
-    if (_navigationPaneHelper.showInExplorerNavigationPane() && folderDefinition.navigationPaneClsid.isNull()) {
+    /* Root folder is the only that should be shown in a file manager nav pane
+     * and if the map isn't empty this means that the root folder is already there
+     */
+    if (_navigationPaneHelper.showInExplorerNavigationPane() && folderDefinition.navigationPaneClsid.isNull() &&
+        map().empty())
+    {
         folder->setNavigationPaneClsid(QUuid::createUuid());
         folder->saveToSettings();
     }
