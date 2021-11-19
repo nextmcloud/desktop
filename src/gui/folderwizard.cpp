@@ -330,6 +330,10 @@ void FolderWizardRemotePath::slotUpdateDirectories(const QStringList &list)
     if (!root) {
         root = new QTreeWidgetItem(_ui.folderTreeWidget);
         root->setText(0, Theme::instance()->appNameGUI());
+        root->setTextColor(0, QColor("grey"));
+        QFont font;
+        font.setBold(true);
+        root->setFont(0, font);
         root->setIcon(0, Theme::instance()->applicationIcon());
         root->setToolTip(0, tr("Choose this to sync the entire account"));
         root->setData(0, Qt::UserRole, "/");
