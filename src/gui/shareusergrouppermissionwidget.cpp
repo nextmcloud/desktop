@@ -58,7 +58,7 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
     //Is this a file or folder?
     _isFile = QFileInfo(localPath).isFile();
 
-    if(_isFile)
+    if(_isFile || _type == Sharee::Email)
     {
         _ui->fileDropRadioButton->setVisible(false);
     }
@@ -118,7 +118,7 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
         _ui->allowForwardingCheckbox->setIcon(checkedIcon);
     }*/
 
-    //_ui->readOnlyRadioButton->setStyleSheet("QRadioButton::indicator:checked{color: green; background-color:e20074; border: 2px #e20074;}");
+    _ui->readOnlyRadioButton->setStyleSheet("QRadioButton::indicator:checked{image: url(:/client/theme/magenta/user/magenta/radio_checked.svg);;}");
     //_ui->editRadioButton->setStyleSheet("QRadioButton::indicator:checked{ background-color:e20074; border: 2px #e20074;}");
     //_ui->fileDropRadioButton->setStyleSheet("QRadioButton::indicator:checked{ background-color:e20074; border: 2px #e20074;}");
 
