@@ -18,6 +18,8 @@
 #include "accountstate.h"
 #include "sharepermissions.h"
 #include "owncloudgui.h"
+#include "sharemanager.h"
+#include "sharee.h"
 
 #include <QSharedPointer>
 #include <QPointer>
@@ -37,9 +39,8 @@ class ShareLinkWidget;
 class ShareUserGroupWidget;
 class ShareManager;
 class LinkShare;
-class Share;
-//class ShareUserGroupPermissionWidget;
-//class ShareUserMessageWidget;
+class ShareUserGroupPermissionWidget;
+class ShareUserMessageWidget;
 
 class ShareDialog : public QDialog
 {
@@ -70,6 +71,10 @@ private slots:
     void slotCreatePasswordForLinkShareProcessed();
     void slotLinkShareRequiresPassword();
     void slotAdjustScrollWidgetSize();
+    void slotAdvancePermissionWidget(Sharee::Type type, const QSharedPointer<Sharee> &sharee, bool createShare);
+    void slotShowMessageBox(const QSharedPointer<Sharee> &sharee, bool);
+    void slotSendMessage(const QSharedPointer<Sharee> &sharee);
+    void slotCancelShare(const QSharedPointer<Sharee> &sharee);
 
 signals:
     void toggleShareLinkAnimation(bool start);
@@ -93,13 +98,14 @@ private:
     QString _privateLinkUrl;
     ShareDialogStartPage _startPage;
     ShareManager *_manager = nullptr;
+    bool m_createShare;
 
     QList<ShareLinkWidget*> _linkWidgetList;
     ShareLinkWidget* _emptyShareLinkWidget = nullptr;
     ShareUserGroupWidget *_userGroupWidget = nullptr;
     QProgressIndicator *_progressIndicator = nullptr;
-   // ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
-   // ShareUserMessageWidget *_shareMessage = nullptr;
+    ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
+    ShareUserMessageWidget *_shareUserMessage = nullptr;
 };
 
 } // namespace OCC

@@ -146,6 +146,8 @@ private:
     QAction *_unshareLinkAction;
     QAction *_addAnotherLinkAction;
     QAction *_noteLinkAction;
+    QAction *_advancedPermission;
+    QAction *_sendNewMail;
 };
 }
 

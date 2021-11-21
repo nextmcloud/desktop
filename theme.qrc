@@ -10,6 +10,8 @@
         <file alias="theme/colored/magentacloud-icon-512.png">theme/colored/512-magentacloud-icon.png</file>
         <file alias="theme/colored/magentacloud-icon-1024.png">theme/colored/1024-magentacloud-icon.png</file>
         <file>theme/magenta/logomc.svg</file>
+        <file>theme/magenta/radio_checked.svg</file>
+        <file>theme/magenta/checkedbox_checked.svg</file>
         <file>theme/magenta/folder.svg</file>
         <file>theme/magenta/folder_magenta.svg</file>
         <file>theme/magenta/folder/default@svg.svg</file>

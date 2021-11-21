@@ -38,7 +38,6 @@ class SyncResult;
 class LinkShare;
 class Share;
 class ShareUserMessageWidget;
-class Share;
 class ShareManager;
 class Sharee;
 
@@ -54,30 +53,36 @@ public:
     explicit ShareUserGroupPermissionWidget(AccountPtr account,
         const QString &sharePath,
         const QString &localPath,
-        SharePermissions maxSharingPermissions, QSharedPointer<Sharee> share);
+        SharePermissions maxSharingPermissions, Sharee::Type type, const QSharedPointer<Sharee> &sharee,
+        QWidget *parent);
     ~ShareUserGroupPermissionWidget();
 
 signals:
     void readPermissionEnabled();
     void editPermissionEnabled();
     void fileDropPermissionEnabled();
+    void nextButtonClicked(const QSharedPointer<Sharee> &sharee, bool);
+    void permissionsChanged(Share::Permissions);
+    void cancelButtonClicked(const QSharedPointer<Sharee> &sharee);
 
 private slots:
     void slotPermissionChanged();
     void slotShowMessageBox();
     void slotPasswordCheckboxChecked(bool checkState);
     void slotExpireDateCheckboxChecked(bool checkState);
+    void slotCancelButtonClicked();
 
 
 private:
     Ui::ShareUserGroupPermissionWidget *_ui;
-    ShareUserMessageWidget *_shareUserMessage = nullptr;
+    //ShareUserMessageWidget *_shareUserMessage = nullptr;
     bool _isFile;
-    QSharedPointer<Sharee> _share;
+    Sharee::Type _type;
     AccountPtr _account;
     QString _sharePath;
     QString _localPath;
     QString _shareUrl;
+    QSharedPointer<Sharee> _sharee ;
 };
 
 }

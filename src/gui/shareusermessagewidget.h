@@ -36,6 +36,8 @@ class AbstractCredentials;
 class SyncResult;
 class LinkShare;
 class Share;
+class Sharee;
+class ShareManager;
 
 /**
  * @brief The ShareDialog class
@@ -49,19 +51,25 @@ public:
     explicit ShareUserMessageWidget(AccountPtr account,
         const QString &sharePath,
         const QString &localPath,
-        SharePermissions maxSharingPermissions);
+        SharePermissions maxSharingPermissions, const QSharedPointer<Sharee> &sharee, QWidget *parent);
      ~ShareUserMessageWidget();
 
     Ui::ShareUserMessageWidget *_ui;
 
 private slots:
     void slotShareMessage();
+    void slotCancelButtonClicked();
+
+signals:
+    void shareButtonCLicked(const QSharedPointer<Sharee> &sharee);
+    void cancelButtonClicked(const QSharedPointer<Sharee> &sharee);
 
 private:
     AccountPtr _account;
     QString _sharePath;
     QString _localPath;
     QString _shareUrl;
+    QSharedPointer<Sharee> _sharee;
 };
 
 }

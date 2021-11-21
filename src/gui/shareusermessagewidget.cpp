@@ -40,16 +40,20 @@ static const int thumbnailSize = 40;
 ShareUserMessageWidget::ShareUserMessageWidget(AccountPtr account,
     const QString &sharePath,
     const QString &localPath,
-    SharePermissions maxSharingPermissions)
-    : _ui(new Ui::ShareUserMessageWidget)
+    SharePermissions maxSharingPermissions,
+    const QSharedPointer<Sharee> &sharee,
+    QWidget *parent)
+    : QWidget(parent)
+    , _ui(new Ui::ShareUserMessageWidget)
     , _account(account)
     , _sharePath(sharePath)
     , _localPath(localPath)
+    , _sharee(sharee)
 {
     _ui->setupUi(this);
 
     // Set icon
-    QFileInfo f_info(_localPath);
+   /* QFileInfo f_info(_localPath);
     QFileIconProvider icon_provider;
     QIcon icon = icon_provider.icon(f_info);
     auto pixmap = icon.pixmap(thumbnailSize, thumbnailSize);
@@ -81,15 +85,25 @@ ShareUserMessageWidget::ShareUserMessageWidget(AccountPtr account,
         _ui->gridLayout->addWidget(_ui->label_name, 0, 1, 1, 1);
         _ui->gridLayout->addWidget(_ui->label_sharePath, 1, 1, 1, 1);
         _ui->label_sharePath->setText(tr("Folder: %2").arg(ocDir));
-    }
+    }*/
 
-    _ui->textEdit_MessageNote->setStyleSheet("QTextEdit{ border: 1px #e20074;}");
+    _ui->textEdit_MessageNote->setStyleSheet("QTextEdit{ border-width: 2px; border-color: #e20074;}");
+    _ui->cancelButton->setStyleSheet("QPushButton{ border-width: 2px; border-color: #e20074;}");
+    _ui->sendButton->setStyleSheet("QPushButton{ border-width: 2px; border-color: #e20074;}");
     connect(_ui->sendButton, SIGNAL(clicked()), this, SLOT(slotShareMessage()));
+    connect(_ui->cancelButton, SIGNAL(clicked()), this, SLOT(slotCancelButtonClicked()));
 }
 
 void ShareUserMessageWidget::slotShareMessage()
 {
-   hide();
+   emit  shareButtonCLicked(_sharee);
+  // hide();
+}
+
+void ShareUserMessageWidget::slotCancelButtonClicked()
+{
+    hide();
+    emit cancelButtonClicked(_sharee);
 }
 
 ShareUserMessageWidget::~ShareUserMessageWidget()

@@ -43,7 +43,7 @@ class AbstractCredentials;
 class SyncResult;
 class Share;
 class ShareManager;
-class ShareUserGroupPermissionWidget;
+//class ShareUserGroupPermissionWidget;
 
 /**
  * @brief The ShareDialog (user/group) class
@@ -61,19 +61,25 @@ public:
         const QString &privateLinkUrl,
         QWidget *parent = nullptr);
     ~ShareUserGroupWidget();
+    void createUserShare(const QSharedPointer<Sharee> &sharee, bool);
 
 signals:
     void togglePublicLinkShare(bool);
     void styleChanged();
+    void createLinkShare();
+    void advancePermissionWidget(Sharee::Type, QSharedPointer<Sharee>, bool);
+    void sendNewMail(QSharedPointer<Sharee>, bool);
+    void permissionsChanged(Share::Permissions permissions);
 
 public slots:
     void getShares();
     void slotShareCreated(const QSharedPointer<Share> &share);
     void slotStyleChanged();
+    void slotPermissionsChanged(Share::Permissions permissions);
 
 private slots:
     void slotSharesFetched(const QList<QSharedPointer<Share>> &shares);
-
+    void slotSendNewMail();
     void on_shareeLineEdit_textChanged(const QString &text);
     void searchForSharees(ShareeModel::LookupMode lookupMode);
     void slotLineEditTextEdited(const QString &text);
@@ -89,6 +95,8 @@ private slots:
     void slotPrivateLinkOpenBrowser();
     void slotPrivateLinkCopy();
     void slotPrivateLinkEmail();
+    void slotaddLinkSignal();
+    void slotAdvancedPermission(Share::ShareType type);
 
 private:
     void customizeStyle();
@@ -114,8 +122,9 @@ private:
     QProgressIndicator _pi_sharee;
 
     QString _lastCreatedShareId;
+    QSharedPointer<Sharee> _share;
 
-    ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
+   // ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
 };
 
 /**
@@ -138,11 +147,14 @@ public:
 signals:
     void visualDeletionDone();
     void resizeRequested();
+    void advancedPermissionWidget(Share::ShareType);
+    void sendNewMail();
 
 public slots:
     void slotStyleChanged();
 
     void focusPasswordLineEdit();
+    void slotPermissionsChangedOutside(Share::Permissions pemission);
 
 private slots:
     void on_deleteShareButton_clicked();
@@ -168,6 +180,8 @@ private slots:
     void slotLineEditPasswordReturnPressed();
 
     void slotConfirmPasswordClicked();
+    void slotAdvancedPermission();
+    void slotSendNewMail();
 
 private:
     void displayPermissions();
@@ -204,6 +218,8 @@ private:
   QAction *_noteLinkAction;
   QAction *_expirationDateLinkAction;
   QAction *_passwordProtectLinkAction;
+  QAction *_advancedPermission;
+  QAction *_sendNewMail;
 };
 }
 
