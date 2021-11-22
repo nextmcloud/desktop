@@ -436,6 +436,7 @@ void ShareUserGroupWidget::slotCompleterActivated(const QModelIndex &index)
     if (sharee.isNull()) {
         return;
     }
+    _share = sharee;
 
     // TODO Progress Indicator where should it go?
     //    auto indicator = new QProgressIndicator(viewPort);
@@ -469,8 +470,8 @@ void ShareUserGroupWidget::slotCompleterActivated(const QModelIndex &index)
 
 void ShareUserGroupWidget::createUserShare(const QSharedPointer<Sharee> &sharee, bool createShare)
 {
-    if (_disableCompleterActivated)
-        return;
+   // if (_disableCompleterActivated)
+       // return;
 
     // The index is an index from the QCompletion model which is itelf a proxy
     // model proxying the _completerModel
@@ -495,7 +496,6 @@ void ShareUserGroupWidget::createUserShare(const QSharedPointer<Sharee> &sharee,
      * https://github.com/owncloud/client/issues/4996
      */
    // _sharePermissionGroup = new ShareUserGroupPermissionWidget(_account, _sharePath, _localPath, _maxSharingPermissions, sharee);
-    _share = sharee;
     QScrollArea *scrollArea = _parentScrollArea;
     const auto shareUserLineChilds = scrollArea->findChildren<ShareUserLine *>();
 
@@ -842,7 +842,7 @@ void ShareUserLine::loadAvatar()
     double hue = static_cast<quint8>(hash[0]) / 255.;
 
     // See core/js/placeholder.js for details on colors and styling
-    const QColor bg = QColor::fromHslF(hue, 0.7, 0.68);
+   /* const QColor bg = QColor::fromHslF(hue, 0.7, 0.68);
     const QString style = QString(R"(* {
         color: #fff;
         background-color: %1;
@@ -851,11 +851,22 @@ void ShareUserLine::loadAvatar()
         line-height: %2px;
         font-size: %2px;
     })").arg(bg.name(), QString::number(avatarSize / 2));
-    _ui->avatar->setStyleSheet(style);
+    _ui->avatar->setStyleSheet(style);*/
 
     // The avatar label is the first character of the user name.
-    const QString text = _share->getShareWith()->displayName();
-    _ui->avatar->setText(text.at(0).toUpper());
+    //const QString text = _share->getShareWith()->displayName();
+    if(_share->getShareType() == Share::TypeEmail)
+    {
+        const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/user/default@svg.svg"));
+        QPixmap pixmap = avatarIcon.pixmap(QSize(38, 38));
+        _ui->avatar->setPixmap(pixmap);
+    }
+    else
+    {
+        const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/upload-cloud.svg"));
+        QPixmap pixmap = avatarIcon.pixmap(QSize(38, 38));
+        _ui->avatar->setPixmap(pixmap);
+    }
 
     /* Start the network job to fetch the avatar data.
      *
@@ -873,8 +884,18 @@ void ShareUserLine::slotAvatarLoaded(QImage avatar)
     if (avatar.isNull())
         return;
 
-    avatar = AvatarJob::makeCircularAvatar(avatar);
-    _ui->avatar->setPixmap(QPixmap::fromImage(avatar));
+    if(_share->getShareType() == Share::TypeEmail)
+    {
+        const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/user/default@svg.svg"));
+        QPixmap pixmap = avatarIcon.pixmap(QSize(38, 38));
+        _ui->avatar->setPixmap(pixmap);
+    }
+    else
+    {
+        const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/upload-cloud.svg"));
+        QPixmap pixmap = avatarIcon.pixmap(QSize(38, 38));
+        _ui->avatar->setPixmap(pixmap);
+    }
 
     // Remove the stylesheet for the fallback avatar
     _ui->avatar->setStyleSheet("");
@@ -1264,12 +1285,12 @@ void ShareUserLine::slotSendNewMail()
 void ShareUserLine::slotPermissionsChangedOutside(Share::Permissions pemission)
 {
     qCInfo(lcSharing) << "Parul: slotPermissionsChangedOutside called";
-    Share::Permissions perm = SharePermissionRead;
-    _ui->currentPermission->setElideMode(Qt::ElideRight);
+    //Share::Permissions perm = SharePermissionRead;
+    //_ui->currentPermission->setElideMode(Qt::ElideRight);
     if(pemission == SharePermissionRead)
     {
         //_share->setPermissions(pemission);
-        _ui->currentPermission->setText(_permissionRead->text());
+        //_ui->currentPermission->setText(_permissionRead->text());
         _permissionRead->trigger();
     }
     if(pemission == SharePermissionCreate)

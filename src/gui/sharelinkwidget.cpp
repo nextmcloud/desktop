@@ -265,7 +265,7 @@ void ShareLinkWidget::setupUiOptions()
     // QIcon permissionicon = QIcon::fromTheme(QLatin1String("advanced permission"), QIcon(QLatin1String(":/client/theme/delete.svg")));
         //_advancedPermission = new QAction(tr("Advanced Permission"));
         _advancedPermission = _linkContextMenu->addAction("Advanced Permission");
-        //connect(_advancedPermission, &QAction::triggered, this, &ShareLinkWidget::slotAdvancedPermission);
+       // connect(_advancedPermission, &QAction::triggered, this, &ShareUserLine::slotAdvancedPermission);
 
         //QIcon permissionicon = QIcon::fromTheme(QLatin1String("Send new mail"), QIcon(QLatin1String(":/client/theme/delete.svg")));
         //_sendNewMail = new QAction(tr("Send new mail"));
@@ -306,7 +306,7 @@ void ShareLinkWidget::setupUiOptions()
 
    // _linkContextMenu->addSeparator();
 
-   // _addAnotherLinkAction = new QAction(tr("Add another link"));
+    _addAnotherLinkAction = new QAction(tr("Add another link"));
    // _addAnotherLinkAction = _linkContextMenu->addAction(QIcon(":/client/theme/add.svg"),
         //tr("Add another link"));
 
@@ -590,8 +590,8 @@ void ShareLinkWidget::slotLinkContextMenuActionTriggered(QAction *action)
     bool state = action->isChecked();
     SharePermissions perm = SharePermissionRead;
 
-    if (action == _advancedPermission) {
-        //emit linkAdvancedPermission();
+    if (action == _addAnotherLinkAction) {
+        emit createLinkShare();
 
     } else if (action == _readOnlyLinkAction && state) {
         _linkShare->setPermissions(perm);
@@ -649,7 +649,7 @@ void ShareLinkWidget::customizeStyle()
 
     _addAnotherLinkAction->setIcon(Theme::createColorAwareIcon(":/client/theme/add.svg"));
 
-    _ui->shareLinkIconLabel->setPixmap(Theme::createColorAwarePixmap(":/client/theme/public.svg"));
+    _ui->shareLinkIconLabel->setPixmap(Theme::createColorAwarePixmap(":/client/theme/link.svg"));
 
     //_ui->shareLinkToolButton->setIcon(Theme::createColorAwareIcon(":/client/theme/more.svg"));
 
