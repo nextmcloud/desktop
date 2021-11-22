@@ -87,9 +87,7 @@ ShareUserMessageWidget::ShareUserMessageWidget(AccountPtr account,
         _ui->label_sharePath->setText(tr("Folder: %2").arg(ocDir));
     }*/
 
-    _ui->textEdit_MessageNote->setStyleSheet("QTextEdit{ border-width: 2px; border-color: #e20074;}");
-    _ui->cancelButton->setStyleSheet("QPushButton{ border-width: 2px; border-color: #e20074;}");
-    _ui->sendButton->setStyleSheet("QPushButton{ border-width: 2px; border-color: #e20074;}");
+    _ui->textEdit_MessageNote->setStyleSheet("border: 1px solid #e20074;");
     connect(_ui->sendButton, SIGNAL(clicked()), this, SLOT(slotShareMessage()));
     connect(_ui->cancelButton, SIGNAL(clicked()), this, SLOT(slotCancelButtonClicked()));
 }
