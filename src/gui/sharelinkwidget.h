@@ -89,6 +89,8 @@ private slots:
     void slotDeleteAnimationFinished();
     void slotAnimationFinished();
 
+    void mouseReleaseEvent ( QMouseEvent * permissionsEvent );
+
 signals:
     void createLinkShare();
     void deleteLinkShare();

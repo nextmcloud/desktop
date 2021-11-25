@@ -52,7 +52,7 @@ ShareUserMessageWidget::ShareUserMessageWidget(AccountPtr account,
 {
     _ui->setupUi(this);
 
-    _ui->textEdit_MessageNote->setStyleSheet("border: 1px solid #191919;");
+    _ui->textEdit_MessageNote->setStyleSheet("border: 2px solid #191919;");
     connect(_ui->sendButton, SIGNAL(clicked()), this, SLOT(slotShareMessage()));
     connect(_ui->cancelButton, SIGNAL(clicked()), this, SLOT(slotCancelButtonClicked()));
 }

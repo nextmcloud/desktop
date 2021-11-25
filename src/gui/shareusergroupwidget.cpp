@@ -638,6 +638,7 @@ ShareUserLine::ShareUserLine(AccountPtr account,
     , _ui(new Ui::ShareUserLine)
     , _account(account)
     , _share(share)
+    , _maxSharingPermissions(maxSharingPermissions)
     , _isFile(isFile)
 {
     Q_ASSERT(_share);
@@ -666,13 +667,9 @@ ShareUserLine::ShareUserLine(AccountPtr account,
     // create menu with checkable permissions
     auto *menu = new QMenu(this);
     auto *permissionMenu = new QMenu(this);
-
-    QString  menuStyle(
-               "QMenu::item:checked{"
-               "color: #e20074;"
-               "}"
-            );
+    QString  menuStyle("QMenu::item:checked{color: #e20074;}");
     permissionMenu->setStyleSheet(menuStyle);
+
 	auto *permissionsGroup = new QActionGroup(this);
     permissionsGroup->setExclusive(true);
     /*
@@ -808,9 +805,11 @@ ShareUserLine::ShareUserLine(AccountPtr account,
 
     _ui->permissionToolButton->setMenu(menu);
     _ui->permissionToolButton->setPopupMode(QToolButton::InstantPopup);
+    _ui->permissionToolButton->setStyleSheet("QToolButton::menu-indicator { image: none; }");
 
     _ui->permissionMenu->setMenu(permissionMenu);
     _ui->permissionMenu->setPopupMode(QToolButton::InstantPopup);
+    _ui->permissionMenu->setStyleSheet("QToolButton::menu-indicator { image: none; }");
 
     _ui->passwordProgressIndicator->setVisible(false);
 
@@ -1338,4 +1337,83 @@ void ShareUserLine::slotPermissionsChangedOutside(Share::Permissions pemission)
         _permissionChange->trigger();
     }
 }
+
+
+void ShareUserLine::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
+{
+    if(_ui->permissionMenu->menu())
+    {
+        auto *permissionsGroup = new QActionGroup(this);
+        auto *permissionMenu = new QMenu(this);
+        auto perm = _share->getPermissions();
+        bool checked = false;
+
+        QString  menuStyle("QMenu::item:checked{color: #e20074;}");
+        permissionMenu->setStyleSheet(menuStyle);
+
+        // radio button style
+        permissionsGroup->setExclusive(true);
+
+        /* Files can't have create or delete permissions */
+        if (!_isFile) {
+            /* Read Permission */
+            checked = (perm == SharePermissionRead);
+            _permissionRead = permissionsGroup->addAction(tr("Read only"));
+            _permissionRead->setCheckable(true);
+            _permissionRead->setChecked(checked);
+            _permissionRead->setEnabled(_maxSharingPermissions & SharePermissionRead);
+            permissionMenu->addAction(_permissionRead);
+            connect(_permissionRead, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+
+            /* Can edit Permission */
+            checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
+            _permissionChange = permissionsGroup->addAction(tr("Can edit"));
+            if(_share->getShareType() == Share::TypeEmail)
+            {
+                _permissionChange->setEnabled(false);
+            } else {
+                _permissionChange->setCheckable(true);
+                _permissionChange->setEnabled(_maxSharingPermissions & SharePermissionUpdate);
+            }
+            _permissionChange->setChecked(checked);
+            permissionMenu->addAction(_permissionChange);
+            connect(_permissionChange, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+
+            /* File drop (upload only) Permission */
+            checked = (perm == SharePermissionCreate);
+            _permissionUpload = permissionsGroup->addAction(tr("File drop (upload only)"));
+            _permissionUpload->setCheckable(true);
+            _permissionUpload->setChecked(checked);
+            _permissionUpload->setEnabled(_maxSharingPermissions & SharePermissionCreate);
+            permissionMenu->addAction(_permissionUpload);
+            connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+        } else {
+            /* Read Permission */
+            checked = (perm == SharePermissionRead);
+            _permissionRead = permissionsGroup->addAction(tr("Read only"));
+            _permissionRead->setCheckable(true);
+            _permissionRead->setChecked(checked);
+            _permissionRead->setEnabled(_maxSharingPermissions & SharePermissionRead);
+            permissionMenu->addAction(_permissionRead);
+            connect(_permissionRead, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+
+            /* Can edit Permission */
+            checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
+            _permissionChange = permissionsGroup->addAction(tr("Can edit"));
+            if(_share->getShareType() == Share::TypeEmail)
+            {
+                _permissionChange->setEnabled(false);
+            } else {
+                _permissionChange->setCheckable(true);
+                _permissionChange->setEnabled(_maxSharingPermissions & SharePermissionUpdate);
+            }
+            _permissionChange->setChecked(checked);
+            permissionMenu->addAction(_permissionChange);
+            connect(_permissionChange, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+        }
+
+        permissionMenu->exec(permissionsEvent->globalPos());
+    }
+}
+
 }

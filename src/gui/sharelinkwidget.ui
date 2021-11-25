@@ -116,8 +116,11 @@
      </item>
      <item>
       <widget class="QToolButton" name="permissionsMenu_3">
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
        <property name="layoutDirection">
-        <enum>Qt::RightToLeft</enum>
+        <enum>Qt::LeftToRight</enum>
        </property>
        <property name="icon">
         <iconset resource="../../theme.qrc">
@@ -641,7 +644,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../theme.qrc"/>
   <include location="../../theme.qrc"/>
  </resources>
  <connections/>
