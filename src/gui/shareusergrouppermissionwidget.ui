@@ -249,6 +249,23 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">
+        /* normal days */
+        QCalendarWidget QAbstractItemView:enabled
+        {
+        color: #191919;
+        selection-background-color: #e20074;
+        background-color: white;
+        }
+
+        /* days in other months */
+        QCalendarWidget QAbstractItemView:disabled { color: #666; }
+
+        /* header row */
+        QCalendarWidget QWidget { background-color: #e20074; }
+        </string>
+       </property>
        <property name="calendarPopup">
         <bool>true</bool>
        </property>
