@@ -177,6 +177,8 @@ void ShareLinkWidget::setupUiOptions()
     // Prepare sharing menu
     _linkContextMenu = new QMenu(this);
     auto *permissionMenu = new QMenu(this);
+    QString  menuStyle("QMenu::item:checked{color: #e20074;}");
+    permissionMenu->setStyleSheet(menuStyle);
 
     // radio button style
     permissionsGroup->setExclusive(true);
@@ -317,11 +319,17 @@ void ShareLinkWidget::setupUiOptions()
     connect(_linkContextMenu, &QMenu::triggered,
         this, &ShareLinkWidget::slotLinkContextMenuActionTriggered);
 
+    connect(permissionMenu, &QMenu::triggered,
+        this, &ShareLinkWidget::slotLinkContextMenuActionTriggered);
+
     _ui->shareLinkToolButton->setMenu(_linkContextMenu);
     _ui->shareLinkToolButton->setPopupMode(QToolButton::InstantPopup);
+    _ui->shareLinkToolButton->setStyleSheet("QToolButton::menu-indicator { image: none; }");
 
     _ui->permissionsMenu_3->setMenu(permissionMenu);
     _ui->permissionsMenu_3->setPopupMode(QToolButton::InstantPopup);
+    _ui->permissionsMenu_3->setStyleSheet("QToolButton::menu-indicator { image: none; }");
+
    // _ui->enableShareLink->setEnabled(true);
    // _ui->enableShareLink->setChecked(true);
 
@@ -658,6 +666,67 @@ void ShareLinkWidget::customizeStyle()
     //_ui->confirmExpirationDate->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
 
     _ui->passwordProgressIndicator->setColor(QGuiApplication::palette().color(QPalette::Text));
+}
+
+void ShareLinkWidget::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
+{
+    if(_ui->permissionsMenu_3->menu())
+    {
+        const SharePermissions perm = _linkShare.data()->getPermissions();
+        bool checked = false;
+        auto *permissionsGroup = new QActionGroup(this);
+        auto *permissionMenu = new QMenu(this);
+
+        QString  menuStyle("QMenu::item:checked{color: #e20074;}");
+        permissionMenu->setStyleSheet(menuStyle);
+
+        // radio button style
+        permissionsGroup->setExclusive(true);
+
+        if (_isFile) {
+            checked = (perm == SharePermissionRead);
+            _readOnlyLinkAction = permissionsGroup->addAction(tr("Read only"));
+            _readOnlyLinkAction->setCheckable(true);
+            _readOnlyLinkAction->setChecked(checked);
+
+            checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
+            _allowEditingLinkAction = permissionsGroup->addAction(tr("Can edit"));
+            _allowEditingLinkAction->setCheckable(true);
+            _allowEditingLinkAction->setChecked(checked);
+
+        } else {
+            checked = (perm == SharePermissionRead);
+            _readOnlyLinkAction = permissionsGroup->addAction(tr("Read only"));
+            _readOnlyLinkAction->setCheckable(true);
+            _readOnlyLinkAction->setChecked(checked);
+
+            checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
+            _allowEditingLinkAction = permissionsGroup->addAction(tr("Can edit"));
+            _allowEditingLinkAction->setCheckable(true);
+            _allowEditingLinkAction->setChecked(checked);
+
+            checked = (perm == SharePermissionCreate);
+            _allowUploadLinkAction = permissionsGroup->addAction(tr("File drop (upload only)"));
+            _allowUploadLinkAction->setCheckable(true);
+            _allowUploadLinkAction->setChecked(checked);
+        }
+
+        // Adds permissions actions (radio button style)
+        if (_isFile) {
+            permissionMenu->addAction(_readOnlyLinkAction);
+            permissionMenu->addAction(_allowEditingLinkAction);
+
+        } else {
+            permissionMenu->addAction(_readOnlyLinkAction);
+            permissionMenu->addAction(_allowEditingLinkAction);
+            permissionMenu->addAction(_allowUploadLinkAction);
+        }
+
+        connect(permissionMenu, &QMenu::triggered,
+                this, &ShareLinkWidget::slotLinkContextMenuActionTriggered);
+
+        permissionMenu->exec(permissionsEvent->globalPos());
+    }
 }
 
 }

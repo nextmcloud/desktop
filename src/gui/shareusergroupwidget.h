@@ -183,6 +183,8 @@ private slots:
     void slotAdvancedPermission();
     void slotSendNewMail();
 
+    void mouseReleaseEvent ( QMouseEvent * permissionsEvent );
+
 private:
     void displayPermissions();
     void loadAvatar();
@@ -205,6 +207,7 @@ private:
   Ui::ShareUserLine *_ui;
   AccountPtr _account;
   QSharedPointer<UserGroupShare> _share;
+  SharePermissions _maxSharingPermissions;
   bool _isFile;
 
   // _permissionEdit is a checkbox
