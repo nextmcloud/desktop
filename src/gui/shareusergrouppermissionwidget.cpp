@@ -42,8 +42,10 @@ static const int thumbnailSize = 40;
 ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr account,
     const QString &sharePath,
     const QString &localPath,
+    const QString &userLinePermission,
     SharePermissions maxSharingPermissions, Sharee::Type type,
     const QSharedPointer<Sharee> &sharee,
+    bool createShare,
     QWidget *parent)
     : QWidget(parent)
     ,_ui(new Ui::ShareUserGroupPermissionWidget)
@@ -52,13 +54,15 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
     , _localPath(localPath)
     , _type(type)
     , _sharee(sharee)
+    , _createShare(createShare)
+    , _permissions(SharePermissionRead)
 {
     _ui->setupUi(this);
 
     //Is this a file or folder?
     _isFile = QFileInfo(localPath).isFile();
 
-    if(_isFile || _type == Sharee::Email)
+    if(_isFile || _type == Sharee::User)
     {
         _ui->fileDropRadioButton->setVisible(false);
     }
@@ -82,7 +86,7 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
         _ui->allowForwardingCheckbox->setVisible(true);
     }
 
-    _ui->readOnlyRadioButton->setChecked(true);
+    setPermission(userLinePermission);
     _ui->expirationDateCheckbox->setChecked(true);
     _ui->dateEdit->setVisible(true);
     const QDate date = QDate::currentDate().addDays(1);
@@ -90,41 +94,12 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
     _ui->dateEdit->setMinimumDate(date);
     _ui->dateEdit->setFocus();
 
-    /*const QIcon radioIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/radio_checked.svg"));
-    if(_ui->readOnlyRadioButton->isChecked() == true)
+    if(_createShare == false)
     {
-        _ui->readOnlyRadioButton->setIcon(radioIcon);
+        _ui->nextButton->setText("Confirm");
+    } else{
+        _ui->nextButton->setText("Next");
     }
-    if(_ui->editRadioButton->isChecked() == true)
-    {
-        _ui->editRadioButton->setIcon(radioIcon);
-    }
-    if(_ui->fileDropRadioButton->isChecked() == true)
-    {
-        _ui->fileDropRadioButton->setIcon(radioIcon);
-    }
-
-    const QIcon checkedIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/radio_checked.svg"));
-    if(_ui->setPasswordCheckbox->isChecked() == true)
-    {
-        _ui->setPasswordCheckbox->setIcon(checkedIcon);
-    }
-    if(_ui->expirationDateCheckbox->isChecked() == true)
-    {
-        _ui->expirationDateCheckbox->setIcon(checkedIcon);
-    }
-    if(_ui->allowForwardingCheckbox->isChecked() == true)
-    {
-        _ui->allowForwardingCheckbox->setIcon(checkedIcon);
-    }*/
-
-    _ui->readOnlyRadioButton->setStyleSheet("QRadioButton::indicator:checked{image: url(:/client/theme/magenta/user/magenta/radio_checked.svg);;}");
-    //_ui->editRadioButton->setStyleSheet("QRadioButton::indicator:checked{ background-color:e20074; border: 2px #e20074;}");
-    //_ui->fileDropRadioButton->setStyleSheet("QRadioButton::indicator:checked{ background-color:e20074; border: 2px #e20074;}");
-
-    //_ui->setPasswordCheckbox->setStyleSheet("QCheckBox::indicator:checked{ color: green; background-color:e20074; border: 2px #e20074;}");
-    //_ui->expirationDateCheckbox->setStyleSheet("QCheckBox::indicator:checked{ color: green; background-color:e20074; border: 2px #e20074;}");
-    //_ui->allowForwardingCheckbox->setStyleSheet("QCheckBox::indicator:checked{ color: green; background-color:e20074; border: 2px #e20074;}");
 
     connect(_ui->readOnlyRadioButton, SIGNAL(toggled(bool)), this, SLOT(slotPermissionChanged()));
     connect(_ui->fileDropRadioButton, SIGNAL(toggled(bool)), this, SLOT(slotPermissionChanged()));
@@ -142,31 +117,36 @@ ShareUserGroupPermissionWidget::~ShareUserGroupPermissionWidget()
 
 void ShareUserGroupPermissionWidget::slotPermissionChanged()
 {
-    Share::Permissions permissions = SharePermissionRead;
-
-    if(_ui->readOnlyRadioButton->isChecked())
+   if(_ui->readOnlyRadioButton->isChecked())
     {
         //emit readPermissionEnabled();
         //_share->setPermissions(permissions);
     }
     if(_ui->editRadioButton->isChecked())
     {
-        permissions = SharePermissionUpdate;
+        _permissions = SharePermissionUpdate;
         //_share->setPermissions(permissions);
        // emit editPermissionEnabled();
     }
     if(_ui->fileDropRadioButton->isChecked())
     {
        // emit fileDropPermissionEnabled();
-        permissions = SharePermissionCreate;
+        _permissions = SharePermissionCreate;
         //_share->setPermissions(permissions);
     }
-    emit permissionsChanged(permissions);
+    //emit permissionsChanged(_permissions);
 }
 
 void ShareUserGroupPermissionWidget::slotShowMessageBox()
 {
-    emit nextButtonClicked(_sharee, true);
+    emit permissionsChanged(_permissions);
+    if(_createShare == true)
+    {
+        emit nextButtonClicked(_sharee, _createShare);
+    }
+    else{
+        emit confirmButtonClicked(_sharee, _createShare);
+    }
     hide();
 }
 
@@ -204,5 +184,16 @@ void ShareUserGroupPermissionWidget::slotCancelButtonClicked()
 {
     hide();
     emit cancelButtonClicked(_sharee);
+}
+
+void ShareUserGroupPermissionWidget::setPermission(const QString &permission)
+{
+    if(permission == "Read only"){
+        _ui->readOnlyRadioButton->setChecked(true);
+    } else if(permission == "Can edit"){
+        _ui->editRadioButton->setChecked(true);
+    }else if(permission == "File drop (upload only)"){
+        _ui->fileDropRadioButton->setChecked(true);
+    }
 }
 }

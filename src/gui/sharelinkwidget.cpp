@@ -73,7 +73,7 @@ ShareLinkWidget::ShareLinkWidget(AccountPtr account,
     QFileInfo fi(localPath);
     _isFile = fi.isFile();
 
-    slotCreateShareLink(true);
+   // slotCreateShareLink(true);
    // connect(_ui->enableShareLink, &QPushButton::clicked, this, &ShareLinkWidget::slotCreateShareLink);
     connect(_ui->lineEdit_password, &QLineEdit::returnPressed, this, &ShareLinkWidget::slotCreatePassword);
     connect(_ui->confirmPassword, &QAbstractButton::clicked, this, &ShareLinkWidget::slotCreatePassword);
@@ -205,13 +205,13 @@ void ShareLinkWidget::setupUiOptions()
         _allowEditingLinkAction = permissionsGroup->addAction(tr("Can edit"));
         _allowEditingLinkAction->setCheckable(true);
         _allowEditingLinkAction->setChecked(checked);
-        LinkAction = _readOnlyLinkAction;
+        LinkAction = _allowEditingLinkAction;
 
         checked = (perm == SharePermissionCreate);
         _allowUploadLinkAction = permissionsGroup->addAction(tr("File drop (upload only)"));
         _allowUploadLinkAction->setCheckable(true);
         _allowUploadLinkAction->setChecked(checked);
-        LinkAction = _readOnlyLinkAction;
+        LinkAction = _allowUploadLinkAction;
     }
 
     // Adds permissions actions (radio button style)
@@ -269,7 +269,7 @@ void ShareLinkWidget::setupUiOptions()
 
         //QIcon permissionicon = QIcon::fromTheme(QLatin1String("Send new mail"), QIcon(QLatin1String(":/client/theme/delete.svg")));
         //_sendNewMail = new QAction(tr("Send new mail"));
-        _sendNewMail = _linkContextMenu->addAction("Send new mail");
+        //_sendNewMail = _linkContextMenu->addAction("Send new mail");
         //connect(_sendNewMail, &QAction::triggered, this, &ShareUserLine::slotSendNewMail);
 
     // If password is enforced then don't allow users to disable it
@@ -315,6 +315,9 @@ void ShareLinkWidget::setupUiOptions()
    // connect(_ui->enableShareLink, &QPushButton::clicked, this, &ShareLinkWidget::slotCopyLinkShare);
 
     connect(_linkContextMenu, &QMenu::triggered,
+        this, &ShareLinkWidget::slotLinkContextMenuActionTriggered);
+
+    connect(permissionMenu, &QMenu::triggered,
         this, &ShareLinkWidget::slotLinkContextMenuActionTriggered);
 
     _ui->shareLinkToolButton->setMenu(_linkContextMenu);
@@ -589,16 +592,18 @@ void ShareLinkWidget::slotLinkContextMenuActionTriggered(QAction *action)
 {
     bool state = action->isChecked();
     SharePermissions perm = SharePermissionRead;
-
+    _ui->currentPermissions_3->setElideMode(Qt::ElideRight);
     if (action == _addAnotherLinkAction) {
         emit createLinkShare();
 
     } else if (action == _readOnlyLinkAction && state) {
         _linkShare->setPermissions(perm);
+        _ui->currentPermissions_3->setText(action->text());
 
     } else if (action == _allowEditingLinkAction && state) {
         perm |= SharePermissionUpdate;
         _linkShare->setPermissions(perm);
+        _ui->currentPermissions_3->setText(action->text());
 
     } else if (action == _allowUploadEditingLinkAction && state) {
         perm |= SharePermissionCreate | SharePermissionUpdate | SharePermissionDelete;
@@ -607,6 +612,7 @@ void ShareLinkWidget::slotLinkContextMenuActionTriggered(QAction *action)
     } else if (action == _allowUploadLinkAction && state) {
         perm = SharePermissionCreate;
         _linkShare->setPermissions(perm);
+        _ui->currentPermissions_3->setText(action->text());
 
     } else if (action == _passwordProtectLinkAction) {
         togglePasswordOptions(state);
@@ -620,8 +626,6 @@ void ShareLinkWidget::slotLinkContextMenuActionTriggered(QAction *action)
     } else if (action == _unshareLinkAction) {
         confirmAndDeleteShare();
     }
-    _ui->currentPermissions_3->setElideMode(Qt::ElideRight);
-    _ui->currentPermissions_3->setText(action->text());
 }
 
 void ShareLinkWidget::slotServerError(int code, const QString &message)

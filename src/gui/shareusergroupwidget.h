@@ -70,12 +70,14 @@ signals:
     void advancePermissionWidget(Sharee::Type, QSharedPointer<Sharee>, bool);
     void sendNewMail(QSharedPointer<Sharee>, bool);
     void permissionsChanged(Share::Permissions permissions);
+    void userLinePermissionChanged(const QString & permission);
 
 public slots:
     void getShares();
     void slotShareCreated(const QSharedPointer<Share> &share);
     void slotStyleChanged();
     void slotPermissionsChanged(Share::Permissions permissions);
+    void slotLinkShareDeleted();
 
 private slots:
     void slotSharesFetched(const QList<QSharedPointer<Share>> &shares);
@@ -97,6 +99,7 @@ private slots:
     void slotPrivateLinkEmail();
     void slotaddLinkSignal();
     void slotAdvancedPermission(Share::ShareType type);
+    void slotUserLinePermissionChanged(const QString & permission);
 
 private:
     void customizeStyle();
@@ -118,11 +121,12 @@ private:
     bool _isFile;
     bool _disableCompleterActivated; // in order to avoid that we share the contents twice
     ShareManager *_manager;
+    bool _linkShareDeleted;
 
     QProgressIndicator _pi_sharee;
 
     QString _lastCreatedShareId;
-    QSharedPointer<Sharee> _share;
+    QSharedPointer<Sharee> _sharee;
 
    // ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
 };
@@ -149,6 +153,7 @@ signals:
     void resizeRequested();
     void advancedPermissionWidget(Share::ShareType);
     void sendNewMail();
+    void userLinePermissionChanged(const QString &permission);
 
 public slots:
     void slotStyleChanged();

@@ -125,13 +125,14 @@ ShareUserGroupWidget::ShareUserGroupWidget(AccountPtr account,
     });
 
     _ui->shareeLineEdit->addAction(searchGloballyAction, QLineEdit::LeadingPosition);
+    _ui->shareInfo->hide();
 
     _manager = new ShareManager(_account, this);
     connect(_manager, &ShareManager::sharesFetched, this, &ShareUserGroupWidget::slotSharesFetched);
     connect(_manager, &ShareManager::shareCreated, this, &ShareUserGroupWidget::slotShareCreated);
     connect(_manager, &ShareManager::serverError, this, &ShareUserGroupWidget::displayError);
     connect(_ui->shareeLineEdit, &QLineEdit::returnPressed, this, &ShareUserGroupWidget::slotLineEditReturn);
-    connect(_ui->confirmShare, &QAbstractButton::clicked, this, &ShareUserGroupWidget::slotLineEditReturn);
+   // connect(_ui->confirmShare, &QAbstractButton::clicked, this, &ShareUserGroupWidget::slotLineEditReturn);
     //TODO connect(_ui->privateLinkText, &QLabel::linkActivated, this, &ShareUserGroupWidget::slotPrivateLinkShare);
 
     // By making the next two QueuedConnections we can override
@@ -151,7 +152,9 @@ ShareUserGroupWidget::ShareUserGroupWidget(AccountPtr account,
     _completionTimer.setSingleShot(true);
     _completionTimer.setInterval(600);
 
-    _ui->errorLabel->hide();
+    _ui->errorLabel->setText(tr("Personal sharing via email"));
+    //_ui->errorLabel->setColor(QPalette::WindowText);
+    _ui->errorLabel->show();
 
     // TODO Progress Indicator where should it go?
     // Setup the sharee search progress indicator
@@ -226,7 +229,9 @@ void ShareUserGroupWidget::searchForSharees(ShareeModel::LookupMode lookupMode)
     foreach (auto sw, _parentScrollArea->findChildren<ShareUserLine *>()) {
         blacklist << sw->share()->getShareWith();
     }
-    _ui->errorLabel->hide();
+    _ui->errorLabel->setText(tr("Personal sharing via email"));
+    //_ui->errorLabel->setColor(QPalette::WindowText);
+    _ui->errorLabel->show();
     _completerModel->fetch(_ui->shareeLineEdit->text(), blacklist, lookupMode);
 }
 
@@ -271,14 +276,10 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
         // leave out if it's the current user
         if(x == 0 && !share->getUidOwner().isEmpty() && !(share->getUidOwner() == _account->credentials()->user())) {
             //_ui->mainOwnerLabel->setText(QString("Shared with you by ").append(share->getOwnerDisplayName()));
-            _ui->cloudIconLabel->hide();
-            _ui->sharedAccountInfo->hide();
             _ui->shareInfolabel->setText(tr("You can create links or send shares by mail. If you invite MagentaCloud users, you have more opportunities for collaboration."));
         }
         else
         {
-            _ui->cloudIconLabel->hide();
-            _ui->sharedAccountInfo->hide();
             //_ui->sharedAccountInfo->setText(QString("Shared with you by ").append(share->getOwnerDisplayName()));
             //_ui->shareInfolabel->setText(tr("Resharing is allowed. You can create links or send shares by mail. If you invite MagentaCloud users, you have more opportunities for collaboration."));
         }
@@ -287,23 +288,22 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
         Q_ASSERT(share->getShareType() == Share::TypeUser || share->getShareType() == Share::TypeGroup || share->getShareType() == Share::TypeEmail);
         auto userGroupShare = qSharedPointerDynamicCast<UserGroupShare>(share);
 
-        //_sharePermissionGroup = new ShareUserGroupPermissionWidget(_account, _sharePath, _localPath, _maxSharingPermissions, userGroupShare);
-
-       // _sharePermissionGroup->show();
-
         auto *s = new ShareUserLine(_account, userGroupShare, _maxSharingPermissions, _isFile, _parentScrollArea);
+        qCDebug(lcSharing) << "Parul: User share created";
         connect(s, &ShareUserLine::resizeRequested, this, &ShareUserGroupWidget::slotAdjustScrollWidgetSize);
         connect(s, &ShareUserLine::visualDeletionDone, this, &ShareUserGroupWidget::getShares);
         connect(s, &ShareUserLine::advancedPermissionWidget, this, &ShareUserGroupWidget::slotAdvancedPermission);
         connect(s, &ShareUserLine::sendNewMail, this, &ShareUserGroupWidget::slotSendNewMail);
         connect(this, &ShareUserGroupWidget::permissionsChanged, s, &ShareUserLine::slotPermissionsChangedOutside);
+        connect(s, &ShareUserLine::userLinePermissionChanged, this, &ShareUserGroupWidget::slotUserLinePermissionChanged);
         s->setBackgroundRole(layout->count() % 2 == 0 ? QPalette::Base : QPalette::AlternateBase);
-
+        _ui->shareInfo->hide();
         // Connect styleChanged events to our widget, so it can adapt (Dark-/Light-Mode switching)
         connect(this, &ShareUserGroupWidget::styleChanged, s, &ShareUserLine::slotStyleChanged);
+        qCDebug(lcSharing) << "Parul: User share adding to scroll widget";
 
         layout->addWidget(s);
-
+        qCDebug(lcSharing) << "Parul: User share added to scroll widget";
         if (!_lastCreatedShareId.isEmpty() && share->getId() == _lastCreatedShareId) {
             _lastCreatedShareId = QString();
             if (_account->capabilities().shareEmailPasswordEnabled() && !_account->capabilities().shareEmailPasswordEnforced()) {
@@ -332,6 +332,8 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
     scrollArea->setVisible(!shares.isEmpty());
     scrollArea->setFixedHeight(height);
     scrollArea->setWidget(newViewPort);
+
+    qCDebug(lcSharing) << "Parul: adjusted size";
 
     _disableCompleterActivated = false;
     activateShareeLineEdit();
@@ -380,6 +382,10 @@ void ShareUserGroupWidget::slotPermissionsChanged(Share::Permissions permissions
     emit permissionsChanged(permissions);
 }
 
+void ShareUserGroupWidget::slotUserLinePermissionChanged(const QString & permission)
+{
+    emit userLinePermissionChanged(permission);
+}
 
 void ShareUserGroupWidget::slotAdjustScrollWidgetSize()
 {
@@ -436,7 +442,7 @@ void ShareUserGroupWidget::slotCompleterActivated(const QModelIndex &index)
     if (sharee.isNull()) {
         return;
     }
-    _share = sharee;
+    _sharee = sharee;
 
     // TODO Progress Indicator where should it go?
     //    auto indicator = new QProgressIndicator(viewPort);
@@ -464,7 +470,7 @@ void ShareUserGroupWidget::slotCompleterActivated(const QModelIndex &index)
 
     emit advancePermissionWidget(sharee->type(), sharee, true);
 
-    _ui->shareeLineEdit->setEnabled(false);
+    _ui->shareeLineEdit->setEnabled(true);
     _ui->shareeLineEdit->clear();
 }
 
@@ -507,14 +513,14 @@ void ShareUserGroupWidget::createUserShare(const QSharedPointer<Sharee> &sharee,
     if(createShare == true)
     {
         _lastCreatedShareId = QString();
-        if (sharee->type() == Sharee::Federated
+        if (_sharee->type() == Sharee::Federated
             && _account->serverVersionInt() < Account::makeServerVersion(9, 1, 0)) {
             int permissions = SharePermissionRead | SharePermissionUpdate;
-            _manager->createShare(_sharePath, Share::ShareType(sharee->type()),
-            sharee->shareWith(), SharePermission(permissions));
+            _manager->createShare(_sharePath, Share::ShareType(_sharee->type()),
+            _sharee->shareWith(), SharePermission(permissions));
          } else {
             QString password;
-            if (sharee->type() == Sharee::Email && _account->capabilities().shareEmailPasswordEnforced()) {
+            if (_sharee->type() == Sharee::Email && _account->capabilities().shareEmailPasswordEnforced()) {
                 _ui->shareeLineEdit->clear();
                 // always show a dialog for password-enforced email shares
                 bool ok = false;
@@ -536,8 +542,8 @@ void ShareUserGroupWidget::createUserShare(const QSharedPointer<Sharee> &sharee,
 
             // Default permissions on creation
             int permissions = SharePermissionRead | SharePermissionUpdate | SharePermissionShare;
-            _manager->createShare(_sharePath, Share::ShareType(sharee->type()),
-                sharee->shareWith(), SharePermission(permissions), password);
+            _manager->createShare(_sharePath, Share::ShareType(_sharee->type()),
+                _sharee->shareWith(), SharePermission(permissions), password);
         }
     }
 
@@ -564,6 +570,7 @@ void ShareUserGroupWidget::displayError(int code, const QString &message)
 
     qCWarning(lcSharing) << "Sharing error from server" << code << message;
     _ui->errorLabel->setText(message);
+    //_ui->errorLabel->setColor(Qt::red);
     _ui->errorLabel->show();
     activateShareeLineEdit();
 }
@@ -596,7 +603,7 @@ void ShareUserGroupWidget::slotStyleChanged()
 
 void ShareUserGroupWidget::customizeStyle()
 {
-    _ui->confirmShare->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
+   // _ui->confirmShare->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
 
     _pi_sharee.setColor(QGuiApplication::palette().color(QPalette::Text));
 
@@ -613,7 +620,13 @@ void ShareUserGroupWidget::activateShareeLineEdit()
 
 void ShareUserGroupWidget::slotaddLinkSignal()
 {
+    _ui->shareInfo->hide();
     emit createLinkShare();
+}
+
+void ShareUserGroupWidget::slotLinkShareDeleted()
+{
+    _linkShareDeleted = true;
 }
 
 ShareUserLine::ShareUserLine(AccountPtr account,
@@ -681,16 +694,20 @@ ShareUserLine::ShareUserLine(AccountPtr account,
             _permissionChange->setCheckable(true);
             _permissionChange->setEnabled(maxSharingPermissions & SharePermissionUpdate);
         }
-       // menu->addAction(_permissionChange);
         permissionMenu->addAction(_permissionChange);
         connect(_permissionChange, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
-
-        _permissionUpload = permissionsGroup->addAction(tr("File drop (upload only)"));
-        _permissionUpload->setCheckable(true);
-        _permissionUpload->setEnabled(maxSharingPermissions & SharePermissionCreate);
-       // menu->addAction(_permissionUpload);
-        permissionMenu->addAction(_permissionUpload);
-        connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+       // menu->addAction(_permissionChange);
+        //if(share->getShareType() == Share::TypeEmail)
+        //{
+            _permissionUpload = permissionsGroup->addAction(tr("File drop (upload only)"));
+            _permissionUpload->setCheckable(true);
+            _permissionUpload->setEnabled(maxSharingPermissions & SharePermissionCreate);
+            // menu->addAction(_permissionUpload);
+            permissionMenu->addAction(_permissionUpload);
+            connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
+       // } else {
+           // _permissionUpload = permissionsGroup->addAction(tr("File drop (upload only)"));
+       // }
     } else {
         _permissionRead = permissionsGroup->addAction(tr("Read only"));
         _permissionRead->setCheckable(true);
@@ -858,13 +875,13 @@ void ShareUserLine::loadAvatar()
     if(_share->getShareType() == Share::TypeEmail)
     {
         const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/user/default@svg.svg"));
-        QPixmap pixmap = avatarIcon.pixmap(QSize(38, 38));
+        QPixmap pixmap = avatarIcon.pixmap(QSize(24, 24));
         _ui->avatar->setPixmap(pixmap);
     }
     else
     {
         const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/upload-cloud.svg"));
-        QPixmap pixmap = avatarIcon.pixmap(QSize(38, 38));
+        QPixmap pixmap = avatarIcon.pixmap(QSize(24, 24));
         _ui->avatar->setPixmap(pixmap);
     }
 
@@ -887,13 +904,13 @@ void ShareUserLine::slotAvatarLoaded(QImage avatar)
     if(_share->getShareType() == Share::TypeEmail)
     {
         const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/user/default@svg.svg"));
-        QPixmap pixmap = avatarIcon.pixmap(QSize(38, 38));
+        QPixmap pixmap = avatarIcon.pixmap(QSize(24, 24));
         _ui->avatar->setPixmap(pixmap);
     }
     else
     {
         const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/upload-cloud.svg"));
-        QPixmap pixmap = avatarIcon.pixmap(QSize(38, 38));
+        QPixmap pixmap = avatarIcon.pixmap(QSize(24, 24));
         _ui->avatar->setPixmap(pixmap);
     }
 
@@ -914,7 +931,7 @@ ShareUserLine::~ShareUserLine()
 
 void ShareUserLine::slotEditPermissionsChanged()
 {
-    setEnabled(false);
+   // setEnabled(false);
 
     // Can never manually be set to "partial".
     // This works because the state cycle for clicking is
@@ -968,23 +985,28 @@ void ShareUserLine::slotPermissionsChanged()
         if (_permissionRead->isChecked()) {
             _share->setPermissions(permissions);
             _ui->currentPermission->setText(_permissionRead->text());
+            emit userLinePermissionChanged(_permissionRead->text());
         } else if (_permissionChange->isChecked()) {
             permissions |= SharePermissionUpdate;
             _share->setPermissions(permissions);
             _ui->currentPermission->setText(_permissionChange->text());
+            emit userLinePermissionChanged(_permissionChange->text());
         } else if (_permissionUpload->isChecked()) {
             permissions |= SharePermissionCreate;
             _share->setPermissions(permissions);
             _ui->currentPermission->setText(_permissionUpload->text());
+            emit userLinePermissionChanged(_permissionUpload->text());
         }
     } else {
         if (_permissionRead->isChecked()) {
             _share->setPermissions(permissions);
             _ui->currentPermission->setText(_permissionRead->text());
+            emit userLinePermissionChanged(_permissionRead->text());
         } else if (_permissionChange->isChecked()) {
             permissions |= SharePermissionUpdate;
             _share->setPermissions(permissions);
             _ui->currentPermission->setText(_permissionChange->text());
+            emit userLinePermissionChanged(_permissionChange->text());
         } 
     }
 }
@@ -1075,9 +1097,6 @@ void ShareUserLine::slotPasswordSetError(int statusCode, const QString &message)
 
     focusPasswordLineEdit();
 
-    _ui->errorLabel->show();
-    _ui->errorLabel->setText(message);
-
     emit resizeRequested();
 }
 
@@ -1120,6 +1139,13 @@ void ShareUserLine::displayPermissions()
     } else {
         _permissionRead->setChecked(perm & SharePermissionRead);
         _permissionChange->setChecked(perm & SharePermissionUpdate);
+    }
+    if(_permissionRead->isChecked() == true){
+        _ui->currentPermission->setText(_permissionRead->text());
+    } else if(_permissionChange->isChecked() == true){
+        _ui->currentPermission->setText(_permissionChange->text());
+    } else if(_permissionUpload->isChecked() == true){
+        _ui->currentPermission->setText(_permissionUpload->text());
     }
 }
 
@@ -1285,27 +1311,30 @@ void ShareUserLine::slotSendNewMail()
 void ShareUserLine::slotPermissionsChangedOutside(Share::Permissions pemission)
 {
     qCInfo(lcSharing) << "Parul: slotPermissionsChangedOutside called";
-    //Share::Permissions perm = SharePermissionRead;
-    //_ui->currentPermission->setElideMode(Qt::ElideRight);
+    Share::Permissions perm = SharePermissionRead;
+    _ui->currentPermission->setElideMode(Qt::ElideRight);
     if(pemission == SharePermissionRead)
     {
-        //_share->setPermissions(pemission);
-        //_ui->currentPermission->setText(_permissionRead->text());
+        _share->setPermissions(pemission);
+        _ui->currentPermission->setText(_permissionRead->text());
+        _permissionRead->setChecked(true);
         _permissionRead->trigger();
     }
     if(pemission == SharePermissionCreate)
     {
-       // perm |= pemission;
-        //_share->setPermissions(perm);
-        //_ui->currentPermission->setText(_permissionUpload->text());
+        perm |= pemission;
+        _share->setPermissions(perm);
+        _ui->currentPermission->setText(_permissionUpload->text());
         qCInfo(lcSharing) << "Parul: triggering file create permission";
+        _permissionUpload->setChecked(true);
         _permissionUpload->trigger();
     }
     if(pemission == SharePermissionUpdate)
     {
-        //perm |= pemission;
-        //_share->setPermissions(perm);
-        //_ui->currentPermission->setText(_permissionChange->text());
+        perm |= pemission;
+        _share->setPermissions(perm);
+        _ui->currentPermission->setText(_permissionChange->text());
+        _permissionChange->setChecked(true);
         _permissionChange->trigger();
     }
 }

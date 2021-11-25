@@ -75,10 +75,12 @@ private slots:
     void slotShowMessageBox(const QSharedPointer<Sharee> &sharee, bool);
     void slotSendMessage(const QSharedPointer<Sharee> &sharee);
     void slotCancelShare(const QSharedPointer<Sharee> &sharee);
+    void slotUserLinePermissionChanged(const QString&);
 
 signals:
     void toggleShareLinkAnimation(bool start);
     void styleChanged();
+    void linkShareDeleted();
 
 protected:
     void changeEvent(QEvent *) override;
@@ -93,6 +95,7 @@ private:
     QPointer<AccountState> _accountState;
     QString _sharePath;
     QString _localPath;
+    QString _userLinePermission;
     SharePermissions _maxSharingPermissions;
     QByteArray _numericFileId;
     QString _privateLinkUrl;

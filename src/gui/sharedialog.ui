@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>391</width>
-    <height>160</height>
+    <width>401</width>
+    <height>180</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="palette">
    <palette>
@@ -77,6 +83,12 @@
   <layout class="QVBoxLayout" name="shareDialogVerticalLayout">
    <property name="sizeConstraint">
     <enum>QLayout::SetFixedSize</enum>
+   </property>
+   <property name="leftMargin">
+    <number>16</number>
+   </property>
+   <property name="rightMargin">
+    <number>16</number>
    </property>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -219,7 +231,7 @@
           <x>0</x>
           <y>0</y>
           <width>85</width>
-          <height>84</height>
+          <height>85</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="scrollAreaVerticalLayout">
