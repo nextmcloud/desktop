@@ -94,17 +94,24 @@
     <!-- Quit / restart application -->
     <util:RestartResource ProcessName="$(var.AppExe)" />
 
-    <CustomAction Id="RemoveOldClient"
-    Directory="OLDCLIENTDIR"
-    ExeCommand="msiexec.exe /X {CE83A4B5-5439-4021-B15F-7AE7AA31BF65} /qb"
-    Return="asyncNoWait" />
-
     <!-- Helper DLL Custom Actions -->
     <SetProperty Id="ExecNsisUninstaller" Value="&quot;$(var.AppShortName)&quot; &quot;[NSIS_UNINSTALLEXE]&quot;" Before="ExecNsisUninstaller" Sequence="execute" />
     <SetProperty Id="RemoveNavigationPaneEntries" Value="&quot;$(var.AppName)&quot;" Before="RemoveNavigationPaneEntries" Sequence="execute" />
 
+    <!-- Detect the old client by its upgrade id -->
+    <Upgrade Id="21BAADEB-079C-4503-B99A-D49A34D8C525">
+        <UpgradeVersion OnlyDetect='no' Property='OLDFOUND' 
+            Minimum="0.0.0.0" IncludeMinimum="yes"
+            Maximum='99.0.0.0' IncludeMaximum='yes' />
+    </Upgrade>
+    <CustomAction Id="NotifyUser"
+        Script="vbscript"
+        Execute="immediate">
+        <![CDATA[msgbox "The old version is going to be deinstalled, cancel the installation to keep it", vbExclamation]]>
+    </CustomAction>
     <InstallExecuteSequence>
-
+        <!-- Notify about the existing app -->
+        <Custom Action='NotifyUser' After='FindRelatedProducts'>OLDFOUND</Custom>
         <!-- Install: Remove previous NSIS installation, if detected -->
         <Custom Action="ExecNsisUninstaller" Before="ProcessComponents">NSIS_UNINSTALLEXE AND NOT Installed</Custom>
 
