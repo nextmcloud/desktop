@@ -308,21 +308,32 @@
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">
-        /* normal days */
+        <string notr="true">        /* normal days */
         QCalendarWidget QAbstractItemView:enabled
         {
-        color: #191919;
-        selection-background-color: #e20074;
+	    selection-color: #191919;
         background-color: white;
+	    selection-background-color: white;
         }
 
         /* days in other months */
         QCalendarWidget QAbstractItemView:disabled { color: #666; }
 
+        /* header row hover*/
+        QCalendarWidget QWidget:hover
+        {
+        color: #e20074;
+        }
+
         /* header row */
-        QCalendarWidget QWidget { background-color: #e20074; }
-        </string>
+        QCalendarWidget QWidget {
+        background-color: #ffffff;
+        color: #191919;
+        }
+
+        QCalendarWidget QWidget:disabled {
+        color: #666;
+         }</string>
        </property>
        <property name="calendarPopup">
         <bool>true</bool>

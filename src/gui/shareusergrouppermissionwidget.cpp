@@ -34,6 +34,7 @@
 #include <QToolButton>
 #include <QPropertyAnimation>
 #include <QFileIconProvider>
+#include <QCalendarWidget>
 
 namespace OCC {
 
@@ -90,9 +91,19 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
     _ui->expirationDateCheckbox->setChecked(true);
     _ui->dateEdit->setVisible(true);
     const QDate date = QDate::currentDate().addDays(1);
+
+    QTextCharFormat format;
+    format.setFontWeight(QFont::Bold);
+    _ui->dateEdit->calendarWidget()->setDateTextFormat(date, format);
+
     _ui->dateEdit->setDate(date);
     _ui->dateEdit->setMinimumDate(date);
     _ui->dateEdit->setFocus();
+
+    QTextCharFormat fmt;
+    fmt.setForeground(QBrush(qRgb(25, 25, 25)));
+    _ui->dateEdit->calendarWidget()->setWeekdayTextFormat(Qt::Saturday, fmt);
+    _ui->dateEdit->calendarWidget()->setWeekdayTextFormat(Qt::Sunday, fmt);
 
     if(_createShare == false)
     {
