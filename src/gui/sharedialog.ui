@@ -236,6 +236,9 @@
         </property>
         <layout class="QVBoxLayout" name="scrollAreaVerticalLayout">
          <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
           <number>8</number>
          </property>
          <property name="bottomMargin">

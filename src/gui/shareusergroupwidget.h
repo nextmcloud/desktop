@@ -62,15 +62,18 @@ public:
         QWidget *parent = nullptr);
     ~ShareUserGroupWidget();
     void createUserShare(const QSharedPointer<Sharee> &sharee, bool);
+    void hideShareUserUI();
+    void setUserMessage(const QString &note);
 
 signals:
     void togglePublicLinkShare(bool);
     void styleChanged();
     void createLinkShare();
-    void advancePermissionWidget(Sharee::Type, QSharedPointer<Sharee>, bool);
+    void advancePermissionWidget(Share::ShareType, QSharedPointer<Sharee>, bool);
     void sendNewMail(QSharedPointer<Sharee>, bool);
     void permissionsChanged(Share::Permissions permissions);
     void userLinePermissionChanged(const QString & permission);
+    void setUserNote(const QString &note);
 
 public slots:
     void getShares();
@@ -160,6 +163,7 @@ public slots:
 
     void focusPasswordLineEdit();
     void slotPermissionsChangedOutside(Share::Permissions pemission);
+    void onSetUserNote(const QString &note);
 
 private slots:
     void on_deleteShareButton_clicked();

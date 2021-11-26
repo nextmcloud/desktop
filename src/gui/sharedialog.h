@@ -71,9 +71,9 @@ private slots:
     void slotCreatePasswordForLinkShareProcessed();
     void slotLinkShareRequiresPassword();
     void slotAdjustScrollWidgetSize();
-    void slotAdvancePermissionWidget(Sharee::Type type, const QSharedPointer<Sharee> &sharee, bool createShare);
+    void slotAdvancePermissionWidget(Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare);
     void slotShowMessageBox(const QSharedPointer<Sharee> &sharee, bool);
-    void slotSendMessage(const QSharedPointer<Sharee> &sharee);
+    void slotSendMessage(const QSharedPointer<Sharee> &sharee, const QString &note);
     void slotCancelShare(const QSharedPointer<Sharee> &sharee);
     void slotUserLinePermissionChanged(const QString&);
 

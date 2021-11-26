@@ -267,7 +267,7 @@ void ShareLinkWidget::setupUiOptions()
     // QIcon permissionicon = QIcon::fromTheme(QLatin1String("advanced permission"), QIcon(QLatin1String(":/client/theme/delete.svg")));
         //_advancedPermission = new QAction(tr("Advanced Permission"));
         _advancedPermission = _linkContextMenu->addAction("Advanced Permission");
-       // connect(_advancedPermission, &QAction::triggered, this, &ShareUserLine::slotAdvancedPermission);
+       connect(_advancedPermission, &QAction::triggered, this, &ShareLinkWidget::slotAdvancedPermission);
 
         //QIcon permissionicon = QIcon::fromTheme(QLatin1String("Send new mail"), QIcon(QLatin1String(":/client/theme/delete.svg")));
         //_sendNewMail = new QAction(tr("Send new mail"));
@@ -728,6 +728,11 @@ void ShareLinkWidget::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
 
         permissionMenu->exec(permissionsEvent->globalPos());
     }
+}
+
+void ShareLinkWidget::slotAdvancedPermission()
+{
+    emit advancedPermissionWidget(Share::TypeLink,nullptr,false);
 }
 
 }

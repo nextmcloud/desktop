@@ -61,7 +61,7 @@ private slots:
     void slotCancelButtonClicked();
 
 signals:
-    void shareButtonCLicked(const QSharedPointer<Sharee> &sharee);
+    void shareButtonCLicked(const QSharedPointer<Sharee> &sharee, const QString &note);
     void cancelButtonClicked(const QSharedPointer<Sharee> &sharee);
 
 private:

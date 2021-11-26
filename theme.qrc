@@ -195,6 +195,7 @@
         <file>theme/black/state-info.svg</file>
         <file>theme/close.svg</file>
         <file>theme/files.svg</file>
+        <file>theme/clipboard.svg</file>
         <file>theme/public.svg</file>
         <file>theme/settings.svg</file>
         <file>theme/settings_magenta.svg</file>

@@ -23,6 +23,7 @@
 #include <QSharedPointer>
 #include <QList>
 #include <QToolButton>
+#include <sharemanager.h>
 
 class QMenu;
 class QTableWidgetItem;
@@ -36,7 +37,7 @@ namespace Ui {
 class AbstractCredentials;
 class SyncResult;
 class LinkShare;
-class Share;
+class Sharee;
 
 /**
  * @brief The ShareDialog class
@@ -90,6 +91,7 @@ private slots:
     void slotAnimationFinished();
 
     void mouseReleaseEvent ( QMouseEvent * permissionsEvent );
+    void slotAdvancedPermission();
 
 signals:
     void createLinkShare();
@@ -98,6 +100,7 @@ signals:
     void visualDeletionDone();
     void createPassword(const QString &password);
     void createPasswordProcessed();
+    void advancedPermissionWidget(Share::ShareType, QSharedPointer<Sharee>, bool);
 
 private:
     void displayError(const QString &errMsg);

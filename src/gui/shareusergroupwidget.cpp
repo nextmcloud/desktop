@@ -296,6 +296,8 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
         connect(s, &ShareUserLine::sendNewMail, this, &ShareUserGroupWidget::slotSendNewMail);
         connect(this, &ShareUserGroupWidget::permissionsChanged, s, &ShareUserLine::slotPermissionsChangedOutside);
         connect(s, &ShareUserLine::userLinePermissionChanged, this, &ShareUserGroupWidget::slotUserLinePermissionChanged);
+        connect(s, &ShareUserLine::userLinePermissionChanged, this, &ShareUserGroupWidget::slotUserLinePermissionChanged);
+        connect(this, &ShareUserGroupWidget::setUserNote, s, &ShareUserLine::onSetUserNote);
         s->setBackgroundRole(layout->count() % 2 == 0 ? QPalette::Base : QPalette::AlternateBase);
         _ui->shareInfo->hide();
         // Connect styleChanged events to our widget, so it can adapt (Dark-/Light-Mode switching)
@@ -354,13 +356,7 @@ void ShareUserGroupWidget::slotAdvancedPermission(Share::ShareType type)
         shareUserLineChild->hide();
     }
 
-    if(type == Share::TypeEmail)
-    {
-        emit advancePermissionWidget(Sharee::Email, _share, false);
-    } else if(type == Share::TypeUser)
-    {
-       emit advancePermissionWidget(Sharee::User, _share, false);
-    }
+    emit advancePermissionWidget(type, _sharee, false);
 }
 
 void ShareUserGroupWidget::slotSendNewMail()
@@ -373,7 +369,7 @@ void ShareUserGroupWidget::slotSendNewMail()
         shareUserLineChild->hide();
     }
 
-    emit sendNewMail(_share, false);
+    emit sendNewMail(_sharee, false);
 }
 
 void ShareUserGroupWidget::slotPermissionsChanged(Share::Permissions permissions)
@@ -468,7 +464,13 @@ void ShareUserGroupWidget::slotCompleterActivated(const QModelIndex &index)
         shareUserLineChild->hide();
     }
 
-    emit advancePermissionWidget(sharee->type(), sharee, true);
+    if(sharee->type() == Sharee::Email)
+    {
+        emit advancePermissionWidget(Share::TypeEmail, sharee, true);
+    } else if(sharee->type() == Sharee::User)
+    {
+       emit advancePermissionWidget(Share::TypeUser, sharee, true);
+    }
 
     _ui->shareeLineEdit->setEnabled(true);
     _ui->shareeLineEdit->clear();
@@ -627,6 +629,22 @@ void ShareUserGroupWidget::slotaddLinkSignal()
 void ShareUserGroupWidget::slotLinkShareDeleted()
 {
     _linkShareDeleted = true;
+}
+
+void ShareUserGroupWidget::hideShareUserUI()
+{
+    QScrollArea *scrollArea = _parentScrollArea;
+    const auto shareUserLineChilds = scrollArea->findChildren<ShareUserLine *>();
+
+    // Ask the child widgets to calculate their size
+    for (const auto shareUserLineChild : shareUserLineChilds) {
+        shareUserLineChild->hide();
+    }
+}
+
+void ShareUserGroupWidget::setUserMessage(const QString &note)
+{
+    emit setUserNote(note);
 }
 
 ShareUserLine::ShareUserLine(AccountPtr account,
@@ -1204,6 +1222,11 @@ void ShareUserLine::onNoteConfirmButtonClicked()
     setNote(_ui->noteTextEdit->toPlainText());
 }
 
+void ShareUserLine::onSetUserNote(const QString &note)
+{
+    setNote(note);
+}
+
 void ShareUserLine::setNote(const QString &note)
 {
     enableProgessIndicatorAnimation(true);
@@ -1385,7 +1408,9 @@ void ShareUserLine::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
             _permissionUpload->setCheckable(true);
             _permissionUpload->setChecked(checked);
             _permissionUpload->setEnabled(_maxSharingPermissions & SharePermissionCreate);
-            permissionMenu->addAction(_permissionUpload);
+            if(_share->getShareType() == Share::TypeEmail){
+                permissionMenu->addAction(_permissionUpload);
+            }
             connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
         } else {
             /* Read Permission */

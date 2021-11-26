@@ -59,7 +59,7 @@ ShareUserMessageWidget::ShareUserMessageWidget(AccountPtr account,
 
 void ShareUserMessageWidget::slotShareMessage()
 {
-   emit  shareButtonCLicked(_sharee);
+   emit  shareButtonCLicked(_sharee,_ui->textEdit_MessageNote->toPlainText());
   // hide();
 }
 

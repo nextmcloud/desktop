@@ -43,7 +43,7 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
     const QString &sharePath,
     const QString &localPath,
     const QString &userLinePermission,
-    SharePermissions maxSharingPermissions, Sharee::Type type,
+    SharePermissions maxSharingPermissions, Share::ShareType type,
     const QSharedPointer<Sharee> &sharee,
     bool createShare,
     QWidget *parent)
@@ -62,7 +62,7 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
     //Is this a file or folder?
     _isFile = QFileInfo(localPath).isFile();
 
-    if(_isFile || _type == Sharee::User)
+    if(_isFile || _type == Share::TypeUser)
     {
         _ui->fileDropRadioButton->setVisible(false);
     }
@@ -75,7 +75,7 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
     _ui->dateEdit->setVisible(false);
     _ui->passwordShareInfoText->setVisible(false);
 
-    if(_type == Sharee::Email)
+    if(_type == Share::TypeEmail)
     {
         _ui->editRadioButton->setEnabled(false);
         _ui->allowForwardingCheckbox->setVisible(false);
@@ -139,7 +139,11 @@ void ShareUserGroupPermissionWidget::slotPermissionChanged()
 
 void ShareUserGroupPermissionWidget::slotShowMessageBox()
 {
-    emit permissionsChanged(_permissions);
+    if(_type == Share::TypeLink) {
+        //emit linkPermissionsChanged(_permissions);
+    } else {
+        emit permissionsChanged(_permissions);
+    }
     if(_createShare == true)
     {
         emit nextButtonClicked(_sharee, _createShare);
@@ -194,6 +198,8 @@ void ShareUserGroupPermissionWidget::setPermission(const QString &permission)
         _ui->editRadioButton->setChecked(true);
     }else if(permission == "File drop (upload only)"){
         _ui->fileDropRadioButton->setChecked(true);
+    }else {
+        _ui->readOnlyRadioButton->setChecked(true);
     }
 }
 }

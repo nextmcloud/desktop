@@ -52,8 +52,8 @@ class ShareUserGroupPermissionWidget : public QWidget
 public:
     explicit ShareUserGroupPermissionWidget(AccountPtr account,
         const QString &sharePath,
-        const QString &localPath,const QString &userLinePermission,
-        SharePermissions maxSharingPermissions, Sharee::Type type, const QSharedPointer<Sharee> &sharee,bool createShare,
+        const QString &localPath, const QString &userLinePermission,
+        SharePermissions maxSharingPermissions, Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare,
         QWidget *parent);
     ~ShareUserGroupPermissionWidget();
 
@@ -64,6 +64,7 @@ signals:
     void nextButtonClicked(const QSharedPointer<Sharee> &sharee, bool);
     void confirmButtonClicked(const QSharedPointer<Sharee> &sharee, bool);
     void permissionsChanged(Share::Permissions);
+    void linkPermissionsChanged(Share::Permissions);
     void cancelButtonClicked(const QSharedPointer<Sharee> &sharee);
 
 private slots:
@@ -79,7 +80,7 @@ private:
     Ui::ShareUserGroupPermissionWidget *_ui;
     //ShareUserMessageWidget *_shareUserMessage = nullptr;
     bool _isFile;
-    Sharee::Type _type;
+    Share::ShareType _type;
     AccountPtr _account;
     QString _sharePath;
     QString _localPath;
