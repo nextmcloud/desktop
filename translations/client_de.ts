@@ -4108,7 +4108,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="220"/>
         <source>Unshare</source>
-        <translation>Freigabe aufheben</translation>
+        <translation>Freigabe beenden</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="223"/>
@@ -4179,39 +4179,235 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Mit Benutzern oder Gruppen teilen …</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="95"/>
-        <source>Search globally</source>
-        <translation>Global suchen</translation>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="109"/>
+         <source>file</source>
+         <translation>datei</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="109"/>
+         <source>folder</source>
+         <translation>mappe</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="121"/>
+         <source>Search globally</source>
+         <translation>Global suchen</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="155"/>
+         <source>Personal sharing via email</source>
+         <translation>Persönliches teilen per Mail</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="279"/>
+         <source>You can create links or send shares by mail. If you invite MagentaCloud users, you have more opportunities for collaboration.</source>
+         <translation>Sie können Links erstellen oder Freigaben per Mail versenden. Wenn Sie MagentaCloud Nutzer einladen, bieten sich Ihnen mehr Möglichkeiten der Zusammenarbeit.</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="411"/>
+         <source>Copy link</source>
+         <translation>Link kopieren</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="423"/>
+         <source>No results for &quot;%1&quot;</source>
+         <translation>Keine Ergebnisse für &quot;%1&quot;</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="533"/>
+         <source>Password for share required</source>
+         <translation>Passwort für die Freigabe erforderlich</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="534"/>
+         <source>Please enter a password for your email share:</source>
+         <translation>Bitte geben Sie ein Passwort für die E-Mail-Freigabe ein:</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="593"/>
+         <source>I shared something with you</source>
+         <translation>Ich habe etwas mit Ihnen geteilt</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="697"/>
+         <source>Read only</source>
+         <translation>Schreibgeschützt</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="704"/>
+         <source>Can edit</source>
+         <translation>Kann bearbeiten</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="717"/>
+         <source>File drop (upload only)</source>
+         <translation>Dateiablegen (nur Upload)</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="727"/>
+         <source>Read only</source>
+         <translation>Schreibgeschützt</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="734"/>
+         <source>Can edit</source>
+         <translation>Kann bearbeiten</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="755"/>
+         <source>Note to recipient</source>
+         <translation>Hinweis an den Empfänger</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="766"/>
+         <source>Advanced Permission</source>
+         <translation>Erweiterte Berechtigung</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="771"/>
+         <source>Send new mail</source>
+         <translation>Neue E-Mail senden</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="779"/>
+         <source>Set expiration date</source>
+         <translation>datei</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="792"/>
+         <source>user-trash</source>
+         <translation>datei</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="793"/>
+         <source>Unshare</source>
+         <translation>Freigabe beenden</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="806"/>
+         <source>Password protect</source>
+         <translation>datei</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="1183"/>
+         <source>user-trash</source>
+         <translation>datei</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="1384"/>
+         <source>Read only</source>
+         <translation>Schreibgeschützt</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="1393"/>
+         <source>Can edit</source>
+         <translation>Kann bearbeiten</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="1407"/>
+         <source>File drop (upload only)</source>
+         <translation>Dateiablegen (nur Upload)</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="1418"/>
+         <source>Read only</source>
+         <translation>Schreibgeschützt</translation>
+     </message>
+     <message>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="1427"/>
+         <source>Can edit</source>
+         <translation>Kann bearbeiten</translation>
+     </message>
+</context>
+<context>
+    <name>OCC::ShareUserGroupPermissionWidget</name>
+    <message>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="138"/>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="325"/>
-        <source>Copy link</source>
-        <translation>Link kopieren</translation>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="157"/>
+        <source>Next</source>
+        <translation>Nächste</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="337"/>
-        <source>No results for &apos;%1&apos;</source>
-        <translation>Keine Ergebnisse für &apos;%1&apos;</translation>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="227"/>
+        <source>Advanced Permissions</source>
+        <translation>Erweiterte Berechtigungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="339"/>
-        <source>No results for &quot;%1&quot;</source>
-        <translation>Keine Ergebnisse für &quot;%1&quot;</translation>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="243"/>
+        <source>Set Password</source>
+        <translation>Passwort festlegen</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="391"/>
-        <source>Password for share required</source>
-        <translation>Passwort für die Freigabe erforderlich</translation>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="275"/>
+        <source>The password is not send with the email to maintain confidentiality.</source>
+        <translation>Das Passwort wird nicht mit der E-Mail gesendet, um die Vertraulichkeit zu wahren.</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="392"/>
-        <source>Please enter a password for your email share:</source>
-        <translation>Bitte geben Sie ein Passwort für die E-Mail-Freigabe ein:</translation>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="291"/>
+        <source>Allow resharing</source>
+        <translation>Erneutes Teilen zulassen</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="449"/>
-        <source>I shared something with you</source>
-        <translation>Ich habe etwas mit Ihnen geteilt</translation>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="304"/>
+        <source>Set Expiration Date</source>
+        <translation>Ablaufdatum festlegen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="399"/>
+        <source>Permissions</source>
+        <translation>Berechtigungen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="489"/>
+        <source>Read Only</source>
+        <translation>Schreibgeschützt</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="502"/>
+        <source>Can Edit</source>
+        <translation>Kann bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="512"/>
+        <source>File drop only</source>
+        <translation>Sammelbox</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergrouppermissionwidget.cpp" line="124"/>
+        <source>Confirm</source>
+        <translation>Übernehmen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusergrouppermissionwidget.cpp" line="126"/>
+        <source>Next</source>
+        <translation>Nächste</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::ShareUserMessageWidget</name>
+    <message>
+        <location filename="../src/gui/shareusermessagewidget.ui" line="182"/>
+        <source>Your Message</source>
+        <translation>Ihre Nachricht</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusermessagewidget.ui" line="215"/>
+        <source>You can attach a message to the share</source>
+        <translation>Sie können eine Nachricht an die Freigabe anhängen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusermessagewidget.ui" line="489"/>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/shareusermessagewidget.ui" line="517"/>
+        <source>Send</source>
+        <translation>Senden</translation>
     </message>
 </context>
 <context>
@@ -4264,7 +4460,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="558"/>
         <source>Unshare</source>
-        <translation>Freigabe aufheben</translation>
+        <translation>Freigabe beenden</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="567"/>
