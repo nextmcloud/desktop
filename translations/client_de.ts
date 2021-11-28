@@ -1634,11 +1634,6 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <source>Synchronized with local folder (%1)</source>
         <translation>Synchronisiert mit lokalem Ordner (%1)</translation>
     </message>
-    <message>
-        <location filename="../src/gui/folderstatusdelegate.cpp" line="307"/>
-        <source>File</source>
-        <translation>Datei</translation>
-    </message>
 </context>
 <context>
     <name>OCC::FolderStatusModel</name>
@@ -4076,11 +4071,6 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Sammelbox</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="184"/>
-        <source>Password Protect</source>
-        <translation>Passwortschutz</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="186"/>
         <source>Allow editing</source>
         <translation>Bearbeitung erlauben</translation>
@@ -4114,16 +4104,6 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <location filename="../src/gui/sharelinkwidget.cpp" line="223"/>
         <source>Link name</source>
         <translation>Link-Name</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="218"/>
-        <source>Note to recipient</source>
-        <translation>Notiz an Empfänger</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="228"/>
-        <source>Password protect</source>
-        <translation>Passwortschutz</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="247"/>
@@ -4178,16 +4158,6 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <source>Share with users or groups …</source>
         <translation>Mit Benutzern oder Gruppen teilen …</translation>
     </message>
-    <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="109"/>
-         <source>file</source>
-         <translation>datei</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="109"/>
-         <source>folder</source>
-         <translation>mappe</translation>
-     </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="121"/>
          <source>Search globally</source>
@@ -4240,43 +4210,33 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
      </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="717"/>
-         <source>File drop (upload only)</source>
-         <translation>Dateiablegen (nur Upload)</translation>
+         <source>File drop only</source>
+         <translation>Sammelbox</translation>
      </message>
      <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="727"/>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="729"/>
          <source>Read only</source>
-         <translation>Schreibgeschützt</translation>
+         <translation>Nur lesen</translation>
      </message>
      <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="734"/>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="736"/>
          <source>Can edit</source>
-         <translation>Kann bearbeiten</translation>
+         <translation>Kann Bearbeiten</translation>
      </message>
      <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="755"/>
-         <source>Note to recipient</source>
-         <translation>Hinweis an den Empfänger</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="766"/>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="768"/>
          <source>Advanced Permission</source>
          <translation>Erweiterte Berechtigung</translation>
      </message>
      <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="771"/>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="773"/>
          <source>Send new mail</source>
-         <translation>Neue E-Mail senden</translation>
+         <translation>Neue Email versenden</translation>
      </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="779"/>
          <source>Set expiration date</source>
-         <translation>datei</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="792"/>
-         <source>user-trash</source>
-         <translation>datei</translation>
+         <translation>Ablaufdatum setzen</translation>
      </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="793"/>
@@ -4286,17 +4246,12 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="806"/>
          <source>Password protect</source>
-         <translation>datei</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="1183"/>
-         <source>user-trash</source>
-         <translation>datei</translation>
+         <translation>Passwortschutz</translation>
      </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="1384"/>
          <source>Read only</source>
-         <translation>Schreibgeschützt</translation>
+         <translation>Nur lesen</translation>
      </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="1393"/>
@@ -4304,14 +4259,14 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
          <translation>Kann bearbeiten</translation>
      </message>
      <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="1407"/>
-         <source>File drop (upload only)</source>
-         <translation>Dateiablegen (nur Upload)</translation>
+         <location filename="../src/gui/shareusergroupwidget.cpp" line="1409"/>
+         <source>File drop only</source>
+         <translation>Sammelbox</translation>
      </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="1418"/>
          <source>Read only</source>
-         <translation>Schreibgeschützt</translation>
+         <translation>Nur lesen</translation>
      </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="1427"/>
@@ -4329,7 +4284,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="157"/>
         <source>Next</source>
-        <translation>Nächste</translation>
+        <translation>Weiter</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="227"/>
@@ -4339,12 +4294,12 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="243"/>
         <source>Set Password</source>
-        <translation>Passwort festlegen</translation>
+        <translation>Passwort erstellen</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="275"/>
         <source>The password is not send with the email to maintain confidentiality.</source>
-        <translation>Das Passwort wird nicht mit der E-Mail gesendet, um die Vertraulichkeit zu wahren.</translation>
+        <translation>Das Passwort wird nicht mit der E-Mail verschickt, um die Vertraulichkeit zu wahren.</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="291"/>
@@ -4354,7 +4309,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="304"/>
         <source>Set Expiration Date</source>
-        <translation>Ablaufdatum festlegen</translation>
+        <translation>Ablaufdatum setzen</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="399"/>
@@ -4364,7 +4319,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="489"/>
         <source>Read Only</source>
-        <translation>Schreibgeschützt</translation>
+        <translation>Nur lesen</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="502"/>
@@ -4384,7 +4339,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/shareusergrouppermissionwidget.cpp" line="126"/>
         <source>Next</source>
-        <translation>Nächste</translation>
+        <translation>Weiter</translation>
     </message>
 </context>
 <context>
@@ -4397,7 +4352,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/shareusermessagewidget.ui" line="215"/>
         <source>You can attach a message to the share</source>
-        <translation>Sie können eine Nachricht an die Freigabe anhängen</translation>
+        <translation>Sie können der Freigabe eine Nachricht anhängen</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusermessagewidget.ui" line="489"/>
@@ -4446,11 +4401,6 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <location filename="../src/gui/shareusergroupwidget.cpp" line="516"/>
         <source>Can reshare</source>
         <translation>kann weiterteilen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="528"/>
-        <source>Note to recipient</source>
-        <translation>Notiz an Empfänger</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="542"/>
