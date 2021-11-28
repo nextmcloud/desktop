@@ -107,6 +107,43 @@
     <CustomAction Id="NotifyUser"
         Script="vbscript"
         Execute="immediate">
+        <![CDATA[userName = CreateObject("WScript.Network").UserName
+        configPath = "C:\Users\"& userName &"\AppData\Roaming\MagentaCLOUD\magentacloud.cfg"
+        jsonPath = "C:\Users\"& userName &"\AppData\Local\MagentaCLOUD\settings.json"
+
+        Set Fso = CreateObject("Scripting.FileSystemObject")
+        Set Fread = Fso.OpenTextFile(jsonPath,1)
+        json = Fread.readAll
+        Arr = split(json, ",")
+
+        for i = 0 To Ubound(Arr)
+            jsonVal = Arr(i)
+            If Instr(1,jsonVal,"SendUserStatistics")<>0 Then
+                SendUserStatistics = trim(jsonVal)
+                autoUpdateCheck = Trim(Split(jsonVal,":")(1))
+
+            ElseIf Instr(1,jsonVal,"UseSilentUpdates")<>0 Then
+                UseSilentUpdates = trim(jsonVal)
+                jsonVal = Left(jsonVal, len(jsonVal)-1)
+                TransferUsageData = Trim(Split(jsonVal,":")(1))
+
+            ElseIf Instr(1,jsonVal,"LastKnownUser")<>0 Then
+                LastKnownUser = trim(jsonVal)
+            End If
+        Next
+
+        Set Fwrite = Fso.OpenTextFile(configPath,8, true)
+        Fwrite.WriteLine "[MagentaCLOUD]"
+        Fwrite.WriteLine "TransferUsageData="&TransferUsageData
+        Fwrite.WriteLine "autoUpdateCheck="&autoUpdateCheck
+
+        Fread.Close
+        Fwrite.Close
+
+        Set Fread = Nothing
+        Set Fwrite = Nothing
+        Set Fso = Nothing
+        ]]>
         <![CDATA[msgbox "The old version is going to be deinstalled, cancel the installation to keep it", vbExclamation]]>
     </CustomAction>
     <InstallExecuteSequence>

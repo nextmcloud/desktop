@@ -100,7 +100,7 @@ signals:
     void visualDeletionDone();
     void createPassword(const QString &password);
     void createPasswordProcessed();
-    void advancedPermissionWidget(Share::ShareType, QSharedPointer<Sharee>, bool);
+    void linkAdvancedPermissionWidget(QSharedPointer<LinkShare>,Share::ShareType, QSharedPointer<Sharee>, bool);
 
 private:
     void displayError(const QString &errMsg);

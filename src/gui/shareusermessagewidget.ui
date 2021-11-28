@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>473</width>
-    <height>507</height>
+    <width>407</width>
+    <height>610</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -140,18 +140,21 @@
     <pointsize>10</pointsize>
    </font>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
     <number>16</number>
    </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
    <property name="rightMargin">
     <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>16</number>
+    <number>0</number>
    </property>
    <item>
     <widget class="QLabel" name="NoteLabel_2">
@@ -221,10 +224,16 @@
    </item>
    <item>
     <widget class="QTextEdit" name="textEdit_MessageNote">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
-       <width>355</width>
-       <height>154</height>
+       <width>400</width>
+       <height>440</height>
       </size>
      </property>
      <property name="palette">
@@ -405,6 +414,9 @@
        <pointsize>11</pointsize>
       </font>
      </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
      <property name="styleSheet">
       <string notr="true"/>
      </property>
@@ -428,6 +440,22 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI';&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>23</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

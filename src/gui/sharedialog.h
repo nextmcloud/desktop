@@ -76,6 +76,9 @@ private slots:
     void slotSendMessage(const QSharedPointer<Sharee> &sharee, const QString &note);
     void slotCancelShare(const QSharedPointer<Sharee> &sharee);
     void slotUserLinePermissionChanged(const QString&);
+    void slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> linkSHare, Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare);
+    void slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare> share,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare);
+    void slotSendNewMail(QSharedPointer<UserGroupShare> share, bool createShare);
 
 signals:
     void toggleShareLinkAnimation(bool start);

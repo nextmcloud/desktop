@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>545</width>
+    <width>400</width>
     <height>690</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -87,8 +87,14 @@
    </font>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>8</number>
+   </property>
    <property name="topMargin">
     <number>5</number>
+   </property>
+   <property name="rightMargin">
+    <number>8</number>
    </property>
    <property name="bottomMargin">
     <number>16</number>
@@ -282,7 +288,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Allow Forwarding</string>
+        <string>Allow resharing</string>
        </property>
       </widget>
      </item>
@@ -503,7 +509,7 @@ selection-color: #e20074;</string>
         <string notr="true">font: 12pt &quot;Segoe UI&quot;;</string>
        </property>
        <property name="text">
-        <string>File drop (upload only)</string>
+        <string>File drop only</string>
        </property>
       </widget>
      </item>

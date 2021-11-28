@@ -70,7 +70,8 @@ signals:
     void styleChanged();
     void createLinkShare();
     void advancePermissionWidget(Share::ShareType, QSharedPointer<Sharee>, bool);
-    void sendNewMail(QSharedPointer<Sharee>, bool);
+    void advanceUserPermissionWidget(QSharedPointer<UserGroupShare>share, Share::ShareType, QSharedPointer<Sharee>, bool);
+    void sendNewMail(QSharedPointer<UserGroupShare>, bool);
     void permissionsChanged(Share::Permissions permissions);
     void userLinePermissionChanged(const QString & permission);
     void setUserNote(const QString &note);
@@ -84,7 +85,7 @@ public slots:
 
 private slots:
     void slotSharesFetched(const QList<QSharedPointer<Share>> &shares);
-    void slotSendNewMail();
+    void slotSendNewMail(QSharedPointer<UserGroupShare>share);
     void on_shareeLineEdit_textChanged(const QString &text);
     void searchForSharees(ShareeModel::LookupMode lookupMode);
     void slotLineEditTextEdited(const QString &text);
@@ -101,7 +102,7 @@ private slots:
     void slotPrivateLinkCopy();
     void slotPrivateLinkEmail();
     void slotaddLinkSignal();
-    void slotAdvancedPermission(Share::ShareType type);
+    void slotAdvancedPermission(QSharedPointer<UserGroupShare>share, Share::ShareType type);
     void slotUserLinePermissionChanged(const QString & permission);
 
 private:
@@ -154,8 +155,8 @@ public:
 signals:
     void visualDeletionDone();
     void resizeRequested();
-    void advancedPermissionWidget(Share::ShareType);
-    void sendNewMail();
+    void advancedPermissionWidget( QSharedPointer<UserGroupShare>share, Share::ShareType);
+    void sendNewMail(QSharedPointer<UserGroupShare>share);
     void userLinePermissionChanged(const QString &permission);
 
 public slots:

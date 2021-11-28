@@ -56,6 +56,9 @@ public:
         SharePermissions maxSharingPermissions, Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare,
         QWidget *parent);
     ~ShareUserGroupPermissionWidget();
+    void setLinkAdvancePermission(QSharedPointer<LinkShare> linkShare, Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare);
+    void setUserAdvancePermission(QSharedPointer<UserGroupShare> share,Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare);
+    void setUserCreatePermission(Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare);
 
 signals:
     void readPermissionEnabled();
@@ -76,7 +79,9 @@ private slots:
 
 
 private:
+    void setupUI();
     void setPermission(const QString &permission);
+    void setSharePermission();
     Ui::ShareUserGroupPermissionWidget *_ui;
     //ShareUserMessageWidget *_shareUserMessage = nullptr;
     bool _isFile;
@@ -84,10 +89,13 @@ private:
     AccountPtr _account;
     QString _sharePath;
     QString _localPath;
+    QString _userPermission;
     QString _shareUrl;
     QSharedPointer<Sharee> _sharee ;
     bool _createShare;
     Share::Permissions _permissions;
+    QSharedPointer<LinkShare> _linkShare;
+    QSharedPointer<UserGroupShare> _share;
 };
 
 }

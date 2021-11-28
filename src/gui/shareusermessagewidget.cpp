@@ -59,6 +59,14 @@ ShareUserMessageWidget::ShareUserMessageWidget(AccountPtr account,
 
 void ShareUserMessageWidget::slotShareMessage()
 {
+    if(_share.isNull())
+    {
+        qCInfo(lcSharing) << "no share created yet";
+    }
+    else
+    {
+        _share->setNote(_ui->textEdit_MessageNote->toPlainText());
+    }
    emit  shareButtonCLicked(_sharee,_ui->textEdit_MessageNote->toPlainText());
   // hide();
 }
@@ -74,4 +82,9 @@ ShareUserMessageWidget::~ShareUserMessageWidget()
     delete _ui;
 }
 
+void ShareUserMessageWidget::setMessageBox(QSharedPointer<UserGroupShare>share, bool createShare)
+{
+    _share = share;
+
+}
 }

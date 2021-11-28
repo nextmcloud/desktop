@@ -35,6 +35,7 @@ namespace Ui {
 class AbstractCredentials;
 class SyncResult;
 class LinkShare;
+class UserGroupShare;
 class Share;
 class Sharee;
 class ShareManager;
@@ -55,6 +56,7 @@ public:
      ~ShareUserMessageWidget();
 
     Ui::ShareUserMessageWidget *_ui;
+    void setMessageBox(QSharedPointer<UserGroupShare>share, bool createShare);
 
 private slots:
     void slotShareMessage();
@@ -70,6 +72,7 @@ private:
     QString _localPath;
     QString _shareUrl;
     QSharedPointer<Sharee> _sharee;
+    QSharedPointer<UserGroupShare> _share;
 };
 
 }

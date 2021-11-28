@@ -210,7 +210,7 @@ void ShareLinkWidget::setupUiOptions()
         LinkAction = _allowEditingLinkAction;
 
         checked = (perm == SharePermissionCreate);
-        _allowUploadLinkAction = permissionsGroup->addAction(tr("File drop (upload only)"));
+        _allowUploadLinkAction = permissionsGroup->addAction(tr("File drop only"));
         _allowUploadLinkAction->setCheckable(true);
         _allowUploadLinkAction->setChecked(checked);
         LinkAction = _allowUploadLinkAction;
@@ -707,7 +707,7 @@ void ShareLinkWidget::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
             _allowEditingLinkAction->setChecked(checked);
 
             checked = (perm == SharePermissionCreate);
-            _allowUploadLinkAction = permissionsGroup->addAction(tr("File drop (upload only)"));
+            _allowUploadLinkAction = permissionsGroup->addAction(tr("File drop only"));
             _allowUploadLinkAction->setCheckable(true);
             _allowUploadLinkAction->setChecked(checked);
         }
@@ -732,7 +732,7 @@ void ShareLinkWidget::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
 
 void ShareLinkWidget::slotAdvancedPermission()
 {
-    emit advancedPermissionWidget(Share::TypeLink,nullptr,false);
+    emit linkAdvancedPermissionWidget(_linkShare,Share::TypeLink,nullptr,false);
 }
 
 }

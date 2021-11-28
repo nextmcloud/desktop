@@ -66,6 +66,7 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     , _maxSharingPermissions(maxSharingPermissions)
     , _privateLinkUrl(accountState->account()->deprecatedPrivateLinkUrl(numericFileId).toString(QUrl::FullyEncoded))
     , _startPage(startPage)
+    , _userLinePermission(SharePermissionRead)
     , m_createShare("Read only")
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -147,12 +148,27 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
         sharingPossible = false;
     }
 
+    _sharePermissionGroup = new ShareUserGroupPermissionWidget(_accountState->account(), _sharePath, _localPath, _userLinePermission, _maxSharingPermissions, Share::TypeLink, nullptr,false, this);
+    _ui->verticalLayout->insertWidget(1, _sharePermissionGroup);
+    _sharePermissionGroup->setVisible(false);
+
+    _shareUserMessage = new ShareUserMessageWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions,nullptr, this);
+    _ui->verticalLayout->insertWidget(1, _shareUserMessage);
+    _shareUserMessage->setVisible(false);
+
     if (sharingPossible) {
         _manager = new ShareManager(accountState->account(), this);
         connect(_manager, &ShareManager::sharesFetched, this, &ShareDialog::slotSharesFetched);
         connect(_manager, &ShareManager::linkShareCreated, this, &ShareDialog::slotAddLinkShareWidget);
         connect(_manager, &ShareManager::linkShareRequiresPassword, this, &ShareDialog::slotLinkShareRequiresPassword);
     }
+    connect(_sharePermissionGroup,&ShareUserGroupPermissionWidget::nextButtonClicked,this, &ShareDialog::slotShowMessageBox);
+    connect(_sharePermissionGroup,&ShareUserGroupPermissionWidget::confirmButtonClicked,this, &ShareDialog::slotCancelShare);
+    connect(_sharePermissionGroup,&ShareUserGroupPermissionWidget::cancelButtonClicked,this, &ShareDialog::slotCancelShare);
+    connect(_sharePermissionGroup,&ShareUserGroupPermissionWidget::permissionsChanged, _userGroupWidget, &ShareUserGroupWidget::slotPermissionsChanged);
+    connect(_shareUserMessage, &ShareUserMessageWidget::shareButtonCLicked, this, &ShareDialog::slotSendMessage);
+    connect(_shareUserMessage,&ShareUserMessageWidget::cancelButtonClicked,this, &ShareDialog::slotCancelShare);
+    connect(_shareUserMessage,&ShareUserMessageWidget::cancelButtonClicked,this, &ShareDialog::slotCancelShare);
 }
 
 ShareLinkWidget *ShareDialog::addLinkShareWidget(const QSharedPointer<LinkShare> &linkShare)
@@ -175,12 +191,17 @@ ShareLinkWidget *ShareDialog::addLinkShareWidget(const QSharedPointer<LinkShare>
         connect(_manager, &ShareManager::serverError, linkShareWidget, &ShareLinkWidget::slotServerError);
     }
 
+    //if(_sharePermissionGroup != nullptr){
+        //delete _sharePermissionGroup;
+    //}
+   // _sharePermissionGroup = new ShareUserGroupPermissionWidget(_accountState->account(), _sharePath, _localPath, _userLinePermission, _maxSharingPermissions, Share::TypeLink, nullptr,false, this);
+
     // Connect all shares signals to gui slots
     connect(this, &ShareDialog::toggleShareLinkAnimation, linkShareWidget, &ShareLinkWidget::slotToggleShareLinkAnimation);
     connect(linkShareWidget, &ShareLinkWidget::createLinkShare, this, &ShareDialog::slotCreateLinkShare);
     connect(linkShareWidget, &ShareLinkWidget::deleteLinkShare, this, &ShareDialog::slotDeleteShare);
     connect(linkShareWidget, &ShareLinkWidget::createPassword, this, &ShareDialog::slotCreatePasswordForLinkShare);
-    connect(linkShareWidget, &ShareLinkWidget::advancedPermissionWidget, this, &ShareDialog::slotAdvancePermissionWidget);
+    connect(linkShareWidget, &ShareLinkWidget::linkAdvancedPermissionWidget, this, &ShareDialog::slotLinkAdvancePermissionWidget);
 
     //connect(_linkWidgetList.at(index), &ShareLinkWidget::resizeRequested, this, &ShareDialog::slotAdjustScrollWidgetSize);
 
@@ -348,8 +369,9 @@ void ShareDialog::showSharingUi()
         // Connect styleChanged events to our widget, so it can adapt (Dark-/Light-Mode switching)
         connect(this, &ShareDialog::styleChanged, _userGroupWidget, &ShareUserGroupWidget::slotStyleChanged);
         connect(_userGroupWidget, &ShareUserGroupWidget::createLinkShare, this, &ShareDialog::slotCreateLinkShare);
+        connect(_userGroupWidget, &ShareUserGroupWidget::advanceUserPermissionWidget, this, &ShareDialog::slotUserAdvancePermissionWidget);
         connect(_userGroupWidget, &ShareUserGroupWidget::advancePermissionWidget, this, &ShareDialog::slotAdvancePermissionWidget);
-        connect(_userGroupWidget, &ShareUserGroupWidget::sendNewMail, this, &ShareDialog::slotShowMessageBox);
+        connect(_userGroupWidget, &ShareUserGroupWidget::sendNewMail, this, &ShareDialog::slotSendNewMail);
         connect(_userGroupWidget, &ShareUserGroupWidget::userLinePermissionChanged, this, &ShareDialog::slotUserLinePermissionChanged);
         connect(this, &ShareDialog::linkShareDeleted, _userGroupWidget, &ShareUserGroupWidget::slotLinkShareDeleted);
 
@@ -483,7 +505,12 @@ void ShareDialog::changeEvent(QEvent *e)
 void ShareDialog::slotAdvancePermissionWidget(Share::ShareType type,const QSharedPointer<Sharee> &sharee, bool createShare)
 {
     m_createShare = createShare;
-    _sharePermissionGroup = new ShareUserGroupPermissionWidget(_accountState->account(), _sharePath, _localPath, _userLinePermission, _maxSharingPermissions, type, sharee,createShare, this);
+
+    //if(_sharePermissionGroup != NULL){
+        //delete _sharePermissionGroup;
+    //}
+    //_sharePermissionGroup = new ShareUserGroupPermissionWidget(_accountState->account(), _sharePath, _localPath, _userLinePermission, _maxSharingPermissions, type, sharee,createShare, this);
+
     if(_userGroupWidget)
     {
         _userGroupWidget->setVisible(false);
@@ -494,24 +521,15 @@ void ShareDialog::slotAdvancePermissionWidget(Share::ShareType type,const QShare
             widget->setVisible(false);
         }
     }
-    //if(_emptyShareLinkWidget)
-    //{
-        //_emptyShareLinkWidget->hide();
-    //}
     if(type == Share::TypeLink)
     {
         _userGroupWidget->hideShareUserUI();
     }
-    _ui->verticalLayout->insertWidget(1,_sharePermissionGroup);
-    _sharePermissionGroup->show();
 
-    //_ui->scrollArea->setVisible(false);
+    _sharePermissionGroup->setUserCreatePermission(type, sharee, createShare);
+    _sharePermissionGroup->setVisible(true);
 
     //_shareUserMessage = new ShareUserMessageWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions, this);
-    connect(_sharePermissionGroup,&ShareUserGroupPermissionWidget::nextButtonClicked,this, &ShareDialog::slotShowMessageBox);
-    connect(_sharePermissionGroup,&ShareUserGroupPermissionWidget::confirmButtonClicked,this, &ShareDialog::slotCancelShare);
-    connect(_sharePermissionGroup,&ShareUserGroupPermissionWidget::cancelButtonClicked,this, &ShareDialog::slotCancelShare);
-    connect(_sharePermissionGroup,&ShareUserGroupPermissionWidget::permissionsChanged, _userGroupWidget, &ShareUserGroupWidget::slotPermissionsChanged);
     //connect(_sharePermissionGroup,&ShareUserGroupPermissionWidget::linkPermissionsChanged, _userGroupWidget, &ShareUserGroupWidget::slotPermissionsChanged);
 }
 
@@ -528,18 +546,15 @@ void ShareDialog::slotShowMessageBox(const QSharedPointer<Sharee> &sharee, bool 
         }
     }
     m_createShare = createShare;
-    _shareUserMessage = new ShareUserMessageWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions,sharee, this);
+    //_shareUserMessage = new ShareUserMessageWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions,sharee, this);
 
-    _ui->verticalLayout->insertWidget(1,_shareUserMessage);
+    _shareUserMessage->setVisible(true);
     qCInfo(lcSharing) << "Parul: connected signal";
-    connect(_shareUserMessage, &ShareUserMessageWidget::shareButtonCLicked, this, &ShareDialog::slotSendMessage);
-    connect(_shareUserMessage,&ShareUserMessageWidget::cancelButtonClicked,this, &ShareDialog::slotCancelShare);
-    connect(_shareUserMessage,&ShareUserMessageWidget::cancelButtonClicked,this, &ShareDialog::slotCancelShare);
 }
 
 void ShareDialog::slotSendMessage(const QSharedPointer<Sharee> &sharee, const QString &note)
 {
-    _shareUserMessage->hide();
+    _shareUserMessage->setVisible(false);
     _userGroupWidget->setVisible(true);
    // _ui->scrollArea->setVisible(true);
     if(_linkWidgetList.size() > 0){
@@ -549,7 +564,10 @@ void ShareDialog::slotSendMessage(const QSharedPointer<Sharee> &sharee, const QS
     }
 
     _userGroupWidget->createUserShare(sharee, m_createShare);
-    _userGroupWidget->setUserMessage(note);
+    if(m_createShare == true)
+    {
+        _userGroupWidget->setUserMessage(note);
+    }
    // delete _sharePermissionGroup;
    // delete _shareUserMessage;
 }
@@ -571,4 +589,69 @@ void ShareDialog::slotUserLinePermissionChanged(const QString &userLinePermissio
 {
     _userLinePermission = userLinePermission;
 }
+
+void ShareDialog::slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> linkShare,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare)
+{
+    if(_sharePermissionGroup != nullptr)
+    {
+        if(_userGroupWidget->isVisible())
+        {
+            _userGroupWidget->setVisible(false);
+        }
+
+        if(_linkWidgetList.size() > 0){
+            foreach(ShareLinkWidget *widget, _linkWidgetList){
+                widget->setVisible(false);
+            }
+        }
+        if(type == Share::TypeLink)
+        {
+            _userGroupWidget->hideShareUserUI();
+        }
+        _sharePermissionGroup->setLinkAdvancePermission(linkShare, type, sharee, createShare);
+        _sharePermissionGroup->setVisible(true);
+    }
+}
+
+void ShareDialog::slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare> share,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare)
+{
+    if(_sharePermissionGroup != nullptr)
+    {
+        if(_userGroupWidget->isVisible())
+        {
+            _userGroupWidget->setVisible(false);
+        }
+
+        if(_linkWidgetList.size() > 0){
+            foreach(ShareLinkWidget *widget, _linkWidgetList){
+                widget->setVisible(false);
+            }
+        }
+        if(type == Share::TypeLink)
+        {
+            _userGroupWidget->hideShareUserUI();
+        }
+        _sharePermissionGroup->setUserAdvancePermission(share, type, sharee, createShare);
+        _sharePermissionGroup->setVisible(true);
+    }
+}
+
+void ShareDialog::slotSendNewMail(QSharedPointer<UserGroupShare> share, bool createShare)
+{
+    if(_userGroupWidget->isVisible())
+    {
+        _userGroupWidget->setVisible(false);
+    }
+    if(_linkWidgetList.size() > 0){
+        foreach(ShareLinkWidget *widget, _linkWidgetList){
+            if(widget->isVisible())
+                widget->setVisible(false);
+        }
+    }
+    m_createShare = createShare;
+    //_shareUserMessage = new ShareUserMessageWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions,sharee, this);
+    _shareUserMessage->setMessageBox(share, createShare);
+    _shareUserMessage->setVisible(true);
+}
+
 } // namespace OCC

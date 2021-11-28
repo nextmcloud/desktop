@@ -4057,13 +4057,13 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="150"/>
-        <source>Allow Editing</source>
-        <translation>Bearbeitung erlauben</translation>
+        <source>Can edit</source>
+        <translation>Kann Bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="192"/>
         <source>Read only</source>
-        <translation>Schreibgeschützt</translation>
+        <translation>Nur lesen</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="164"/>
@@ -4072,8 +4072,8 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="169"/>
-        <source>File Drop (Upload Only)</source>
-        <translation>Dateien ablegen (nur Hochladen)</translation>
+        <source>File drop only</source>
+        <translation>Sammelbox</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="184"/>

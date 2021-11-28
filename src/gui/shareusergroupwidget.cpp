@@ -346,7 +346,7 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
     }
 }
 
-void ShareUserGroupWidget::slotAdvancedPermission(Share::ShareType type)
+void ShareUserGroupWidget::slotAdvancedPermission(QSharedPointer<UserGroupShare>share, Share::ShareType type)
 {
     QScrollArea *scrollArea = _parentScrollArea;
     const auto shareUserLineChilds = scrollArea->findChildren<ShareUserLine *>();
@@ -356,10 +356,10 @@ void ShareUserGroupWidget::slotAdvancedPermission(Share::ShareType type)
         shareUserLineChild->hide();
     }
 
-    emit advancePermissionWidget(type, _sharee, false);
+    emit advanceUserPermissionWidget(share, type, _sharee, false);
 }
 
-void ShareUserGroupWidget::slotSendNewMail()
+void ShareUserGroupWidget::slotSendNewMail(QSharedPointer<UserGroupShare>share)
 {
     QScrollArea *scrollArea = _parentScrollArea;
     const auto shareUserLineChilds = scrollArea->findChildren<ShareUserLine *>();
@@ -369,7 +369,7 @@ void ShareUserGroupWidget::slotSendNewMail()
         shareUserLineChild->hide();
     }
 
-    emit sendNewMail(_sharee, false);
+    emit sendNewMail(share, false);
 }
 
 void ShareUserGroupWidget::slotPermissionsChanged(Share::Permissions permissions)
@@ -512,7 +512,7 @@ void ShareUserGroupWidget::createUserShare(const QSharedPointer<Sharee> &sharee,
         shareUserLineChild->show();
     }
 
-    if(createShare == true)
+    if((createShare == true) && (_sharee.isNull() != true))
     {
         _lastCreatedShareId = QString();
         if (_sharee->type() == Sharee::Federated
@@ -671,12 +671,12 @@ ShareUserLine::ShareUserLine(AccountPtr account,
     if (!_isFile)
         enabled = enabled && (maxSharingPermissions & SharePermissionRead);
 
-    connect(_ui->noteConfirmButton, &QAbstractButton::clicked, this, &ShareUserLine::onNoteConfirmButtonClicked);
+    //connect(_ui->noteConfirmButton, &QAbstractButton::clicked, this, &ShareUserLine::onNoteConfirmButtonClicked);
     //connect(_ui->confirmExpirationDate, &QAbstractButton::clicked, this, &ShareUserLine::setExpireDate);
     //connect(_ui->calendar, &QDateTimeEdit::dateChanged, this, &ShareUserLine::setExpireDate);
 
-    connect(_share.data(), &UserGroupShare::noteSet, this, &ShareUserLine::disableProgessIndicatorAnimation);
-    connect(_share.data(), &UserGroupShare::noteSetError, this, &ShareUserLine::disableProgessIndicatorAnimation);
+   // connect(_share.data(), &UserGroupShare::noteSet, this, &ShareUserLine::disableProgessIndicatorAnimation);
+   // connect(_share.data(), &UserGroupShare::noteSetError, this, &ShareUserLine::disableProgessIndicatorAnimation);
     connect(_share.data(), &UserGroupShare::expireDateSet, this, &ShareUserLine::disableProgessIndicatorAnimation);
 
     connect(_ui->confirmPassword, &QToolButton::clicked, this, &ShareUserLine::slotConfirmPasswordClicked);
@@ -714,14 +714,16 @@ ShareUserLine::ShareUserLine(AccountPtr account,
        // menu->addAction(_permissionChange);
         //if(share->getShareType() == Share::TypeEmail)
         //{
-            _permissionUpload = permissionsGroup->addAction(tr("File drop (upload only)"));
+            _permissionUpload = permissionsGroup->addAction(tr("File drop only"));
             _permissionUpload->setCheckable(true);
             _permissionUpload->setEnabled(maxSharingPermissions & SharePermissionCreate);
             // menu->addAction(_permissionUpload);
-            permissionMenu->addAction(_permissionUpload);
+            if(_share->getShareType() == Share::TypeEmail){
+                permissionMenu->addAction(_permissionUpload);
+            }
             connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
        // } else {
-           // _permissionUpload = permissionsGroup->addAction(tr("File drop (upload only)"));
+           // _permissionUpload = permissionsGroup->addAction(tr("File drop only"));
        // }
     } else {
         _permissionRead = permissionsGroup->addAction(tr("Read only"));
@@ -755,11 +757,11 @@ ShareUserLine::ShareUserLine(AccountPtr account,
         _noteLinkAction = new QAction(tr("Note to recipient"));
         _noteLinkAction->setCheckable(true);
        // menu->addAction(_noteLinkAction);
-        connect(_noteLinkAction, &QAction::triggered, this, &ShareUserLine::toggleNoteOptions);
-        if (!_share->getNote().isEmpty()) {
-            _noteLinkAction->setChecked(true);
-            showNoteOptions(true);
-        }
+        //connect(_noteLinkAction, &QAction::triggered, this, &ShareUserLine::toggleNoteOptions);
+        //if (!_share->getNote().isEmpty()) {
+            //_noteLinkAction->setChecked(true);
+            //showNoteOptions(true);
+        //}
     }
 
    // QIcon permissionicon = QIcon::fromTheme(QLatin1String("advanced permission"), QIcon(QLatin1String(":/client/theme/delete.svg")));
@@ -1183,7 +1185,7 @@ void ShareUserLine::customizeStyle()
     QIcon deleteicon = QIcon::fromTheme(QLatin1String("user-trash"), Theme::createColorAwareIcon(QLatin1String(":/client/theme/delete.svg")));
     _deleteShareButton->setIcon(deleteicon);
 
-    _ui->noteConfirmButton->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
+   // _ui->noteConfirmButton->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
     //_ui->confirmExpirationDate->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
     _ui->progressIndicator->setColor(QGuiApplication::palette().color(QPalette::WindowText));
 
@@ -1193,17 +1195,17 @@ void ShareUserLine::customizeStyle()
 
 void ShareUserLine::showNoteOptions(bool show)
 {
-    _ui->noteLabel->setVisible(show);
-    _ui->noteTextEdit->setVisible(show);
-    _ui->noteConfirmButton->setVisible(show);
+    //_ui->noteLabel->setVisible(false);
+   // _ui->noteTextEdit->setVisible(show);
+    //_ui->noteConfirmButton->setVisible(show);
 
-    if (show) {
-        const auto note = _share->getNote();
+   /* if (show) {
+        //const auto note = _share->getNote();
         _ui->noteTextEdit->setText(note);
         _ui->noteTextEdit->setFocus();
     }
 
-    emit resizeRequested();
+    emit resizeRequested();*/
 }
 
 
@@ -1219,18 +1221,18 @@ void ShareUserLine::toggleNoteOptions(bool enable)
 
 void ShareUserLine::onNoteConfirmButtonClicked()
 {
-    setNote(_ui->noteTextEdit->toPlainText());
+    //setNote(_ui->noteTextEdit->toPlainText());
 }
 
 void ShareUserLine::onSetUserNote(const QString &note)
 {
-    setNote(note);
+    _share->setNote(note);;
 }
 
 void ShareUserLine::setNote(const QString &note)
 {
-    enableProgessIndicatorAnimation(true);
-    _share->setNote(note);
+    //enableProgessIndicatorAnimation(true);
+    //_share->setNote(note);
 }
 
 void ShareUserLine::toggleExpireDateOptions(bool enable)
@@ -1322,12 +1324,12 @@ void ShareUserLine::slotConfirmPasswordClicked()
 
 void ShareUserLine::slotAdvancedPermission()
 {
-    emit advancedPermissionWidget(_share->getShareType());
+    emit advancedPermissionWidget(_share, _share->getShareType());
 }
 
 void ShareUserLine::slotSendNewMail()
 {
-    emit sendNewMail();
+    emit sendNewMail(_share);
 }
 
 void ShareUserLine::slotPermissionsChangedOutside(Share::Permissions pemission)
@@ -1404,11 +1406,11 @@ void ShareUserLine::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
 
             /* File drop (upload only) Permission */
             checked = (perm == SharePermissionCreate);
-            _permissionUpload = permissionsGroup->addAction(tr("File drop (upload only)"));
-            _permissionUpload->setCheckable(true);
-            _permissionUpload->setChecked(checked);
-            _permissionUpload->setEnabled(_maxSharingPermissions & SharePermissionCreate);
+            _permissionUpload = permissionsGroup->addAction(tr("File drop only"));
             if(_share->getShareType() == Share::TypeEmail){
+                _permissionUpload->setCheckable(true);
+                _permissionUpload->setChecked(checked);
+                _permissionUpload->setEnabled(_maxSharingPermissions & SharePermissionCreate);
                 permissionMenu->addAction(_permissionUpload);
             }
             connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);

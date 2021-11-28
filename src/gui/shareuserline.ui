@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>360</width>
-    <height>265</height>
+    <height>186</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -199,7 +199,7 @@
      <item>
       <widget class="OCC::ElidedLabel" name="sharedWith">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -222,7 +222,20 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressIndicator" name="progressIndicator" native="true"/>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Preferred</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <widget class="QToolButton" name="permissionToolButton">
@@ -234,6 +247,9 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::RightToLeft</enum>
        </property>
        <property name="icon">
         <iconset resource="../../theme.qrc">
@@ -254,6 +270,9 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
@@ -264,7 +283,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>38</width>
+         <width>44</width>
          <height>20</height>
         </size>
        </property>
@@ -473,64 +492,8 @@
        </property>
       </widget>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMinimumSize</enum>
-     </property>
-     <property name="leftMargin">
-      <number>10</number>
-     </property>
      <item>
-      <widget class="QLabel" name="noteLabel">
-       <property name="minimumSize">
-        <size>
-         <width>78</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Note:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QTextEdit" name="noteTextEdit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="sizeAdjustPolicy">
-        <enum>QAbstractScrollArea::AdjustToContents</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="noteConfirmButton">
-       <property name="text">
-        <string notr="true">…</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../theme.qrc">
-         <normaloff>:/client/theme/confirm.svg</normaloff>:/client/theme/confirm.svg</iconset>
-       </property>
-       <property name="autoRaise">
-        <bool>true</bool>
-       </property>
-      </widget>
+      <widget class="QProgressIndicator" name="progressIndicator" native="true"/>
      </item>
     </layout>
    </item>
