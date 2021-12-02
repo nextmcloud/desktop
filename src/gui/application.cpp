@@ -59,6 +59,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QGuiApplication>
+#include <QQuickItem>
 
 class QSocket;
 
@@ -376,6 +377,13 @@ Application::Application(int &argc, char **argv)
     connect(_gui.data(), &ownCloudGui::isShowingSettingsDialog, this, &Application::slotGuiIsShowingSettings);
 
     _gui->createTray();
+
+    /* Setup the swipe screen */
+    view.setSource(QStringLiteral("qrc:/qml/src/gui/welcome/welcome.qml"));
+    view.setFlags(view.flags() | Qt::FramelessWindowHint);
+    QObject *rootObj = view.rootObject();
+    connect(rootObj->findChild<QObject*>("cancelButton"), SIGNAL(cancelClicked()),
+        this, SLOT(slotSwipeCancelClicked()));
 }
 
 Application::~Application()
@@ -505,7 +513,14 @@ void Application::slotownCloudWizardDone(int res)
         }
 
         Systray::instance()->showWindow();
+        // Show the swipe screen
+        view.show();
     }
+}
+
+void Application::slotSwipeCancelClicked()
+{
+    view.hide();
 }
 
 void Application::setupLogging()
