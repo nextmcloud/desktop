@@ -1077,7 +1077,7 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
         _ui->quotaInfoLabel->setStyleSheet("QLabel { background-color :%1 ; font: 18px; color : #191919; }");
         _ui->quotaInfoLabel->setToolTip(toolTip);
         _ui->quotaProgressBar->setToolTip(toolTip);
-        _ui->quotaProgressLabel->setText(tr("Memory Occupied to %1").arg(percentStr));
+        _ui->quotaProgressLabel->setText(tr("Memory Occupied to %1 %").arg(percentStr));
     } else {
         _ui->quotaProgressBar->setVisible(false);
         _ui->quotaProgressLabel->setVisible(false);

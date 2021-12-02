@@ -192,6 +192,7 @@ Window {
                             // We call open() instead of popup() because we want to position it
                             // exactly below the dropdown button, not the mouse
                             onClicked: {
+
                                 syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
                                 if (accountMenu.visible) {
                                     accountMenu.close()
@@ -241,6 +242,7 @@ Window {
                                     icon.source: "qrc:///client/theme/magenta/action/pause/default.png"
                                     font.family: "Segoe UI"
                                     font.pixelSize: Style.topLinePixelSize
+
                                     horizontalPadding: Style.accountMenuPadding
                                     verticalPadding: Style.accountMenuHalfPadding
                                     spacing: Style.accountMenuSpacing
@@ -255,6 +257,7 @@ Window {
                                             anchors.margins: 1
                                             color: parent.parent.hovered ? Style.lightHover : "transparent"
                                         }
+
                                     }
 
                                     Accessible.role: Accessible.MenuItem
@@ -266,9 +269,14 @@ Window {
                                     id: settingsButton
                                     display: AbstractButton.TextBesideIcon
                                     icon.source: "qrc:///client/theme/magenta/action/settings/default.png"
-                                    text: qsTr("Settings")
-                                    font.family: "Segoe UI"
-                                    font.pixelSize: Style.topLinePixelSize
+                                    Text {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        font.wordSpacing:  45
+                                        text:  qsTr(" "+"Settings")
+                                        font.family: "Segoe UI"
+                                        font.pixelSize: Style.topLinePixelSize
+                                        color: parent.hovered ? Style.magenta : Style.nmcTextColor
+                                    }
                                     horizontalPadding: Style.accountMenuPadding
                                     verticalPadding: Style.accountMenuHalfPadding
                                     spacing: Style.accountMenuSpacing
@@ -294,9 +302,15 @@ Window {
                                     id: exitButton
                                     display: AbstractButton.TextBesideIcon
                                     icon.source: "qrc:///client/theme/magenta/action/circle-close/default.png"
-                                    text: qsTr("Exit");
-                                    font.family: "Segoe UI"
-                                    font.pixelSize: Style.topLinePixelSize
+
+                                    Text {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        font.wordSpacing:  45
+                                        text:  qsTr(" "+"Close")
+                                        font.family: "Segoe UI"
+                                        font.pixelSize: Style.topLinePixelSize
+                                        color: parent.hovered ? Style.magenta : Style.nmcTextColor
+                                    }
                                     horizontalPadding: Style.accountMenuPadding
                                     topPadding: Style.accountMenuHalfPadding
                                     bottomPadding: Style.accountMenuPadding
