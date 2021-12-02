@@ -148,6 +148,9 @@ private:
     QScopedPointer<CrashReporter::Handler> _crashHandler;
 #endif
     QScopedPointer<FolderMan> _folderManager;
+
+    const int slideShowDelay = 3000;
+    const int startPage = 0;
 };
 
 } // namespace OCC

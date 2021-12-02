@@ -1,3 +1,4 @@
+import QtQml 2.12
 import QtQuick 2.5
 import QtQuick.Controls 2.3
 
@@ -5,10 +6,12 @@ Rectangle {
     width: 640
     height: 480
     id: welcomeForm
+    focus: true
     Text {
         id: titleText
         text: qsTr("MagentaCLOUD")
         font.family: "Segoe UI"
+        font.pixelSize: 16
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.leftMargin: 8
@@ -18,6 +21,7 @@ Rectangle {
 
     SwipeView {
         id: swipeView
+        objectName: "swipeView"
         anchors.fill: parent
         anchors.topMargin: titleText.height + titleText.anchors.topMargin * 2
         anchors.bottomMargin: cancelButton.height + indicator.height + cancelButton.anchors.bottomMargin * 3
@@ -36,7 +40,6 @@ Rectangle {
         }
     }
 
-
     Button {
         id: cancelButton
         objectName: "cancelButton"
@@ -44,9 +47,10 @@ Rectangle {
         height: parent.height/12
         text: qsTr("Cancel")
         font.family: "Segoe UI"
+        font.pixelSize: 16
 
+        /* Handled in Application::slotSwipeCancelClicked */
         signal cancelClicked
-
         onClicked: cancelClicked()
 
         anchors.bottom: parent.bottom
@@ -96,6 +100,33 @@ Rectangle {
                     duration: 100
                 }
             }
+        }
+    }
+
+    // Timer works asyncroniously from user's actions so it can conflict with manual swipes
+    Timer {
+        id: timerSlideShow
+        objectName: "timerSlideShow"
+        running: false
+        repeat: true
+        /* Initial dealy before the slideshow starts */
+        interval: 3000
+        onTriggered: {
+            var nextIndex = (swipeView.currentIndex + 1) % swipeView.count
+            swipeView.setCurrentIndex(nextIndex)
+            /* Slide show speed */
+            interval: 5000
+        }
+    }
+
+    Keys.onPressed: {
+        if (event.key == Qt.Key_Left){
+            if (swipeView.currentIndex == 0)
+                swipeView.setCurrentIndex(swipeView.count - 1)
+            else
+                swipeView.setCurrentIndex(swipeView.currentIndex - 1)
+        } else if (event.key == Qt.Key_Right) {
+            swipeView.setCurrentIndex((swipeView.currentIndex + 1) % swipeView.count)
         }
     }
 }

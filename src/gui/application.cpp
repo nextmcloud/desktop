@@ -513,13 +513,22 @@ void Application::slotownCloudWizardDone(int res)
         }
 
         Systray::instance()->showWindow();
-        // Show the swipe screen
+        /* Swipe screen works in a slideshow mode  */
+        QObject *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
         view.show();
+        timerSlideShow->setProperty("running", true);
     }
 }
 
 void Application::slotSwipeCancelClicked()
 {
+    QObject *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
+    QObject *swipeView = view.rootObject()->findChild<QObject*>("swipeView");
+
+    /* Stop a slideshow and go back to the first page */
+    timerSlideShow->setProperty("running", false);
+    timerSlideShow->setProperty("interval", slideShowDelay);
+    swipeView->setProperty("currentIndex", startPage);
     view.hide();
 }
 
