@@ -5,11 +5,22 @@ Rectangle {
     width: 640
     height: 480
     id: welcomeForm
+    Text {
+        id: titleText
+        text: qsTr("MagentaCLOUD")
+        font.family: "Segoe UI"
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.leftMargin: 8
+        anchors.topMargin: 8
+
+    }
 
     SwipeView {
         id: swipeView
         anchors.fill: parent
-//        anchors.bottomMargin: cancelButton.height + indicator.height + cancelButton.anchors.bottomMargin * 3
+        anchors.topMargin: titleText.height + titleText.anchors.topMargin * 2
+        anchors.bottomMargin: cancelButton.height + indicator.height + cancelButton.anchors.bottomMargin * 3
         currentIndex: indicator.currentIndex
 
         Page1Form {
@@ -79,8 +90,7 @@ Rectangle {
             width: 8
             height: 8
             radius: width / 2
-            color: "#E20074"
-            opacity: index === swipeView.currentIndex ? 0.95 : pressed ? 0.7 : 0.45
+            color: index == swipeView.currentIndex ? "#E20074" : "#CCC"
             Behavior on opacity {
                 OpacityAnimator {
                     duration: 100
