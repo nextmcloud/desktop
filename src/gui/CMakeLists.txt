@@ -49,7 +49,10 @@ set(client_UI_SRCS
     wizard/owncloudsetupnocredspage.ui
     wizard/owncloudwizardresultpage.ui
     wizard/webview.ui
-    wizard/welcomepage.ui
+    welcome/welcome.qml
+    welcome/Page1Form.ui.qml
+    welcome/Page2Form.ui.qml
+    welcome/Page3Form.ui.qml
 )
 
 set(client_SRCS

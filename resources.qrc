@@ -7,5 +7,10 @@
         <file>theme/Style/qmldir</file>
         <file>src/gui/tray/ActivityActionButton.qml</file>
         <file>src/gui/tray/ActivityItem.qml</file>
+        <file>src/gui/welcome/Page1Form.ui.qml</file>
+        <file>src/gui/welcome/welcome.qml</file>
+        <file>src/gui/welcome/Page2Form.ui.qml</file>
+        <file>src/gui/welcome/Page3Form.ui.qml</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>
