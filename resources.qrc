@@ -12,5 +12,9 @@
         <file>src/gui/welcome/Page2Form.ui.qml</file>
         <file>src/gui/welcome/Page3Form.ui.qml</file>
     </qresource>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>theme/swipe/page1.png</file>
+        <file>theme/swipe/page2.png</file>
+        <file>theme/swipe/page3.png</file>
+    </qresource>
 </RCC>

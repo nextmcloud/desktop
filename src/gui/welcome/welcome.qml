@@ -5,15 +5,15 @@ import Style 1.0
 
 Rectangle {
     id: welcomeForm
-    width: 640
-    height: 480
+    width: firstPage.slide1.implicitWidth
+    height: firstPage.slide1.implicitHeight
     focus: true
     color: Style.magenta
     Text {
         id: titleText
         text: qsTr("MagentaCLOUD")
-        font.family: "Segoe UI"
-        font.pixelSize: 16
+        font.family: Style.swipeFontFamily
+        font.pixelSize: Style.topLinePixelSize
         color: Style.nmcTextColorLight
         anchors.top: parent.top
         anchors.left: parent.left
@@ -45,11 +45,12 @@ Rectangle {
     Button {
         id: cancelButton
         objectName: "cancelButton"
-        width: parent.width/4
-        height: parent.height/12
+        width: Style.skipButtonWidth
+        height: Style.skipButtonHeight
+
         text: qsTr("Skip introduction")
-        font.family: "Segoe UI"
-        font.pixelSize: 16
+        font.family: Style.swipeFontFamily
+        font.pixelSize: Style.topLinePixelSize
 
         /* Handled in Application::slotSwipeCancelClicked */
         signal cancelClicked
@@ -59,11 +60,12 @@ Rectangle {
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottomMargin: 12
+
         contentItem: Text {
             text: cancelButton.text
             font: cancelButton.font
             opacity: enabled ? 1.0 : 0.3
-            color: Style.nmcTextColorLight
+            color: Style.magenta
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
@@ -73,20 +75,19 @@ Rectangle {
             implicitWidth: 100
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: cancelButton.down ? "#bd0765" : "#E20074"
-            border.color: cancelButton.down ? "#bd0765" : "#E20074"
-            border.width: 1
-            radius: 4
+            color: cancelButton.down ? "lightgray" : "white"
+            border.width: 0
+            radius: Style.skipButtonRadius
         }
 
     }
 
     PageIndicator {
         id: indicator
-        y: 452
         count: swipeView.count
         currentIndex: swipeView.currentIndex
         interactive: true
+
         anchors.bottomMargin: cancelButton.anchors.bottomMargin
         anchors.bottom: cancelButton.top
         anchors.horizontalCenterOffset: 0
@@ -96,7 +97,8 @@ Rectangle {
             width: 8
             height: 8
             radius: width / 2
-            color: index == swipeView.currentIndex ? "#E20074" : "#CCC"
+            opacity: index == swipeView.currentIndex ? 1 : 0.4
+            color: "white"
             Behavior on opacity {
                 OpacityAnimator {
                     duration: 100

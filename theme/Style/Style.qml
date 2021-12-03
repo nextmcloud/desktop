@@ -19,6 +19,7 @@ QtObject {
     // We are using pixel size because this is cross platform comparable, point size isn't
     property int topLinePixelSize: 13
     property int subLinePixelSize: 10
+    property string swipeFontFamily: "Segoe UI"
 
     // Dimensions and sizes
     property int trayWindowWidth: 360
@@ -62,6 +63,11 @@ QtObject {
     property int accountLabelsAnchorsMargin: 7
     property int accountLabelsLayoutMargin: 12
     property int accountLabelsLayoutTopMargin: 10
+
+    property int skipButtonWidth: 160
+    property int skipButtonHeight: 32
+    property int skipButtonRadius: 8
+
 
     // Visual behaviour
     property bool hoverEffectsEnabled: true

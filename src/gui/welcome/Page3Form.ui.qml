@@ -2,15 +2,11 @@ import QtQuick 2.5
 import QtQuick.Controls 2.3
 
 Page {
-    width: 400
-    height: 400
-
-    Text {
-        id: text1
-        anchors.centerIn: parent
-        width: 60
-        height: 31
-        text: qsTr("Page3")
-        font.pixelSize: 20
+    Image {
+        id: slide3
+        source: "qrc:/theme/swipe/page3.png"
+        // Image is scaled down to fit this dimentions
+        // if it's too big. Aspect ratio is kept
+        sourceSize.width: 720
     }
 }
