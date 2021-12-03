@@ -1,17 +1,20 @@
 import QtQml 2.12
 import QtQuick 2.5
 import QtQuick.Controls 2.3
+import Style 1.0
 
 Rectangle {
+    id: welcomeForm
     width: 640
     height: 480
-    id: welcomeForm
     focus: true
+    color: Style.magenta
     Text {
         id: titleText
         text: qsTr("MagentaCLOUD")
         font.family: "Segoe UI"
         font.pixelSize: 16
+        color: Style.nmcTextColorLight
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.leftMargin: 8
@@ -24,7 +27,6 @@ Rectangle {
         objectName: "swipeView"
         anchors.fill: parent
         anchors.topMargin: titleText.height + titleText.anchors.topMargin * 2
-        anchors.bottomMargin: cancelButton.height + indicator.height + cancelButton.anchors.bottomMargin * 3
         currentIndex: indicator.currentIndex
 
         Page1Form {
@@ -45,7 +47,7 @@ Rectangle {
         objectName: "cancelButton"
         width: parent.width/4
         height: parent.height/12
-        text: qsTr("Cancel")
+        text: qsTr("Skip introduction")
         font.family: "Segoe UI"
         font.pixelSize: 16
 
@@ -61,7 +63,7 @@ Rectangle {
             text: cancelButton.text
             font: cancelButton.font
             opacity: enabled ? 1.0 : 0.3
-            color: "white"
+            color: Style.nmcTextColorLight
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight

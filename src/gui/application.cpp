@@ -379,6 +379,7 @@ Application::Application(int &argc, char **argv)
     _gui->createTray();
 
     /* Setup the swipe screen */
+    view.engine()->addImportPath("qrc:/qml/theme");
     view.setSource(QStringLiteral("qrc:/qml/src/gui/welcome/welcome.qml"));
     view.setFlags(view.flags() | Qt::FramelessWindowHint);
     QObject *rootObj = view.rootObject();
