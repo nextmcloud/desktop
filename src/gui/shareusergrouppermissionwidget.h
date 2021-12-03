@@ -59,6 +59,7 @@ public:
     void setLinkAdvancePermission(QSharedPointer<LinkShare> linkShare, Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare);
     void setUserAdvancePermission(QSharedPointer<UserGroupShare> share,Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare);
     void setUserCreatePermission(Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare);
+    void setPermission(const QString &permission);
 
 signals:
     void readPermissionEnabled();
@@ -80,7 +81,6 @@ private slots:
 
 private:
     void setupUI();
-    void setPermission(const QString &permission);
     void setSharePermission();
     Ui::ShareUserGroupPermissionWidget *_ui;
     //ShareUserMessageWidget *_shareUserMessage = nullptr;

@@ -587,7 +587,7 @@ void ShareDialog::slotCancelShare(const QSharedPointer<Sharee> &sharee)
 
 void ShareDialog::slotUserLinePermissionChanged(const QString &userLinePermission)
 {
-    _userLinePermission = userLinePermission;
+    _sharePermissionGroup->setPermission(userLinePermission);
 }
 
 void ShareDialog::slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> linkShare,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare)

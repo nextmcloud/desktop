@@ -50,11 +50,11 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
     QWidget *parent)
     : QWidget(parent)
     ,_ui(new Ui::ShareUserGroupPermissionWidget)
+    , _type(type)
     , _account(account)
     , _sharePath(sharePath)
     , _localPath(localPath)
     , _userPermission(userLinePermission)
-    , _type(type)
     , _sharee(sharee)
     , _createShare(createShare)
     , _permissions(SharePermissionRead)
@@ -63,6 +63,8 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
 
     //Is this a file or folder?
     _isFile = QFileInfo(localPath).isFile();
+
+    setPermission(_userPermission);
 
     setupUI();
 
@@ -101,7 +103,6 @@ void ShareUserGroupPermissionWidget::setupUI()
         _ui->allowForwardingCheckbox->setVisible(true);
     }
 
-    setPermission(_userPermission);
     _ui->expirationDateCheckbox->setChecked(true);
     _ui->dateEdit->setVisible(true);
     const QDate date = QDate::currentDate().addDays(1);
@@ -125,7 +126,6 @@ void ShareUserGroupPermissionWidget::setupUI()
     } else{
         _ui->nextButton->setText("Next");
     }
-
 }
 
 ShareUserGroupPermissionWidget::~ShareUserGroupPermissionWidget()
@@ -207,7 +207,7 @@ void ShareUserGroupPermissionWidget::slotExpireDateCheckboxChecked(bool checkSta
 
 void ShareUserGroupPermissionWidget::slotCancelButtonClicked()
 {
-    hide();
+    setVisible(false);
     emit cancelButtonClicked(_sharee);
 }
 

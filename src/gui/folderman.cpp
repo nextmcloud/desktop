@@ -1630,7 +1630,7 @@ QString FolderMan::findGoodPathForNewSyncFolder(const QString &basePath, const Q
         return basePath;
     }
 
-    int attempt = 1;
+   /* int attempt = 1;
     forever {
         const bool isGood =
             !QFileInfo(folder).exists()
@@ -1646,7 +1646,7 @@ QString FolderMan::findGoodPathForNewSyncFolder(const QString &basePath, const Q
         }
 
         folder = basePath + QString::number(attempt);
-    }
+    }*/
 
     return folder;
 }
