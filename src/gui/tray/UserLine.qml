@@ -84,12 +84,15 @@ MenuItem {
                         spacing: 0
                         Layout.alignment: Qt.AlignLeft
                         Layout.leftMargin: Style.accountMenuHalfPadding
+
                         Label {
                             id: accountUser
                             width: (Style.accountMenuWidth - Style.headerButtonIconSize - Style.accountMenuHalfPadding)
+
                             text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
+
                             elide: Text.ElideRight
-                            color: Style.nmcTextColor
+                            color: hovered ? Style.magenta : Style.nmcTextColor
                             font.family: "Segoe UI"
                             font.pixelSize: Style.topLinePixelSize
                         }

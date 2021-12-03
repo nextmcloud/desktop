@@ -518,7 +518,7 @@ void ShareUserGroupWidget::createUserShare(const QSharedPointer<Sharee> &sharee,
         if (_sharee->type() == Sharee::Federated
             && _account->serverVersionInt() < Account::makeServerVersion(9, 1, 0)) {
             int permissions = SharePermissionRead | SharePermissionUpdate;
-            _manager->createShare(_sharePath, Share::ShareType(_sharee->type()),
+            _manager->createShare(_sharePath, Share::ShareType(sharee->type()),
             _sharee->shareWith(), SharePermission(permissions));
          } else {
             QString password;
@@ -679,8 +679,8 @@ ShareUserLine::ShareUserLine(AccountPtr account,
    // connect(_share.data(), &UserGroupShare::noteSetError, this, &ShareUserLine::disableProgessIndicatorAnimation);
     connect(_share.data(), &UserGroupShare::expireDateSet, this, &ShareUserLine::disableProgessIndicatorAnimation);
 
-    connect(_ui->confirmPassword, &QToolButton::clicked, this, &ShareUserLine::slotConfirmPasswordClicked);
-    connect(_ui->lineEdit_password, &QLineEdit::returnPressed, this, &ShareUserLine::slotLineEditPasswordReturnPressed);
+    //connect(_ui->confirmPassword, &QToolButton::clicked, this, &ShareUserLine::slotConfirmPasswordClicked);
+    //connect(_ui->lineEdit_password, &QLineEdit::returnPressed, this, &ShareUserLine::slotLineEditPasswordReturnPressed);
 
     // create menu with checkable permissions
     auto *menu = new QMenu(this);
@@ -711,20 +711,15 @@ ShareUserLine::ShareUserLine(AccountPtr account,
         }
         permissionMenu->addAction(_permissionChange);
         connect(_permissionChange, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
-       // menu->addAction(_permissionChange);
-        //if(share->getShareType() == Share::TypeEmail)
-        //{
+
+        if(_share->getShareType() == Share::TypeEmail){
             _permissionUpload = permissionsGroup->addAction(tr("File drop only"));
             _permissionUpload->setCheckable(true);
             _permissionUpload->setEnabled(maxSharingPermissions & SharePermissionCreate);
             // menu->addAction(_permissionUpload);
-            if(_share->getShareType() == Share::TypeEmail){
-                permissionMenu->addAction(_permissionUpload);
-            }
+            permissionMenu->addAction(_permissionUpload);
             connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
-       // } else {
-           // _permissionUpload = permissionsGroup->addAction(tr("File drop only"));
-       // }
+        }
     } else {
         _permissionRead = permissionsGroup->addAction(tr("Read only"));
         _permissionRead->setCheckable(true);
@@ -1000,57 +995,47 @@ void ShareUserLine::slotPermissionsChanged()
     Share::Permissions permissions = SharePermissionRead;
     _ui->currentPermission->setElideMode(Qt::ElideRight);
 
-    if (!_isFile) {
-        if (_permissionRead->isChecked()) {
-            _share->setPermissions(permissions);
-            _ui->currentPermission->setText(_permissionRead->text());
-            emit userLinePermissionChanged(_permissionRead->text());
-        } else if (_permissionChange->isChecked()) {
-            permissions |= SharePermissionUpdate;
-            _share->setPermissions(permissions);
-            _ui->currentPermission->setText(_permissionChange->text());
-            emit userLinePermissionChanged(_permissionChange->text());
-        } else if (_permissionUpload->isChecked()) {
+    if ((_isFile == false) && (_share->getShareType() == Share::TypeEmail)) {
+        if (_permissionUpload->isChecked()) {
             permissions |= SharePermissionCreate;
             _share->setPermissions(permissions);
             _ui->currentPermission->setText(_permissionUpload->text());
             emit userLinePermissionChanged(_permissionUpload->text());
         }
-    } else {
-        if (_permissionRead->isChecked()) {
-            _share->setPermissions(permissions);
-            _ui->currentPermission->setText(_permissionRead->text());
-            emit userLinePermissionChanged(_permissionRead->text());
-        } else if (_permissionChange->isChecked()) {
-            permissions |= SharePermissionUpdate;
-            _share->setPermissions(permissions);
-            _ui->currentPermission->setText(_permissionChange->text());
-            emit userLinePermissionChanged(_permissionChange->text());
-        } 
+    }
+    if (_permissionRead->isChecked()) {
+        _share->setPermissions(permissions);
+        _ui->currentPermission->setText(_permissionRead->text());
+        emit userLinePermissionChanged(_permissionRead->text());
+    } else if (_permissionChange->isChecked()) {
+        permissions |= SharePermissionUpdate;
+        _share->setPermissions(permissions);
+        _ui->currentPermission->setText(_permissionChange->text());
+        emit userLinePermissionChanged(_permissionChange->text());
     }
 }
 
 void ShareUserLine::slotPasswordCheckboxChanged()
 {
-    if (!_passwordProtectLinkAction->isChecked()) {
-        _ui->errorLabel->hide();
-        _ui->errorLabel->clear();
+    /*if (!_passwordProtectLinkAction->isChecked()) {
+        //_ui->errorLabel->hide();
+       // _ui->errorLabel->clear();
 
         if (!_share->isPasswordSet()) {
-            _ui->lineEdit_password->clear();
-            refreshPasswordOptions();
+            _//ui->lineEdit_password->clear();
+            //refreshPasswordOptions();
         } else {
             // do not call refreshPasswordOptions here, as it will be called after the network request is complete
             togglePasswordSetProgressAnimation(true);
-            _share->setPassword(QString());
+           // _share->setPassword(QString());
         }
     } else {
-        refreshPasswordOptions();
+        //refreshPasswordOptions();
 
-        if (_ui->lineEdit_password->isVisible() && _ui->lineEdit_password->isEnabled()) {
-            focusPasswordLineEdit();
-        }
-    }
+        //if (_ui->lineEdit_password->isVisible() && _ui->lineEdit_password->isEnabled()) {
+           // focusPasswordLineEdit();
+        //}
+    }*/
 }
 
 void ShareUserLine::slotDeleteAnimationFinished()
@@ -1067,28 +1052,28 @@ void ShareUserLine::slotDeleteAnimationFinished()
 
 void ShareUserLine::refreshPasswordOptions()
 {
-    const bool isPasswordEnabled = _share->getShareType() == Share::TypeEmail && _passwordProtectLinkAction->isChecked();
+    /*const bool isPasswordEnabled = _share->getShareType() == Share::TypeEmail && _passwordProtectLinkAction->isChecked();
 
     _ui->passwordLabel->setVisible(isPasswordEnabled);
     _ui->lineEdit_password->setEnabled(isPasswordEnabled);
     _ui->lineEdit_password->setVisible(isPasswordEnabled);
     _ui->confirmPassword->setVisible(isPasswordEnabled);
 
-    emit resizeRequested();
+    emit resizeRequested();*/
 }
 
 void ShareUserLine::refreshPasswordLineEditPlaceholder()
 {
-    if (_share->isPasswordSet()) {
+    /*if (_share->isPasswordSet()) {
         _ui->lineEdit_password->setPlaceholderText(QString::fromUtf8(passwordIsSetPlaceholder));
     } else {
         _ui->lineEdit_password->setPlaceholderText("");
-    }
+    }*/
 }
 
 void ShareUserLine::slotPasswordSet()
 {
-    togglePasswordSetProgressAnimation(false);
+   /* togglePasswordSetProgressAnimation(false);
     _ui->lineEdit_password->setEnabled(true);
     _ui->confirmPassword->setEnabled(true);
 
@@ -1098,14 +1083,14 @@ void ShareUserLine::slotPasswordSet()
 
     refreshPasswordLineEditPlaceholder();
 
-    refreshPasswordOptions();
+    refreshPasswordOptions();*/
 }
 
 void ShareUserLine::slotPasswordSetError(int statusCode, const QString &message)
 {
     qCWarning(lcSharing) << "Error from server" << statusCode << message;
 
-    togglePasswordSetProgressAnimation(false);
+   /* togglePasswordSetProgressAnimation(false);
 
     _ui->lineEdit_password->setEnabled(true);
     _ui->confirmPassword->setEnabled(true);
@@ -1116,7 +1101,7 @@ void ShareUserLine::slotPasswordSetError(int statusCode, const QString &message)
 
     focusPasswordLineEdit();
 
-    emit resizeRequested();
+    emit resizeRequested();*/
 }
 
 void ShareUserLine::slotShareDeleted()
@@ -1151,20 +1136,22 @@ void ShareUserLine::displayPermissions()
     //  folders edit = CREATE, READ, UPDATE, DELETE
     //  files edit = READ + UPDATE
 
-    if (!_isFile) {
-        _permissionRead->setChecked(perm & SharePermissionRead);
-        _permissionChange->setChecked(perm & SharePermissionUpdate);
+    if ((!_isFile) && (_share->getShareType() == Share::TypeEmail)) {
         _permissionUpload->setChecked(perm & SharePermissionCreate);
-    } else {
-        _permissionRead->setChecked(perm & SharePermissionRead);
-        _permissionChange->setChecked(perm & SharePermissionUpdate);
+
+        if(_permissionUpload->isChecked() == true){
+            _ui->currentPermission->setText(_permissionUpload->text());
+            emit userLinePermissionChanged(_permissionUpload->text());
+        }
     }
+    _permissionRead->setChecked(perm & SharePermissionRead);
+    _permissionChange->setChecked(perm & SharePermissionUpdate);
     if(_permissionRead->isChecked() == true){
         _ui->currentPermission->setText(_permissionRead->text());
+        emit userLinePermissionChanged(_permissionRead->text());
     } else if(_permissionChange->isChecked() == true){
         _ui->currentPermission->setText(_permissionChange->text());
-    } else if(_permissionUpload->isChecked() == true){
-        _ui->currentPermission->setText(_permissionUpload->text());
+        emit userLinePermissionChanged(_permissionChange->text());
     }
 }
 
@@ -1175,7 +1162,7 @@ void ShareUserLine::slotStyleChanged()
 
 void ShareUserLine::focusPasswordLineEdit()
 {
-    _ui->lineEdit_password->setFocus();
+    //_ui->lineEdit_password->setFocus();
 }
 
 void ShareUserLine::customizeStyle()
@@ -1280,7 +1267,7 @@ void ShareUserLine::enableProgessIndicatorAnimation(bool enable)
 void ShareUserLine::togglePasswordSetProgressAnimation(bool show)
 {
     // button and progress indicator are interchanged depending on if the network request is in progress or not
-    _ui->confirmPassword->setVisible(!show && _passwordProtectLinkAction->isChecked());
+    /*_ui->confirmPassword->setVisible(!show && _passwordProtectLinkAction->isChecked());
     _ui->passwordProgressIndicator->setVisible(show);
     if (show) {
         if (!_ui->passwordProgressIndicator->isAnimated()) {
@@ -1288,7 +1275,7 @@ void ShareUserLine::togglePasswordSetProgressAnimation(bool show)
         }
     } else {
         _ui->passwordProgressIndicator->stopAnimation();
-    }
+    }*/
 }
 
 void ShareUserLine::disableProgessIndicatorAnimation()
@@ -1298,7 +1285,7 @@ void ShareUserLine::disableProgessIndicatorAnimation()
 
 void ShareUserLine::setPasswordConfirmed()
 {
-    if (_ui->lineEdit_password->text().isEmpty()) {
+    /*if (_ui->lineEdit_password->text().isEmpty()) {
         return;
     }
 
@@ -1309,7 +1296,7 @@ void ShareUserLine::setPasswordConfirmed()
     _ui->errorLabel->clear();
 
     togglePasswordSetProgressAnimation(true);
-    _share->setPassword(_ui->lineEdit_password->text());
+    _share->setPassword(_ui->lineEdit_password->text());*/
 }
 
 void ShareUserLine::slotLineEditPasswordReturnPressed()
@@ -1405,15 +1392,15 @@ void ShareUserLine::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
             connect(_permissionChange, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
 
             /* File drop (upload only) Permission */
-            checked = (perm == SharePermissionCreate);
-            _permissionUpload = permissionsGroup->addAction(tr("File drop only"));
             if(_share->getShareType() == Share::TypeEmail){
+                checked = (perm == SharePermissionCreate);
+                _permissionUpload = permissionsGroup->addAction(tr("File drop only"));
                 _permissionUpload->setCheckable(true);
                 _permissionUpload->setChecked(checked);
                 _permissionUpload->setEnabled(_maxSharingPermissions & SharePermissionCreate);
                 permissionMenu->addAction(_permissionUpload);
+                connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
             }
-            connect(_permissionUpload, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
         } else {
             /* Read Permission */
             checked = (perm == SharePermissionRead);

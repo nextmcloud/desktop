@@ -94,6 +94,8 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 
     Theme *theme = Theme::instance();
     setWindowTitle(tr("Add %1 account").arg(theme->appNameGUI()));
+    setStyleSheet("background:transparent;");
+    setAttribute(Qt::WA_TranslucentBackground);
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnStartPage);
     setOption(QWizard::NoBackButtonOnLastPage);
@@ -391,10 +393,10 @@ void OwncloudWizard::customizeStyle()
 
     // Set background colors
     auto wizardPalette = palette();
-    const auto backgroundColor = wizardPalette.color(QPalette::Window);
-    wizardPalette.setColor(QPalette::Base, backgroundColor);
+   // const auto backgroundColor = wizardPalette.color(Qt::white);
+    wizardPalette.setColor(QPalette::Base, Qt::white);
     // Set separator color
-    wizardPalette.setColor(QPalette::Mid, backgroundColor);
+    wizardPalette.setColor(QPalette::Mid, Qt::white);
 
     setPalette(wizardPalette);
 }

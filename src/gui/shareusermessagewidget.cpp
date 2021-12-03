@@ -73,7 +73,7 @@ void ShareUserMessageWidget::slotShareMessage()
 
 void ShareUserMessageWidget::slotCancelButtonClicked()
 {
-    hide();
+    setVisible(false);
     emit cancelButtonClicked(_sharee);
 }
 
