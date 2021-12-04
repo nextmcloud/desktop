@@ -94,13 +94,11 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 
     Theme *theme = Theme::instance();
     setWindowTitle(tr("Add %1 account").arg(theme->appNameGUI()));
-    setStyleSheet("background:transparent;");
-    setAttribute(Qt::WA_TranslucentBackground);
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnStartPage);
     setOption(QWizard::NoBackButtonOnLastPage);
     setOption(QWizard::NoCancelButton);
-    setButtonText(QWizard::CustomButton1, tr("Skip folders configuration"));
+    //setButtonText(QWizard::CustomButton1, tr("Skip folders configuration"));
 
     // Change the next buttons size policy since we hide it on the
     // welcome page but want it to fill it's space that we don't get
@@ -287,8 +285,15 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         auto nextButton = qobject_cast<QPushButton *>(button(QWizard::NextButton));
         if (nextButton) {
             nextButton->setDefault(true);
+            nextButton->setStyleSheet("QPushButton {height : 30 ; width : 150px ; color: #ffffff; background : #e20074}");
         }
     };
+
+    auto backButton = qobject_cast<QPushButton *>(button(QWizard::BackButton));
+    if (backButton) {
+        backButton->setDefault(true);
+        backButton->setStyleSheet("QPushButton {height : 30 ; width : 100px}");
+    }
 
     if (id == WizardCommon::Page_Welcome) {
         // Set next button to just hidden so it retains it's layout
@@ -302,7 +307,7 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         id == WizardCommon::Page_Flow2AuthCreds) {
         setButtonLayout({ QWizard::Stretch, QWizard::BackButton });
     } else if (id == WizardCommon::Page_AdvancedSetup) {
-        setButtonLayout({ QWizard::Stretch, QWizard::CustomButton1, QWizard::BackButton, QWizard::NextButton });
+        setButtonLayout({ QWizard::Stretch, QWizard::BackButton, QWizard::NextButton });
         setNextButtonAsDefault();
     } else {
         setButtonLayout({ QWizard::Stretch, QWizard::BackButton, QWizard::NextButton });
@@ -393,7 +398,7 @@ void OwncloudWizard::customizeStyle()
 
     // Set background colors
     auto wizardPalette = palette();
-   // const auto backgroundColor = wizardPalette.color(Qt::white);
+   // const auto backgroundColor = wizardPalette.color(QPalette);
     wizardPalette.setColor(QPalette::Base, Qt::white);
     // Set separator color
     wizardPalette.setColor(QPalette::Mid, Qt::white);

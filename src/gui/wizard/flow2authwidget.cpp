@@ -42,8 +42,8 @@ Flow2AuthWidget::Flow2AuthWidget(QWidget *parent)
     WizardCommon::initErrorLabel(_ui.errorLabel);
     _ui.errorLabel->setTextFormat(Qt::RichText);
 
-    connect(_ui.openLinkLabel, &LinkLabel::clicked, this, &Flow2AuthWidget::slotOpenBrowser);
-    connect(_ui.copyLinkLabel, &LinkLabel::clicked, this, &Flow2AuthWidget::slotCopyLinkToClipboard);
+    connect(_ui.openLinkLabel, &QPushButton::clicked, this, &Flow2AuthWidget::slotOpenBrowser);
+    connect(_ui.copyLinkLabel, &QPushButton::clicked, this, &Flow2AuthWidget::slotCopyLinkToClipboard);
 
     auto sizePolicy = _progressIndi->sizePolicy();
     sizePolicy.setRetainSizeWhenHidden(true);
@@ -219,10 +219,12 @@ void Flow2AuthWidget::customizeStyle()
     }
 
     _ui.openLinkLabel->setText(tr("Reopen Browser"));
-    _ui.openLinkLabel->setAlignment(Qt::AlignCenter);
+   // _ui.openLinkLabel->setAlignment(Qt::AlignCenter);
+    _ui.openLinkLabel->setStyleSheet("QPushButton { height : 30 ; width : 150; color: #ffffff; background : #e20074 }");
 
     _ui.copyLinkLabel->setText(tr("Copy Link"));
-    _ui.copyLinkLabel->setAlignment(Qt::AlignCenter);
+   // _ui.copyLinkLabel->setAlignment(Qt::AlignCenter);
+    _ui.copyLinkLabel->setStyleSheet("QPushButton { height : 30 ; width : 150 }");
 
     WizardCommon::customizeHintLabel(_ui.statusLabel);
 }

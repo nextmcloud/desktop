@@ -65,7 +65,7 @@ private slots:
 
 private:
     void setRadioChecked(QRadioButton *radio);
-
+    void setVirtualFilesInfo();
     void setupCustomization();
     void updateStatus();
     bool dataChanged();
