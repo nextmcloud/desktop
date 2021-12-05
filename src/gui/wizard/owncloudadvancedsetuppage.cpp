@@ -109,6 +109,12 @@ void OwncloudAdvancedSetupPage::setupCustomization()
    // _ui.topLabel->hide();
    // _ui.bottomLabel->hide();
 
+    _ui.pbSelectLocalFolder->setStyleSheet("QPushButton {height : 35 ; width : 160px ; color: #ffffff; border: 0px solid #e20074; "
+                              "border-radius: 10px;border-style: outset; "
+                              "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
+                              " stop: 0 #e20074, stop: 1 #e20074); "
+                              "padding: 5px }");
+
     Theme *theme = Theme::instance();
     QVariant variant = theme->customMedia(Theme::oCSetupTop);
     if (!variant.isNull()) {
@@ -121,7 +127,7 @@ void OwncloudAdvancedSetupPage::setupCustomization()
     WizardCommon::customizeHintLabel(_ui.lFreeSpace);
    // WizardCommon::customizeHintLabel(_ui.lSyncEverythingSizeLabel);
    // WizardCommon::customizeHintLabel(_ui.lSelectiveSyncSizeLabel);
-    WizardCommon::customizeHintLabel(_ui.serverAddressLabel);
+    WizardCommon::customizeHintLabel(_ui.serverAddressLabel); 
 }
 
 bool OwncloudAdvancedSetupPage::isComplete() const
@@ -615,8 +621,9 @@ void OwncloudAdvancedSetupPage::setRadioChecked(QRadioButton *radio)
 
 void OwncloudAdvancedSetupPage::styleSyncLogo()
 {
-    const auto syncArrowIcon = Theme::createColorAwareIcon(QLatin1String(":/client/theme/sync-arrow.svg"), palette());
-    _ui.syncLogoLabel->setPixmap(syncArrowIcon.pixmap(QSize(50, 50)));
+   // const auto syncArrowIcon = Theme::createColorAwareIcon(QLatin1String(":/client/theme/Combined Shape.svg"), palette());
+    //_ui.syncLogoLabel->setPixmap(syncArrowIcon.pixmap(QSize(50, 50)));
+    _ui.syncLogoLabel->setPixmap(QPixmap(":/client/theme/Combined Shape.svg"));
 }
 
 void OwncloudAdvancedSetupPage::setupResoultionWidget()

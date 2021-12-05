@@ -88,7 +88,7 @@ Rectangle {
         currentIndex: swipeView.currentIndex
         interactive: true
 
-        anchors.bottomMargin: cancelButton.anchors.bottomMargin
+        anchors.bottomMargin: 24
         anchors.bottom: cancelButton.top
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
@@ -114,12 +114,12 @@ Rectangle {
         running: false
         repeat: true
         /* Initial dealy before the slideshow starts */
-        interval: 3000
+        interval: 5000
         onTriggered: {
             var nextIndex = (swipeView.currentIndex + 1) % swipeView.count
             swipeView.setCurrentIndex(nextIndex)
             /* Slide show speed */
-            interval: 5000
+            interval: 6000
         }
     }
 

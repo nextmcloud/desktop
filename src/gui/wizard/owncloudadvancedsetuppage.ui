@@ -218,7 +218,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>90</height>
+             <height>20</height>
             </size>
            </property>
           </spacer>
@@ -252,12 +252,12 @@
             <enum>Qt::Vertical</enum>
            </property>
            <property name="sizeType">
-            <enum>QSizePolicy::Expanding</enum>
+            <enum>QSizePolicy::Preferred</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>40</height>
+             <height>60</height>
             </size>
            </property>
           </spacer>

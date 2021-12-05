@@ -73,6 +73,12 @@ OwncloudSetupPage::OwncloudSetupPage(QWidget *parent)
 
     addCertDial = new AddCertificateDialog(this);
     connect(addCertDial, &QDialog::accepted, this, &OwncloudSetupPage::slotCertificateAccepted);
+
+    _ui.serverAddressLabel->hide();
+    _ui.leUrl->hide();
+    _ui.serverAddressDescriptionLabel->hide();
+    _ui.errorLabel->hide();
+    //_ui.logoLabel->hide();
 }
 
 void OwncloudSetupPage::setLogo()
@@ -264,7 +270,7 @@ void OwncloudSetupPage::setAuthType(DetermineAuthTypeJob::AuthType type)
 void OwncloudSetupPage::setErrorString(const QString &err, bool retryHTTPonly)
 {
     if (err.isEmpty()) {
-        _ui.errorLabel->setVisible(false);
+       // _ui.errorLabel->setVisible(false);
     } else {
         if (retryHTTPonly) {
             QUrl url(_ui.leUrl->fullText());
@@ -297,7 +303,7 @@ void OwncloudSetupPage::setErrorString(const QString &err, bool retryHTTPonly)
             }
         }
 
-        _ui.errorLabel->setVisible(true);
+        //_ui.errorLabel->setVisible(true);
         _ui.errorLabel->setText(err);
     }
     _checking = false;

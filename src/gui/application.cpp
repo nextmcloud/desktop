@@ -381,7 +381,7 @@ Application::Application(int &argc, char **argv)
     /* Setup the swipe screen */
     view.engine()->addImportPath("qrc:/qml/theme");
     view.setSource(QStringLiteral("qrc:/qml/src/gui/welcome/welcome.qml"));
-    view.setFlags(view.flags() | Qt::FramelessWindowHint);
+    view.setFlags(view.flags());
     QObject *rootObj = view.rootObject();
     connect(rootObj->findChild<QObject*>("cancelButton"), SIGNAL(cancelClicked()),
         this, SLOT(slotSwipeCancelClicked()));
