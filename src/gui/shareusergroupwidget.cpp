@@ -116,7 +116,7 @@ ShareUserGroupWidget::ShareUserGroupWidget(AccountPtr account,
     _completer->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
     _ui->shareeLineEdit->setCompleter(_completer);
 
-    auto searchGloballyAction = new QAction(_ui->shareeLineEdit);
+   /* auto searchGloballyAction = new QAction(_ui->shareeLineEdit);
     searchGloballyAction->setIcon(QIcon(":/client/theme/magnifying-glass.svg"));
     searchGloballyAction->setToolTip(tr("Search globally"));
 
@@ -124,7 +124,7 @@ ShareUserGroupWidget::ShareUserGroupWidget(AccountPtr account,
         searchForSharees(ShareeModel::GlobalSearch);
     });
 
-    _ui->shareeLineEdit->addAction(searchGloballyAction, QLineEdit::LeadingPosition);
+    _ui->shareeLineEdit->addAction(searchGloballyAction, QLineEdit::LeadingPosition);*/
     _ui->shareInfo->hide();
 
     _manager = new ShareManager(_account, this);
