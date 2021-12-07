@@ -1985,6 +1985,11 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation>Über</translation>
     </message>
     <message>
+        <location filename="../src/gui/generalsettings.ui" line="26"/>
+        <source>&amp;Transfer usage data</source>
+        <translation>&amp;Nutzungsdaten übertragen</translation>
+    </message>
+    <message>
         <location filename="../src/gui/generalsettings.ui" line="41"/>
         <source>Legal notice</source>
         <translation>Impressum</translation>
@@ -2099,6 +2104,26 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <location filename="../src/gui/generalsettings.cpp" line="162"/>
         <source>You cannot disable autostart because system-wide autostart is enabled.</source>
         <translation>Sie können den Autostart nicht deaktivieren, da der systemweite Autostart aktiviert ist.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="172"/>
+        <source>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Imprint&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Impressum&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="177"/>
+        <source>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Privacy Policy&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Datenschutz Bestimmungen&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="182"/>
+        <source>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Used Open Source Software&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Verwendete Open Source Software&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="192"/>
+        <source>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Further Informations&lt;/a&gt;</source>
+        <translation>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Mehr Informationen&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="310"/>

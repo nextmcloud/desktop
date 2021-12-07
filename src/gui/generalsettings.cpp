@@ -142,6 +142,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     _ui->autoCheckForUpdatesCheckBox->setVisible(true);
     _ui->restartButton->setVisible(false);
     _ui->updateButton->setVisible(false);
+    _ui->debugArchiveButton->setVisible(false);
 
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
@@ -168,17 +169,17 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     _ui->imprintLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->imprintLabel->setOpenExternalLinks(true);
     _ui->imprintLabel->setTextFormat(Qt::RichText);
-    _ui->imprintLabel->setText(tr("<a href='%1'>Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL)));
+    _ui->imprintLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL)));
 
     _ui->privacyPolicyLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->privacyPolicyLabel->setOpenExternalLinks(true);
     _ui->privacyPolicyLabel->setTextFormat(Qt::RichText);
-    _ui->privacyPolicyLabel->setText(tr("<a href='%1'>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL)));
+    _ui->privacyPolicyLabel->setText(tr("<a href='%1' style=\"color: #e20074;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL)));
 
     _ui->openSourceSwLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->openSourceSwLabel->setOpenExternalLinks(true);
     _ui->openSourceSwLabel->setTextFormat(Qt::RichText);
-    _ui->openSourceSwLabel->setText(tr("<a href='%1'>Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL)));
+    _ui->openSourceSwLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL)));
 
     QString about = Theme::instance()->about();
     _ui->aboutLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
@@ -188,7 +189,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     QString infoUrl = Theme::instance()->helpUrl();
     _ui->infoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->infoLabel->setOpenExternalLinks(true);
-    _ui->infoLabel->setText(tr("<a href='%3'>Further Informations</a>").arg(infoUrl));
+    _ui->infoLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Further Informations</a>").arg(infoUrl));
 
     loadMiscSettings();
     // updater info now set in: customizeStyle
