@@ -31,6 +31,7 @@
 class QAction;
 class QCompleter;
 class QModelIndex;
+class QVBoxLayout;
 
 namespace OCC {
 
@@ -64,6 +65,9 @@ public:
     void createUserShare(const QSharedPointer<Sharee> &sharee, bool);
     void hideShareUserUI();
     void setUserMessage(const QString &note);
+    QVBoxLayout *shareUserGroupLayout();
+    void showNoShare();
+    void showShare();
 
 signals:
     void togglePublicLinkShare(bool);
@@ -75,6 +79,7 @@ signals:
     void permissionsChanged(Share::Permissions permissions);
     void userLinePermissionChanged(const QString & permission);
     void setUserNote(const QString &note);
+    void adjustScrollArea();
 
 public slots:
     void getShares();
@@ -94,7 +99,6 @@ private slots:
     void slotCompleterActivated(const QModelIndex &index);
     void slotCompleterHighlighted(const QModelIndex &index);
     void slotShareesReady();
-    void slotAdjustScrollWidgetSize();
     void slotPrivateLinkShare();
     void displayError(int code, const QString &message);
 
@@ -104,6 +108,7 @@ private slots:
     void slotaddLinkSignal();
     void slotAdvancedPermission(QSharedPointer<UserGroupShare>share, Share::ShareType type);
     void slotUserLinePermissionChanged(const QString & permission);
+    void slotAdjustScrollArea();
 
 private:
     void customizeStyle();
@@ -112,6 +117,7 @@ private:
 
     Ui::ShareUserGroupWidget *_ui;
     QScrollArea *_parentScrollArea;
+    QVBoxLayout *_shareUserGroup;
     AccountPtr _account;
     QString _sharePath;
     QString _localPath;
@@ -158,6 +164,7 @@ signals:
     void advancedPermissionWidget( QSharedPointer<UserGroupShare>share, Share::ShareType);
     void sendNewMail(QSharedPointer<UserGroupShare>share);
     void userLinePermissionChanged(const QString &permission);
+    void adjustScrollArea();
 
 public slots:
     void slotStyleChanged();

@@ -45,10 +45,10 @@ namespace {
 const QString TOOLBAR_CSS()
 {
     return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
-                          "QToolBar QToolButton { background: %1; font: 14px; color: #666; border: none; border-bottom: 1px solid %2; margin: 0; padding: 5px; } "
+                          "QToolBar QToolButton { background: %1; font: 14px; color: #191919; border: none; border-bottom: 1px solid %2; margin: 0; padding: 5px; } "
                           "QToolBar QToolBarExtension { padding:0; } "
                           "QToolBar QToolButton:checked { background: %1; color: #e20074; }"
-                          "QToolBar QToolButton:hover {background-color: #ebebeb; }");
+                          "QToolBar QToolButton:hover {background: %1; color: #e20074; }");
 }
 
 const float buttonSizeRatio = 1.618f; // golden ratio
@@ -116,12 +116,13 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _actionGroup = new QActionGroup(this);
     _actionGroup->setExclusive(true);
     connect(_actionGroup, &QActionGroup::triggered, this, &SettingsDialog::slotSwitchPage);
+    connect(_actionGroup, &QActionGroup::hovered, this, &SettingsDialog::slotHoverEffect);
 
     foreach(auto ai, AccountManager::instance()->accounts()) {
         accountAdded(ai.data());
     }
 
-    QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/settings.svg"), tr("General"));
+    QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/service32x32.svg"), tr("General"));
     _actionGroup->addAction(generalAction);
     _toolBar->addAction(generalAction);
     auto *generalSettings = new GeneralSettings;
@@ -130,7 +131,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
     connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettings::slotStyleChanged);
 
-    QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
+    QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/network32x32.svg"), tr("Network"));
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
     auto *networkSettings = new NetworkSettings;
@@ -211,19 +212,40 @@ void SettingsDialog::slotSwitchPage(QAction *action)
     customizeStyle();
     if(action->text() == "Synchronization")
     {
-        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/folder_magenta.svg"));
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder_magenta.svg"));
         action->setIcon(openIcon);
     }
     else if(action->text() == "General")
     {
-        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/settings_magenta.svg"));
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
         action->setIcon(openIcon);
     }
     else if(action->text() == "Network")
     {
-        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/network_magenta.svg"));
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
         action->setIcon(openIcon);
     }
+}
+
+void SettingsDialog::slotHoverEffect(QAction *action)
+{
+    customizeStyle();
+    if(action->text() == "Synchronization")
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+    else if(action->text() == "General")
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+    else if(action->text() == "Network")
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
+        action->setIcon(openIcon);
+    }
+
 }
 
 void SettingsDialog::showFirstPage()
@@ -251,7 +273,7 @@ void SettingsDialog::accountAdded(AccountState *s)
    //QImage avatar = s->account()->avatar();
     //const QString actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
     //if (avatar.isNull()) {
-        accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/folder.svg"),
+        accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/localFolder32x32.svg"),
             "Synchronization");
    // } else {
        // QIcon icon(QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatar)));
@@ -263,11 +285,11 @@ void SettingsDialog::accountAdded(AccountState *s)
        // accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
     //}
     // Adds space before users + activities
-    auto *spacer = new QWidget();
+    /*auto *spacer = new QWidget();
     spacer->setFixedWidth(8);
     spacer->setMinimumWidth(0);
     spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _toolBar->insertWidget(accountAction, spacer);
+    _toolBar->insertWidget(accountAction, spacer);*/
 
     //_toolBar->insertAction(_toolBar->actions().at(0), accountAction);
     _toolBar->addAction(accountAction);

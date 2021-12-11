@@ -58,6 +58,7 @@ public slots:
     void showFirstPage();
     void showIssuesList(AccountState *account);
     void slotSwitchPage(QAction *action);
+    void slotHoverEffect(QAction *action);
     void slotAccountAvatarChanged();
     void slotAccountDisplayNameChanged();
 

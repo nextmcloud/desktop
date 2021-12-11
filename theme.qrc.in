@@ -192,10 +192,12 @@
         <file>theme/black/user.svg</file>
         <file>theme/white/add.svg</file>
         <file>theme/black/add.svg</file>
+        <file>theme/black/add-circle.svg</file>
         <file>theme/black/activity.svg</file>
         <file>theme/black/bell.svg</file>
         <file>theme/black/state-info.svg</file>
         <file>theme/close.svg</file>
+        <file>theme/refresh.svg</file>
         <file>theme/files.svg</file>
         <file>theme/clipboard.svg</file>
         <file>theme/public.svg</file>
@@ -240,6 +242,11 @@
         <file>theme/colored/magentacloud-logo-16.png</file>
         <file>theme/colored/magentacloud-logo-32.png</file>
         <file>theme/colored/magentacloud-logo-48.png</file>
-        <file>theme/colored/magentacloud-logo-64.png</file>
+        <file>theme/magenta/localFolder_magenta.svg</file>
+        <file>theme/magenta/localFolder32x32.svg</file>
+        <file>theme/magenta/service32x32.svg</file>
+        <file>theme/magenta/service_magenta.svg</file>
+        <file>theme/magenta/network32x32.svg</file>
+        <file>theme/magenta/network_magenta32x32.svg</file>
     </qresource>
 </RCC>

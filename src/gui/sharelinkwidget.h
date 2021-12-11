@@ -87,16 +87,12 @@ private slots:
     void slotContextMenuButtonClicked();
     void slotLinkContextMenuActionTriggered(QAction *action);
 
-    void slotDeleteAnimationFinished();
-    void slotAnimationFinished();
-
     void mouseReleaseEvent ( QMouseEvent * permissionsEvent );
     void slotAdvancedPermission();
 
 signals:
     void createLinkShare();
     void deleteLinkShare();
-    void resizeRequested();
     void visualDeletionDone();
     void createPassword(const QString &password);
     void createPasswordProcessed();

@@ -74,12 +74,12 @@ Q_LOGGING_CATEGORY(lcAccountSettings, "nextcloud.gui.account.settings", QtInfoMs
 static const char progressBarStyleC[] =
     "QProgressBar {"
     "border: 0px solid grey;"
-     "border-radius: 5px; width: 4px;"
+     "border-radius: 5px; height: 4px;"
     "background-color: #CCCCCC;"
     "text-align: center;"
     "}"
     "QProgressBar::chunk {"
-    "background-color: #e20074; width: 4px;"
+    "background-color: #e20074; height: 4px;"
     "}";
 
 void showEnableE2eeWithVirtualFilesWarningDialog(std::function<void(void)> onAccept)
@@ -1077,7 +1077,7 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
         _ui->quotaInfoLabel->setStyleSheet("QLabel { background-color :%1 ; font: 18px; color : #191919; }");
         _ui->quotaInfoLabel->setToolTip(toolTip);
         _ui->quotaProgressBar->setToolTip(toolTip);
-        _ui->quotaProgressLabel->setText(tr("Memory Occupied to %1 %").arg(percentStr));
+        _ui->quotaProgressLabel->setText(tr("Memory Occupied to %1 percentage").arg(percentStr));
     } else {
         _ui->quotaProgressBar->setVisible(false);
         _ui->quotaProgressLabel->setVisible(false);
@@ -1412,6 +1412,7 @@ void AccountSettings::customizeStyle()
     //QString msg = _ui->connectLabel->text();
    // Theme::replaceLinkColorStringBackgroundAware(msg);
    // _ui->connectLabel->setText(msg);
+    _ui->moreMemoryButton->setStyleSheet("QPushButton {height : 24px ; font : 13px; color: #191919; border: 0px solid #CCCCCC; backgroud:#E1E1E1}");
 
     QColor color = palette().highlight().color();
     QString background(palette().base().color().name());

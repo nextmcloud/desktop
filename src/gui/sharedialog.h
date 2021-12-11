@@ -28,6 +28,7 @@
 #include <QWidget>
 
 class QProgressIndicator;
+class QVBoxLayout;
 
 namespace OCC {
 
@@ -79,6 +80,7 @@ private slots:
     void slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> linkSHare, Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare);
     void slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare> share,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare);
     void slotSendNewMail(QSharedPointer<UserGroupShare> share, bool createShare);
+    void slotadjustScrollArea();
 
 signals:
     void toggleShareLinkAnimation(bool start);
@@ -112,6 +114,8 @@ private:
     QProgressIndicator *_progressIndicator = nullptr;
     ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
     ShareUserMessageWidget *_shareUserMessage = nullptr;
+    QWidget *_scrollAreaViewPort = nullptr;
+    QVBoxLayout *_scrollAreaLayout = nullptr;
 };
 
 } // namespace OCC

@@ -161,10 +161,17 @@ ShareUserGroupWidget::ShareUserGroupWidget(AccountPtr account,
     //_ui->shareeHorizontalLayout->addWidget(&_pi_sharee);
 
     _parentScrollArea = parentWidget()->findChild<QScrollArea *>("scrollArea");
+    _shareUserGroup = new QVBoxLayout(_parentScrollArea);
+    _shareUserGroup->setContentsMargins(0, 0, 0, 0);
 
     connect(_ui->addLinkButton, &QPushButton::clicked, this, &ShareUserGroupWidget::slotaddLinkSignal);
 
     customizeStyle();
+}
+
+QVBoxLayout *ShareUserGroupWidget::shareUserGroupLayout()
+{
+    return _shareUserGroup;
 }
 
 ShareUserGroupWidget::~ShareUserGroupWidget()
@@ -252,16 +259,16 @@ void ShareUserGroupWidget::slotShareCreated(const QSharedPointer<Share> &share)
 
 void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> &shares)
 {
-    QScrollArea *scrollArea = _parentScrollArea;
-
-    auto newViewPort = new QWidget(scrollArea);
-    auto layout = new QVBoxLayout(newViewPort);
-    layout->setContentsMargins(0, 0, 0, 0);
     int x = 0;
-    int height = 0;
     QList<QString> linkOwners({});
 
     ShareUserLine *justCreatedShareThatNeedsPassword = nullptr;
+
+    QLayoutItem *shareUserLine;
+    while ((shareUserLine = _shareUserGroup->takeAt(0)) != nullptr) {
+        delete shareUserLine->widget();
+        delete shareUserLine;
+    }
 
     foreach (const auto &share, shares) {
         // We don't handle link shares, only TypeUser or TypeGroup
@@ -290,7 +297,6 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
 
         auto *s = new ShareUserLine(_account, userGroupShare, _maxSharingPermissions, _isFile, _parentScrollArea);
         qCDebug(lcSharing) << "Parul: User share created";
-        connect(s, &ShareUserLine::resizeRequested, this, &ShareUserGroupWidget::slotAdjustScrollWidgetSize);
         connect(s, &ShareUserLine::visualDeletionDone, this, &ShareUserGroupWidget::getShares);
         connect(s, &ShareUserLine::advancedPermissionWidget, this, &ShareUserGroupWidget::slotAdvancedPermission);
         connect(s, &ShareUserLine::sendNewMail, this, &ShareUserGroupWidget::slotSendNewMail);
@@ -298,13 +304,14 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
         connect(s, &ShareUserLine::userLinePermissionChanged, this, &ShareUserGroupWidget::slotUserLinePermissionChanged);
         connect(s, &ShareUserLine::userLinePermissionChanged, this, &ShareUserGroupWidget::slotUserLinePermissionChanged);
         connect(this, &ShareUserGroupWidget::setUserNote, s, &ShareUserLine::onSetUserNote);
-        s->setBackgroundRole(layout->count() % 2 == 0 ? QPalette::Base : QPalette::AlternateBase);
+        connect(s, &ShareUserLine::adjustScrollArea, this, &ShareUserGroupWidget::slotAdjustScrollArea);
+        s->setBackgroundRole(_shareUserGroup->count() % 2 == 0 ? QPalette::Base : QPalette::AlternateBase);
         _ui->shareInfo->hide();
         // Connect styleChanged events to our widget, so it can adapt (Dark-/Light-Mode switching)
         connect(this, &ShareUserGroupWidget::styleChanged, s, &ShareUserLine::slotStyleChanged);
         qCDebug(lcSharing) << "Parul: User share adding to scroll widget";
 
-        layout->addWidget(s);
+        _shareUserGroup->addWidget(s);
         qCDebug(lcSharing) << "Parul: User share added to scroll widget";
         if (!_lastCreatedShareId.isEmpty() && share->getId() == _lastCreatedShareId) {
             _lastCreatedShareId = QString();
@@ -314,29 +321,14 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
         }
 
         x++;
-        if (x <= 3) {
-            height = newViewPort->sizeHint().height();
-        }
     }
 
     foreach (const QString &owner, linkOwners) {
         auto ownerLabel = new QLabel(QString(owner + " shared via link"));
-        layout->addWidget(ownerLabel);
+        _shareUserGroup->addWidget(ownerLabel);
         ownerLabel->setVisible(true);
-
-        x++;
-        if (x <= 6) {
-            height = newViewPort->sizeHint().height();
-        }
     }
-
-    scrollArea->setFrameShape(x > 6 ? QFrame::StyledPanel : QFrame::NoFrame);
-    scrollArea->setVisible(!shares.isEmpty());
-    scrollArea->setFixedHeight(height);
-    scrollArea->setWidget(newViewPort);
-
-    qCDebug(lcSharing) << "Parul: adjusted size";
-
+    emit adjustScrollArea();
     _disableCompleterActivated = false;
     activateShareeLineEdit();
 
@@ -346,15 +338,20 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
     }
 }
 
+void ShareUserGroupWidget::slotAdjustScrollArea()
+{
+    emit adjustScrollArea();
+}
+
 void ShareUserGroupWidget::slotAdvancedPermission(QSharedPointer<UserGroupShare>share, Share::ShareType type)
 {
     QScrollArea *scrollArea = _parentScrollArea;
     const auto shareUserLineChilds = scrollArea->findChildren<ShareUserLine *>();
 
     // Ask the child widgets to calculate their size
-    for (const auto shareUserLineChild : shareUserLineChilds) {
+    /*for (const auto shareUserLineChild : shareUserLineChilds) {
         shareUserLineChild->hide();
-    }
+    }*/
 
     emit advanceUserPermissionWidget(share, type, _sharee, false);
 }
@@ -365,9 +362,9 @@ void ShareUserGroupWidget::slotSendNewMail(QSharedPointer<UserGroupShare>share)
     const auto shareUserLineChilds = scrollArea->findChildren<ShareUserLine *>();
 
     // Ask the child widgets to calculate their size
-    for (const auto shareUserLineChild : shareUserLineChilds) {
+   /* for (const auto shareUserLineChild : shareUserLineChilds) {
         shareUserLineChild->hide();
-    }
+    }*/
 
     emit sendNewMail(share, false);
 }
@@ -381,24 +378,6 @@ void ShareUserGroupWidget::slotPermissionsChanged(Share::Permissions permissions
 void ShareUserGroupWidget::slotUserLinePermissionChanged(const QString & permission)
 {
     emit userLinePermissionChanged(permission);
-}
-
-void ShareUserGroupWidget::slotAdjustScrollWidgetSize()
-{
-    QScrollArea *scrollArea = _parentScrollArea;
-    const auto shareUserLineChilds = scrollArea->findChildren<ShareUserLine *>();
-
-    // Ask the child widgets to calculate their size
-    for (const auto shareUserLineChild : shareUserLineChilds) {
-        shareUserLineChild->adjustSize();
-    }
-
-    const auto shareUserLineChildsCount = shareUserLineChilds.count();
-    scrollArea->setVisible(shareUserLineChildsCount > 0);
-    if (shareUserLineChildsCount > 0 && shareUserLineChildsCount <= 3) {
-        scrollArea->setFixedHeight(scrollArea->widget()->sizeHint().height());
-    }
-    scrollArea->setFrameShape(shareUserLineChildsCount > 3 ? QFrame::StyledPanel : QFrame::NoFrame);
 }
 
 void ShareUserGroupWidget::slotPrivateLinkShare()
@@ -440,30 +419,6 @@ void ShareUserGroupWidget::slotCompleterActivated(const QModelIndex &index)
     }
     _sharee = sharee;
 
-    // TODO Progress Indicator where should it go?
-    //    auto indicator = new QProgressIndicator(viewPort);
-    //    indicator->startAnimation();
-    //    if (layout->count() == 1) {
-    //        // No shares yet! Remove the label, add some stretch.
-    //        delete layout->itemAt(0)->widget();
-    //        layout->addStretch(1);
-    //    }
-    //    layout->insertWidget(layout->count() - 1, indicator);
-
-    /*
-     * Don't send the reshare permissions for federated shares for servers <9.1
-     * https://github.com/owncloud/core/issues/22122#issuecomment-185637344
-     * https://github.com/owncloud/client/issues/4996
-     */
-   // _sharePermissionGroup = new ShareUserGroupPermissionWidget(_account, _sharePath, _localPath, _maxSharingPermissions, sharee);
-    QScrollArea *scrollArea = _parentScrollArea;
-    const auto shareUserLineChilds = scrollArea->findChildren<ShareUserLine *>();
-
-    // Ask the child widgets to calculate their size
-    for (const auto shareUserLineChild : shareUserLineChilds) {
-        shareUserLineChild->hide();
-    }
-
     if(sharee->type() == Sharee::Email)
     {
         emit advancePermissionWidget(Share::TypeEmail, sharee, true);
@@ -478,40 +433,6 @@ void ShareUserGroupWidget::slotCompleterActivated(const QModelIndex &index)
 
 void ShareUserGroupWidget::createUserShare(const QSharedPointer<Sharee> &sharee, bool createShare)
 {
-   // if (_disableCompleterActivated)
-       // return;
-
-    // The index is an index from the QCompletion model which is itelf a proxy
-    // model proxying the _completerModel
-
-   /* auto sharee = qvariant_cast<QSharedPointer<Sharee>>(index.data(Qt::UserRole));
-    if (sharee.isNull()) {
-        return;
-    }*/
-    // TODO Progress Indicator where should it go?
-    //    auto indicator = new QProgressIndicator(viewPort);
-    //    indicator->startAnimation();
-    //    if (layout->count() == 1) {
-    //        // No shares yet! Remove the label, add some stretch.
-    //        delete layout->itemAt(0)->widget();
-    //        layout->addStretch(1);
-    //    }
-    //    layout->insertWidget(layout->count() - 1, indicator);
-
-    /*
-     * Don't send the reshare permissions for federated shares for servers <9.1
-     * https://github.com/owncloud/core/issues/22122#issuecomment-185637344
-     * https://github.com/owncloud/client/issues/4996
-     */
-   // _sharePermissionGroup = new ShareUserGroupPermissionWidget(_account, _sharePath, _localPath, _maxSharingPermissions, sharee);
-    QScrollArea *scrollArea = _parentScrollArea;
-    const auto shareUserLineChilds = scrollArea->findChildren<ShareUserLine *>();
-
-    // Ask the child widgets to calculate their size
-    for (const auto shareUserLineChild : shareUserLineChilds) {
-        shareUserLineChild->show();
-    }
-
     if((createShare == true) && (_sharee.isNull() != true))
     {
         _lastCreatedShareId = QString();
@@ -647,6 +568,16 @@ void ShareUserGroupWidget::setUserMessage(const QString &note)
     emit setUserNote(note);
 }
 
+void ShareUserGroupWidget::showNoShare()
+{
+    _ui->shareInfo->setVisible(true);
+}
+
+void ShareUserGroupWidget::showShare()
+{
+    _ui->shareInfo->setVisible(false);
+}
+
 ShareUserLine::ShareUserLine(AccountPtr account,
     QSharedPointer<UserGroupShare> share,
     SharePermissions maxSharingPermissions,
@@ -702,13 +633,8 @@ ShareUserLine::ShareUserLine(AccountPtr account,
         connect(_permissionRead, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
 
         _permissionChange = permissionsGroup->addAction(tr("Can edit"));
-        if(share->getShareType() == Share::TypeEmail)
-        {
-            _permissionChange->setEnabled(false);
-        } else {
-            _permissionChange->setCheckable(true);
-            _permissionChange->setEnabled(maxSharingPermissions & SharePermissionUpdate);
-        }
+        _permissionChange->setCheckable(true);
+        _permissionChange->setEnabled(maxSharingPermissions & SharePermissionUpdate);
         permissionMenu->addAction(_permissionChange);
         connect(_permissionChange, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);
 
@@ -936,6 +862,7 @@ void ShareUserLine::on_deleteShareButton_clicked()
 {
     setEnabled(false);
     _share->deleteShare();
+    emit adjustScrollArea();
 }
 
 ShareUserLine::~ShareUserLine()
@@ -1380,13 +1307,8 @@ void ShareUserLine::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
             /* Can edit Permission */
             checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
             _permissionChange = permissionsGroup->addAction(tr("Can edit"));
-            if(_share->getShareType() == Share::TypeEmail)
-            {
-                _permissionChange->setEnabled(false);
-            } else {
-                _permissionChange->setCheckable(true);
-                _permissionChange->setEnabled(_maxSharingPermissions & SharePermissionUpdate);
-            }
+            _permissionChange->setCheckable(true);
+            _permissionChange->setEnabled(_maxSharingPermissions & SharePermissionUpdate);
             _permissionChange->setChecked(checked);
             permissionMenu->addAction(_permissionChange);
             connect(_permissionChange, &QAction::triggered, this, &ShareUserLine::slotPermissionsChanged);

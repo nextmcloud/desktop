@@ -169,6 +169,11 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     connect(_shareUserMessage, &ShareUserMessageWidget::shareButtonCLicked, this, &ShareDialog::slotSendMessage);
     connect(_shareUserMessage,&ShareUserMessageWidget::cancelButtonClicked,this, &ShareDialog::slotCancelShare);
     connect(_shareUserMessage,&ShareUserMessageWidget::cancelButtonClicked,this, &ShareDialog::slotCancelShare);
+
+    _scrollAreaViewPort = new QWidget(_ui->scrollArea);
+    _scrollAreaLayout = new QVBoxLayout(_scrollAreaViewPort);
+    _scrollAreaLayout->setContentsMargins(0, 0, 0, 0);
+    _ui->scrollArea->setWidget(_scrollAreaViewPort);
 }
 
 ShareLinkWidget *ShareDialog::addLinkShareWidget(const QSharedPointer<LinkShare> &linkShare)
@@ -179,7 +184,8 @@ ShareLinkWidget *ShareDialog::addLinkShareWidget(const QSharedPointer<LinkShare>
     layout->setContentsMargins(0, 0, 0, 0);*/
     _linkWidgetList.append(new ShareLinkWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions, _ui->scrollArea));
 
-    const auto linkShareWidget = _linkWidgetList.at(_linkWidgetList.size() -1);
+    const auto index = _linkWidgetList.size() - 1;
+    const auto linkShareWidget = _linkWidgetList.at(index);
     linkShareWidget->setLinkShare(linkShare);
 
     qCDebug(lcSharing) << "Parul: Link share created";
@@ -203,14 +209,13 @@ ShareLinkWidget *ShareDialog::addLinkShareWidget(const QSharedPointer<LinkShare>
     connect(linkShareWidget, &ShareLinkWidget::createPassword, this, &ShareDialog::slotCreatePasswordForLinkShare);
     connect(linkShareWidget, &ShareLinkWidget::linkAdvancedPermissionWidget, this, &ShareDialog::slotLinkAdvancePermissionWidget);
 
-    //connect(_linkWidgetList.at(index), &ShareLinkWidget::resizeRequested, this, &ShareDialog::slotAdjustScrollWidgetSize);
-
     // Connect styleChanged events to our widget, so it can adapt (Dark-/Light-Mode switching)
     connect(this, &ShareDialog::styleChanged, linkShareWidget, &ShareLinkWidget::slotStyleChanged);
 
     qCDebug(lcSharing) << "Parul: Link share adding to scrollArea";
 
-    _ui->verticalLayout->insertWidget(_linkWidgetList.size() + 1, linkShareWidget);
+    //_ui->verticalLayout->insertWidget(_linkWidgetList.size() + 1, linkShareWidget);
+    _scrollAreaLayout->addWidget(linkShareWidget);
 
     linkShareWidget->setupUiOptions();
     /*if(_linkWidgetList.size() > 0){
@@ -265,6 +270,8 @@ void ShareDialog::slotAddLinkShareWidget(const QSharedPointer<LinkShare> &linkSh
     emit toggleShareLinkAnimation(true);
     const auto addedLinkShareWidget = addLinkShareWidget(linkShare);
     initLinkShareWidget();
+    slotAdjustScrollWidgetSize();
+
     if (linkShare->isPasswordSet()) {
         addedLinkShareWidget->focusPasswordLineEdit();
     }
@@ -287,17 +294,29 @@ void ShareDialog::slotSharesFetched(const QList<QSharedPointer<Share>> &shares)
     }
 
     initLinkShareWidget();
+    slotAdjustScrollWidgetSize();
     emit toggleShareLinkAnimation(false);
 }
 
 void ShareDialog::slotAdjustScrollWidgetSize()
 {
-    int count = this->findChildren<ShareLinkWidget *>().count();
-    _ui->scrollArea->setVisible(count > 0);
-    if (count > 0 && count <= 3) {
-        _ui->scrollArea->setFixedHeight(_ui->scrollArea->widget()->sizeHint().height());
+    int height = 0;
+    const auto count = _scrollAreaLayout->count();
+    //const auto height = _linkWidgetList.size() > 0 ? _linkWidgetList.at(_linkWidgetList.size() - 1)->sizeHint().height() : 0;
+    if(count <= 4)
+    {
+        height = _scrollAreaViewPort->sizeHint().height();
     }
-    _ui->scrollArea->setFrameShape(count > 3 ? QFrame::StyledPanel : QFrame::NoFrame);
+    _ui->scrollArea->setFrameShape(count > 4 ? QFrame::StyledPanel : QFrame::NoFrame);
+    _ui->scrollArea->setVisible(count > 0);
+    _ui->scrollArea->setFixedWidth(_ui->verticalLayout->sizeHint().width());
+    _ui->scrollArea->setFixedHeight(height);
+    if(count == 0)
+    {
+        _userGroupWidget->showNoShare();
+    } else{
+        _userGroupWidget->showShare();
+    }
 }
 
 ShareDialog::~ShareDialog()
@@ -363,8 +382,9 @@ void ShareDialog::showSharingUi()
         theme->userGroupSharing()
         && _accountState->account()->serverVersionInt() >= Account::makeServerVersion(8, 2, 0);
 
-    if (userGroupSharing) {
-        _userGroupWidget = new ShareUserGroupWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions, _privateLinkUrl, this);
+    if (theme->userGroupSharing()) {
+        _userGroupWidget = new ShareUserGroupWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions, _privateLinkUrl, _ui->scrollArea);
+        _userGroupWidget->getShares();
 
         // Connect styleChanged events to our widget, so it can adapt (Dark-/Light-Mode switching)
         connect(this, &ShareDialog::styleChanged, _userGroupWidget, &ShareUserGroupWidget::slotStyleChanged);
@@ -374,10 +394,11 @@ void ShareDialog::showSharingUi()
         connect(_userGroupWidget, &ShareUserGroupWidget::sendNewMail, this, &ShareDialog::slotSendNewMail);
         connect(_userGroupWidget, &ShareUserGroupWidget::userLinePermissionChanged, this, &ShareDialog::slotUserLinePermissionChanged);
         connect(this, &ShareDialog::linkShareDeleted, _userGroupWidget, &ShareUserGroupWidget::slotLinkShareDeleted);
+        connect(_userGroupWidget, &ShareUserGroupWidget::adjustScrollArea, this, &ShareDialog::slotadjustScrollArea);
 
         _ui->verticalLayout->insertWidget(1, _userGroupWidget);
-       // _userGroupWidget->show();
-        _userGroupWidget->getShares();
+        _scrollAreaLayout->addLayout(_userGroupWidget->shareUserGroupLayout());
+        slotAdjustScrollWidgetSize();
     }
 
     if (theme->linkSharing()) {
@@ -385,6 +406,11 @@ void ShareDialog::showSharingUi()
             _manager->fetchShares(_sharePath);
         }
     }
+}
+
+void ShareDialog::slotadjustScrollArea()
+{
+    slotAdjustScrollWidgetSize();
 }
 
 void ShareDialog::slotCreateLinkShare()
@@ -454,6 +480,7 @@ void ShareDialog::slotDeleteShare()
         emit linkShareDeleted();
     }
     initLinkShareWidget();
+    slotAdjustScrollWidgetSize();
 }
 
 void ShareDialog::slotThumbnailFetched(const int &statusCode, const QByteArray &reply)
@@ -516,7 +543,7 @@ void ShareDialog::slotAdvancePermissionWidget(Share::ShareType type,const QShare
         _userGroupWidget->setVisible(false);
     }
 
-    if(_linkWidgetList.size() > 0){
+   /* if(_linkWidgetList.size() > 0){
         foreach(ShareLinkWidget *widget, _linkWidgetList){
             widget->setVisible(false);
         }
@@ -524,7 +551,8 @@ void ShareDialog::slotAdvancePermissionWidget(Share::ShareType type,const QShare
     if(type == Share::TypeLink)
     {
         _userGroupWidget->hideShareUserUI();
-    }
+    }*/
+    _ui->scrollArea->setVisible(false);
 
     _sharePermissionGroup->setUserCreatePermission(type, sharee, createShare);
     _sharePermissionGroup->setVisible(true);
@@ -539,12 +567,13 @@ void ShareDialog::slotShowMessageBox(const QSharedPointer<Sharee> &sharee, bool 
     {
         _userGroupWidget->setVisible(false);
     }
-    if(_linkWidgetList.size() > 0){
+    /*if(_linkWidgetList.size() > 0){
         foreach(ShareLinkWidget *widget, _linkWidgetList){
             if(widget->isVisible())
                 widget->setVisible(false);
         }
-    }
+    }*/
+    _ui->scrollArea->setVisible(false);
     m_createShare = createShare;
     //_shareUserMessage = new ShareUserMessageWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions,sharee, this);
 
@@ -557,11 +586,12 @@ void ShareDialog::slotSendMessage(const QSharedPointer<Sharee> &sharee, const QS
     _shareUserMessage->setVisible(false);
     _userGroupWidget->setVisible(true);
    // _ui->scrollArea->setVisible(true);
-    if(_linkWidgetList.size() > 0){
+    /*if(_linkWidgetList.size() > 0){
         foreach(ShareLinkWidget *widget, _linkWidgetList){
             widget->setVisible(true);
         }
-    }
+    }*/
+    _ui->scrollArea->setVisible(true);
 
     _userGroupWidget->createUserShare(sharee, m_createShare);
     if(m_createShare == true)
@@ -576,11 +606,12 @@ void ShareDialog::slotCancelShare(const QSharedPointer<Sharee> &sharee)
 {
     _userGroupWidget->setVisible(true);
    // _ui->scrollArea->setVisible(true);
-    if(_linkWidgetList.size() > 0){
+    /*if(_linkWidgetList.size() > 0){
         foreach(ShareLinkWidget *widget, _linkWidgetList){
             widget->setVisible(true);
         }
-    }
+    }*/
+    _ui->scrollArea->setVisible(true);
 
     _userGroupWidget->createUserShare(sharee, false);
 }
@@ -599,7 +630,7 @@ void ShareDialog::slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> link
             _userGroupWidget->setVisible(false);
         }
 
-        if(_linkWidgetList.size() > 0){
+        /*if(_linkWidgetList.size() > 0){
             foreach(ShareLinkWidget *widget, _linkWidgetList){
                 widget->setVisible(false);
             }
@@ -607,7 +638,8 @@ void ShareDialog::slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> link
         if(type == Share::TypeLink)
         {
             _userGroupWidget->hideShareUserUI();
-        }
+        }*/
+        _ui->scrollArea->setVisible(false);
         _sharePermissionGroup->setLinkAdvancePermission(linkShare, type, sharee, createShare);
         _sharePermissionGroup->setVisible(true);
     }
@@ -622,7 +654,7 @@ void ShareDialog::slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare>
             _userGroupWidget->setVisible(false);
         }
 
-        if(_linkWidgetList.size() > 0){
+        /*if(_linkWidgetList.size() > 0){
             foreach(ShareLinkWidget *widget, _linkWidgetList){
                 widget->setVisible(false);
             }
@@ -630,7 +662,8 @@ void ShareDialog::slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare>
         if(type == Share::TypeLink)
         {
             _userGroupWidget->hideShareUserUI();
-        }
+        }*/
+        _ui->scrollArea->setVisible(false);
         _sharePermissionGroup->setUserAdvancePermission(share, type, sharee, createShare);
         _sharePermissionGroup->setVisible(true);
     }
@@ -642,12 +675,13 @@ void ShareDialog::slotSendNewMail(QSharedPointer<UserGroupShare> share, bool cre
     {
         _userGroupWidget->setVisible(false);
     }
-    if(_linkWidgetList.size() > 0){
+    /*if(_linkWidgetList.size() > 0){
         foreach(ShareLinkWidget *widget, _linkWidgetList){
             if(widget->isVisible())
                 widget->setVisible(false);
         }
-    }
+    }*/
+    _ui->scrollArea->setVisible(false);
     m_createShare = createShare;
     //_shareUserMessage = new ShareUserMessageWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions,sharee, this);
     _shareUserMessage->setMessageBox(share, createShare);

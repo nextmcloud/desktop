@@ -75,9 +75,9 @@ ShareLinkWidget::ShareLinkWidget(AccountPtr account,
 
    // slotCreateShareLink(true);
    // connect(_ui->enableShareLink, &QPushButton::clicked, this, &ShareLinkWidget::slotCreateShareLink);
-    connect(_ui->lineEdit_password, &QLineEdit::returnPressed, this, &ShareLinkWidget::slotCreatePassword);
-    connect(_ui->confirmPassword, &QAbstractButton::clicked, this, &ShareLinkWidget::slotCreatePassword);
-    connect(_ui->confirmNote, &QAbstractButton::clicked, this, &ShareLinkWidget::slotCreateNote);
+    //connect(_ui->lineEdit_password, &QLineEdit::returnPressed, this, &ShareLinkWidget::slotCreatePassword);
+   // connect(_ui->confirmPassword, &QAbstractButton::clicked, this, &ShareLinkWidget::slotCreatePassword);
+   // connect(_ui->confirmNote, &QAbstractButton::clicked, this, &ShareLinkWidget::slotCreateNote);
     //connect(_ui->confirmExpirationDate, &QAbstractButton::clicked, this, &ShareLinkWidget::slotSetExpireDate);
    // connect(_ui->calendar, &QDateTimeEdit::dateChanged, this, &ShareLinkWidget::slotSetExpireDate);
 
@@ -106,8 +106,8 @@ ShareLinkWidget::ShareLinkWidget(AccountPtr account,
     toggleNoteOptions(false);
     //_ui->calendar->setMinimumDate(QDate::currentDate().addDays(1));
 
-    _ui->noteProgressIndicator->setVisible(false);
-    _ui->passwordProgressIndicator->setVisible(false);
+   // _ui->noteProgressIndicator->setVisible(false);
+   // _ui->passwordProgressIndicator->setVisible(false);
     //_ui->expirationDateProgressIndicator->setVisible(false);
     _ui->sharelinkProgressIndicator->setVisible(false);
 
@@ -160,7 +160,7 @@ QSharedPointer<LinkShare> ShareLinkWidget::getLinkShare()
 
 void ShareLinkWidget::focusPasswordLineEdit()
 {
-    _ui->lineEdit_password->setFocus();
+   // _ui->lineEdit_password->setFocus();
 }
 
 void ShareLinkWidget::setupUiOptions()
@@ -184,6 +184,7 @@ void ShareLinkWidget::setupUiOptions()
     permissionsGroup->setExclusive(true);
 
     if (_isFile) {
+        _ui->shareLinkLabel->setText(tr("Link to file"));
         checked = (perm == SharePermissionRead);
         _readOnlyLinkAction = permissionsGroup->addAction(tr("Read only"));
         _readOnlyLinkAction->setCheckable(true);
@@ -197,6 +198,7 @@ void ShareLinkWidget::setupUiOptions()
         LinkAction = _allowEditingLinkAction;
 
     } else {
+        _ui->shareLinkLabel->setText(tr("Link to folder"));
         checked = (perm == SharePermissionRead);
         _readOnlyLinkAction = permissionsGroup->addAction(tr("Read only"));
         _readOnlyLinkAction->setCheckable(true);
@@ -240,29 +242,29 @@ void ShareLinkWidget::setupUiOptions()
     _linkContextMenu->addSeparator();
 
     // Prepare permissions check and create group action
-    const QDate expireDate = _linkShare.data()->getExpireDate().isValid() ? _linkShare.data()->getExpireDate() : QDate();
+   // const QDate expireDate = _linkShare.data()->getExpireDate().isValid() ? _linkShare.data()->getExpireDate() : QDate();
 
     // Adds action to display note widget (check box)
     //_noteLinkAction = _linkContextMenu->addAction(tr("Note to recipient"));
     //_noteLinkAction->setCheckable(true);
-    _noteLinkAction = new QAction(tr("Note to recipient"));
+    //_noteLinkAction = new QAction(tr("Note to recipient"));
 
-    if (_linkShare->getNote().isSimpleText() && !_linkShare->getNote().isEmpty()) {
+    /*if (_linkShare->getNote().isSimpleText() && !_linkShare->getNote().isEmpty()) {
         _ui->textEdit_note->setText(_linkShare->getNote());
         _noteLinkAction->setChecked(true);
         showNoteOptions(true);
-    }
+    }*/
 
     // Adds action to display password widget (check box)
     //_passwordProtectLinkAction = _linkContextMenu->addAction(tr("Password protect"));
     //_passwordProtectLinkAction->setCheckable(true);
-    _passwordProtectLinkAction = new QAction(tr("Password protect"));
+    //_passwordProtectLinkAction = new QAction(tr("Password protect"));
 
-    if (_linkShare.data()->isPasswordSet()) {
+    /*if (_linkShare.data()->isPasswordSet()) {
         //_passwordProtectLinkAction->setChecked(true);
         _ui->lineEdit_password->setPlaceholderText(QString::fromUtf8(passwordIsSetPlaceholder));
         showPasswordOptions(true);
-    }
+    }*/
 
     // QIcon permissionicon = QIcon::fromTheme(QLatin1String("advanced permission"), QIcon(QLatin1String(":/client/theme/delete.svg")));
         //_advancedPermission = new QAction(tr("Advanced Permission"));
@@ -276,10 +278,10 @@ void ShareLinkWidget::setupUiOptions()
 
     // If password is enforced then don't allow users to disable it
     if (_account->capabilities().sharePublicLinkEnforcePassword()) {
-        if (_linkShare.data()->isPasswordSet()) {
+       /* if (_linkShare.data()->isPasswordSet()) {
             _passwordProtectLinkAction->setChecked(true);
             _passwordProtectLinkAction->setEnabled(false);
-        }
+        }*/
         _passwordRequired = true;
     }
 
@@ -345,7 +347,7 @@ void ShareLinkWidget::setupUiOptions()
 void ShareLinkWidget::setNote(const QString &note)
 {
     if (_linkShare) {
-        slotToggleButtonAnimation(_ui->confirmNote, _ui->noteProgressIndicator, _noteLinkAction->isChecked(), true);
+        //slotToggleButtonAnimation(_ui->confirmNote, _ui->noteProgressIndicator, _noteLinkAction->isChecked(), true);
         _ui->errorLabel->hide();
         _linkShare->setNote(note);
     }
@@ -353,12 +355,12 @@ void ShareLinkWidget::setNote(const QString &note)
 
 void ShareLinkWidget::slotCreateNote()
 {
-    setNote(_ui->textEdit_note->toPlainText());
+    //setNote(_ui->textEdit_note->toPlainText());
 }
 
 void ShareLinkWidget::slotNoteSet()
 {
-    slotToggleButtonAnimation(_ui->confirmNote, _ui->noteProgressIndicator, _noteLinkAction->isChecked(), false);
+    //slotToggleButtonAnimation(_ui->confirmNote, _ui->noteProgressIndicator, _noteLinkAction->isChecked(), false);
 }
 
 void ShareLinkWidget::slotCopyLinkShare(bool clicked)
@@ -386,13 +388,13 @@ void ShareLinkWidget::slotSetExpireDate()
 
 void ShareLinkWidget::slotCreatePassword()
 {
-    if (!_linkShare || _ui->lineEdit_password->text().isEmpty()) {
-        return;
-    }
+    //if (!_linkShare || _ui->lineEdit_password->text().isEmpty()) {
+        //return;
+   // }
 
-    slotToggleButtonAnimation(_ui->confirmPassword, _ui->passwordProgressIndicator, _passwordProtectLinkAction->isChecked(), true);
+    //slotToggleButtonAnimation(_ui->confirmPassword, _ui->passwordProgressIndicator, _passwordProtectLinkAction->isChecked(), true);
     _ui->errorLabel->hide();
-    emit createPassword(_ui->lineEdit_password->text());
+    //emit createPassword(_ui->lineEdit_password->text());
 }
 
 void ShareLinkWidget::slotCreateShareLink(bool clicked)
@@ -404,15 +406,15 @@ void ShareLinkWidget::slotCreateShareLink(bool clicked)
 
 void ShareLinkWidget::slotPasswordSet()
 {
-    slotToggleButtonAnimation(_ui->confirmPassword, _ui->passwordProgressIndicator, _passwordProtectLinkAction->isChecked(), false);
+    //slotToggleButtonAnimation(_ui->confirmPassword, _ui->passwordProgressIndicator, _passwordProtectLinkAction->isChecked(), false);
 
-    _ui->lineEdit_password->setText(QString());
-    if (_linkShare->isPasswordSet()) {
+   // _ui->lineEdit_password->setText(QString());
+    /*if (_linkShare->isPasswordSet()) {
         _ui->lineEdit_password->setEnabled(true);
         _ui->lineEdit_password->setPlaceholderText(QString::fromUtf8(passwordIsSetPlaceholder));
     } else {
         _ui->lineEdit_password->setPlaceholderText(QString());
-    }
+    }*/
 
     setupUiOptions();
 
@@ -421,28 +423,12 @@ void ShareLinkWidget::slotPasswordSet()
 
 void ShareLinkWidget::slotPasswordSetError(int code, const QString &message)
 {
-    slotToggleButtonAnimation(_ui->confirmPassword, _ui->passwordProgressIndicator, _passwordProtectLinkAction->isChecked(), false);
+   /* slotToggleButtonAnimation(_ui->confirmPassword, _ui->passwordProgressIndicator, _passwordProtectLinkAction->isChecked(), false);
 
     slotServerError(code, message);
     showPasswordOptions(true);
     _ui->lineEdit_password->setFocus();
-    emit createPasswordProcessed();
-}
-
-void ShareLinkWidget::startAnimation(const int start, const int end)
-{
-    auto *animation = new QPropertyAnimation(this, "maximumHeight", this);
-
-    animation->setDuration(500);
-    animation->setStartValue(start);
-    animation->setEndValue(end);
-
-    connect(animation, &QAbstractAnimation::finished, this, &ShareLinkWidget::slotAnimationFinished);
-    if (end < start) // that is to remove the widget, not to show it
-        connect(animation, &QAbstractAnimation::finished, this, &ShareLinkWidget::slotDeleteAnimationFinished);
-    connect(animation, &QVariantAnimation::valueChanged, this, &ShareLinkWidget::resizeRequested);
-
-    animation->start();
+    emit createPasswordProcessed();*/
 }
 
 void ShareLinkWidget::slotDeleteShareFetched()
@@ -461,9 +447,9 @@ void ShareLinkWidget::slotDeleteShareFetched()
 
 void ShareLinkWidget::showNoteOptions(bool show)
 {
-    _ui->noteLabel->setVisible(show);
-    _ui->textEdit_note->setVisible(show);
-    _ui->confirmNote->setVisible(show);
+    //_ui->noteLabel->setVisible(show);
+    //_ui->textEdit_note->setVisible(show);
+   // _ui->confirmNote->setVisible(show);
 }
 
 
@@ -472,28 +458,12 @@ void ShareLinkWidget::toggleNoteOptions(bool enable)
     showNoteOptions(enable);
 
     if (enable) {
-        _ui->textEdit_note->setFocus();
+        //_ui->textEdit_note->setFocus();
     } else {
         // 'deletes' note
         if (_linkShare)
             _linkShare->setNote(QString());
     }
-}
-
-void ShareLinkWidget::slotAnimationFinished()
-{
-    emit resizeRequested();
-    deleteLater();
-}
-
-
-
-void ShareLinkWidget::slotDeleteAnimationFinished()
-{
-    // There is a painting bug where a small line of this widget isn't
-    // properly cleared. This explicit repaint() call makes sure any trace of
-    // the share widget is removed once it's destroyed. #4189
-    connect(this, SIGNAL(destroyed(QObject *)), parentWidget(), SLOT(repaint()));
 }
 
 void ShareLinkWidget::slotCreateShareRequiresPassword(const QString &message)
@@ -513,9 +483,9 @@ void ShareLinkWidget::slotCreateShareRequiresPassword(const QString &message)
 
 void ShareLinkWidget::showPasswordOptions(bool show)
 {
-    _ui->passwordLabel->setVisible(show);
-    _ui->lineEdit_password->setVisible(show);
-    _ui->confirmPassword->setVisible(show);
+   // _ui->passwordLabel->setVisible(show);
+    //_ui->lineEdit_password->setVisible(show);
+    //_ui->confirmPassword->setVisible(show);
 }
 
 void ShareLinkWidget::togglePasswordOptions(bool enable)
@@ -523,7 +493,7 @@ void ShareLinkWidget::togglePasswordOptions(bool enable)
     showPasswordOptions(enable);
 
     if (enable) {
-        _ui->lineEdit_password->setFocus();
+       // _ui->lineEdit_password->setFocus();
     } else {
         // 'deletes' password
         if (_linkShare)
@@ -619,14 +589,14 @@ void ShareLinkWidget::slotLinkContextMenuActionTriggered(QAction *action)
         _linkShare->setPermissions(perm);
         _ui->currentPermissions_3->setText(action->text());
 
-    } else if (action == _passwordProtectLinkAction) {
+   /* } else if (action == _passwordProtectLinkAction) {
         togglePasswordOptions(state);
 
     } else if (action == _expirationDateLinkAction) {
         //toggleExpireDateOptions(state);
 
     } else if (action == _noteLinkAction) {
-        toggleNoteOptions(state);
+        toggleNoteOptions(state);*/
 
     } else if (action == _unshareLinkAction) {
         confirmAndDeleteShare();
@@ -662,11 +632,11 @@ void ShareLinkWidget::customizeStyle()
 
     //_ui->shareLinkToolButton->setIcon(Theme::createColorAwareIcon(":/client/theme/more.svg"));
 
-    _ui->confirmNote->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
-    _ui->confirmPassword->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
+    //_ui->confirmNote->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
+    //_ui->confirmPassword->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
     //_ui->confirmExpirationDate->setIcon(Theme::createColorAwareIcon(":/client/theme/confirm.svg"));
 
-    _ui->passwordProgressIndicator->setColor(QGuiApplication::palette().color(QPalette::Text));
+    //_ui->passwordProgressIndicator->setColor(QGuiApplication::palette().color(QPalette::Text));
 }
 
 void ShareLinkWidget::mouseReleaseEvent ( QMouseEvent * permissionsEvent )

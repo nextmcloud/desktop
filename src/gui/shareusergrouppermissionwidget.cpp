@@ -79,7 +79,7 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
 
 void ShareUserGroupPermissionWidget::setupUI()
 {
-    if(!_isFile && (_type == Share::TypeEmail))
+    if((!_isFile && (_type == Share::TypeEmail)) || (_type == Share::TypeLink))
     {
         _ui->fileDropRadioButton->setVisible(true);
     }
@@ -94,15 +94,30 @@ void ShareUserGroupPermissionWidget::setupUI()
 
     if(_type == Share::TypeEmail)
     {
-        _ui->editRadioButton->setEnabled(false);
         _ui->allowForwardingCheckbox->setVisible(false);
     }
     else
     {
-        _ui->editRadioButton->setEnabled(true);
         _ui->allowForwardingCheckbox->setVisible(true);
     }
 
+    if(_type == Share::TypeEmail)
+    {
+        _ui->allowForwardingCheckbox->setVisible(false);
+    }
+    else
+    {
+        _ui->allowForwardingCheckbox->setVisible(true);
+    }
+
+    if(_isFile && (_type == Share::TypeEmail))
+    {
+        _ui->editRadioButton->setEnabled(false);
+    }
+    else
+    {
+        _ui->editRadioButton->setEnabled(true);
+    }
     _ui->expirationDateCheckbox->setChecked(true);
     _ui->dateEdit->setVisible(true);
     const QDate date = QDate::currentDate().addDays(1);
@@ -140,18 +155,21 @@ void ShareUserGroupPermissionWidget::slotPermissionChanged()
     {
         //emit readPermissionEnabled();
         //_share->setPermissions(permissions);
+       _ui->FileDropInfo->setVisible(false);
     }
     if(_ui->editRadioButton->isChecked())
     {
         _permissions |= SharePermissionUpdate;
         //_share->setPermissions(permissions);
        // emit editPermissionEnabled();
+        _ui->FileDropInfo->setVisible(false);
     }
     if(_ui->fileDropRadioButton->isChecked())
     {
        // emit fileDropPermissionEnabled();
         _permissions = SharePermissionCreate;
         //_share->setPermissions(permissions);
+        _ui->FileDropInfo->setVisible(true);
     }
     //emit permissionsChanged(_permissions);
 }

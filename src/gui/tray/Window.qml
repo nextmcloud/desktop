@@ -368,7 +368,7 @@ Window {
                                     height: width
                                     anchors.bottom: currentAccountAvatar.bottom
                                     anchors.right: currentAccountAvatar.right
-                                    color: Style.ncBlue
+                                    color: "transparent"
                                     radius: width*0.5
                                 }
 
@@ -388,10 +388,10 @@ Window {
                                             ? Style.stateOnlineImageSource
                                             : Style.stateOfflineImageSource
                                     cache: false
-                                    x: currentAccountStateIndicatorBackground.x + 1
-                                    y: currentAccountStateIndicatorBackground.y + 1
-                                    sourceSize.width: Style.accountAvatarStateIndicatorSize
-                                    sourceSize.height: Style.accountAvatarStateIndicatorSize
+                                    x: currentAccountStateIndicatorBackground.x
+                                    y: currentAccountStateIndicatorBackground.y
+                                    sourceSize.width: Style.accountAvatarStateIndicatorSize + 3
+                                    sourceSize.height: Style.accountAvatarStateIndicatorSize + 3
 
                                     Accessible.role: Accessible.Indicator
                                     Accessible.name: UserModel.isUserConnected(UserModel.currentUserId()) ? qsTr("Connected") : qsTr("Disconnected")
@@ -441,7 +441,7 @@ Window {
 
                     HeaderButton {
                         id: openAccountServerButton
-
+                        spacing: 0;
                         visible: true
                         icon.source: "qrc:///client/theme/magenta/news/default@svg.svg"
                         text: qsTr("Open website")
@@ -460,10 +460,10 @@ Window {
 
                     HeaderButton {
                         id: openLocalFolderButton
-
+                        spacing: 0
                         visible: UserModel.currentUser.hasLocalFolder
                         icon.source: "qrc:///client/theme/magenta/folder/default@svg.svg"
-                        text: qsTr("Open folder")
+                        text: qsTr("Local folder")
                         onClicked: UserModel.openCurrentAccountLocalFolder()
 
                         Accessible.role: Accessible.Button
