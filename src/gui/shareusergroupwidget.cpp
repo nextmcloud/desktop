@@ -125,7 +125,7 @@ ShareUserGroupWidget::ShareUserGroupWidget(AccountPtr account,
     });
 
     _ui->shareeLineEdit->addAction(searchGloballyAction, QLineEdit::LeadingPosition);*/
-    _ui->shareInfo->hide();
+   // _ui->shareInfo->hide();
 
     _manager = new ShareManager(_account, this);
     connect(_manager, &ShareManager::sharesFetched, this, &ShareUserGroupWidget::slotSharesFetched);
@@ -306,7 +306,7 @@ void ShareUserGroupWidget::slotSharesFetched(const QList<QSharedPointer<Share>> 
         connect(this, &ShareUserGroupWidget::setUserNote, s, &ShareUserLine::onSetUserNote);
         connect(s, &ShareUserLine::adjustScrollArea, this, &ShareUserGroupWidget::slotAdjustScrollArea);
         s->setBackgroundRole(_shareUserGroup->count() % 2 == 0 ? QPalette::Base : QPalette::AlternateBase);
-        _ui->shareInfo->hide();
+       // _ui->shareInfo->hide();
         // Connect styleChanged events to our widget, so it can adapt (Dark-/Light-Mode switching)
         connect(this, &ShareUserGroupWidget::styleChanged, s, &ShareUserLine::slotStyleChanged);
         qCDebug(lcSharing) << "Parul: User share adding to scroll widget";
@@ -543,7 +543,7 @@ void ShareUserGroupWidget::activateShareeLineEdit()
 
 void ShareUserGroupWidget::slotaddLinkSignal()
 {
-    _ui->shareInfo->hide();
+   // _ui->shareInfo->hide();
     emit createLinkShare();
 }
 

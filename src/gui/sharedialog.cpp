@@ -300,18 +300,18 @@ void ShareDialog::slotSharesFetched(const QList<QSharedPointer<Share>> &shares)
 
 void ShareDialog::slotAdjustScrollWidgetSize()
 {
-    int height = 0;
+    //int height = 0;
     const auto count = _scrollAreaLayout->count();
-    //const auto height = _linkWidgetList.size() > 0 ? _linkWidgetList.at(_linkWidgetList.size() - 1)->sizeHint().height() : 0;
-    if(count <= 4)
+    const auto height = _linkWidgetList.size() > 0 ? _linkWidgetList.at(_linkWidgetList.size() - 1)->sizeHint().height() : 0;
+    /*if(count <= 4)
     {
         height = _scrollAreaViewPort->sizeHint().height();
-    }
-    _ui->scrollArea->setFrameShape(count > 4 ? QFrame::StyledPanel : QFrame::NoFrame);
-    _ui->scrollArea->setVisible(count > 0);
+    }*/
+    _ui->scrollArea->setFrameShape(count > 6 ? QFrame::StyledPanel : QFrame::NoFrame);
+    _ui->scrollArea->setVisible(!_scrollAreaLayout->isEmpty());
     _ui->scrollArea->setFixedWidth(_ui->verticalLayout->sizeHint().width());
-    _ui->scrollArea->setFixedHeight(height);
-    if(count == 0)
+    _ui->scrollArea->setFixedHeight(height * count);
+    if(_scrollAreaLayout->isEmpty())
     {
         _userGroupWidget->showNoShare();
     } else{

@@ -268,7 +268,7 @@ void ShareLinkWidget::setupUiOptions()
 
     // QIcon permissionicon = QIcon::fromTheme(QLatin1String("advanced permission"), QIcon(QLatin1String(":/client/theme/delete.svg")));
         //_advancedPermission = new QAction(tr("Advanced Permission"));
-        _advancedPermission = _linkContextMenu->addAction("Advanced Permission");
+        _advancedPermission = _linkContextMenu->addAction(tr("Advanced Permission"));
        connect(_advancedPermission, &QAction::triggered, this, &ShareLinkWidget::slotAdvancedPermission);
 
         //QIcon permissionicon = QIcon::fromTheme(QLatin1String("Send new mail"), QIcon(QLatin1String(":/client/theme/delete.svg")));

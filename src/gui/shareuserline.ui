@@ -550,7 +550,7 @@
      <item>
       <widget class="QLabel" name="errorLabel">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -627,6 +627,7 @@
   </customwidget>
  </customwidgets>
  <resources>
+  <include location="../../theme.qrc"/>
   <include location="../../theme.qrc"/>
  </resources>
  <connections/>

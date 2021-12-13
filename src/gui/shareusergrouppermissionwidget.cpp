@@ -87,6 +87,7 @@ void ShareUserGroupPermissionWidget::setupUI()
     {
         _ui->fileDropRadioButton->setVisible(false);
     }
+    _ui->FileDropInfo->setVisible(false);
 
     _ui->lineEdit_password->setVisible(false);
     _ui->dateEdit->setVisible(false);

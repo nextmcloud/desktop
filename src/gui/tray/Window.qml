@@ -141,7 +141,7 @@ Window {
                     anchors.left:   trayWindowTLogoBarBackground.left
                     anchors.top:    trayWindowTLogoBarTopSpacer.bottom
                     height:         38
-                    width:          20
+                    width:          10
                     color:          Style.magenta
                 }
                 Image {
@@ -418,7 +418,7 @@ Window {
                                 height: source.height
                                 source: Image {
                                     Layout.alignment: Qt.AlignRight
-                                    verticalAlignment: Qt.AlignCenter
+                                    verticalAlignment: Qt.AlignBottom
                                     Layout.margins: Style.accountDropDownCaretMargin
                                     source: "qrc:///client/theme/black/caret-down.svg"
                                     sourceSize.width: Style.accountDropDownCaretSize

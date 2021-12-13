@@ -196,6 +196,7 @@
         <file>theme/black/activity.svg</file>
         <file>theme/black/bell.svg</file>
         <file>theme/black/state-info.svg</file>
+        <file>theme/black/delete.svg</file>
         <file>theme/close.svg</file>
         <file>theme/refresh.svg</file>
         <file>theme/files.svg</file>
