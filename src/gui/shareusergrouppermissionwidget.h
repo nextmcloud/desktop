@@ -26,6 +26,8 @@
 
 class QMenu;
 class QTableWidgetItem;
+class TestShareUserGroupPermissionWidget;
+class TestShareDialog;
 
 namespace OCC {
 
@@ -96,6 +98,10 @@ private:
     Share::Permissions _permissions;
     QSharedPointer<LinkShare> _linkShare;
     QSharedPointer<UserGroupShare> _share;
+
+    /* for Unit Test */
+    friend class ::TestShareUserGroupPermissionWidget;
+    friend class ::TestShareDialog;
 };
 
 }

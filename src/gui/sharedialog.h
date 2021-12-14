@@ -29,6 +29,7 @@
 
 class QProgressIndicator;
 class QVBoxLayout;
+class TestShareDialog;
 
 namespace OCC {
 
@@ -116,6 +117,9 @@ private:
     ShareUserMessageWidget *_shareUserMessage = nullptr;
     QWidget *_scrollAreaViewPort = nullptr;
     QVBoxLayout *_scrollAreaLayout = nullptr;
+
+    /* for Unit Test */
+    friend class ::TestShareDialog;
 };
 
 } // namespace OCC

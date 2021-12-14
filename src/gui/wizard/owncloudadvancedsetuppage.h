@@ -19,9 +19,13 @@
 #include <QWizard>
 
 #include "wizard/owncloudwizardcommon.h"
+
+#ifndef TEST_OWNCL_ADVANCE
 #include "ui_owncloudadvancedsetuppage.h"
+#endif
 
 class QProgressIndicator;
+class TestOwncloudAdvancedSetupPage;
 
 namespace OCC {
 
@@ -97,6 +101,9 @@ private:
     qint64 _rSize = -1;
     qint64 _rSelectedSize = -1;
     OwncloudWizard *_ocWizard;
+
+    /* for Unit Test */
+    friend class ::TestOwncloudAdvancedSetupPage;
 };
 
 } // namespace OCC

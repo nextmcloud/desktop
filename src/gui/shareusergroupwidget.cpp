@@ -589,6 +589,7 @@ ShareUserLine::ShareUserLine(AccountPtr account,
     , _share(share)
     , _maxSharingPermissions(maxSharingPermissions)
     , _isFile(isFile)
+    , _permissionReshare(new QAction())
 {
     Q_ASSERT(_share);
     _ui->setupUi(this);

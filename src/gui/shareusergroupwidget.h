@@ -32,6 +32,8 @@ class QAction;
 class QCompleter;
 class QModelIndex;
 class QVBoxLayout;
+class TestShareUserGroupWidget;
+class TestShareDialog;
 
 namespace OCC {
 
@@ -139,6 +141,9 @@ private:
     QSharedPointer<Sharee> _sharee;
 
    // ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
+
+    /* for Unit Test */
+    friend class ::TestShareUserGroupWidget;
 };
 
 /**
@@ -240,6 +245,10 @@ private:
   QAction *_passwordProtectLinkAction;
   QAction *_advancedPermission;
   QAction *_sendNewMail;
+
+  /* for Unit Test */
+   friend class ::TestShareUserGroupWidget;
+   friend class ::TestShareDialog;
 };
 }
 

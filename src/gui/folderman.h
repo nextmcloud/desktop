@@ -28,6 +28,8 @@
 class TestFolderMan;
 class TestFolderWizard;
 class TestGeneralSettings;
+class TestShareDialog;
+class TestShareUserGroupWidget;
 
 namespace OCC {
 
@@ -364,6 +366,8 @@ private:
     friend class ::TestFolderMan;
     friend class ::TestFolderWizard;
     friend class ::TestGeneralSettings;
+    friend class ::TestShareDialog;
+    friend class ::TestShareUserGroupWidget;
 };
 
 } // namespace OCC

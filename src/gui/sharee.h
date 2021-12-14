@@ -28,6 +28,7 @@
 
 class QJsonDocument;
 class QJsonObject;
+class TestShareDialog;
 
 namespace OCC {
 
@@ -59,6 +60,9 @@ private:
     QString _shareWith;
     QString _displayName;
     Type _type;
+
+    /* for Unit Test */
+    friend class ::TestShareDialog;
 };
 
 

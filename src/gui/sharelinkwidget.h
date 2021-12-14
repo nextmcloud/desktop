@@ -27,6 +27,7 @@
 
 class QMenu;
 class QTableWidgetItem;
+class TestShareLinkWidget;
 
 namespace OCC {
 
@@ -149,6 +150,9 @@ private:
     QAction *_noteLinkAction;
     QAction *_advancedPermission;
     QAction *_sendNewMail;
+
+    /* for Unit Test */
+    friend class ::TestShareLinkWidget;
 };
 }
 

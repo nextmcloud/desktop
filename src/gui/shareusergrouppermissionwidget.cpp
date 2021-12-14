@@ -102,15 +102,6 @@ void ShareUserGroupPermissionWidget::setupUI()
         _ui->allowForwardingCheckbox->setVisible(true);
     }
 
-    if(_type == Share::TypeEmail)
-    {
-        _ui->allowForwardingCheckbox->setVisible(false);
-    }
-    else
-    {
-        _ui->allowForwardingCheckbox->setVisible(true);
-    }
-
     if(_isFile && (_type == Share::TypeEmail))
     {
         _ui->editRadioButton->setEnabled(false);

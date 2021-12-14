@@ -22,15 +22,17 @@
 #include "wizard/owncloudwizard.h"
 
 #include "../addcertificatedialog.h"
-#include "wizard/owncloudconnectionmethoddialog.h"
 
+#ifndef TEST_OWNCL_PAGE
 #include "ui_owncloudsetupnocredspage.h"
+#endif
 
 #include "config.h"
 
 class QLabel;
 class QVariant;
 class QProgressIndicator;
+class TestOwncloudSetupPage;
 
 namespace OCC {
 
@@ -89,6 +91,9 @@ private:
     QProgressIndicator *_progressIndi;
     OwncloudWizard *_ocWizard;
     AddCertificateDialog *addCertDial = nullptr;
+
+    /* for Unit Test */
+    friend class ::TestOwncloudSetupPage;
 };
 
 } // namespace OCC

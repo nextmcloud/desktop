@@ -67,7 +67,7 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     , _privateLinkUrl(accountState->account()->deprecatedPrivateLinkUrl(numericFileId).toString(QUrl::FullyEncoded))
     , _startPage(startPage)
     , _userLinePermission(SharePermissionRead)
-    , m_createShare("Read only")
+    , m_createShare(true)
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setAttribute(Qt::WA_DeleteOnClose);

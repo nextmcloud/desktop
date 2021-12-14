@@ -46,10 +46,10 @@ private slots:
 
     void testGeneralSettings()
     {
-        QString expectedImprintLabel = tr("<a href='%1'>Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL));
-        QString expectedPrivacyPolicyLabel = tr("<a href='%1'>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL));
-        QString expectedOpenSourceSwLabel = tr("<a href='%1'>Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL));
-        QString expectedInfoLabel = tr("<a href='%3'>Further Informations</a>").arg(Theme::instance()->helpUrl());
+        QString expectedImprintLabel = tr("<a href='%1' style=\"color: #e20074;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL));
+        QString expectedPrivacyPolicyLabel = tr("<a href='%1' style=\"color: #e20074;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL));
+        QString expectedOpenSourceSwLabel = tr("<a href='%1' style=\"color: #e20074;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL));
+        QString expectedInfoLabel = tr("<a href='%1' style=\"color: #e20074;\">Further Informations</a>").arg(Theme::instance()->helpUrl());
 
         ConfigFile cfgFile;
         FolderMan folderMan(new QObject());

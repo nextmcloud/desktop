@@ -25,6 +25,7 @@
 
 class QMenu;
 class QTableWidgetItem;
+class TestShareUserMessageWidget;
 
 namespace OCC {
 
@@ -73,6 +74,9 @@ private:
     QString _shareUrl;
     QSharedPointer<Sharee> _sharee;
     QSharedPointer<UserGroupShare> _share;
+
+    /* for Unit Test */
+    friend class ::TestShareUserMessageWidget;
 };
 
 }

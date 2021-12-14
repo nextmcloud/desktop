@@ -87,10 +87,19 @@ nextcloud_add_test(ActivityListModel)
 nextcloud_add_test(FolderWizard)
 nextcloud_add_test(GeneralSettings)
 nextcloud_add_test(ConfigFile)
-
 nextcloud_add_test(FolderStatusDelegate)
-nextcloud_add_test(SettingsDialog)
+#nextcloud_add_test(SettingsDialog)
 nextcloud_add_test(UserModel)
+
+nextcloud_add_test(ShareDialog)
+nextcloud_add_test(ShareLinkWidget)
+nextcloud_add_test(ShareUserGroupPermissionWidget)
+nextcloud_add_test(ShareUserGroupWidget)
+nextcloud_add_test(ShareUserMessageWidget)
+nextcloud_add_test(Flow2AuthWidget)
+nextcloud_add_test(OwncloudWizard)
+nextcloud_add_test(OwncloudSetupPage)
+nextcloud_add_test(OwncloudAdvancedSetupPage)
 
 configure_file(test_journal.db "${PROJECT_BINARY_DIR}/bin/test_journal.db" COPYONLY)
 

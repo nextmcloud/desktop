@@ -25,6 +25,8 @@
 #include "wizard/owncloudwizardcommon.h"
 #include "accountfwd.h"
 
+class TestOwncloudWizard;
+
 namespace OCC {
 
 Q_DECLARE_LOGGING_CATEGORY(lcWizard)
@@ -135,6 +137,9 @@ private:
     bool _registration = false;
 
     friend class OwncloudSetupWizard;
+
+    /* for Unit Test */
+    friend class ::TestOwncloudWizard;
 };
 
 } // namespace OCC

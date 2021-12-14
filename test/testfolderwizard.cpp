@@ -57,6 +57,7 @@ private slots:
         QString expectedContent    = "Select a folder on your hard drive, that will be "
                                      "connected to your MangentaCLOUD and permanently connected. All "
                                      "files and sub-folders are automatically uploaded and synchronized.";
+        QString expectedLocalFolder  = "Please select a folder";
 
         FolderWizardLocalPath FolderLocal(account);
 
@@ -64,6 +65,7 @@ private slots:
         QCOMPARE(FolderLocal._ui.content->text(), expectedContent);
         QCOMPARE(FolderLocal._ui.subHeader->text(), expectedSubHeader);
         QCOMPARE(FolderLocal._ui.subContent->text(), expectedSubContent);
+        QCOMPARE(FolderLocal._ui.localFolderLineEdit->text(), expectedLocalFolder);
     }
 
     void testFolderWizardRemotePath()

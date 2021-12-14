@@ -5,11 +5,26 @@
  *
  */
 #include <QtTest>
-#include "accountsettings.h"
 #include "gui/nextcloudCore_autogen/include_Debug/ui_accountsettings.h"
 
-#define MEM_SIZE 100
+#define AccountSettings(a, b) AccountSettings(a)
+#include "accountsettings.h"
+#undef AccountSettings
+
 using namespace OCC;
+
+AccountSettings::AccountSettings(AccountState *accountState) :
+    _ui(new Ui::AccountSettings), _userInfo(accountState, false, true)
+{
+    _ui->quotaProgressBar = new QProgressBar();
+    _ui->moreMemoryButton = new QPushButton();
+    _ui->quotaProgressLabel = new QLabel();
+    _ui->quotaInfoLabel = new QLabel();
+
+    _wasDisabledBefore = (false);
+    _accountState = accountState;
+    _menuShown = (false);
+};
 
 class TestAccountSettings: public QObject
 {
@@ -22,14 +37,26 @@ private slots:
         accountSet->slotMoreMemory();
     }
 
+    void testcustomizeStyle()
+    {
+        AccountPtr account = Account::create();
+        AccountState *accountSt = new AccountState(account);
+        AccountSettings *accountSet = new AccountSettings(accountSt);
+
+        accountSet->customizeStyle();
+
+        QString expMoreMemoryStyleSheet("QPushButton {height : 24px ; font : 13px; color: #191919; border: 0px solid #CCCCCC; backgroud:#E1E1E1}");
+        QString expQuotaStylesheet( "QProgressBar {border: 0px solid grey;border-radius: 5px; height: 4px;background-color: #CCCCCC;"
+                                    "text-align: center;}QProgressBar::chunk {background-color: #e20074; height: 4px;}");
+        QCOMPARE(accountSet->_ui->moreMemoryButton->styleSheet(), expMoreMemoryStyleSheet);
+        QCOMPARE(accountSet->_ui->quotaProgressBar->styleSheet(), expQuotaStylesheet);
+    }
+
     void testslotUpdateQuota_Memory50Per()
     {
-        AccountSettings *accountSet = (AccountSettings *)malloc(MEM_SIZE);
-        Ui::AccountSettings *uiAccountSet = new Ui::AccountSettings;
-        uiAccountSet->quotaProgressBar = new QProgressBar();
-        uiAccountSet->quotaProgressLabel = new QLabel();
-        uiAccountSet->quotaInfoLabel = new QLabel();
-        accountSet->_ui= uiAccountSet;
+        AccountPtr account = Account::create();
+        AccountState *accountSt = new AccountState(account);
+        AccountSettings *accountSet = new AccountSettings(accountSt);
 
         qint64 total = 2;
         qint64 used = 1;
@@ -48,7 +75,7 @@ private slots:
         sprintf(expectInfoText, "<b> %s </b> of %s", usedStr.toStdString().c_str(),
                 totalStr.toStdString().c_str());
         char expectProgressText[25];
-        sprintf(expectProgressText, "Memory Occupied to %d", (int)(percent));
+        sprintf(expectProgressText, "Memory Occupied to %d percentage", (int)(percent));
         QString expectStyleSheet = "QLabel { background-color :%1 ; font: 18px; color : #191919; }";
 
         accountSet->slotUpdateQuota(total, used);
@@ -58,19 +85,13 @@ private slots:
         QCOMPARE(accountSet->_ui->quotaInfoLabel->toolTip(), expectToolTip);
         QCOMPARE(accountSet->_ui->quotaProgressBar->toolTip(), expectToolTip);
         QCOMPARE(accountSet->_ui->quotaProgressLabel->text(), expectProgressText);
-
-        free(accountSet);
-        delete uiAccountSet;
     }
 
     void testslotUpdateQuota_Memory100Per()
     {
-        AccountSettings *accountSet = (AccountSettings *)malloc(MEM_SIZE);
-        Ui::AccountSettings *uiAccountSet = new Ui::AccountSettings;
-        uiAccountSet->quotaProgressBar = new QProgressBar();
-        uiAccountSet->quotaProgressLabel = new QLabel();
-        uiAccountSet->quotaInfoLabel = new QLabel();
-        accountSet->_ui= uiAccountSet;
+        AccountPtr account = Account::create();
+        AccountState *accountSt = new AccountState(account);
+        AccountSettings *accountSet = new AccountSettings(accountSt);
 
         qint64 total = 1;
         qint64 used = 1;
@@ -89,7 +110,7 @@ private slots:
         sprintf(expectInfoText, "<b> %s </b> of %s", usedStr.toStdString().c_str(),
                 totalStr.toStdString().c_str());
         char expectProgressText[25];
-        sprintf(expectProgressText, "Memory Occupied to %d", (int)((used * 100)/total));
+        sprintf(expectProgressText, "Memory Occupied to %d percentage", (int)((used * 100)/total));
         QString expectStyleSheet = "QLabel { background-color :%1 ; font: 18px; color : #191919; }";
 
         accountSet->slotUpdateQuota(total, used);
@@ -99,20 +120,13 @@ private slots:
         QCOMPARE(accountSet->_ui->quotaInfoLabel->toolTip(), expectToolTip);
         QCOMPARE(accountSet->_ui->quotaProgressBar->toolTip(), expectToolTip);
         QCOMPARE(accountSet->_ui->quotaProgressLabel->text(), expectProgressText);
-
-        free(accountSet);
-        delete uiAccountSet;
     }
 
     void testslotUpdateQuota_NegativeTotal()
     {
-        AccountSettings *accountSet = (AccountSettings *)malloc(MEM_SIZE);
-        Ui::AccountSettings *uiAccountSet = new Ui::AccountSettings;
-        uiAccountSet->quotaProgressBar = new QProgressBar();
-        uiAccountSet->moreMemoryButton = new QPushButton();
-        uiAccountSet->quotaProgressLabel = new QLabel();
-        uiAccountSet->quotaInfoLabel = new QLabel();
-        accountSet->_ui= uiAccountSet;
+        AccountPtr account = Account::create();
+        AccountState *accountSt = new AccountState(account);
+        AccountSettings *accountSet = new AccountSettings(accountSt);
 
         qint64 total = -2;
         qint64 used = 5;
@@ -124,9 +138,6 @@ private slots:
         accountSet->slotUpdateQuota(total, used);
 
         QCOMPARE(accountSet->_ui->quotaInfoLabel->text(), expectInfoText);
-
-        free(accountSet);
-        delete uiAccountSet;
     }
 };
 
