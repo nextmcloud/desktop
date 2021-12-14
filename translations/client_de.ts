@@ -1833,6 +1833,11 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <source>Add Sync Connection</source>
         <translation>Synchronisierung hinzufügen</translation>
     </message>
+    <message>
+        <location filename="../src/gui/folderwizard.cpp" line="76"/>
+        <source>Please select a folder</source>
+        <translation>Bitte wählen Sie einen Ordner aus</translation>
+    </message>
 </context>
 <context>
     <name>OCC::FolderWizardLocalPath</name>

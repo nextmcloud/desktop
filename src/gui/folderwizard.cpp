@@ -72,7 +72,8 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     serverUrl.setUserName(_account->credentials()->user());
     QString defaultPath = QDir::homePath() + QLatin1Char('/') + Theme::instance()->appName();
     defaultPath = FolderMan::instance()->findGoodPathForNewSyncFolder(defaultPath, serverUrl);
-    _ui.localFolderLineEdit->setText(QDir::toNativeSeparators(defaultPath));
+   //_ui.localFolderLineEdit->setText(QDir::toNativeSeparators(defaultPath));
+    _ui.localFolderLineEdit->setText("Please select a folder");
     _ui.localFolderLineEdit->setToolTip(tr("Enter the path to the local folder."));
 
     _ui.warnLabel->setTextFormat(Qt::RichText);
@@ -479,11 +480,15 @@ bool FolderWizardRemotePath::isComplete() const
         QString curDir = f->remotePathTrailingSlash();
         if (QDir::cleanPath(dir) == QDir::cleanPath(curDir)) {
             warnStrings.append(tr("This folder is already synchronized in the MagentaCLOUD."));
-        } else if (dir.startsWith(curDir)) {
+        }
+        else {
+            _ui.warnLabel->hide();
+        }
+       /* else if (dir.startsWith(curDir)) {
             warnStrings.append(tr("You are already syncing <i>%1</i>, which is a parent folder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
         } else if (curDir.startsWith(dir)) {
             warnStrings.append(tr("You are already syncing <i>%1</i>, which is a subfolder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
-        }
+        }*/
     }
 
     if (!warnStrings.empty())
