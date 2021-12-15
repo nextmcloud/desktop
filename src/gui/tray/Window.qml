@@ -325,7 +325,8 @@ Window {
                                     }
                                     horizontalPadding: Style.accountMenuPadding
                                     topPadding: Style.accountMenuHalfPadding
-                                    bottomPadding: Style.accountMenuPadding
+                                    //bottomPadding: Style.accountMenuPadding
+                                    bottomPadding: Style.accountMenuHalfPadding
                                     spacing: 4
                                    // hoverEnabled: true
                                     onClicked: Systray.shutdown()
