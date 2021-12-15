@@ -96,8 +96,9 @@ int FolderStatusDelegate::rootFolderHeightWithoutErrors(const QFontMetrics &fm, 
 {
     const int aliasMargin = aliasFm.height() / 2;
     const int margin = fm.height() / 4;
+    const int topMargin = 15;
 
-    int h = aliasMargin; // margin to top
+    int h = aliasMargin + topMargin; // margin to top
     h += aliasFm.height(); // alias
     h += margin; // between alias and local path
     h += fm.height(); // local path
