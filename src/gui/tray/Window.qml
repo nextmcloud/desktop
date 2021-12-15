@@ -238,13 +238,15 @@ Window {
 
                                 MenuItem {
                                     id: syncPauseButton
-                                    display: AbstractButton.TextBesideIcon
+                                    //display: AbstractButton.TextBesideIcon
+                                    display: AbstractButton.IconOnly
                                     hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/pause/default.png"
                                     icon.color: syncPauseButton.hovered ? Style.magenta : Style.nmcTextColor
                                     Text {
                                         anchors.verticalCenter: parent.verticalCenter
-                                        font.wordSpacing:  45
+                                        //font.wordSpacing:  45
+                                        text: "            " + syncPauseButton.text
                                         font.family: "Segoe UI"
                                         font.pixelSize: Style.topLinePixelSize
                                         color: syncPauseButton.hovered ? Style.magenta : Style.nmcTextColor

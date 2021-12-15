@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.2
+import QtGraphicalEffects 1.0
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
@@ -72,20 +73,23 @@ MenuItem {
                         Layout.leftMargin: Style.accountMenuPadding
                         Layout.rightMargin: 0
                         Layout.bottomMargin: Style.accountMenuHalfPadding
+
                         verticalAlignment: Qt.AlignCenter
                         cache: false
+                        visible: false
                         source: "qrc:///client/theme/magenta/action/logout/default.png"
                         Layout.preferredHeight: Style.headerButtonIconSize
                         Layout.preferredWidth: Style.headerButtonIconSize
                     }
-
-                    /*ColorOverlay {
+                    ColorOverlay {
                         cached: true
                         color: hovered ? Style.magenta : Style.nmcTextColor
                         width: source.width
                         height: source.height
                         source: accountAvatar
-                    }*/
+                        anchors.leftMargin: 16
+                        Layout.leftMargin: 16
+                    }
 
                     Column {
                         id: accountLabels
