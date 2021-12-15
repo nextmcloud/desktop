@@ -4015,12 +4015,12 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/sharedialog.cpp" line="293"/>
         <source>The file can not be shared because it was shared without sharing permission.</source>
-        <translation>Die Datei kann nicht geteilt werden, weil sie ohne erneute Teilungs-Berechtigung für Sie geteilt wurde.</translation>
+        <translation>Die Datei kann nicht geteilt werden, weil Sie ohne erneute Teilungs-Berechtigung für Sie geteilt wurde.</translation>
     </message>
     <message>
         <location filename="../src/gui/sharedialog.cpp" line="300"/>
         <source>The file cannot be shared because it does not have sharing permission.</source>
-        <translation>Die Datei kann nicht geteilt werden, weil sie keine Berechtigung zum Teilen hat.</translation>
+        <translation>Die Datei kann nicht geteilt werden, weil Sie keine Berechtigung zum Teilen hat.</translation>
     </message>
     <message>
         <location filename="../src/gui/sharedialog.cpp" line="366"/>
@@ -4126,12 +4126,12 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Nur lesen</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="659"/>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="662"/>
         <source>Read only</source>
         <translation>Nur lesen</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="670"/>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="668"/>
         <source>Read only</source>
         <translation>Nur lesen</translation>
     </message>
@@ -4239,14 +4239,19 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Link erstellen</translation>
     </message>
     <message>
+        <location filename="../src/gui/shareusergroupwidget.ui" line="417"/>
+        <source>No shares created yet</source>
+        <translation>Noch keine Freigaben erstellt.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/shareusergroupwidget.ui" line="247"/>
         <source>Your Shares</source>
         <translation>Ihre Freigaben</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergroupwidget.ui" line="105"/>
-        <source>You can create links or send shares by mail. If you invite MagentaCloud users, you have more opportunities for collaboration.</source>
-        <translation>Sie können Links erstellen oder Freigaben per Mail versenden. Wenn Sie MagentaCloud Nutzer einladen, bieten sich Ihnen mehr Möglichkeiten der Zusammenarbeit.</translation>
+        <source>You can create links or send shares by mail. If you invite MagentaCLOUD users, you have more opportunities for collaboration.</source>
+        <translation>Sie können Links erstellen oder Freigaben per Mail versenden. Wenn Sie MagentaCLOUD Nutzer einladen, bieten sich Ihnen mehr Möglichkeiten der Zusammenarbeit.</translation>
     </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="121"/>
@@ -4260,8 +4265,8 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
      </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="286"/>
-         <source>You can create links or send shares by mail. If you invite MagentaCloud users, you have more opportunities for collaboration.</source>
-         <translation>Sie können Links erstellen oder Freigaben per Mail versenden. Wenn Sie MagentaCloud Nutzer einladen, bieten sich Ihnen mehr Möglichkeiten der Zusammenarbeit.</translation>
+         <source>You can create links or send shares by mail. If you invite MagentaCLOUD users, you have more opportunities for collaboration.</source>
+         <translation>Sie können Links erstellen oder Freigaben per Mail versenden. Wenn Sie MagentaCLOUD Nutzer einladen, bieten sich Ihnen mehr Möglichkeiten der Zusammenarbeit.</translation>
      </message>
      <message>
          <location filename="../src/gui/shareusergroupwidget.cpp" line="411"/>

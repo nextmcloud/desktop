@@ -286,8 +286,8 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         if (nextButton) {
             nextButton->setDefault(true);
             //nextButton->setStyleSheet("QPushButton {height : 30 ; width : 150px ; color: #ffffff; background : #e20074}");
-            nextButton->setStyleSheet("QPushButton {height : 35 ; width : 160px ; color: #ffffff; border: 0px solid #e20074; "
-                                      "border-radius: 12px; border-style: outset; "
+            nextButton->setStyleSheet("QPushButton {height : 30 ; width : 160px ; font: 13px; font-family: Segoe UI; color: #ffffff; border: 0px solid #e20074; "
+                                      "border-radius: 15px; border-style: outset; "
                                       "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
                                       " stop: 0 #e20074, stop: 1 #e20074); "
                                       "padding: 5px }");
@@ -297,8 +297,8 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
     auto backButton = qobject_cast<QPushButton *>(button(QWizard::BackButton));
     if (backButton) {
         backButton->setDefault(true);
-        backButton->setStyleSheet("QPushButton {height : 33 ; width : 102px ; color: #191919; border: 1px solid #191919; "
-                                      "border-radius: 12px; border-style: outset; "
+        backButton->setStyleSheet("QPushButton {height : 28 ; width : 102px ; font: 13px; font-family: Segoe UI; color: #191919; border: 1px solid #191919; "
+                                      "border-radius: 15px; border-style: outset; "
                                       "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
                                       " stop: 0 #ffffff, stop: 1 #ffffff); "
                                       "padding: 5px }");

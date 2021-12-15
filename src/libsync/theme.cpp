@@ -178,7 +178,7 @@ QIcon Theme::applicationIcon() const
 
 QIcon Theme::applicationLogo() const
 {
-    return themeIcon(QStringLiteral(APPLICATION_ICON_NAME "-logo"));
+    return themeIcon(QStringLiteral(APPLICATION_ICON_NAME "-icon"));
 }
 
 /*

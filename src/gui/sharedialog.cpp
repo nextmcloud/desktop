@@ -214,7 +214,7 @@ ShareLinkWidget *ShareDialog::addLinkShareWidget(const QSharedPointer<LinkShare>
 
     qCDebug(lcSharing) << "Parul: Link share adding to scrollArea";
 
-    //_ui->verticalLayout->insertWidget(_linkWidgetList.size() + 1, linkShareWidget);
+    _ui->verticalLayout->insertWidget(_linkWidgetList.size() + 1, linkShareWidget);
     _scrollAreaLayout->addWidget(linkShareWidget);
 
     linkShareWidget->setupUiOptions();
@@ -225,7 +225,7 @@ ShareLinkWidget *ShareDialog::addLinkShareWidget(const QSharedPointer<LinkShare>
             widget->setVisible(true);
         }
     }*/
-
+    slotAdjustScrollWidgetSize();
     qCDebug(lcSharing) << "Parul: added to scroll area";
 
     /*if(_linkWidgetList.size() <=3){
@@ -300,17 +300,14 @@ void ShareDialog::slotSharesFetched(const QList<QSharedPointer<Share>> &shares)
 
 void ShareDialog::slotAdjustScrollWidgetSize()
 {
-    //int height = 0;
     const auto count = _scrollAreaLayout->count();
-    const auto height = _linkWidgetList.size() > 0 ? _linkWidgetList.at(_linkWidgetList.size() - 1)->sizeHint().height() : 0;
-    /*if(count <= 4)
-    {
-        height = _scrollAreaViewPort->sizeHint().height();
-    }*/
+    const auto margin = 10;
+    const auto height = _linkWidgetList.size() > 0 ? _linkWidgetList.last()->sizeHint().height() + margin : 0;
+    auto totalHeight = height * count;
     _ui->scrollArea->setFrameShape(count > 6 ? QFrame::StyledPanel : QFrame::NoFrame);
     _ui->scrollArea->setVisible(!_scrollAreaLayout->isEmpty());
     _ui->scrollArea->setFixedWidth(_ui->verticalLayout->sizeHint().width());
-    _ui->scrollArea->setFixedHeight(height * count);
+    _ui->scrollArea->setFixedHeight(totalHeight > 400 ? 400 : totalHeight);
     if(_scrollAreaLayout->isEmpty())
     {
         _userGroupWidget->showNoShare();
@@ -474,6 +471,8 @@ void ShareDialog::slotDeleteShare()
     auto sharelinkWidget = dynamic_cast<ShareLinkWidget*>(sender());
     sharelinkWidget->hide();
     sharelinkWidget->setEnabled(false);
+    _ui->verticalLayout->removeWidget(sharelinkWidget);
+    _scrollAreaLayout->removeWidget(sharelinkWidget);
     _linkWidgetList.removeAll(sharelinkWidget);
     if(_linkWidgetList.isEmpty())
     {
@@ -621,7 +620,7 @@ void ShareDialog::slotUserLinePermissionChanged(const QString &userLinePermissio
     _sharePermissionGroup->setPermission(userLinePermission);
 }
 
-void ShareDialog::slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> linkShare,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare)
+void ShareDialog::slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> linkShare,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare, const QString &permission)
 {
     if(_sharePermissionGroup != nullptr)
     {
@@ -640,12 +639,12 @@ void ShareDialog::slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> link
             _userGroupWidget->hideShareUserUI();
         }*/
         _ui->scrollArea->setVisible(false);
-        _sharePermissionGroup->setLinkAdvancePermission(linkShare, type, sharee, createShare);
+        _sharePermissionGroup->setLinkAdvancePermission(linkShare, type, sharee, createShare, permission);
         _sharePermissionGroup->setVisible(true);
     }
 }
 
-void ShareDialog::slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare> share,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare)
+void ShareDialog::slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare> share,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare, const QString &permission)
 {
     if(_sharePermissionGroup != nullptr)
     {
@@ -664,7 +663,7 @@ void ShareDialog::slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare>
             _userGroupWidget->hideShareUserUI();
         }*/
         _ui->scrollArea->setVisible(false);
-        _sharePermissionGroup->setUserAdvancePermission(share, type, sharee, createShare);
+        _sharePermissionGroup->setUserAdvancePermission(share, type, sharee, createShare, permission);
         _sharePermissionGroup->setVisible(true);
     }
 }

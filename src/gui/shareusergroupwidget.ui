@@ -102,7 +102,7 @@
       </font>
      </property>
      <property name="text">
-      <string>You can create links or send shares by mail. If you invite MagentaCloud users, you have more opportunities for collaboration.</string>
+      <string>You can create links or send shares by mail. If you invite MagentaCLOUD users, you have more opportunities for collaboration.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

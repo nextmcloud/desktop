@@ -59,7 +59,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottomMargin: 12
+        anchors.bottomMargin: 48
 
         contentItem: Text {
             text: cancelButton.text

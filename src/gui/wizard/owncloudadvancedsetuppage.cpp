@@ -109,10 +109,10 @@ void OwncloudAdvancedSetupPage::setupCustomization()
    // _ui.topLabel->hide();
    // _ui.bottomLabel->hide();
 
-    _ui.pbSelectLocalFolder->setStyleSheet("QPushButton {height : 35 ; width : 160px ; color: #ffffff; border: 0px solid #e20074; "
-                              "border-radius: 10px;border-style: outset; "
+    _ui.pbSelectLocalFolder->setStyleSheet("QPushButton {height : 28 ; width : 160px ; font: 13px; font-style: Segoe UI; color: #191919; border: 1px solid #191919; "
+                              "border-radius: 15px;border-style: outset; "
                               "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
-                              " stop: 0 #e20074, stop: 1 #e20074); "
+                              " stop: 0 #ffffff, stop: 1 #ffffff); "
                               "padding: 5px }");
 
     Theme *theme = Theme::instance();

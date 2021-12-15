@@ -191,11 +191,11 @@ void ShareLinkWidget::setupUiOptions()
         _readOnlyLinkAction->setChecked(checked);
         LinkAction = _readOnlyLinkAction;
 
-        checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
+       /* checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
         _allowEditingLinkAction = permissionsGroup->addAction(tr("Can edit"));
         _allowEditingLinkAction->setCheckable(true);
         _allowEditingLinkAction->setChecked(checked);
-        LinkAction = _allowEditingLinkAction;
+        LinkAction = _allowEditingLinkAction;*/
 
     } else {
         _ui->shareLinkLabel->setText(tr("Link to folder"));
@@ -225,7 +225,7 @@ void ShareLinkWidget::setupUiOptions()
 
 
         permissionMenu->addAction(_readOnlyLinkAction);
-        permissionMenu->addAction(_allowEditingLinkAction);
+       // permissionMenu->addAction(_allowEditingLinkAction);
 
 
 
@@ -328,9 +328,17 @@ void ShareLinkWidget::setupUiOptions()
     _ui->shareLinkToolButton->setPopupMode(QToolButton::InstantPopup);
     _ui->shareLinkToolButton->setStyleSheet("QToolButton::menu-indicator { image: none; }");
 
-    _ui->permissionsMenu_3->setMenu(permissionMenu);
-    _ui->permissionsMenu_3->setPopupMode(QToolButton::InstantPopup);
-    _ui->permissionsMenu_3->setStyleSheet("QToolButton::menu-indicator { image: none; }");
+    if(!_isFile)
+    {
+        _ui->permissionsMenu_3->setEnabled(true);
+        _ui->permissionsMenu_3->setMenu(permissionMenu);
+        _ui->permissionsMenu_3->setPopupMode(QToolButton::InstantPopup);
+        _ui->permissionsMenu_3->setStyleSheet("QToolButton::menu-indicator { image: none; }");
+    }
+    else
+    {
+        _ui->permissionsMenu_3->setEnabled(false);
+    }
 
    // _ui->enableShareLink->setEnabled(true);
    // _ui->enableShareLink->setChecked(true);
@@ -572,6 +580,14 @@ void ShareLinkWidget::slotLinkContextMenuActionTriggered(QAction *action)
         emit createLinkShare();
 
     } else if (action == _readOnlyLinkAction && state) {
+        if(_isFile)
+        {
+            _ui->currentPermissions_3->setEnabled(false);
+        }
+        else
+        {
+            _ui->currentPermissions_3->setEnabled(true);
+        }
         _linkShare->setPermissions(perm);
         _ui->currentPermissions_3->setText(action->text());
 
@@ -580,23 +596,10 @@ void ShareLinkWidget::slotLinkContextMenuActionTriggered(QAction *action)
         _linkShare->setPermissions(perm);
         _ui->currentPermissions_3->setText(action->text());
 
-    } else if (action == _allowUploadEditingLinkAction && state) {
-        perm |= SharePermissionCreate | SharePermissionUpdate | SharePermissionDelete;
-        _linkShare->setPermissions(perm);
-
     } else if (action == _allowUploadLinkAction && state) {
         perm = SharePermissionCreate;
         _linkShare->setPermissions(perm);
         _ui->currentPermissions_3->setText(action->text());
-
-   /* } else if (action == _passwordProtectLinkAction) {
-        togglePasswordOptions(state);
-
-    } else if (action == _expirationDateLinkAction) {
-        //toggleExpireDateOptions(state);
-
-    } else if (action == _noteLinkAction) {
-        toggleNoteOptions(state);*/
 
     } else if (action == _unshareLinkAction) {
         confirmAndDeleteShare();
@@ -660,11 +663,6 @@ void ShareLinkWidget::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
             _readOnlyLinkAction->setCheckable(true);
             _readOnlyLinkAction->setChecked(checked);
 
-            checked = (perm & SharePermissionRead) && (perm & SharePermissionUpdate);
-            _allowEditingLinkAction = permissionsGroup->addAction(tr("Can edit"));
-            _allowEditingLinkAction->setCheckable(true);
-            _allowEditingLinkAction->setChecked(checked);
-
         } else {
             checked = (perm == SharePermissionRead);
             _readOnlyLinkAction = permissionsGroup->addAction(tr("Read only"));
@@ -685,12 +683,13 @@ void ShareLinkWidget::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
         // Adds permissions actions (radio button style)
         if (_isFile) {
             permissionMenu->addAction(_readOnlyLinkAction);
-            permissionMenu->addAction(_allowEditingLinkAction);
+            permissionMenu->setEnabled(false);
 
         } else {
             permissionMenu->addAction(_readOnlyLinkAction);
             permissionMenu->addAction(_allowEditingLinkAction);
             permissionMenu->addAction(_allowUploadLinkAction);
+            permissionMenu->setEnabled(true);
         }
 
         connect(permissionMenu, &QMenu::triggered,
@@ -702,7 +701,7 @@ void ShareLinkWidget::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
 
 void ShareLinkWidget::slotAdvancedPermission()
 {
-    emit linkAdvancedPermissionWidget(_linkShare,Share::TypeLink,nullptr,false);
+    emit linkAdvancedPermissionWidget(_linkShare,Share::TypeLink,nullptr,false, _ui->currentPermissions_3->text());
 }
 
 }

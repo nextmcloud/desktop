@@ -132,7 +132,7 @@ Window {
                     anchors.left:   trayWindowTLogoBarBackground.left
                     anchors.right:  trayWindowTLogoBarBackground.right
                     anchors.top:    trayWindowTLogoBarBackground.top
-                    height:         10
+                    height:         12
                     color:          Style.magenta
                 }
                 Rectangle {
@@ -141,7 +141,7 @@ Window {
                     anchors.left:   trayWindowTLogoBarBackground.left
                     anchors.top:    trayWindowTLogoBarTopSpacer.bottom
                     height:         38
-                    width:          10
+                    width:          24
                     color:          Style.magenta
                 }
                 Image {
@@ -239,14 +239,20 @@ Window {
                                 MenuItem {
                                     id: syncPauseButton
                                     display: AbstractButton.TextBesideIcon
+                                    hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/pause/default.png"
-                                    font.family: "Segoe UI"
-                                    font.pixelSize: Style.topLinePixelSize
+                                    icon.color: syncPauseButton.hovered ? Style.magenta : Style.nmcTextColor
+                                    Text {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        font.wordSpacing:  45
+                                        font.family: "Segoe UI"
+                                        font.pixelSize: Style.topLinePixelSize
+                                        color: syncPauseButton.hovered ? Style.magenta : Style.nmcTextColor
+                                    }
 
                                     horizontalPadding: Style.accountMenuPadding
                                     verticalPadding: Style.accountMenuHalfPadding
                                     spacing: Style.accountMenuSpacing
-                                    hoverEnabled: true
                                     onClicked: Systray.pauseResumeSync()
 
                                     background: Item {
@@ -268,7 +274,9 @@ Window {
                                 MenuItem {
                                     id: settingsButton
                                     display: AbstractButton.TextBesideIcon
+                                    hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/settings/default.png"
+                                    icon.color: settingsButton.hovered ? Style.magenta : Style.nmcTextColor
                                     Text {
                                         anchors.verticalCenter: parent.verticalCenter
                                         font.wordSpacing:  45
@@ -279,8 +287,7 @@ Window {
                                     }
                                     horizontalPadding: Style.accountMenuPadding
                                     verticalPadding: Style.accountMenuHalfPadding
-                                    spacing: Style.accountMenuSpacing
-                                    hoverEnabled: true
+                                    spacing: 4
                                     onClicked: Systray.openSettings()
 
                                     background: Item {
@@ -301,10 +308,13 @@ Window {
                                 MenuItem {
                                     id: exitButton
                                     display: AbstractButton.TextBesideIcon
+                                    hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/circle-close/default.png"
+                                    icon.color: exitButton.hovered ? Style.magenta : Style.nmcTextColor
 
                                     Text {
                                         anchors.verticalCenter: parent.verticalCenter
+                                        anchors.bottomMargin: Style.accountMenuPadding
                                         font.wordSpacing:  45
                                         text:  qsTr(" "+"Close")
                                         font.family: "Segoe UI"
@@ -314,8 +324,8 @@ Window {
                                     horizontalPadding: Style.accountMenuPadding
                                     topPadding: Style.accountMenuHalfPadding
                                     bottomPadding: Style.accountMenuPadding
-                                    spacing: Style.accountMenuSpacing
-                                    hoverEnabled: true
+                                    spacing: 4
+                                   // hoverEnabled: true
                                     onClicked: Systray.shutdown()
 
                                     background: Item {
@@ -390,8 +400,8 @@ Window {
                                     cache: false
                                     x: currentAccountStateIndicatorBackground.x
                                     y: currentAccountStateIndicatorBackground.y
-                                    sourceSize.width: Style.accountAvatarStateIndicatorSize + 3
-                                    sourceSize.height: Style.accountAvatarStateIndicatorSize + 3
+                                    sourceSize.width: Style.accountAvatarStateIndicatorSize
+                                    sourceSize.height: Style.accountAvatarStateIndicatorSize
 
                                     Accessible.role: Accessible.Indicator
                                     Accessible.name: UserModel.isUserConnected(UserModel.currentUserId()) ? qsTr("Connected") : qsTr("Disconnected")
@@ -401,7 +411,8 @@ Window {
                             Label {
                                 id: currentAccountUser
 
-                                Layout.leftMargin: 6
+                                Layout.leftMargin: 8
+                                verticalAlignment: Qt.AlignCenter
                                 Layout.maximumWidth: Style.accountLabelWidth
                                 text: UserModel.currentUser.name
                                 elide: Text.ElideRight
@@ -417,8 +428,10 @@ Window {
                                 width: source.width
                                 height: source.height
                                 source: Image {
-                                    Layout.alignment: Qt.AlignRight
-                                    verticalAlignment: Qt.AlignBottom
+                                    Layout.leftMargin: Style.accountMenuPadding
+                                    Layout.topMargin: Style.accountMenuPadding
+                                    Layout.bottomMargin: Style.accountMenuPadding
+                                    verticalAlignment: Qt.AlignCenter
                                     Layout.margins: Style.accountDropDownCaretMargin
                                     source: "qrc:///client/theme/black/caret-down.svg"
                                     sourceSize.width: Style.accountDropDownCaretSize
@@ -445,6 +458,8 @@ Window {
                         visible: true
                         icon.source: "qrc:///client/theme/magenta/news/default@svg.svg"
                         text: qsTr("Open website")
+                        font.family: "Segoe UI"
+                        font.pixelSize: Style.subLinePixelSize
                         onClicked: UserModel.openCurrentAccountServer()
 
                         Accessible.role: Accessible.Button
@@ -464,6 +479,8 @@ Window {
                         visible: UserModel.currentUser.hasLocalFolder
                         icon.source: "qrc:///client/theme/magenta/folder/default@svg.svg"
                         text: qsTr("Local folder")
+                        font.family: "Segoe UI"
+                        font.pixelSize: Style.subLinePixelSize
                         onClicked: UserModel.openCurrentAccountLocalFolder()
 
                         Accessible.role: Accessible.Button

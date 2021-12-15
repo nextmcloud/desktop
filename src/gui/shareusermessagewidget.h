@@ -68,6 +68,7 @@ signals:
     void cancelButtonClicked(const QSharedPointer<Sharee> &sharee);
 
 private:
+    void toggleNoteOptions(bool);
     AccountPtr _account;
     QString _sharePath;
     QString _localPath;

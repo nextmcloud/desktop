@@ -1,1 +1,14 @@
-<svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(.87498 0 0 .87498 .26458 -255.9)"><circle cx="2.1167" cy="294.88" r="2.1167" fill="#868686" stroke-width=".25066"/><path d="m1.5875 293.83v2.1093" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52917"/><path d="m2.6459 293.83v2.1093" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52917"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4" height="4" viewBox="0 0 4 4">
+  <defs>
+    <clipPath id="clip-state-pause">
+      <rect width="4" height="4"/>
+    </clipPath>
+  </defs>
+  <g id="state-pause" clip-path="url(#clip-state-pause)">
+    <circle id="Ellipse_52" data-name="Ellipse 52" cx="1.85" cy="1.85" r="1.85" transform="translate(0.15 0.15)" fill="#df6d3f"/>
+    <g id="Gruppe_543" data-name="Gruppe 543" transform="translate(0.075 0.125)">
+      <path id="Pfad_521" data-name="Pfad 521" d="M1.364,258.922a.206.206,0,0,1-.206-.206V257.07a.206.206,0,0,1,.413,0v1.645A.206.206,0,0,1,1.364,258.922Z" transform="translate(0.148 -256.014)" fill="#fff"/>
+      <path id="Pfad_522" data-name="Pfad 522" d="M2.29,258.922a.206.206,0,0,1-.206-.206V257.07a.206.206,0,0,1,.413,0v1.645A.206.206,0,0,1,2.29,258.922Z" transform="translate(0.048 -256.014)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

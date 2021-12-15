@@ -58,8 +58,8 @@ public:
         SharePermissions maxSharingPermissions, Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare,
         QWidget *parent);
     ~ShareUserGroupPermissionWidget();
-    void setLinkAdvancePermission(QSharedPointer<LinkShare> linkShare, Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare);
-    void setUserAdvancePermission(QSharedPointer<UserGroupShare> share,Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare);
+    void setLinkAdvancePermission(QSharedPointer<LinkShare> linkShare, Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare, const QString &permission);
+    void setUserAdvancePermission(QSharedPointer<UserGroupShare> share,Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare, const QString &permission);
     void setUserCreatePermission(Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare);
     void setPermission(const QString &permission);
 

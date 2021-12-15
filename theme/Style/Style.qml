@@ -46,7 +46,7 @@ QtObject {
 
     property int accountMenuWidth: 300
     property int accountMenuTopItemHeight: 48
-    property int accountMenuPadding: 8
+    property int accountMenuPadding: 16
     property int accountMenuHalfPadding: 8
     property int accountMenuSpacing: 8
 

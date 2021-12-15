@@ -11,7 +11,7 @@ set( APPLICATION_PRIVACY_URL   "https://static.magentacloud.de/privacy/datenschu
 set( APPLICATION_OPEN_SOURCE_URL   "https://static.magentacloud.de/licences/windowsdesktop.html" CACHE string "URL for the open source software" )
 set( APPLICATION_ICON_NAME  "magentacloud" )
 set( APPLICATION_ICON_SET  "SVG" )
-set( APPLICATION_SERVER_URL "http://magentacloud.de" CACHE string "URL for the server to use. If entered the server can only connect to this instance" )
+set( APPLICATION_SERVER_URL "https://magentacloud.de" CACHE string "URL for the server to use. If entered the server can only connect to this instance" )
 set( APPLICATION_SERVER_URL_ENFORCE ON )
 set( LINUX_PACKAGE_SHORTNAME "magentacloud" )
 set( THEME_CLASS            "NextcloudTheme" )

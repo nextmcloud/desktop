@@ -79,6 +79,14 @@ MenuItem {
                         Layout.preferredWidth: Style.headerButtonIconSize
                     }
 
+                    /*ColorOverlay {
+                        cached: true
+                        color: hovered ? Style.magenta : Style.nmcTextColor
+                        width: source.width
+                        height: source.height
+                        source: accountAvatar
+                    }*/
+
                     Column {
                         id: accountLabels
                         spacing: 0
@@ -88,9 +96,7 @@ MenuItem {
                         Label {
                             id: accountUser
                             width: (Style.accountMenuWidth - Style.headerButtonIconSize - Style.accountMenuHalfPadding)
-
                             text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
-
                             elide: Text.ElideRight
                             color: hovered ? Style.magenta : Style.nmcTextColor
                             font.family: "Segoe UI"

@@ -79,7 +79,7 @@ ShareUserGroupPermissionWidget::ShareUserGroupPermissionWidget(AccountPtr accoun
 
 void ShareUserGroupPermissionWidget::setupUI()
 {
-    if((!_isFile && (_type == Share::TypeEmail)) || (_type == Share::TypeLink))
+    if(!_isFile && (_type == Share::TypeEmail || _type == Share::TypeLink))
     {
         _ui->fileDropRadioButton->setVisible(true);
     }
@@ -93,16 +93,18 @@ void ShareUserGroupPermissionWidget::setupUI()
     _ui->dateEdit->setVisible(false);
     _ui->passwordShareInfoText->setVisible(false);
 
-    if(_type == Share::TypeEmail)
+    if(_type == Share::TypeEmail || _type == Share::TypeLink)
     {
         _ui->allowForwardingCheckbox->setVisible(false);
+        _ui->setPasswordCheckbox->setVisible(true);
     }
     else
     {
         _ui->allowForwardingCheckbox->setVisible(true);
+        _ui->setPasswordCheckbox->setVisible(false);
     }
 
-    if(_isFile && (_type == Share::TypeEmail))
+    if(_isFile && (_type == Share::TypeEmail || _type == Share::TypeLink))
     {
         _ui->editRadioButton->setEnabled(false);
     }
@@ -171,10 +173,11 @@ void ShareUserGroupPermissionWidget::slotShowMessageBox()
     if(_type == Share::TypeLink) {
         //emit linkPermissionsChanged(_permissions);
     } else {
-        emit permissionsChanged(_permissions);
+       // emit permissionsChanged(_permissions);
     }
     if(_createShare == true)
     {
+        emit permissionsChanged(_permissions);
         emit nextButtonClicked(_sharee, _createShare);
     }
     else{
@@ -234,21 +237,23 @@ void ShareUserGroupPermissionWidget::setPermission(const QString &permission)
     }
 }
 
-void ShareUserGroupPermissionWidget::setLinkAdvancePermission(QSharedPointer<LinkShare> linkShare,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare)
+void ShareUserGroupPermissionWidget::setLinkAdvancePermission(QSharedPointer<LinkShare> linkShare,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare, const QString &permission)
 {
     _linkShare = linkShare;
     _type = type;
     _createShare = createShare;
      setupUI();
+     setPermission(permission);
 }
 
-void ShareUserGroupPermissionWidget::setUserAdvancePermission(QSharedPointer<UserGroupShare>share,Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare)
+void ShareUserGroupPermissionWidget::setUserAdvancePermission(QSharedPointer<UserGroupShare>share,Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare, const QString &permission)
 {
     _share = share;
     _type = type;
     _sharee = sharee;
     _createShare = createShare;
     setupUI();
+    setPermission(permission);
 }
 
 void ShareUserGroupPermissionWidget::setUserCreatePermission(Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare)
@@ -257,6 +262,7 @@ void ShareUserGroupPermissionWidget::setUserCreatePermission(Share::ShareType ty
     _sharee = sharee;
     _createShare = createShare;
     setupUI();
+    _ui->readOnlyRadioButton->setChecked(true);
 }
 
 void ShareUserGroupPermissionWidget::setSharePermission()

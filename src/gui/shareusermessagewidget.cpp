@@ -68,11 +68,13 @@ void ShareUserMessageWidget::slotShareMessage()
         _share->setNote(_ui->textEdit_MessageNote->toPlainText());
     }
    emit  shareButtonCLicked(_sharee,_ui->textEdit_MessageNote->toPlainText());
+   toggleNoteOptions(false);
   // hide();
 }
 
 void ShareUserMessageWidget::slotCancelButtonClicked()
 {
+    toggleNoteOptions(false);
     setVisible(false);
     emit cancelButtonClicked(_sharee);
 }
@@ -86,5 +88,14 @@ void ShareUserMessageWidget::setMessageBox(QSharedPointer<UserGroupShare>share, 
 {
     _share = share;
 
+}
+
+void ShareUserMessageWidget::toggleNoteOptions(bool enable)
+{
+    if (!enable) {
+        // Delete note
+        _share->setNote(QString());
+        _ui->textEdit_MessageNote->setText("Your message");
+    }
 }
 }

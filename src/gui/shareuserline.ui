@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>360</width>
-    <height>94</height>
+    <height>104</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -240,7 +240,7 @@
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::Preferred</enum>
+        <enum>QSizePolicy::Fixed</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -526,6 +526,9 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
@@ -535,7 +538,14 @@
       </spacer>
      </item>
      <item>
-      <widget class="QProgressIndicator" name="progressIndicator" native="true"/>
+      <widget class="QProgressIndicator" name="progressIndicator" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -627,7 +637,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../theme.qrc"/>
   <include location="../../theme.qrc"/>
  </resources>
  <connections/>

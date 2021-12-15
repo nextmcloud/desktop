@@ -76,7 +76,7 @@ signals:
     void styleChanged();
     void createLinkShare();
     void advancePermissionWidget(Share::ShareType, QSharedPointer<Sharee>, bool);
-    void advanceUserPermissionWidget(QSharedPointer<UserGroupShare>share, Share::ShareType, QSharedPointer<Sharee>, bool);
+    void advanceUserPermissionWidget(QSharedPointer<UserGroupShare>share, Share::ShareType, QSharedPointer<Sharee>, bool, const QString &permission);
     void sendNewMail(QSharedPointer<UserGroupShare>, bool);
     void permissionsChanged(Share::Permissions permissions);
     void userLinePermissionChanged(const QString & permission);
@@ -108,7 +108,7 @@ private slots:
     void slotPrivateLinkCopy();
     void slotPrivateLinkEmail();
     void slotaddLinkSignal();
-    void slotAdvancedPermission(QSharedPointer<UserGroupShare>share, Share::ShareType type);
+    void slotAdvancedPermission(QSharedPointer<UserGroupShare>share, Share::ShareType type, const QString &permission);
     void slotUserLinePermissionChanged(const QString & permission);
     void slotAdjustScrollArea();
 
@@ -166,7 +166,7 @@ public:
 signals:
     void visualDeletionDone();
     void resizeRequested();
-    void advancedPermissionWidget( QSharedPointer<UserGroupShare>share, Share::ShareType);
+    void advancedPermissionWidget( QSharedPointer<UserGroupShare>share, Share::ShareType, QString);
     void sendNewMail(QSharedPointer<UserGroupShare>share);
     void userLinePermissionChanged(const QString &permission);
     void adjustScrollArea();
@@ -231,6 +231,7 @@ private:
   QSharedPointer<UserGroupShare> _share;
   SharePermissions _maxSharingPermissions;
   bool _isFile;
+  QString _permission;
 
   // _permissionEdit is a checkbox
   QAction *_permissionRead;
