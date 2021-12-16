@@ -327,6 +327,11 @@
         <translation>Speicherplatz: …</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.ui" line="241"/>
+        <source>More Memory</source>
+        <translation>Speicher  erweitern</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.ui" line="256"/>
         <source>Synchronize all</source>
         <translation>Alles synchronisieren</translation>
@@ -603,9 +608,14 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
         <translation>Anmelden</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1095"/>
+        <source>Log in</source>
+        <translation>Anmelden</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1108"/>
-        <source>%1 as %2</source>
-        <translation>%1 als %2</translation>
+        <source>Memory Occupied to %1 percentage</source>
+        <translation>Speicherplatz  zu %1 'percentage'  belegt</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1115"/>
@@ -1621,13 +1631,13 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
     </message>
     <message>
         <location filename="../src/gui/folderstatusdelegate.cpp" line="52"/>
-        <source>A local folder and a directory in the cloud will be synced and updated automatically</source>
-        <translation>Ein lokaler Ordner und ein Verzeichnis in der Cloud werden automatisch synchronisiert und aktualisiert</translation>
+        <source>Synchronize any other local folder with your MagentaCLOUD.</source>
+        <translation>Synchronisieren Sie einen weiteren beliebigen lokalen Ordner mit ihrer MagentaCLOUD.</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusdelegate.cpp" line="55"/>
-        <source>Add folder synchronization</source>
-        <translation>Ordner-synchronisierung hinzufügen</translation>
+        <source>Add Live-Backup</source>
+        <translation>"Live-Backup hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusdelegate.cpp" line="256"/>
@@ -1824,6 +1834,36 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
 <context>
     <name>OCC::FolderWizard</name>
     <message>
+        <location filename="../src/gui/folderwizard.cpp" line="83"/>
+        <source>Step 1 from 2: Local Folder</source>
+        <translation>Schritt 1 von 2: Lokaler Ordner</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderwizard.cpp" line="83"/>
+        <source>Select a folder on your hard drive, that will be connected to your MangentaCLOUD and permanently connected. All files and sub-folders are automatically uploaded and synchronized.</source>
+        <translation>Wahlen Sie einen Ordener auf ihrer Festplatte aus, der mit ihrer MangentaCLOUD verbunden werden und dauerhaft verbunden Alle Dateien und Unterordner werden Automatisch hochgeladen and synchronisiert.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderwizard.cpp" line="82"/>
+        <source>If you don't make a selection, an empty folder will automatically be created for you.</source>
+        <translation>Wenn Sie keine Auswani treffen , wird Automatisch ein Leerer Ordner fur Sie erstelt.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderwizard.cpp" line="176"/>
+        <source>Step 2 from 2: Directory in your CLOUD</source>
+        <translation>Schritt 2 von 2: Lokaler Ordner</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderwizard.cpp" line="177"/>
+        <source>Both folders are permanently linked, the respective contents are automatically compared and updated.</source>
+        <translation>Bitte Wahlen oder erstellen Sie nun einen Ziel Ordner in ihrer MagentaCLOUD, wo die Inhalte hochgeladen und synchronisiert werden.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderwizard.cpp" line="178"/>
+        <source>Please select or create a target folder in your MangentaCLOUD, where the content will be uploaded and synchronized.</source>
+        <translation>Beide Ordener werden dauerhaft verknupft, die jeweiligen Inhalte werden Automatisch abgeglichen und aktualisiert.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/folderwizard.cpp" line="620"/>
         <source>Add Folder Sync Connection</source>
         <translation>Ordner-Synchronisierung hinzufügen</translation>
@@ -1832,6 +1872,11 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <location filename="../src/gui/folderwizard.cpp" line="622"/>
         <source>Add Sync Connection</source>
         <translation>Synchronisierung hinzufügen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderwizard.cpp" line="651"/>
+        <source>Finish</source>
+        <translation>Übernehmen</translation>
     </message>
     <message>
         <location filename="../src/gui/folderwizard.cpp" line="76"/>
@@ -1998,6 +2043,26 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <location filename="../src/gui/generalsettings.ui" line="41"/>
         <source>Legal notice</source>
         <translation>Impressum</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="50"/>
+        <source>Imprint</source>
+        <translation>Impressum</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="60"/>
+        <source>Privacy Policy</source>
+        <translation>Datenschutz Bestimmungen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="70"/>
+        <source>Used Open Source Software</source>
+        <translation>Verwendete Open Source Software</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="125"/>
+        <source>Further Informations</source>
+        <translation>Mehr Informationen</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="66"/>
@@ -4372,12 +4437,12 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
 <context>
     <name>OCC::ShareUserGroupPermissionWidget</name>
     <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="138"/>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="502"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="157"/>
+        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="521"/>
         <source>Next</source>
         <translation>Weiter</translation>
     </message>
@@ -4432,12 +4497,12 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Sammelbox</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.cpp" line="141"/>
+        <location filename="../src/gui/shareusergrouppermissionwidget.cpp" line="134"/>
         <source>Confirm</source>
-        <translation>Weiter</translation>
+        <translation>Übernehmen</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.cpp" line="126"/>
+        <location filename="../src/gui/shareusergrouppermissionwidget.cpp" line="136"/>
         <source>Next</source>
         <translation>Weiter</translation>
     </message>
@@ -5584,8 +5649,8 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="280"/>
-        <source>Disconnected from %1</source>
-        <translation>Von %1 getrennt</translation>
+        <source>Disconnected from MagentaCLOUD</source>
+        <translation>MagentaCLOUD: Verbindung getrennt</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="283"/>
@@ -6356,10 +6421,10 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Synchronisierung für alle fortsetzen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="135"/>
-        <location filename="../src/gui/tray/Window.qml" line="244"/>
-        <source>Pause sync for all</source>
-        <translation>Synchronisierung für alle pausieren</translation>
+        <location filename="../src/gui/tray/Window.qml" line="196"/>
+        <location filename="../src/gui/tray/Window.qml" line="272"/>
+        <source>Pause synchronization</source>
+        <translation>Synchronisierung pausieren </translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="196"/>
@@ -6377,14 +6442,14 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Neues Konto hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="250"/>
+        <location filename="../src/gui/tray/Window.qml" line="282"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="272"/>
-        <source>Exit</source>
-        <translation>Beenden</translation>
+        <location filename="../src/gui/tray/Window.qml" line="321"/>
+        <source>Close</source>
+        <translation>Schließen</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="317"/>

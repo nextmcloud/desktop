@@ -49,10 +49,10 @@ QString FolderStatusDelegate::addFolderText(addButtonText selection)
     switch(selection)
     {
     case AB_Textline:
-        return tr("A local folder and a directory in the cloud will be synced and updated automatically");
+        return tr("Synchronize any other local folder with your MagentaCLOUD.");
     case AB_Headline:
     default:
-        return tr("Add folder synchronization");
+        return tr("Add Live-Backup");
     }
 }
 
