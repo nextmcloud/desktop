@@ -62,19 +62,19 @@ void ShareUserMessageWidget::slotShareMessage()
     if(_share.isNull())
     {
         qCInfo(lcSharing) << "no share created yet";
+        emit  shareButtonCLicked(_sharee,_ui->textEdit_MessageNote->toPlainText());
     }
     else
     {
         _share->setNote(_ui->textEdit_MessageNote->toPlainText());
     }
-   emit  shareButtonCLicked(_sharee,_ui->textEdit_MessageNote->toPlainText());
-   toggleNoteOptions(false);
-  // hide();
+   //toggleNoteOptions(false);
+   hide();
 }
 
 void ShareUserMessageWidget::slotCancelButtonClicked()
 {
-    toggleNoteOptions(false);
+    //toggleNoteOptions(false);
     setVisible(false);
     emit cancelButtonClicked(_sharee);
 }
@@ -94,8 +94,8 @@ void ShareUserMessageWidget::toggleNoteOptions(bool enable)
 {
     if (!enable) {
         // Delete note
-        _share->setNote(QString());
-        _ui->textEdit_MessageNote->setText("Your message");
+       // _share->setNote(QString());
+       // _ui->textEdit_MessageNote->setText("Your message");
     }
 }
 }

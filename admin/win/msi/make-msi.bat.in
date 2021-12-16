@@ -21,6 +21,6 @@ Rem Compile en-US (https://www.firegiant.com/wix/tutorial/transforms/morphing-in
 if %ERRORLEVEL% neq 0 exit %ERRORLEVEL%
 
 Rem Link MSI package
-"%WIX%\bin\light.exe" -sw1076 -ext WixUIExtension -ext WixUtilExtension -cultures:en-us NCMsiHelper.wixobj WinShellExt.wixobj collect.wixobj Nextcloud.wixobj UinstallOldClientDlg.wixobj -out "@MSI_INSTALLER_FILENAME@"
+"%WIX%\bin\light.exe" -sw1076 -ext WixUIExtension -ext WixUtilExtension -cultures:de-de NCMsiHelper.wixobj WinShellExt.wixobj collect.wixobj Nextcloud.wixobj UinstallOldClientDlg.wixobj -out "@MSI_INSTALLER_FILENAME@"
 
 exit %ERRORLEVEL%

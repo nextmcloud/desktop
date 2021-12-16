@@ -123,63 +123,63 @@
 
         if oldClientExists Then
 
-            Set Fso = CreateObject("Scripting.FileSystemObject")
-            If Fso.FolderExists("jsonPath") Then
-                    If Fso.FileExists(jsonFile) Then
-                            Set Fread = Fso.OpenTextFile(jsonFile,1)
-                            json = Fread.readAll
-                            Arr = split(json, ",")
+            'Set Fso = CreateObject("Scripting.FileSystemObject")
+            'If Fso.FolderExists("jsonPath") Then
+                    'If Fso.FileExists(jsonFile) Then
+                           ' Set Fread = Fso.OpenTextFile(jsonFile,1)
+                           ' json = Fread.readAll
+                           ' Arr = split(json, ",")
 
-                            for i = 0 To Ubound(Arr)
-                                    jsonVal = Arr(i)
-                                    If Instr(1,jsonVal,"SendUserStatistics")<>0 Then
-                                            SendUserStatistics = trim(jsonVal)
-                                            autoUpdateCheck = Trim(Split(jsonVal,":")(1))
+                           ' for i = 0 To Ubound(Arr)
+                                   ' jsonVal = Arr(i)
+                                   ' If Instr(1,jsonVal,"SendUserStatistics")<>0 Then
+                                            'SendUserStatistics = trim(jsonVal)
+                                            'autoUpdateCheck = Trim(Split(jsonVal,":")(1))
 
-                                    ElseIf Instr(1,jsonVal,"UseSilentUpdates")<>0 Then
-                                            UseSilentUpdates = trim(jsonVal)
-                                            jsonVal = Left(jsonVal, len(jsonVal)-1)
-                                            TransferUsageData = Trim(Split(jsonVal,":")(1))
+                                    'ElseIf Instr(1,jsonVal,"UseSilentUpdates")<>0 Then
+                                            'UseSilentUpdates = trim(jsonVal)
+                                            'jsonVal = Left(jsonVal, len(jsonVal)-1)
+                                           ' TransferUsageData = Trim(Split(jsonVal,":")(1))
 
-                                    ElseIf Instr(1,jsonVal,"LastKnownUser")<>0 Then
-                                            LastKnownUser = trim(jsonVal)
-                                    End If
-                            Next
+                                   ' ElseIf Instr(1,jsonVal,"LastKnownUser")<>0 Then
+                                            'LastKnownUser = trim(jsonVal)
+                                    'End If
+                            'Next
 
-                            If Not Fso.FolderExists(configPath) Then
-                                    Fso.CreateFolder(configPath)
-                            End If
+                           ' If Not Fso.FolderExists(configPath) Then
+                                   ' Fso.CreateFolder(configPath)
+                           ' End If
 
-                            Set Fwrite = Fso.OpenTextFile(configFile,8, true)
-                            Fwrite.WriteLine "[MagentaCLOUD]"
-                            Fwrite.WriteLine "TransferUsageData="&TransferUsageData
-                            Fwrite.WriteLine "autoUpdateCheck="&autoUpdateCheck
+                            'Set Fwrite = Fso.OpenTextFile(configFile,8, true)
+                            'Fwrite.WriteLine "[MagentaCLOUD]"
+                            'Fwrite.WriteLine "TransferUsageData="&TransferUsageData
+                            'Fwrite.WriteLine "autoUpdateCheck="&autoUpdateCheck
 
-                            Fread.Close
-                            Fwrite.Close
+                            'Fread.Close
+                            'Fwrite.Close
 
-                            Set Fread = Nothing
-                            Set Fwrite = Nothing
+                            'Set Fread = Nothing
+                            'Set Fwrite = Nothing
 
-                    End If
-            End If
+                    'End If
+            'End If
 
-            Set Fso = Nothing
+            'Set Fso = Nothing
 
-            msgbox "The old version is going to be deinstalled, cancel the installation to keep it", vbExclamation
-            'Wscript.Echo subkey, vbCRLF, sDisplayName, vbCRLF, sUnInstall, vbCRLF, vbCRLF
+            'msgbox "The old version is going to be deinstalled, cancel the installation to keep it", vbExclamation
+            Wscript.Echo subkey, vbCRLF, sDisplayName, vbCRLF, sUnInstall, vbCRLF, vbCRLF
             oWsh.run sUnInstall
 
-        else
+      '  else
 
-           msgbox "Old Client is not available to Uninstall"
+       '    msgbox "Old Client is not available to Uninstall"
 
         End If
         ]]>
     </CustomAction>
     <InstallExecuteSequence>
         <!-- Notify about the existing app -->
-        <!--<Custom Action='NotifyUser' After='FindRelatedProducts'>OLDFOUND</Custom> -->
+        <Custom Action='UninstallOldClient' Before='InstallFiles'></Custom>
         <!-- Install: Remove previous NSIS installation, if detected -->
         <Custom Action="ExecNsisUninstaller" Before="ProcessComponents">NSIS_UNINSTALLEXE AND NOT Installed</Custom>
 
@@ -234,11 +234,11 @@
             Value="RemoveOldClient">NOT Installed</Publish> -->
 
      <!--   <Publish Dialog="MigrationDialog" Control="cancelButton" Event="EndDialog" Value="ExitDialog">1</Publish> -->
-        <UIRef Id="MigrationDialogUI"/>
+      <!--  <UIRef Id="MigrationDialogUI"/>
 
         <Publish Dialog="MigrationDialog" Control="Uninstall"
             Event="DoAction" Value="UninstallOldClient">updateCheckboxResult = 1 and aquisitionCheckboxResult = 1 and Not Installed</Publish>
-        <Publish Dialog="MigrationDialog" Control="Uninstall" Event="EndDialog" Value="Return">1</Publish>
+        <Publish Dialog="MigrationDialog" Control="Uninstall" Event="EndDialog" Value="Return">1</Publish> -->
 
         <!-- https://wixtoolset.org/documentation/manual/v3/howtos/ui_and_localization/run_program_after_install.html -->        
         <Publish Dialog="ExitDialog"
@@ -254,7 +254,7 @@
     <!-- "Launch" checkbox -->
     <Property Id="WixShellExecTarget" Value="[#MainExecutable]" />
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
-    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.AppName)" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="$(var.AppName) starten" />
     <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" Before="CostInitialize">NOT (LAUNCH=0)</SetProperty>
     <SetProperty Id="updateCheckboxResult" Value="1" Before="CostInitialize"></SetProperty>
     <SetProperty Id="aquisitionCheckboxResult" Value="1" Before="CostInitialize"></SetProperty>

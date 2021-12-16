@@ -225,7 +225,7 @@ ShareLinkWidget *ShareDialog::addLinkShareWidget(const QSharedPointer<LinkShare>
             widget->setVisible(true);
         }
     }*/
-    slotAdjustScrollWidgetSize();
+   // slotAdjustScrollWidgetSize();
     qCDebug(lcSharing) << "Parul: added to scroll area";
 
     /*if(_linkWidgetList.size() <=3){
@@ -302,7 +302,7 @@ void ShareDialog::slotAdjustScrollWidgetSize()
 {
     const auto count = _scrollAreaLayout->count();
     const auto margin = 10;
-    const auto height = _linkWidgetList.size() > 0 ? _linkWidgetList.last()->sizeHint().height() + margin : 0;
+    const auto height = _linkWidgetList.size() > 0 ? _linkWidgetList.last()->sizeHint().height() + margin : 100;
     auto totalHeight = height * count;
     _ui->scrollArea->setFrameShape(count > 6 ? QFrame::StyledPanel : QFrame::NoFrame);
     _ui->scrollArea->setVisible(!_scrollAreaLayout->isEmpty());

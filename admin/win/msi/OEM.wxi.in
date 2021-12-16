@@ -31,8 +31,8 @@
     <?define AppInfoLink = "$(var.AppHelpLink)" ?>
 
     <!-- Custom license: To use it, also remove the "Skip the license page" stuff in the <UI> section
-                         and uncomment <WixVariable Id="WixUILicenseRtf"... -->
-    <?define AppLicenseRtf = "License.rtf" ?>
+                         and uncomment <WixVariable Id="WixUILicenseRtf"...-->
+    <?define AppLicenseRtf = "$(sys.CURRENTDIR)\License.rtf" ?>
 
     <!-- App Version -->
     <?define VerMajor = "@MIRALL_VERSION_MAJOR@" ?>

@@ -1141,7 +1141,7 @@ void ShareUserLine::onNoteConfirmButtonClicked()
 
 void ShareUserLine::onSetUserNote(const QString &note)
 {
-    _share->setNote(note);;
+    _share->setNote(note);
 }
 
 void ShareUserLine::setNote(const QString &note)
