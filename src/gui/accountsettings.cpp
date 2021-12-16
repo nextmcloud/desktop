@@ -1427,7 +1427,7 @@ void AccountSettings::customizeStyle()
     //QString msg = _ui->connectLabel->text();
    // Theme::replaceLinkColorStringBackgroundAware(msg);
    // _ui->connectLabel->setText(msg);
-    _ui->moreMemoryButton->setStyleSheet("QPushButton {height : 24px ; font : 13px; color: #191919; border: 0px solid #CCCCCC; backgroud:#E1E1E1}");
+    _ui->moreMemoryButton->setStyleSheet("QPushButton {height : 24px ; font : 13px; color: #191919; border: 2px solid #CCCCCC; backgroud:#E1E1E1}");
 
     QColor color = palette().highlight().color();
     QString background(palette().base().color().name());
