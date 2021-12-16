@@ -276,7 +276,7 @@ QVariant FolderStatusModel::data(const QModelIndex &index, int role) const
             auto status = f->syncResult().status();
             bool firstRow = (0 == index.row());
             if (f->syncPaused()) {
-                return QVariant();
+                 return theme->folderOverlayIcon(SyncResult::Paused);
             } else {
                 if (status == SyncResult::SyncPrepare || status == SyncResult::Undefined) {
                     return theme->folderOverlayIcon(SyncResult::SyncRunning);

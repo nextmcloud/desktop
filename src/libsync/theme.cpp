@@ -581,11 +581,12 @@ QIcon Theme::folderOverlayIcon(SyncResult::Status status, bool firstRow) const
     {
         if(firstRow)
         {
-            statusIcon = QLatin1String("magentacloud-logo");
+            //statusIcon = QLatin1String("magentacloud-logo");
+            statusIcon = QLatin1String("magentacloud-icon");
         }
         else
         {
-            statusIcon = QLatin1String("state-ok");
+           // statusIcon = QLatin1String("state-ok");
         }
         break;
     }
@@ -612,7 +613,10 @@ QIcon Theme::folderOkIcon() const
 
 QIcon Theme::folderDisabledIcon() const
 {
-    return themeIcon(QLatin1String("state-pause"));
+    QString folderIcon = QLatin1String("folder-ok");
+    const auto pixmapName = QString::fromLatin1(":/client/theme/%1/%2-%3.png").arg("colored").arg(folderIcon).arg(64);
+    return QPixmap(pixmapName);
+   // return themeIcon(QLatin1String("state-pause"));
 }
 
 QIcon Theme::folderOfflineIcon(bool sysTray) const
