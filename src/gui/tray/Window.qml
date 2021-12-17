@@ -282,7 +282,7 @@ Window {
                                     Text {
                                         anchors.verticalCenter: parent.verticalCenter
                                         font.wordSpacing:  45
-                                        text:  qsTr(" "+"Settings")
+                                        text:  (" "+"Einstellungen")
                                         font.family: "Segoe UI"
                                         font.pixelSize: Style.topLinePixelSize
                                         color: parent.hovered ? Style.magenta : Style.nmcTextColor
@@ -318,7 +318,7 @@ Window {
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.bottomMargin: Style.accountMenuPadding
                                         font.wordSpacing:  45
-                                        text:  qsTr(" "+"Close")
+                                        text:  qsTr(" "+"Beenden")
                                         font.family: "Segoe UI"
                                         font.pixelSize: Style.topLinePixelSize
                                         color: parent.hovered ? Style.magenta : Style.nmcTextColor
@@ -462,7 +462,7 @@ Window {
                         icon.source: "qrc:///client/theme/magenta/news/default@svg.svg"
                         text: qsTr("Open website")
                         font.family: "Segoe UI"
-                        font.pixelSize: Style.subLinePixelSize
+                        font.pixelSize: 8
                         onClicked: UserModel.openCurrentAccountServer()
 
                         Accessible.role: Accessible.Button
@@ -483,7 +483,7 @@ Window {
                         icon.source: "qrc:///client/theme/magenta/folder/default@svg.svg"
                         text: qsTr("Local folder")
                         font.family: "Segoe UI"
-                        font.pixelSize: Style.subLinePixelSize
+                        font.pixelSize: 8
                         onClicked: UserModel.openCurrentAccountLocalFolder()
 
                         Accessible.role: Accessible.Button
@@ -558,7 +558,8 @@ Window {
 
                 width: parent.width
                 height: Style.trayWindowHeaderHeight
-                spacing: 0
+                anchors.rightMargin: 16
+                spacing: 8
 
                 Accessible.role: Accessible.ListItem
                 Accessible.name: path !== "" ? qsTr("Open %1 locally").arg(displayPath)
@@ -571,21 +572,21 @@ Window {
                     anchors.left: activityItem.left
                     anchors.right: activityItem.right
                     height: parent.height
-                    anchors.margins: 2
+                    anchors.rightMargin: 16
                     hoverEnabled: true
                     onClicked: activityModel.triggerDefaultAction(model.index)
 
                     Rectangle {
                         id: listItemBackground
                         anchors.fill: parent
-                        color: ((parent.containsMouse || shareButton.hovered) ? Style.lightHover : "transparent")
+                        color: ((parent.containsMouse /*|| shareButton.hovered*/) ? Style.lightHover : "transparent")
                     }
                 }
 
                 Image {
                     id: activityIcon
                     anchors.left: activityItem.left
-                    anchors.leftMargin: 8
+                    anchors.leftMargin: 16
                     anchors.rightMargin: 8
                     Layout.preferredWidth: Style.headerButtonIconSize
                     Layout.preferredHeight: Style.headerButtonIconSize
@@ -654,17 +655,17 @@ Window {
                     anchors.right: activityItem.right
                     spacing: 0
                     Layout.alignment: Qt.AlignRight
-                    width: Style.trayWindowHeaderHeight
-                    height: Style.trayWindowHeaderHeight
+                    width: 16
+                    height: 60
 
                     Rectangle {
                         id: activityActionsLayoutSpacer
-                        width: parent.height
-                        height: parent.height
-                        visible: (path !== "" && (activityMouseArea.containsMouse || shareButton.hovered)) ? false : true
+                        width: 16
+                        height: 60
+                        visible: (path !== "" && (activityMouseArea.containsMouse /*|| shareButton.hovered*/)) ? false : true
                         color: activityMouseArea.containsMouse ? Style.lightHover : "transparent"
                     }
-                    Button {
+                    /*Button {
                         id: shareButton
 
                         Layout.preferredWidth: (path === "") ? 0 : parent.height
@@ -687,7 +688,7 @@ Window {
                         Accessible.role: Accessible.Button
                         Accessible.name: qsTr("Share %1").arg(displayPath)
                         Accessible.onPressAction: shareButton.clicked()
-                    }
+                    }*/
                 }
             }
 

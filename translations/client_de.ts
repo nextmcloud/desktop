@@ -226,7 +226,7 @@
     <message>
         <location filename="../src/gui/folderwizardsourcepage.ui" line="44"/>
         <source>&amp;Choose …</source>
-        <translation>&amp;Wählen …</translation>
+        <translation>&amp;Ordner auswählen</translation>
     </message>
 </context>
 <context>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../src/gui/accountsettings.ui" line="241"/>
         <source>More Memory</source>
-        <translation>Speicher  erweitern</translation>
+        <translation>Speicher erweitern</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="256"/>
@@ -614,8 +614,8 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1108"/>
-        <source>Memory Occupied to %1 percentage</source>
-        <translation>Speicherplatz  zu %1 'percentage'  belegt</translation>
+        <source>Memory Occupied to %1 %</source>
+        <translation>Speicherplatz zu %1 % belegt</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1115"/>
@@ -1839,7 +1839,7 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation>Schritt 1 von 2: Lokaler Ordner</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderwizard.cpp" line="83"/>
+        <location filename="../src/gui/folderwizard.cpp" line="81"/>
         <source>Select a folder on your hard drive, that will be connected to your MangentaCLOUD and permanently connected. All files and sub-folders are automatically uploaded and synchronized.</source>
         <translation>Wahlen Sie einen Ordener auf ihrer Festplatte aus, der mit ihrer MangentaCLOUD verbunden werden und dauerhaft verbunden Alle Dateien und Unterordner werden Automatisch hochgeladen and synchronisiert.</translation>
     </message>

@@ -664,7 +664,7 @@ void ShareDialog::slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare>
         }*/
         _ui->scrollArea->setVisible(false);
         _sharePermissionGroup->setUserAdvancePermission(share, type, sharee, createShare, permission);
-        _sharePermissionGroup->setVisible(true);
+        _sharePermissionGroup->show();
     }
 }
 
@@ -684,7 +684,7 @@ void ShareDialog::slotSendNewMail(QSharedPointer<UserGroupShare> share, bool cre
     m_createShare = createShare;
     //_shareUserMessage = new ShareUserMessageWidget(_accountState->account(), _sharePath, _localPath, _maxSharingPermissions,sharee, this);
     _shareUserMessage->setMessageBox(share, createShare);
-    _shareUserMessage->setVisible(true);
+    _shareUserMessage->show();
 }
 
 } // namespace OCC

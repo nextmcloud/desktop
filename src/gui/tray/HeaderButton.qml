@@ -19,7 +19,7 @@ Button {
 
     icon.width: Style.headerButtonIconSize
     icon.height: Style.headerButtonIconSize
-    icon.color: root.hovered ? Style.magenta : Style.nmcTextColor
+    //icon.color: root.hovered ? Style.magenta : Style.nmcTextColor
 
     font.family: "Segoe UI"
     font.pixelSize: 9

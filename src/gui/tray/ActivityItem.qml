@@ -36,8 +36,8 @@ MouseArea {
             id: activityIcon
             Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
             Layout.leftMargin: 8
-            Layout.preferredWidth: shareButton.icon.width
-            Layout.preferredHeight: shareButton.icon.height
+           // Layout.preferredWidth: shareButton.icon.width
+           // Layout.preferredHeight: shareButton.icon.height
             verticalAlignment: Qt.AlignCenter
             cache: true
             source: icon

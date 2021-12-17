@@ -53,6 +53,7 @@ ShareUserMessageWidget::ShareUserMessageWidget(AccountPtr account,
     _ui->setupUi(this);
 
     _ui->textEdit_MessageNote->setStyleSheet("border: 2px solid #191919;");
+    toggleNoteOptions(false);
     connect(_ui->sendButton, SIGNAL(clicked()), this, SLOT(slotShareMessage()));
     connect(_ui->cancelButton, SIGNAL(clicked()), this, SLOT(slotCancelButtonClicked()));
 }
@@ -68,14 +69,14 @@ void ShareUserMessageWidget::slotShareMessage()
     {
         _share->setNote(_ui->textEdit_MessageNote->toPlainText());
     }
-   //toggleNoteOptions(false);
+   toggleNoteOptions(false);
    hide();
 }
 
 void ShareUserMessageWidget::slotCancelButtonClicked()
 {
-    //toggleNoteOptions(false);
-    setVisible(false);
+    toggleNoteOptions(false);
+    hide();
     emit cancelButtonClicked(_sharee);
 }
 
@@ -93,9 +94,7 @@ void ShareUserMessageWidget::setMessageBox(QSharedPointer<UserGroupShare>share, 
 void ShareUserMessageWidget::toggleNoteOptions(bool enable)
 {
     if (!enable) {
-        // Delete note
-       // _share->setNote(QString());
-       // _ui->textEdit_MessageNote->setText("Your message");
+        _ui->textEdit_MessageNote->clear();
     }
 }
 }

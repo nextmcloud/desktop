@@ -47,8 +47,7 @@ const QString TOOLBAR_CSS()
     return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
                           "QToolBar QToolButton { background: %1; font: 14px; color: #191919; border: none; border-bottom: 1px solid %2; margin: 0; padding: 5px; } "
                           "QToolBar QToolBarExtension { padding:0; } "
-                          "QToolBar QToolButton:checked { background: %1; color: #e20074; }"
-                          "QToolBar QToolButton:hover {background: %1; color: #e20074; }");
+                          "QToolBar QToolButton:checked { background: %1; color: #e20074; }");
 }
 
 const float buttonSizeRatio = 1.618f; // golden ratio
@@ -116,7 +115,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _actionGroup = new QActionGroup(this);
     _actionGroup->setExclusive(true);
     connect(_actionGroup, &QActionGroup::triggered, this, &SettingsDialog::slotSwitchPage);
-    connect(_actionGroup, &QActionGroup::hovered, this, &SettingsDialog::slotHoverEffect);
+    //connect(_actionGroup, &QActionGroup::hovered, this, &SettingsDialog::slotHoverEffect);
 
     foreach(auto ai, AccountManager::instance()->accounts()) {
         accountAdded(ai.data());
@@ -210,24 +209,24 @@ void SettingsDialog::slotSwitchPage(QAction *action)
 {
     _ui->stack->setCurrentWidget(_actionGroupWidgets.value(action));
     customizeStyle();
-    if(action->text() == "Synchronization")
+    if((action->text() == "Synchronization") || (action->text() == "Synchronisieren"))
     {
-        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder_magenta.svg"));
-        action->setIcon(openIcon);
+    const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder_magenta.svg"));
+    action->setIcon(openIcon);
     }
-    else if(action->text() == "General")
+    else if((action->text() == "Allgemein") || (action->text() == "General"))
     {
-        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
-        action->setIcon(openIcon);
+    const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
+    action->setIcon(openIcon);
     }
-    else if(action->text() == "Network")
+    else if((action->text() == "Netzwerk") || (action->text() == "Network"))
     {
-        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
-        action->setIcon(openIcon);
+    const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
+    action->setIcon(openIcon);
     }
 }
 
-void SettingsDialog::slotHoverEffect(QAction *action)
+/*void SettingsDialog::slotHoverEffect(QAction *action)
 {
     customizeStyle();
     if(action->text() == "Synchronization")
@@ -246,7 +245,7 @@ void SettingsDialog::slotHoverEffect(QAction *action)
         action->setIcon(openIcon);
     }
 
-}
+}*/
 
 void SettingsDialog::showFirstPage()
 {
@@ -274,7 +273,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     //const QString actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
     //if (avatar.isNull()) {
         accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/localFolder32x32.svg"),
-            "Synchronization");
+            "Synchronisieren");
    // } else {
        // QIcon icon(QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatar)));
        // accountAction = createActionWithIcon(icon, actionText);

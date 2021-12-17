@@ -943,7 +943,7 @@ void SocketApi::sendSharingContextMenuOptions(const FileData &fileData, SocketLi
 
     // If sharing is globally disabled, do not show any sharing entries.
     // If there is no permission to share for this file, add a disabled entry saying so
-    if (isOnTheServer && !record._remotePerm.isNull() && !record._remotePerm.hasPermission(RemotePermissions::CanReshare)) {
+    /*if (isOnTheServer && !record._remotePerm.isNull() && !record._remotePerm.hasPermission(RemotePermissions::CanReshare)) {
         listener->sendMessage(QLatin1String("MENU_ITEM:DISABLED:d:") + (!record.isDirectory()
             ? tr("Resharing this file is not allowed") : tr("Resharing this folder is not allowed")));
     } else {
@@ -963,7 +963,7 @@ void SocketApi::sendSharingContextMenuOptions(const FileData &fileData, SocketLi
         } else if (publicLinksEnabled) {
             listener->sendMessage(QLatin1String("MENU_ITEM:MANAGE_PUBLIC_LINKS") + flagString + tr("Copy share link"));
         }
-    }
+    }*/
 
     // Disabled: only providing email option for private links would look odd,
     // and the copy option is more general.

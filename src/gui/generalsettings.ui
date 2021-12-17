@@ -23,7 +23,7 @@
       <item>
        <widget class="QCheckBox" name="transferUsageDataCheckBox">
         <property name="text">
-         <string>Transfer usage data</string>
+         <string notr="true">Analyse-Datenerfassung zur bedarfsgerechten Gestaltung</string>
         </property>
         <property name="checked">
          <bool>false</bool>
@@ -122,7 +122,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Further Informations</string>
+           <string>Further Information</string>
           </property>
          </widget>
         </item>

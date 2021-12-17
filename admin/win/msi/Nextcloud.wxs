@@ -87,99 +87,48 @@
         Script="vbscript"
         Execute="immediate">
         <![CDATA[
-        const HKEY_CLASSES_ROOT   = &H80000000
-        const HKEY_CURRENT_USER   = &H80000001
-        const HKEY_LOCAL_MACHINE  = &H80000002
-        const HKEY_USERS          = &H80000003
-        const HKEY_CURRENT_CONFIG = &H80000004
-        const HKEY_DYN_DATA       = &H80000005
-        strComputer = "."
-        oldClientExists = False
-        userName = CreateObject("WScript.Network").UserName
-        configPath = "C:\Users\"& userName &"\AppData\Roaming\MagentaCLOUD"
-        configFile = configPath & "\magentacloud.cfg"
-        jsonPath = "C:\Users\"& userName &"\AppData\Local\MagentaCLOUD"
-        jsonFile = jsonFile & "\magentacloud.cfg"
+                const HKEY_CLASSES_ROOT   = &H80000000
+                const HKEY_CURRENT_USER   = &H80000001
+                const HKEY_LOCAL_MACHINE  = &H80000002
+                const HKEY_USERS          = &H80000003
+                const HKEY_CURRENT_CONFIG = &H80000004
+                const HKEY_DYN_DATA       = &H80000005
+                strComputer = "."
+                oldClientExists = False
+                userName = CreateObject("WScript.Network").UserName
+                configPath = "C:\Users\"& userName &"\AppData\Roaming\MagentaCLOUD"
+                configFile = configPath & "\magentacloud.cfg"
+                jsonPath = "C:\Users\"& userName &"\AppData\Local\MagentaCLOUD"
+                jsonFile = jsonFile & "\magentacloud.cfg"
 
-        set oWsh = createobject("wscript.shell")
-        Set oReg = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" _
-                 & strComputer & "\root\default:StdRegProv")
+                set oWsh = createobject("wscript.shell")
+                Set oReg = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" _
+                         & strComputer & "\root\default:StdRegProv")
 
-        strKeyPath = "software\WOW6432Node\microsoft\windows\currentversion\uninstall" ' Root level
-        oReg.EnumKey HKEY_LOCAL_MACHINE, strKeyPath, arrSubKeys
+                strKeyPath = "software\WOW6432Node\microsoft\windows\currentversion\uninstall" ' Root level
+                oReg.EnumKey HKEY_LOCAL_MACHINE, strKeyPath, arrSubKeys
 
-        For Each subkey In arrSubKeys
-          on error resume next
-          sDisplayName = oWsh.Regread("HKLM\" & strKeyPath & "\" & subkey & "\DisplayName")
-          if err.number = 0 then
-            on error goto 0
-            if sDisplayName = "MagentaCLOUD Software" then
-                oldClientExists = True
-                sUninstall = oWsh.Regread("HKLM\" & strKeyPath & "\" & subkey & "\UnInstallString")
-            End If
-          End If
-        Next
-        on error goto 0
+                For Each subkey In arrSubKeys
+                  on error resume next
+                  sDisplayName = oWsh.Regread("HKLM\" & strKeyPath & "\" & subkey & "\DisplayName")
+                  if err.number = 0 then
+                    on error goto 0
+                    if sDisplayName = "MagentaCLOUD Software" then
+                        oldClientExists = True
+                        sUninstall = oWsh.Regread("HKLM\" & strKeyPath & "\" & subkey & "\UnInstallString")
+                    End If
+                  End If
+                Next
+                on error goto 0
 
-        if oldClientExists Then
-
-            'Set Fso = CreateObject("Scripting.FileSystemObject")
-            'If Fso.FolderExists("jsonPath") Then
-                    'If Fso.FileExists(jsonFile) Then
-                           ' Set Fread = Fso.OpenTextFile(jsonFile,1)
-                           ' json = Fread.readAll
-                           ' Arr = split(json, ",")
-
-                           ' for i = 0 To Ubound(Arr)
-                                   ' jsonVal = Arr(i)
-                                   ' If Instr(1,jsonVal,"SendUserStatistics")<>0 Then
-                                            'SendUserStatistics = trim(jsonVal)
-                                            'autoUpdateCheck = Trim(Split(jsonVal,":")(1))
-
-                                    'ElseIf Instr(1,jsonVal,"UseSilentUpdates")<>0 Then
-                                            'UseSilentUpdates = trim(jsonVal)
-                                            'jsonVal = Left(jsonVal, len(jsonVal)-1)
-                                           ' TransferUsageData = Trim(Split(jsonVal,":")(1))
-
-                                   ' ElseIf Instr(1,jsonVal,"LastKnownUser")<>0 Then
-                                            'LastKnownUser = trim(jsonVal)
-                                    'End If
-                            'Next
-
-                           ' If Not Fso.FolderExists(configPath) Then
-                                   ' Fso.CreateFolder(configPath)
-                           ' End If
-
-                            'Set Fwrite = Fso.OpenTextFile(configFile,8, true)
-                            'Fwrite.WriteLine "[MagentaCLOUD]"
-                            'Fwrite.WriteLine "TransferUsageData="&TransferUsageData
-                            'Fwrite.WriteLine "autoUpdateCheck="&autoUpdateCheck
-
-                            'Fread.Close
-                            'Fwrite.Close
-
-                            'Set Fread = Nothing
-                            'Set Fwrite = Nothing
-
-                    'End If
-            'End If
-
-            'Set Fso = Nothing
-
-            'msgbox "The old version is going to be deinstalled, cancel the installation to keep it", vbExclamation
-            Wscript.Echo subkey, vbCRLF, sDisplayName, vbCRLF, sUnInstall, vbCRLF, vbCRLF
-            oWsh.run sUnInstall
-
-      '  else
-
-       '    msgbox "Old Client is not available to Uninstall"
-
-        End If
+                if oldClientExists Then
+                    oWsh.run sUnInstall
+                End If
         ]]>
     </CustomAction>
     <InstallExecuteSequence>
         <!-- Notify about the existing app -->
-        <Custom Action='UninstallOldClient' Before='InstallFiles'></Custom>
+      <!--  <Custom Action='UninstallOldClient' Before='InstallFiles'></Custom> -->
         <!-- Install: Remove previous NSIS installation, if detected -->
         <Custom Action="ExecNsisUninstaller" Before="ProcessComponents">NSIS_UNINSTALLEXE AND NOT Installed</Custom>
 
@@ -234,11 +183,11 @@
             Value="RemoveOldClient">NOT Installed</Publish> -->
 
      <!--   <Publish Dialog="MigrationDialog" Control="cancelButton" Event="EndDialog" Value="ExitDialog">1</Publish> -->
-      <!--  <UIRef Id="MigrationDialogUI"/>
+        <UIRef Id="MigrationDialogUI"/>
 
-        <Publish Dialog="MigrationDialog" Control="Uninstall"
-            Event="DoAction" Value="UninstallOldClient">updateCheckboxResult = 1 and aquisitionCheckboxResult = 1 and Not Installed</Publish>
-        <Publish Dialog="MigrationDialog" Control="Uninstall" Event="EndDialog" Value="Return">1</Publish> -->
+        <Publish Dialog="MigrationDialog" Control="Weiter"
+            Event="DoAction" Value="UninstallOldClient">Not Installed</Publish>
+       <Publish Dialog="MigrationDialog" Control="Weiter" Event="EndDialog" Value="Return">1</Publish>
 
         <!-- https://wixtoolset.org/documentation/manual/v3/howtos/ui_and_localization/run_program_after_install.html -->        
         <Publish Dialog="ExitDialog"
@@ -256,8 +205,7 @@
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="$(var.AppName) starten" />
     <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" Before="CostInitialize">NOT (LAUNCH=0)</SetProperty>
-    <SetProperty Id="updateCheckboxResult" Value="1" Before="CostInitialize"></SetProperty>
-    <SetProperty Id="aquisitionCheckboxResult" Value="1" Before="CostInitialize"></SetProperty>
+
 
     <!-- Components -->
     <Directory Id="TARGETDIR" Name="SourceDir">
