@@ -132,7 +132,7 @@ if(NO_MSG_HANDLER)
 endif()
 
 # this option builds the updater
-option(BUILD_UPDATER "BUILD_UPDATER" OFF)
+option(BUILD_UPDATER "BUILD_UPDATER" ON)
 if(BUILD_UPDATER)
    message("Compiling with updater")
    add_definitions(-DBUILD_UPDATER=1)
