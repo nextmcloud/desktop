@@ -247,7 +247,7 @@ void GeneralSettings::loadMiscSettings()
     auto newFolderLimit = cfgFile.newBigFolderSizeLimit();
     _ui->newFolderLimitCheckBox->setChecked(newFolderLimit.first);
     _ui->newFolderLimitSpinBox->setValue(newFolderLimit.second);
-    _ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
+    //_ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
     _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
 
     cfgFile.setConfirmExternalStorage(true);
