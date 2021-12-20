@@ -48,7 +48,7 @@ Rectangle {
         width: Style.skipButtonWidth
         height: Style.skipButtonHeight
 
-        text: qsTr("Skip introduction")
+        text: qsTr("Überspringen")
         font.family: Style.swipeFontFamily
         font.pixelSize: Style.topLinePixelSize
 
