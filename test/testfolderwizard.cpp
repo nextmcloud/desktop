@@ -51,20 +51,28 @@ private slots:
         account->setUrl( url );
         FolderMan fm;
 
-        QString expectedSubHeader  = "Step 1 from 2: Local Folder";
-        QString expectedSubContent = "If you don't make a selection, an empty "
-                                     "folder will automatically be created for you.";
-        QString expectedContent    = "Select a folder on your hard drive, that will be "
-                                     "connected to your MangentaCLOUD and permanently connected. All "
-                                     "files and sub-folders are automatically uploaded and synchronized.";
-        QString expectedLocalFolder  = "Please select a folder";
+//        QString expectedSubHeader  = "Step 1 from 2: Local Folder";
+//        QString expectedSubContent = "If you don't make a selection, an empty "
+//                                     "folder will automatically be created for you.";
+//        QString expectedContent    = "Select a folder on your hard drive, that will be "
+//                                     "connected to your MangentaCLOUD and permanently connected. All "
+//                                     "files and sub-folders are automatically uploaded and synchronized.";
+//        QString expectedLocalFolder  = "Please select a folder";
+
+        /* Update German to english(above) text as per code fixing */
+        QString expectedSubHeader  = "Schritt 1 von 2: Lokaler Ordner wählen";
+        QString expectedContent    = "Wählen Sie einen Ordner auf Ihrer Festplatte aus,"
+                                     " der mit Ihrer MagentaCLOUD dauerhaft verbunden werden"
+                                     " soll. Alle Dateien und Unterordner werden automatisch"
+                                     " hochgeladen und synchronisiert.";
+        QString expectedLocalFolder  = "Bitte wählen Sie einen Ordner aus";
 
         FolderWizardLocalPath FolderLocal(account);
 
         QCOMPARE(FolderLocal._ui.warnLabel->isHidden(), true);
         QCOMPARE(FolderLocal._ui.content->text(), expectedContent);
         QCOMPARE(FolderLocal._ui.subHeader->text(), expectedSubHeader);
-        QCOMPARE(FolderLocal._ui.subContent->text(), expectedSubContent);
+//        QCOMPARE(FolderLocal._ui.subContent->text(), expectedSubContent);
         QCOMPARE(FolderLocal._ui.localFolderLineEdit->text(), expectedLocalFolder);
     }
 
@@ -76,12 +84,20 @@ private slots:
         QUrl url("http://test.de");
         account->setUrl( url );
 
-        QString expectedSubHeader  = "Step 2 from 2: Directory in your CLOUD";
-        QString expectedContent    = "Both folders are permanently linked, the respective "
-                                     "contents are automatically compared and updated.";
-        QString expectedSubContent = "Please select or create a target folder in your "
-                                     "MangentaCLOUD, where the content will be uploaded "
-                                     "and synchronized.";
+//        QString expectedSubHeader  = "Step 2 from 2: Directory in your CLOUD";
+//        QString expectedContent    = "Both folders are permanently linked, the respective "
+//                                     "contents are automatically compared and updated.";
+//        QString expectedSubContent = "Please select or create a target folder in your "
+//                                     "MangentaCLOUD, where the content will be uploaded "
+//                                     "and synchronized.";
+
+        /* Update German to english(above) text as per code fixing */
+        QString expectedSubHeader  = "Schritt 2 von 2: Verzeichnis in Ihrer MagentaCLOUD";
+        QString expectedContent    = "Bitte wählen oder erstellen Sie nun einen Ziel Ordner"
+                                     " in Ihrer MagentaCLOUD, wo die Inhalte hochgeladen und"
+                                     " synchronisiert werden sollen.";
+        QString expectedSubContent = "Beide Ordner werden dauerhaft verknüpft, die jeweiligen"
+                                     " Inhalte werden automatisch abgeglichen und aktualisiert.";
 
         FolderWizardRemotePath FolderRemote(account);
 
@@ -119,8 +135,7 @@ private slots:
         account->setUrl( url );
 
         FolderWizardRemotePath FolderRemote(account);
-        QString warn;
-        warn = tr("<b>Warning:</b> %1").arg("This folder is already synchronized in the MagentaCLOUD.");
+        QString warn("This folder is already synchronized in the MagentaCLOUD.");
 
         FolderRemote.showWarn(warn);
 

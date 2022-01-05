@@ -183,7 +183,9 @@ private slots:
         QSharedPointer<UserGroupShare> groupShare = QSharedPointer<UserGroupShare> (new UserGroupShare(Account::create(), "id", "uidowner", "ownerDisplayName", "path",
                                                     Share::TypeEmail, true, SharePermissionRead, sharee, QDate(), "note"));
 
-        widget->slotAdvancedPermission(groupShare, Share::ShareType::TypeEmail);
+        QString permission = "Can edit";
+
+        widget->slotAdvancedPermission(groupShare, Share::ShareType::TypeEmail, permission);
     }
 
     void testslotSendNewMail()
@@ -226,7 +228,7 @@ private slots:
                                                     "uidowner", "ownerDisplayName", "path", Share::TypeEmail,
                                                     true, SharePermissionUpdate, sharee, QDate(), "note"));
         ShareUserLine *shareUserLine = new  ShareUserLine(Account::create(), groupShare,
-                                       SharePermissionShare, false, parent);
+                                       SharePermissionShare, isFile, parent);
 
         shareUserLine->_permissionRead->setChecked(true);
         Share::Permissions permissions = SharePermissionRead;
@@ -238,6 +240,7 @@ private slots:
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Read only");
         QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
         QCOMPARE(shareUserLine->_permissionRead->text(), "Read only");
+        QCOMPARE(shareUserLine->_permission, "Read only");
     }
 
     void testslotPermissionsChanged_UserLine_CanEdit()
@@ -262,6 +265,7 @@ private slots:
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Can edit");
         QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
         QCOMPARE(shareUserLine->_permissionChange->text(), "Can edit");
+//        QCOMPARE(shareUserLine->_permission, "Can edit");
     }
 
     void testslotPermissionsChanged_UserLine_FileDropOnly()
@@ -286,6 +290,7 @@ private slots:
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "File drop only");
         QCOMPARE(shareUserLine->_permissionUpload->text(), "File drop only");
         QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
+        QCOMPARE(shareUserLine->_permission, "File drop only");
     }
 
     void testslotPermissionsChangedOutside_ReadOnly()
@@ -300,14 +305,10 @@ private slots:
         ShareUserLine *shareUserLine = new  ShareUserLine(Account::create(), groupShare, SharePermissionShare,
                                                           isFile, parent);
 
-        value.setValue((int)SharePermissionRead);
-
         shareUserLine->slotPermissionsChangedOutside(SharePermissionRead);
 
-        QCOMPARE(shareUserLine->_ui->currentPermission->elideMode(), Qt::ElideRight);
-        QCOMPARE(shareUserLine->_share->getPermissions(), SharePermissionRead);
-        QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Read only");
         QCOMPARE(shareUserLine->_permissionRead->isChecked(), true);
+        QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Read only");
     }
 
     void testslotPermissionsChangedOutside_CanEdit()
@@ -318,18 +319,11 @@ private slots:
                                                     "uidowner", "ownerDisplayName", "path", Share::TypeEmail,
                                                     true, SharePermissionUpdate, sharee, QDate(), "note"));
         ShareUserLine *shareUserLine = new  ShareUserLine(Account::create(), groupShare,
-                                       SharePermissionShare, true, parent);
-
-        Share::Permissions permissions = SharePermissionRead;
-        permissions |= SharePermissionUpdate;
-        value.setValue((int)permissions);
-        auto *permissionsGroup = new QActionGroup(this);
-        shareUserLine->_permissionChange = permissionsGroup->addAction(tr("Can edit"));
+                                       SharePermissionShare, false, parent);
 
         shareUserLine->slotPermissionsChangedOutside(SharePermissionUpdate);
 
-        QCOMPARE(shareUserLine->_ui->currentPermission->elideMode(), Qt::ElideRight);
-        QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
+        QCOMPARE(shareUserLine->_permissionChange->isChecked(), true);
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Can edit");
     }
 
@@ -341,18 +335,11 @@ private slots:
                                                     "uidowner", "ownerDisplayName", "path", Share::TypeEmail,
                                                     true, SharePermissionCreate, sharee, QDate(), "note"));
         ShareUserLine *shareUserLine = new  ShareUserLine(Account::create(), groupShare,
-                                       SharePermissionShare, true, parent);
-
-        Share::Permissions permissions = SharePermissionRead;
-        permissions |= SharePermissionCreate;
-        value.setValue((int)permissions);
-        auto *permissionsGroup = new QActionGroup(this);
-        shareUserLine->_permissionUpload = permissionsGroup->addAction(tr("File drop only"));
+                                       SharePermissionShare, false, parent);
 
         shareUserLine->slotPermissionsChangedOutside(SharePermissionCreate);
 
-        QCOMPARE(shareUserLine->_ui->currentPermission->elideMode(), Qt::ElideRight);
-        QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
+        QCOMPARE(shareUserLine->_permissionUpload->isChecked(), true);
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "File drop only");
     }
 
@@ -362,9 +349,9 @@ private slots:
         QSharedPointer<Sharee> sharee = QSharedPointer<Sharee>(new Sharee("shareWith", "displayName", Sharee::Type::User));
         QSharedPointer<UserGroupShare> groupShare = QSharedPointer<UserGroupShare> (new UserGroupShare(Account::create(), "id",
                                                     "uidowner", "ownerDisplayName", "path", Share::TypeEmail,
-                                                    true, SharePermissionCreate, sharee, QDate(), "note"));
+                                                    true, SharePermissionRead, sharee, QDate(), "note"));
         ShareUserLine *shareUserLine = new  ShareUserLine(Account::create(), groupShare,
-                                       SharePermissionCreate, false, parent);
+                                       SharePermissionRead, false, parent);
 
         QString  expMenuStyle("QMenu::item:checked{color: #e20074;}");
         QCOMPARE(shareUserLine->_ui->permissionMenu->menu()->styleSheet(), expMenuStyle);
@@ -377,13 +364,15 @@ private slots:
         QCOMPARE(permissionMenus.at(1)->text(), "Can edit");
         QCOMPARE(permissionMenus.at(2)->text(), "File drop only");
 
-        QCOMPARE(shareUserLine->_permissionRead->isEnabled(), false);
+        QCOMPARE(shareUserLine->_permission, "Read only");
+        QCOMPARE(shareUserLine->_ui->permissionMenu->popupMode(), QToolButton::InstantPopup);
+        QCOMPARE(shareUserLine->_permissionRead->isEnabled(), true);
         QCOMPARE(shareUserLine->_permissionRead->isCheckable(), true);
         QCOMPARE(shareUserLine->_permissionRead->text(), "Read only");
         QCOMPARE(shareUserLine->_permissionChange->isEnabled(), false);
         QCOMPARE(shareUserLine->_permissionChange->isCheckable(), true);
         QCOMPARE(shareUserLine->_permissionChange->text(), "Can edit");
-        QCOMPARE(shareUserLine->_permissionUpload->isEnabled(), true);
+        QCOMPARE(shareUserLine->_permissionUpload->isEnabled(), false);
         QCOMPARE(shareUserLine->_permissionUpload->isCheckable(), true);
         QCOMPARE(shareUserLine->_permissionUpload->text(), "File drop only");
         QCOMPARE(shareUserLine->_advancedPermission->text(), "Advanced Permission");
@@ -399,21 +388,44 @@ private slots:
         QCOMPARE(permissions.at(2)->text(), "Unshare");
     }
 
-    void testdisplayPermissions_ReadOnly()
+    void testdisplayPermissions_ReadOnly_isFile()
     {
         QWidget *parent = new QWidget();
+        bool isFile = true;
         QSharedPointer<Sharee> sharee = QSharedPointer<Sharee>(new Sharee("shareWith", "displayName", Sharee::Type::User));
         QSharedPointer<UserGroupShare> groupShare = QSharedPointer<UserGroupShare> (new UserGroupShare(Account::create(), "id",
                                                     "uidowner", "ownerDisplayName", "path", Share::TypeEmail,
                                                     true, SharePermissionRead, sharee, QDate(), "note"));
         ShareUserLine *shareUserLine = new  ShareUserLine(Account::create(), groupShare,
-                                       SharePermissionRead, true, parent);
+                                       SharePermissionRead, isFile, parent);
+
+        shareUserLine->displayPermissions();
+
+        QCOMPARE(shareUserLine->_share->getPermissions(), SharePermissionRead);
+        QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Read only");
+        QCOMPARE(shareUserLine->_ui->currentPermission->isEnabled(), false);
+        QCOMPARE(shareUserLine->_permission, "Read only");
+    }
+
+    void testdisplayPermissions_ReadOnly_isNotFile()
+    {
+        QWidget *parent = new QWidget();
+        bool isFile = false;
+
+        QSharedPointer<Sharee> sharee = QSharedPointer<Sharee>(new Sharee("shareWith", "displayName", Sharee::Type::User));
+        QSharedPointer<UserGroupShare> groupShare = QSharedPointer<UserGroupShare> (new UserGroupShare(Account::create(), "id",
+                                                    "uidowner", "ownerDisplayName", "path", Share::TypeEmail,
+                                                    true, SharePermissionRead, sharee, QDate(), "note"));
+        ShareUserLine *shareUserLine = new  ShareUserLine(Account::create(), groupShare,
+                                       SharePermissionRead, isFile, parent);
 
         shareUserLine->displayPermissions();
 
         QCOMPARE(shareUserLine->_permissionRead->isChecked(), true);
+        QCOMPARE(shareUserLine->_ui->currentPermission->isEnabled(), true);
         QCOMPARE(shareUserLine->_share->getPermissions(), SharePermissionRead);
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Read only");
+        QCOMPARE(shareUserLine->_permission, "Read only");
     }
 
     void testdisplayPermissions_CanEdit()
@@ -437,6 +449,7 @@ private slots:
         QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
         QCOMPARE(shareUserLine->_permissionChange->text(), "Can edit");
         QCOMPARE(shareUserLine->_permissionChange->isChecked(), true);
+        QCOMPARE(shareUserLine->_permission, "Can edit");
     }
 
     void testdisplayPermissions_FileDropOnly()

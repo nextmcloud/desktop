@@ -88,7 +88,7 @@ nextcloud_add_test(FolderWizard)
 nextcloud_add_test(GeneralSettings)
 nextcloud_add_test(ConfigFile)
 nextcloud_add_test(FolderStatusDelegate)
-#nextcloud_add_test(SettingsDialog)
+nextcloud_add_test(SettingsDialog)
 nextcloud_add_test(UserModel)
 
 nextcloud_add_test(ShareDialog)

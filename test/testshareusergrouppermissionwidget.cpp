@@ -69,6 +69,8 @@ private slots:
         QCOMPARE(widget->_ui->FileDropInfo->isHidden(), true);
         QCOMPARE(widget->_userPermission, "userLinePermission");
         QCOMPARE(widget->_ui->editRadioButton->isEnabled(), true);
+        QCOMPARE(widget->_ui->setPasswordCheckbox->isHidden(), false);
+        QCOMPARE(widget->_ui->allowForwardingCheckbox->isHidden(), true);
     }
 
     void testsetupUI_Email_isFile()
@@ -85,6 +87,7 @@ private slots:
         QCOMPARE(widget->_ui->fileDropRadioButton->isVisible(), false);
         QCOMPARE(widget->_ui->FileDropInfo->isHidden(), true);
         QCOMPARE(widget->_ui->editRadioButton->isEnabled(), false);
+        QCOMPARE(widget->_ui->setPasswordCheckbox->isHidden(), false);
         QCOMPARE(widget->_ui->allowForwardingCheckbox->isVisible(), false);
     }
 
@@ -100,6 +103,7 @@ private slots:
 
         QCOMPARE(widget->_ui->FileDropInfo->isHidden(), true);
         QCOMPARE(widget->_ui->fileDropRadioButton->isHidden(), false);
+        QCOMPARE(widget->_ui->setPasswordCheckbox->isHidden(), false);
         QCOMPARE(widget->_ui->allowForwardingCheckbox->isVisible(), false);
     }
 
@@ -114,9 +118,11 @@ private slots:
         widget->setupUI();
 
         QCOMPARE(widget->_ui->fileDropRadioButton->isVisible(), false);
+        QCOMPARE(widget->_ui->setPasswordCheckbox->isHidden(), false);
         QCOMPARE(widget->_ui->FileDropInfo->isHidden(), true);
         QCOMPARE(widget->_ui->editRadioButton->isEnabled(), false);
         QCOMPARE(widget->_ui->expirationDateCheckbox->isChecked(), true);
+        QCOMPARE(widget->_ui->allowForwardingCheckbox->isHidden(), true);
 
         QMap<QDate, QTextCharFormat> dateTextFormat = widget->_ui->dateEdit->calendarWidget()->dateTextFormat();
         QDate expDate = QDate::currentDate().addDays(1);
@@ -140,7 +146,7 @@ private slots:
         ShareUserGroupPermissionWidget *widget = new ShareUserGroupPermissionWidget(Account::create(), "sharePath",
                                                  "localPath", "userLinePermission", SharePermissionShare,
                                                  Share::TypeLink, nullptr,false, parent);
-        widget->_isFile = true;
+        widget->_isFile = false;
 
         widget->setupUI();
 
@@ -148,6 +154,8 @@ private slots:
         QCOMPARE(widget->_ui->FileDropInfo->isHidden(), true);
         QCOMPARE(widget->_ui->editRadioButton->isEnabled(), true);
         QCOMPARE(widget->_ui->nextButton->text(), "Confirm");
+        QCOMPARE(widget->_ui->setPasswordCheckbox->isHidden(), false);
+        QCOMPARE(widget->_ui->allowForwardingCheckbox->isHidden(), true);
     }
 
     void testsetupUI_Next()
@@ -155,15 +163,17 @@ private slots:
         QWidget *parent = new QWidget();
         ShareUserGroupPermissionWidget *widget = new ShareUserGroupPermissionWidget(Account::create(), "sharePath",
                                                  "localPath", "userLinePermission", SharePermissionShare,
-                                                 Share::TypeEmail, nullptr,true, parent);
+                                                 Share::TypeUser, nullptr,true, parent);
         widget->_isFile = true;
 
         widget->setupUI();
 
         QCOMPARE(widget->_ui->fileDropRadioButton->isVisible(), false);
         QCOMPARE(widget->_ui->FileDropInfo->isHidden(), true);
-        QCOMPARE(widget->_ui->editRadioButton->isEnabled(), false);
+        QCOMPARE(widget->_ui->editRadioButton->isEnabled(), true);
         QCOMPARE(widget->_ui->nextButton->text(), "Next");
+        QCOMPARE(widget->_ui->setPasswordCheckbox->isHidden(), true);
+        QCOMPARE(widget->_ui->allowForwardingCheckbox->isHidden(), false);
     }
 
     void testslotPermissionChanged_ReadOnly()
@@ -345,12 +355,14 @@ private slots:
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
                                               SharePermissionRead, createShare, QUrl(), QDate() ));
+        QString permission = "Read only";
 
-        widget->setLinkAdvancePermission(linkShare, Share::ShareType::TypeLink, sharee, createShare);
+        widget->setLinkAdvancePermission(linkShare, Share::ShareType::TypeLink, sharee, createShare, permission);
 
         QCOMPARE(widget->_linkShare , linkShare);
         QCOMPARE(widget->_createShare , createShare);
         QCOMPARE(widget->_type , Share::ShareType::TypeLink);
+        QCOMPARE(widget->_ui->readOnlyRadioButton->isChecked() , true);
     }
 
     void testsetUserAdvancePermission()
@@ -364,8 +376,11 @@ private slots:
         QSharedPointer<UserGroupShare> userGroupShare = QSharedPointer<UserGroupShare> (new UserGroupShare(Account::create(), "id", "uidowner", "ownerDisplayName", "path",
                                                         Share::TypeEmail, true, SharePermissionRead, sharee, QDate(), "note"));
 
-        widget->setUserAdvancePermission(userGroupShare, Share::ShareType::TypeLink, sharee, createShare);
+        QString permission = "Can edit";
 
+        widget->setUserAdvancePermission(userGroupShare, Share::ShareType::TypeLink, sharee, createShare, permission);
+
+        QCOMPARE(widget->_ui->editRadioButton->isChecked() , true);
         QCOMPARE(widget->_type , Share::ShareType::TypeLink);
         QCOMPARE(widget->_createShare , createShare);
         QCOMPARE(widget->_share , userGroupShare);
@@ -383,6 +398,7 @@ private slots:
 
         widget->setUserCreatePermission(Share::ShareType::TypeLink, sharee, createShare);
 
+        QCOMPARE(widget->_ui->readOnlyRadioButton->isChecked() , true);
         QCOMPARE(widget->_type , Share::ShareType::TypeLink);
         QCOMPARE(widget->_createShare , createShare);
         QCOMPARE(widget->_sharee , sharee);

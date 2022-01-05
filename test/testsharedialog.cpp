@@ -4,6 +4,7 @@
  *    any purpose.
  *
  */
+#include <QBoxLayout>
 #include <QToolBar>
 #include <QtTest>
 #include "gui/nextcloudCore_autogen/include_Debug/ui_shareusergrouppermissionwidget.h"
@@ -20,6 +21,8 @@
 #include "accountstate.h"
 #include "theme.h"
 #undef private
+
+#define HEIGHT 400
 
 using namespace OCC;
 
@@ -118,8 +121,9 @@ private slots:
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
                                               SharePermissionRead, true, QUrl(), QDate() ));
         shareDialog._userGroupWidget->setVisible(true);
+        QString permission = "Read only";
 
-        shareDialog.slotLinkAdvancePermissionWidget(linkShare, Share::ShareType::TypeLink, sharee, createShare);
+        shareDialog.slotLinkAdvancePermissionWidget(linkShare, Share::ShareType::TypeLink, sharee, createShare, permission);
 
         QCOMPARE(shareDialog.m_createShare , createShare);
         QCOMPARE(shareDialog._ui->scrollArea->isVisible() , false);
@@ -128,6 +132,7 @@ private slots:
         QCOMPARE(shareDialog._sharePermissionGroup->_linkShare , linkShare);
         QCOMPARE(shareDialog._sharePermissionGroup->_type , Share::ShareType::TypeLink);
         QCOMPARE(shareDialog._sharePermissionGroup->_createShare , createShare);
+        QCOMPARE(shareDialog._sharePermissionGroup->_ui->readOnlyRadioButton->isChecked() , true);
     }
 
     void testslotUserAdvancePermissionWidget()
@@ -151,8 +156,9 @@ private slots:
                                                         Share::TypeEmail, true, SharePermissionRead, sharee, QDate(), "note"));
 
         shareDialog._userGroupWidget->setVisible(true);
+        QString permission = "Can edit";
 
-        shareDialog.slotUserAdvancePermissionWidget(userGroupShare, Share::ShareType::TypeLink, sharee, createShare);
+        shareDialog.slotUserAdvancePermissionWidget(userGroupShare, Share::ShareType::TypeLink, sharee, createShare, permission);
 
         QCOMPARE(shareDialog.m_createShare , createShare);
         QCOMPARE(shareDialog._ui->scrollArea->isVisible() , false);
@@ -162,6 +168,7 @@ private slots:
         QCOMPARE(shareDialog._sharePermissionGroup->_type , Share::ShareType::TypeLink);
         QCOMPARE(shareDialog._sharePermissionGroup->_createShare , createShare);
         QCOMPARE(shareDialog._sharePermissionGroup->_sharee , sharee);
+        QCOMPARE(shareDialog._sharePermissionGroup->_ui->editRadioButton->isChecked() , true);
     }
 
     void testslotSendNewMail()
@@ -277,7 +284,7 @@ private slots:
 
         shareDialog.addLinkShareWidget(linkShare);
 
-        QCOMPARE(shareDialog._ui->verticalLayout->isEmpty() , true);
+        QCOMPARE(shareDialog._ui->verticalLayout->isEmpty() , false);
         QCOMPARE(shareDialog._scrollAreaLayout->isEmpty() , false);
         ShareLinkWidget *linkShareWidget = shareDialog._linkWidgetList.at(shareDialog._linkWidgetList.size() -1);
         QCOMPARE(linkShareWidget->_account , shareDialog._accountState->account());
@@ -294,22 +301,27 @@ private slots:
         ShareDialog shareDialog;
         shareDialog._accountState = accountSt;
 
-        ShareLinkWidget *widget = new ShareLinkWidget(shareDialog._accountState->account(), shareDialog._sharePath,
-                                  shareDialog._localPath, shareDialog._maxSharingPermissions, &shareDialog);
-        shareDialog._linkWidgetList.append(widget);
+        QLayout *layout = new QBoxLayout(QBoxLayout::Direction::Down);
+        shareDialog._scrollAreaLayout->addItem(layout);
+        shareDialog._scrollAreaLayout->addItem(layout);
+        shareDialog._scrollAreaLayout->addItem(layout);
+        shareDialog._scrollAreaLayout->addItem(layout);
+        shareDialog._scrollAreaLayout->addItem(layout);
+
+        shareDialog._linkWidgetList.clear();
+
         shareDialog._userGroupWidget = new ShareUserGroupWidget(shareDialog._accountState->account(), shareDialog._sharePath,
                                        shareDialog._localPath, shareDialog._maxSharingPermissions, "privateLinkUrl", &shareDialog);
+
+        int expectedHeight = HEIGHT;
 
         shareDialog.slotAdjustScrollWidgetSize();
 
         QCOMPARE(shareDialog._ui->scrollArea->isHidden() , true);
+        QCOMPARE(shareDialog._ui->scrollArea->isHidden() , true);
+        QCOMPARE(shareDialog._ui->scrollArea->height() , expectedHeight);
         QCOMPARE(shareDialog._ui->scrollArea->frameShape() , QFrame::NoFrame);
         QCOMPARE(shareDialog._ui->scrollArea->width() , shareDialog._ui->verticalLayout->sizeHint().width());
-
-        ShareLinkWidget *linkShareWidget = shareDialog._linkWidgetList.at(shareDialog._linkWidgetList.size() -1);
-        QCOMPARE(linkShareWidget->_account , shareDialog._accountState->account());
-        QCOMPARE(linkShareWidget->_sharePath , shareDialog._sharePath);
-        QCOMPARE(linkShareWidget->_localPath , shareDialog._localPath);
     }
 
     void testslotUserLinePermissionChanged_ReadOnly()

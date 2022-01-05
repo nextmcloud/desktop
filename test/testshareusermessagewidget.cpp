@@ -47,6 +47,7 @@ private slots:
 
         QString expStyleSheet("border: 2px solid #191919;");
         QCOMPARE(shareUserMessage->_ui->textEdit_MessageNote->styleSheet(), expStyleSheet);
+        QCOMPARE(shareUserMessage->_ui->textEdit_MessageNote->toPlainText(), QString());
     }
 
     void testslotShareMessage()
@@ -66,7 +67,9 @@ private slots:
 
         shareUserMessage->slotShareMessage();
 
+        QCOMPARE(parent->isHidden(), true);
         QCOMPARE(shareUserMessage->_share->getNote(), note);
+        QCOMPARE(shareUserMessage->_ui->textEdit_MessageNote->toPlainText(), QString());
     }
 
     void testsetMessageBox()
@@ -97,6 +100,20 @@ private slots:
         shareUserMessage->slotCancelButtonClicked();
 
         QCOMPARE(shareUserMessage->isHidden(), true);
+        QCOMPARE(shareUserMessage->_ui->textEdit_MessageNote->toPlainText(), QString());
+    }
+
+    void testtoggleNoteOptions_False()
+    {
+        QWidget *parent = new QWidget();
+
+        QSharedPointer<Sharee> sharee = QSharedPointer<Sharee>(new Sharee("shareWith", "displayName", Sharee::Type::User));
+        ShareUserMessageWidget *shareUserMessage = new ShareUserMessageWidget(Account::create(), "sharePath", "localPath",
+                                                   SharePermissionShare, sharee, parent);
+
+        shareUserMessage->toggleNoteOptions(false);
+
+        QCOMPARE(shareUserMessage->_ui->textEdit_MessageNote->toPlainText(), QString());
     }
 };
 
