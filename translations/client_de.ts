@@ -5572,8 +5572,8 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     </message>
     <message>
         <location filename="../src/gui/creds/webflowcredentials.cpp" line="189"/>
-        <source>Please login with the user: %1</source>
-        <translation>Mit folgendem Benutzer anmelden: %1</translation>
+        <source>You are logged in with the desktop client as %1, but to the website you are logged in with a different account. Please log in to the website with the %1 account and restart the login with the desktop client.</source>
+        <translation>Sie sind mit dem Desktop Client als %1 angemeldet. Auf der Webseite sind Sie mit einem anderen Konto angemeldet. Bitte melden Sie sich auf der Webseite mit dem Konto %1 an und starten Sie die Anmeldung mit dem Desktop Client erneut.</translation>
     </message>
 </context>
 <context>

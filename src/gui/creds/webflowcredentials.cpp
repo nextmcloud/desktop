@@ -2,6 +2,7 @@
 
 #include "creds/httpcredentials.h"
 #include "creds/keychainchunk.h"
+#include "tray/UserModel.h"
 
 #include <QAuthenticator>
 #include <QNetworkAccessManager>
@@ -186,8 +187,10 @@ void WebFlowCredentials::slotAskFromUserCredentialsProvided(const QString &user,
     } else {
         qCInfo(lcWebFlowCredentials()) << "Authed with the wrong user!";
 
-        QString msg = tr("Please login with the user: %1")
-                .arg(_user);
+        QString msg = tr("You are logged in with the desktop client as %1, "
+                         "but to the website you are logged in with a different account. "
+                         "Please log in to the website with the %1 account and restart the login with the desktop client.")
+                .arg(UserModel::instance()->currentUser()->name());
         _askDialog->setError(msg);
 
         if (!_askDialog->isUsingFlow2()) {
@@ -372,6 +375,7 @@ void WebFlowCredentials::forgetSensitiveData() {
     _ready = false;
 
     fetchUser();
+    _userName = _user;
 
     _account->deleteAppPassword();
 

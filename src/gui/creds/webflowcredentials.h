@@ -114,6 +114,7 @@ protected:
     QString fetchUser();
 
     QString _user;
+    QString _userName;
     QString _password;
     QSslKey _clientSslKey;
     QSslCertificate _clientSslCertificate;
