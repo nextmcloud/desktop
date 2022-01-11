@@ -646,7 +646,7 @@ bool ConfigFile::transferUsageData(const QString &connection) const
     if (connection.isEmpty())
         con = defaultConnection();
 
-    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, true);
+    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, false);
     fallback = getValue(QLatin1String(TransferUsageDataC), QString(), fallback);
 
     QVariant value = getPolicySetting(QLatin1String(TransferUsageDataC), fallback);
