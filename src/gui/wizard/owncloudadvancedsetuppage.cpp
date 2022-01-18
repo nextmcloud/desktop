@@ -89,13 +89,19 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
     }
 
    // _ui.rVirtualFileSync->setText(tr("Use &virtual files instead of downloading content immediately %1").arg(bestAvailableVfsMode() == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
+   /* OwncloudWizard::askExperimentalVirtualFilesFeature(this, [this](bool enable) {
+        if (!enable)
+            return;
+        setVirtualFilesInfo();
+
+    });*/
+#ifdef Q_OS_WIN
     OwncloudWizard::askExperimentalVirtualFilesFeature(this, [this](bool enable) {
         if (!enable)
             return;
         setVirtualFilesInfo();
 
     });
-#ifdef Q_OS_WIN
     //if (bestAvailableVfsMode() == Vfs::WindowsCfApi) {
         //qobject_cast<QVBoxLayout *>(_ui.wSyncStrategy->layout())->insertItem(0, _ui.lVirtualFileSync);
         //setRadioChecked(_ui.rVirtualFileSync);
