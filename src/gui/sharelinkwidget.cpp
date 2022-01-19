@@ -695,7 +695,8 @@ void ShareLinkWidget::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
         connect(permissionMenu, &QMenu::triggered,
                 this, &ShareLinkWidget::slotLinkContextMenuActionTriggered);
 
-        permissionMenu->exec(permissionsEvent->globalPos());
+        // Not working for Mac
+        // permissionMenu->exec(permissionsEvent->globalPos());
     }
 }
 

@@ -1340,7 +1340,8 @@ void ShareUserLine::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
             }
         }
 
-        permissionMenu->exec(permissionsEvent->globalPos());
+        // Not working for Mac
+       // permissionMenu->exec(permissionsEvent->globalPos());
     }
 }
 
