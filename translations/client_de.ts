@@ -226,7 +226,7 @@
     <message>
         <location filename="../src/gui/folderwizardsourcepage.ui" line="44"/>
         <source>&amp;Choose …</source>
-        <translation>&amp;Ordner auswählen</translation>
+        <translation>&amp;Wählen …</translation>
     </message>
 </context>
 <context>
@@ -325,11 +325,6 @@
         <location filename="../src/gui/accountsettings.ui" line="148"/>
         <source>Storage space: …</source>
         <translation>Speicherplatz: …</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.ui" line="241"/>
-        <source>More Memory</source>
-        <translation>Speicher erweitern</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="256"/>
@@ -608,14 +603,9 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
         <translation>Anmelden</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1095"/>
-        <source>Log in</source>
-        <translation>Anmelden</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1108"/>
-        <source>Memory Occupied to %1 %</source>
-        <translation>Speicherplatz zu %1 % belegt</translation>
+        <source>%1 as %2</source>
+        <translation>%1 als %2</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1115"/>
@@ -1630,19 +1620,14 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation>Ordner-Synchronisierung hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderstatusdelegate.cpp" line="52"/>
-        <source>Synchronize any other local folder with your MagentaCLOUD.</source>
-        <translation>Synchronisieren Sie einen weiteren beliebigen lokalen Ordner mit ihrer MagentaCLOUD.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderstatusdelegate.cpp" line="55"/>
-        <source>Add Live-Backup</source>
-        <translation>"Live-Backup hinzufügen</translation>
-    </message>
-    <message>
         <location filename="../src/gui/folderstatusdelegate.cpp" line="256"/>
         <source>Synchronized with local folder (%1)</source>
         <translation>Synchronisiert mit lokalem Ordner (%1)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderstatusdelegate.cpp" line="307"/>
+        <source>File</source>
+        <translation>Datei</translation>
     </message>
 </context>
 <context>
@@ -1834,36 +1819,6 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
 <context>
     <name>OCC::FolderWizard</name>
     <message>
-        <location filename="../src/gui/folderwizard.cpp" line="83"/>
-        <source>Step 1 from 2: Local Folder</source>
-        <translation>Schritt 1 von 2: Lokaler Ordner</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderwizard.cpp" line="81"/>
-        <source>Select a folder on your hard drive, that will be connected to your MangentaCLOUD and permanently connected. All files and sub-folders are automatically uploaded and synchronized.</source>
-        <translation>Wahlen Sie einen Ordener auf ihrer Festplatte aus, der mit ihrer MangentaCLOUD verbunden werden und dauerhaft verbunden Alle Dateien und Unterordner werden Automatisch hochgeladen and synchronisiert.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderwizard.cpp" line="82"/>
-        <source>If you don't make a selection, an empty folder will automatically be created for you.</source>
-        <translation>Wenn Sie keine Auswani treffen , wird Automatisch ein Leerer Ordner fur Sie erstelt.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderwizard.cpp" line="176"/>
-        <source>Step 2 from 2: Directory in your CLOUD</source>
-        <translation>Schritt 2 von 2: Lokaler Ordner</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderwizard.cpp" line="177"/>
-        <source>Both folders are permanently linked, the respective contents are automatically compared and updated.</source>
-        <translation>Bitte Wahlen oder erstellen Sie nun einen Ziel Ordner in ihrer MagentaCLOUD, wo die Inhalte hochgeladen und synchronisiert werden.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderwizard.cpp" line="178"/>
-        <source>Please select or create a target folder in your MangentaCLOUD, where the content will be uploaded and synchronized.</source>
-        <translation>Beide Ordener werden dauerhaft verknupft, die jeweiligen Inhalte werden Automatisch abgeglichen und aktualisiert.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/folderwizard.cpp" line="620"/>
         <source>Add Folder Sync Connection</source>
         <translation>Ordner-Synchronisierung hinzufügen</translation>
@@ -1872,16 +1827,6 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <location filename="../src/gui/folderwizard.cpp" line="622"/>
         <source>Add Sync Connection</source>
         <translation>Synchronisierung hinzufügen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderwizard.cpp" line="651"/>
-        <source>Finish</source>
-        <translation>Übernehmen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderwizard.cpp" line="76"/>
-        <source>Please select a folder</source>
-        <translation>Bitte wählen Sie einen Ordner aus</translation>
     </message>
 </context>
 <context>
@@ -2035,34 +1980,9 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="26"/>
-        <source>&amp;Transfer usage data</source>
-        <translation>&amp;Nutzungsdaten übertragen</translation>
-    </message>
-    <message>
         <location filename="../src/gui/generalsettings.ui" line="41"/>
         <source>Legal notice</source>
         <translation>Impressum</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="50"/>
-        <source>Imprint</source>
-        <translation>Impressum</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="60"/>
-        <source>Privacy Policy</source>
-        <translation>Datenschutz Bestimmungen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="70"/>
-        <source>Used Open Source Software</source>
-        <translation>Verwendete Open Source Software</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="125"/>
-        <source>Further Informations</source>
-        <translation>Mehr Informationen</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="66"/>
@@ -2166,6 +2086,11 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation>Debug-Archiv erstellen …</translation>
     </message>
     <message>
+        <location filename="../src/gui/generalsettings.ui" line="26"/>
+        <source>Transfer usage data</source>
+        <translation>Analyse-Datenerfassung zur bedarfsgerechten Gestaltung</translation>
+    </message>
+    <message>
         <location filename="../src/gui/generalsettings.cpp" line="148"/>
         <source>Server notifications that require attention.</source>
         <translation>Server-Benachrichtigungen, die Aufmerksamkeit erfordern.</translation>
@@ -2174,26 +2099,6 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <location filename="../src/gui/generalsettings.cpp" line="162"/>
         <source>You cannot disable autostart because system-wide autostart is enabled.</source>
         <translation>Sie können den Autostart nicht deaktivieren, da der systemweite Autostart aktiviert ist.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.cpp" line="172"/>
-        <source>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Imprint&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Impressum&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.cpp" line="177"/>
-        <source>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Privacy Policy&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Datenschutz Bestimmungen&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.cpp" line="182"/>
-        <source>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Used Open Source Software&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Verwendete Open Source Software&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.cpp" line="192"/>
-        <source>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Further Informations&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;%1&quot; style=&quot;#e20074;&quot;&gt;Mehr Informationen&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="310"/>
@@ -2238,6 +2143,26 @@ Beachten Sie bitte, dass hierdurch nur ausgewählt wird, aus welchem Pool Upgrad
         <location filename="../src/gui/generalsettings.cpp" line="424"/>
         <source>Debug archive is created at %1</source>
         <translation>Debug-Archiv erstellt in %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="172"/>
+        <source><a href='%1' style=\"color: #e20074;\">Imprint</a></source>
+        <translation><a href='%1' style=\"color: #e20074;\">Impressum</a></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="177"/>
+        <source><a href='%1' style=\"color: #e20074;\";>Privacy Policy</a></source>
+        <translation><a href='%1' style=\"color: #e20074;\">Datenschutzbestimmungen</a></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="182"/>
+        <source><a href='%1' style=\"color: #e20074;\">Used Open Source Software</a></source>
+        <translation><a href='%1' style=\"color: #e20074;\">Verwendete OpenSource Software</a></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="192"/>
+        <source><a href='%1' style=\"color: #e20074;\">Further Informations</a></source>
+        <translation><a href='%1' style=\"color: #e20074;\">Mehr Informationen</a></translation>
     </message>
 </context>
 <context>
@@ -4080,12 +4005,12 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/sharedialog.cpp" line="293"/>
         <source>The file can not be shared because it was shared without sharing permission.</source>
-        <translation>Die Datei kann nicht geteilt werden, weil Sie ohne erneute Teilungs-Berechtigung für Sie geteilt wurde.</translation>
+        <translation>Die Datei kann nicht geteilt werden, weil sie ohne erneute Teilungs-Berechtigung für Sie geteilt wurde.</translation>
     </message>
     <message>
         <location filename="../src/gui/sharedialog.cpp" line="300"/>
         <source>The file cannot be shared because it does not have sharing permission.</source>
-        <translation>Die Datei kann nicht geteilt werden, weil Sie keine Berechtigung zum Teilen hat.</translation>
+        <translation>Die Datei kann nicht geteilt werden, weil sie keine Berechtigung zum Teilen hat.</translation>
     </message>
     <message>
         <location filename="../src/gui/sharedialog.cpp" line="366"/>
@@ -4104,16 +4029,6 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <location filename="../src/gui/sharelinkwidget.ui" line="38"/>
         <source>Share link</source>
         <translation>Link teilen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="187"/>
-        <source>Link to file</source>
-        <translation>Link zur Datei</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="201"/>
-        <source>Link to folder</source>
-        <translation>Link zum Ordner</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="192"/>
@@ -4156,49 +4071,14 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Läuft ab</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="195"/>
-        <source>Can edit</source>
-        <translation>Kann Bearbeiten</translation>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="150"/>
+        <source>Allow Editing</source>
+        <translation>Bearbeitung erlauben</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="271"/>
-        <source>Advanced Permission</source>
-        <translation>Erweiterte Berechtigungen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="209"/>
-        <source>Can edit</source>
-        <translation>Kann Bearbeiten</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="664"/>
-        <source>Can edit</source>
-        <translation>Kann Bearbeiten</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="675"/>
-        <source>Can edit</source>
-        <translation>Kann Bearbeiten</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="189"/>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="192"/>
         <source>Read only</source>
-        <translation>Nur lesen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="203"/>
-        <source>Read only</source>
-        <translation>Nur lesen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="662"/>
-        <source>Read only</source>
-        <translation>Nur lesen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="668"/>
-        <source>Read only</source>
-        <translation>Nur lesen</translation>
+        <translation>Schreibgeschützt</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="164"/>
@@ -4206,9 +4086,14 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Hochladen und Bearbeiten erlauben</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="215"/>
-        <source>File drop only</source>
-        <translation>Sammelbox</translation>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="169"/>
+        <source>File Drop (Upload Only)</source>
+        <translation>Dateien ablegen (nur Hochladen)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="184"/>
+        <source>Password Protect</source>
+        <translation>Passwortschutz</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="186"/>
@@ -4231,12 +4116,12 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Ablaufdatum</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="680"/>
-        <source>File drop only</source>
-        <translation>Sammelbox</translation>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="203"/>
+        <source>File drop (upload only)</source>
+        <translation>Dateien ablegen (nur Hochladen)</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="309"/>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="220"/>
         <source>Unshare</source>
         <translation>Freigabe aufheben</translation>
     </message>
@@ -4244,6 +4129,16 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <location filename="../src/gui/sharelinkwidget.cpp" line="223"/>
         <source>Link name</source>
         <translation>Link-Name</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="218"/>
+        <source>Note to recipient</source>
+        <translation>Notiz an Empfänger</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.cpp" line="228"/>
+        <source>Password protect</source>
+        <translation>Passwortschutz</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.cpp" line="247"/>
@@ -4294,245 +4189,44 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
 <context>
     <name>OCC::ShareUserGroupWidget</name>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.ui" line="152"/>
+        <location filename="../src/gui/shareusergroupwidget.ui" line="59"/>
         <source>Share with users or groups …</source>
-        <translation>Name oder Email-Adresse ...</translation>
+        <translation>Mit Benutzern oder Gruppen teilen …</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.ui" line="250"/>
-        <source>Add Link</source>
-        <translation>Link erstellen</translation>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="95"/>
+        <source>Search globally</source>
+        <translation>Global suchen</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.ui" line="417"/>
-        <source>No shares created yet</source>
-        <translation>Noch keine Freigaben erstellt.</translation>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="325"/>
+        <source>Copy link</source>
+        <translation>Link kopieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.ui" line="247"/>
-        <source>Your Shares</source>
-        <translation>Ihre Freigaben</translation>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="337"/>
+        <source>No results for &apos;%1&apos;</source>
+        <translation>Keine Ergebnisse für &apos;%1&apos;</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergroupwidget.ui" line="105"/>
-        <source>You can create links or send shares by mail. If you invite MagentaCLOUD users, you have more opportunities for collaboration.</source>
-        <translation>Sie können Links erstellen oder Freigaben per Mail versenden. Wenn Sie MagentaCLOUD Nutzer einladen, bieten sich Ihnen mehr Möglichkeiten der Zusammenarbeit.</translation>
-    </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="121"/>
-         <source>Search globally</source>
-         <translation>Global suchen</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="155"/>
-         <source>Personal sharing via email</source>
-         <translation>Persönliche Freigabe per Email</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="286"/>
-         <source>You can create links or send shares by mail. If you invite MagentaCLOUD users, you have more opportunities for collaboration.</source>
-         <translation>Sie können Links erstellen oder Freigaben per Mail versenden. Wenn Sie MagentaCLOUD Nutzer einladen, bieten sich Ihnen mehr Möglichkeiten der Zusammenarbeit.</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="411"/>
-         <source>Copy link</source>
-         <translation>Link kopieren</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="423"/>
-         <source>No results for &quot;%1&quot;</source>
-         <translation>Keine Ergebnisse für &quot;%1&quot;</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="533"/>
-         <source>Password for share required</source>
-         <translation>Passwort für die Freigabe erforderlich</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="534"/>
-         <source>Please enter a password for your email share:</source>
-         <translation>Bitte geben Sie ein Passwort für die E-Mail-Freigabe ein:</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="593"/>
-         <source>I shared something with you</source>
-         <translation>Ich habe etwas mit Ihnen geteilt</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="628"/>
-         <source>Read only</source>
-         <translation>Nur lesen</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="635"/>
-         <source>Can edit</source>
-         <translation>Kann bearbeiten</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="642"/>
-         <source>File drop only</source>
-         <translation>Sammelbox</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="650"/>
-         <source>Read only</source>
-         <translation>Nur lesen</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="657"/>
-         <source>Can edit</source>
-         <translation>Kann Bearbeiten</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="689"/>
-         <source>Advanced Permission</source>
-         <translation>Erweiterte Berechtigungen</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="694"/>
-         <source>Send new mail</source>
-         <translation>Neue Email verfassen</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="779"/>
-         <source>Set expiration date</source>
-         <translation>Ablaufdatum setzen</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="716"/>
-         <source>Unshare</source>
-         <translation>Freigabe aufheben</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="806"/>
-         <source>Password protect</source>
-         <translation>Passwortschutz</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="1300"/>
-         <source>Read only</source>
-         <translation>Nur lesen</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="1309"/>
-         <source>Can edit</source>
-         <translation>Kann bearbeiten</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="1319"/>
-         <source>File drop only</source>
-         <translation>Sammelbox</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="1329"/>
-         <source>Read only</source>
-         <translation>Nur lesen</translation>
-     </message>
-     <message>
-         <location filename="../src/gui/shareusergroupwidget.cpp" line="1338"/>
-         <source>Can edit</source>
-         <translation>Kann bearbeiten</translation>
-     </message>
-</context>
-<context>
-    <name>OCC::ShareUserGroupPermissionWidget</name>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="502"/>
-        <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="339"/>
+        <source>No results for &quot;%1&quot;</source>
+        <translation>Keine Ergebnisse für &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="521"/>
-        <source>Next</source>
-        <translation>Weiter</translation>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="391"/>
+        <source>Password for share required</source>
+        <translation>Passwort für die Freigabe erforderlich</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="342"/>
-        <source>Advanced Permissions</source>
-        <translation>Erweiterte Berechtigungen</translation>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="392"/>
+        <source>Please enter a password for your email share:</source>
+        <translation>Bitte geben Sie ein Passwort für die E-Mail-Freigabe ein:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="358"/>
-        <source>Set Password</source>
-        <translation>Passwort erstellen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="275"/>
-        <source>The password is not send with the email to maintain confidentiality.</source>
-        <translation>Das Passwort wird nicht mit der E-Mail verschickt, um die Vertraulichkeit zu wahren.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="409"/>
-        <source>Allow resharing</source>
-        <translation>Weiterteilen erlauben</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="282"/>
-        <source>With File drop, only uploading is allowed. Only you can see files and folders that have been uploaded.</source>
-        <translation>Bei der Sammelbox ist nur das Hochladen erlaubt. Nur Sie sehen Dateien und Ordner die hochgeladen worden sind.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="422"/>
-        <source>Set Expiration Date</source>
-        <translation>Ablaufdatum setzen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="153"/>
-        <source>Permissions</source>
-        <translation>Berechtigungen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="243"/>
-        <source>Read Only</source>
-        <translation>Nur lesen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="256"/>
-        <source>Can Edit</source>
-        <translation>Kann bearbeiten</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.ui" line="512"/>
-        <source>File drop only</source>
-        <translation>Sammelbox</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.cpp" line="134"/>
-        <source>Confirm</source>
-        <translation>Übernehmen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergrouppermissionwidget.cpp" line="136"/>
-        <source>Next</source>
-        <translation>Weiter</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareUserMessageWidget</name>
-    <message>
-        <location filename="../src/gui/shareusermessagewidget.ui" line="188"/>
-        <source>Your Message</source>
-        <translation>Ihre Nachricht</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusermessagewidget.ui" line="215"/>
-        <source>You can attach a message to the share</source>
-        <translation>Sie können der Freigabe eine Nachricht anhängen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusermessagewidget.ui" line="495"/>
-        <source>Cancel</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusermessagewidget.ui" line="446"/>
-        <source>Your message</source>
-        <translation>Ihre Nachricht</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusermessagewidget.ui" line="523"/>
-        <source>Send</source>
-        <translation>Senden</translation>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="449"/>
+        <source>I shared something with you</source>
+        <translation>Ich habe etwas mit Ihnen geteilt</translation>
     </message>
 </context>
 <context>
@@ -4573,6 +4267,11 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>kann weiterteilen</translation>
     </message>
     <message>
+        <location filename="../src/gui/shareusergroupwidget.cpp" line="528"/>
+        <source>Note to recipient</source>
+        <translation>Notiz an Empfänger</translation>
+    </message>
+    <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="542"/>
         <source>Set expiration date</source>
         <translation>Ablaufdatum setzen</translation>
@@ -4580,7 +4279,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="558"/>
         <source>Unshare</source>
-        <translation>Freigabe beenden</translation>
+        <translation>Freigabe aufheben</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="567"/>
@@ -4633,7 +4332,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <location filename="../src/gui/socketapi.cpp" line="918"/>
         <location filename="../src/gui/socketapi.cpp" line="950"/>
         <source>Share options</source>
-        <translation>Teilen</translation>
+        <translation>Freigabeoptionen</translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi.cpp" line="672"/>
@@ -4669,8 +4368,8 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/socketapi.cpp" line="962"/>
         <location filename="../src/gui/socketapi.cpp" line="964"/>
-        <source>Copy share link</source>
-        <translation>Link zum Teilen kopieren</translation>
+        <source>Copy public link</source>
+        <translation>Öffentlichen Link kopieren</translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi.cpp" line="968"/>
@@ -5649,8 +5348,8 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="280"/>
-        <source>Disconnected from MagentaCLOUD</source>
-        <translation>MagentaCLOUD: Verbindung getrennt</translation>
+        <source>Disconnected from %1</source>
+        <translation>Von %1 getrennt</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="283"/>
@@ -6405,26 +6104,16 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Aktuelles Konto</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="466"/>
-        <source>Local folder</source>
-        <translation>Lokaler Ordner</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="447"/>
-        <source>Open website</source>
-        <translation>Webseite öffnen</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="135"/>
         <location filename="../src/gui/tray/Window.qml" line="244"/>
         <source>Resume sync for all</source>
         <translation>Synchronisierung für alle fortsetzen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="196"/>
-        <location filename="../src/gui/tray/Window.qml" line="272"/>
-        <source>Pause synchronization</source>
-        <translation>Synchronisierung pausieren </translation>
+        <location filename="../src/gui/tray/Window.qml" line="135"/>
+        <location filename="../src/gui/tray/Window.qml" line="244"/>
+        <source>Pause sync for all</source>
+        <translation>Synchronisierung für alle pausieren</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="196"/>
@@ -6442,14 +6131,14 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Neues Konto hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="282"/>
+        <location filename="../src/gui/tray/Window.qml" line="250"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="321"/>
-        <source>Close</source>
-        <translation>Schließen</translation>
+        <location filename="../src/gui/tray/Window.qml" line="272"/>
+        <source>Exit</source>
+        <translation>Beenden</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="317"/>

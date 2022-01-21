@@ -169,17 +169,17 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     _ui->imprintLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->imprintLabel->setOpenExternalLinks(true);
     _ui->imprintLabel->setTextFormat(Qt::RichText);
-    _ui->imprintLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Impressum</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL)));
+    _ui->imprintLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL)));
 
     _ui->privacyPolicyLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->privacyPolicyLabel->setOpenExternalLinks(true);
     _ui->privacyPolicyLabel->setTextFormat(Qt::RichText);
-    _ui->privacyPolicyLabel->setText(tr("<a href='%1' style=\"color: #e20074;\";>Datenschutzbestimmungen</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL)));
+    _ui->privacyPolicyLabel->setText(tr("<a href='%1' style=\"color: #e20074;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL)));
 
     _ui->openSourceSwLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->openSourceSwLabel->setOpenExternalLinks(true);
     _ui->openSourceSwLabel->setTextFormat(Qt::RichText);
-    _ui->openSourceSwLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Verwendete OpenSource Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL)));
+    _ui->openSourceSwLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL)));
 
     QString about = Theme::instance()->about();
     _ui->aboutLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
