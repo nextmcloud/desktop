@@ -131,9 +131,9 @@ void ShareUserGroupPermissionWidget::setupUI()
 
     if(_createShare == false)
     {
-        _ui->nextButton->setText("Confirm");
+        _ui->nextButton->setText(tr("Confirm"));
     } else{
-        _ui->nextButton->setText("Next");
+        _ui->nextButton->setText(tr("Next"));
     }
 }
 
