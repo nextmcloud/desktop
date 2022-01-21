@@ -2146,23 +2146,23 @@ Beachten Sie bitte, dass hierdurch nur ausgewählt wird, aus welchem Pool Upgrad
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="172"/>
-        <source><a href='%1' style=\"color: #e20074;\">Imprint</a></source>
-        <translation><a href='%1' style=\"color: #e20074;\">Impressum</a></translation>
+        <source>&lt;a href=&quot;%1&quot;&gt; style=\"color: #e20074;\">Imprint;/a&gt;</source>
+        <translation>&lt;a href=&quot;%1&quot;&gt; style=\"color: #e20074;\">Impressum;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="177"/>
-        <source><a href='%1' style=\"color: #e20074;\";>Privacy Policy</a></source>
-        <translation><a href='%1' style=\"color: #e20074;\">Datenschutzbestimmungen</a></translation>
+        <source>&lt;a href=&quot;%1&quot;&gt; style=\"color: #e20074;\";>Privacy Policy;/a&gt;</source>
+        <translation>&lt;a href=&quot;%1&quot;&gt; style=\"color: #e20074;\">Datenschutzbestimmungen;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="182"/>
-        <source><a href='%1' style=\"color: #e20074;\">Used Open Source Software</a></source>
-        <translation><a href='%1' style=\"color: #e20074;\">Verwendete OpenSource Software</a></translation>
+        <source>&lt;a href=&quot;%1&quot;&gt; style=\"color: #e20074;\">Used Open Source Software;/a&gt;</source>
+        <translation>&lt;a href=&quot;%1&quot;&gt; style=\"color: #e20074;\">Verwendete OpenSource Software;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="192"/>
-        <source><a href='%1' style=\"color: #e20074;\">Further Informations</a></source>
-        <translation><a href='%1' style=\"color: #e20074;\">Mehr Informationen</a></translation>
+        <source>&lt;a href=&quot;%1&quot;&gt; style=\"color: #e20074;\">Further Informations;/a&gt;</source>
+        <translation>&lt;a href=&quot;%1&quot;&gt; style=\"color: #e20074;\">Mehr Informationen;/a&gt;</translation>
     </message>
 </context>
 <context>
