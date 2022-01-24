@@ -570,7 +570,7 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="90"/>
         <source>You seem to have the Virtual Files feature enabled on this folder. At  the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sie scheinen die Funktion &quot;Virtuelle Dateien&quot; für diesen Ordner aktiviert zu haben. Im Moment ist es nicht möglich, virtuelle Dateien, die Ende-zu-Ende-verschlüsselt sind, implizit herunterzuladen. Um die beste Erfahrung mit virtuellen Dateien und Ende-zu-Ende-Verschlüsselung zu machen, stellen Sie sicher, dass der verschlüsselte Ordner mit &quot;Immer lokal verfügbar machen&quot; markiert ist.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1091"/>
@@ -4103,7 +4103,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <location filename="../src/gui/shareusergroupwidget.cpp" line="645"/>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="1311"/>
         <source>File drop only</source>
-        <translation type="unfinished"></translation>
+        <translation>Sammelbox</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="680"/>
@@ -4113,12 +4113,12 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="691"/>
         <source>Advanced Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Erweiterte Berechtigungen</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="696"/>
         <source>Send new mail</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Email verfassen</translation>
     </message>
     <message>
         <location filename="../src/gui/shareusergroupwidget.cpp" line="704"/>
@@ -5176,7 +5176,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="280"/>
         <source>Disconnected from MagentaCLOUD</source>
-        <translation type="unfinished"></translation>
+        <translation>MagentaCLOUD: Verbindung getrennt</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="283"/>
