@@ -4591,6 +4591,11 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <comment>Placeholders are postfixed with file sizes using Utility::octetsToString()</comment>
         <translation>Nur %1 sind verfügbar. Zum Beginnen werden mindestens %2 benötigt.</translation>
     </message>
+	<message>
+        <location filename="../src/libsync/syncengine.cpp" line="455"/>
+        <source>Unable to find local sync folder.</source>
+        <translation>Lokaler Ordner kann nicht gefunden werden.</translation>
+    </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="1028"/>
         <source>Aborted</source>

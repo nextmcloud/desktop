@@ -452,7 +452,7 @@ void SyncEngine::startSync()
     if (!QDir(_localPath).exists()) {
         _anotherSyncNeeded = DelayedFollowUp;
         // No _tr, it should only occur in non-mirall
-        syncError("Lokaler Ordner kann nicht gefunden werden.");
+        syncError("Unable to find local sync folder.");
         finalize(false);
         return;
     }
