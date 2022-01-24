@@ -282,7 +282,7 @@ Window {
                                     Text {
                                         anchors.verticalCenter: parent.verticalCenter
                                         font.wordSpacing:  45
-                                        text:  (" "+"Einstellungen")
+                                        text:  qsTr(" "+"Settings")
                                         font.family: "Segoe UI"
                                         font.pixelSize: Style.topLinePixelSize
                                         color: parent.hovered ? Style.magenta : Style.nmcTextColor
@@ -318,7 +318,7 @@ Window {
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.bottomMargin: Style.accountMenuPadding
                                         font.wordSpacing:  45
-                                        text:  qsTr(" "+"Beenden")
+                                        text:  qsTr(" "+"Close")
                                         font.family: "Segoe UI"
                                         font.pixelSize: Style.topLinePixelSize
                                         color: parent.hovered ? Style.magenta : Style.nmcTextColor
