@@ -273,7 +273,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     //const QString actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
     //if (avatar.isNull()) {
         accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/localFolder32x32.svg"),
-            "Synchronisieren");
+            tr("Synchronization"));
    // } else {
        // QIcon icon(QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatar)));
        // accountAction = createActionWithIcon(icon, actionText);
