@@ -99,7 +99,6 @@ set(client_SRCS
     sharemanager.cpp
     shareusergroupwidget.cpp
     sharee.cpp
-    socketapi.cpp
     sslbutton.cpp
     sslerrordialog.cpp
     syncrunfilelog.cpp
@@ -164,7 +163,6 @@ endif()
 
 IF( APPLE )
     list(APPEND client_SRCS cocoainitializer_mac.mm)
-    list(APPEND client_SRCS socketapisocket_mac.mm)
     list(APPEND client_SRCS systray.mm)
 
     if(SPARKLE_FOUND AND BUILD_UPDATER)
