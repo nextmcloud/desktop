@@ -210,7 +210,7 @@ void FolderWizardRemotePath::slotCreateRemoteFolder(const QString &folder)
 
     auto *job = new MkColJob(_account, fullPath, this);
     /* check the owncloud configuration file and query the ownCloud */
-    connect(job, static_cast<void (MkColJob::*)(QNetworkReply::NetworkError)>(&MkColJob::finished),
+    connect(job, &MkColJob::finishedWithoutError,
         this, &FolderWizardRemotePath::slotCreateRemoteFolderFinished);
     connect(job, &AbstractNetworkJob::networkError, this, &FolderWizardRemotePath::slotHandleMkdirNetworkError);
     job->start();
@@ -567,6 +567,11 @@ void FolderWizardSelectiveSync::initializePage()
             _virtualFilesCheckBox->setChecked(bestAvailableVfsMode() == Vfs::WindowsCfApi);
             _virtualFilesCheckBox->setEnabled(true);
             _virtualFilesCheckBox->setText(tr("Use virtual files instead of downloading content immediately %1").arg(bestAvailableVfsMode() == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
+
+            if (Theme::instance()->enforceVirtualFilesSyncFolder()) {
+                _virtualFilesCheckBox->setChecked(true);
+                _virtualFilesCheckBox->setDisabled(true);
+            }
         }
         //
     }
