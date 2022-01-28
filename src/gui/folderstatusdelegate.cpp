@@ -186,11 +186,11 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         }
 
         painter->setFont(aliasFont);
-        QString elidedHead = aliasFm.elidedText(addFolderText(AB_Headline), Qt::ElideRight, headRect.width());
+        QString elidedHead = aliasFm.elidedText(addFolderText(), Qt::ElideRight, headRect.width());
         painter->drawText(QStyle::visualRect(option.direction, headRect, headRect), textAlign, elidedHead);
 
         painter->setFont(addButtonFont);
-        QString textLine = addFolderText(AB_Textline);
+        QString textLine = addFolderText();
         painter->drawText(QStyle::visualRect(option.direction, textRect, textRect), textAlign|Qt::TextWordWrap, textLine);
 
         painter->restore();
