@@ -28,6 +28,8 @@
 #include <cookiejar.h>
 #include <QTimer>
 
+class QJsonDocument;
+
 /*
  * TODO: In theory we should use QVERIFY instead of Q_ASSERT for testing, but this
  * only works when directly called from a QTest :-(
@@ -52,10 +54,10 @@ inline QString getFilePathFromUrl(const QUrl &url)
 
 
 inline QByteArray generateEtag() {
-    return QByteArray::number(QDateTime::currentDateTimeUtc().toMSecsSinceEpoch(), 16) + QByteArray::number(qrand(), 16);
+    return QByteArray::number(QDateTime::currentDateTimeUtc().toMSecsSinceEpoch(), 16) + QByteArray::number(OCC::Utility::rand(), 16);
 }
 inline QByteArray generateFileId() {
-    return QByteArray::number(qrand(), 16);
+    return QByteArray::number(OCC::Utility::rand(), 16);
 }
 
 class PathComponents : public QStringList {
@@ -143,10 +145,12 @@ public:
     }
 
     QString path() const;
+    QString absolutePath() const;
 
     void fixupParentPathRecursively();
 
     QString name;
+    int operationStatus = 200;
     bool isDir = true;
     bool isShared = false;
     OCC::RemotePermissions permissions; // When uset, defaults to everything
@@ -174,7 +178,7 @@ class FakeReply : public QNetworkReply
     Q_OBJECT
 public:
     FakeReply(QObject *parent);
-    virtual ~FakeReply();
+    ~FakeReply() override;
 
     // useful to be public for testing
     using QNetworkReply::setRawHeader;
@@ -211,6 +215,27 @@ public:
 
     void abort() override;
     qint64 readData(char *, qint64) override { return 0; }
+};
+
+class FakePutMultiFileReply : public FakeReply
+{
+    Q_OBJECT
+public:
+    FakePutMultiFileReply(FileInfo &remoteRootFileInfo, QNetworkAccessManager::Operation op, const QNetworkRequest &request, const QString &contentType, const QByteArray &putPayload, QObject *parent);
+
+    static QVector<FileInfo *> performMultiPart(FileInfo &remoteRootFileInfo, const QNetworkRequest &request, const QByteArray &putPayload, const QString &contentType);
+
+    Q_INVOKABLE virtual void respond();
+
+    void abort() override;
+
+    qint64 bytesAvailable() const override;
+    qint64 readData(char *data, qint64 maxlen) override;
+
+private:
+    QVector<FileInfo *> _allFileInfo;
+
+    QByteArray _payload;
 };
 
 class FakeMkcolReply : public FakeReply
@@ -315,12 +340,17 @@ public:
     FakePayloadReply(QNetworkAccessManager::Operation op, const QNetworkRequest &request,
         const QByteArray &body, QObject *parent);
 
+    FakePayloadReply(QNetworkAccessManager::Operation op, const QNetworkRequest &request,
+        const QByteArray &body, int delay, QObject *parent);
+
     void respond();
 
     void abort() override {}
     qint64 readData(char *buf, qint64 max) override;
     qint64 bytesAvailable() const override;
     QByteArray _body;
+
+    static const int defaultDelay = 10;
 };
 
 
@@ -346,6 +376,17 @@ public:
     qint64 bytesAvailable() const override;
 
     QByteArray _body;
+};
+
+class FakeJsonErrorReply : public FakeErrorReply
+{
+    Q_OBJECT
+public:
+    FakeJsonErrorReply(QNetworkAccessManager::Operation op,
+                       const QNetworkRequest &request,
+                       QObject *parent,
+                       int httpErrorCode,
+                       const QJsonDocument &reply = QJsonDocument());
 };
 
 // A reply that never responds
@@ -403,6 +444,12 @@ public:
 
     void setOverride(const Override &override) { _override = override; }
 
+    QJsonObject forEachReplyPart(QIODevice *outgoingData,
+                                 const QString &contentType,
+                                 std::function<QJsonObject(const QMap<QString, QByteArray> &)> replyFunction);
+
+    QNetworkReply *overrideReplyWithError(QString fileName, Operation op, QNetworkRequest newRequest);
+
 protected:
     QNetworkReply *createRequest(Operation op, const QNetworkRequest &request,
         QIODevice *outgoingData = nullptr) override;
@@ -413,17 +460,17 @@ class FakeCredentials : public OCC::AbstractCredentials
     QNetworkAccessManager *_qnam;
 public:
     FakeCredentials(QNetworkAccessManager *qnam) : _qnam{qnam} { }
-    virtual QString authType() const { return "test"; }
-    virtual QString user() const { return "admin"; }
-    virtual QString password() const { return "password"; }
-    virtual QNetworkAccessManager *createQNAM() const { return _qnam; }
-    virtual bool ready() const { return true; }
-    virtual void fetchFromKeychain() { }
-    virtual void askFromUser() { }
-    virtual bool stillValid(QNetworkReply *) { return true; }
-    virtual void persist() { }
-    virtual void invalidateToken() { }
-    virtual void forgetSensitiveData() { }
+    QString authType() const override { return "test"; }
+    QString user() const override { return "admin"; }
+    QString password() const override { return "password"; }
+    QNetworkAccessManager *createQNAM() const override { return _qnam; }
+    bool ready() const override { return true; }
+    void fetchFromKeychain() override { }
+    void askFromUser() override { }
+    bool stillValid(QNetworkReply *) override { return true; }
+    void persist() override { }
+    void invalidateToken() override { }
+    void forgetSensitiveData() override { }
 };
 
 class FakeFolder
@@ -461,6 +508,11 @@ public:
     };
     ErrorList serverErrorPaths() { return {_fakeQnam}; }
     void setServerOverride(const FakeQNAM::Override &override) { _fakeQnam->setOverride(override); }
+    QJsonObject forEachReplyPart(QIODevice *outgoingData,
+                                 const QString &contentType,
+                                 std::function<QJsonObject(const QMap<QString, QByteArray>&)> replyFunction) {
+        return _fakeQnam->forEachReplyPart(outgoingData, contentType, replyFunction);
+    }
 
     QString localPath() const;
 
@@ -510,6 +562,8 @@ struct ItemCompletedSpy : QSignalSpy {
     {}
 
     OCC::SyncFileItemPtr findItem(const QString &path) const;
+
+    OCC::SyncFileItemPtr findItemWithExpectedRank(const QString &path, int rank) const;
 };
 
 // QTest::toString overloads

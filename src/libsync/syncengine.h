@@ -59,7 +59,7 @@ class OWNCLOUDSYNC_EXPORT SyncEngine : public QObject
 public:
     SyncEngine(AccountPtr account, const QString &localPath,
         const QString &remotePath, SyncJournalDb *journal);
-    ~SyncEngine();
+    ~SyncEngine() override;
 
     Q_INVOKABLE void startSync();
     void setNetworkLimits(int upload, int download);
@@ -134,11 +134,13 @@ public:
      */
     static void wipeVirtualFiles(const QString &localPath, SyncJournalDb &journal, Vfs &vfs);
 
+    static void switchToVirtualFiles(const QString &localPath, SyncJournalDb &journal, Vfs &vfs);
+
     auto getPropagator() { return _propagator; } // for the test
 
 signals:
     // During update, before reconcile
-    void rootEtag(const QString &, const QDateTime &);
+    void rootEtag(const QByteArray &, const QDateTime &);
 
     // after the above signals. with the items that actually need propagating
     void aboutToPropagate(SyncFileItemVector &);
@@ -174,7 +176,7 @@ signals:
 
 private slots:
     void slotFolderDiscovered(bool local, const QString &folder);
-    void slotRootEtagReceived(const QString &, const QDateTime &time);
+    void slotRootEtagReceived(const QByteArray &, const QDateTime &time);
 
     /** When the discovery phase discovers an item */
     void slotItemDiscovered(const SyncFileItemPtr &item);
@@ -234,10 +236,12 @@ private:
     bool _syncRunning;
     QString _localPath;
     QString _remotePath;
-    QString _remoteRootEtag;
+    QByteArray _remoteRootEtag;
     SyncJournalDb *_journal;
     QScopedPointer<DiscoveryPhase> _discoveryPhase;
     QSharedPointer<OwncloudPropagator> _propagator;
+
+    QSet<QString> _bulkUploadBlackList;
 
     // List of all files with conflicts
     QSet<QString> _seenConflictFiles;

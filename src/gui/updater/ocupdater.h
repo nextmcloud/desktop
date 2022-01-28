@@ -97,6 +97,15 @@ public:
         DownloadFailed,
         DownloadTimedOut,
         UpdateOnlyAvailableThroughSystem };
+
+
+
+
+
+    enum UpdateStatusStringFormat {
+        PlainText,
+        Html,
+    };
     explicit OCUpdater(const QUrl &url);
 
     void setUpdateUrl(const QUrl &url);
@@ -105,7 +114,7 @@ public:
 
     void checkForUpdate() override;
 
-    QString statusString() const;
+    QString statusString(UpdateStatusStringFormat format = PlainText) const;
     int downloadState() const;
     void setDownloadState(DownloadState state);
 

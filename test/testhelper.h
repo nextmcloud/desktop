@@ -1,28 +1,21 @@
 #ifndef TESTHELPER_H
 #define TESTHELPER_H
 
-#include "folder.h"
+#include "gui/folder.h"
 #include "creds/httpcredentials.h"
 
-using namespace OCC;
-
-class HttpCredentialsTest : public HttpCredentials {
+class HttpCredentialsTest : public OCC::HttpCredentials
+{
 public:
     HttpCredentialsTest(const QString& user, const QString& password)
     : HttpCredentials(user, password)
     {}
 
-    void askFromUser() Q_DECL_OVERRIDE {
+    void askFromUser() override {
 
     }
 };
 
-static FolderDefinition folderDefinition(const QString &path) {
-    FolderDefinition d;
-    d.localPath = path;
-    d.targetPath = path;
-    d.alias = path;
-    return d;
-}
+OCC::FolderDefinition folderDefinition(const QString &path);
 
 #endif // TESTHELPER_H

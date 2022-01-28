@@ -223,8 +223,10 @@ int OwncloudSetupPage::nextId() const
     case DetermineAuthTypeJob::WebViewFlow:
         return WizardCommon::Page_WebView;
 #endif // WITH_WEBENGINE
+    case DetermineAuthTypeJob::NoAuthType:
+        return WizardCommon::Page_HttpCreds;
     }
-    return WizardCommon::Page_HttpCreds;
+    Q_UNREACHABLE();
 }
 
 QString OwncloudSetupPage::url() const
@@ -270,7 +272,7 @@ void OwncloudSetupPage::setAuthType(DetermineAuthTypeJob::AuthType type)
 void OwncloudSetupPage::setErrorString(const QString &err, bool retryHTTPonly)
 {
     if (err.isEmpty()) {
-       // _ui.errorLabel->setVisible(false);
+        _ui.errorLabel->setVisible(false);
     } else {
         if (retryHTTPonly) {
             QUrl url(_ui.leUrl->fullText());
@@ -303,7 +305,7 @@ void OwncloudSetupPage::setErrorString(const QString &err, bool retryHTTPonly)
             }
         }
 
-        //_ui.errorLabel->setVisible(true);
+        _ui.errorLabel->setVisible(true);
         _ui.errorLabel->setText(err);
     }
     _checking = false;

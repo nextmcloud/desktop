@@ -142,7 +142,7 @@ public:
     {
     }
 
-    void askFromUser() Q_DECL_OVERRIDE
+    void askFromUser() override
     {
         _password = ::queryPassword(user());
         _ready = true;
@@ -155,7 +155,7 @@ public:
         _sslTrusted = isTrusted;
     }
 
-    bool sslIsTrusted() Q_DECL_OVERRIDE
+    bool sslIsTrusted() override
     {
         return _sslTrusted;
     }
@@ -295,9 +295,10 @@ void selectiveSyncFixup(OCC::SyncJournalDb *journal, const QStringList &newList)
 
     bool ok = false;
 
-    auto oldBlackListSet = journal->getSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, &ok).toSet();
+    const auto selectiveSyncList = journal->getSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, &ok);
+    const QSet<QString> oldBlackListSet(selectiveSyncList.begin(), selectiveSyncList.end());
     if (ok) {
-        auto blackListSet = newList.toSet();
+        const QSet<QString> blackListSet(newList.begin(), newList.end());
         const auto changes = (oldBlackListSet - blackListSet) + (blackListSet - oldBlackListSet);
         for (const auto &it : changes) {
             journal->schedulePathForRemoteDiscovery(it);
@@ -319,8 +320,6 @@ int main(int argc, char **argv)
     QString opensslConf = QCoreApplication::applicationDirPath() + QString("/openssl.cnf");
     qputenv("OPENSSL_CONF", opensslConf.toLocal8Bit());
 #endif
-
-    qsrand(std::random_device()());
 
     CmdOptions options;
     options.silent = false;
@@ -484,7 +483,7 @@ restart_sync:
             qCritical() << "Could not open file containing the list of unsynced folders: " << options.unsyncedfolders;
         } else {
             // filter out empty lines and comments
-            selectiveSyncList = QString::fromUtf8(f.readAll()).split('\n').filter(QRegExp("\\S+")).filter(QRegExp("^[^#]"));
+            selectiveSyncList = QString::fromUtf8(f.readAll()).split('\n').filter(QRegularExpression("\\S+")).filter(QRegularExpression("^[^#]"));
 
             for (int i = 0; i < selectiveSyncList.count(); ++i) {
                 if (!selectiveSyncList.at(i).endsWith(QLatin1Char('/'))) {
@@ -502,6 +501,9 @@ restart_sync:
         selectiveSyncFixup(&db, selectiveSyncList);
     }
 
+    SyncOptions opt;
+    opt.fillFromEnvironmentVariables();
+    opt.verifyChunkSizes();
     SyncEngine engine(account, options.source_dir, folder, &db);
     engine.setIgnoreHiddenFiles(options.ignoreHiddenFiles);
     engine.setNetworkLimits(options.uplimit, options.downlimit);

@@ -55,6 +55,7 @@ struct RemoteInfo
     OCC::RemotePermissions remotePerm;
     time_t modtime = 0;
     int64_t size = 0;
+    int64_t sizeOfFolder = 0;
     bool isDirectory = false;
     bool isE2eEncrypted = false;
     QString e2eMangledName;
@@ -69,6 +70,7 @@ struct LocalInfo
 {
     /** FileName of the entry (this does not contains any directory or path, just the plain name */
     QString name;
+    QString renameName;
     time_t modtime = 0;
     int64_t size = 0;
     uint64_t inode = 0;
@@ -91,7 +93,7 @@ class DiscoverySingleLocalDirectoryJob : public QObject, public QRunnable
 public:
     explicit DiscoverySingleLocalDirectoryJob(const AccountPtr &account, const QString &localPath, OCC::Vfs *vfs, QObject *parent = nullptr);
 
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
 signals:
     void finished(QVector<LocalInfo> result);
     void finishedFatalError(QString errorString);
@@ -126,7 +128,7 @@ public:
     // This is not actually a network job, it is just a job
 signals:
     void firstDirectoryPermissions(RemotePermissions);
-    void etag(const QString &, const QDateTime &time);
+    void etag(const QByteArray &, const QDateTime &time);
     void finished(const HttpResult<QVector<RemoteInfo>> &result);
 
 private slots:
@@ -140,8 +142,9 @@ private slots:
 private:
     QVector<RemoteInfo> _results;
     QString _subPath;
-    QString _firstEtag;
+    QByteArray _firstEtag;
     QByteArray _fileId;
+    QByteArray _localFileId;
     AccountPtr _account;
     // The first result is for the directory itself and need to be ignored.
     // This flag is true if it was already ignored.
@@ -153,6 +156,7 @@ private:
     // If this directory is e2ee
     bool _isE2eEncrypted;
     // If set, the discovery will finish with an error
+    int64_t _size = 0;
     QString _error;
     QPointer<LsColJob> _lsColJob;
 
@@ -252,7 +256,7 @@ public:
     AccountPtr _account;
     SyncOptions _syncOptions;
     ExcludedFiles *_excludes;
-    QRegExp _invalidFilenameRx; // FIXME: maybe move in ExcludedFiles
+    QRegularExpression _invalidFilenameRx; // FIXME: maybe move in ExcludedFiles
     QStringList _serverBlacklistedFiles; // The blacklist from the capabilities
     bool _ignoreHiddenFiles = false;
     std::function<bool(const QString &)> _shouldDiscoverLocaly;

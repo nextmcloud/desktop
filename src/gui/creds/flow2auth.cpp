@@ -100,7 +100,7 @@ void Flow2Auth::fetchNewToken(const TokenAction action)
             pollToken = json.value("poll").toObject().value("token").toString();
             pollEndpoint = json.value("poll").toObject().value("endpoint").toString();
             if (_enforceHttps && QUrl(pollEndpoint).scheme() != QStringLiteral("https")) {
-                qCWarning(lcFlow2auth) << "Can not poll endpoint because the returned url" << _pollEndpoint << "does not start with https";
+                qCWarning(lcFlow2auth) << "Can not poll endpoint because the returned url" << pollEndpoint << "does not start with https";
                 emit result(Error, tr("The polling URL does not start with HTTPS despite the login URL started with HTTPS. Login will not be possible because this might be a security issue. Please contact your administrator."));
                 return;
             }
@@ -115,7 +115,7 @@ void Flow2Auth::fetchNewToken(const TokenAction action)
                 errorReason = tr("Error returned from the server: <em>%1</em>")
                                   .arg(errorFromJson.toHtmlEscaped());
             } else if (reply->error() != QNetworkReply::NoError) {
-                errorReason = tr("There was an error accessing the 'token' endpoint: <br><em>%1</em>")
+                errorReason = tr("There was an error accessing the \"token\" endpoint: <br><em>%1</em>")
                                   .arg(reply->errorString().toHtmlEscaped());
             } else if (jsonParseError.error != QJsonParseError::NoError) {
                 errorReason = tr("Could not parse the JSON returned from the server: <br><em>%1</em>")
@@ -132,6 +132,16 @@ void Flow2Auth::fetchNewToken(const TokenAction action)
 
 
         _loginUrl = loginUrl;
+
+        if (_account->isUsernamePrefillSupported()) {
+            const auto userName = Utility::getCurrentUserName();
+            if (!userName.isEmpty()) {
+                auto query = QUrlQuery(_loginUrl);
+                query.addQueryItem(QStringLiteral("user"), userName);
+                _loginUrl.setQuery(query);
+            }
+        }
+
         _pollToken = pollToken;
         _pollEndpoint = pollEndpoint;
 
@@ -223,7 +233,7 @@ void Flow2Auth::slotPollTimerTimeout()
                 errorReason = tr("Error returned from the server: <em>%1</em>")
                                   .arg(errorFromJson.toHtmlEscaped());
             } else if (reply->error() != QNetworkReply::NoError) {
-                errorReason = tr("There was an error accessing the 'token' endpoint: <br><em>%1</em>")
+                errorReason = tr("There was an error accessing the \"token\" endpoint: <br><em>%1</em>")
                                   .arg(reply->errorString().toHtmlEscaped());
             } else if (jsonParseError.error != QJsonParseError::NoError) {
                 errorReason = tr("Could not parse the JSON returned from the server: <br><em>%1</em>")

@@ -18,8 +18,10 @@
 
 #include "asserts.h"
 #include "utility.h"
+#include "gui/configgui.h"
 
 #include <comdef.h>
+#include <Lmcons.h>
 #include <shlguid.h>
 #include <shlobj.h>
 #include <string>
@@ -47,7 +49,14 @@ static void setupFavLink_private(const QString &folder)
         desktopIni.open(QFile::WriteOnly);
         desktopIni.write("[.ShellClassInfo]\r\nIconResource=");
         desktopIni.write(QDir::toNativeSeparators(qApp->applicationFilePath()).toUtf8());
-        desktopIni.write(",0\r\n");
+#ifdef APPLICATION_FOLDER_ICON_INDEX
+        const auto iconIndex = APPLICATION_FOLDER_ICON_INDEX;
+#else
+        const auto iconIndex = "0";
+#endif
+        desktopIni.write(",");
+        desktopIni.write(iconIndex);
+        desktopIni.write("\r\n");
         desktopIni.close();
 
         // Set the folder as system and Desktop.ini as hidden+system for explorer to pick it.
@@ -380,6 +389,17 @@ QString Utility::formatWinError(long errorCode)
     return QStringLiteral("WindowsError: %1: %2").arg(QString::number(errorCode, 16), QString::fromWCharArray(_com_error(errorCode).ErrorMessage()));
 }
 
+QString Utility::getCurrentUserName()
+{
+    TCHAR username[UNLEN + 1] = {0};
+    DWORD len = sizeof(username) / sizeof(TCHAR);
+    
+    if (!GetUserName(username, &len)) {
+        qCWarning(lcUtility) << "Could not retrieve Windows user name." << formatWinError(GetLastError());
+    }
+
+    return QString::fromWCharArray(username);
+}
 
 Utility::NtfsPermissionLookupRAII::NtfsPermissionLookupRAII()
 {

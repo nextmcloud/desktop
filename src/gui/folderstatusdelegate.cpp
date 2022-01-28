@@ -44,16 +44,9 @@ FolderStatusDelegate::FolderStatusDelegate()
     customizeStyle();
 }
 
-QString FolderStatusDelegate::addFolderText(addButtonText selection)
+QString FolderStatusDelegate::addFolderText()
 {
-    switch(selection)
-    {
-    case AB_Textline:
-        return tr("Synchronize any other local folder with your MagentaCLOUD.");
-    case AB_Headline:
-    default:
-        return tr("Add Live-Backup");
-    }
+    return tr("Add Folder Sync Connection");
 }
 
 // allocate each item size in listview.
@@ -68,8 +61,15 @@ QSize FolderStatusDelegate::sizeHint(const QStyleOptionViewItem &option,
 
     auto classif = static_cast<const FolderStatusModel *>(index.model())->classify(index);
     if (classif == FolderStatusModel::AddButton) {
-        // quick hack for (fixed) button size
-        return {520, 64};
+        const int margins = aliasFm.height(); // same as 2*aliasMargin of paint
+        QFontMetrics fm(qApp->font("QPushButton"));
+        QStyleOptionButton opt;
+        static_cast<QStyleOption &>(opt) = option;
+        opt.text = addFolderText();
+        return QApplication::style()->sizeFromContents(
+                                        QStyle::CT_PushButton, &opt, fm.size(Qt::TextSingleLine, opt.text))
+                   .expandedTo(QApplication::globalStrut())
+            + QSize(0, margins);
     }
 
     if (classif != FolderStatusModel::RootFolder) {

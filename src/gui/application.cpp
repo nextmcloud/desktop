@@ -27,13 +27,14 @@
 #include "folderman.h"
 #include "logger.h"
 #include "configfile.h"
-#include "socketapi.h"
+#include "socketapi/socketapi.h"
 #include "sslerrordialog.h"
 #include "theme.h"
 #include "clientproxy.h"
 #include "sharedialog.h"
 #include "accountmanager.h"
 #include "creds/abstractcredentials.h"
+#include "pushnotifications.h"
 
 #if defined(BUILD_UPDATER)
 #include "updater/ocupdater.h"
@@ -179,7 +180,7 @@ Application::Application(int &argc, char **argv)
     , _showLogWindow(false)
     , _logExpire(0)
     , _logFlush(false)
-    , _logDebug(false)
+    , _logDebug(true)
     , _userTriggeredConnect(false)
     , _debugMode(false)
     , _backgroundMode(false)
@@ -350,6 +351,9 @@ Application::Application(int &argc, char **argv)
     connect(FolderMan::instance()->socketApi(), &SocketApi::shareCommandReceived,
         _gui.data(), &ownCloudGui::slotShowShareDialog);
 
+    connect(FolderMan::instance()->socketApi(), &SocketApi::fileActivityCommandReceived,
+        Systray::instance(), &Systray::showFileActivityDialog);
+
     // startup procedure.
     connect(&_checkConnectionTimer, &QTimer::timeout, this, &Application::slotCheckConnection);
     _checkConnectionTimer.setInterval(ConnectionValidator::DefaultCallingIntervalMsec); // check for connection every 32 seconds.
@@ -465,9 +469,10 @@ void Application::slotCheckConnection()
 
         // Don't check if we're manually signed out or
         // when the error is permanent.
-        if (state != AccountState::SignedOut
-            && state != AccountState::ConfigurationError
-            && state != AccountState::AskingCredentials) {
+        const auto pushNotifications = accountState->account()->pushNotifications();
+        const auto pushNotificationsAvailable = (pushNotifications && pushNotifications->isReady());
+        if (state != AccountState::SignedOut && state != AccountState::ConfigurationError
+            && state != AccountState::AskingCredentials && !pushNotificationsAvailable) {
             accountState->checkConnectivity();
         }
     }
@@ -487,7 +492,6 @@ void Application::slotCrash()
 
 void Application::slotownCloudWizardDone(int res)
 {
-    AccountManager *accountMan = AccountManager::instance();
     FolderMan *folderMan = FolderMan::instance();
 
     // During the wizard, scheduling of new syncs is disabled
@@ -500,7 +504,7 @@ void Application::slotownCloudWizardDone(int res)
 
         // If one account is configured: enable autostart
 #ifndef QT_DEBUG
-        bool shouldSetAutoStart = (accountMan->accounts().size() == 1);
+        bool shouldSetAutoStart = AccountManager::instance()->accounts().size() == 1;
 #else
         bool shouldSetAutoStart = false;
 #endif
@@ -550,7 +554,12 @@ void Application::setupLogging()
 
     logger->enterNextLogFile();
 
-    qCInfo(lcApplication) << QString::fromLatin1("################## %1 locale:[%2] ui_lang:[%3] version:[%4] os:[%5]").arg(_theme->appName()).arg(QLocale::system().name()).arg(property("ui_lang").toString()).arg(_theme->version()).arg(Utility::platformName());
+    qCInfo(lcApplication) << "##################" << _theme->appName()
+                          << "locale:" << QLocale::system().name()
+                          << "ui_lang:" << property("ui_lang")
+                          << "version:" << _theme->version()
+                          << "os:" << Utility::platformName();
+    qCInfo(lcApplication) << "Arguments:" << qApp->arguments();
 }
 
 void Application::slotUseMonoIconsChanged(bool)

@@ -22,8 +22,9 @@
 #include "common/utility.h"
 #include "filesystem.h"
 #include "propagatorjobs.h"
-#include "common/checksums.h"
-#include "common/asserts.h"
+#include <common/checksums.h>
+#include <common/asserts.h>
+#include <common/constants.h>
 #include "clientsideencryptionjobs.h"
 #include "propagatedownloadencrypted.h"
 #include "common/vfs.h"
@@ -62,9 +63,9 @@ QString OWNCLOUDSYNC_EXPORT createDownloadTmpFileName(const QString &previous)
     int overhead = 1 + 1 + 2 + 8; // slash dot dot-tilde ffffffff"
     int spaceForFileName = qMin(254, tmpFileName.length() + overhead) - overhead;
     if (tmpPath.length() > 0) {
-        return tmpPath + '/' + '.' + tmpFileName.left(spaceForFileName) + ".~" + (QString::number(uint(qrand() % 0xFFFFFFFF), 16));
+        return tmpPath + '/' + '.' + tmpFileName.left(spaceForFileName) + ".~" + (QString::number(uint(Utility::rand() % 0xFFFFFFFF), 16));
     } else {
-        return '.' + tmpFileName.left(spaceForFileName) + ".~" + (QString::number(uint(qrand() % 0xFFFFFFFF), 16));
+        return '.' + tmpFileName.left(spaceForFileName) + ".~" + (QString::number(uint(Utility::rand() % 0xFFFFFFFF), 16));
     }
 }
 
@@ -77,7 +78,6 @@ GETFileJob::GETFileJob(AccountPtr account, const QString &path, QIODevice *devic
     , _headers(headers)
     , _expectedEtagForResume(expectedEtagForResume)
     , _expectedContentLength(-1)
-    , _contentLength(-1)
     , _resumeStart(resumeStart)
     , _errorStatus(SyncFileItem::NoStatus)
     , _bandwidthLimited(false)
@@ -86,6 +86,7 @@ GETFileJob::GETFileJob(AccountPtr account, const QString &path, QIODevice *devic
     , _bandwidthManager(nullptr)
     , _hasEmittedFinishedSignal(false)
     , _lastModified()
+    , _contentLength(-1)
 {
 }
 
@@ -97,7 +98,6 @@ GETFileJob::GETFileJob(AccountPtr account, const QUrl &url, QIODevice *device,
     , _headers(headers)
     , _expectedEtagForResume(expectedEtagForResume)
     , _expectedContentLength(-1)
-    , _contentLength(-1)
     , _resumeStart(resumeStart)
     , _errorStatus(SyncFileItem::NoStatus)
     , _directDownloadUrl(url)
@@ -107,6 +107,7 @@ GETFileJob::GETFileJob(AccountPtr account, const QUrl &url, QIODevice *device,
     , _bandwidthManager(nullptr)
     , _hasEmittedFinishedSignal(false)
     , _lastModified()
+    , _contentLength(-1)
 {
 }
 
@@ -219,9 +220,10 @@ void GETFileJob::slotMetaDataChanged()
     qint64 start = 0;
     QByteArray ranges = reply()->rawHeader("Content-Range");
     if (!ranges.isEmpty()) {
-        QRegExp rx("bytes (\\d+)-");
-        if (rx.indexIn(ranges) >= 0) {
-            start = rx.cap(1).toLongLong();
+        const QRegularExpression rx("bytes (\\d+)-");
+        const auto rxMatch = rx.match(ranges);
+        if (rxMatch.hasMatch()) {
+            start = rxMatch.captured(1).toLongLong();
         }
     }
     if (start != _resumeStart) {
@@ -284,6 +286,11 @@ qint64 GETFileJob::currentDownloadPosition()
     return _resumeStart;
 }
 
+qint64 GETFileJob::writeToDevice(const QByteArray &data)
+{
+    return _device->write(data);
+}
+
 void GETFileJob::slotReadyRead()
 {
     if (!reply())
@@ -306,8 +313,8 @@ void GETFileJob::slotReadyRead()
             _bandwidthQuota -= toRead;
         }
 
-        qint64 r = reply()->read(buffer.data(), toRead);
-        if (r < 0) {
+        const qint64 readBytes = reply()->read(buffer.data(), toRead);
+        if (readBytes < 0) {
             _errorString = networkReplyErrorString(*reply());
             _errorStatus = SyncFileItem::NormalError;
             qCWarning(lcGetJob) << "Error while reading from device: " << _errorString;
@@ -315,11 +322,11 @@ void GETFileJob::slotReadyRead()
             return;
         }
 
-        qint64 w = _device->write(buffer.constData(), r);
-        if (w != r) {
+        const qint64 writtenBytes = writeToDevice(QByteArray::fromRawData(buffer.constData(), readBytes));
+        if (writtenBytes != readBytes) {
             _errorString = _device->errorString();
             _errorStatus = SyncFileItem::NormalError;
-            qCWarning(lcGetJob) << "Error while writing to file" << w << r << _errorString;
+            qCWarning(lcGetJob) << "Error while writing to file" << writtenBytes << readBytes << _errorString;
             reply()->abort();
             return;
         }
@@ -369,6 +376,75 @@ QString GETFileJob::errorString() const
         return _errorString;
     }
     return AbstractNetworkJob::errorString();
+}
+
+GETEncryptedFileJob::GETEncryptedFileJob(AccountPtr account, const QString &path, QIODevice *device,
+    const QMap<QByteArray, QByteArray> &headers, const QByteArray &expectedEtagForResume,
+    qint64 resumeStart, EncryptedFile encryptedInfo, QObject *parent)
+    : GETFileJob(account, path, device, headers, expectedEtagForResume, resumeStart, parent)
+    , _encryptedFileInfo(encryptedInfo)
+{
+}
+
+GETEncryptedFileJob::GETEncryptedFileJob(AccountPtr account, const QUrl &url, QIODevice *device,
+    const QMap<QByteArray, QByteArray> &headers, const QByteArray &expectedEtagForResume,
+    qint64 resumeStart, EncryptedFile encryptedInfo, QObject *parent)
+    : GETFileJob(account, url, device, headers, expectedEtagForResume, resumeStart, parent)
+    , _encryptedFileInfo(encryptedInfo)
+{
+}
+
+qint64 GETEncryptedFileJob::writeToDevice(const QByteArray &data)
+{
+    if (!_decryptor) {
+        // only initialize the decryptor once, because, according to Qt documentation, metadata might get changed during the processing of the data sometimes
+        // https://doc.qt.io/qt-5/qnetworkreply.html#metaDataChanged
+        _decryptor.reset(new EncryptionHelper::StreamingDecryptor(_encryptedFileInfo.encryptionKey, _encryptedFileInfo.initializationVector, _contentLength));
+    }
+
+    if (!_decryptor->isInitialized()) {
+        return -1;
+    }
+
+    const auto bytesRemaining = _contentLength - _processedSoFar - data.length();
+
+    if (bytesRemaining != 0 && bytesRemaining < OCC::Constants::e2EeTagSize) {
+        // decryption is going to fail if last chunk does not include or does not equal to OCC::Constants::e2EeTagSize bytes tag
+        // we may end up receiving packets beyond OCC::Constants::e2EeTagSize bytes tag at the end
+        // in that case, we don't want to try and decrypt less than OCC::Constants::e2EeTagSize ending bytes of tag, we will accumulate all the incoming data till the end
+        // and then, we are going to decrypt the entire chunk containing OCC::Constants::e2EeTagSize bytes at the end
+        _pendingBytes += QByteArray(data.constData(), data.length());
+        _processedSoFar += data.length();
+        if (_processedSoFar != _contentLength) {
+            return data.length();
+        }
+    }
+
+    if (!_pendingBytes.isEmpty()) {
+        const auto decryptedChunk = _decryptor->chunkDecryption(_pendingBytes.constData(), _pendingBytes.size());
+
+        if (decryptedChunk.isEmpty()) {
+            qCCritical(lcPropagateDownload) << "Decryption failed!";
+            return -1;
+        }
+
+        GETFileJob::writeToDevice(decryptedChunk);
+
+        return data.length();
+    }
+
+    const auto decryptedChunk = _decryptor->chunkDecryption(data.constData(), data.length());
+
+    if (decryptedChunk.isEmpty()) {
+        qCCritical(lcPropagateDownload) << "Decryption failed!";
+        return -1;
+    }
+
+    GETFileJob::writeToDevice(decryptedChunk);
+
+    _processedSoFar += data.length();
+
+    return data.length();
 }
 
 void PropagateDownloadFile::start()
@@ -448,6 +524,11 @@ void PropagateDownloadFile::startAfterIsEncryptedIsChecked()
         }
 
         qCDebug(lcPropagateDownload) << "creating virtual file" << _item->_file;
+        // do a klaas' case clash check.
+        if (propagator()->localFileNameClash(_item->_file)) {
+            done(SyncFileItem::NormalError, tr("File %1 can not be downloaded because of a local file name clash!").arg(QDir::toNativeSeparators(_item->_file)));
+            return;
+        }
         auto r = vfs->createPlaceholder(*_item);
         if (!r) {
             done(SyncFileItem::NormalError, r.error());
@@ -483,6 +564,10 @@ void PropagateDownloadFile::startAfterIsEncryptedIsChecked()
         return checksum_header.startsWith("SHA")
             || checksum_header.startsWith("MD5:");
     };
+    Q_ASSERT(_item->_modtime > 0);
+    if (_item->_modtime <= 0) {
+        qCWarning(lcPropagateDownload()) << "invalid modified time" << _item->_file << _item->_modtime;
+    }
     if (_item->_instruction == CSYNC_INSTRUCTION_CONFLICT
         && _item->_size == _item->_previousSize
         && !_item->_checksumHeader.isEmpty()
@@ -511,11 +596,22 @@ void PropagateDownloadFile::conflictChecksumComputed(const QByteArray &checksumT
         // Apply the server mtime locally if necessary, ensuring the journal
         // and local mtimes end up identical
         auto fn = propagator()->fullLocalPath(_item->_file);
+        Q_ASSERT(_item->_modtime > 0);
+        if (_item->_modtime <= 0) {
+            qCWarning(lcPropagateDownload()) << "invalid modified time" << _item->_file << _item->_modtime;
+            return;
+        }
         if (_item->_modtime != _item->_previousModtime) {
+            Q_ASSERT(_item->_modtime > 0);
             FileSystem::setModTime(fn, _item->_modtime);
             emit propagator()->touchedFile(fn);
         }
         _item->_modtime = FileSystem::getModTime(fn);
+        Q_ASSERT(_item->_modtime > 0);
+        if (_item->_modtime <= 0) {
+            qCWarning(lcPropagateDownload()) << "invalid modified time" << _item->_file << _item->_modtime;
+            return;
+        }
         updateMetadata(/*isConflict=*/false);
         return;
     }
@@ -739,6 +835,10 @@ void PropagateDownloadFile::slotGetFinished()
         // It is possible that the file was modified on the server since we did the discovery phase
         // so make sure we have the up-to-date time
         _item->_modtime = job->lastModified();
+        Q_ASSERT(_item->_modtime > 0);
+        if (_item->_modtime <= 0) {
+            qCWarning(lcPropagateDownload()) << "invalid modified time" << _item->_file << _item->_modtime;
+        }
     }
 
     _tmpFile.close();
@@ -977,10 +1077,28 @@ void PropagateDownloadFile::downloadFinished()
         return;
     }
 
+    if (_item->_modtime <= 0) {
+        FileSystem::remove(_tmpFile.fileName());
+        done(SyncFileItem::NormalError, tr("File %1 has invalid modified time reported by server. Do not save it.").arg(QDir::toNativeSeparators(_item->_file)));
+        return;
+    }
+    Q_ASSERT(_item->_modtime > 0);
+    if (_item->_modtime <= 0) {
+        qCWarning(lcPropagateDownload()) << "invalid modified time" << _item->_file << _item->_modtime;
+    }
     FileSystem::setModTime(_tmpFile.fileName(), _item->_modtime);
     // We need to fetch the time again because some file systems such as FAT have worse than a second
     // Accuracy, and we really need the time from the file system. (#3103)
     _item->_modtime = FileSystem::getModTime(_tmpFile.fileName());
+    if (_item->_modtime <= 0) {
+        FileSystem::remove(_tmpFile.fileName());
+        done(SyncFileItem::NormalError, tr("File %1 has invalid modified time reported by server. Do not save it.").arg(QDir::toNativeSeparators(_item->_file)));
+        return;
+    }
+    Q_ASSERT(_item->_modtime > 0);
+    if (_item->_modtime <= 0) {
+        qCWarning(lcPropagateDownload()) << "invalid modified time" << _item->_file << _item->_modtime;
+    }
 
     bool previousFileExists = FileSystem::fileExists(fn);
     if (previousFileExists) {
@@ -1074,15 +1192,21 @@ void PropagateDownloadFile::downloadFinished()
             // Move the pin state to the new location
             auto pin = propagator()->_journal->internalPinStates().rawForPath(virtualFile.toUtf8());
             if (pin && *pin != PinState::Inherited) {
-                vfs->setPinState(_item->_file, *pin);
-                vfs->setPinState(virtualFile, PinState::Inherited);
+                if (!vfs->setPinState(_item->_file, *pin)) {
+                    qCWarning(lcPropagateDownload) << "Could not set pin state of" << _item->_file;
+                }
+                if (!vfs->setPinState(virtualFile, PinState::Inherited)) {
+                    qCWarning(lcPropagateDownload) << "Could not set pin state of" << virtualFile << " to inherited";
+                }
             }
         }
 
         // Ensure the pin state isn't contradictory
         auto pin = vfs->pinState(_item->_file);
         if (pin && *pin == PinState::OnlineOnly)
-            vfs->setPinState(_item->_file, PinState::Unspecified);
+            if (!vfs->setPinState(_item->_file, PinState::Unspecified)) {
+                qCWarning(lcPropagateDownload) << "Could not set pin state of" << _item->_file << "to unspecified";
+            }
     }
 
     updateMetadata(isConflict);

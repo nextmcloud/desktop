@@ -15,6 +15,7 @@
 
 #include "syncengine.h"
 #include "account.h"
+#include "common/filesystembase.h"
 #include "owncloudpropagator.h"
 #include "common/syncjournaldb.h"
 #include "common/syncjournalfilerecord.h"
@@ -53,6 +54,7 @@
 #include <QSslCertificate>
 #include <QProcess>
 #include <QElapsedTimer>
+#include <QFileInfo>
 #include <qtextcodec.h>
 
 namespace OCC {
@@ -434,7 +436,7 @@ void SyncEngine::startSync()
     }
 
     if (s_anySyncRunning || _syncRunning) {
-        ASSERT(false);
+        ASSERT(false)
         return;
     }
 
@@ -452,7 +454,7 @@ void SyncEngine::startSync()
     if (!QDir(_localPath).exists()) {
         _anotherSyncNeeded = DelayedFollowUp;
         // No _tr, it should only occur in non-mirall
-        syncError("Unable to find local sync folder.");
+        Q_EMIT syncError(QStringLiteral("Unable to find local sync folder."));
         finalize(false);
         return;
     }
@@ -465,11 +467,11 @@ void SyncEngine::startSync()
             qCWarning(lcEngine()) << "Too little space available at" << _localPath << ". Have"
                                   << freeBytes << "bytes and require at least" << minFree << "bytes";
             _anotherSyncNeeded = DelayedFollowUp;
-            syncError(tr("Only %1 are available, need at least %2 to start",
+            Q_EMIT syncError(tr("Only %1 are available, need at least %2 to start",
                 "Placeholders are postfixed with file sizes using Utility::octetsToString()")
-                          .arg(
-                              Utility::octetsToString(freeBytes),
-                              Utility::octetsToString(minFree)));
+                                 .arg(
+                                     Utility::octetsToString(freeBytes),
+                                     Utility::octetsToString(minFree)));
             finalize(false);
             return;
         } else {
@@ -498,7 +500,7 @@ void SyncEngine::startSync()
     // This creates the DB if it does not exist yet.
     if (!_journal->open()) {
         qCWarning(lcEngine) << "No way to create a sync journal!";
-        syncError(tr("Unable to open or create the local sync database. Make sure you have write access in the sync folder."));
+        Q_EMIT syncError(tr("Unable to open or create the local sync database. Make sure you have write access in the sync folder."));
         finalize(false);
         return;
         // database creation error!
@@ -514,7 +516,7 @@ void SyncEngine::startSync()
     _lastLocalDiscoveryStyle = _localDiscoveryStyle;
 
     if (_syncOptions._vfs->mode() == Vfs::WithSuffix && _syncOptions._vfs->fileSuffix().isEmpty()) {
-        syncError(tr("Using virtual files with suffix, but suffix is not set"));
+        Q_EMIT syncError(tr("Using virtual files with suffix, but suffix is not set"));
         finalize(false);
         return;
     }
@@ -526,7 +528,7 @@ void SyncEngine::startSync()
         qCInfo(lcEngine) << (usingSelectiveSync ? "Using Selective Sync" : "NOT Using Selective Sync");
     } else {
         qCWarning(lcEngine) << "Could not retrieve selective sync list from DB";
-        syncError(tr("Unable to read the blacklist from the local database"));
+        Q_EMIT syncError(tr("Unable to read the blacklist from the local database"));
         finalize(false);
         return;
     }
@@ -544,6 +546,11 @@ void SyncEngine::startSync()
     _discoveryPhase.reset(new DiscoveryPhase);
     _discoveryPhase->_account = _account;
     _discoveryPhase->_excludes = _excludedFiles.data();
+    const QString excludeFilePath = _localPath + QStringLiteral(".sync-exclude.lst");
+    if (QFile::exists(excludeFilePath)) {
+        _discoveryPhase->_excludes->addExcludeFilePath(excludeFilePath);
+        _discoveryPhase->_excludes->reloadExcludeFiles();
+    }
     _discoveryPhase->_statedb = _journal;
     _discoveryPhase->_localDir = _localPath;
     if (!_discoveryPhase->_localDir.endsWith('/'))
@@ -557,7 +564,7 @@ void SyncEngine::startSync()
     _discoveryPhase->setSelectiveSyncWhiteList(_journal->getSelectiveSyncList(SyncJournalDb::SelectiveSyncWhiteList, &ok));
     if (!ok) {
         qCWarning(lcEngine) << "Unable to read selective sync list, aborting.";
-        syncError(tr("Unable to read from the sync journal."));
+        Q_EMIT syncError(tr("Unable to read from the sync journal."));
         finalize(false);
         return;
     }
@@ -574,14 +581,14 @@ void SyncEngine::startSync()
         invalidFilenamePattern = R"([\\:?*"<>|])";
     }
     if (!invalidFilenamePattern.isEmpty())
-        _discoveryPhase->_invalidFilenameRx = QRegExp(invalidFilenamePattern);
+        _discoveryPhase->_invalidFilenameRx = QRegularExpression(invalidFilenamePattern);
     _discoveryPhase->_serverBlacklistedFiles = _account->capabilities().blacklistedFiles();
     _discoveryPhase->_ignoreHiddenFiles = ignoreHiddenFiles();
 
     connect(_discoveryPhase.data(), &DiscoveryPhase::itemDiscovered, this, &SyncEngine::slotItemDiscovered);
     connect(_discoveryPhase.data(), &DiscoveryPhase::newBigFolder, this, &SyncEngine::newBigFolder);
     connect(_discoveryPhase.data(), &DiscoveryPhase::fatalError, this, [this](const QString &errorString) {
-        syncError(errorString);
+        Q_EMIT syncError(errorString);
         finalize(false);
     });
     connect(_discoveryPhase.data(), &DiscoveryPhase::finished, this, &SyncEngine::slotDiscoveryFinished);
@@ -614,7 +621,7 @@ void SyncEngine::slotFolderDiscovered(bool local, const QString &folder)
     emit transmissionProgress(*_progressInfo);
 }
 
-void SyncEngine::slotRootEtagReceived(const QString &e, const QDateTime &time)
+void SyncEngine::slotRootEtagReceived(const QByteArray &e, const QDateTime &time)
 {
     if (_remoteRootEtag.isEmpty()) {
         qCDebug(lcEngine) << "Root etag:" << e;
@@ -640,7 +647,7 @@ void SyncEngine::slotDiscoveryFinished()
     // Sanity check
     if (!_journal->open()) {
         qCWarning(lcEngine) << "Bailing out, DB failure";
-        syncError(tr("Cannot open the sync journal"));
+        Q_EMIT syncError(tr("Cannot open the sync journal"));
         finalize(false);
         return;
     } else {
@@ -690,8 +697,12 @@ void SyncEngine::slotDiscoveryFinished()
             const QString script = qEnvironmentVariable("OWNCLOUD_POST_UPDATE_SCRIPT");
 
             qCDebug(lcEngine) << "Post Update Script: " << script;
-            QProcess::execute(script);
-    #else
+            auto scriptArgs = script.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
+            if (scriptArgs.size() > 0) {
+                const auto scriptExecutable = scriptArgs.takeFirst();
+                QProcess::execute(scriptExecutable, scriptArgs);
+            }
+#else
             qCWarning(lcEngine) << "**** Attention: POST_UPDATE_SCRIPT installed, but not executed because compiled with NDEBUG";
     #endif
         }
@@ -700,7 +711,7 @@ void SyncEngine::slotDiscoveryFinished()
         _journal->commit(QStringLiteral("post treewalk"));
 
         _propagator = QSharedPointer<OwncloudPropagator>(
-            new OwncloudPropagator(_account, _localPath, _remotePath, _journal));
+            new OwncloudPropagator(_account, _localPath, _remotePath, _journal, _bulkUploadBlackList));
         _propagator->setSyncOptions(_syncOptions);
         connect(_propagator.data(), &OwncloudPropagator::itemCompleted,
             this, &SyncEngine::slotItemCompleted);
@@ -723,10 +734,9 @@ void SyncEngine::slotDiscoveryFinished()
 
         // Emit the started signal only after the propagator has been set up.
         if (_needsUpdate)
-            emit(started());
+            Q_EMIT started();
 
-        _propagator->start(_syncItems);
-        _syncItems.clear();
+        _propagator->start(std::move(_syncItems));
 
         qCInfo(lcEngine) << "#### Post-Reconcile end #################################################### " << _stopWatch.addLapTime(QStringLiteral("Post-Reconcile Finished")) << "ms";
     };
@@ -1011,6 +1021,24 @@ void SyncEngine::wipeVirtualFiles(const QString &localPath, SyncJournalDb &journ
     // But hydrated placeholders may still be around.
 }
 
+void SyncEngine::switchToVirtualFiles(const QString &localPath, SyncJournalDb &journal, Vfs &vfs)
+{
+    qCInfo(lcEngine) << "Convert to virtual files inside" << localPath;
+    journal.getFilesBelowPath({}, [&](const SyncJournalFileRecord &rec) {
+        const auto path = rec.path();
+        const auto fileName = QFileInfo(path).fileName();
+        if (FileSystem::isExcludeFile(fileName)) {
+            return;
+        }
+        SyncFileItem item;
+        QString localFile = localPath + path;
+        const auto result = vfs.convertToPlaceholder(localFile, item, localFile);
+        if (!result.isValid()) {
+            qCWarning(lcEngine) << "Could not convert file to placeholder" << result.error();
+        }
+    });
+}
+
 void SyncEngine::abort()
 {
     if (_propagator)
@@ -1025,7 +1053,7 @@ void SyncEngine::abort()
         disconnect(_discoveryPhase.data(), nullptr, this, nullptr);
         _discoveryPhase.take()->deleteLater();
 
-        syncError(tr("Aborted"));
+        Q_EMIT syncError(tr("Synchronization will resume shortly."));
         finalize(false);
     }
 }

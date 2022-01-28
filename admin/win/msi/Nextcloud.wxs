@@ -122,7 +122,11 @@
                 on error goto 0
 
                 if oldClientExists Then
-                    oWsh.run sUnInstall
+                    sUninstall = sUnInstall & " /qn"
+                    command = "/k " & sUninstall
+                    Set objShell = CreateObject("Shell.Application")
+                    objShell.ShellExecute "cmd.exe", command, "", "runas", 0
+
                 End If
         ]]>
     </CustomAction>

@@ -42,10 +42,13 @@ if(NOT CRASHREPORTER_EXECUTABLE)
     set(CRASHREPORTER_EXECUTABLE "${APPLICATION_EXECUTABLE}_crash_reporter")
 endif()
 
-set(synclib_NAME "${APPLICATION_EXECUTABLE}sync")
-set(csync_NAME "${APPLICATION_EXECUTABLE}_csync")
-
 include(Warnings)
+
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  add_compile_options(-fdiagnostics-color=always)
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  add_compile_options(-fcolor-diagnostics)
+endif()
 
 include(${CMAKE_SOURCE_DIR}/VERSION.cmake)
 # For config.h
@@ -74,9 +77,9 @@ include(GetGitRevisionDescription)
 get_git_head_revision(GIT_REFSPEC GIT_SHA1)
 
 add_definitions(
+    -DQT_DISABLE_DEPRECATED_BEFORE=0x000000
     -DQT_USE_QSTRINGBUILDER
     -DQT_MESSAGELOGCONTEXT #enable function name and line number in debug output
-    -DQT_DEPRECATED_WARNINGS
 )
 
 # if we cannot get it from git, directly try .tag (packages)
@@ -93,30 +96,15 @@ endif()
 message(STATUS "GIT_SHA1 ${GIT_SHA1}")
 
 set(SYSCONFDIR ${SYSCONF_INSTALL_DIR})
-set(DATADIR ${DATA_INSTALL_DIR})
-if(WIN32)
-set(DATADIR "share")
-endif(WIN32)
-set(SHAREDIR ${DATADIR})
+set(SHAREDIR ${CMAKE_INSTALL_DATADIR})
 
-#####
-## handle BUILD_OWNCLOUD_OSX_BUNDLE
-# BUILD_OWNCLOUD_OSX_BUNDLE was not initialized OR set to true on OSX
-if(APPLE AND (NOT DEFINED BUILD_OWNCLOUD_OSX_BUNDLE OR BUILD_OWNCLOUD_OSX_BUNDLE))
-    set(BUILD_OWNCLOUD_OSX_BUNDLE ON)
+# Build MacOS app bundle if wished
+if(APPLE AND BUILD_OWNCLOUD_OSX_BUNDLE)
+    message(STATUS "Build MacOS app bundle")
     set(OWNCLOUD_OSX_BUNDLE "${APPLICATION_NAME}.app")
     set(LIB_INSTALL_DIR "${APPLICATION_NAME}.app/Contents/MacOS")
     set(BIN_INSTALL_DIR "${APPLICATION_NAME}.app/Contents/MacOS")
-
-# BUILD_OWNCLOUD_OSX_BUNDLE was disabled on OSX
-elseif(APPLE AND NOT BUILD_OWNCLOUD_OSX_BUNDLE)
-    message(FATAL_ERROR "Building in non-bundle mode on OSX is currently not supported. Comment this error out if you want to work on/test it.")
-
-# any other platform
-else()
-    set(BUILD_OWNCLOUD_OSX_BUNDLE OFF)
 endif()
-#####
 
 # this option removes Http authentication, keychain, shibboleth etc and is intended for
 # external authentication mechanisms

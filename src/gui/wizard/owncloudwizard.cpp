@@ -53,7 +53,6 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     , _browserCredsPage(new OwncloudOAuthCredsPage)
     , _flow2CredsPage(new Flow2AuthCredsPage)
     , _advancedSetupPage(new OwncloudAdvancedSetupPage(this))
-    , _resultPage(new OwncloudWizardResultPage)
 #ifdef WITH_WEBENGINE
     , _webViewPage(new WebViewPage(this))
 #else // WITH_WEBENGINE
@@ -69,7 +68,6 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     setPage(WizardCommon::Page_OAuthCreds, _browserCredsPage);
     setPage(WizardCommon::Page_Flow2AuthCreds, _flow2CredsPage);
     setPage(WizardCommon::Page_AdvancedSetup, _advancedSetupPage);
-    setPage(WizardCommon::Page_Result, _resultPage);
 #ifdef WITH_WEBENGINE
     setPage(WizardCommon::Page_WebView, _webViewPage);
 #endif // WITH_WEBENGINE
@@ -98,7 +96,7 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     setOption(QWizard::NoBackButtonOnStartPage);
     setOption(QWizard::NoBackButtonOnLastPage);
     setOption(QWizard::NoCancelButton);
-    //setButtonText(QWizard::CustomButton1, tr("Skip folders configuration"));
+    setButtonText(QWizard::CustomButton1, tr("Skip folders configuration"));
 
     // Change the next buttons size policy since we hide it on the
     // welcome page but want it to fill it's space that we don't get
@@ -209,16 +207,9 @@ void OwncloudWizard::setRegistration(bool registration)
     _registration = registration;
 }
 
-
-void OwncloudWizard::enableFinishOnResultWidget(bool enable)
-{
-    _resultPage->setComplete(enable);
-}
-
 void OwncloudWizard::setRemoteFolder(const QString &remoteFolder)
 {
     _advancedSetupPage->setRemoteFolder(remoteFolder);
-    _resultPage->setRemoteFolder(remoteFolder);
 }
 
 void OwncloudWizard::successfulStep()
@@ -249,13 +240,17 @@ void OwncloudWizard::successfulStep()
         break;
 
     case WizardCommon::Page_ServerSetup:
-    case WizardCommon::Page_Result:
         qCWarning(lcWizard, "Should not happen at this stage.");
         break;
     }
 
     ownCloudGui::raiseDialog(this);
-    next();
+    if (nextId() == -1) {
+        disconnect(this, &QDialog::finished, this, &OwncloudWizard::basicSetupFinished);
+        emit basicSetupFinished(QDialog::Accepted);
+    } else {
+        next();
+    }
 }
 
 void OwncloudWizard::setAuthType(DetermineAuthTypeJob::AuthType type)
@@ -285,24 +280,8 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         auto nextButton = qobject_cast<QPushButton *>(button(QWizard::NextButton));
         if (nextButton) {
             nextButton->setDefault(true);
-            //nextButton->setStyleSheet("QPushButton {height : 30 ; width : 150px ; color: #ffffff; background : #e20074}");
-            nextButton->setStyleSheet("QPushButton {height : 30 ; width : 160px ; font: 13px; font-family: Segoe UI; color: #ffffff; border: 0px solid #e20074; "
-                                      "border-radius: 15px; border-style: outset; "
-                                      "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
-                                      " stop: 0 #e20074, stop: 1 #e20074); "
-                                      "padding: 5px }");
         }
     };
-
-    auto backButton = qobject_cast<QPushButton *>(button(QWizard::BackButton));
-    if (backButton) {
-        backButton->setDefault(true);
-        backButton->setStyleSheet("QPushButton {height : 28 ; width : 102px ; font: 13px; font-family: Segoe UI; color: #191919; border: 1px solid #191919; "
-                                      "border-radius: 15px; border-style: outset; "
-                                      "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
-                                      " stop: 0 #ffffff, stop: 1 #ffffff); "
-                                      "padding: 5px }");
-    }
 
     if (id == WizardCommon::Page_Welcome) {
         // Set next button to just hidden so it retains it's layout
@@ -316,7 +295,7 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         id == WizardCommon::Page_Flow2AuthCreds) {
         setButtonLayout({ QWizard::Stretch, QWizard::BackButton });
     } else if (id == WizardCommon::Page_AdvancedSetup) {
-        setButtonLayout({ QWizard::Stretch, QWizard::BackButton, QWizard::NextButton });
+        setButtonLayout({ QWizard::Stretch, QWizard::CustomButton1, QWizard::BackButton, QWizard::FinishButton });
         setNextButtonAsDefault();
     } else {
         setButtonLayout({ QWizard::Stretch, QWizard::BackButton, QWizard::NextButton });
@@ -325,14 +304,6 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
 
     if (id == WizardCommon::Page_ServerSetup) {
         emit clearPendingRequests();
-    }
-
-    if (id == WizardCommon::Page_Result) {
-        disconnect(this, &QDialog::finished, this, &OwncloudWizard::basicSetupFinished);
-        emit basicSetupFinished(QDialog::Accepted);
-        appendToConfigurationLog(QString());
-        // Immediately close on show, we currently don't want this page anymore
-        done(Accepted);
     }
 
     if (id == WizardCommon::Page_AdvancedSetup && (_credentialsPage == _browserCredsPage || _credentialsPage == _flow2CredsPage)) {
@@ -451,6 +422,7 @@ void OwncloudWizard::askExperimentalVirtualFilesFeature(QWidget *receiver, const
         acceptButton = msgBox->addButton(tr("Enable experimental placeholder mode"), QMessageBox::AcceptRole);
         msgBox->addButton(tr("Stay safe"), QMessageBox::RejectRole);
         break;
+    case Vfs::XAttr:
     case Vfs::Off:
         Q_UNREACHABLE();
     }
