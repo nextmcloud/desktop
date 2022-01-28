@@ -216,15 +216,13 @@ void FolderWizardRemotePath::slotCreateRemoteFolder(const QString &folder)
     job->start();
 }
 
-void FolderWizardRemotePath::slotCreateRemoteFolderFinished(QNetworkReply::NetworkError error)
+void FolderWizardRemotePath::slotCreateRemoteFolderFinished()
 {
-    if (error == QNetworkReply::NoError) {
-        qCDebug(lcWizard) << "webdav mkdir request finished";
-        showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
-        slotRefreshFolders();
-        _ui.folderEntry->setText(static_cast<MkColJob *>(sender())->path());
-        slotLsColFolderEntry();
-    }
+    qCDebug(lcWizard) << "webdav mkdir request finished";
+    showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
+    slotRefreshFolders();
+    _ui.folderEntry->setText(static_cast<MkColJob *>(sender())->path());
+    slotLsColFolderEntry();
 }
 
 void FolderWizardRemotePath::slotHandleMkdirNetworkError(QNetworkReply *reply)

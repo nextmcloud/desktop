@@ -59,7 +59,7 @@ class FolderWizardLocalPath : public FormatWarningsWizardPage
     Q_OBJECT
 public:
     explicit FolderWizardLocalPath(const AccountPtr &account);
-    ~FolderWizardLocalPath();
+    ~FolderWizardLocalPath() override;
 
     bool isComplete() const override;
     void initializePage() override;
@@ -89,7 +89,7 @@ class FolderWizardRemotePath : public FormatWarningsWizardPage
     Q_OBJECT
 public:
     explicit FolderWizardRemotePath(const AccountPtr &account);
-    ~FolderWizardRemotePath();
+    ~FolderWizardRemotePath() override;
 
     bool isComplete() const override;
 
@@ -101,7 +101,7 @@ protected slots:
     void showWarn(const QString & = QString()) const;
     void slotAddRemoteFolder();
     void slotCreateRemoteFolder(const QString &);
-    void slotCreateRemoteFolderFinished(QNetworkReply::NetworkError error);
+    void slotCreateRemoteFolderFinished();
     void slotHandleMkdirNetworkError(QNetworkReply *);
     void slotHandleLsColNetworkError(QNetworkReply *);
     void slotUpdateDirectories(const QStringList &);
@@ -136,7 +136,7 @@ private:
     Q_OBJECT
 public:
     explicit FolderWizardSelectiveSync(const AccountPtr &account);
-    ~FolderWizardSelectiveSync();
+    ~FolderWizardSelectiveSync() override;
 
     bool validatePage() override;
 
@@ -166,7 +166,7 @@ public:
     };
 
     explicit FolderWizard(AccountPtr account, QWidget *parent = nullptr);
-    ~FolderWizard();
+    ~FolderWizard() override;
 
     bool eventFilter(QObject *watched, QEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
