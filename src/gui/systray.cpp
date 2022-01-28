@@ -17,6 +17,7 @@
 #include "theme.h"
 #include "config.h"
 #include "common/utility.h"
+#include "wheelhandler.h"
 #include "tray/UserModel.h"
 #include "configfile.h"
 #include "accessmanager.h"

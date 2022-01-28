@@ -210,19 +210,21 @@ void FolderWizardRemotePath::slotCreateRemoteFolder(const QString &folder)
 
     auto *job = new MkColJob(_account, fullPath, this);
     /* check the owncloud configuration file and query the ownCloud */
-    connect(job, &MkColJob::finishedWithoutError,
+    connect(job, static_cast<void (MkColJob::*)(QNetworkReply::NetworkError)>(&MkColJob::finished),
         this, &FolderWizardRemotePath::slotCreateRemoteFolderFinished);
     connect(job, &AbstractNetworkJob::networkError, this, &FolderWizardRemotePath::slotHandleMkdirNetworkError);
     job->start();
 }
 
-void FolderWizardRemotePath::slotCreateRemoteFolderFinished()
+void FolderWizardRemotePath::slotCreateRemoteFolderFinished(QNetworkReply::NetworkError error)
 {
-    qCDebug(lcWizard) << "webdav mkdir request finished";
-    showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
-    slotRefreshFolders();
-    _ui.folderEntry->setText(static_cast<MkColJob *>(sender())->path());
-    slotLsColFolderEntry();
+    if (error == QNetworkReply::NoError) {
+        qCDebug(lcWizard) << "webdav mkdir request finished";
+        showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
+        slotRefreshFolders();
+        _ui.folderEntry->setText(static_cast<MkColJob *>(sender())->path());
+        slotLsColFolderEntry();
+    }
 }
 
 void FolderWizardRemotePath::slotHandleMkdirNetworkError(QNetworkReply *reply)

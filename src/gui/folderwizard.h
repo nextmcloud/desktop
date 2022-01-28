@@ -59,7 +59,7 @@ class FolderWizardLocalPath : public FormatWarningsWizardPage
     Q_OBJECT
 public:
     explicit FolderWizardLocalPath(const AccountPtr &account);
-    ~FolderWizardLocalPath() override;
+    ~FolderWizardLocalPath();
 
     bool isComplete() const override;
     void initializePage() override;
@@ -89,7 +89,7 @@ class FolderWizardRemotePath : public FormatWarningsWizardPage
     Q_OBJECT
 public:
     explicit FolderWizardRemotePath(const AccountPtr &account);
-    ~FolderWizardRemotePath() override;
+    ~FolderWizardRemotePath();
 
     bool isComplete() const override;
 
@@ -101,7 +101,7 @@ protected slots:
     void showWarn(const QString & = QString()) const;
     void slotAddRemoteFolder();
     void slotCreateRemoteFolder(const QString &);
-    void slotCreateRemoteFolderFinished();
+    void slotCreateRemoteFolderFinished(QNetworkReply::NetworkError error);
     void slotHandleMkdirNetworkError(QNetworkReply *);
     void slotHandleLsColNetworkError(QNetworkReply *);
     void slotUpdateDirectories(const QStringList &);

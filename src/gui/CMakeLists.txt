@@ -196,6 +196,7 @@ set(3rdparty_SRC
     ../3rdparty/qtsingleapplication/qtsingleapplication.cpp
     ../3rdparty/qtsingleapplication/qtsinglecoreapplication.cpp
     ../3rdparty/kmessagewidget/kmessagewidget.cpp
+    ../3rdparty/kirigami/wheelhandler.cpp
    )
 
 if(NOT WIN32)

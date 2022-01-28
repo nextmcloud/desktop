@@ -269,7 +269,7 @@ public:
     /**
      * Override to encforce a particular locale, i.e. "de" or "pt_BR"
      */
-    virtual QString enforcedLocale() const { return QString(); }
+    virtual QString enforcedLocale() const { return "de"; }
 
     /** colored, white or black */
     QString systrayIconFlavor(bool mono) const;

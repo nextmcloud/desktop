@@ -1340,7 +1340,7 @@ void ShareUserLine::mouseReleaseEvent ( QMouseEvent * permissionsEvent )
             }
         }
 
-        permissionMenu->exec(permissionsEvent->globalPos());
+      //  permissionMenu->exec(permissionsEvent->globalPos());
     }
 }
 
