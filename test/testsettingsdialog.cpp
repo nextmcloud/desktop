@@ -106,7 +106,7 @@ private slots:
         AccountState *accountSt = new AccountState(account);
 
         SettingsDialog *setDialog = new SettingsDialog();
-        QString expectedText("Synchronisieren");
+        QString expectedText("Synchronization");
 
         setDialog->accountAdded(accountSt);
 
