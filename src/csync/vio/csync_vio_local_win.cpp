@@ -183,10 +183,6 @@ std::unique_ptr<csync_file_stat_t> csync_vio_local_readdir(csync_vio_handle_t *h
 
     return file_stat;
 }
-
-
-
-
 int csync_vio_local_stat(const QString &uri, csync_file_stat_t *buf)
 {
     /* Almost nothing to do since csync_vio_local_readdir already filled up most of the information

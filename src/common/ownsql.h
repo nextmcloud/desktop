@@ -170,6 +170,7 @@ private:
 
 
 
+
     friend class SqlDatabase;
     friend class PreparedSqlQueryManager;
 };

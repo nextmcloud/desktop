@@ -98,10 +98,6 @@ public:
         DownloadTimedOut,
         UpdateOnlyAvailableThroughSystem };
 
-
-
-
-
     enum UpdateStatusStringFormat {
         PlainText,
         Html,

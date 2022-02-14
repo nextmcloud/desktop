@@ -37,8 +37,6 @@
 #include <QFileInfo>
 #include <QDir>
 
-
-
 /** Expands C-like escape sequences (in place)
  */
 OCSYNC_EXPORT void csync_exclude_expand_escapes(QByteArray &input)
@@ -288,7 +286,6 @@ void ExcludedFiles::setClientVersion(ExcludedFiles::Version version)
 
 void ExcludedFiles::loadExcludeFilePatterns(const QString &basePath, QFile &file)
 {
-
     QStringList patterns;
     while (!file.atEnd()) {
         QByteArray line = file.readLine().trimmed();

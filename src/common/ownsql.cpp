@@ -491,4 +491,5 @@ void SqlQuery::reset_and_clear_bindings()
 }
 
 
+
 } // namespace OCC
