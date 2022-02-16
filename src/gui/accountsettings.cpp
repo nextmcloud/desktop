@@ -712,7 +712,10 @@ void AccountSettings::slotFolderWizardAccepted()
      */
     definition.ignoreHiddenFiles = folderMan->ignoreHiddenFiles();
 
-    if (folderMan->navigationPaneHelper().showInExplorerNavigationPane())
+    /* Root folder is the only that should be shown in a file manager nav pane
+     * and if the map isn't empty this means that the root folder is already there
+     */
+    if (folderMan->navigationPaneHelper().showInExplorerNavigationPane() && folderMan->map().isEmpty())
         definition.navigationPaneClsid = QUuid::createUuid();
 
     auto selectiveSyncBlackList = folderWizard->property("selectiveSyncBlackList").toStringList();
