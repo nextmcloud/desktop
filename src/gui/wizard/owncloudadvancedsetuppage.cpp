@@ -115,6 +115,12 @@ void OwncloudAdvancedSetupPage::setupCustomization()
         WizardCommon::setupCustomMedia(variant, _ui.topLabel);
     }
 
+    _ui.pbSelectLocalFolder->setStyleSheet("QPushButton {height : 28 ; width : 160px ; font: 13px; font-style: Segoe UI; color: #191919; border: 1px solid #191919; "
+                              "border-radius: 15px;border-style: outset; "
+                              "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
+                              " stop: 0 #ffffff, stop: 1 #ffffff); "
+                              "padding: 5px }");
+
     variant = theme->customMedia(Theme::oCSetupBottom);
     WizardCommon::setupCustomMedia(variant, _ui.bottomLabel);
 
@@ -590,8 +596,9 @@ void OwncloudAdvancedSetupPage::setRadioChecked(QRadioButton *radio)
 
 void OwncloudAdvancedSetupPage::styleSyncLogo()
 {
-    const auto syncArrowIcon = Theme::createColorAwareIcon(QLatin1String(":/client/theme/sync-arrow.svg"), palette());
-    _ui.syncLogoLabel->setPixmap(syncArrowIcon.pixmap(QSize(50, 50)));
+   // const auto syncArrowIcon = Theme::createColorAwareIcon(QLatin1String(":/client/theme/sync-arrow.svg"), palette());
+   // _ui.syncLogoLabel->setPixmap(syncArrowIcon.pixmap(QSize(50, 50)));
+    _ui.syncLogoLabel->setPixmap(QPixmap(":/client/theme/Combined Shape.svg"));
 }
 
 void OwncloudAdvancedSetupPage::setupResoultionWidget()

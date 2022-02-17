@@ -246,7 +246,7 @@ Window {
                                     Text {
                                         anchors.verticalCenter: parent.verticalCenter
                                         //font.wordSpacing:  45
-                                        text: "            " + syncPauseButton.text
+                                        text: "             " + syncPauseButton.text
                                         font.family: "Segoe UI"
                                         font.pixelSize: Style.topLinePixelSize
                                         color: syncPauseButton.hovered ? Style.magenta : Style.nmcTextColor
