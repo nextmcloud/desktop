@@ -47,7 +47,7 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
 
     setupResoultionWidget();
 
-    registerField(QLatin1String("OCSyncFromScratch"), _ui.cbSyncFromScratch);
+   // registerField(QLatin1String("OCSyncFromScratch"), _ui.cbSyncFromScratch);
 
     auto sizePolicy = _progressIndi->sizePolicy();
     sizePolicy.setRetainSizeWhenHidden(true);
@@ -84,12 +84,12 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
     _ui.lServerIcon->setPixmap(appIcon.pixmap(appIconSize));
 
     if (theme->wizardHideExternalStorageConfirmationCheckbox()) {
-        _ui.confCheckBoxExternal->hide();
+       // _ui.confCheckBoxExternal->hide();
     }
     if (theme->wizardHideFolderSizeLimitCheckbox()) {
-        _ui.confCheckBoxSize->hide();
-        _ui.confSpinBox->hide();
-        _ui.confTraillingSizeLabel->hide();
+       // _ui.confCheckBoxSize->hide();
+       // _ui.confSpinBox->hide();
+       // _ui.confTraillingSizeLabel->hide();
     }
 
     _ui.rVirtualFileSync->setText(tr("Use &virtual files instead of downloading content immediately %1").arg(bestAvailableVfsMode() == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
@@ -177,9 +177,9 @@ void OwncloudAdvancedSetupPage::initializePage()
 
     ConfigFile cfgFile;
     auto newFolderLimit = cfgFile.newBigFolderSizeLimit();
-    _ui.confCheckBoxSize->setChecked(newFolderLimit.first);
-    _ui.confSpinBox->setValue(newFolderLimit.second);
-    _ui.confCheckBoxExternal->setChecked(cfgFile.confirmExternalStorage());
+   // _ui.confCheckBoxSize->setChecked(newFolderLimit.first);
+    //_ui.confSpinBox->setValue(newFolderLimit.second);
+   // _ui.confCheckBoxExternal->setChecked(cfgFile.confirmExternalStorage());
 
     fetchUserAvatar();
     setUserInformation();
@@ -305,8 +305,8 @@ void OwncloudAdvancedSetupPage::updateStatus()
 void OwncloudAdvancedSetupPage::setResolutionGuiVisible(bool value)
 {
     _ui.syncModeLabel->setVisible(value);
-    _ui.rKeepLocal->setVisible(value);
-    _ui.cbSyncFromScratch->setVisible(value);
+    //_ui.rKeepLocal->setVisible(value);
+    //_ui.cbSyncFromScratch->setVisible(value);
 }
 
 /* obsolete */
@@ -363,7 +363,7 @@ bool OwncloudAdvancedSetupPage::useVirtualFileSync() const
 
 bool OwncloudAdvancedSetupPage::isConfirmBigFolderChecked() const
 {
-    return _ui.rSyncEverything->isChecked() && _ui.confCheckBoxSize->isChecked();
+    return _ui.rSyncEverything->isChecked() /*&& _ui.confCheckBoxSize->isChecked()*/;
 }
 
 bool OwncloudAdvancedSetupPage::validatePage()
@@ -384,12 +384,12 @@ bool OwncloudAdvancedSetupPage::validatePage()
         startSpinner();
         emit completeChanged();
 
-        if (_ui.rSyncEverything->isChecked()) {
+       /* if (_ui.rSyncEverything->isChecked()) {
             ConfigFile cfgFile;
-            cfgFile.setNewBigFolderSizeLimit(_ui.confCheckBoxSize->isChecked(),
-                _ui.confSpinBox->value());
-            cfgFile.setConfirmExternalStorage(_ui.confCheckBoxExternal->isChecked());
-        }
+           // cfgFile.setNewBigFolderSizeLimit(_ui.confCheckBoxSize->isChecked(),
+               // _ui.confSpinBox->value());
+           // cfgFile.setConfirmExternalStorage(_ui.confCheckBoxExternal->isChecked());
+        }*/
 
         emit createLocalAndRemoteFolders(localFolder(), _remoteFolder);
         return false;
