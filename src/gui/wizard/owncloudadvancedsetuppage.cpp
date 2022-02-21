@@ -68,8 +68,8 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
 
     connect(_ui.rSyncEverything, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotSyncEverythingClicked);
     connect(_ui.rSelectiveSync, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotSelectiveSyncClicked);
-    connect(_ui.rVirtualFileSync, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotVirtualFileSyncClicked);
-    connect(_ui.rVirtualFileSync, &QRadioButton::toggled, this, [this](bool checked) {
+   // connect(_ui.rVirtualFileSync, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotVirtualFileSyncClicked);
+   // connect(_ui.rVirtualFileSync, &QRadioButton::toggled, this, [this](bool checked) {
         if (checked) {
             _ui.lSelectiveSyncSizeLabel->clear();
             _selectiveSyncBlacklist.clear();
@@ -92,14 +92,18 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
        // _ui.confTraillingSizeLabel->hide();
     }
 
-    _ui.rVirtualFileSync->setText(tr("Use &virtual files instead of downloading content immediately %1").arg(bestAvailableVfsMode() == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
+   // _ui.rVirtualFileSync->setText(tr("Use &virtual files instead of downloading content immediately %1").arg(bestAvailableVfsMode() == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
+    OwncloudWizard::askExperimentalVirtualFilesFeature(this, [this](bool enable) {
+        if (!enable)
+            return;
+        setVirtualFilesInfo();
 
 
 #ifdef Q_OS_WIN
-    if (bestAvailableVfsMode() == Vfs::WindowsCfApi) {
-        qobject_cast<QVBoxLayout *>(_ui.wSyncStrategy->layout())->insertItem(0, _ui.lVirtualFileSync);
-        setRadioChecked(_ui.rVirtualFileSync);
-    }
+    //if (bestAvailableVfsMode() == Vfs::WindowsCfApi) {
+        //qobject_cast<QVBoxLayout *>(_ui.wSyncStrategy->layout())->insertItem(0, _ui.lVirtualFileSync);
+        //setRadioChecked(_ui.rVirtualFileSync);
+   // }
 #endif
 }
 
@@ -143,7 +147,7 @@ void OwncloudAdvancedSetupPage::initializePage()
         // If the layout were wrapped in a widget, the auto-grouping of the
         // radio buttons no longer works and there are surprising margins.
         // Just manually hide the button and remove the layout.
-        _ui.rVirtualFileSync->hide();
+       // _ui.rVirtualFileSync->hide();
         _ui.wSyncStrategy->layout()->removeItem(_ui.lVirtualFileSync);
     }
 
@@ -195,22 +199,25 @@ void OwncloudAdvancedSetupPage::initializePage()
 void OwncloudAdvancedSetupPage::fetchUserAvatar()
 {
     // Reset user avatar
-    const auto appIcon = Theme::instance()->applicationIcon();
-    _ui.lServerIcon->setPixmap(appIcon.pixmap(48));
+    //const auto appIcon = Theme::instance()->applicationIcon();
+    //_ui.lServerIcon->setPixmap(appIcon.pixmap(48));
     // Fetch user avatar
     const auto account = _ocWizard->account();
-    auto avatarSize = 64;
-    if (Theme::isHidpi()) {
-        avatarSize *= 2;
-    }
+    auto avatarSize = 94;
+    //if (Theme::isHidpi()) {
+        //avatarSize *= 2;
+    //}
     const auto avatarJob = new AvatarJob(account, account->davUser(), avatarSize, this);
     avatarJob->setTimeout(20 * 1000);
     QObject::connect(avatarJob, &AvatarJob::avatarPixmap, this, [this](const QImage &avatarImage) {
         if (avatarImage.isNull()) {
             return;
         }
-        const auto avatarPixmap = QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatarImage));
-        _ui.lServerIcon->setPixmap(avatarPixmap);
+       // const auto avatarPixmap = QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatarImage));
+       // _ui.lServerIcon->setPixmap(avatarPixmap);
+        const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/Product-icon.svg"));
+        QPixmap pixmap = avatarIcon.pixmap(QSize(94, 71));
+        _ui.lServerIcon->setPixmap(pixmap);
     });
     avatarJob->start();
 }
@@ -227,17 +234,17 @@ void OwncloudAdvancedSetupPage::setUserInformation()
 void OwncloudAdvancedSetupPage::refreshVirtualFilesAvailibility(const QString &path)
 {
     // TODO: remove when UX decision is made
-    if (!_ui.rVirtualFileSync->isVisible()) {
-        return;
-    }
+    //if (!_ui.rVirtualFileSync->isVisible()) {
+        //return;
+    //}
 
     if (Utility::isPathWindowsDrivePartitionRoot(path)) {
-        _ui.rVirtualFileSync->setText(tr("Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter."));
+       // _ui.rVirtualFileSync->setText(tr("Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter."));
         setRadioChecked(_ui.rSyncEverything);
-        _ui.rVirtualFileSync->setEnabled(false);
+       // _ui.rVirtualFileSync->setEnabled(false);
     } else {
-        _ui.rVirtualFileSync->setText(tr("Use &virtual files instead of downloading content immediately %1").arg(bestAvailableVfsMode() == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
-        _ui.rVirtualFileSync->setEnabled(true);
+      //  _ui.rVirtualFileSync->setText(tr("Use &virtual files instead of downloading content immediately %1").arg(bestAvailableVfsMode() == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
+       // _ui.rVirtualFileSync->setEnabled(true);
     }
     //
 }
@@ -304,7 +311,7 @@ void OwncloudAdvancedSetupPage::updateStatus()
 
 void OwncloudAdvancedSetupPage::setResolutionGuiVisible(bool value)
 {
-    _ui.syncModeLabel->setVisible(value);
+    //_ui.syncModeLabel->setVisible(value);
     //_ui.rKeepLocal->setVisible(value);
     //_ui.cbSyncFromScratch->setVisible(value);
 }
@@ -358,7 +365,7 @@ QStringList OwncloudAdvancedSetupPage::selectiveSyncBlacklist() const
 
 bool OwncloudAdvancedSetupPage::useVirtualFileSync() const
 {
-    return _ui.rVirtualFileSync->isChecked();
+    //return _ui.rVirtualFileSync->isChecked();
 }
 
 bool OwncloudAdvancedSetupPage::isConfirmBigFolderChecked() const
@@ -510,13 +517,13 @@ void OwncloudAdvancedSetupPage::slotSelectiveSyncClicked()
 
 void OwncloudAdvancedSetupPage::slotVirtualFileSyncClicked()
 {
-    if (!_ui.rVirtualFileSync->isChecked()) {
+   /* if (!_ui.rVirtualFileSync->isChecked()) {
         OwncloudWizard::askExperimentalVirtualFilesFeature(this, [this](bool enable) {
             if (!enable)
                 return;
             setRadioChecked(_ui.rVirtualFileSync);
         });
-    }
+    }*/
 }
 
 void OwncloudAdvancedSetupPage::slotSyncEverythingClicked()
@@ -574,10 +581,12 @@ void OwncloudAdvancedSetupPage::customizeStyle()
 
 void OwncloudAdvancedSetupPage::styleLocalFolderLabel()
 {
-    const auto backgroundColor = palette().window().color();
+    /*const auto backgroundColor = palette().window().color();
     const auto folderIconFileName = Theme::instance()->isBranded() ? Theme::hidpiFileName("folder.png", backgroundColor)
-                                                                   : Theme::hidpiFileName(":/client/theme/colored/folder.png");
-    _ui.lLocal->setPixmap(folderIconFileName);
+                                                                   : Theme::hidpiFileName(":/client/theme/colored/folder.png");*/
+    const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/Computer-Icon.svg"));
+    QPixmap pixmap = avatarIcon.pixmap(QSize(100, 64));
+    _ui.lLocal->setPixmap(pixmap);
 }
 
 void OwncloudAdvancedSetupPage::setRadioChecked(QRadioButton *radio)
@@ -590,8 +599,8 @@ void OwncloudAdvancedSetupPage::setRadioChecked(QRadioButton *radio)
 
     if (radio != _ui.rSelectiveSync)
         _ui.rSelectiveSync->setCheckable(false);
-    if (radio != _ui.rVirtualFileSync)
-        _ui.rVirtualFileSync->setCheckable(false);
+   /* if (radio != _ui.rVirtualFileSync)
+        _ui.rVirtualFileSync->setCheckable(false);*/
 }
 
 void OwncloudAdvancedSetupPage::styleSyncLogo()
