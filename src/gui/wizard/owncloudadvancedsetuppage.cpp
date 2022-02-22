@@ -624,4 +624,9 @@ void OwncloudAdvancedSetupPage::setupResoultionWidget()
     }
 }
 
+void OwncloudAdvancedSetupPage::setVirtualFilesInfo()
+{
+
+}
+
 } // namespace OCC
