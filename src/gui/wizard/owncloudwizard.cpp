@@ -277,14 +277,14 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
     qCDebug(lcWizard) << "Current Wizard page changed to " << id;
 
     const auto setNextButtonAsDefault = [this]() {
-        auto nextButton = qobject_cast<QPushButton *>(button(QWizard::NextButton));
+        auto nextButton = qobject_cast<QPushButton *>(button(QWizard::FinishButton));
         if (nextButton) {
             nextButton->setDefault(true);
             //nextButton->setStyleSheet("QPushButton {height : 30 ; width : 150px ; color: #ffffff; background : #e20074}");
-            nextButton->setStyleSheet("QPushButton {height : 30 ; width : 160px ; font: 13px; font-family: Segoe UI; color: #ffffff; border: 0px solid #e20074; "
-                                      "border-radius: 15px; border-style: outset; "
+            nextButton->setStyleSheet("QPushButton {height : 28 ; width : 160px ; font: 13px; font-family: Segoe UI; color: #191919; border: 1px solid #191919; "
+                                      "border-radius: 0px; border-style: outset; "
                                       "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
-                                      " stop: 0 #e20074, stop: 1 #e20074); "
+                                      " stop: 0 #e20074, stop: 1 #ffffff); "
                                       "padding: 5px }");
         }
     };

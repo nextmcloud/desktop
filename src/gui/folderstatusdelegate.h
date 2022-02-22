@@ -78,7 +78,7 @@ public slots:
 private:
     void customizeStyle();
 
-    static QString addFolderText();
+    static QString addFolderText(enum addButtonText selection);
     QPersistentModelIndex _pressedIndex;
 
     QIcon _iconMore;

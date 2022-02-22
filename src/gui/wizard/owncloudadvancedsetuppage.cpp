@@ -70,11 +70,11 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
     connect(_ui.rSelectiveSync, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotSelectiveSyncClicked);
    // connect(_ui.rVirtualFileSync, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotVirtualFileSyncClicked);
    // connect(_ui.rVirtualFileSync, &QRadioButton::toggled, this, [this](bool checked) {
-        if (checked) {
+        /*if (checked) {
             _ui.lSelectiveSyncSizeLabel->clear();
             _selectiveSyncBlacklist.clear();
-        }
-    });
+        }*/
+   // });
     connect(_ui.bSelectiveSync, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotSelectiveSyncClicked);
 
     const auto theme = Theme::instance();
@@ -97,6 +97,7 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
         if (!enable)
             return;
         setVirtualFilesInfo();
+    });
 
 
 #ifdef Q_OS_WIN
@@ -119,8 +120,8 @@ void OwncloudAdvancedSetupPage::setupCustomization()
         WizardCommon::setupCustomMedia(variant, _ui.topLabel);
     }
 
-    _ui.pbSelectLocalFolder->setStyleSheet("QPushButton {height : 28 ; width : 160px ; font: 13px; font-style: Segoe UI; color: #191919; border: 1px solid #191919; "
-                              "border-radius: 15px;border-style: outset; "
+    _ui.pbSelectLocalFolder->setStyleSheet("QPushButton {height : 25 ; width : 160px ; font: 13px; font-style: Segoe UI; color: #191919; border: 1px solid #191919; "
+                              "border-radius: 10px;border-style: outset; "
                               "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
                               " stop: 0 #ffffff, stop: 1 #ffffff); "
                               "padding: 5px }");
@@ -612,11 +613,11 @@ void OwncloudAdvancedSetupPage::styleSyncLogo()
 
 void OwncloudAdvancedSetupPage::setupResoultionWidget()
 {
-    for (int i = 0; i < _ui.resolutionWidgetLayout->count(); ++i) {
+    /*for (int i = 0; i < _ui.resolutionWidgetLayout->count(); ++i) {
         auto widget = _ui.resolutionWidgetLayout->itemAt(i)->widget();
         if (!widget) {
             continue;
-        }
+        }*/
 
         auto sizePolicy = widget->sizePolicy();
         sizePolicy.setRetainSizeWhenHidden(true);
