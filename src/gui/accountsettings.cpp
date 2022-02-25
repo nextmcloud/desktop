@@ -599,7 +599,22 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
     }
 
-    if (Theme::instance()->showVirtualFilesOption()
+    if (Theme::instance()->showVirtualFilesOption())
+    {
+        folder->setVirtualFilesEnabled(true);
+        if( !folder->virtualFilesEnabled() && Vfs::checkAvailability(folder->path())) {
+            const auto mode = bestAvailableVfsMode();
+            if (mode == Vfs::WindowsCfApi || ConfigFile().showExperimentalOptions()) {
+                ac = menu->addAction(tr("Enable virtual file support %1 …").arg(mode == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
+                // TODO: remove when UX decision is made
+                ac->setEnabled(!Utility::isPathWindowsDrivePartitionRoot(folder->path()));
+                //
+                connect(ac, &QAction::triggered, this, &AccountSettings::slotEnableVfsCurrentFolder);
+            }
+        }
+    }
+
+   /* if (Theme::instance()->showVirtualFilesOption()
         && !folder->virtualFilesEnabled() && Vfs::checkAvailability(folder->path())) {
         const auto mode = bestAvailableVfsMode();
         if (mode == Vfs::WindowsCfApi || ConfigFile().showExperimentalOptions()) {
@@ -609,7 +624,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
             //
             connect(ac, &QAction::triggered, this, &AccountSettings::slotEnableVfsCurrentFolder);
         }
-    }
+    }*/
 
 
     menu->popup(tv->mapToGlobal(pos));
