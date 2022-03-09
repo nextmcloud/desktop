@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <clipPath id="clip-MacOS_Sidebar_logo_simple">
+      <rect width="300" height="300"/>
+    </clipPath>
+  </defs>
+  <g id="MacOS_Sidebar_logo_simple" data-name="MacOS Sidebar logo simple" clip-path="url(#clip-MacOS_Sidebar_logo_simple)">
+    <path id="Differenzmenge_12" data-name="Differenzmenge 12" d="M103.2,160.723c-.656,0-1.328,0-1.984-.031-.516.012-1.023.016-1.539.016A72.82,72.82,0,0,1,48.859,140.16a46.428,46.428,0,0,1-8.828,1.172,39.886,39.886,0,0,1-8.586-78.867,39.864,39.864,0,0,1,39.844-37.8,40.279,40.279,0,0,1,11.484,1.684,66.9,66.9,0,0,1,119.3,30.281,42.426,42.426,0,0,1,21.078,71.969,42.524,42.524,0,0,1-29.914,12.172c-.18,0-.344,0-.508,0h-4.391l-1.2,1.168c-6.273,7.246-17.039,11.57-28.8,11.57a36.578,36.578,0,0,1-17.148-3.891V97.473h33.148L123.9,45.844,73.133,97.473h33.453v63.156C105.383,160.691,104.242,160.723,103.2,160.723Z" transform="translate(32.008 70.215)" fill="none" stroke="#0470f5" stroke-width="15"/>
+  </g>
+</svg>
