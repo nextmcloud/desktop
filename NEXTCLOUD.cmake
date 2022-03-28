@@ -1,7 +1,7 @@
 set( APPLICATION_NAME       "MagentaCLOUD" )
 set( APPLICATION_SHORTNAME  "MagentaCLOUD" )
 set( APPLICATION_EXECUTABLE "magentacloud" )
-set( LINUX_APPLICATION_ID "de.magentacloud.next.dev1.magentacloud" )
+set( LINUX_APPLICATION_ID "de.magentacloud.magentacloud" )
 set( APPLICATION_DOMAIN     "magentacloud.de" )
 set( APPLICATION_VENDOR     "Deutsche Telekom AG" )
 set( APPLICATION_UPDATE_URL "https://customerupdates.nextcloud.com/client/" CACHE string "URL for updater" )

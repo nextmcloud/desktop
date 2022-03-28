@@ -50,6 +50,7 @@ Q_DECLARE_LOGGING_CATEGORY(lcUtility)
  *  @{
  */
 namespace Utility {
+    OCSYNC_EXPORT int rand();
     OCSYNC_EXPORT void sleep(int sec);
     OCSYNC_EXPORT void usleep(int usec);
     OCSYNC_EXPORT QString formatFingerprint(const QByteArray &, bool colonSeparated = true);
@@ -240,6 +241,11 @@ namespace Utility {
      * @brief Check whether the path is a root of a Windows drive partition ([c:/, d:/, e:/, etc.)
      */
     OCSYNC_EXPORT bool isPathWindowsDrivePartitionRoot(const QString &path);
+
+    /**
+     * @brief Retrieves current logged-in user name from the OS
+     */
+    OCSYNC_EXPORT QString getCurrentUserName();
 
 #ifdef Q_OS_WIN
     OCSYNC_EXPORT bool registryKeyExists(HKEY hRootKey, const QString &subKey);

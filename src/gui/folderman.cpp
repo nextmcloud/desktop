@@ -17,7 +17,7 @@
 #include "folder.h"
 #include "syncresult.h"
 #include "theme.h"
-#include "socketapi.h"
+#include "socketapi/socketapi.h"
 #include "account.h"
 #include "accountstate.h"
 #include "accountmanager.h"
@@ -387,7 +387,7 @@ bool FolderMan::ensureJournalGone(const QString &journalDbFile)
     while (QFile::exists(journalDbFile) && !QFile::remove(journalDbFile)) {
         qCWarning(lcFolderMan) << "Could not remove old db file at" << journalDbFile;
         int ret = QMessageBox::warning(nullptr, tr("Could not reset folder state"),
-            tr("An old sync journal '%1' was found, "
+            tr("An old sync journal \"%1\" was found, "
                "but could not be removed. Please make sure "
                "that no application is currently using it.")
                 .arg(QDir::fromNativeSeparators(QDir::cleanPath(journalDbFile))),
@@ -1075,7 +1075,7 @@ Folder *FolderMan::addFolder(AccountState *accountState, const FolderDefinition 
     // Migration: The first account that's configured for a local folder shall
     // be saved in a backwards-compatible way.
     const auto folderList = FolderMan::instance()->map();
-    const auto oneAccountOnly = std::none_of(folderList.cbegin(), folderList.cend(), [this, folder](const auto *other) {
+    const auto oneAccountOnly = std::none_of(folderList.cbegin(), folderList.cend(), [folder](const auto *other) {
         return other != folder && other->cleanPath() == folder->cleanPath();
     });
 

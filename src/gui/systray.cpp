@@ -17,8 +17,10 @@
 #include "theme.h"
 #include "config.h"
 #include "common/utility.h"
+#include "wheelhandler.h"
 #include "tray/UserModel.h"
 #include "configfile.h"
+#include "accessmanager.h"
 
 #include <QCursor>
 #include <QGuiApplication>
@@ -86,6 +88,8 @@ Systray::Systray()
             return Systray::instance();
         }
     );
+
+    qmlRegisterType<WheelHandler>("com.nextcloud.desktopclient", 1, 0, "WheelHandler");
 
 #ifndef Q_OS_MAC
     auto contextMenu = new QMenu();
@@ -496,6 +500,16 @@ QPoint Systray::calcTrayIconCenter() const
     // On Linux, fall back to mouse position (assuming tray icon is activated by mouse click)
     return QCursor::pos(currentScreen());
 #endif
+}
+
+AccessManagerFactory::AccessManagerFactory()
+    : QQmlNetworkAccessManagerFactory()
+{
+}
+
+QNetworkAccessManager* AccessManagerFactory::create(QObject *parent)
+{
+    return new AccessManager(parent);
 }
 
 } // namespace OCC

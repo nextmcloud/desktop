@@ -40,6 +40,7 @@ class Folder;
 class SocketListener;
 class DirectEditor;
 class SocketApiJob;
+class SocketApiJobV2;
 
 Q_DECLARE_LOGGING_CATEGORY(lcSocketApi)
 
@@ -53,7 +54,7 @@ class SocketApi : public QObject
 
 public:
     explicit SocketApi(QObject *parent = nullptr);
-    virtual ~SocketApi();
+    ~SocketApi() override;
 
 public slots:
     void slotUpdateFolderView(Folder *f);
@@ -63,6 +64,7 @@ public slots:
 
 signals:
     void shareCommandReceived(const QString &sharePath, const QString &localPath, ShareDialogStartPage startPage);
+    void fileActivityCommandReceived(const QString &sharePath, const QString &localPath);
 
 private slots:
     void slotNewConnection();
@@ -101,6 +103,7 @@ private:
 
     // opens share dialog, sends reply
     void processShareRequest(const QString &localFile, SocketListener *listener, ShareDialogStartPage startPage);
+    void processFileActivityRequest(const QString &localFile);
 
     Q_INVOKABLE void command_RETRIEVE_FOLDER_STATUS(const QString &argument, SocketListener *listener);
     Q_INVOKABLE void command_RETRIEVE_FILE_STATUS(const QString &argument, SocketListener *listener);
@@ -110,6 +113,7 @@ private:
     Q_INVOKABLE void command_SHARE_MENU_TITLE(const QString &argument, SocketListener *listener);
 
     // The context menu actions
+    Q_INVOKABLE void command_ACTIVITY(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_SHARE(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_MANAGE_PUBLIC_LINKS(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_COPY_PUBLIC_LINK(const QString &localFile, SocketListener *listener);
@@ -128,6 +132,10 @@ private:
     Q_INVOKABLE void command_OPENNEWWINDOW(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_OPEN(const QString &localFile, SocketListener *listener);
 #endif
+
+    // External sync
+    Q_INVOKABLE void command_V2_LIST_ACCOUNTS(const QSharedPointer<SocketApiJobV2> &job) const;
+    Q_INVOKABLE void command_V2_UPLOAD_FILES_FROM(const QSharedPointer<SocketApiJobV2> &job) const;
 
     // Fetch the private link and call targetFun
     void fetchPrivateLinkUrlHelper(const QString &localFile, const std::function<void(const QString &url)> &targetFun);
@@ -164,7 +172,7 @@ private:
     QString buildRegisterPathMessage(const QString &path);
 
     QSet<QString> _registeredAliases;
-    QList<SocketListener> _listeners;
+    QMap<QIODevice *, QSharedPointer<SocketListener>> _listeners;
     SocketApiServer _localServer;
 };
 }

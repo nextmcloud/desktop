@@ -9,6 +9,10 @@
 #include "httplogger.h"
 #include "accessmanager.h"
 
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
 
 #include <memory>
 
@@ -20,7 +24,7 @@ PathComponents::PathComponents(const char *path)
 }
 
 PathComponents::PathComponents(const QString &path)
-    : QStringList { path.split(QLatin1Char('/'), QString::SkipEmptyParts) }
+    : QStringList { path.split(QLatin1Char('/'), Qt::SkipEmptyParts) }
 {
 }
 
@@ -243,6 +247,15 @@ QString FileInfo::path() const
     return (parentPath.isEmpty() ? QString() : (parentPath + QLatin1Char('/'))) + name;
 }
 
+QString FileInfo::absolutePath() const
+{
+    if (parentPath.endsWith(QLatin1Char('/'))) {
+        return parentPath + name;
+    } else {
+        return parentPath + QLatin1Char('/') + name;
+    }
+}
+
 void FileInfo::fixupParentPathRecursively()
 {
     auto p = path();
@@ -273,7 +286,7 @@ FakePropfindReply::FakePropfindReply(FileInfo &remoteRootFileInfo, QNetworkAcces
         QMetaObject::invokeMethod(this, "respond404", Qt::QueuedConnection);
         return;
     }
-    QString prefix = request.url().path().left(request.url().path().size() - fileName.size());
+    const QString prefix = request.url().path().left(request.url().path().size() - fileName.size());
 
     // Don't care about the request and just return a full propfind
     const QString davUri { QStringLiteral("DAV:") };
@@ -288,11 +301,12 @@ FakePropfindReply::FakePropfindReply(FileInfo &remoteRootFileInfo, QNetworkAcces
     auto writeFileResponse = [&](const FileInfo &fileInfo) {
         xml.writeStartElement(davUri, QStringLiteral("response"));
 
-        QString url = prefix + QString::fromUtf8(QUrl::toPercentEncoding(fileInfo.path(), "/"));
+        auto url = QString::fromUtf8(QUrl::toPercentEncoding(fileInfo.absolutePath(), "/"));
         if (!url.endsWith(QChar('/'))) {
             url.append(QChar('/'));
         }
-        xml.writeTextElement(davUri, QStringLiteral("href"), url);
+        const auto href = OCC::Utility::concatUrlPath(prefix, url).path();
+        xml.writeTextElement(davUri, QStringLiteral("href"), href);
         xml.writeStartElement(davUri, QStringLiteral("propstat"));
         xml.writeStartElement(davUri, QStringLiteral("prop"));
 
@@ -406,6 +420,109 @@ void FakePutReply::abort()
     emit finished();
 }
 
+FakePutMultiFileReply::FakePutMultiFileReply(FileInfo &remoteRootFileInfo, QNetworkAccessManager::Operation op, const QNetworkRequest &request, const QString &contentType, const QByteArray &putPayload, QObject *parent)
+    : FakeReply { parent }
+{
+    setRequest(request);
+    setUrl(request.url());
+    setOperation(op);
+    open(QIODevice::ReadOnly);
+    _allFileInfo = performMultiPart(remoteRootFileInfo, request, putPayload, contentType);
+    QMetaObject::invokeMethod(this, "respond", Qt::QueuedConnection);
+}
+
+QVector<FileInfo *> FakePutMultiFileReply::performMultiPart(FileInfo &remoteRootFileInfo, const QNetworkRequest &request, const QByteArray &putPayload, const QString &contentType)
+{
+    QVector<FileInfo *> result;
+
+    auto stringPutPayload = QString::fromUtf8(putPayload);
+    constexpr int boundaryPosition = sizeof("multipart/related; boundary=");
+    const QString boundaryValue = QStringLiteral("--") + contentType.mid(boundaryPosition, contentType.length() - boundaryPosition - 1) + QStringLiteral("\r\n");
+    auto stringPutPayloadRef = QString{stringPutPayload}.left(stringPutPayload.size() - 2 - boundaryValue.size());
+    auto allParts = stringPutPayloadRef.split(boundaryValue, Qt::SkipEmptyParts);
+    for (const auto &onePart : allParts) {
+        auto headerEndPosition = onePart.indexOf(QStringLiteral("\r\n\r\n"));
+        auto onePartHeaderPart = onePart.left(headerEndPosition);
+        auto onePartBody = onePart.mid(headerEndPosition + 4, onePart.size() - headerEndPosition - 6);
+        auto onePartHeaders = onePartHeaderPart.split(QStringLiteral("\r\n"));
+        QMap<QString, QString> allHeaders;
+        for(auto oneHeader : onePartHeaders) {
+            auto headerParts = oneHeader.split(QStringLiteral(": "));
+            allHeaders[headerParts.at(0)] = headerParts.at(1);
+        }
+        auto fileName = allHeaders[QStringLiteral("X-File-Path")];
+        Q_ASSERT(!fileName.isEmpty());
+        FileInfo *fileInfo = remoteRootFileInfo.find(fileName);
+        if (fileInfo) {
+            fileInfo->size = onePartBody.size();
+            fileInfo->contentChar = onePartBody.at(0).toLatin1();
+        } else {
+            // Assume that the file is filled with the same character
+            fileInfo = remoteRootFileInfo.create(fileName, onePartBody.size(), onePartBody.at(0).toLatin1());
+        }
+        fileInfo->lastModified = OCC::Utility::qDateTimeFromTime_t(request.rawHeader("X-OC-Mtime").toLongLong());
+        remoteRootFileInfo.find(fileName, /*invalidateEtags=*/true);
+        result.push_back(fileInfo);
+    }
+    return result;
+}
+
+void FakePutMultiFileReply::respond()
+{
+    QJsonDocument reply;
+    QJsonObject allFileInfoReply;
+
+    qint64 totalSize = 0;
+    std::for_each(_allFileInfo.begin(), _allFileInfo.end(), [&totalSize](const auto &fileInfo) {
+        totalSize += fileInfo->size;
+    });
+
+    for(auto fileInfo : qAsConst(_allFileInfo)) {
+        QJsonObject fileInfoReply;
+        fileInfoReply.insert("error", QStringLiteral("false"));
+        fileInfoReply.insert("OC-OperationStatus", fileInfo->operationStatus);
+        fileInfoReply.insert("X-File-Path", fileInfo->path());
+        fileInfoReply.insert("OC-ETag", QLatin1String{fileInfo->etag});
+        fileInfoReply.insert("ETag", QLatin1String{fileInfo->etag});
+        fileInfoReply.insert("etag", QLatin1String{fileInfo->etag});
+        fileInfoReply.insert("OC-FileID", QLatin1String{fileInfo->fileId});
+        fileInfoReply.insert("X-OC-MTime", "accepted"); // Prevents Q_ASSERT(!_runningNow) since we'll call PropagateItemJob::done twice in that case.
+        emit uploadProgress(fileInfo->size, totalSize);
+        allFileInfoReply.insert(QChar('/') + fileInfo->path(), fileInfoReply);
+    }
+    reply.setObject(allFileInfoReply);
+    _payload = reply.toJson();
+
+    setAttribute(QNetworkRequest::HttpStatusCodeAttribute, 200);
+
+    setFinished(true);
+    if (bytesAvailable()) {
+        emit readyRead();
+    }
+
+    emit metaDataChanged();
+    emit finished();
+}
+
+void FakePutMultiFileReply::abort()
+{
+    setError(OperationCanceledError, QStringLiteral("abort"));
+    emit finished();
+}
+
+qint64 FakePutMultiFileReply::bytesAvailable() const
+{
+    return _payload.size() + QIODevice::bytesAvailable();
+}
+
+qint64 FakePutMultiFileReply::readData(char *data, qint64 maxlen)
+{
+    qint64 len = std::min(qint64 { _payload.size() }, maxlen);
+    std::copy(_payload.cbegin(), _payload.cbegin() + len, data);
+    _payload.remove(0, static_cast<int>(len));
+    return len;
+}
+
 FakeMkcolReply::FakeMkcolReply(FileInfo &remoteRootFileInfo, QNetworkAccessManager::Operation op, const QNetworkRequest &request, QObject *parent)
     : FakeReply { parent }
 {
@@ -488,9 +605,11 @@ FakeGetReply::FakeGetReply(FileInfo &remoteRootFileInfo, QNetworkAccessManager::
     QString fileName = getFilePathFromUrl(request.url());
     Q_ASSERT(!fileName.isEmpty());
     fileInfo = remoteRootFileInfo.find(fileName);
-    if (!fileInfo)
-        qWarning() << "Could not find file" << fileName << "on the remote";
-    QMetaObject::invokeMethod(this, "respond", Qt::QueuedConnection);
+    if (!fileInfo) {
+        qDebug() << "meh;";
+    }
+    Q_ASSERT_X(fileInfo, Q_FUNC_INFO, "Could not find file on the remote");
+    QMetaObject::invokeMethod(this, &FakeGetReply::respond, Qt::QueuedConnection);
 }
 
 void FakeGetReply::respond()
@@ -697,14 +816,20 @@ void FakeChunkMoveReply::abort()
 }
 
 FakePayloadReply::FakePayloadReply(QNetworkAccessManager::Operation op, const QNetworkRequest &request, const QByteArray &body, QObject *parent)
-    : FakeReply { parent }
+    : FakePayloadReply(op, request, body, FakePayloadReply::defaultDelay, parent)
+{
+}
+
+FakePayloadReply::FakePayloadReply(
+    QNetworkAccessManager::Operation op, const QNetworkRequest &request, const QByteArray &body, int delay, QObject *parent)
+    : FakeReply{parent}
     , _body(body)
 {
     setRequest(request);
     setUrl(request.url());
     setOperation(op);
     open(QIODevice::ReadOnly);
-    QTimer::singleShot(10, this, &FakePayloadReply::respond);
+    QTimer::singleShot(delay, this, &FakePayloadReply::respond);
 }
 
 void FakePayloadReply::respond()
@@ -740,7 +865,7 @@ FakeErrorReply::FakeErrorReply(QNetworkAccessManager::Operation op, const QNetwo
     open(QIODevice::ReadOnly);
     setAttribute(QNetworkRequest::HttpStatusCodeAttribute, httpErrorCode);
     setError(InternalServerError, QStringLiteral("Internal Server Fake Error"));
-    QMetaObject::invokeMethod(this, "respond", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, &FakeErrorReply::respond, Qt::QueuedConnection);
 }
 
 void FakeErrorReply::respond()
@@ -784,7 +909,7 @@ void FakeHangingReply::abort()
     // Follow more or less the implementation of QNetworkReplyImpl::abort
     close();
     setError(OperationCanceledError, tr("Operation canceled"));
-    emit error(OperationCanceledError);
+    emit errorOccurred(OperationCanceledError);
     setFinished(true);
     emit finished();
 }
@@ -795,44 +920,94 @@ FakeQNAM::FakeQNAM(FileInfo initialRoot)
     setCookieJar(new OCC::CookieJar);
 }
 
+QJsonObject FakeQNAM::forEachReplyPart(QIODevice *outgoingData,
+                                       const QString &contentType,
+                                       std::function<QJsonObject (const QMap<QString, QByteArray> &)> replyFunction)
+{
+    auto fullReply = QJsonObject{};
+    auto putPayload = outgoingData->peek(outgoingData->bytesAvailable());
+    outgoingData->reset();
+    auto stringPutPayload = QString::fromUtf8(putPayload);
+    constexpr int boundaryPosition = sizeof("multipart/related; boundary=");
+    const QString boundaryValue = QStringLiteral("--") + contentType.mid(boundaryPosition, contentType.length() - boundaryPosition - 1) + QStringLiteral("\r\n");
+    auto stringPutPayloadRef = QString{stringPutPayload}.left(stringPutPayload.size() - 2 - boundaryValue.size());
+    auto allParts = stringPutPayloadRef.split(boundaryValue, Qt::SkipEmptyParts);
+    for (const auto &onePart : qAsConst(allParts)) {
+        auto headerEndPosition = onePart.indexOf(QStringLiteral("\r\n\r\n"));
+        auto onePartHeaderPart = onePart.left(headerEndPosition);
+        auto onePartHeaders = onePartHeaderPart.split(QStringLiteral("\r\n"));
+        QMap<QString, QByteArray> allHeaders;
+        for(const auto &oneHeader : qAsConst(onePartHeaders)) {
+            auto headerParts = oneHeader.split(QStringLiteral(": "));
+            allHeaders[headerParts.at(0)] = headerParts.at(1).toLatin1();
+        }
+
+        auto reply = replyFunction(allHeaders);
+        if (reply.contains(QStringLiteral("error")) &&
+                reply.contains(QStringLiteral("etag"))) {
+            fullReply.insert(allHeaders[QStringLiteral("X-File-Path")], reply);
+        }
+    }
+
+    return fullReply;
+}
+
 QNetworkReply *FakeQNAM::createRequest(QNetworkAccessManager::Operation op, const QNetworkRequest &request, QIODevice *outgoingData)
 {
-    if (_override) {
-        if (auto reply = _override(op, request, outgoingData))
-            return reply;
-    }
-    const QString fileName = getFilePathFromUrl(request.url());
-    Q_ASSERT(!fileName.isNull());
-    if (_errorPaths.contains(fileName))
-        return new FakeErrorReply { op, request, this, _errorPaths[fileName] };
-
-    bool isUpload = request.url().path().startsWith(sUploadUrl.path());
-    FileInfo &info = isUpload ? _uploadFileInfo : _remoteRootFileInfo;
-
+    QNetworkReply *reply = nullptr;
     auto newRequest = request;
     newRequest.setRawHeader("X-Request-ID", OCC::AccessManager::generateRequestId());
-    auto verb = request.attribute(QNetworkRequest::CustomVerbAttribute);
-    FakeReply *reply = nullptr;
-    if (verb == QLatin1String("PROPFIND"))
-        // Ignore outgoingData always returning somethign good enough, works for now.
-        reply = new FakePropfindReply { info, op, newRequest, this };
-    else if (verb == QLatin1String("GET") || op == QNetworkAccessManager::GetOperation)
-        reply = new FakeGetReply { info, op, newRequest, this };
-    else if (verb == QLatin1String("PUT") || op == QNetworkAccessManager::PutOperation)
-        reply = new FakePutReply { info, op, newRequest, outgoingData->readAll(), this };
-    else if (verb == QLatin1String("MKCOL"))
-        reply = new FakeMkcolReply { info, op, newRequest, this };
-    else if (verb == QLatin1String("DELETE") || op == QNetworkAccessManager::DeleteOperation)
-        reply = new FakeDeleteReply { info, op, newRequest, this };
-    else if (verb == QLatin1String("MOVE") && !isUpload)
-        reply = new FakeMoveReply { info, op, newRequest, this };
-    else if (verb == QLatin1String("MOVE") && isUpload)
-        reply = new FakeChunkMoveReply { info, _remoteRootFileInfo, op, newRequest, this };
-    else {
-        qDebug() << verb << outgoingData;
-        Q_UNREACHABLE();
+    auto contentType = request.header(QNetworkRequest::ContentTypeHeader).toString();
+    if (_override) {
+        if (auto _reply = _override(op, newRequest, outgoingData)) {
+            reply = _reply;
+        }
+    }
+    if (!reply) {
+        reply = overrideReplyWithError(getFilePathFromUrl(newRequest.url()), op, newRequest);
+    }
+    if (!reply) {
+        const bool isUpload = newRequest.url().path().startsWith(sUploadUrl.path());
+        FileInfo &info = isUpload ? _uploadFileInfo : _remoteRootFileInfo;
+
+        auto verb = newRequest.attribute(QNetworkRequest::CustomVerbAttribute);
+        if (verb == QLatin1String("PROPFIND")) {
+            // Ignore outgoingData always returning somethign good enough, works for now.
+            reply = new FakePropfindReply { info, op, newRequest, this };
+        } else if (verb == QLatin1String("GET") || op == QNetworkAccessManager::GetOperation) {
+            reply = new FakeGetReply { info, op, newRequest, this };
+        } else if (verb == QLatin1String("PUT") || op == QNetworkAccessManager::PutOperation) {
+            reply = new FakePutReply { info, op, newRequest, outgoingData->readAll(), this };
+        } else if (verb == QLatin1String("MKCOL")) {
+            reply = new FakeMkcolReply { info, op, newRequest, this };
+        } else if (verb == QLatin1String("DELETE") || op == QNetworkAccessManager::DeleteOperation) {
+            reply = new FakeDeleteReply { info, op, newRequest, this };
+        } else if (verb == QLatin1String("MOVE") && !isUpload) {
+            reply = new FakeMoveReply { info, op, newRequest, this };
+        } else if (verb == QLatin1String("MOVE") && isUpload) {
+            reply = new FakeChunkMoveReply { info, _remoteRootFileInfo, op, newRequest, this };
+        } else if (verb == QLatin1String("POST") || op == QNetworkAccessManager::PostOperation) {
+            if (contentType.startsWith(QStringLiteral("multipart/related; boundary="))) {
+                reply = new FakePutMultiFileReply { info, op, newRequest, contentType, outgoingData->readAll(), this };
+            }
+        } else {
+            qDebug() << verb << outgoingData;
+            Q_UNREACHABLE();
+        }
     }
     OCC::HttpLogger::logRequest(reply, op, outgoingData);
+    return reply;
+}
+
+QNetworkReply * FakeQNAM::overrideReplyWithError(QString fileName, QNetworkAccessManager::Operation op, QNetworkRequest newRequest)
+{
+    QNetworkReply *reply = nullptr;
+
+    Q_ASSERT(!fileName.isNull());
+    if (_errorPaths.contains(fileName)) {
+        reply = new FakeErrorReply { op, newRequest, this, _errorPaths[fileName] };
+    }
+
     return reply;
 }
 
@@ -842,6 +1017,7 @@ FakeFolder::FakeFolder(const FileInfo &fileTemplate, const OCC::Optional<FileInf
     // Needs to be done once
     OCC::SyncEngine::minimumFileAgeForUpload = std::chrono::milliseconds(0);
     OCC::Logger::instance()->setLogFile(QStringLiteral("-"));
+    OCC::Logger::instance()->addLogRule({ QStringLiteral("sync.httplogger=true") });
 
     QDir rootDir { _tempDir.path() };
     qDebug() << "FakeFolder operating on" << rootDir;
@@ -1036,6 +1212,19 @@ OCC::SyncFileItemPtr ItemCompletedSpy::findItem(const QString &path) const
     return OCC::SyncFileItemPtr::create();
 }
 
+OCC::SyncFileItemPtr ItemCompletedSpy::findItemWithExpectedRank(const QString &path, int rank) const
+{
+    Q_ASSERT(size() > rank);
+    Q_ASSERT(!(*this)[rank].isEmpty());
+
+    auto item = (*this)[rank][0].value<OCC::SyncFileItemPtr>();
+    if (item->destination() == path) {
+        return item;
+    } else {
+        return OCC::SyncFileItemPtr::create();
+    }
+}
+
 FakeReply::FakeReply(QObject *parent)
     : QNetworkReply(parent)
 {
@@ -1043,3 +1232,12 @@ FakeReply::FakeReply(QObject *parent)
 }
 
 FakeReply::~FakeReply() = default;
+
+FakeJsonErrorReply::FakeJsonErrorReply(QNetworkAccessManager::Operation op,
+                                       const QNetworkRequest &request,
+                                       QObject *parent,
+                                       int httpErrorCode,
+                                       const QJsonDocument &reply)
+    : FakeErrorReply{ op, request, parent, httpErrorCode, reply.toJson() }
+{
+}

@@ -36,7 +36,6 @@ class OWNCLOUDSYNC_EXPORT GETFileJob : public AbstractNetworkJob
     QString _errorString;
     QByteArray _expectedEtagForResume;
     qint64 _expectedContentLength;
-    qint64 _contentLength;
     qint64 _resumeStart;
     SyncFileItem::Status _errorStatus;
     QUrl _directDownloadUrl;
@@ -51,6 +50,9 @@ class OWNCLOUDSYNC_EXPORT GETFileJob : public AbstractNetworkJob
     /// Will be set to true once we've seen a 2xx response header
     bool _saveBodyToFile = false;
 
+protected:
+    qint64 _contentLength;
+
 public:
     // DOES NOT take ownership of the device.
     explicit GETFileJob(AccountPtr account, const QString &path, QIODevice *device,
@@ -60,7 +62,7 @@ public:
     explicit GETFileJob(AccountPtr account, const QUrl &url, QIODevice *device,
         const QMap<QByteArray, QByteArray> &headers, const QByteArray &expectedEtagForResume,
         qint64 resumeStart, QObject *parent = nullptr);
-    virtual ~GETFileJob()
+    ~GETFileJob() override
     {
         if (_bandwidthManager) {
             _bandwidthManager->unregisterDownloadJob(this);
@@ -94,7 +96,7 @@ public:
     void giveBandwidthQuota(qint64 q);
     qint64 currentDownloadPosition();
 
-    QString errorString() const;
+    QString errorString() const override;
     void setErrorString(const QString &s) { _errorString = s; }
 
     SyncFileItem::Status errorStatus() { return _errorStatus; }
@@ -110,12 +112,43 @@ public:
     qint64 expectedContentLength() const { return _expectedContentLength; }
     void setExpectedContentLength(qint64 size) { _expectedContentLength = size; }
 
+protected:
+    virtual qint64 writeToDevice(const QByteArray &data);
+
 signals:
     void finishedSignal();
     void downloadProgress(qint64, qint64);
 private slots:
     void slotReadyRead();
     void slotMetaDataChanged();
+};
+
+/**
+ * @brief The GETEncryptedFileJob class that provides file decryption on the fly while the download is running
+ * @ingroup libsync
+ */
+class OWNCLOUDSYNC_EXPORT GETEncryptedFileJob : public GETFileJob
+{
+    Q_OBJECT
+
+public:
+    // DOES NOT take ownership of the device.
+    explicit GETEncryptedFileJob(AccountPtr account, const QString &path, QIODevice *device,
+        const QMap<QByteArray, QByteArray> &headers, const QByteArray &expectedEtagForResume,
+        qint64 resumeStart, EncryptedFile encryptedInfo, QObject *parent = nullptr);
+    explicit GETEncryptedFileJob(AccountPtr account, const QUrl &url, QIODevice *device,
+        const QMap<QByteArray, QByteArray> &headers, const QByteArray &expectedEtagForResume,
+        qint64 resumeStart, EncryptedFile encryptedInfo, QObject *parent = nullptr);
+    ~GETEncryptedFileJob() override = default;
+
+protected:
+    qint64 writeToDevice(const QByteArray &data) override;
+
+private:
+    QSharedPointer<EncryptionHelper::StreamingDecryptor> _decryptor;
+    EncryptedFile _encryptedFileInfo = {};
+    QByteArray _pendingBytes;
+    qint64 _processedSoFar = 0;
 };
 
 /**
@@ -219,6 +252,6 @@ private:
 
     QElapsedTimer _stopwatch;
 
-    PropagateDownloadEncrypted *_downloadEncryptedHelper;
+    PropagateDownloadEncrypted *_downloadEncryptedHelper = nullptr;
 };
 }

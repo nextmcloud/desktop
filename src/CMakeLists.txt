@@ -4,10 +4,8 @@ endif()
 
 include(ECMEnableSanitizers)
 
-set(synclib_NAME ${APPLICATION_EXECUTABLE}sync)
-
-find_package(Qt5 5.12 COMPONENTS Core Network Xml Concurrent REQUIRED)
-find_package(Qt5 5.12 COMPONENTS WebEngineWidgets WebEngine)
+find_package(Qt5 5.15 COMPONENTS Core Network Xml Concurrent REQUIRED)
+find_package(Qt5 5.15 COMPONENTS WebEngineWidgets WebEngine)
 
 if(Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
   add_compile_definitions(WITH_WEBENGINE=1)
@@ -60,10 +58,6 @@ elseif(UNIX AND NOT APPLE)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro -Wl,-z,now")
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro -Wl,-z,now")
 endif()
-
-include_directories(
-    ${CMAKE_SOURCE_DIR}/src/3rdparty
-)
 
 set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/theme CACHE STRING "" FORCE)
 

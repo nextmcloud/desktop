@@ -22,6 +22,7 @@
 
 #include <QBuffer>
 #include <QUrlQuery>
+#include <QJsonDocument>
 #include <functional>
 
 class QUrl;
@@ -273,9 +274,10 @@ public:
     void start() override;
 
 signals:
-    void finished(QNetworkReply::NetworkError);
+    void finishedWithError(QNetworkReply *reply);
+    void finishedWithoutError();
 
-private slots:
+private:
     bool finished() override;
 };
 
@@ -348,8 +350,8 @@ public:
     void start() override;
 
 signals:
-    void etagRetrieved(const QString &etag, const QDateTime &time);
-    void finishedWithResult(const HttpResult<QString> &etag);
+    void etagRetrieved(const QByteArray &etag, const QDateTime &time);
+    void finishedWithResult(const HttpResult<QByteArray> &etag);
 
 private slots:
     bool finished() override;
@@ -374,6 +376,13 @@ class OWNCLOUDSYNC_EXPORT JsonApiJob : public AbstractNetworkJob
 {
     Q_OBJECT
 public:
+    enum class Verb {
+        Get,
+        Post,
+        Put,
+        Delete,
+    };
+
     explicit JsonApiJob(const AccountPtr &account, const QString &path, QObject *parent = nullptr);
 
     /**
@@ -389,15 +398,9 @@ public:
     void addQueryParams(const QUrlQuery &params);
     void addRawHeader(const QByteArray &headerName, const QByteArray &value);
 
-    /**
-     * @brief usePOST - allow job to do an anonymous POST request instead of GET
-     * @param params: (optional) true for POST, false for GET (default).
-     *
-     * This function needs to be called before start() obviously.
-     */
-    void usePOST(bool usePOST = true) {
-        _usePOST = usePOST;
-    }
+    void setBody(const QJsonDocument &body);
+
+    void setVerb(Verb value);
 
 public slots:
     void start() override;
@@ -420,18 +423,21 @@ signals:
      * @param statusCode - the OCS status code: 100 (!) for success
      */
     void etagResponseHeaderReceived(const QByteArray &value, int statusCode);
-    
+
     /**
      * @brief desktopNotificationStatusReceived - signal to report if notifications are allowed
-     * @param status - set desktop notifications allowed status 
+     * @param status - set desktop notifications allowed status
      */
     void allowDesktopNotificationsChanged(bool isAllowed);
 
 private:
+    QByteArray _body;
     QUrlQuery _additionalParams;
     QNetworkRequest _request;
 
-    bool _usePOST = false;
+    Verb _verb = Verb::Get;
+
+    QByteArray verbToString() const;
 };
 
 /**

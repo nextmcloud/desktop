@@ -22,6 +22,7 @@
 #include "wizard/owncloudwizard.h"
 
 #include "../addcertificatedialog.h"
+#include "wizard/owncloudconnectionmethoddialog.h"
 
 #ifndef TEST_OWNCL_PAGE
 #include "ui_owncloudsetupnocredspage.h"
@@ -45,7 +46,7 @@ class OwncloudSetupPage : public QWizardPage
     Q_OBJECT
 public:
     OwncloudSetupPage(QWidget *parent = nullptr);
-    ~OwncloudSetupPage();
+    ~OwncloudSetupPage() override;
 
     bool isComplete() const override;
     void initializePage() override;

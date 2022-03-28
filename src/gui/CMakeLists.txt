@@ -1,5 +1,8 @@
 project(gui)
-find_package(Qt5 REQUIRED COMPONENTS Widgets Svg Qml Quick QuickControls2)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Svg Qml Quick QuickControls2 Xml Network)
+if (NOT TARGET Qt5::GuiPrivate)
+    message(FATAL_ERROR "Could not find GuiPrivate component of Qt5. It might be shipped as a separate package, please check that.")
+endif()
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     add_definitions(-DQT_QML_DEBUG)
@@ -18,6 +21,7 @@ set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
 set(client_UI_SRCS
     accountsettings.ui
     conflictdialog.ui
+    invalidfilenamedialog.ui
     foldercreationdialog.ui
     folderwizardsourcepage.ui
     folderwizardtargetpage.ui
@@ -59,6 +63,7 @@ set(client_SRCS
     accountmanager.cpp
     accountsettings.cpp
     application.cpp
+    invalidfilenamedialog.cpp
     conflictdialog.cpp
     conflictsolver.cpp
     connectionvalidator.cpp
@@ -94,7 +99,6 @@ set(client_SRCS
     sharemanager.cpp
     shareusergroupwidget.cpp
     sharee.cpp
-    socketapi.cpp
     sslbutton.cpp
     sslerrordialog.cpp
     syncrunfilelog.cpp
@@ -159,7 +163,6 @@ endif()
 
 IF( APPLE )
     list(APPEND client_SRCS cocoainitializer_mac.mm)
-    list(APPEND client_SRCS socketapisocket_mac.mm)
     list(APPEND client_SRCS systray.mm)
 
     if(SPARKLE_FOUND AND BUILD_UPDATER)
@@ -193,6 +196,7 @@ set(3rdparty_SRC
     ../3rdparty/qtsingleapplication/qtsingleapplication.cpp
     ../3rdparty/qtsingleapplication/qtsinglecoreapplication.cpp
     ../3rdparty/kmessagewidget/kmessagewidget.cpp
+    ../3rdparty/kirigami/wheelhandler.cpp
    )
 
 if(NOT WIN32)
@@ -244,19 +248,38 @@ if (NOT DEFINED APPLICATION_ICON_NAME)
     set(APPLICATION_ICON_NAME ${APPLICATION_SHORTNAME})
 endif()
 
+if(NOT DEFINED APPLICATION_FOLDER_ICON_INDEX)
+    set(APPLICATION_FOLDER_ICON_INDEX 0)
+endif()
+
 # Generate png icons from svg
-find_program(INKSCAPE
-  NAMES inkscape inkscape.exe
+find_program(SVG_CONVERTER
+  NAMES inkscape inkscape.exe rsvg-convert
   REQUIRED
-  HINTS "C:\\Program Files\\Inkscape\\bin" "/usr/bin" ENV INKSCAPE_DIR)
+  HINTS "C:\\Program Files\\Inkscape\\bin" "/usr/bin" ENV SVG_CONVERTER_DIR)
 # REQUIRED keyword is only supported on CMake 3.18 and above
-if (NOT INKSCAPE)
-  message(FATAL_ERROR "Could not find inkscape. Set INKSCAPE_DIR to the path of executable.")
+if (NOT SVG_CONVERTER)
+  message(FATAL_ERROR "Could not find a suitable svg converter. Set SVG_CONVERTER_DIR to the path of either the inkscape or rsvg-convert executable.")
 endif()
 
 function(generate_sized_png_from_svg icon_path size)
+  set(options)
+  set(oneValueArgs OUTPUT_ICON_NAME OUTPUT_ICON_PATH)
+  set(multiValueArgs)
+
+  cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
   get_filename_component(icon_name_dir ${icon_path} DIRECTORY)
   get_filename_component(icon_name_wle ${icon_path} NAME_WLE)
+
+  if (ARG_OUTPUT_ICON_NAME)
+    set(icon_name_wle ${ARG_OUTPUT_ICON_NAME})
+  endif ()
+
+  if (ARG_OUTPUT_ICON_PATH)
+    set(icon_name_dir ${ARG_OUTPUT_ICON_PATH})
+  endif ()
+  
 
   if (EXISTS "${icon_name_dir}/${size}-${icon_name_wle}.png")
     return()
@@ -265,16 +288,16 @@ function(generate_sized_png_from_svg icon_path size)
   set(icon_output_name "${size}-${icon_name_wle}.png")
   message(STATUS "Generate ${icon_output_name}")
   execute_process(COMMAND
-    "${INKSCAPE}" -w ${size} -h ${size} "${icon_path}" -o "${icon_output_name}"
+    "${SVG_CONVERTER}" -w ${size} -h ${size} "${icon_path}" -o "${icon_output_name}"
     WORKING_DIRECTORY "${icon_name_dir}"
     RESULT_VARIABLE
-    INKSCAPE_SIDEBAR_ERROR
+    SVG_CONVERTER_SIDEBAR_ERROR
     OUTPUT_QUIET
     ERROR_QUIET)
 
-  if (INKSCAPE_SIDEBAR_ERROR)
+  if (SVG_CONVERTER_SIDEBAR_ERROR)
     message(FATAL_ERROR
-      "inkscape could not generate icon: ${INKSCAPE_SIDEBAR_ERROR}")
+      "${SVG_CONVERTER} could not generate icon: ${SVG_CONVERTER_SIDEBAR_ERROR}")
   else()
   endif()
 endfunction()
@@ -303,22 +326,86 @@ if(WIN32)
 endif()
 
 set(APP_ICON_SVG "${theme_dir}/colored/${APPLICATION_ICON_NAME}-icon.svg")
-generate_sized_png_from_svg(${APP_ICON_SVG} 16)
-generate_sized_png_from_svg(${APP_ICON_SVG} 24)
-generate_sized_png_from_svg(${APP_ICON_SVG} 32)
-generate_sized_png_from_svg(${APP_ICON_SVG} 48)
-generate_sized_png_from_svg(${APP_ICON_SVG} 64)
-generate_sized_png_from_svg(${APP_ICON_SVG} 128)
-generate_sized_png_from_svg(${APP_ICON_SVG} 256)
-generate_sized_png_from_svg(${APP_ICON_SVG} 512)
-generate_sized_png_from_svg(${APP_ICON_SVG} 1024)
+
+
+# generate secondary icon if available (currently for Windows only)--------------------------------------
+set(APP_SECONDARY_ICONS "${theme_dir}/colored/icons")
+set(APP_ICON_WIN_FOLDER_SVG "${APP_SECONDARY_ICONS}/${APPLICATION_ICON_NAME}-icon-win-folder.svg")
+
+set(RC_DEPENDENCIES "")
+
+if(WIN32)
+    if (EXISTS ${APP_ICON_WIN_FOLDER_SVG})
+        get_filename_component(output_icon_name_win ${APP_ICON_WIN_FOLDER_SVG} NAME_WLE)
+        # Product icon (for smallest size)
+        foreach(size IN ITEMS 16;20)
+            generate_sized_png_from_svg(${APP_ICON_SVG} ${size} OUTPUT_ICON_NAME ${output_icon_name_win} OUTPUT_ICON_PATH "${APP_SECONDARY_ICONS}/")
+        endforeach()
+
+        # Product icon with Windows folder (for sizes larger than 20)
+        foreach(size IN ITEMS 24;32;40;48;64;128;256;512;1024)
+            generate_sized_png_from_svg(${APP_ICON_WIN_FOLDER_SVG} ${size} OUTPUT_ICON_NAME ${output_icon_name_win} OUTPUT_ICON_PATH "${APP_SECONDARY_ICONS}/")
+        endforeach()
+
+        file(GLOB_RECURSE OWNCLOUD_ICONS_WIN_FOLDER "${APP_SECONDARY_ICONS}/*-${APPLICATION_ICON_NAME}-icon*")
+        set(APP_ICON_WIN_FOLDER_ICO_NAME "${APPLICATION_ICON_NAME}-win-folder")
+        set(RC_DEPENDENCIES "${RC_DEPENDENCIES} ${APP_ICON_WIN_FOLDER_ICO_NAME}.ico")
+        ecm_add_app_icon(APP_ICON_WIN_FOLDER ICONS "${OWNCLOUD_ICONS_WIN_FOLDER}" SIDEBAR_ICONS "${OWNCLOUD_SIDEBAR_ICONS}" OUTFILE_BASENAME "${APP_ICON_WIN_FOLDER_ICO_NAME}" ICON_INDEX 2)
+    endif()
+endif()
+# --------------------------------------
+
+if (NOT ${RC_DEPENDENCIES} STREQUAL "")
+    string(STRIP ${RC_DEPENDENCIES} RC_DEPENDENCIES)
+endif()
+
+# generate primary icon from SVG (due to Win .ico vs .rc dependency issues, primary icon must always be generated last)--------------------------------------
+if(WIN32)
+    foreach(size IN ITEMS 16;20;24;32;40;48;64;128;256;512;1024)
+        generate_sized_png_from_svg(${APP_ICON_SVG} ${size})
+    endforeach()
+else()
+    foreach(size IN ITEMS 16;24;32;48;64;128;256;512;1024)
+        generate_sized_png_from_svg(${APP_ICON_SVG} ${size})
+    endforeach()
+endif()
 
 file(GLOB_RECURSE OWNCLOUD_ICONS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-icon*")
 if(APPLE)
     file(GLOB_RECURSE OWNCLOUD_SIDEBAR_ICONS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-sidebar*")
     MESSAGE(STATUS "OWNCLOUD_SIDEBAR_ICONS: ${APPLICATION_ICON_NAME}: ${OWNCLOUD_SIDEBAR_ICONS}")
 endif()
-ecm_add_app_icon(APP_ICON ICONS "${OWNCLOUD_ICONS}" SIDEBAR_ICONS "${OWNCLOUD_SIDEBAR_ICONS}" OUTFILE_BASENAME "${APPLICATION_ICON_NAME}")
+
+ecm_add_app_icon(APP_ICON RC_DEPENDENCIES ${RC_DEPENDENCIES} ICONS "${OWNCLOUD_ICONS}" SIDEBAR_ICONS "${OWNCLOUD_SIDEBAR_ICONS}" OUTFILE_BASENAME "${APPLICATION_ICON_NAME}" ICON_INDEX 1)
+# --------------------------------------
+
+if(WIN32)
+# merge *.rc.in files for Windows (multiple ICON resources must be placed in a single file, otherwise, this won't work de to a bug in Windows compiler https://developercommunity.visualstudio.com/t/visual-studio-2017-prof-1557-cvt1100-duplicate-res/363156)
+    function(merge_files IN_FILE OUT_FILE)
+        file(READ ${IN_FILE} CONTENTS)
+        message("Merging ${IN_FILE} into ${OUT_FILE}")
+        file(APPEND ${OUT_FILE} "${CONTENTS}")
+    endfunction()
+    message("APP_ICON is: ${APP_ICON}")
+    if(APP_ICON)
+        get_filename_component(RC_IN_FOLDER ${APP_ICON}} DIRECTORY)
+
+        file(GLOB_RECURSE RC_IN_FILES "${RC_IN_FOLDER}/*rc.in")
+
+        foreach(rc_in_file IN ITEMS ${RC_IN_FILES})
+          get_filename_component(rc_in_file_name ${rc_in_file} NAME)
+          get_filename_component(app_icon_name "${APP_ICON}.in" NAME)
+          if(NOT "${rc_in_file_name}" STREQUAL "${app_icon_name}")
+              merge_files(${rc_in_file} "${APP_ICON}.in")
+              if (DEFINED APPLICATION_FOLDER_ICON_INDEX)
+                  MATH(EXPR APPLICATION_FOLDER_ICON_INDEX "${APPLICATION_FOLDER_ICON_INDEX}+1")
+                  message("APPLICATION_FOLDER_ICON_INDEX is now set to: ${APPLICATION_FOLDER_ICON_INDEX}")
+              endif()
+          endif()
+        endforeach()
+    endif()
+endif()
+# --------------------------------------
 
 if(UNIX AND NOT APPLE)
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIE")
@@ -334,6 +421,7 @@ add_library(nextcloudCore STATIC ${final_src})
 
 target_link_libraries(nextcloudCore
   PUBLIC
+  Nextcloud::sync
   Qt5::Widgets
   Qt5::GuiPrivate
   Qt5::Svg
@@ -342,8 +430,9 @@ target_link_libraries(nextcloudCore
   Qt5::Qml
   Qt5::Quick
   Qt5::QuickControls2
-  ${synclib_NAME}
   )
+
+add_subdirectory(socketapi)
 
 if(Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
   target_link_libraries(nextcloudCore PUBLIC Qt5::WebEngineWidgets)
@@ -360,6 +449,7 @@ target_include_directories(nextcloudCore
   PUBLIC
   ${CMAKE_SOURCE_DIR}/src/3rdparty/QProgressIndicator
   ${CMAKE_SOURCE_DIR}/src/3rdparty/qtlockedfile
+  ${CMAKE_SOURCE_DIR}/src/3rdparty/kirigami
   ${CMAKE_SOURCE_DIR}/src/3rdparty/qtsingleapplication
   ${CMAKE_SOURCE_DIR}/src/3rdparty/kmessagewidget
   ${CMAKE_CURRENT_BINARY_DIR}
@@ -372,9 +462,9 @@ if(NOT BUILD_OWNCLOUD_OSX_BUNDLE)
         foreach(_file ${_icons})
             string(REPLACE "${theme_dir}/colored/" "" _res ${_file})
             string(REPLACE "-${APPLICATION_ICON_NAME}-icon.png" "" _res ${_res})
-            install(FILES ${_file} RENAME ${APPLICATION_ICON_NAME}.png DESTINATION ${DATADIR}/icons/hicolor/${_res}x${_res}/apps)
+            install(FILES ${_file} RENAME ${APPLICATION_ICON_NAME}.png DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/${_res}x${_res}/apps)
         endforeach(_file)
-        install(FILES ${client_I18N} DESTINATION ${SHAREDIR}/${APPLICATION_EXECUTABLE}/i18n)
+        install(FILES ${client_I18N} DESTINATION ${CMAKE_INSTALL_DATADIR}/${APPLICATION_EXECUTABLE}/i18n)
     else()
         file(GLOB_RECURSE VISUAL_ELEMENTS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-w10startmenu*")
         install(FILES ${VISUAL_ELEMENTS} DESTINATION bin/visualelements)
@@ -383,17 +473,23 @@ if(NOT BUILD_OWNCLOUD_OSX_BUNDLE)
     endif()
 
     # we may not add MACOSX_BUNDLE here, if not building one
-    add_executable(${APPLICATION_EXECUTABLE} WIN32 main.cpp ${client_version} ${client_manifest} ${APP_ICON})
+    add_executable(nextcloud WIN32 main.cpp ${client_version} ${client_manifest} ${APP_ICON})
+    set_target_properties(nextcloud PROPERTIES
+      OUTPUT_NAME "${APPLICATION_EXECUTABLE}"
+    )
 else()
     # set(CMAKE_INSTALL_PREFIX ".") # Examples use /Applications. hurmpf.
     set(MACOSX_BUNDLE_ICON_FILE "${APPLICATION_ICON_NAME}.icns")
 
     # we must add MACOSX_BUNDLE only if building a bundle
-    add_executable(${APPLICATION_EXECUTABLE} WIN32 MACOSX_BUNDLE main.cpp ${APP_ICON})
+    add_executable(nextcloud WIN32 MACOSX_BUNDLE main.cpp ${APP_ICON})
 
     if (BUILD_OWNCLOUD_OSX_BUNDLE)
-      set_target_properties(${APPLICATION_EXECUTABLE} PROPERTIES
+      set_target_properties(nextcloud PROPERTIES
         OUTPUT_NAME "${APPLICATION_NAME}")
+    else()
+      set_target_properties(nextcloud PROPERTIES
+        OUTPUT_NAME "${APPLICATION_EXECUTABLE}")
     endif()
 
     set (QM_DIR ${OWNCLOUD_OSX_BUNDLE}/Contents/Resources/Translations)
@@ -413,22 +509,17 @@ endif()
 
 IF(BUILD_UPDATER)
     add_library(updater STATIC ${updater_SRCS})
-    target_link_libraries(updater ${synclib_NAME} ${updater_DEPS} Qt5::Widgets Qt5::Svg Qt5::Network Qt5::Xml)
+    target_link_libraries(updater Nextcloud::sync ${updater_DEPS} Qt5::Widgets Qt5::Svg Qt5::Network Qt5::Xml)
     target_include_directories(updater PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
     set_target_properties(updater PROPERTIES AUTOMOC ON)
+    target_link_libraries(nextcloudCore PUBLIC updater)
 endif()
 
-set_target_properties( ${APPLICATION_EXECUTABLE} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY  ${BIN_OUTPUT_DIRECTORY}
+set_target_properties(nextcloud PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIRECTORY}
 )
 
-target_link_libraries(${APPLICATION_EXECUTABLE} nextcloudCore)
-
-IF(BUILD_UPDATER)
-  target_link_libraries(nextcloudCore PUBLIC updater)
-endif()
-
-target_link_libraries(nextcloudCore PUBLIC ${OS_SPECIFIC_LINK_LIBRARIES})
+target_link_libraries(nextcloud PRIVATE nextcloudCore)
 
 if(TARGET PkgConfig::CLOUDPROVIDERS)
     message("Building with libcloudproviderssupport")
@@ -474,11 +565,7 @@ if(WITH_CRASHREPORTER)
     endif()
 endif()
 
-# application.cpp still uses QDesktopServices::storageLocation
-target_compile_definitions(nextcloudCore PRIVATE "QT_DISABLE_DEPRECATED_BEFORE=0")
-
-
-install(TARGETS ${APPLICATION_EXECUTABLE}
+install(TARGETS nextcloud
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
@@ -505,12 +592,12 @@ if(BUILD_OWNCLOUD_OSX_BUNDLE AND NOT BUILD_LIBRARIES_ONLY)
         set(NO_STRIP "")
     endif()
 
-    add_custom_command(TARGET ${APPLICATION_EXECUTABLE} POST_BUILD
+    add_custom_command(TARGET nextcloud POST_BUILD
         COMMAND "${MACDEPLOYQT_EXECUTABLE}"
-        "$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/../.."
+        "$<TARGET_FILE_DIR:nextcloud>/../.."
         -qmldir=${CMAKE_SOURCE_DIR}/src/gui
         -always-overwrite
-        -executable="$<TARGET_FILE_DIR:${APPLICATION_EXECUTABLE}>/${cmd_NAME}"
+        -executable="$<TARGET_FILE_DIR:nextcloud>/${cmd_NAME}"
         ${NO_STRIP}
         COMMAND "${CMAKE_COMMAND}"
         -E rm -rf "${BIN_OUTPUT_DIRECTORY}/${OWNCLOUD_OSX_BUNDLE}/Contents/PlugIns/bearer"
@@ -521,13 +608,15 @@ endif()
 if(NOT BUILD_OWNCLOUD_OSX_BUNDLE AND NOT WIN32)
     configure_file(${CMAKE_SOURCE_DIR}/mirall.desktop.in
                    ${CMAKE_CURRENT_BINARY_DIR}/${LINUX_APPLICATION_ID}.desktop)
-    install(FILES  ${CMAKE_CURRENT_BINARY_DIR}/${LINUX_APPLICATION_ID}.desktop DESTINATION ${DATADIR}/applications )
+    install(FILES  ${CMAKE_CURRENT_BINARY_DIR}/${LINUX_APPLICATION_ID}.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
 
     configure_file(owncloud.xml.in ${APPLICATION_EXECUTABLE}.xml)
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${APPLICATION_EXECUTABLE}.xml DESTINATION ${DATADIR}/mime/packages )
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${APPLICATION_EXECUTABLE}.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages )
 
     find_package(SharedMimeInfo)
     if(SharedMimeInfo_FOUND)
-        update_xdg_mimetypes( ${DATADIR}/mime/packages )
+        update_xdg_mimetypes( ${CMAKE_INSTALL_DATADIR}/mime/packages )
     endif(SharedMimeInfo_FOUND)
 endif()
+
+configure_file(configgui.h.in ${CMAKE_CURRENT_BINARY_DIR}/configgui.h)

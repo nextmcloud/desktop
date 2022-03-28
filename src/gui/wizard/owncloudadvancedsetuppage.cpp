@@ -344,7 +344,8 @@ QUrl OwncloudAdvancedSetupPage::serverUrl() const
 
 int OwncloudAdvancedSetupPage::nextId() const
 {
-    return WizardCommon::Page_Result;
+    // tells the caller that this is the last dialog page
+    return -1;
 }
 
 QString OwncloudAdvancedSetupPage::localFolder() const

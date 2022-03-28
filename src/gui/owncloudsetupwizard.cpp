@@ -393,7 +393,7 @@ void OwncloudSetupWizard::slotAuthError()
             return;
         }
         errorMsg = tr("The authenticated request to the server was redirected to "
-                      "'%1'. The URL is bad, the server is misconfigured.")
+                      "\"%1\". The URL is bad, the server is misconfigured.")
                        .arg(Utility::escape(redirectUrl.toString()));
 
         // A 404 is actually a success: we were authorized to know that the folder does
@@ -553,26 +553,28 @@ void OwncloudSetupWizard::createRemoteFolder()
     _ocWizard->appendToConfigurationLog(tr("creating folder on Nextcloud: %1").arg(_remoteFolder));
 
     auto *job = new MkColJob(_ocWizard->account(), _remoteFolder, this);
-    connect(job, SIGNAL(finished(QNetworkReply::NetworkError)), SLOT(slotCreateRemoteFolderFinished(QNetworkReply::NetworkError)));
+    connect(job, &MkColJob::finishedWithError, this, &OwncloudSetupWizard::slotCreateRemoteFolderFinished);
+    connect(job, &MkColJob::finishedWithoutError, this, [this] {
+        _ocWizard->appendToConfigurationLog(tr("Remote folder %1 created successfully.").arg(_remoteFolder));
+        finalizeSetup(true);
+    });
     job->start();
 }
 
-void OwncloudSetupWizard::slotCreateRemoteFolderFinished(QNetworkReply::NetworkError error)
+void OwncloudSetupWizard::slotCreateRemoteFolderFinished(QNetworkReply *reply)
 {
+    auto error = reply->error();
     qCDebug(lcWizard) << "** webdav mkdir request finished " << error;
     //    disconnect(ownCloudInfo::instance(), SIGNAL(webdavColCreated(QNetworkReply::NetworkError)),
     //               this, SLOT(slotCreateRemoteFolderFinished(QNetworkReply::NetworkError)));
 
     bool success = true;
-
-    if (error == QNetworkReply::NoError) {
-        _ocWizard->appendToConfigurationLog(tr("Remote folder %1 created successfully.").arg(_remoteFolder));
-    } else if (error == 202) {
+    if (error == 202) {
         _ocWizard->appendToConfigurationLog(tr("The remote folder %1 already exists. Connecting it for syncing.").arg(_remoteFolder));
     } else if (error > 202 && error < 300) {
-        _ocWizard->displayError(tr("The folder creation resulted in HTTP error code %1").arg((int)error), false);
+        _ocWizard->displayError(tr("The folder creation resulted in HTTP error code %1").arg(static_cast<int>(error)), false);
 
-        _ocWizard->appendToConfigurationLog(tr("The folder creation resulted in HTTP error code %1").arg((int)error));
+        _ocWizard->appendToConfigurationLog(tr("The folder creation resulted in HTTP error code %1").arg(static_cast<int>(error)));
     } else if (error == QNetworkReply::OperationCanceledError) {
         _ocWizard->displayError(tr("The remote folder creation failed because the provided credentials "
                                    "are wrong!"
@@ -594,8 +596,6 @@ void OwncloudSetupWizard::slotCreateRemoteFolderFinished(QNetworkReply::NetworkE
 
 void OwncloudSetupWizard::finalizeSetup(bool success)
 {
-    // enable/disable the finish button.
-    _ocWizard->enableFinishOnResultWidget(success);
 
     const QString localFolder = _ocWizard->property("localFolder").toString();
     if (success) {
@@ -688,6 +688,7 @@ void OwncloudSetupWizard::slotAssistantFinished(int result)
     }
 
     // notify others.
+    _ocWizard->done(QWizard::Accepted);
     emit ownCloudWizardDone(result);
 }
 
