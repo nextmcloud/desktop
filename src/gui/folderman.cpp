@@ -1552,6 +1552,9 @@ static QString checkPathValidityRecursive(const QString &path)
 #endif
     const QFileInfo selFile(path);
 
+    if (!selFile.isAbsolute()) {
+        return FolderMan::tr("Please select valid path");
+    }
     if (!selFile.exists()) {
         QString parentPath = selFile.dir().path();
         if (parentPath != path)
