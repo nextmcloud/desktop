@@ -595,15 +595,15 @@ QIcon Theme::folderOverlayIcon(SyncResult::Status status, bool firstRow) const
     case SyncResult::SyncPrepare:
     case SyncResult::Success:
     {
-        if(firstRow)
-        {
+        //if(firstRow)
+        //{
             //statusIcon = QLatin1String("magentacloud-logo");
-            statusIcon = QLatin1String("magentacloud-icon");
-        }
-        else
-        {
-           // statusIcon = QLatin1String("state-ok");
-        }
+            //statusIcon = QLatin1String("magentacloud-icon");
+        //}
+       // else
+       // {
+            statusIcon = QLatin1String("state-ok");
+       // }
         break;
     }
     case SyncResult::Problem:
