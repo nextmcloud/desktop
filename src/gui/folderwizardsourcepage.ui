@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>502</width>
-    <height>312</height>
+    <height>412</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="subHeader">
      <property name="styleSheet">
-      <string notr="true">font: 14px &quot;Segoe UI&quot;;
+      <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;
 color:#e20074</string>
      </property>
      <property name="text">
@@ -30,6 +30,9 @@ color:#e20074</string>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Preferred</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
@@ -40,8 +43,16 @@ color:#e20074</string>
    </item>
    <item>
     <widget class="QLabel" name="content">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+       <pointsize>-1</pointsize>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
      <property name="styleSheet">
-      <string notr="true">font: 14px &quot;Segoe UI&quot;;
+      <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;
 color:#191919</string>
      </property>
      <property name="text">
@@ -57,6 +68,9 @@ color:#191919</string>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Preferred</enum>
+     </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>18</width>
@@ -66,7 +80,13 @@ color:#191919</string>
     </spacer>
    </item>
    <item>
-    <widget class="QLineEdit" name="localFolderLineEdit"/>
+    <widget class="QLineEdit" name="localFolderLineEdit">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QPushButton" name="localFolderChooseBtn">
@@ -81,6 +101,11 @@ color:#191919</string>
        <width>142</width>
        <height>0</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
      </property>
      <property name="text">
       <string>&amp;Choose …</string>
@@ -153,6 +178,11 @@ color:#191919</string>
        </disabled>
       </palette>
      </property>
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="autoFillBackground">
       <bool>true</bool>
      </property>
@@ -174,6 +204,9 @@ color:#191919</string>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Preferred</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>

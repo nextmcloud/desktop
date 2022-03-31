@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de_DE">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="de_DE">
 <context>
     <name>ActivityActionButton</name>
     <message>
@@ -2126,10 +2124,6 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <source>MB</source>
         <extracomment>Trailing part of &quot;Ask confirmation before syncing folder larger than&quot; </extracomment>
         <translation>MB</translation>
-    </message>
-    <message>
-        <source>Ask for confirmation before synchronizing external storages</source>
-        <translation type="vanished">Bestätigung erfragen, bevor externe Speicher synchronisiert werden</translation>
     </message>
     <message>
         <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
@@ -5434,21 +5428,6 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <source>&amp;Local Folder</source>
         <translation>&amp;Lokaler Ordner</translation>
     </message>
-    <message>
-          <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="624"/>
-          <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Synchronization settings&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-          <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Synchronizationsoptionen&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-     </message>
-     <message>
-          <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="663"/>
-          <source>Synchronize everything from server</source>
-          <translation>Alle Dateien aus der MagentaCLOUD synchronisieren</translation>
-     </message>
-     <message>
-          <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="722"/>
-          <source>Choose what to sync</source>
-          <translation>Auswählen, was synchronisiert werden soll</translation>
-     </message>
 </context>
 <context>
     <name>OwncloudHttpCredsPage</name>

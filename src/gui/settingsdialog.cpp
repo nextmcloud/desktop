@@ -45,7 +45,7 @@ namespace {
 const QString TOOLBAR_CSS()
 {
     return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 8px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
-                          "QToolBar QToolButton { background: %1; font: 14px; color: #191919; border: none; border-bottom: 1px solid %2; margin: 0px; padding: 13px; } "
+                          "QToolBar QToolButton { background: %1; font: 14px; border: none; border-bottom: 1px solid %2; margin: 0px; padding: 13px; } "
                           "QToolBar QToolBarExtension { padding:0; } "
                           "QToolBar QToolButton:checked { background: %1; color: #e20074; }");
 }
@@ -91,6 +91,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar = new QToolBar;
     _toolBar->setIconSize(QSize(32, 32));
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    _toolBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     layout()->setMenuBar(_toolBar);
 
     // People perceive this as a Window, so also make Ctrl+W work
@@ -384,8 +385,8 @@ void SettingsDialog::customizeStyle()
     _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, dark, highlightColor, highlightTextColor));
 
     Q_FOREACH (QAction *a, _actionGroup->actions()) {
-       // QIcon icon = Theme::createColorAwareIcon(a->property("iconPath").toString(), palette());
-        /*QSvgRenderer renderer(a->property("iconPath").toString());
+        QIcon icon = Theme::createColorAwareIcon(a->property("iconPath").toString(), palette());
+        QSvgRenderer renderer(a->property("iconPath").toString());
            QImage img(64, 64, QImage::Format_ARGB32);
            img.fill(Qt::GlobalColor::transparent);
            QPainter imgPainter(&img);
@@ -393,8 +394,8 @@ void SettingsDialog::customizeStyle()
            magenta.fill(Qt::GlobalColor::transparent);
            QPainter mgPainter(&magenta);
 
-           magenta.setColorCount(16);
-           magenta.setColor(1,qRgb(0xe2,00,74));
+//           magenta.setColorCount(16);
+//           magenta.setColor(1,qRgb(0xe2,00,74));
 
            renderer.render(&imgPainter);
            renderer.render(&mgPainter);
@@ -403,7 +404,7 @@ void SettingsDialog::customizeStyle()
           // magenta.setColorCount(16);
           // magenta.setColor(1,qRgb(0xe2,00,74));
 
-           QIcon icon;
+//           QIcon icon;
            //if (Theme::isDarkColor(palette().color(QPalette::Base))) {
                //icon.addPixmap(QPixmap::fromImage(img));
           // } else {
@@ -413,9 +414,9 @@ void SettingsDialog::customizeStyle()
                icon.addPixmap(QPixmap::fromImage(magenta), QIcon::Normal, QIcon::On);
            } else {
                icon.addPixmap(QPixmap::fromImage(img), QIcon::Normal, QIcon::On);
-           }*/
-        const QIcon icon = QIcon::fromTheme("iconPath", QIcon(a->property("iconPath").toString()));
-        a->setIcon(icon);
+           }
+//        const QIcon icon = QIcon::fromTheme("iconPath", QIcon(a->property("iconPath").toString()));
+//        a->setIcon(icon);
         auto *btn = qobject_cast<QToolButton *>(_toolBar->widgetForAction(a));
         if (btn)
             btn->setIcon(icon);
