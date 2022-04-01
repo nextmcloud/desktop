@@ -420,8 +420,9 @@ Warten Sie auf die neue Synchronisierung und verschlüsseln Sie sie dann.</trans
         <translation>Verschlüsseln</translation>
     </message>
     <message>
+    <location filename="../src/gui/accountsettings.cpp" line="492"/>
         <source>Edit Ignored Files</source>
-        <translation type="vanished">Ignorierte Dateien bearbeiten</translation>
+        <translation>Ignorierte Dateien bearbeiten</translation>
     </message>
     <message>
         <source>Create new folder</source>
