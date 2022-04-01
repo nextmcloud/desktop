@@ -155,7 +155,7 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
 {
     _ui.setupUi(this);
     //_ui.warnFrame->hide();
-    _ui.warnLabel->hide();
+  //  _ui.warnLabel->hide();
     _ui.folderEntry->hide();
 
     _ui.folderTreeWidget->setSortingEnabled(true);
@@ -220,7 +220,7 @@ void FolderWizardRemotePath::slotCreateRemoteFolder(const QString &folder)
 void FolderWizardRemotePath::slotCreateRemoteFolderFinished()
 {
     qCDebug(lcWizard) << "webdav mkdir request finished";
-    showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
+  //  showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
     slotRefreshFolders();
     _ui.folderEntry->setText(static_cast<MkColJob *>(sender())->path());
     slotLsColFolderEntry();
@@ -230,10 +230,10 @@ void FolderWizardRemotePath::slotHandleMkdirNetworkError(QNetworkReply *reply)
 {
     qCWarning(lcWizard) << "webdav mkdir request failed:" << reply->error();
     if (!_account->credentials()->stillValid(reply)) {
-        showWarn(tr("Authentication failed accessing %1").arg(Theme::instance()->appNameGUI()));
+      //  showWarn(tr("Authentication failed accessing %1").arg(Theme::instance()->appNameGUI()));
     } else {
-        showWarn(tr("Failed to create the folder on %1. Please check manually.")
-                     .arg(Theme::instance()->appNameGUI()));
+       // showWarn(tr("Failed to create the folder on %1. Please check manually.")
+              //       .arg(Theme::instance()->appNameGUI()));
     }
 }
 
@@ -245,13 +245,13 @@ void FolderWizardRemotePath::slotHandleLsColNetworkError(QNetworkReply *reply)
     // is selected in the tree view.
     int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (httpCode == 404) {
-        showWarn(QString()); // hides the warning pane
+      //  showWarn(QString()); // hides the warning pane
         return;
     }
     auto job = qobject_cast<LsColJob *>(sender());
     ASSERT(job);
-    showWarn(tr("Failed to list a folder. Error: %1")
-                 .arg(job->errorStringParsingBody()));
+   // showWarn(tr("Failed to list a folder. Error: %1")
+               //  .arg(job->errorStringParsingBody()));
 }
 
 static QTreeWidgetItem *findFirstChild(QTreeWidgetItem *parent, const QString &text)
@@ -481,7 +481,7 @@ bool FolderWizardRemotePath::isComplete() const
             warnStrings.append(tr("This folder is already synchronized in the MagentaCLOUD."));
         }
         else {
-            _ui.warnLabel->hide();
+           // _ui.warnLabel->hide();
         }
        /* else if (dir.startsWith(curDir)) {
             warnStrings.append(tr("You are already syncing <i>%1</i>, which is a parent folder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
@@ -490,23 +490,23 @@ bool FolderWizardRemotePath::isComplete() const
         }*/
     }
 
-    if (!warnStrings.empty())
-        showWarn(formatWarnings(warnStrings));
+  //  if (!warnStrings.empty())
+  //      showWarn(formatWarnings(warnStrings));
     return true;
 }
 
 void FolderWizardRemotePath::cleanupPage()
 {
-    showWarn();
+  //  showWarn();
 }
 
 void FolderWizardRemotePath::initializePage()
 {
-    showWarn();
+  //  showWarn();
     slotRefreshFolders();
 }
 
-void FolderWizardRemotePath::showWarn(const QString &msg) const
+/*void FolderWizardRemotePath::showWarn(const QString &msg) const
 {
     if (msg.isEmpty()) {
         //_ui.warnFrame->hide();
@@ -518,7 +518,7 @@ void FolderWizardRemotePath::showWarn(const QString &msg) const
         _ui.warnLabel->setText(msg);
     }
 }
-
+*/
 // ====================================================================================
 /*
 FolderWizardSelectiveSync::FolderWizardSelectiveSync(const AccountPtr &account)
