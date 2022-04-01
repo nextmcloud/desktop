@@ -4,6 +4,7 @@
  *    any purpose.
  *
  */
+#include <QClipboard>
 #include <QToolBar>
 #include <QtTest>
 #include <QMenu>
@@ -58,6 +59,8 @@ private slots:
         QCOMPARE(widget->_ui->shareLinkToolButton->styleSheet(),
                  "QToolButton::menu-indicator { image: none; }");
 
+        delete widget;
+        delete parent;
     }
 
     void testsetupUiOptions_IsNotFile()
@@ -96,6 +99,9 @@ private slots:
                  "QToolButton::menu-indicator { image: none; }");
         QCOMPARE(widget->_ui->shareLinkToolButton->styleSheet(),
                  "QToolButton::menu-indicator { image: none; }");
+
+        delete widget;
+        delete parent;
     }
 
     void testslotLinkContextMenuActionTriggered_readOnlyLinkAction_isFile()
@@ -122,6 +128,9 @@ private slots:
         QCOMPARE(widget->_linkShare->getPermissions(), SharePermissionRead);
         QCOMPARE(widget->_ui->currentPermissions_3->text(), "Read only");
         QCOMPARE(widget->_ui->currentPermissions_3->isEnabled(), false);
+
+        delete widget;
+        delete parent;
     }
 
     void testslotLinkContextMenuActionTriggered_readOnlyLinkAction_isNotFile()
@@ -148,6 +157,10 @@ private slots:
         QCOMPARE(widget->_linkShare->getPermissions(), SharePermissionRead);
         QCOMPARE(widget->_ui->currentPermissions_3->text(), "Read only");
         QCOMPARE(widget->_ui->currentPermissions_3->isEnabled(), true);
+
+        delete permissionsGroup;
+        delete widget;
+        delete parent;
     }
 
     void testslotLinkContextMenuActionTriggered_allowEditingLinkAction()
@@ -172,6 +185,10 @@ private slots:
         QCOMPARE(widget->_ui->currentPermissions_3->elideMode(), Qt::ElideRight);
         QCOMPARE(widget->_linkShare->getPermissions(), SharePermissionUpdate);
         QCOMPARE(widget->_ui->currentPermissions_3->text(), "Can edit");
+
+        delete permissionsGroup;
+        delete widget;
+        delete parent;
     }
 
     void testslotLinkContextMenuActionTriggered_allowUploadLinkAction()
@@ -197,6 +214,9 @@ private slots:
         QCOMPARE(widget->_linkShare->getPermissions(), SharePermissionDelete);
         QCOMPARE(widget->_ui->currentPermissions_3->text(), "File drop only");
 
+        delete permissionsGroup;
+        delete widget;
+        delete parent;
     }
 
     void testslotLinkContextMenuActionTriggered_unshareLinkAction()
@@ -216,6 +236,44 @@ private slots:
         widget->slotLinkContextMenuActionTriggered(widget->_unshareLinkAction);
 
         QCOMPARE(widget->_ui->currentPermissions_3->elideMode(), Qt::ElideRight);
+
+        delete widget->_unshareLinkAction;
+        delete widget;
+        delete parent;
+    }
+
+    /* UI based (event driven) test cases */
+    void test_enableShareLink()
+    {
+        QWidget *parent = new QWidget();
+        QUrl url("http://test.de");
+        ShareLinkWidget *widget = new ShareLinkWidget(Account::create(), "sharePath",
+                                  "localPath", SharePermissionShare, parent);
+        QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
+                                              "uidowner", "ownerDisplayName", "path", "name", "token",
+                                              SharePermissionRead, true, url, QDate()));
+
+        widget->_linkShare = linkShare;
+        QCOMPARE(widget->_linkShare->getLink(), url);
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy spy(widget->_ui->enableShareLink, SIGNAL(clicked(bool)));
+
+        /*to track the SLOT called or not */
+        connect(widget->_ui->enableShareLink, &QPushButton::clicked,
+                widget, &ShareLinkWidget::slotCopyLinkShare);
+
+        /* generate event/emit signal */
+        QTest::mouseClick( widget->_ui->enableShareLink, Qt::LeftButton );
+
+        /* verify SIGNAL emit */
+        QCOMPARE(spy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(QApplication::clipboard()->text(), url.toString());
+
+        delete widget;
+        delete parent;
     }
 };
 

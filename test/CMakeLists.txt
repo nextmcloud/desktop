@@ -100,6 +100,10 @@ nextcloud_add_test(Flow2AuthWidget)
 nextcloud_add_test(OwncloudWizard)
 nextcloud_add_test(OwncloudSetupPage)
 nextcloud_add_test(OwncloudAdvancedSetupPage)
+nextcloud_add_test(Welcome)
+nextcloud_add_test(UserLine)
+nextcloud_add_test(HeaderButton)
+nextcloud_add_test(Window)
 
 configure_file(test_journal.db "${PROJECT_BINARY_DIR}/bin/test_journal.db" COPYONLY)
 

@@ -31,6 +31,7 @@
 #include <QTextEdit>
 #include <QToolButton>
 #include <QPropertyAnimation>
+#include <QMouseEvent>
 
 namespace {
     const char *passwordIsSetPlaceholder = "●●●●●●●●";

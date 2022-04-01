@@ -17,6 +17,7 @@
 #include "account.h"
 #include "sharee.h"
 #include "networkjobs.h"
+
 #define setPermissions(a, b) setPermissions(a)
 #define setNote(a,b) setNote(a)
 #include "ocssharejob.h"
@@ -58,6 +59,9 @@ private slots:
         QCOMPARE(widget->_ui->errorLabel->text(), expError);
         QCOMPARE(widget->_ui->errorLabel->isHidden(), false);
         QCOMPARE(widget->_shareUserGroup->contentsMargins(), QMargins(0, 0, 0, 0));
+
+        delete widget;
+        delete parent;
     }
 
     void testshareUserGroupLayout()
@@ -72,6 +76,9 @@ private slots:
 
         QCOMPARE(widget->_shareUserGroup->contentsMargins(), QMargins(0, 0, 0, 0));
         QCOMPARE(widget->shareUserGroupLayout(), widget->_shareUserGroup);
+
+        delete widget;
+        delete parent;
     }
 
     void testshowNoShare()
@@ -87,6 +94,9 @@ private slots:
 
         QCOMPARE(widget->_ui->shareInfo->isHidden(), false);
         widget->showShare();
+
+        delete widget;
+        delete parent;
     }
 
     void testshowShare()
@@ -101,6 +111,9 @@ private slots:
         widget->showShare();
 
         QCOMPARE(widget->_ui->shareInfo->isHidden(), true);
+
+        delete widget;
+        delete parent;
     }
 
     void testsearchForSharees()
@@ -116,6 +129,9 @@ private slots:
 
         QCOMPARE(widget->_ui->errorLabel->isHidden(), false);
         QCOMPARE(widget->_ui->errorLabel->text(), expError);
+
+        delete widget;
+        delete parent;
     }
 
     void testslotaddLinkSignal()
@@ -129,6 +145,9 @@ private slots:
         widget->slotaddLinkSignal();
 
 //        QCOMPARE(widget->_ui->shareInfo->isHidden(), true);
+
+        delete widget;
+        delete parent;
     }
 
     void testslotLinkShareDeleted()
@@ -142,6 +161,9 @@ private slots:
         widget->slotLinkShareDeleted();
 
         QCOMPARE(widget->_linkShareDeleted, true);
+
+        delete widget;
+        delete parent;
     }
 
     void testonSetUserNote()
@@ -161,6 +183,9 @@ private slots:
         shareUserLine->onSetUserNote(note);
 
         QCOMPARE(shareUserLine->_share->getNote(), note);
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testslotAdvancedPermission()
@@ -186,6 +211,9 @@ private slots:
         QString permission = "Can edit";
 
         widget->slotAdvancedPermission(groupShare, Share::ShareType::TypeEmail, permission);
+
+        delete widget;
+        delete parent;
     }
 
     void testslotSendNewMail()
@@ -203,6 +231,9 @@ private slots:
                                                     true, SharePermissionRead, sharee, QDate(), "note"));
 
         widget->slotSendNewMail(groupShare);
+
+        delete widget;
+        delete parent;
     }
 
     void testslotPermissionsChanged_UserGroup()
@@ -216,6 +247,9 @@ private slots:
                                        SharePermissionShare, "privateLinkUrl", parent);
 
         widget->slotPermissionsChanged(SharePermissionShare);
+
+        delete widget;
+        delete parent;
     }
 
     void testslotPermissionsChanged_UserLine_ReadOnly()
@@ -241,6 +275,9 @@ private slots:
         QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
         QCOMPARE(shareUserLine->_permissionRead->text(), "Read only");
         QCOMPARE(shareUserLine->_permission, "Read only");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testslotPermissionsChanged_UserLine_CanEdit()
@@ -266,6 +303,9 @@ private slots:
         QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
         QCOMPARE(shareUserLine->_permissionChange->text(), "Can edit");
 //        QCOMPARE(shareUserLine->_permission, "Can edit");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testslotPermissionsChanged_UserLine_FileDropOnly()
@@ -291,6 +331,9 @@ private slots:
         QCOMPARE(shareUserLine->_permissionUpload->text(), "File drop only");
         QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
         QCOMPARE(shareUserLine->_permission, "File drop only");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testslotPermissionsChangedOutside_ReadOnly()
@@ -309,6 +352,9 @@ private slots:
 
         QCOMPARE(shareUserLine->_permissionRead->isChecked(), true);
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Read only");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testslotPermissionsChangedOutside_CanEdit()
@@ -325,6 +371,9 @@ private slots:
 
         QCOMPARE(shareUserLine->_permissionChange->isChecked(), true);
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Can edit");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testslotPermissionsChangedOutside_FileDropOnly()
@@ -341,6 +390,9 @@ private slots:
 
         QCOMPARE(shareUserLine->_permissionUpload->isChecked(), true);
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "File drop only");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void test_ShareUserLine_isNotFile()
@@ -386,6 +438,9 @@ private slots:
         QCOMPARE(permissions.at(0)->text(), "Advanced Permission");
         QCOMPARE(permissions.at(1)->text(), "Send new mail");
         QCOMPARE(permissions.at(2)->text(), "Unshare");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testdisplayPermissions_ReadOnly_isFile()
@@ -405,6 +460,9 @@ private slots:
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Read only");
         QCOMPARE(shareUserLine->_ui->currentPermission->isEnabled(), false);
         QCOMPARE(shareUserLine->_permission, "Read only");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testdisplayPermissions_ReadOnly_isNotFile()
@@ -426,6 +484,9 @@ private slots:
         QCOMPARE(shareUserLine->_share->getPermissions(), SharePermissionRead);
         QCOMPARE(shareUserLine->_ui->currentPermission->text(), "Read only");
         QCOMPARE(shareUserLine->_permission, "Read only");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testdisplayPermissions_CanEdit()
@@ -450,6 +511,9 @@ private slots:
         QCOMPARE(shareUserLine->_permissionChange->text(), "Can edit");
         QCOMPARE(shareUserLine->_permissionChange->isChecked(), true);
         QCOMPARE(shareUserLine->_permission, "Can edit");
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testdisplayPermissions_FileDropOnly()
@@ -472,6 +536,9 @@ private slots:
         QCOMPARE(shareUserLine->_share->getPermissions(), permissions);
         QCOMPARE(shareUserLine->_permissionUpload->text(), "File drop only");
         QCOMPARE(shareUserLine->_permissionUpload->isChecked(), true);
+
+        delete shareUserLine;
+        delete parent;
     }
 
     void testcreateUserShare()
@@ -505,6 +572,96 @@ private slots:
         widget->createUserShare(sharee, createShare);
 
         QCOMPARE(widget->_lastCreatedShareId , QString());
+
+        delete widget;
+        delete parent;
+    }
+
+    /* UI based test cases */
+    void test_ShareUserGroupWidget_screen()
+    {
+        QWidget *parent = new QWidget();
+        FolderMan folderMan(new QObject());
+
+        ShareUserGroupWidget *widget = new ShareUserGroupWidget(Account::create(), "sharePath", "localPath",
+                                       SharePermissionShare, "privateLinkUrl", parent);
+        /* verify UI screen labels */
+        QCOMPARE(widget->_ui->shareInfolabel->text(), "You can create links or send shares by mail. If you invite MagentaCLOUD users, you have more opportunities for collaboration.");
+        QCOMPARE(widget->_ui->errorLabel->text(), "Personal sharing via email");
+        QCOMPARE(widget->_ui->shareHeading->text(), "Your Shares");
+        QCOMPARE(widget->_ui->shareInfo->text(), "No shares created yet");
+
+        delete widget;
+        delete parent;
+    }
+
+    void test_ShareUserLine_screen()
+    {
+        QWidget *parent = new QWidget();
+        bool isFile = false;
+
+        QSharedPointer<Sharee> sharee = QSharedPointer<Sharee>(new Sharee("shareWith", "Username", Sharee::Type::User));
+        QSharedPointer<UserGroupShare> groupShare = QSharedPointer<UserGroupShare> (new UserGroupShare(Account::create(), "id",
+                                                    "uidowner", "ownerDisplayName", "path", Share::TypeUser,
+                                                    true, SharePermissionUpdate, sharee, QDate(), "note"));
+        ShareUserLine *shareUserLine = new  ShareUserLine(Account::create(), groupShare,
+                                       SharePermissionShare, isFile, parent);
+
+        /* verify UI screen labels */
+        QCOMPARE(shareUserLine->_ui->sharedWith->text(), "Username");
+        QCOMPARE(shareUserLine->_ui->errorLabel->text(), "Placeholder for Error text");
+
+        delete shareUserLine;
+        delete parent;
+    }
+
+    /* UI based (event driven) test cases */
+    void test_addLinkButton()
+    {
+        QWidget *parent = new QWidget();
+        FolderMan folderMan(new QObject());
+
+        ShareUserGroupWidget *widget = new ShareUserGroupWidget(Account::create(), "sharePath", "localPath",
+                                       SharePermissionShare, "privateLinkUrl", parent);
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy addLinkButtonSpy(widget->_ui->addLinkButton, SIGNAL(clicked(bool)));
+
+        connect(widget->_ui->addLinkButton, &QPushButton::clicked, widget,
+                &ShareUserGroupWidget::slotaddLinkSignal);
+
+        /* generate event/emit signal */
+        QTest::mouseClick( widget->_ui->addLinkButton, Qt::LeftButton );
+
+        /* verify SIGNAL emit */
+        QCOMPARE(addLinkButtonSpy.count(), 1);
+
+        delete widget;
+        delete parent;
+    }
+
+    void test_shareeLineEdit()
+    {
+        QWidget *parent = new QWidget();
+        FolderMan folderMan(new QObject());
+
+        ShareUserGroupWidget *widget = new ShareUserGroupWidget(Account::create(), "sharePath", "localPath",
+                                       SharePermissionShare, "privateLinkUrl", parent);
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy addFolderButtonSpy(widget->_ui->shareeLineEdit, SIGNAL(returnPressed()));
+
+        /* generate event/emit signal */
+        QTest::keyPress( widget->_ui->shareeLineEdit, Qt::Key_Return );
+
+        /* verify SIGNAL emit */
+        QCOMPARE(addFolderButtonSpy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(widget->_disableCompleterActivated, false);
+
+        delete widget;
+        delete parent;
     }
 };
 

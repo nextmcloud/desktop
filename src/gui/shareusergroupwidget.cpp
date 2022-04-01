@@ -50,6 +50,7 @@
 #include <QListWidget>
 
 #include <cstring>
+#include <QMouseEvent>
 
 namespace {
 const char *passwordIsSetPlaceholder = "●●●●●●●●";
