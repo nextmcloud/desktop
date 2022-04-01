@@ -834,10 +834,10 @@ void Theme::replaceLinkColorString(QString &linkString, const QColor &newColor)
 QIcon Theme::createColorAwareIcon(const QString &name, const QPalette &palette)
 {
     QSvgRenderer renderer(name);
-    QImage img(64, 64, QImage::Format_ARGB32);
+    QImage img(32, 32, QImage::Format_ARGB32);
     img.fill(Qt::GlobalColor::transparent);
     QPainter imgPainter(&img);
-    QImage inverted(64, 64, QImage::Format_ARGB32);
+    QImage inverted(32, 32, QImage::Format_ARGB32);
     inverted.fill(Qt::GlobalColor::transparent);
     QPainter invPainter(&inverted);
 

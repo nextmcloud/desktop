@@ -246,9 +246,12 @@
         <file>theme/colored/magentacloud-sidebar.svg</file>
         <file>theme/magenta/localFolder_magenta.svg</file>
         <file>theme/magenta/localFolder32x32.svg</file>
+        <file>theme/magenta/localFolder_white.svg</file>
         <file>theme/magenta/service32x32.svg</file>
         <file>theme/magenta/service_magenta.svg</file>
+        <file>theme/magenta/service_white.svg</file>
         <file>theme/magenta/network32x32.svg</file>
         <file>theme/magenta/network_magenta32x32.svg</file>
+        <file>theme/magenta/network_white.svg</file>
     </qresource>
 </RCC>

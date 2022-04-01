@@ -83,6 +83,7 @@ namespace OCC {
 SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     : QDialog(parent)
     , _ui(new Ui::SettingsDialog)
+    , actionSelected(new QAction(this))
     , _gui(gui)
 {
     ConfigFile cfg;
@@ -209,6 +210,7 @@ void SettingsDialog::changeEvent(QEvent *e)
 void SettingsDialog::slotSwitchPage(QAction *action)
 {
     _ui->stack->setCurrentWidget(_actionGroupWidgets.value(action));
+    actionSelected = action;
     customizeStyle();
     if((action->text() == "Synchronization") || (action->text() == "Synchronisieren"))
     {
@@ -384,43 +386,42 @@ void SettingsDialog::customizeStyle()
     QString background(palette().base().color().name());
     _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, dark, highlightColor, highlightTextColor));
 
+    const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
     Q_FOREACH (QAction *a, _actionGroup->actions()) {
-        QIcon icon = Theme::createColorAwareIcon(a->property("iconPath").toString(), palette());
-        QSvgRenderer renderer(a->property("iconPath").toString());
-           QImage img(64, 64, QImage::Format_ARGB32);
-           img.fill(Qt::GlobalColor::transparent);
-           QPainter imgPainter(&img);
-           QImage magenta(64, 64, QImage::Format_ARGB32);
-           magenta.fill(Qt::GlobalColor::transparent);
-           QPainter mgPainter(&magenta);
+            if (actionSelected != a) {
+                if((a->text() == "Synchronization") || (a->text() == "Synchronisieren"))
+                {
+                    if (isDarkBackground) {
+                        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder_white.svg"));
+                        a->setIcon(openIcon);
+                    } else {
+                        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder32x32.svg"));
+                        a->setIcon(openIcon);
+                    }
+                }
+                else if((a->text() == "Allgemein") || (a->text() == "General"))
+                {
+                    if (isDarkBackground) {
+                        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_white.svg"));
+                        a->setIcon(openIcon);
+                    } else {
+                        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service32x32.svg"));
+                        a->setIcon(openIcon);
+                    }
+                }
+                else if((a->text() == "Netzwerk") || (a->text() == "Network"))
+                {
+                    if (isDarkBackground) {
+                        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_white.svg"));
+                        a->setIcon(openIcon);
+                    } else {
+                        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network32x32.svg"));
+                        a->setIcon(openIcon);
+                    }
+                }
+            }
 
-//           magenta.setColorCount(16);
-//           magenta.setColor(1,qRgb(0xe2,00,74));
-
-           renderer.render(&imgPainter);
-           renderer.render(&mgPainter);
-
-           //inverted.invertPixels(QImage::InvertRgb);
-          // magenta.setColorCount(16);
-          // magenta.setColor(1,qRgb(0xe2,00,74));
-
-//           QIcon icon;
-           //if (Theme::isDarkColor(palette().color(QPalette::Base))) {
-               //icon.addPixmap(QPixmap::fromImage(img));
-          // } else {
-               //icon.addPixmap(QPixmap::fromImage(magenta));
-          // }
-           if (Theme::isDarkColor(palette().color(QPalette::HighlightedText))) {
-               icon.addPixmap(QPixmap::fromImage(magenta), QIcon::Normal, QIcon::On);
-           } else {
-               icon.addPixmap(QPixmap::fromImage(img), QIcon::Normal, QIcon::On);
-           }
-//        const QIcon icon = QIcon::fromTheme("iconPath", QIcon(a->property("iconPath").toString()));
-//        a->setIcon(icon);
-        auto *btn = qobject_cast<QToolButton *>(_toolBar->widgetForAction(a));
-        if (btn)
-            btn->setIcon(icon);
-    }
+        }
 }
 
 class ToolButtonAction : public QWidgetAction
