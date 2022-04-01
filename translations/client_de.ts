@@ -1549,10 +1549,6 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation>Ein altes Synchronisierungsprotokoll &apos;%1&apos; wurde gefunden, konnte jedoch nicht entfernt werden. Bitte stellen Sie sicher, dass keine Anwendung es verwendet.</translation>
     </message>
     <message>
-        <source>An old sync journal &quot;%1&quot; was found, but could not be removed. Please make sure that no application is currently using it.</source>
-        <translation type="vanished">Ein altes Synchronisierungsprotokoll &quot;%1&quot; wurde gefunden, konnte jedoch nicht entfernt werden. Bitte stellen Sie sicher, dass keine Anwendung es verwendet.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/folderman.cpp" line="1230"/>
         <source> (backup)</source>
         <translation>(Sicherung)</translation>
@@ -1581,10 +1577,6 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <location filename="../src/gui/folderman.cpp" line="1489"/>
         <source>Sync is running.</source>
         <translation>Synchronisierung läuft.</translation>
-    </message>
-    <message>
-        <source>Sync was successful, unresolved conflicts.</source>
-        <translation type="vanished">Synchronisierung erfolgreich, ungelöste Konflikte vorhanden.</translation>
     </message>
     <message>
         <location filename="../src/gui/folderman.cpp" line="1494"/>
@@ -1635,6 +1627,11 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <location filename="../src/gui/folderman.cpp" line="1542"/>
         <source>You have no permission to write to the selected folder!</source>
         <translation>Sie haben keine Schreibberechtigung für den ausgewählten Ordner!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folderman.cpp" line="1556"/>
+        <source>Please select valid path</source>
+        <translation>Bitte wählen Sie einen gültigen Pfad</translation>
     </message>
     <message>
         <location filename="../src/gui/folderman.cpp" line="1589"/>
