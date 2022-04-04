@@ -1,39 +1,59 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="nl">
 <context>
-    <name>ActivityActionButton</name>
-    <message>
-        <location filename="../src/gui/tray/ActivityActionButton.qml" line="42"/>
-        <source>Activity action button</source>
-        <translation>Actieknop voor activiteiten</translation>
-    </message>
-</context>
-<context>
     <name>ActivityItem</name>
     <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="36"/>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="26"/>
+        <source>In %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="40"/>
         <source>Open %1 locally</source>
         <translation>%1 lokaal openen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="164"/>
-        <source>Open share dialog</source>
-        <translation>Open het dialoogvenster voor delen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="168"/>
-        <source>Share %1</source>
-        <translation>Deel %1</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="190"/>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="193"/>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="194"/>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="197"/>
         <source>Show more actions</source>
         <translation>Toon meer acties</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="240"/>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="244"/>
         <source>View activity</source>
         <translation>Activiteit bekijken</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="168"/>
+        <source>Open share dialog</source>
+        <translation>Open het dialoogvenster voor delen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="172"/>
+        <source>Share %1</source>
+        <translation>Deel %1</translation>
+    </message>
+</context>
+<context>
+    <name>ActivityItemActions</name>
+    <message>
+        <location filename="../src/gui/tray/ActivityItemActions.qml" line="78"/>
+        <location filename="../src/gui/tray/ActivityItemActions.qml" line="80"/>
+        <source>Show more actions</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>ActivityItemContent</name>
+    <message>
+        <location filename="../src/gui/tray/ActivityItemContent.qml" line="157"/>
+        <location filename="../src/gui/tray/ActivityItemContent.qml" line="159"/>
+        <source>Dismiss</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/ActivityItemContent.qml" line="188"/>
+        <source>Open share dialog</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -41,7 +61,7 @@
     <message>
         <location filename="../src/gui/tray/ActivityList.qml" line="30"/>
         <source>Activity list</source>
-        <translation>Activiteitlijst</translation>
+        <translation>Activiteitenlijst</translation>
     </message>
 </context>
 <context>
@@ -64,7 +84,7 @@
     <message>
         <location filename="../src/gui/cloudproviders/cloudproviderwrapper.cpp" line="127"/>
         <source>Syncing %1 of %2  (%3 left)</source>
-        <translation>Sync %1 van %2  (%3 over)</translation>
+        <translation>Synchroniseer %1 van %2  (%3 over)</translation>
     </message>
     <message>
         <location filename="../src/gui/cloudproviders/cloudproviderwrapper.cpp" line="132"/>
@@ -74,7 +94,7 @@
     <message>
         <location filename="../src/gui/cloudproviders/cloudproviderwrapper.cpp" line="139"/>
         <source>Syncing %1 (%2 left)</source>
-        <translation>Sync %1 (%2 over)</translation>
+        <translation>Synchroniseren %1 (%2 over)</translation>
     </message>
     <message>
         <location filename="../src/gui/cloudproviders/cloudproviderwrapper.cpp" line="142"/>
@@ -90,7 +110,7 @@
     <message>
         <location filename="../src/gui/cloudproviders/cloudproviderwrapper.cpp" line="179"/>
         <source>Sync paused</source>
-        <translation>Sync gepauzeerd</translation>
+        <translation>Synchroniseren gepauzeerd</translation>
     </message>
     <message>
         <location filename="../src/gui/cloudproviders/cloudproviderwrapper.cpp" line="182"/>
@@ -130,7 +150,7 @@
     <message>
         <location filename="../src/gui/cloudproviders/cloudproviderwrapper.cpp" line="253"/>
         <source>Quit sync client</source>
-        <translation>Afsluiten syncclient</translation>
+        <translation>Afsluiten synchronisatieclient</translation>
     </message>
 </context>
 <context>
@@ -138,13 +158,13 @@
     <message>
         <location filename="../src/common/filesystembase.cpp" line="384"/>
         <source>Could not make directories in trash</source>
-        <translation>Kon geen mappen maken in de prullenbak</translation>
+        <translation>Kan geen mappen maken in de prullenbak</translation>
     </message>
     <message>
         <location filename="../src/common/filesystembase.cpp" line="398"/>
         <location filename="../src/common/filesystembase.cpp" line="404"/>
         <source>Could not move &quot;%1&quot; to &quot;%2&quot;</source>
-        <translation>Kon &quot;%1&quot; niet verplaatsen naar &quot;%2&quot;</translation>
+        <translation>Kan &quot;%1&quot; niet verplaatsen naar &quot;%2&quot;</translation>
     </message>
     <message>
         <location filename="../src/common/filesystembase.cpp" line="438"/>
@@ -155,7 +175,7 @@
         <location filename="../src/common/filesystembase.cpp" line="398"/>
         <location filename="../src/common/filesystembase.cpp" line="404"/>
         <source>Could not move &apos;%1&apos; to &apos;%2&apos;</source>
-        <translation>Kon &apos;%1&apos; niet verplaatsen naar &apos;%2&apos;</translation>
+        <translation>Kan &apos;%1&apos; niet verplaatsen naar &apos;%2&apos;</translation>
     </message>
     <message>
         <location filename="../src/libsync/filesystem.cpp" line="158"/>
@@ -175,7 +195,7 @@
     <message>
         <location filename="../src/libsync/filesystem.cpp" line="174"/>
         <source>Could not remove folder &apos;%1&apos;</source>
-        <translation>Kon map &apos;%1&apos; niet verwijderen</translation>
+        <translation>Kan map &apos;%1&apos; niet verwijderen</translation>
     </message>
 </context>
 <context>
@@ -354,18 +374,18 @@
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="97"/>
         <source>Don&apos;t encrypt folder</source>
-        <translation>Niet versleutelen map</translation>
+        <translation>Map niet versleutelen</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="100"/>
         <source>Encrypt folder</source>
-        <translation>Versleutelen map</translation>
+        <translation>Versleutel map</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="233"/>
         <location filename="../src/gui/accountsettings.cpp" line="254"/>
         <source>This account supports end-to-end encryption</source>
-        <translation>Dit account ondersteunt end-to-endversleuteling</translation>
+        <translation>Dit account ondersteunt end-to-end-versleuteling</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="235"/>
@@ -516,7 +536,7 @@ Wait for the new sync, then encrypt it.</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="698"/>
         <source>&lt;p&gt;Could not create local folder &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Kon lokale map &lt;i&gt;%1&lt;/i&gt; niet maken.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Kan lokale map &lt;i&gt;%1&lt;/i&gt; niet maken.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="753"/>
@@ -599,7 +619,7 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1066"/>
         <source>Log in</source>
-        <translation>Meld je aan</translation>
+        <translation>Inloggen</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1115"/>
@@ -619,12 +639,12 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1128"/>
         <source>Server %1 is temporarily unavailable.</source>
-        <translation>Server %1 is tijdelijk niet beschikbaar</translation>
+        <translation>Server %1 is tijdelijk niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1131"/>
         <source>Server %1 is currently in maintenance mode.</source>
-        <translation>Server %1 momenteel in onderhoudsmodus.</translation>
+        <translation>Server %1 is momenteel in onderhoudsmodus.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1134"/>
@@ -738,19 +758,19 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
 <context>
     <name>OCC::ActivityListModel</name>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="376"/>
+        <location filename="../src/gui/tray/activitylistmodel.cpp" line="414"/>
         <source>Files from the ignore list as well as symbolic links are not synced.</source>
         <translation>Bestanden op de negeerlijst en symbolische links worden niet gesynchroniseerd.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="573"/>
+        <location filename="../src/gui/tray/activitylistmodel.cpp" line="611"/>
         <source>For more activities please open the Activity app.</source>
         <translation>Voor meer activiteiten open de Activiteit app.</translation>
     </message>
     <message>
         <location filename="../src/gui/activitylistmodel.cpp" line="241"/>
         <source>Files from the ignore list as well as symbolic links are not synced. This includes:</source>
-        <translation>Bestanden uit de negeerlijst en symbolische koppelingen worden niet gesynchroniseerd. Dit bevat:</translation>
+        <translation>Bestanden uit de negeerlijst en symbolische links worden niet gesynchroniseerd. Dit bevat:</translation>
     </message>
 </context>
 <context>
@@ -773,7 +793,7 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
     <message>
         <location filename="../src/gui/addcertificatedialog.ui" line="35"/>
         <source>Certificate &amp; Key (pkcs12) :</source>
-        <translation>Certificaat &amp; Sleutel (pkcs12) :</translation>
+        <translation>Certificaat &amp; Sleutel (pkcs12):</translation>
     </message>
     <message>
         <location filename="../src/gui/addcertificatedialog.ui" line="51"/>
@@ -829,17 +849,17 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
         <translation>Doorgaan</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="312"/>
+        <location filename="../src/gui/application.cpp" line="316"/>
         <source>Error accessing the configuration file</source>
         <translation>Fout bij benaderen configuratiebestand</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="313"/>
+        <location filename="../src/gui/application.cpp" line="317"/>
         <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your user.</source>
-        <translation>Fout bij het benaderen van het configuratiebestand op %1. Zorg ervoor dat het bestand door je gebruiker kan worden benaderd,</translation>
+        <translation>Fout bij het benaderen van het configuratiebestand op %1. Zorg ervoor dat het bestand door je gebruiker kan worden benaderd.</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="316"/>
+        <location filename="../src/gui/application.cpp" line="320"/>
         <source>Quit %1</source>
         <translation>Afsluiten %1</translation>
     </message>
@@ -881,43 +901,63 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
     </message>
     <message>
         <location filename="../src/libsync/bulkpropagatorjob.cpp" line="169"/>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="302"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="305"/>
         <source>File %1 has invalid modified time. Do not upload to the server.</source>
-        <translation type="unfinished"/>
+        <translation>Bestand %1 heeft een ongeldige wijzigingstijd. Niet uploaden naar de server.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="293"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="294"/>
         <source>File Removed (start upload) %1</source>
         <translation>Bestand verwijderd (start upload) %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="310"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="305"/>
+        <source>File %1 has invalid modification time. Do not upload to the server.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="313"/>
         <source>Local file changed during syncing. It will be resumed.</source>
-        <translation>Lokaal bestand gewijzigd gedurende sync. Wordt opnieuw meegenomen.</translation>
+        <translation>Lokaal bestand gewijzigd gedurende synchronisatie. Wordt opnieuw meegenomen.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="324"/>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="637"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="327"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="646"/>
         <source>Local file changed during sync.</source>
-        <translation>Lokaal bestand gewijzigd tijdens sync.</translation>
+        <translation>Lokaal bestand gewijzigd tijdens synchronisatie.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="456"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="420"/>
+        <source>Network error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="420"/>
+        <source>Network Error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="465"/>
         <source>Error updating metadata: %1</source>
         <translation>Fout bij bijwerken metadata: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="459"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="468"/>
         <source>The file %1 is currently in use</source>
-        <translation>Bestand %1 is al in gebruik</translation>
+        <translation>Bestand %1 is momenteel in gebruik</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="620"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="629"/>
         <source>The local file was removed during sync.</source>
-        <translation>Het lokale bestand werd verwijderd tijdens sync.</translation>
+        <translation>Het lokale bestand werd verwijderd tijdens synchronisatie.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="667"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="676"/>
+        <source>Restoration failed: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="676"/>
         <source>; Restoration Failed: %1</source>
         <translation>; Herstellen mislukt: %1</translation>
     </message>
@@ -925,9 +965,9 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
 <context>
     <name>OCC::CleanupPollsJob</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1316"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1384"/>
         <source>Error writing metadata to the database</source>
-        <translation>Fout bij schrijven van Metadata naar de database</translation>
+        <translation>Fout bij schrijven van metadata naar de database</translation>
     </message>
 </context>
 <context>
@@ -935,12 +975,12 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
     <message>
         <location filename="../src/libsync/clientsideencryption.cpp" line="1241"/>
         <source>Please enter your end to end encryption passphrase:&lt;br&gt;&lt;br&gt;User: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation>Voer je begin-tot-eind crypto wachtwoordzin in: &lt;br&gt;&lt;br&gt;Gebruiker: %2&lt;br&gt;Account: %3&lt;br&gt;</translation>
+        <translation>Voer je end-to-end versleutelingswachtwoord in: &lt;br&gt;&lt;br&gt;Gebruiker: %2&lt;br&gt;Account: %3&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/libsync/clientsideencryption.cpp" line="1249"/>
         <source>Enter E2E passphrase</source>
-        <translation>Invoeren E2E wachtwoordzin</translation>
+        <translation>Invoeren E2E wachtwoord</translation>
     </message>
 </context>
 <context>
@@ -954,7 +994,7 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
         <location filename="../src/gui/conflictdialog.ui" line="20"/>
         <location filename="../src/gui/conflictdialog.cpp" line="94"/>
         <source>Conflicting versions of %1.</source>
-        <translation>Conflicterende versies van %1</translation>
+        <translation>Conflicterende versies van %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.ui" line="32"/>
@@ -997,7 +1037,7 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
     <message>
         <location filename="../src/gui/conflictdialog.ui" line="218"/>
         <source>&lt;a href=&quot;%1&quot;&gt;Open server version&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;%1&quot;&gt;Open server versie&lt;/a&gt;</translation>
+        <translation>&lt;a href=&quot;%1&quot;&gt;Open serverversie&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.cpp" line="54"/>
@@ -1013,7 +1053,7 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
     <message>
         <location filename="../src/gui/conflictdialog.cpp" line="156"/>
         <source>Open server version</source>
-        <translation>Open server versie</translation>
+        <translation>Open serverversie</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.cpp" line="174"/>
@@ -1028,7 +1068,7 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
     <message>
         <location filename="../src/gui/conflictdialog.cpp" line="176"/>
         <source>Keep server version</source>
-        <translation>Bewaar server versie</translation>
+        <translation>Bewaar serverversie</translation>
     </message>
 </context>
 <context>
@@ -1107,13 +1147,23 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
     <name>OCC::DiscoveryPhase</name>
     <message>
         <location filename="../src/libsync/discoveryphase.cpp" line="189"/>
+        <source>Error while canceling deletion of a file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/discoveryphase.cpp" line="189"/>
         <source>Error while canceling delete of a file</source>
+        <translation>Fout bij annuleren verwijderen bestand</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discoveryphase.cpp" line="190"/>
+        <source>Error while canceling deletion of %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/libsync/discoveryphase.cpp" line="190"/>
         <source>Error while canceling delete of %1</source>
-        <translation type="unfinished"/>
+        <translation>Fout bij annuleren verwijderen van %1</translation>
     </message>
 </context>
 <context>
@@ -1124,8 +1174,8 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
         <translation>In de reactie van de bestandenontdekker van de server ontbreken gegevens.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="505"/>
-        <location filename="../src/libsync/discoveryphase.cpp" line="530"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="516"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="541"/>
         <source>Server error: PROPFIND reply is not XML formatted!</source>
         <translation>Serverfout: PROPFIND-antwoord heeft geen XML-opmaak!</translation>
     </message>
@@ -1133,27 +1183,27 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
 <context>
     <name>OCC::DiscoverySingleLocalDirectoryJob</name>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="264"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="275"/>
         <source>Error while opening directory %1</source>
         <translation>Fout bij het openen van map %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="266"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="277"/>
         <source>Directory not accessible on client, permission denied</source>
         <translation>Map niet toegankelijk op client, toegang geweigerd</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="270"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="281"/>
         <source>Directory not found: %1</source>
         <translation>Map niet gevonden: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="301"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="312"/>
         <source>Filename encoding is not valid</source>
         <translation>Bestandsnaamcodering is niet geldig</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="320"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="331"/>
         <source>Error while reading directory %1</source>
         <translation>Fout tijdens lezen van map %1</translation>
     </message>
@@ -1164,7 +1214,7 @@ Dit zal alle synchronisaties, die op dit moment bezig zijn, afbreken.</translati
         <location filename="../src/libsync/encryptfolderjob.cpp" line="79"/>
         <source>Could not generate the metadata for encryption, Unlocking the folder.
 This can be an issue with your OpenSSL libraries.</source>
-        <translation>Kan de metadata voor codering niet genereren, de map wordt ontgrendeld.
+        <translation>Kan de metadata voor versleuteling niet genereren, de map wordt ontgrendeld.
 Dit kan een probleem zijn met je OpenSSL-bibliotheken.</translation>
     </message>
 </context>
@@ -1173,7 +1223,7 @@ Dit kan een probleem zijn met je OpenSSL-bibliotheken.</translation>
     <message>
         <location filename="../src/gui/creds/flow2auth.cpp" line="104"/>
         <source>The polling URL does not start with HTTPS despite the login URL started with HTTPS. Login will not be possible because this might be a security issue. Please contact your administrator.</source>
-        <translation>De polling-URL begint niet met HTTPS, ondanks dat de login-URL met HTTPS is begonnen. Inloggen is niet mogelijk omdat dit een beveiligingsprobleem kan zijn. Neem contact op met je beheerder.</translation>
+        <translation>De polling-URL begint niet met HTTPS, ondanks dat de login-URL met HTTPS begint. Inloggen is niet mogelijk omdat dit een beveiligingsprobleem kan zijn. Neem contact op met je beheerder.</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/flow2auth.cpp" line="115"/>
@@ -1197,7 +1247,7 @@ Dit kan een probleem zijn met je OpenSSL-bibliotheken.</translation>
         <location filename="../src/gui/creds/flow2auth.cpp" line="121"/>
         <location filename="../src/gui/creds/flow2auth.cpp" line="239"/>
         <source>Could not parse the JSON returned from the server: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
-        <translation>Kon de van de server ontvangen JSON niet verklaren: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
+        <translation>Kan de van de server ontvangen JSON niet verwerken: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/flow2auth.cpp" line="124"/>
@@ -1208,7 +1258,7 @@ Dit kan een probleem zijn met je OpenSSL-bibliotheken.</translation>
     <message>
         <location filename="../src/gui/creds/flow2auth.cpp" line="221"/>
         <source>The returned server URL does not start with HTTPS despite the login URL started with HTTPS. Login will not be possible because this might be a security issue. Please contact your administrator.</source>
-        <translation>De geretourneerde server-URL begint niet met HTTPS, ondanks dat de inlog-URL is begonnen met HTTPS. Inloggen is niet mogelijk omdat dit een beveiligingsprobleem kan zijn. Neem contact op met je beheerder.</translation>
+        <translation>De geretourneerde server-URL begint niet met HTTPS, ondanks dat de inlog-URL begint met HTTPS. Inloggen is niet mogelijk omdat dit een beveiligingsprobleem kan zijn. Neem contact op met je beheerder.</translation>
     </message>
 </context>
 <context>
@@ -1216,7 +1266,7 @@ Dit kan een probleem zijn met je OpenSSL-bibliotheken.</translation>
     <message>
         <location filename="../src/gui/wizard/flow2authwidget.cpp" line="97"/>
         <source>Unable to open the Browser, please copy the link to your Browser.</source>
-        <translation>Kon de browser niet openen, kopieer de link naar je browser.</translation>
+        <translation>Kan de browser niet openen, kopieer de link naar je browser.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/flow2authwidget.cpp" line="160"/>
@@ -1334,12 +1384,12 @@ Dit kan een probleem zijn met je OpenSSL-bibliotheken.</translation>
     <message numerus="yes">
         <location filename="../src/gui/folder.cpp" line="463"/>
         <source>%1 has and %n other file(s) have sync conflicts.</source>
-        <translation><numerusform>%1 en %n ander bestand(en) hebben een sync conflict.</numerusform><numerusform>%1 en %n andere bestand(en) hebben sync conflicten.</numerusform></translation>
+        <translation><numerusform>%1 en %n ander bestand(en) hebben een sync conflict.</numerusform><numerusform>%1 en %n andere bestand(en) hebben synchronisatie-conflicten.</numerusform></translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="465"/>
         <source>%1 has a sync conflict. Please check the conflict file!</source>
-        <translation>%1 heeft een sync conflict. Controleer het conflictbestand!</translation>
+        <translation>%1 heeft een synchronisatie-conflict. Controleer het conflictbestand!</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/folder.cpp" line="470"/>
@@ -1354,12 +1404,12 @@ Dit kan een probleem zijn met je OpenSSL-bibliotheken.</translation>
     <message numerus="yes">
         <location filename="../src/gui/folder.cpp" line="477"/>
         <source>%1 and %n other file(s) are currently locked.</source>
-        <translation><numerusform>%1 en %n ander bestand zijn momenteel op slot.</numerusform><numerusform>%1 en %n andere bestanden zijn momenteel op slot.</numerusform></translation>
+        <translation><numerusform>%1 en %n ander bestand zijn momenteel op slot.</numerusform><numerusform>%1 en %n ander(e) bestand(en) zijn momenteel op slot.</numerusform></translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="479"/>
         <source>%1 is currently locked.</source>
-        <translation>%1 momenteel op slot.</translation>
+        <translation>%1 is momenteel op slot.</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="487"/>
@@ -1455,7 +1505,7 @@ This might be because a backup was restored on the server.
 Continuing the sync as normal will cause all your files to be overwritten by an older file in an earlier state. Do you want to keep your local most recent files as conflict files?</source>
         <translation>Deze synchronisatie zou je bestanden terugzetten naar een eerdere staat van de synchronisatie map &apos;%1&apos;.
 Dit kan komen doordat een backup is hersteld op de server.
-Doorgaan met deze synchronisatie overschrijft al je bestanden door een eerdere versie. Wilt je jouw lokale meer recente bestanden behouden als conflict bestanden?</translation>
+Doorgaan met deze synchronisatie overschrijft al je bestanden door een eerdere versie. Wil je jouw lokale meer recente bestanden behouden als conflict bestanden?</translation>
     </message>
     <message>
         <location filename="../src/gui/folder.cpp" line="1087"/>
@@ -1551,7 +1601,7 @@ Als dit een ongelukje was en je de bestanden wilt behouden, worden ze opnieuw ge
     <message>
         <location filename="../src/gui/foldercreationdialog.cpp" line="76"/>
         <source>Could not create a folder! Check your write permissions.</source>
-        <translation>Kon map niet aanmaken! Controleer je schrijfmachtiging.</translation>
+        <translation>Kan map niet aanmaken! Controleer je schrijfmachtiging.</translation>
     </message>
 </context>
 <context>
@@ -1677,7 +1727,7 @@ Als dit een ongelukje was en je de bestanden wilt behouden, worden ze opnieuw ge
     <message>
         <location filename="../src/gui/folderstatusdelegate.cpp" line="48"/>
         <source>Add Folder Sync Connection</source>
-        <translation>Toevoegen mapsync verbinding</translation>
+        <translation>Toevoegen mapsynchronisatie verbinding</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusdelegate.cpp" line="256"/>
@@ -1728,7 +1778,7 @@ Als dit een ongelukje was en je de bestanden wilt behouden, worden ze opnieuw ge
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="235"/>
         <source>Virtual file support is enabled.</source>
-        <translation>Virtual file ondersteuning is ingeschakeld.</translation>
+        <translation>Virtuele bestandsondersteuning is ingeschakeld.</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="257"/>
@@ -1882,7 +1932,7 @@ Als dit een ongelukje was en je de bestanden wilt behouden, worden ze opnieuw ge
     <message>
         <location filename="../src/gui/folderwizard.cpp" line="623"/>
         <source>Add Folder Sync Connection</source>
-        <translation>Toevoegen mapsync verbinding</translation>
+        <translation>Toevoegen mapsynchronisatie verbinding</translation>
     </message>
     <message>
         <location filename="../src/gui/folderwizard.cpp" line="625"/>
@@ -2098,7 +2148,7 @@ Als dit een ongelukje was en je de bestanden wilt behouden, worden ze opnieuw ge
     <message>
         <location filename="../src/gui/generalsettings.ui" line="176"/>
         <source>&amp;Restart &amp;&amp; Update</source>
-        <translation>&amp;Herstarten en &amp;Bijwerken</translation>
+        <translation>&amp;Herstarten &amp;&amp; Bijwerken</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="191"/>
@@ -2193,7 +2243,7 @@ Merk op dat dit alleen selecteert van welke pool upgrades worden overgenomen en 
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="430"/>
         <source>Debug Archive Created</source>
-        <translation>Debug Archief Aangemaakt</translation>
+        <translation>Debugarchief Aangemaakt</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="430"/>
@@ -2223,7 +2273,7 @@ Merk op dat dit alleen selecteert van welke pool upgrades worden overgenomen en 
         <source>Could not retrieve or create the public link share. Error:
 
 %1</source>
-        <translation>Kon de openbare deellink niet ophalen of creëren. Fout:
+        <translation>Kan de openbare deellink niet ophalen of creëren. Fout:
 
 %1</translation>
     </message>
@@ -2270,7 +2320,7 @@ Account: %3
     <message>
         <location filename="../src/gui/ignorelisteditor.ui" line="20"/>
         <source>Global Ignore Settings</source>
-        <translation>algemene negeer-instellingen</translation>
+        <translation>Algemene negeer-instellingen</translation>
     </message>
     <message>
         <location filename="../src/gui/ignorelisteditor.ui" line="26"/>
@@ -2303,7 +2353,7 @@ Account: %3
     <message>
         <location filename="../src/gui/ignorelisttablewidget.ui" line="38"/>
         <source>Allow Deletion</source>
-        <translation>Toestaan verwijderen </translation>
+        <translation>Verwijderen toestaan</translation>
     </message>
     <message>
         <location filename="../src/gui/ignorelisttablewidget.ui" line="49"/>
@@ -2332,7 +2382,7 @@ Onderdelen die gewist mogen worden, worden verwijderd als ze verhinderen dat een
     <message>
         <location filename="../src/gui/ignorelisttablewidget.cpp" line="93"/>
         <source>Could not open file</source>
-        <translation>Kon het bestand niet openen</translation>
+        <translation>Kan het bestand niet openen</translation>
     </message>
     <message>
         <location filename="../src/gui/ignorelisttablewidget.cpp" line="94"/>
@@ -2353,6 +2403,19 @@ Onderdelen die gewist mogen worden, worden verwijderd als ze verhinderen dat een
         <location filename="../src/gui/ignorelisttablewidget.cpp" line="113"/>
         <source>Add a new ignore pattern:</source>
         <translation>Voeg nieuw negeerpatroon toe:</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::InternalLinkWidget</name>
+    <message>
+        <location filename="../src/gui/internallinkwidget.ui" line="64"/>
+        <source>Internal link</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/internallinkwidget.ui" line="83"/>
+        <source>Only works for users with access to this folder</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2400,7 +2463,7 @@ Onderdelen die gewist mogen worden, worden verwijderd als ze verhinderen dat een
     <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="119"/>
         <source>You don&apos;t have the permission to rename this file. Please ask the author of the file to rename it.</source>
-        <translation>Je bent niet gemachtigd om de naam van dit bestand te hernoemen. Vraag de auteur van het bestand om het te hernoemen.</translation>
+        <translation>Je bent niet gemachtigd om dit bestand te hernoemen. Vraag de auteur van het bestand om het te hernoemen.</translation>
     </message>
     <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="144"/>
@@ -2410,12 +2473,12 @@ Onderdelen die gewist mogen worden, worden verwijderd als ze verhinderen dat een
     <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="158"/>
         <source>Could not rename file. Please make sure you are connected to the server.</source>
-        <translation>Kan de naam van het bestand niet hernoemen. Zorg ervoor dat je verbonden bent met de server.</translation>
+        <translation>Kan het bestand niet hernoemen. Zorg ervoor dat je verbonden bent met de server.</translation>
     </message>
     <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="169"/>
         <source>Cannot rename file because a file with the same name does already exist on the server. Please pick another name.</source>
-        <translation>Kan de naam van het bestand niet hernoemen omdat er al een bestand met dezelfde naam op de server bestaat. Kies een andere naam.</translation>
+        <translation>Kan het bestand niet hernoemen omdat er al een bestand met dezelfde naam op de server bestaat. Kies een andere naam.</translation>
     </message>
 </context>
 <context>
@@ -2461,7 +2524,7 @@ Since log files can get large, the client will start a new one for each sync run
 If enabled, logs will be written to %1</source>
         <translation>De client kan debug-logboeken naar een tijdelijke map schrijven. Deze logboeken zijn erg handig bij het diagnosticeren van problemen.
 Omdat logbestanden groot kunnen worden, zal de client een nieuwe starten voor elke synchronisatierun en de oudere comprimeren. Het zal ook logbestanden na een paar uur verwijderen om te voorkomen dat er te veel schijfruimte wordt verbruikt.
-Indien ingeschakeld, worden logboeken naar% 1 geschreven</translation>
+Indien ingeschakeld, worden logboeken naar % 1 geschreven</translation>
     </message>
     <message>
         <location filename="../src/gui/logbrowser.cpp" line="64"/>
@@ -2542,7 +2605,7 @@ Logs worden geschreven naar %1</translation>
     <message>
         <location filename="../src/gui/logbrowser.cpp" line="220"/>
         <source>Could not write to log file %1</source>
-        <translation>Kon niet schrijven naar logbestand %1</translation>
+        <translation>Kan niet schrijven naar logbestand %1</translation>
     </message>
 </context>
 <context>
@@ -2555,7 +2618,7 @@ Logs worden geschreven naar %1</translation>
     <message>
         <location filename="../src/libsync/logger.cpp" line="195"/>
         <source>&lt;nobr&gt;File &apos;%1&apos;&lt;br/&gt;cannot be opened for writing.&lt;br/&gt;&lt;br/&gt;The log output can &lt;b&gt;not&lt;/b&gt; be saved!&lt;/nobr&gt;</source>
-        <translation>&lt;nobr&gt;Bestand &apos;%1&apos;&lt;br/&gt;kan niet worden geopend voor schrijven.&lt;br/&gt;&lt;br/&gt;De logging output kan &lt;b&gt;niet&lt;/b&gt; worden weggeschreven!&lt;/nobr&gt;</translation>
+        <translation>&lt;nobr&gt;Bestand &apos;%1&apos;&lt;br/&gt;kan niet voor schrijven worden geopend.&lt;br/&gt;&lt;br/&gt;De log output kan &lt;b&gt;niet&lt;/b&gt; worden weggeschreven!&lt;/nobr&gt;</translation>
     </message>
     <message>
         <location filename="../src/libsync/logger.cpp" line="151"/>
@@ -2599,12 +2662,12 @@ Logs worden geschreven naar %1</translation>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="455"/>
         <source>&lt;p&gt;A new version of the %1 Client is available but the updating process failed.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; has been downloaded. The installed version is %3.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Er is een nieuwe versie van de %1 Client beschikbaar, maar update is mislukt.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; is gedownload. De geïnstalleerde versie is %3.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Er is een nieuwe versie van de %1 Client beschikbaar, maar het updaten is mislukt.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; is gedownload. De geïnstalleerde versie is %3.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="463"/>
         <source>&lt;p&gt;A new version of the %1 Client is available but the updating process failed.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; has been downloaded. The installed version is %3. If you confirm restart and update, your computer may reboot to complete the installation.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Een nieuwe versie van de %1 Client is beschikbaar, maar het updateproces is mislukt.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; is gedownload. De geïnstalleerde versie is %3. Als je herstarten en updaten bevestigd, kan je computer opnieuw opgestart worden om de installatie te voltooien.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Een nieuwe versie van de %1 Client is beschikbaar, maar het updaten is mislukt.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; is gedownload. De geïnstalleerde versie is %3. Als je herstarten en bijwerken bevestigt, kan je computer opnieuw opgestart worden om de installatie te voltooien.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="477"/>
@@ -2700,27 +2763,27 @@ Logs worden geschreven naar %1</translation>
         <translation>Upload bandbreedte</translation>
     </message>
     <message>
-        <location filename="../src/gui/networksettings.cpp" line="37"/>
+        <location filename="../src/gui/networksettings.cpp" line="40"/>
         <source>Hostname of proxy server</source>
-        <translation>Hostnaam van proxy server</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/networksettings.cpp" line="38"/>
-        <source>Username for proxy server</source>
-        <translation>Gebruikersnaam voor proxy server</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/networksettings.cpp" line="39"/>
-        <source>Password for proxy server</source>
-        <translation>Wachtwoord voor proxy server</translation>
+        <translation>Hostnaam van proxyserver</translation>
     </message>
     <message>
         <location filename="../src/gui/networksettings.cpp" line="41"/>
+        <source>Username for proxy server</source>
+        <translation>Gebruikersnaam voor proxyserver</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/networksettings.cpp" line="42"/>
+        <source>Password for proxy server</source>
+        <translation>Wachtwoord voor proxyserver</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/networksettings.cpp" line="44"/>
         <source>HTTP(S) proxy</source>
         <translation>HTTP(S) proxy</translation>
     </message>
     <message>
-        <location filename="../src/gui/networksettings.cpp" line="42"/>
+        <location filename="../src/gui/networksettings.cpp" line="45"/>
         <source>SOCKS5 proxy</source>
         <translation>SOCKS5 proxy</translation>
     </message>
@@ -2735,12 +2798,12 @@ Logs worden geschreven naar %1</translation>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="117"/>
         <source>There was an error accessing the &apos;token&apos; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
-        <translation>Er trad een fout op bij het benaderen van het &apos;token&apos; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
+        <translation>Er treedt een fout op bij het benaderen van het &apos;token&apos; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="118"/>
         <source>There was an error accessing the &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
-        <translation>Er trad een fout op bij het benaderen van het &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
+        <translation>Er treedt een fout op bij het benaderen van het &quot;token&quot; endpoint: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="122"/>
@@ -2750,12 +2813,12 @@ Logs worden geschreven naar %1</translation>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="127"/>
         <source>Could not parse the JSON returned from the server: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
-        <translation>Kon de van de server ontvangen JSON niet verklaren: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
+        <translation>Kon de van de server ontvangen JSON niet verwerken: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="130"/>
         <source>The reply from the server did not contain all expected fields</source>
-        <translation>Het antwoord van de server bevatte niet alle verwachte velden</translation>
+        <translation>Het antwoord van de server bevat niet alle verwachte velden</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="134"/>
@@ -2805,7 +2868,7 @@ vragen om extra autorisaties tijdens installatie.</translation>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="152"/>
         <source>Could not download update. Please click &lt;a href=&apos;%1&apos;&gt;here&lt;/a&gt; to download the update manually.</source>
-        <translation>Kon de download niet bijwerken. Klik &lt;a href=&apos;%1&apos;&gt;hier&lt;/a&gt;  om de download handmatig bij te werken.</translation>
+        <translation>Kon de download niet bijwerken. Klik &lt;a href=&apos;%1&apos;&gt;hier&lt;/a&gt;  om de update handmatig te downloaden.</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="151"/>
@@ -2830,17 +2893,17 @@ vragen om extra autorisaties tijdens installatie.</translation>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="158"/>
         <source>Could not download update. Please open &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt; to download the update manually.</source>
-        <translation>Kon de download niet bijwerken. Open &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt; om de download handmatig bij te werken.</translation>
+        <translation>Kon de download niet bijwerken. Open &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt; om de update handmatig te downloaden.</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="160"/>
         <source>Could not download update. Please open %1 to download the update manually.</source>
-        <translation>Kon de update niet downloaden. Open %1  om de update handmatig op te halen.</translation>
+        <translation>Kon de update niet downloaden. Open %1  om de update handmatig te downloaden.</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="163"/>
         <source>Could not check for new updates.</source>
-        <translation>Kon niet controleren op updates.</translation>
+        <translation>Kan niet controleren op nieuwe updates.</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="166"/>
@@ -2915,7 +2978,7 @@ vragen om extra autorisaties tijdens installatie.</translation>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="262"/>
         <source>Sync the folder &apos;%1&apos;</source>
-        <translation>Sync map &apos;%1&apos;</translation>
+        <translation>Synchroniseer map &apos;%1&apos;</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="162"/>
@@ -2985,7 +3048,7 @@ vragen om extra autorisaties tijdens installatie.</translation>
     <message>
         <location filename="../src/gui/wizard/owncloudconnectionmethoddialog.ui" line="43"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Failed to connect to the secure server address specified. How do you wish to proceed?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kon niet verbinden met het opgegeven beveiligde serveradres. Hoe wilt u verder gaan?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kan niet verbinden met het opgegeven beveiligde serveradres. Hoe wilt u verder gaan?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudconnectionmethoddialog.ui" line="55"/>
@@ -3005,7 +3068,7 @@ vragen om extra autorisaties tijdens installatie.</translation>
     <message>
         <location filename="../src/gui/wizard/owncloudconnectionmethoddialog.cpp" line="34"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Failed to connect to the secure server address &lt;em&gt;%1&lt;/em&gt;. How do you wish to proceed?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kon niet verbinden met het opgegeven beveiligde serveradres &lt;em&gt;%1&lt;/em&gt;.Hoe wilt u verder gaan?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kan niet verbinden met het opgegeven beveiligde serveradres &lt;em&gt;%1&lt;/em&gt;.Hoe wilt u verder gaan?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -3042,9 +3105,14 @@ vragen om extra autorisaties tijdens installatie.</translation>
 <context>
     <name>OCC::OwncloudPropagator</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="776"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="844"/>
+        <source>Impossible to get modification time for file in conflict %1</source>
+        <translation>Onmogelijk om wijzigingstijd te krijgen voor bestand in conflict %1)</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="844"/>
         <source>Impossible to get modification time for file in conflict %1)</source>
-        <translation type="unfinished"/>
+        <translation>Onmogelijk om wijzigingstijd te krijgen voor bestand in conflict %1)</translation>
     </message>
 </context>
 <context>
@@ -3125,7 +3193,7 @@ Het is niet te adviseren om het te gebruiken.</translation>
     <message>
         <location filename="../src/gui/wizard/owncloudsetuppage.cpp" line="350"/>
         <source>Could not load certificate. Maybe wrong password?</source>
-        <translation>Kon certificaat niet laden. Misschien onjuist wachtwoord?</translation>
+        <translation>Kan certificaat niet laden. Misschien is het wachtwoord onjuist?</translation>
     </message>
 </context>
 <context>
@@ -3148,7 +3216,7 @@ Het is niet te adviseren om het te gebruiken.</translation>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="308"/>
         <source>Timeout while trying to connect to %1 at %2.</source>
-        <translation>Time-out bij verbinden met %1 om %2.</translation>
+        <translation>Time-out bij verbinden met %1 op %2.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="342"/>
@@ -3173,17 +3241,17 @@ Het is niet te adviseren om het te gebruiken.</translation>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="417"/>
         <source>There was an invalid response to an authenticated WebDAV request</source>
-        <translation>Er was een ongeldig antwoord op een geauthenticeerde WebDAV opvraging</translation>
+        <translation>Er is een ongeldig antwoord ontvangen op een geauthenticeerde WebDAV opvraging</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="463"/>
         <source>Local sync folder %1 already exists, setting it up for sync.&lt;br/&gt;&lt;br/&gt;</source>
-        <translation>Lokale synch map %1 bestaat al, deze wordt ingesteld voor synchronisatie.&lt;br/&gt;&lt;br/&gt;</translation>
+        <translation>Lokale synchronisatie map %1 bestaat al, deze wordt ingesteld voor synchronisatie.&lt;br/&gt;&lt;br/&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="466"/>
         <source>Creating local sync folder %1 …</source>
-        <translation>Creëren lokale sync map %1 ...</translation>
+        <translation>Creëren lokale synchronisatie map %1 ...</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="453"/>
@@ -3203,7 +3271,7 @@ Het is niet te adviseren om het te gebruiken.</translation>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="474"/>
         <source>Could not create local folder %1</source>
-        <translation>Kon lokale map %1 niet aanmaken</translation>
+        <translation>Kan lokale map %1 niet aanmaken</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="534"/>
@@ -3223,12 +3291,12 @@ Het is niet te adviseren om het te gebruiken.</translation>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="558"/>
         <source>Remote folder %1 created successfully.</source>
-        <translation>Externe map %1 succesvol gecreërd.</translation>
+        <translation>Externe map %1 succesvol gecreëerd.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="573"/>
         <source>The remote folder %1 already exists. Connecting it for syncing.</source>
-        <translation>De remote map %1 bestaat al. Verbinden voor synchroniseren.</translation>
+        <translation>De externe map %1 bestaat al. Verbinden voor synchroniseren.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="575"/>
@@ -3250,12 +3318,12 @@ Het is niet te adviseren om het te gebruiken.</translation>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="588"/>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="589"/>
         <source>Remote folder %1 creation failed with error &lt;tt&gt;%2&lt;/tt&gt;.</source>
-        <translation>Aanmaken van remote map %1 mislukt met fout &lt;tt&gt;%2&lt;/tt&gt;.</translation>
+        <translation>Aanmaken van externe map %1 mislukt met fout &lt;tt&gt;%2&lt;/tt&gt;.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="603"/>
         <source>A sync connection from %1 to remote directory %2 was set up.</source>
-        <translation>Er is een sync verbinding van %1 naar remote directory %2 opgezet.</translation>
+        <translation>Er is een synchronisatie verbinding van %1 naar externe map %2 opgezet.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="608"/>
@@ -3265,7 +3333,7 @@ Het is niet te adviseren om het te gebruiken.</translation>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="615"/>
         <source>Connection to %1 could not be established. Please check again.</source>
-        <translation>Verbinding met %1 niet geslaagd. Probeer het nog eens.</translation>
+        <translation>Er kan geen verbinding worden gemaakt met %1. Probeer het nog eens.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="628"/>
@@ -3275,12 +3343,12 @@ Het is niet te adviseren om het te gebruiken.</translation>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="613"/>
         <source>Can&apos;t remove and back up the folder because the folder or a file in it is open in another program. Please close the folder or file and hit retry or cancel the setup.</source>
-        <translation>Kan de map niet verwijderen en backuppen, omdat de map of een bestand daarin, geopend is in een ander programma. Sluit de map of het bestand en drup op Opnieuw of annuleer de installatie.</translation>
+        <translation>Kan de map niet verwijderen en back-uppen, omdat de map of een bestand daarin, geopend is in een ander programma. Sluit de map of het bestand en drup op Opnieuw of annuleer de installatie.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="629"/>
         <source>Cannot remove and back up the folder because the folder or a file in it is open in another program. Please close the folder or file and hit retry or cancel the setup.</source>
-        <translation>Kan de map niet verwijderen en backuppen, omdat de map of een bestand daarin, geopend is in een ander programma. Sluit de map of het bestand en drup op Opnieuw of annuleer de installatie.</translation>
+        <translation>Kan de map niet verwijderen en back-uppen, omdat de map of een bestand daarin, geopend is in een ander programma. Sluit de map of het bestand en drup op Opnieuw of annuleer de installatie.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudsetupwizard.cpp" line="682"/>
@@ -3339,6 +3407,19 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
     </message>
 </context>
 <context>
+    <name>OCC::PasswordInputDialog</name>
+    <message>
+        <location filename="../src/gui/passwordinputdialog.ui" line="23"/>
+        <source>Password for share required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/passwordinputdialog.ui" line="35"/>
+        <source>Please enter a password for your share:</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>OCC::PollJob</name>
     <message>
         <location filename="../src/libsync/propagateupload.cpp" line="137"/>
@@ -3351,25 +3432,25 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
     <message>
         <location filename="../src/libsync/discovery.cpp" line="56"/>
         <source>File contains trailing spaces and could not be renamed, because a file with the same name already exists on the server.</source>
-        <translation>Bestand eindigt in spaties en kon niet hernoemd worden omdat een bestand met dezelfde naam al bestaat op de server.</translation>
+        <translation>Bestand eindigt in spaties en kan niet hernoemd worden omdat een bestand met dezelfde naam al bestaat op de server.</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="59"/>
         <source>File contains trailing spaces and could not be renamed, because a file with the same name already exists locally.</source>
-        <translation>Bestand eindigt in spaties en kon niet hernoemd worden omdat een bestand met dezelfde naam lokaal al bestaat.</translation>
+        <translation>Bestand eindigt in spaties en kan niet hernoemd worden omdat een bestand met dezelfde naam lokaal al bestaat.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="293"/>
+        <location filename="../src/libsync/discovery.cpp" line="297"/>
         <source>Symbolic links are not supported in syncing.</source>
         <translation>Symbolische links worden niet ondersteund bij het synchroniseren.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="301"/>
+        <location filename="../src/libsync/discovery.cpp" line="305"/>
         <source>File is listed on the ignore list.</source>
         <translation>Het bestand is opgenomen op de negeerlijst.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="305"/>
+        <location filename="../src/libsync/discovery.cpp" line="309"/>
         <source>File names ending with a period are not supported on this file system.</source>
         <translation>Bestandsnamen die eindigen met een punt worden niet ondersteund door het bestandssysteem.</translation>
     </message>
@@ -3379,62 +3460,62 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Bestandsnamen met een &apos;%1&apos; symbool worden niet ondersteund door het bestandssysteem.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="315"/>
+        <location filename="../src/libsync/discovery.cpp" line="319"/>
         <source>File names containing the character &quot;%1&quot; are not supported on this file system.</source>
         <translation>Bestandsnamen met een &quot;%1&quot; symbool worden niet ondersteund door het bestandssysteem.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="317"/>
+        <location filename="../src/libsync/discovery.cpp" line="321"/>
         <source>File name contains at least one invalid character</source>
         <translation>De bestandsnaam bevat ten minste één ongeldig teken</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="319"/>
+        <location filename="../src/libsync/discovery.cpp" line="323"/>
         <source>The file name is a reserved name on this file system.</source>
         <translation>De bestandsnaam is een gereserveerde naam op dit bestandssysteem.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="325"/>
+        <location filename="../src/libsync/discovery.cpp" line="329"/>
         <source>Filename contains trailing spaces.</source>
         <translation>De bestandsnaam bevat spaties achteraan.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="329"/>
+        <location filename="../src/libsync/discovery.cpp" line="333"/>
         <source>Filename is too long.</source>
         <translation>De bestandsnaam is te lang.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="333"/>
+        <location filename="../src/libsync/discovery.cpp" line="337"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation>Bestand/Map is genegeerd omdat het verborgen is. </translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="336"/>
+        <location filename="../src/libsync/discovery.cpp" line="340"/>
         <source>Stat failed.</source>
         <translation>Stat mislukt.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="339"/>
+        <location filename="../src/libsync/discovery.cpp" line="343"/>
         <source>Conflict: Server version downloaded, local copy renamed and not uploaded.</source>
-        <translation>Bestandsconflict: server versie is gedownload en lokale kopie hernoemd en niet geüpload</translation>
+        <translation>Bestandsconflict: serverversie is gedownload, de lokale kopie is hernoemd en niet geüpload</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="343"/>
+        <location filename="../src/libsync/discovery.cpp" line="347"/>
         <source>The filename cannot be encoded on your file system.</source>
         <translation>De bestandsnaam kan op je bestandssysteem niet worden gecodeerd.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="346"/>
+        <location filename="../src/libsync/discovery.cpp" line="350"/>
         <source>The filename is blacklisted on the server.</source>
         <translation>De bestandsnaam staat op de negeerlijst van de server.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="419"/>
+        <location filename="../src/libsync/discovery.cpp" line="416"/>
         <source>File has extension reserved for virtual files.</source>
         <translation>Bestand heeft een extensie gereserveerd voor virtuele bestanden.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="494"/>
+        <location filename="../src/libsync/discovery.cpp" line="491"/>
         <source>size</source>
         <translation>omvang</translation>
     </message>
@@ -3449,67 +3530,72 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Server meldde geen %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="496"/>
+        <location filename="../src/libsync/discovery.cpp" line="493"/>
         <source>permission</source>
         <translation>machtiging</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="500"/>
+        <location filename="../src/libsync/discovery.cpp" line="497"/>
         <source>file id</source>
         <translation>bestand id</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="504"/>
+        <location filename="../src/libsync/discovery.cpp" line="501"/>
         <source>Server reported no %1</source>
         <translation>Server rapporteerde nr %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1065"/>
+        <location filename="../src/libsync/discovery.cpp" line="846"/>
+        <source>Cannot sync due to invalid modification time</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="946"/>
         <source>Conflict when uploading some files to a folder. Those, conflicted, are going to get cleared!</source>
         <translation>Conflict bij het uploaden van sommige bestanden naar een map. Die betreffende conflicterende bestanden zullen worden gewist!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1084"/>
+        <location filename="../src/libsync/discovery.cpp" line="1137"/>
         <source>Conflict when uploading a folder. It&apos;s going to get cleared!</source>
         <translation>Conflict bij het uploaden van een map. Het wordt opgeruimd!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1087"/>
+        <location filename="../src/libsync/discovery.cpp" line="1140"/>
         <source>Conflict when uploading a file. It&apos;s going to get removed!</source>
         <translation>Conflict bij het uploaden van een bestand. Het wordt verwijderd!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1417"/>
+        <location filename="../src/libsync/discovery.cpp" line="1474"/>
         <source>Ignored because of the &quot;choose what to sync&quot; blacklist</source>
         <translation>Genegeerd vanwege de &quot;wat synchroniseren&quot; negeerlijst</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1450"/>
+        <location filename="../src/libsync/discovery.cpp" line="1507"/>
         <source>Not allowed because you don&apos;t have permission to add subfolders to that folder</source>
         <translation>Niet toegestaan, omdat je geen machtiging hebt om submappen aan die map toe te voegen</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1455"/>
+        <location filename="../src/libsync/discovery.cpp" line="1512"/>
         <source>Not allowed because you don&apos;t have permission to add files in that folder</source>
         <translation>Niet toegestaan omdat je geen machtiging hebt om bestanden in die map toe te voegen</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1468"/>
+        <location filename="../src/libsync/discovery.cpp" line="1525"/>
         <source>Not allowed to upload this file because it is read-only on the server, restoring</source>
         <translation>Niet toegestaan om dit bestand te uploaden, omdat het alleen-lezen is op de server, herstellen</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1490"/>
+        <location filename="../src/libsync/discovery.cpp" line="1547"/>
         <source>Moved to invalid target, restoring</source>
         <translation>Verplaatst naar ongeldig doel, herstellen</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1503"/>
+        <location filename="../src/libsync/discovery.cpp" line="1561"/>
         <source>Not allowed to remove, restoring</source>
         <translation>Niet toegestaan om te verwijderen, herstellen</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1612"/>
+        <location filename="../src/libsync/discovery.cpp" line="1699"/>
         <source>Error while reading the database</source>
         <translation>Fout bij lezen database</translation>
     </message>
@@ -3519,7 +3605,7 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Server gaf een foutmelding bij lezen directory &apos;%1&apos; : %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1673"/>
+        <location filename="../src/libsync/discovery.cpp" line="1760"/>
         <source>Server replied with an error while reading directory &quot;%1&quot; : %2</source>
         <translation>Server gaf een foutmelding bij lezen directory &quot;%1&apos;&quot;: %2</translation>
     </message>
@@ -3532,17 +3618,22 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Fout bij schrijven van Metadata naar de database</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1136"/>
-        <source>Error updating metadata due to invalid modified time</source>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1204"/>
+        <source>Error updating metadata due to invalid modification time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1152"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1204"/>
+        <source>Error updating metadata due to invalid modified time</source>
+        <translation>Fout bij updaten van metadata vanwege ongeldige gewijzigde tijd</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1220"/>
         <source>Error updating metadata: %1</source>
         <translation>Fout bij bijwerken metadata: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1156"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1224"/>
         <source>File is currently in use</source>
         <translation>Bestand is al in gebruik</translation>
     </message>
@@ -3620,7 +3711,7 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <location filename="../src/libsync/propagatedownload.cpp" line="1082"/>
         <location filename="../src/libsync/propagatedownload.cpp" line="1095"/>
         <source>File %1 has invalid modified time reported by server. Do not save it.</source>
-        <translation type="unfinished"/>
+        <translation>Bestand %1 heeft een ongeldige wijzigingstijd gerapporteerd door de server. Bewaar het niet.</translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="1220"/>
@@ -3783,32 +3874,32 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
 <context>
     <name>OCC::PropagateRemoteMove</name>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="170"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="171"/>
         <source>Could not rename %1 to %2, error: %3</source>
         <translation>Kon niet %1 hernoemen naar %2, fout: %3</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="219"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="231"/>
         <source>Wrong HTTP code returned by server. Expected 201, but received &quot;%1 %2&quot;.</source>
         <translation>Foutieve HTTP code ontvangen van de server. Verwacht werd 201, maar ontvangen &quot;%1 %2&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="259"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="282"/>
         <source>Error updating metadata: %1</source>
         <translation>Fout bij bijwerken metadata: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="262"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="285"/>
         <source>The file %1 is currently in use</source>
         <translation>Bestand %1 is al in gebruik</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="267"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="290"/>
         <source>Error setting pin state</source>
         <translation>Fout bij instellen pin status</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="274"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="297"/>
         <source>Error writing metadata to the database</source>
         <translation>Fout bij schrijven van Metadata naar de database</translation>
     </message>
@@ -3816,46 +3907,52 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
 <context>
     <name>OCC::PropagateUploadFileCommon</name>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="216"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="322"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="397"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="410"/>
-        <source>File %1 has invalid modified time. Do not upload to the server.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="243"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="223"/>
         <source>Failed to upload encrypted file.</source>
         <translation>Kon versleuteld bestand niet uploaden.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="274"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="254"/>
         <source>File %1 cannot be uploaded because another file with the same name, differing only in case, exists</source>
         <translation>Bestand %1 kan niet worden geüpload omdat er al een ander bestand met dezelfde naam bestaat, al verschillen hoofd/kleine letters</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="285"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="703"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="265"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="683"/>
         <source>Upload of %1 exceeds the quota for the folder</source>
         <translation>Upload van %1 overschrijdt het quotum voor de map</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="394"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="302"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="377"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="390"/>
+        <source>File %1 has invalid modification time. Do not upload to the server.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagateupload.cpp" line="302"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="377"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="390"/>
+        <source>File %1 has invalid modified time. Do not upload to the server.</source>
+        <translation>Bestand %1 heeft een ongeldige wijzigingstijd. Niet uploaden naar de server.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagateupload.cpp" line="374"/>
         <source>File Removed (start upload) %1</source>
         <translation>Bestand verwijderd (start upload) %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="420"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="400"/>
         <source>Local file changed during syncing. It will be resumed.</source>
         <translation>Lokaal bestand gewijzigd gedurende sync. Wordt opnieuw meegenomen.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="431"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="411"/>
         <source>Local file changed during sync.</source>
         <translation>Lokaal bestand gewijzigd tijdens sync.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="441"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="421"/>
         <source>Failed to unlock encrypted folder.</source>
         <translation>Kon versleutelde map niet ontgrendelen.</translation>
     </message>
@@ -3865,12 +3962,12 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Fout bij schrijven van Metadata naar de database</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="799"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="779"/>
         <source>Error updating metadata: %1</source>
         <translation>Fout bij bijwerken metadata: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="802"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="782"/>
         <source>The file %1 is currently in use</source>
         <translation>Bestand %1 is al in gebruik</translation>
     </message>
@@ -4035,7 +4132,7 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
     <message>
         <location filename="../src/gui/settingsdialog.cpp" line="219"/>
         <source>Activity</source>
-        <translation>Activiteit</translation>
+        <translation>Activiteiten</translation>
     </message>
     <message>
         <location filename="../src/gui/settingsdialog.cpp" line="240"/>
@@ -4046,19 +4143,9 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
 <context>
     <name>OCC::ShareDialog</name>
     <message>
-        <location filename="../src/gui/sharedialog.ui" line="51"/>
-        <source>share label</source>
-        <translation>label delen</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharedialog.ui" line="67"/>
         <source>ownCloud Path:</source>
         <translation>OwnCloud Pad:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="82"/>
-        <source>Nextcloud Path:</source>
-        <translation>Nextcloud Pad:</translation>
     </message>
     <message>
         <location filename="../src/gui/sharedialog.ui" line="113"/>
@@ -4066,17 +4153,27 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Pictogram</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="91"/>
+        <location filename="../src/gui/sharedialog.ui" line="51"/>
+        <source>share label</source>
+        <translation>label delen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharedialog.ui" line="82"/>
+        <source>Nextcloud Path:</source>
+        <translation>Nextcloud Pad:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharedialog.cpp" line="92"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="112"/>
+        <location filename="../src/gui/sharedialog.cpp" line="113"/>
         <source>Folder: %2</source>
         <translation>Map: %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="115"/>
+        <location filename="../src/gui/sharedialog.cpp" line="116"/>
         <source>%1 Sharing</source>
         <translation>%1 Delen</translation>
     </message>
@@ -4086,32 +4183,32 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Het bestand kan niet worden gedeeld, omdat het werd gedeeld zonder verder delen machtiging.</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="300"/>
+        <location filename="../src/gui/sharedialog.cpp" line="287"/>
         <source>The file cannot be shared because it does not have sharing permission.</source>
         <translation>Het bestand kan niet worden gedeeld, omdat het werd gedeeld zonder verder delen machtiging.</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="366"/>
-        <source>Password for share required</source>
-        <translation>Wachtwoord voor deellink vereist</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="367"/>
+        <location filename="../src/gui/sharedialog.cpp" line="372"/>
         <source>Please enter a password for your link share:</source>
         <translation>Voer het wachtwoord in voor je deellink:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharedialog.cpp" line="373"/>
+        <source>Password for share required</source>
+        <translation>Wachtwoord voor deellink vereist</translation>
     </message>
 </context>
 <context>
     <name>OCC::ShareLinkWidget</name>
     <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="38"/>
-        <source>Share link</source>
-        <translation>Deel link</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="192"/>
         <source>Password:</source>
         <translation>Wachtwoord:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.ui" line="38"/>
+        <source>Share link</source>
+        <translation>Deel link</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="133"/>
@@ -4129,14 +4226,14 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>&amp;Delen link</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
-        <source>Set password</source>
-        <translation>Instellen wachtwoord</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="239"/>
         <source>Expiration date:</source>
         <translation>Vervaldatum:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
+        <source>Set password</source>
+        <translation>Instellen wachtwoord</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="245"/>
@@ -4907,14 +5004,14 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Bestandsnamen met een &apos;%1&apos; symbool worden niet ondersteund door het bestandssysteem.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="503"/>
-        <source>Unable to open or create the local sync database. Make sure you have write access in the sync folder.</source>
-        <translation>Kon de lokale sync-database niet openen of aanmaken. Zorg ervoor dat je schrijf-toegang hebt in de sync-map</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="510"/>
         <source>The file name is a reserved name on this file system.</source>
         <translation>De bestandsnaam is een gereserveerde naam op dit bestandssysteem.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="503"/>
+        <source>Unable to open or create the local sync database. Make sure you have write access in the sync folder.</source>
+        <translation>Kon de lokale sync-database niet openen of aanmaken. Zorg ervoor dat je schrijf-toegang hebt in de sync-map</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="515"/>
@@ -4932,11 +5029,6 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Bestand/Map is genegeerd omdat het verborgen is. </translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="519"/>
-        <source>Using virtual files with suffix, but suffix is not set</source>
-        <translation>gebruik maken van virtuele bestanden met achtervoegsel, maar achtervoegsel niet ingesteld</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="524"/>
         <source>Folder hierarchy is too deep</source>
         <translation>Mappenhiërarchie is te diep</translation>
@@ -4945,6 +5037,11 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <location filename="../src/libsync/syncengine.cpp" line="527"/>
         <source>The filename cannot be encoded on your file system.</source>
         <translation>De bestandsnaam kan op je bestandssysteem niet worden gecodeerd.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="519"/>
+        <source>Using virtual files with suffix, but suffix is not set</source>
+        <translation>gebruik maken van virtuele bestanden met achtervoegsel, maar achtervoegsel niet ingesteld</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="531"/>
@@ -5094,6 +5191,11 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
     </message>
     <message>
         <location filename="../src/gui/systray.cpp" line="111"/>
+        <source>Help</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/systray.cpp" line="111"/>
         <source>Exit %1</source>
         <translation>Verlaat %1</translation>
     </message>
@@ -5116,24 +5218,24 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
 <context>
     <name>OCC::Theme</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="508"/>
+        <location filename="../src/libsync/theme.cpp" line="517"/>
         <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
         <translation>&lt;p&gt;%1 Desktop Client&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="511"/>
-        <location filename="../src/libsync/theme.cpp" line="526"/>
+        <location filename="../src/libsync/theme.cpp" line="520"/>
+        <location filename="../src/libsync/theme.cpp" line="535"/>
         <source>&lt;p&gt;Version %1. For more information please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Versie %1. Voor meer informatie klik &lt;a href=&apos;%2&apos;&gt;hier&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="515"/>
+        <location filename="../src/libsync/theme.cpp" line="524"/>
         <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;Gebruik makend van virtuele bestanden plugin: %1&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="530"/>
+        <location filename="../src/libsync/theme.cpp" line="539"/>
         <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
         <translation>&lt;p&gt;Deze release is geleverd door %1&lt;/p&gt;</translation>
     </message>
@@ -5169,27 +5271,27 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Probeer alle uploads opnieuw</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="523"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="525"/>
         <source>Synced %1</source>
         <translation>%1 gesynchroniseerd </translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="525"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="527"/>
         <source>You renamed %1</source>
         <translation>Je hernoemde %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="527"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="529"/>
         <source>You deleted %1</source>
         <translation>Je verwijderde %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="529"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="531"/>
         <source>You created %1</source>
         <translation>Je creëerde %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="531"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="533"/>
         <source>You changed %1</source>
         <translation>Je wijzigde %1</translation>
     </message>
@@ -5197,22 +5299,22 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
 <context>
     <name>OCC::UserModel</name>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="913"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="915"/>
         <source>Confirm Account Removal</source>
         <translation>Bevestig verwijderen account</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="914"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="916"/>
         <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Wilt je echt de verbinding met het account &lt;i&gt;%1&lt;/i&gt; verbreken?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Let op:&lt;/b&gt; Hierdoor verwijder je &lt;b&gt;geen&lt;/b&gt; bestanden.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="919"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="921"/>
         <source>Remove connection</source>
         <translation>Verwijderen verbinding</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="920"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="922"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
@@ -5327,8 +5429,14 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
     <message>
         <location filename="../src/libsync/vfs/suffix/vfs_suffix.cpp" line="72"/>
         <location filename="../src/libsync/vfs/suffix/vfs_suffix.cpp" line="82"/>
-        <source>Error updating metadata due to invalid modified time</source>
+        <source>Error updating metadata due to invalid modification time</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/suffix/vfs_suffix.cpp" line="72"/>
+        <location filename="../src/libsync/vfs/suffix/vfs_suffix.cpp" line="82"/>
+        <source>Error updating metadata due to invalid modified time</source>
+        <translation>Fout bij updaten van metadata vanwege ongeldige gewijzigde tijd</translation>
     </message>
 </context>
 <context>
@@ -5336,8 +5444,14 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
     <message>
         <location filename="../src/libsync/vfs/xattr/vfs_xattr.cpp" line="73"/>
         <location filename="../src/libsync/vfs/xattr/vfs_xattr.cpp" line="83"/>
-        <source>Error updating metadata due to invalid modified time</source>
+        <source>Error updating metadata due to invalid modification time</source>
         <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/xattr/vfs_xattr.cpp" line="73"/>
+        <location filename="../src/libsync/vfs/xattr/vfs_xattr.cpp" line="83"/>
+        <source>Error updating metadata due to invalid modified time</source>
+        <translation>Fout bij updaten van metadata vanwege ongeldige gewijzigde tijd</translation>
     </message>
 </context>
 <context>
@@ -5861,6 +5975,41 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <source>New folder</source>
         <translation>Nieuwe map</translation>
     </message>
+    <message>
+        <location filename="../src/gui/tray/activitylistmodel.cpp" line="688"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/activitylistmodel.cpp" line="690"/>
+        <source>Reply</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="520"/>
+        <source>You renamed %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="522"/>
+        <source>You deleted %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="524"/>
+        <source>You created %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="526"/>
+        <source>You changed %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="549"/>
+        <source>Synced %1</source>
+        <translation type="unfinished"/>
+    </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="482"/>
         <source>%n day ago</source>
@@ -5944,6 +6093,19 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <location filename="../src/common/syncjournaldb.cpp" line="976"/>
         <source>Failed to connect database.</source>
         <translation>Kon niet verbinden met database.</translation>
+    </message>
+</context>
+<context>
+    <name>TalkReplyTextField</name>
+    <message>
+        <location filename="../src/gui/tray/TalkReplyTextField.qml" line="39"/>
+        <source>Reply to …</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TalkReplyTextField.qml" line="72"/>
+        <source>Send reply to chat message</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -6262,6 +6424,11 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Accountswitcher en instellingenmenu</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/Window.qml" line="499"/>
+        <source>Open local folder of current account</source>
+        <translation>Open lokale map van huidig account</translation>
+    </message>
+    <message>
         <location filename="../src/gui/tray/Window.qml" line="493"/>
         <source>Connected</source>
         <translation>Verbonden</translation>
@@ -6270,11 +6437,6 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <location filename="../src/gui/tray/Window.qml" line="493"/>
         <source>Disconnected</source>
         <translation>Niet verbonden</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="499"/>
-        <source>Open local folder of current account</source>
-        <translation>Open lokale map van huidig account</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="510"/>
@@ -6292,11 +6454,6 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Apps menu</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="557"/>
-        <source>Open %1 in browser</source>
-        <translation>Open %1 in browser</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="578"/>
         <source>Activity list</source>
         <translation>Activiteitlijst</translation>
@@ -6312,15 +6469,20 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <translation>Open het dialoogvenster voor delen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="681"/>
-        <source>Unified search results list</source>
-        <translation>Samengevoegde zoekresultaten lijst</translation>
+        <location filename="../src/gui/tray/Window.qml" line="557"/>
+        <source>Open %1 in browser</source>
+        <translation>Open %1 in browser</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="720"/>
         <location filename="../src/gui/tray/Window.qml" line="723"/>
         <source>Show more actions</source>
         <translation>Toon meer acties</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/Window.qml" line="681"/>
+        <source>Unified search results list</source>
+        <translation>Samengevoegde zoekresultaten lijst</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="753"/>
@@ -6349,7 +6511,7 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
 <context>
     <name>nextcloudTheme::about()</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="487"/>
+        <location filename="../src/libsync/theme.cpp" line="496"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;Gebouwd vanaf Git revisie &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; op %3, %4 gebruik makend van Qt %5, %6&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
@@ -6409,7 +6571,7 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="56"/>
         <source>Updated local metadata</source>
-        <translation>Lokale metadata ge-uploaded</translation>
+        <translation>Lokale metadata geüploaded</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="59"/>
@@ -6702,6 +6864,14 @@ Dit is een nieuwe, experimentele modus. Als je besluit het te gebruiken, vragen 
         <location filename="../src/gui/wizard/owncloudwizardresultpage.ui" line="163"/>
         <source>Your entire account is synced to the local folder </source>
         <translation>Je volledige account is gesynchroniseerd met de lokale map</translation>
+    </message>
+</context>
+<context>
+    <name>ActivityActionButton</name>
+    <message>
+        <location filename="../src/gui/tray/ActivityActionButton.qml" line="42"/>
+        <source>Activity action button</source>
+        <translation>Actieknop voor activiteiten</translation>
     </message>
 </context>
 <context>

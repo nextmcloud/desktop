@@ -49,6 +49,7 @@ struct RemoteInfo
 {
     /** FileName of the entry (this does not contains any directory or path, just the plain name */
     QString name;
+    QString renameName;
     QByteArray etag;
     QByteArray fileId;
     QByteArray checksumHeader;
@@ -180,6 +181,8 @@ class DiscoveryPhase : public QObject
      */
     QMap<QString, SyncFileItemPtr> _deletedItem;
 
+    QVector<QString> _directoryNamesToRestoreOnPropagation;
+
     /** Maps the db-path of a deleted folder to its queued job.
      *
      * If a folder is deleted and must be recursed into, its job isn't
@@ -247,6 +250,8 @@ class DiscoveryPhase : public QObject
      * See _deletedItem and _queuedDeletedDirectories.
      */
     QPair<bool, QByteArray> findAndCancelDeletedJob(const QString &originalPath);
+
+    void enqueueDirectoryToDelete(const QString &path, ProcessDirectoryJob* const directoryJob);
 
 public:
     // input

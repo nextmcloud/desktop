@@ -242,6 +242,19 @@ void AccountState::setDesktopNotificationsAllowed(bool isAllowed)
     emit desktopNotificationsAllowedChanged();
 }
 
+AccountState::ConnectionStatus AccountState::lastConnectionStatus() const
+{
+    return _lastConnectionValidatorStatus;
+}
+
+void AccountState::trySignIn()
+{
+    if (isSignedOut() && account()) {
+        account()->resetRejectedCertificates();
+        signIn();
+    }
+}
+
 void AccountState::checkConnectivity()
 {
     if (isSignedOut() || _waitingForNewCredentials) {

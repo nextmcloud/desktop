@@ -1,39 +1,59 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="bg_BG">
 <context>
-    <name>ActivityActionButton</name>
-    <message>
-        <location filename="../src/gui/tray/ActivityActionButton.qml" line="42"/>
-        <source>Activity action button</source>
-        <translation>Бутон за активиране на действие  </translation>
-    </message>
-</context>
-<context>
     <name>ActivityItem</name>
     <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="36"/>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="26"/>
+        <source>In %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="40"/>
         <source>Open %1 locally</source>
         <translation>Отворяне %1 локално</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="164"/>
-        <source>Open share dialog</source>
-        <translation>Отваряне на диалоговия прозорец за споделяне</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="168"/>
-        <source>Share %1</source>
-        <translation>Споделяне %1</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="190"/>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="193"/>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="194"/>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="197"/>
         <source>Show more actions</source>
         <translation>Показване на повече действия</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/ActivityItem.qml" line="240"/>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="244"/>
         <source>View activity</source>
         <translation>Вижте активността</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="168"/>
+        <source>Open share dialog</source>
+        <translation>Отваряне на диалоговия прозорец за споделяне</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/ActivityItem.qml" line="172"/>
+        <source>Share %1</source>
+        <translation>Споделяне %1</translation>
+    </message>
+</context>
+<context>
+    <name>ActivityItemActions</name>
+    <message>
+        <location filename="../src/gui/tray/ActivityItemActions.qml" line="78"/>
+        <location filename="../src/gui/tray/ActivityItemActions.qml" line="80"/>
+        <source>Show more actions</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>ActivityItemContent</name>
+    <message>
+        <location filename="../src/gui/tray/ActivityItemContent.qml" line="157"/>
+        <location filename="../src/gui/tray/ActivityItemContent.qml" line="159"/>
+        <source>Dismiss</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/ActivityItemContent.qml" line="188"/>
+        <source>Open share dialog</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -739,12 +759,12 @@ This action will abort any currently running synchronization.</source>
 <context>
     <name>OCC::ActivityListModel</name>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="376"/>
+        <location filename="../src/gui/tray/activitylistmodel.cpp" line="414"/>
         <source>Files from the ignore list as well as symbolic links are not synced.</source>
         <translation>Файловете от списъка за игнориране, както и символните връзки, не са синхронизирани.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="573"/>
+        <location filename="../src/gui/tray/activitylistmodel.cpp" line="611"/>
         <source>For more activities please open the Activity app.</source>
         <translation>За повече дейности, моля, отворете приложението Дейност.</translation>
     </message>
@@ -830,17 +850,17 @@ This action will abort any currently running synchronization.</source>
         <translation>Продължи</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="312"/>
+        <location filename="../src/gui/application.cpp" line="316"/>
         <source>Error accessing the configuration file</source>
         <translation>Грешка при опита за отваряне на конфигурационния файл</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="313"/>
+        <location filename="../src/gui/application.cpp" line="317"/>
         <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your user.</source>
         <translation>Възникна грешка при достъпа до конфигурационния файл при % 1 . Моля да се уверите, че вашият потребител има достъп до файла.</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="316"/>
+        <location filename="../src/gui/application.cpp" line="320"/>
         <source>Quit %1</source>
         <translation>Напускане %1</translation>
     </message>
@@ -882,43 +902,63 @@ This action will abort any currently running synchronization.</source>
     </message>
     <message>
         <location filename="../src/libsync/bulkpropagatorjob.cpp" line="169"/>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="302"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="305"/>
         <source>File %1 has invalid modified time. Do not upload to the server.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="293"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="294"/>
         <source>File Removed (start upload) %1</source>
         <translation>Файлът е премахнат (стартиране на качване) % 1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="310"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="305"/>
+        <source>File %1 has invalid modification time. Do not upload to the server.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="313"/>
         <source>Local file changed during syncing. It will be resumed.</source>
         <translation>Локален файл е променен по време на синхронизирането. Ще бъде възобновен.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="324"/>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="637"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="327"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="646"/>
         <source>Local file changed during sync.</source>
         <translation>Локален файл е променен по време на синхронизирането.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="456"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="420"/>
+        <source>Network error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="420"/>
+        <source>Network Error: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="465"/>
         <source>Error updating metadata: %1</source>
         <translation>Грешка при актуализиране на метаданни: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="459"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="468"/>
         <source>The file %1 is currently in use</source>
         <translation>Файлът %1 в момента се използва</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="620"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="629"/>
         <source>The local file was removed during sync.</source>
         <translation>Локален файл е премахнат по време на синхронизирането.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="667"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="676"/>
+        <source>Restoration failed: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="676"/>
         <source>; Restoration Failed: %1</source>
         <translation>; Възстановяването е Неуспешно: % 1</translation>
     </message>
@@ -926,7 +966,7 @@ This action will abort any currently running synchronization.</source>
 <context>
     <name>OCC::CleanupPollsJob</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1316"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1384"/>
         <source>Error writing metadata to the database</source>
         <translation>Възника грешка при запис на метаданните в базата данни</translation>
     </message>
@@ -1108,7 +1148,17 @@ This action will abort any currently running synchronization.</source>
     <name>OCC::DiscoveryPhase</name>
     <message>
         <location filename="../src/libsync/discoveryphase.cpp" line="189"/>
+        <source>Error while canceling deletion of a file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/discoveryphase.cpp" line="189"/>
         <source>Error while canceling delete of a file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/discoveryphase.cpp" line="190"/>
+        <source>Error while canceling deletion of %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1125,8 +1175,8 @@ This action will abort any currently running synchronization.</source>
         <translation>В отговора за откриване на сървърния файл липсват данни.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="505"/>
-        <location filename="../src/libsync/discoveryphase.cpp" line="530"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="516"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="541"/>
         <source>Server error: PROPFIND reply is not XML formatted!</source>
         <translation>Грешка на сървъра: PROPFIND отговорът не е форматиран в XML!</translation>
     </message>
@@ -1134,27 +1184,27 @@ This action will abort any currently running synchronization.</source>
 <context>
     <name>OCC::DiscoverySingleLocalDirectoryJob</name>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="264"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="275"/>
         <source>Error while opening directory %1</source>
         <translation>Грешка при отваряне на директория % 1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="266"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="277"/>
         <source>Directory not accessible on client, permission denied</source>
         <translation>Директорията не е достъпна за клиента, разрешението е отказано</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="270"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="281"/>
         <source>Directory not found: %1</source>
         <translation>Директорията не е намерена:% 1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="301"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="312"/>
         <source>Filename encoding is not valid</source>
         <translation>Кодирането на име на файл е невалидно</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="320"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="331"/>
         <source>Error while reading directory %1</source>
         <translation>Грешка при четене на директория% 1</translation>
     </message>
@@ -2355,6 +2405,19 @@ Items where deletion is allowed will be deleted if they prevent a directory from
     </message>
 </context>
 <context>
+    <name>OCC::InternalLinkWidget</name>
+    <message>
+        <location filename="../src/gui/internallinkwidget.ui" line="64"/>
+        <source>Internal link</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/internallinkwidget.ui" line="83"/>
+        <source>Only works for users with access to this folder</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>OCC::InvalidFilenameDialog</name>
     <message>
         <location filename="../src/gui/invalidfilenamedialog.ui" line="14"/>
@@ -2699,27 +2762,27 @@ Logs will be written to %1</source>
         <translation>Скорост на качване</translation>
     </message>
     <message>
-        <location filename="../src/gui/networksettings.cpp" line="37"/>
+        <location filename="../src/gui/networksettings.cpp" line="40"/>
         <source>Hostname of proxy server</source>
         <translation>Име на прокси сървъра</translation>
     </message>
     <message>
-        <location filename="../src/gui/networksettings.cpp" line="38"/>
+        <location filename="../src/gui/networksettings.cpp" line="41"/>
         <source>Username for proxy server</source>
         <translation>Потребител за прокси сървъра</translation>
     </message>
     <message>
-        <location filename="../src/gui/networksettings.cpp" line="39"/>
+        <location filename="../src/gui/networksettings.cpp" line="42"/>
         <source>Password for proxy server</source>
         <translation>Парола за прокси сървъра</translation>
     </message>
     <message>
-        <location filename="../src/gui/networksettings.cpp" line="41"/>
+        <location filename="../src/gui/networksettings.cpp" line="44"/>
         <source>HTTP(S) proxy</source>
         <translation>HTTP(S) прокси</translation>
     </message>
     <message>
-        <location filename="../src/gui/networksettings.cpp" line="42"/>
+        <location filename="../src/gui/networksettings.cpp" line="45"/>
         <source>SOCKS5 proxy</source>
         <translation>SOCKS5 прокси</translation>
     </message>
@@ -3041,7 +3104,12 @@ for additional privileges during the process.</source>
 <context>
     <name>OCC::OwncloudPropagator</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="776"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="844"/>
+        <source>Impossible to get modification time for file in conflict %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="844"/>
         <source>Impossible to get modification time for file in conflict %1)</source>
         <translation type="unfinished"/>
     </message>
@@ -3338,6 +3406,19 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
 </context>
 <context>
+    <name>OCC::PasswordInputDialog</name>
+    <message>
+        <location filename="../src/gui/passwordinputdialog.ui" line="23"/>
+        <source>Password for share required</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/passwordinputdialog.ui" line="35"/>
+        <source>Please enter a password for your share:</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
     <name>OCC::PollJob</name>
     <message>
         <location filename="../src/libsync/propagateupload.cpp" line="137"/>
@@ -3358,17 +3439,17 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Файлът съдържа крайни интервали и не може да бъде преименуван, тъй като файл със същото име вече съществува локално.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="293"/>
+        <location filename="../src/libsync/discovery.cpp" line="297"/>
         <source>Symbolic links are not supported in syncing.</source>
         <translation>Не се поддържат символни връзки при синхронизиране.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="301"/>
+        <location filename="../src/libsync/discovery.cpp" line="305"/>
         <source>File is listed on the ignore list.</source>
         <translation>Файлът е посочен в списъка за игнориране.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="305"/>
+        <location filename="../src/libsync/discovery.cpp" line="309"/>
         <source>File names ending with a period are not supported on this file system.</source>
         <translation>Имена на файлове, завършващи с точка, не се поддържат от тази файлова система.</translation>
     </message>
@@ -3378,62 +3459,62 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Имената на файлове, съдържащи символа &apos;% 1&apos;, не се поддържат от тази файлова система.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="315"/>
+        <location filename="../src/libsync/discovery.cpp" line="319"/>
         <source>File names containing the character &quot;%1&quot; are not supported on this file system.</source>
         <translation>Имената на файлове, съдържащи символа „%1“, не се поддържат в тази файлова система.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="317"/>
+        <location filename="../src/libsync/discovery.cpp" line="321"/>
         <source>File name contains at least one invalid character</source>
         <translation>Името на файла съдържа поне един невалиден знак</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="319"/>
+        <location filename="../src/libsync/discovery.cpp" line="323"/>
         <source>The file name is a reserved name on this file system.</source>
         <translation>Името на файла е запазено име на тази файлова система.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="325"/>
+        <location filename="../src/libsync/discovery.cpp" line="329"/>
         <source>Filename contains trailing spaces.</source>
         <translation>Името на файла съдържа крайни интервали.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="329"/>
+        <location filename="../src/libsync/discovery.cpp" line="333"/>
         <source>Filename is too long.</source>
         <translation>Името на файла е твърде дълго.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="333"/>
+        <location filename="../src/libsync/discovery.cpp" line="337"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation>Файл / папка се игнорира, защото е скрит.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="336"/>
+        <location filename="../src/libsync/discovery.cpp" line="340"/>
         <source>Stat failed.</source>
         <translation>Неуспешен Отчет</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="339"/>
+        <location filename="../src/libsync/discovery.cpp" line="343"/>
         <source>Conflict: Server version downloaded, local copy renamed and not uploaded.</source>
         <translation>Конфликт: Изтеглена е версия на сървъра, а локалното копие е преименувано и не е качено.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="343"/>
+        <location filename="../src/libsync/discovery.cpp" line="347"/>
         <source>The filename cannot be encoded on your file system.</source>
         <translation>Името на файла не може да бъде кодирано във вашата система от файлове.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="346"/>
+        <location filename="../src/libsync/discovery.cpp" line="350"/>
         <source>The filename is blacklisted on the server.</source>
         <translation>Името на файла е в черния списък на сървъра.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="419"/>
+        <location filename="../src/libsync/discovery.cpp" line="416"/>
         <source>File has extension reserved for virtual files.</source>
         <translation>Файлът има разширение, запазено за виртуални файлове.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="494"/>
+        <location filename="../src/libsync/discovery.cpp" line="491"/>
         <source>size</source>
         <translation>размер</translation>
     </message>
@@ -3448,67 +3529,72 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>сървърът е отчел не % 1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="496"/>
+        <location filename="../src/libsync/discovery.cpp" line="493"/>
         <source>permission</source>
         <translation>право</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="500"/>
+        <location filename="../src/libsync/discovery.cpp" line="497"/>
         <source>file id</source>
         <translation>идентификатор на файла</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="504"/>
+        <location filename="../src/libsync/discovery.cpp" line="501"/>
         <source>Server reported no %1</source>
         <translation>Сървърът е отчел не % 1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1065"/>
+        <location filename="../src/libsync/discovery.cpp" line="846"/>
+        <source>Cannot sync due to invalid modification time</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="946"/>
         <source>Conflict when uploading some files to a folder. Those, conflicted, are going to get cleared!</source>
         <translation>Конфликт при качване на някои файлове в папка. Тези, които са в конфликт, ще се изчистят!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1084"/>
+        <location filename="../src/libsync/discovery.cpp" line="1137"/>
         <source>Conflict when uploading a folder. It&apos;s going to get cleared!</source>
         <translation>Конфликт при качване на папка. Ще бъде изчистен!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1087"/>
+        <location filename="../src/libsync/discovery.cpp" line="1140"/>
         <source>Conflict when uploading a file. It&apos;s going to get removed!</source>
         <translation>Конфликт при качване на файл. Ще бъде премахнат!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1417"/>
+        <location filename="../src/libsync/discovery.cpp" line="1474"/>
         <source>Ignored because of the &quot;choose what to sync&quot; blacklist</source>
         <translation>Игнориран заради черния списък &apos;изберете какво да синхронизирате&apos;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1450"/>
+        <location filename="../src/libsync/discovery.cpp" line="1507"/>
         <source>Not allowed because you don&apos;t have permission to add subfolders to that folder</source>
         <translation>Не е разрешено, защото нямате право да добавяте подпапки към тази папка</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1455"/>
+        <location filename="../src/libsync/discovery.cpp" line="1512"/>
         <source>Not allowed because you don&apos;t have permission to add files in that folder</source>
         <translation>Не е разрешено, защото нямате право да добавяте файлове в тази папка</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1468"/>
+        <location filename="../src/libsync/discovery.cpp" line="1525"/>
         <source>Not allowed to upload this file because it is read-only on the server, restoring</source>
         <translation>Не е позволено да качвате този файл, тъй като той е само за четене на сървъра, възстановява се</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1490"/>
+        <location filename="../src/libsync/discovery.cpp" line="1547"/>
         <source>Moved to invalid target, restoring</source>
         <translation>Преместено в невалидна цел, възстановява се</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1503"/>
+        <location filename="../src/libsync/discovery.cpp" line="1561"/>
         <source>Not allowed to remove, restoring</source>
         <translation>Не е позволено да се премахва, възстановява се</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1612"/>
+        <location filename="../src/libsync/discovery.cpp" line="1699"/>
         <source>Error while reading the database</source>
         <translation>Грешка при четене на базата данни</translation>
     </message>
@@ -3518,7 +3604,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Сървърът отговори с грешка при четене на директория &apos;% 1&apos; : % 2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1673"/>
+        <location filename="../src/libsync/discovery.cpp" line="1760"/>
         <source>Server replied with an error while reading directory &quot;%1&quot; : %2</source>
         <translation>Сървърът отговори с грешка при четене на директория „%1“: %2</translation>
     </message>
@@ -3531,17 +3617,22 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Грешка при записването на метаданни в базата данни</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1136"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1204"/>
+        <source>Error updating metadata due to invalid modification time</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1204"/>
         <source>Error updating metadata due to invalid modified time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1152"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1220"/>
         <source>Error updating metadata: %1</source>
         <translation>Грешка при актуализиране на метаданни: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1156"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1224"/>
         <source>File is currently in use</source>
         <translation>Файлът в момента се използва</translation>
     </message>
@@ -3782,32 +3873,32 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateRemoteMove</name>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="170"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="171"/>
         <source>Could not rename %1 to %2, error: %3</source>
         <translation>Не можа да се преименува % 1 на % 2, грешка: % 3</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="219"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="231"/>
         <source>Wrong HTTP code returned by server. Expected 201, but received &quot;%1 %2&quot;.</source>
         <translation>Грешен HTTP код, върнат от сървъра. Очаквани 201, но са получени „% 1% 2“.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="259"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="282"/>
         <source>Error updating metadata: %1</source>
         <translation>Грешка при актуализиране на метаданни: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="262"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="285"/>
         <source>The file %1 is currently in use</source>
         <translation>Файлът %1 в момента се използва</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="267"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="290"/>
         <source>Error setting pin state</source>
         <translation>Грешка при настройване на състоянието на закачване</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemove.cpp" line="274"/>
+        <location filename="../src/libsync/propagateremotemove.cpp" line="297"/>
         <source>Error writing metadata to the database</source>
         <translation>Грешка при записване на метаданни в базата данни</translation>
     </message>
@@ -3815,46 +3906,52 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateUploadFileCommon</name>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="216"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="322"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="397"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="410"/>
-        <source>File %1 has invalid modified time. Do not upload to the server.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="243"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="223"/>
         <source>Failed to upload encrypted file.</source>
         <translation> Неуспешно качване на криптиран файл.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="274"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="254"/>
         <source>File %1 cannot be uploaded because another file with the same name, differing only in case, exists</source>
         <translation>Файл% 1 не може да бъде качен, тъй като съществува друг файл със същото име, само че е в  различено дело</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="285"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="703"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="265"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="683"/>
         <source>Upload of %1 exceeds the quota for the folder</source>
         <translation>Качването на% 1 надвишава квотата за папката</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="394"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="302"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="377"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="390"/>
+        <source>File %1 has invalid modification time. Do not upload to the server.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagateupload.cpp" line="302"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="377"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="390"/>
+        <source>File %1 has invalid modified time. Do not upload to the server.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagateupload.cpp" line="374"/>
         <source>File Removed (start upload) %1</source>
         <translation>Файлът е премахнат (стартиране на качване) % 1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="420"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="400"/>
         <source>Local file changed during syncing. It will be resumed.</source>
         <translation>Локален файл е променен по време на синхронизирането. Ще бъде възобновен</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="431"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="411"/>
         <source>Local file changed during sync.</source>
         <translation>Локален файл е променен по време на синхронизирането.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="441"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="421"/>
         <source>Failed to unlock encrypted folder.</source>
         <translation>Неуспешно отключване на криптирана папка.</translation>
     </message>
@@ -3864,12 +3961,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Грешка при записване на метаданни в базата данни</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="799"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="779"/>
         <source>Error updating metadata: %1</source>
         <translation>Грешка при актуализиране на метаданни: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="802"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="782"/>
         <source>The file %1 is currently in use</source>
         <translation>Файлът %1 в момента се използва</translation>
     </message>
@@ -4045,19 +4142,9 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::ShareDialog</name>
     <message>
-        <location filename="../src/gui/sharedialog.ui" line="51"/>
-        <source>share label</source>
-        <translation> споделяне на етикет</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharedialog.ui" line="67"/>
         <source>ownCloud Path:</source>
         <translation>Път на ownCloud:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="82"/>
-        <source>Nextcloud Path:</source>
-        <translation>Път в Nextcloud</translation>
     </message>
     <message>
         <location filename="../src/gui/sharedialog.ui" line="113"/>
@@ -4065,17 +4152,27 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Икона</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="91"/>
+        <location filename="../src/gui/sharedialog.ui" line="51"/>
+        <source>share label</source>
+        <translation> споделяне на етикет</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharedialog.ui" line="82"/>
+        <source>Nextcloud Path:</source>
+        <translation>Път в Nextcloud</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharedialog.cpp" line="92"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="112"/>
+        <location filename="../src/gui/sharedialog.cpp" line="113"/>
         <source>Folder: %2</source>
         <translation>Папка: %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="115"/>
+        <location filename="../src/gui/sharedialog.cpp" line="116"/>
         <source>%1 Sharing</source>
         <translation>%1 Споделяне</translation>
     </message>
@@ -4085,32 +4182,32 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Файлът не може да бъде споделен, защото е споделен без право за споделяне.</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="300"/>
+        <location filename="../src/gui/sharedialog.cpp" line="287"/>
         <source>The file cannot be shared because it does not have sharing permission.</source>
         <translation>Файлът не може да бъде споделен, защото е без право за споделяне.</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharedialog.cpp" line="366"/>
-        <source>Password for share required</source>
-        <translation>Нужна е парола за споделяне</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="367"/>
+        <location filename="../src/gui/sharedialog.cpp" line="372"/>
         <source>Please enter a password for your link share:</source>
         <translation>Моля, въведете парола за споделяне на вашата връзка:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharedialog.cpp" line="373"/>
+        <source>Password for share required</source>
+        <translation>Нужна е парола за споделяне</translation>
     </message>
 </context>
 <context>
     <name>OCC::ShareLinkWidget</name>
     <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="38"/>
-        <source>Share link</source>
-        <translation>Връзка за споделяне</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="192"/>
         <source>Password:</source>
         <translation>Парола:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.ui" line="38"/>
+        <source>Share link</source>
+        <translation>Връзка за споделяне</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="133"/>
@@ -4128,14 +4225,14 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>и Връзка за споделяне</translation>
     </message>
     <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
-        <source>Set password</source>
-        <translation>Задаване на парола</translation>
-    </message>
-    <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="239"/>
         <source>Expiration date:</source>
         <translation>Дата на изтичане:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharelinkwidget.ui" line="223"/>
+        <source>Set password</source>
+        <translation>Задаване на парола</translation>
     </message>
     <message>
         <location filename="../src/gui/sharelinkwidget.ui" line="245"/>
@@ -4906,14 +5003,14 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Имената на файлове, съдържащи символа &apos;% 1&apos;, не се поддържат от тази файлова система.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="503"/>
-        <source>Unable to open or create the local sync database. Make sure you have write access in the sync folder.</source>
-        <translation>Не може да се отвори или създаде локална база данни за синхронизиране. Уверете се, че имате достъп за запис в папката за синхронизиране.</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="510"/>
         <source>The file name is a reserved name on this file system.</source>
         <translation>Името на файла е запазено име на тази файлова система.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="503"/>
+        <source>Unable to open or create the local sync database. Make sure you have write access in the sync folder.</source>
+        <translation>Не може да се отвори или създаде локална база данни за синхронизиране. Уверете се, че имате достъп за запис в папката за синхронизиране.</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="515"/>
@@ -4931,11 +5028,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Файл/Папка е игнорирана, защото е скрита.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="519"/>
-        <source>Using virtual files with suffix, but suffix is not set</source>
-        <translation>Използване на виртуални файлове със суфикс, но суфиксът не е зададен</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/syncengine.cpp" line="524"/>
         <source>Folder hierarchy is too deep</source>
         <translation>Твърде много подпапки</translation>
@@ -4944,6 +5036,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/syncengine.cpp" line="527"/>
         <source>The filename cannot be encoded on your file system.</source>
         <translation>Името на файла не може да бъде кодирано във вашата система от файлове.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/syncengine.cpp" line="519"/>
+        <source>Using virtual files with suffix, but suffix is not set</source>
+        <translation>Използване на виртуални файлове със суфикс, но суфиксът не е зададен</translation>
     </message>
     <message>
         <location filename="../src/libsync/syncengine.cpp" line="531"/>
@@ -5093,6 +5190,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
     <message>
         <location filename="../src/gui/systray.cpp" line="111"/>
+        <source>Help</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/systray.cpp" line="111"/>
         <source>Exit %1</source>
         <translation>Изход % 1</translation>
     </message>
@@ -5115,24 +5217,24 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::Theme</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="508"/>
+        <location filename="../src/libsync/theme.cpp" line="517"/>
         <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
         <translation>&lt;p&gt;%1 Клиент за настолен компютър&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="511"/>
-        <location filename="../src/libsync/theme.cpp" line="526"/>
+        <location filename="../src/libsync/theme.cpp" line="520"/>
+        <location filename="../src/libsync/theme.cpp" line="535"/>
         <source>&lt;p&gt;Version %1. For more information please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Версия %1. За допълнителна информация, моля щракнете &lt;a href=&apos;%2&apos;&gt;тук&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="515"/>
+        <location filename="../src/libsync/theme.cpp" line="524"/>
         <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;Използване на добавка за виртуални файлове: %1&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="530"/>
+        <location filename="../src/libsync/theme.cpp" line="539"/>
         <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
         <translation>&lt;p&gt;Това издание е предоставено от % 1&lt;/p&gt;</translation>
     </message>
@@ -5168,27 +5270,27 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Нов опит на всички качвания</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="523"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="525"/>
         <source>Synced %1</source>
         <translation>Синхронизиран %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="525"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="527"/>
         <source>You renamed %1</source>
         <translation>Вие преименувахте %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="527"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="529"/>
         <source>You deleted %1</source>
         <translation>Вие изтрихте %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="529"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="531"/>
         <source>You created %1</source>
         <translation>Вие създадохте %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="531"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="533"/>
         <source>You changed %1</source>
         <translation>Вие променихте %1</translation>
     </message>
@@ -5196,22 +5298,22 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::UserModel</name>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="913"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="915"/>
         <source>Confirm Account Removal</source>
         <translation>Потвърждение за Премахване на Профил</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="914"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="916"/>
         <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Наистина ли желаете да премахнете връзката към профила&lt;i&gt; %1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Бележка:&lt;/b&gt; Дейтствието &lt;b&gt;няма&lt;/b&gt; да предизвика изтриване на файлове.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="919"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="921"/>
         <source>Remove connection</source>
         <translation>Премахване на връзката</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="920"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="922"/>
         <source>Cancel</source>
         <translation>Отказ</translation>
     </message>
@@ -5326,12 +5428,24 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/libsync/vfs/suffix/vfs_suffix.cpp" line="72"/>
         <location filename="../src/libsync/vfs/suffix/vfs_suffix.cpp" line="82"/>
+        <source>Error updating metadata due to invalid modification time</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/suffix/vfs_suffix.cpp" line="72"/>
+        <location filename="../src/libsync/vfs/suffix/vfs_suffix.cpp" line="82"/>
         <source>Error updating metadata due to invalid modified time</source>
         <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>OCC::VfsXAttr</name>
+    <message>
+        <location filename="../src/libsync/vfs/xattr/vfs_xattr.cpp" line="73"/>
+        <location filename="../src/libsync/vfs/xattr/vfs_xattr.cpp" line="83"/>
+        <source>Error updating metadata due to invalid modification time</source>
+        <translation type="unfinished"/>
+    </message>
     <message>
         <location filename="../src/libsync/vfs/xattr/vfs_xattr.cpp" line="73"/>
         <location filename="../src/libsync/vfs/xattr/vfs_xattr.cpp" line="83"/>
@@ -5860,6 +5974,41 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <source>New folder</source>
         <translation>Нова папка</translation>
     </message>
+    <message>
+        <location filename="../src/gui/tray/activitylistmodel.cpp" line="688"/>
+        <source>Mark as read</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/activitylistmodel.cpp" line="690"/>
+        <source>Reply</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="520"/>
+        <source>You renamed %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="522"/>
+        <source>You deleted %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="524"/>
+        <source>You created %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="526"/>
+        <source>You changed %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="549"/>
+        <source>Synced %1</source>
+        <translation type="unfinished"/>
+    </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="482"/>
         <source>%n day ago</source>
@@ -5943,6 +6092,19 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/common/syncjournaldb.cpp" line="976"/>
         <source>Failed to connect database.</source>
         <translation>Неуспешно свързване на базата данни.</translation>
+    </message>
+</context>
+<context>
+    <name>TalkReplyTextField</name>
+    <message>
+        <location filename="../src/gui/tray/TalkReplyTextField.qml" line="39"/>
+        <source>Reply to …</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TalkReplyTextField.qml" line="72"/>
+        <source>Send reply to chat message</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -6261,6 +6423,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Меню за превключване на профил и настройки</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/Window.qml" line="499"/>
+        <source>Open local folder of current account</source>
+        <translation>Отворяне на локалната папка на текущия профил</translation>
+    </message>
+    <message>
         <location filename="../src/gui/tray/Window.qml" line="493"/>
         <source>Connected</source>
         <translation>Свързан</translation>
@@ -6269,11 +6436,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/tray/Window.qml" line="493"/>
         <source>Disconnected</source>
         <translation>Без връзка</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="499"/>
-        <source>Open local folder of current account</source>
-        <translation>Отворяне на локалната папка на текущия профил</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="510"/>
@@ -6291,11 +6453,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Меню с приложения</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="557"/>
-        <source>Open %1 in browser</source>
-        <translation>Отвори %1 в браузъра</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="578"/>
         <source>Activity list</source>
         <translation>Списък на дейностите</translation>
@@ -6311,15 +6468,20 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Отваряне на диалоговия прозорец за споделяне</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="681"/>
-        <source>Unified search results list</source>
-        <translation>Обединен списък с резултати от търсенето</translation>
+        <location filename="../src/gui/tray/Window.qml" line="557"/>
+        <source>Open %1 in browser</source>
+        <translation>Отвори %1 в браузъра</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="720"/>
         <location filename="../src/gui/tray/Window.qml" line="723"/>
         <source>Show more actions</source>
         <translation>Показване на повече действия</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/Window.qml" line="681"/>
+        <source>Unified search results list</source>
+        <translation>Обединен списък с резултати от търсенето</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="753"/>
@@ -6348,7 +6510,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>nextcloudTheme::about()</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="487"/>
+        <location filename="../src/libsync/theme.cpp" line="496"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;Изграден от Git редакция &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; на %3, %4 използвайки Qt %5, %6&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
@@ -6701,6 +6863,14 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/wizard/owncloudwizardresultpage.ui" line="163"/>
         <source>Your entire account is synced to the local folder </source>
         <translation>Целият профил се синхронизира с локалната папка</translation>
+    </message>
+</context>
+<context>
+    <name>ActivityActionButton</name>
+    <message>
+        <location filename="../src/gui/tray/ActivityActionButton.qml" line="42"/>
+        <source>Activity action button</source>
+        <translation>Бутон за активиране на действие  </translation>
     </message>
 </context>
 <context>

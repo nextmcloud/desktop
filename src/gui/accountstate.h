@@ -188,6 +188,10 @@ public:
     */
     void setDesktopNotificationsAllowed(bool isAllowed);
 
+    ConnectionStatus lastConnectionStatus() const;
+
+    void trySignIn();
+
     /** Fetch the user status (status, icon, message)
     */
     void fetchUserStatus();
@@ -226,6 +230,7 @@ private:
     AccountPtr _account;
     State _state;
     ConnectionStatus _connectionStatus;
+    ConnectionStatus _lastConnectionValidatorStatus = ConnectionStatus::Undefined;
     QStringList _connectionErrors;
     bool _waitingForNewCredentials;
     QDateTime _timeOfLastETagCheck;

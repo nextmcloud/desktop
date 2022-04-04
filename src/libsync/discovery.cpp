@@ -41,7 +41,7 @@ Q_LOGGING_CATEGORY(lcDisco, "sync.discovery", QtInfoMsg)
 bool ProcessDirectoryJob::checkForInvalidFileName(const PathTuple &path,
     const std::map<QString, Entries> &entries, Entries &entry)
 {
-    const auto originalFileName = entry.localEntry.name;
+    const auto originalFileName = entry.localEntry.isValid() ? entry.localEntry.name : entry.serverEntry.name;
     const auto newFileName = originalFileName.trimmed();
 
     if (originalFileName == newFileName) {
@@ -52,16 +52,16 @@ bool ProcessDirectoryJob::checkForInvalidFileName(const PathTuple &path,
     if (entriesIter != entries.end()) {
         QString errorMessage;
         const auto newFileNameEntry = entriesIter->second;
-        if (newFileNameEntry.serverEntry.isValid()) {
+        if (entry.serverEntry.isValid() && newFileNameEntry.serverEntry.isValid()) {
             errorMessage = tr("File contains trailing spaces and could not be renamed, because a file with the same name already exists on the server.");
         }
-        if (newFileNameEntry.localEntry.isValid()) {
+        if (entry.localEntry.isValid() && newFileNameEntry.localEntry.isValid()) {
             errorMessage = tr("File contains trailing spaces and could not be renamed, because a file with the same name already exists locally.");
         }
 
         if (!errorMessage.isEmpty()) {
             auto item = SyncFileItemPtr::create();
-            if (entry.localEntry.isDirectory) {
+            if ((entry.localEntry.isValid() && entry.localEntry.isDirectory) || (entry.serverEntry.isValid() && entry.serverEntry.isDirectory)) {
                 item->_type = CSyncEnums::ItemTypeDirectory;
             } else {
                 item->_type = CSyncEnums::ItemTypeFile;
@@ -71,12 +71,16 @@ bool ProcessDirectoryJob::checkForInvalidFileName(const PathTuple &path,
             item->_instruction = CSYNC_INSTRUCTION_ERROR;
             item->_status = SyncFileItem::NormalError;
             item->_errorString = errorMessage;
-            emit _discoveryData->itemDiscovered(item);
+            processFileFinalize(item, path, false, ParentNotChanged, ParentNotChanged);
             return false;
         }
     }
 
-    entry.localEntry.renameName = newFileName;
+    if (entry.localEntry.isValid()) {
+        entry.localEntry.renameName = newFileName;
+    } else {
+        entry.serverEntry.renameName = newFileName;
+    }
 
     return true;
 }
@@ -389,13 +393,6 @@ void ProcessDirectoryJob::processFile(PathTuple path,
     item->_originalFile = path._original;
     item->_previousSize = dbEntry._fileSize;
     item->_previousModtime = dbEntry._modtime;
-    if (!localEntry.renameName.isEmpty()) {
-        if (_dirItem) {
-            item->_renameTarget = _dirItem->_file + "/" + localEntry.renameName;
-        } else {
-            item->_renameTarget = localEntry.renameName;
-        }
-    }
 
     if (dbEntry._modtime == localEntry.modtime && dbEntry._type == ItemTypeVirtualFile && localEntry.type == ItemTypeFile) {
         item->_type = ItemTypeFile;
@@ -542,19 +539,11 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(
             } else {
                 item->_instruction = CSYNC_INSTRUCTION_SYNC;
             }
-        } else if (dbEntry._modtime <= 0 && serverEntry.modtime > 0) {
+        } else if (dbEntry._modtime != serverEntry.modtime && localEntry.size == serverEntry.size && dbEntry._fileSize == serverEntry.size && dbEntry._etag == serverEntry.etag) {
             item->_direction = SyncFileItem::Down;
             item->_modtime = serverEntry.modtime;
             item->_size = sizeOnServer;
-            if (serverEntry.isDirectory) {
-                ENFORCE(dbEntry.isDirectory());
-                item->_instruction = CSYNC_INSTRUCTION_UPDATE_METADATA;
-            } else if (!localEntry.isValid() && _queryLocal != ParentNotChanged) {
-                // Deleted locally, changed on server
-                item->_instruction = CSYNC_INSTRUCTION_NEW;
-            } else {
-                item->_instruction = CSYNC_INSTRUCTION_SYNC;
-            }
+            item->_instruction = CSYNC_INSTRUCTION_UPDATE_METADATA;
         } else if (dbEntry._remotePerm != serverEntry.remotePerm || dbEntry._fileId != serverEntry.fileId || metaDataSizeNeedsUpdateForE2EeFilePlaceholder) {
             if (metaDataSizeNeedsUpdateForE2EeFilePlaceholder) {
                 // we are updating placeholder sizes after migrating from older versions with VFS + E2EE implicit hydration not supported
@@ -601,6 +590,22 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(
 
     // Unknown in db: new file on the server
     Q_ASSERT(!dbEntry.isValid());
+
+    if (!serverEntry.renameName.isEmpty()) {
+        item->_renameTarget = _dirItem ? _dirItem->_file + "/" + serverEntry.renameName : serverEntry.renameName;
+        item->_originalFile = path._original;
+        item->_modtime = serverEntry.modtime;
+        item->_size = serverEntry.size;
+        item->_instruction = CSYNC_INSTRUCTION_RENAME;
+        item->_direction = SyncFileItem::Up;
+        item->_fileId = serverEntry.fileId;
+        item->_remotePerm = serverEntry.remotePerm;
+        item->_etag = serverEntry.etag;
+        item->_type = serverEntry.isDirectory ? CSyncEnums::ItemTypeDirectory : CSyncEnums::ItemTypeFile;
+
+        processFileAnalyzeLocalInfo(item, path, localEntry, serverEntry, dbEntry, _queryServer);
+        return;
+    }
 
     item->_instruction = CSYNC_INSTRUCTION_NEW;
     item->_direction = SyncFileItem::Down;
@@ -835,8 +840,48 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
         if (_queryLocal != NormalQuery && _queryServer != NormalQuery)
             recurse = false;
 
+        if ((item->_direction == SyncFileItem::Down || item->_instruction == CSYNC_INSTRUCTION_CONFLICT || item->_instruction == CSYNC_INSTRUCTION_NEW || item->_instruction == CSYNC_INSTRUCTION_SYNC) &&
+                (item->_modtime <= 0 || item->_modtime >= 0xFFFFFFFF)) {
+            item->_instruction = CSYNC_INSTRUCTION_ERROR;
+            item->_errorString = tr("Cannot sync due to invalid modification time");
+            item->_status = SyncFileItem::Status::NormalError;
+        }
+
         auto recurseQueryLocal = _queryLocal == ParentNotChanged ? ParentNotChanged : localEntry.isDirectory || item->_instruction == CSYNC_INSTRUCTION_RENAME ? NormalQuery : ParentDontExist;
         processFileFinalize(item, path, recurse, recurseQueryLocal, recurseQueryServer);
+    };
+
+    auto handleInvalidSpaceRename = [&] (SyncFileItem::Direction direction) {
+        if (_dirItem) {
+            path._target = _dirItem->_file + "/" + localEntry.renameName;
+        } else {
+            path._target = localEntry.renameName;
+        }
+        OCC::SyncJournalFileRecord base;
+        if (!_discoveryData->_statedb->getFileRecordByInode(localEntry.inode, &base)) {
+            dbError();
+            return;
+        }
+        const auto originalPath = base.path();
+        const auto adjustedOriginalPath = _discoveryData->adjustRenamedPath(originalPath, SyncFileItem::Down);
+        _discoveryData->_renamedItemsLocal.insert(originalPath, path._target);
+        item->_renameTarget = path._target;
+        path._server = adjustedOriginalPath;
+        if (_dirItem) {
+            item->_file = _dirItem->_file + "/" + localEntry.name;
+        } else {
+            item->_file = localEntry.name;
+        }
+        path._original = originalPath;
+        item->_originalFile = path._original;
+        item->_modtime = base.isValid() ? base._modtime : localEntry.modtime;
+        item->_inode = base.isValid() ? base._inode : localEntry.inode;
+        item->_instruction = CSYNC_INSTRUCTION_RENAME;
+        item->_direction = direction;
+        item->_fileId = base.isValid() ? base._fileId : QByteArray{};
+        item->_remotePerm = base.isValid() ? base._remotePerm : RemotePermissions{};
+        item->_etag = base.isValid() ? base._etag : QByteArray{};
+        item->_type = base.isValid() ? base._type : localEntry.type;
     };
 
     if (!localEntry.isValid()) {
@@ -920,6 +965,8 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
                     || _discoveryData->_syncOptions._vfs->needsMetadataUpdate(*item))) {
                 item->_instruction = CSYNC_INSTRUCTION_UPDATE_METADATA;
                 item->_direction = SyncFileItem::Down;
+            } else if (!localEntry.renameName.isEmpty()) {
+                handleInvalidSpaceRename(SyncFileItem::Up);
             }
         } else if (!typeChange && isVfsWithSuffix()
             && dbEntry.isVirtualFile() && !localEntry.isVirtualFile
@@ -953,8 +1000,8 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
             item->_modtime = localEntry.modtime;
             item->_type = localEntry.isDirectory ? ItemTypeDirectory : ItemTypeFile;
             _childModified = true;
-        } else if (dbEntry._modtime > 0 && localEntry.modtime <= 0) {
-            item->_instruction = CSYNC_INSTRUCTION_SYNC;
+        } else if (dbEntry._modtime > 0 && (localEntry.modtime <= 0 || localEntry.modtime >= 0xFFFFFFFF) && dbEntry._fileSize == localEntry.size) {
+            item->_instruction = CSYNC_INSTRUCTION_UPDATE_METADATA;
             item->_direction = SyncFileItem::Down;
             item->_size = localEntry.size > 0 ? localEntry.size : dbEntry._fileSize;
             item->_modtime = dbEntry._modtime;
@@ -1001,6 +1048,12 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
         return;
     } else if (serverModified) {
         processFileConflict(item, path, localEntry, serverEntry, dbEntry);
+        finalize();
+        return;
+    }
+
+    if (!localEntry.renameName.isEmpty()) {
+        handleInvalidSpaceRename(SyncFileItem::Down);
         finalize();
         return;
     }
@@ -1060,9 +1113,8 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
 
         if (!isFilePlaceHolder && !isOnlineOnlyFolder) {
             if (localEntry.isDirectory && folderPlaceHolderAvailability.isValid() && !isOnlineOnlyFolder) {
-                // a VFS folder but is not online0only (has some files hydrated)
+                // a VFS folder but is not online-only (has some files hydrated)
                 qCInfo(lcDisco) << "Virtual directory without db entry for" << path._local << "but it contains hydrated file(s), so let's keep it and reupload.";
-                emit _discoveryData->addErrorToGui(SyncFileItem::SoftError, tr("Conflict when uploading some files to a folder. Those, conflicted, are going to get cleared!"), path._local);
                 return;
             }
             qCWarning(lcDisco) << "Virtual file without db entry for" << path._local
@@ -1242,8 +1294,11 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
             chopVirtualFileSuffix(serverOriginalPath);
         auto job = new RequestEtagJob(_discoveryData->_account, serverOriginalPath, this);
         connect(job, &RequestEtagJob::finishedWithResult, this, [=](const HttpResult<QByteArray> &etag) mutable {
-            if (!etag || (etag.get() != base._etag && !item->isDirectory()) || _discoveryData->isRenamed(originalPath)) {
-                qCInfo(lcDisco) << "Can't rename because the etag has changed or the directory is gone" << originalPath;
+            
+
+            if (!etag || (etag.get() != base._etag && !item->isDirectory()) || _discoveryData->isRenamed(originalPath)
+                || (isAnyParentBeingRestored(originalPath) && !isRename(originalPath))) {
+                qCInfo(lcDisco) << "Can't rename because the etag has changed or the directory is gone or we are restoring one of the file's parents." << originalPath;
                 // Can't be a rename, leave it as a new.
                 postProcessLocalNew();
             } else {
@@ -1342,10 +1397,11 @@ void ProcessDirectoryJob::processFileFinalize(
     if (isVfsWithSuffix()) {
         if (item->_type == ItemTypeVirtualFile) {
             addVirtualFileSuffix(path._target);
-            if (item->_instruction == CSYNC_INSTRUCTION_RENAME)
+            if (item->_instruction == CSYNC_INSTRUCTION_RENAME) {
                 addVirtualFileSuffix(item->_renameTarget);
-            else
+            } else {
                 addVirtualFileSuffix(item->_file);
+            }
         }
         if (item->_type == ItemTypeVirtualFileDehydration
             && item->_instruction == CSYNC_INSTRUCTION_SYNC) {
@@ -1382,7 +1438,7 @@ void ProcessDirectoryJob::processFileFinalize(
         job->setInsideEncryptedTree(isInsideEncryptedTree() || item->_isEncrypted);
         if (removed) {
             job->setParent(_discoveryData);
-            _discoveryData->_queuedDeletedDirectories[path._original] = job;
+            _discoveryData->enqueueDirectoryToDelete(path._original, job);
         } else {
             connect(job, &ProcessDirectoryJob::finished, this, &ProcessDirectoryJob::subJobFinished);
             _queuedJobs.push_back(job);
@@ -1496,7 +1552,8 @@ bool ProcessDirectoryJob::checkPermissions(const OCC::SyncFileItemPtr &item)
             // No permissions set
             return true;
         }
-        if (!perms.hasPermission(RemotePermissions::CanDelete)) {
+        if (!perms.hasPermission(RemotePermissions::CanDelete) || isAnyParentBeingRestored(item->_file))
+        {
             item->_instruction = CSYNC_INSTRUCTION_NEW;
             item->_direction = SyncFileItem::Down;
             item->_isRestoration = true;
@@ -1512,6 +1569,35 @@ bool ProcessDirectoryJob::checkPermissions(const OCC::SyncFileItemPtr &item)
     return true;
 }
 
+bool ProcessDirectoryJob::isAnyParentBeingRestored(const QString &file) const
+{
+    for (const auto &directoryNameToRestore : _discoveryData->_directoryNamesToRestoreOnPropagation) {
+        if (file.startsWith(QString(directoryNameToRestore + QLatin1Char('/')))) {
+            qCWarning(lcDisco) << "File" << file << " is within the tree that's being restored" << directoryNameToRestore;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ProcessDirectoryJob::isRename(const QString &originalPath) const
+{
+    return (originalPath.startsWith(_currentFolder._original)
+        && originalPath.lastIndexOf('/') == _currentFolder._original.size());
+
+    /* TODO: This was needed at some point to cover an edge case which I am no longer to reproduce and it might no longer be the case.
+    *  Still, leaving this here just in case the edge case is caught at some point in future.
+    * 
+    OCC::SyncJournalFileRecord base;
+    // are we allowed to rename?
+    if (!_discoveryData || !_discoveryData->_statedb || !_discoveryData->_statedb->getFileRecord(originalPath, &base)) {
+        return false;
+    }
+    qCWarning(lcDisco) << "isRename from" << originalPath << " to" << targetPath << " :"
+                       << base._remotePerm.hasPermission(RemotePermissions::CanRename);
+    return base._remotePerm.hasPermission(RemotePermissions::CanRename);
+    */
+}
 
 auto ProcessDirectoryJob::checkMovePermissions(RemotePermissions srcPerm, const QString &srcPath,
                                                bool isDirectory)

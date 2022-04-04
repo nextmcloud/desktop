@@ -21,6 +21,7 @@ set( MAC_INSTALLER_BACKGROUND_FILE "${CMAKE_SOURCE_DIR}/admin/osx/installer-back
 option( WITH_CRASHREPORTER "Build crashreporter" OFF )
 option( WITH_PROVIDERS "Build with providers list" OFF )
 option( BUILD_UPDATER "Build with updater" ON )
+set( NEXTCLOUD_BACKGROUND_COLOR "#E20074" CACHE string "Hex color of the wizard header background")
 set( APPLICATION_WIZARD_HEADER_BACKGROUND_COLOR "#E20074" CACHE string "Hex color of the wizard header background")
 set( APPLICATION_WIZARD_HEADER_TITLE_COLOR "#ffffff" CACHE string "Hex color of the text in the wizard header")
 option( APPLICATION_WIZARD_USE_CUSTOM_LOGO "Use the logo from ':/client/theme/colored/wizard_logo.png' else the default application icon is used" ON )

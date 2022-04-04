@@ -1391,4 +1391,5 @@ QString FolderDefinition::defaultJournalPath(AccountPtr account)
     return SyncJournalDb::makeDbName(localPath, account->url(), targetPath, account->credentials()->user());
 }
 
+
 } // namespace OCC

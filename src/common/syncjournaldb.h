@@ -397,7 +397,6 @@ private:
     int _transaction;
     bool _metadataTableIsEmpty;
 
-
     /* Storing etags to these folders, or their parent folders, is filtered out.
      *
      * When schedulePathForRemoteDiscovery() is called some etags to _invalid_ in the

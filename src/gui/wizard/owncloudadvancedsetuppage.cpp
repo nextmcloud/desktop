@@ -365,7 +365,11 @@ QStringList OwncloudAdvancedSetupPage::selectiveSyncBlacklist() const
 
 bool OwncloudAdvancedSetupPage::useVirtualFileSync() const
 {
-    //return _ui.rVirtualFileSync->isChecked();
+#ifdef Q_OS_WIN
+    return true;
+#else
+    return false;
+#endif
 }
 
 bool OwncloudAdvancedSetupPage::isConfirmBigFolderChecked() const

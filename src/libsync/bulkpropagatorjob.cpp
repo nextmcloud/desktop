@@ -290,7 +290,10 @@ void BulkPropagatorJob::slotStartUpload(SyncFileItemPtr item,
     const QString originalFilePath = propagator()->fullLocalPath(item->_file);
 
     if (!FileSystem::fileExists(fullFilePath)) {
-        return slotOnErrorStartFolderUnlock(item, SyncFileItem::SoftError, tr("File Removed (start upload) %1").arg(fullFilePath));
+        _pendingChecksumFiles.remove(item->_file);
+        slotOnErrorStartFolderUnlock(item, SyncFileItem::SoftError, tr("File Removed (start upload) %1").arg(fullFilePath));
+        checkPropagationIsDone();
+        return;
     }
     const time_t prevModtime = item->_modtime; // the _item value was set in PropagateUploadFile::start()
     // but a potential checksum calculation could have taken some time during which the file could
@@ -404,12 +407,18 @@ void BulkPropagatorJob::slotPutFinished()
 
     slotJobDestroyed(job); // remove it from the _jobs list
 
+    const auto jobError = job->reply()->error();
+
     const auto replyData = job->reply()->readAll();
     const auto replyJson = QJsonDocument::fromJson(replyData);
     const auto fullReplyObject = replyJson.object();
 
     for (const auto &singleFile : _filesToUpload) {
         if (!fullReplyObject.contains(singleFile._remotePath)) {
+            if (jobError != QNetworkReply::NoError) {
+                singleFile._item->_status = SyncFileItem::NormalError;
+                abortWithError(singleFile._item, SyncFileItem::NormalError, tr("Network Error: %1").arg(jobError));
+            }
             continue;
         }
         const auto singleReplyObject = fullReplyObject[singleFile._remotePath].toObject();

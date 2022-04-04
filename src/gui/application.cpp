@@ -251,6 +251,10 @@ Application::Application(int &argc, char **argv)
         }
     }
 
+    if (_theme->doNotUseProxy()) {
+        ConfigFile().setProxyType(QNetworkProxy::NoProxy);
+    }
+
     parseOptions(arguments());
     //no need to waste time;
     if (_helpOnly || _versionOnly)
@@ -474,6 +478,9 @@ void Application::slotCheckConnection()
         if (state != AccountState::SignedOut && state != AccountState::ConfigurationError
             && state != AccountState::AskingCredentials && !pushNotificationsAvailable) {
             accountState->checkConnectivity();
+        } else if (state == AccountState::SignedOut && accountState->lastConnectionStatus() == AccountState::ConnectionStatus::SslError) {
+            qCWarning(lcApplication) << "Account is signed out due to SSL Handshake error. Going to perform a sign-in attempt...";
+            accountState->trySignIn();
         }
     }
 

@@ -392,6 +392,15 @@ bool Theme::forbidBadSSL() const
 #endif
 }
 
+bool Theme::doNotUseProxy() const
+{
+#ifdef DO_NOT_USE_PROXY
+    return true;
+#else
+    return false;
+#endif
+}
+
 QString Theme::forceConfigAuthType() const
 {
     return QString();

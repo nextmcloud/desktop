@@ -596,7 +596,6 @@ void OwncloudSetupWizard::slotCreateRemoteFolderFinished(QNetworkReply *reply)
 
 void OwncloudSetupWizard::finalizeSetup(bool success)
 {
-
     const QString localFolder = _ocWizard->property("localFolder").toString();
     if (success) {
         if (!(localFolder.isEmpty() || _remoteFolder.isEmpty())) {
