@@ -43,8 +43,7 @@ color: #e20074</string>
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;
-color: #191919</string>
+      <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
      </property>
      <property name="text">
       <string/>
@@ -63,8 +62,7 @@ color: #191919</string>
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;
-color: #191919</string>
+      <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
      </property>
      <property name="text">
       <string/>
