@@ -45,15 +45,13 @@ color:#e20074</string>
     <widget class="QLabel" name="content">
      <property name="font">
       <font>
-       <family>Microsoft Sans Serif</family>
        <pointsize>-1</pointsize>
        <italic>false</italic>
        <bold>false</bold>
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;
-color:#191919</string>
+      <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
      </property>
      <property name="text">
       <string/>
@@ -82,9 +80,7 @@ color:#191919</string>
    <item>
     <widget class="QLineEdit" name="localFolderLineEdit">
      <property name="font">
-      <font>
-       <family>Microsoft Sans Serif</family>
-      </font>
+      <font/>
      </property>
     </widget>
    </item>
@@ -103,9 +99,7 @@ color:#191919</string>
       </size>
      </property>
      <property name="font">
-      <font>
-       <family>Microsoft Sans Serif</family>
-      </font>
+      <font/>
      </property>
      <property name="text">
       <string>&amp;Choose …</string>
@@ -117,6 +111,33 @@ color:#191919</string>
      <property name="palette">
       <palette>
        <active>
+        <colorrole role="WindowText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
@@ -132,11 +153,47 @@ color:#191919</string>
            <red>255</red>
            <green>255</green>
            <blue>192</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="PlaceholderText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
           </color>
          </brush>
         </colorrole>
        </active>
        <inactive>
+        <colorrole role="WindowText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
@@ -155,8 +212,44 @@ color:#191919</string>
           </color>
          </brush>
         </colorrole>
+        <colorrole role="PlaceholderText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
        </inactive>
        <disabled>
+        <colorrole role="WindowText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="Text">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="ButtonText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
+          </color>
+         </brush>
+        </colorrole>
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
@@ -172,6 +265,15 @@ color:#191919</string>
            <red>255</red>
            <green>255</green>
            <blue>192</blue>
+          </color>
+         </brush>
+        </colorrole>
+        <colorrole role="PlaceholderText">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>25</red>
+           <green>25</green>
+           <blue>25</blue>
           </color>
          </brush>
         </colorrole>
@@ -179,12 +281,13 @@ color:#191919</string>
       </palette>
      </property>
      <property name="font">
-      <font>
-       <family>Microsoft Sans Serif</family>
-      </font>
+      <font/>
      </property>
      <property name="autoFillBackground">
       <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color:#191919</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>

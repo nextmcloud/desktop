@@ -146,6 +146,17 @@ void FolderWizardLocalPath::slotChooseLocalFolder()
     emit completeChanged();
 }
 
+void FolderWizardLocalPath::isDarkMode()
+{
+//    const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
+//    if (isDarkBackground) {
+//        _ui.content->setStyleSheet("QLabel {color: #FFFFFF}");
+
+//    } else {
+//        _ui.content->setStyleSheet("QLabel {color: #191919}");
+//    }
+}
+
 // =================================================================================
 FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
     : FormatWarningsWizardPage()
@@ -506,6 +517,24 @@ void FolderWizardRemotePath::initializePage()
     slotRefreshFolders();
 }
 
+void FolderWizardRemotePath::isDarkMode()
+{
+//    const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
+//    if (isDarkBackground) {
+//        _ui.content->setColor(25, 25, 25);
+//        _ui.content->setStyleSheet("QLabel {color: #FFFFFF}");
+//        _ui.subContent->setStyleSheet("QLabel {color: #FFFFFF}");
+//    } else {
+//        _ui.content->setStyleSheet("QLabel {color: #191919}");
+//        _ui.subContent->setStyleSheet("QLabel {color: #191919}");
+//    }
+//    _ui.content->setPalette(QGuiApplication::palette());
+//    _ui.subContent->setPalette(QGuiApplication::palette());
+//    QPalette palette = _ui.content->palette();
+//    palette.setColor(_ui.content->foregroundRole(), rgb(25, 25, 25));
+//    _ui.content->setPalette(palette);
+}
+
 /*void FolderWizardRemotePath::showWarn(const QString &msg) const
 {
     if (msg.isEmpty()) {
@@ -686,6 +715,12 @@ void FolderWizard::resizeEvent(QResizeEvent *event)
             setTitleFormat(titleFormat()); // And another workaround for QTBUG-3396
         }
     }
+}
+
+void FolderWizard::slotChangeEventCallForDarkMode()
+{
+    _folderWizardSourcePage->isDarkMode();
+    _folderWizardTargetPage->isDarkMode();
 }
 
 } // end namespace

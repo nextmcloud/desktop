@@ -685,6 +685,7 @@ void AccountSettings::slotAddFolder()
 
     connect(folderWizard, &QDialog::accepted, this, &AccountSettings::slotFolderWizardAccepted);
     connect(folderWizard, &QDialog::rejected, this, &AccountSettings::slotFolderWizardRejected);
+    connect(this, &AccountSettings::styleChanged, folderWizard, &FolderWizard::slotChangeEventCallForDarkMode);
     folderWizard->open();
 }
 

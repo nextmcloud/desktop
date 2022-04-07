@@ -64,6 +64,7 @@ public:
     bool isComplete() const override;
     void initializePage() override;
     void cleanupPage() override;
+    void isDarkMode();
 
     void setFolderMap(const Folder::Map &fm) { _folderMap = fm; }
 protected slots:
@@ -95,6 +96,7 @@ public:
 
     void initializePage() override;
     void cleanupPage() override;
+    void isDarkMode();
 
 protected slots:
 
@@ -170,13 +172,14 @@ public:
 
     bool eventFilter(QObject *watched, QEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+public slots:
+    void slotChangeEventCallForDarkMode();
 
 private:
     FolderWizardLocalPath *_folderWizardSourcePage;
     FolderWizardRemotePath *_folderWizardTargetPage;
    // FolderWizardSelectiveSync *_folderWizardSelectiveSyncPage;
 };
-
 
 } // namespace OCC
 
