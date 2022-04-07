@@ -91,6 +91,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _ui->setupUi(this);
     _toolBar = new QToolBar;
     _toolBar->setIconSize(QSize(32, 32));
+
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     _toolBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     layout()->setMenuBar(_toolBar);
