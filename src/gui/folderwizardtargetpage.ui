@@ -77,7 +77,7 @@ color: #e20074</string>
      <item>
       <widget class="QTreeWidget" name="folderTreeWidget">
        <property name="styleSheet">
-        <string notr="true">font: 14px &quot;Segoe UI&quot;;</string>
+        <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
        </property>
        <property name="sortingEnabled">
         <bool>true</bool>
@@ -99,7 +99,7 @@ color: #e20074</string>
      <item>
       <widget class="QPushButton" name="refreshButton">
        <property name="styleSheet">
-        <string notr="true">font: 14px &quot;Segoe UI&quot;;
+        <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;
 color: #191919</string>
        </property>
        <property name="text">
@@ -110,7 +110,7 @@ color: #191919</string>
      <item>
       <widget class="QPushButton" name="addFolderButton">
        <property name="styleSheet">
-        <string notr="true">font: 14px &quot;Segoe UI&quot;;
+        <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;
 color: #191919</string>
        </property>
        <property name="text">
@@ -136,7 +136,7 @@ color: #191919</string>
    <item>
     <widget class="QLineEdit" name="folderEntry">
      <property name="styleSheet">
-      <string notr="true">font: 14px &quot;Segoe UI&quot;;
+      <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;
 color: #191919;</string>
      </property>
     </widget>

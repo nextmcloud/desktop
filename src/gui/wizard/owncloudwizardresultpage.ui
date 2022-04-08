@@ -6,9 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>473</width>
+    <width>480</width>
     <height>366</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Microsoft Sans Serif</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string notr="true">Form</string>

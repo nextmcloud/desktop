@@ -28,6 +28,11 @@
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="topLabel">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string>TextLabel</string>
      </property>
@@ -69,6 +74,11 @@
      </item>
      <item>
       <widget class="QLabel" name="logoLabel">
+       <property name="font">
+        <font>
+         <family>Microsoft Sans Serif</family>
+        </font>
+       </property>
        <property name="text">
         <string>Logo</string>
        </property>
@@ -175,7 +185,6 @@
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -242,6 +251,11 @@
                   <height>0</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <family>Microsoft Sans Serif</family>
+                 </font>
+                </property>
                 <property name="placeholderText">
                  <string notr="true">https://try.nextcloud.com</string>
                 </property>
@@ -254,6 +268,11 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Microsoft Sans Serif</family>
+                 </font>
                 </property>
                 <property name="text">
                  <string>This is the link to your %1 web interface when you open it in the browser.</string>
@@ -293,6 +312,11 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft Sans Serif</family>
+             </font>
             </property>
             <property name="text">
              <string notr="true">Error Label</string>
@@ -349,6 +373,11 @@
    </item>
    <item>
     <widget class="QLabel" name="bottomLabel">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string>TextLabel</string>
      </property>

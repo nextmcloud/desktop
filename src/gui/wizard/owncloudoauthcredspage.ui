@@ -16,6 +16,11 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="topLabel">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string notr="true">TextLabel</string>
      </property>
@@ -32,6 +37,11 @@
    </item>
    <item>
     <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string>Please switch to your browser to proceed.</string>
      </property>
@@ -42,6 +52,11 @@
    </item>
    <item>
     <widget class="QLabel" name="errorLabel">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string>An error occurred while connecting. Please try again.</string>
      </property>
@@ -61,7 +76,7 @@
     <widget class="QCommandLinkButton" name="copyLinkButton">
      <property name="font">
       <font>
-       <weight>50</weight>
+       <family>Microsoft Sans Serif</family>
        <bold>false</bold>
       </font>
      </property>
@@ -85,6 +100,11 @@
    </item>
    <item>
     <widget class="QLabel" name="bottomLabel">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string notr="true">TextLabel</string>
      </property>

@@ -10,6 +10,11 @@
     <height>695</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Microsoft Sans Serif</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string notr="true">Form</string>
   </property>
@@ -36,13 +41,13 @@
          <widget class="QLabel" name="imprintLabel">
           <property name="font">
            <font>
-            <pointsize>10</pointsize>
+            <pointsize>-1</pointsize>
             <italic>false</italic>
             <bold>false</bold>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">font: 10pt &quot;Segoe UI&quot;;</string>
+           <string notr="true">font: 10px &quot;Microsoft Sans Serif&quot;;</string>
           </property>
           <property name="text">
            <string>Imprint</string>
@@ -52,7 +57,7 @@
         <item>
          <widget class="QLabel" name="privacyPolicyLabel">
           <property name="styleSheet">
-           <string notr="true">font: 10pt &quot;Segoe UI&quot;;</string>
+           <string notr="true">font: 10px &quot;Microsoft Sans Serif&quot;;</string>
           </property>
           <property name="text">
            <string>Privacy Policy</string>
@@ -62,7 +67,7 @@
         <item>
          <widget class="QLabel" name="openSourceSwLabel">
           <property name="styleSheet">
-           <string notr="true">font: 10pt &quot;Segoe UI&quot;;</string>
+           <string notr="true">font: 10px &quot;Microsoft Sans Serif&quot;;</string>
           </property>
           <property name="text">
            <string>Used Open Source Software</string>
@@ -102,6 +107,7 @@
           </property>
           <property name="font">
            <font>
+            <family>Microsoft Sans Serif</family>
             <pointsize>10</pointsize>
            </font>
           </property>
@@ -114,6 +120,7 @@
          <widget class="QLabel" name="infoLabel">
           <property name="font">
            <font>
+            <family>Microsoft Sans Serif</family>
             <pointsize>10</pointsize>
            </font>
           </property>
@@ -250,7 +257,6 @@
           </property>
           <property name="font">
            <font>
-            <family>Microsoft Sans Serif</family>
             <pointsize>13</pointsize>
            </font>
           </property>

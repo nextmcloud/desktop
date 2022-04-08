@@ -28,6 +28,11 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string notr="true">TextLabel</string>
      </property>
@@ -101,6 +106,11 @@
          </item>
          <item>
           <widget class="QLabel" name="lServerIcon">
+           <property name="font">
+            <font>
+             <family>Microsoft Sans Serif</family>
+            </font>
+           </property>
            <property name="text">
             <string notr="true">Avatar</string>
            </property>
@@ -171,7 +181,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 13px &quot;Segoe UI&quot;;</string>
+            <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;;</string>
            </property>
            <property name="text">
             <string>User name</string>
@@ -191,7 +201,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 13px &quot;Segoe UI&quot;;</string>
+            <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;;</string>
            </property>
            <property name="text">
             <string>Server address</string>
@@ -260,6 +270,11 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Microsoft Sans Serif</family>
+            </font>
            </property>
            <property name="text">
             <string>Sync Logo</string>
@@ -331,6 +346,11 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Microsoft Sans Serif</family>
+            </font>
            </property>
            <property name="text">
             <string>&amp;Local Folder</string>
@@ -422,7 +442,7 @@
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">font: 14px &quot;Segoe UI&quot;;</string>
+              <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
              </property>
              <property name="text">
               <string notr="true">pbSelectLocalFolder</string>
@@ -469,7 +489,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 13px &quot;Segoe UI&quot;;</string>
+            <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;;</string>
            </property>
            <property name="text">
             <string notr="true">Free space</string>
@@ -546,6 +566,7 @@
           <widget class="QLabel" name="localFolderHead_5">
            <property name="font">
             <font>
+             <family>Segoe UI</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
@@ -574,7 +595,7 @@
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">font: 13px &quot;Segoe UI&quot;;</string>
+          <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;;</string>
          </property>
          <property name="text">
           <string>Aufgrund des Wechsels zu einem neuen Produkt können wir nicht sicher erkennen, wo Ihr bisheriger MagentaCLOUD gespeichert ist. Sollten Sie den Speicherort in der bisherigen Software angepasst haben, so wählen Sie den Speicherort bitte oben erneut aus.</string>
@@ -657,7 +678,7 @@
              <item>
               <widget class="QRadioButton" name="rSyncEverything">
                <property name="styleSheet">
-                <string notr="true">font: 14px &quot;Segoe UI&quot;;</string>
+                <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
                </property>
                <property name="text">
                 <string>Synchronize everything from server</string>
@@ -669,6 +690,11 @@
              </item>
              <item>
               <widget class="QLabel" name="lSyncEverythingSizeLabel">
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="text">
                 <string notr="true">Size</string>
                </property>
@@ -705,6 +731,11 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -716,7 +747,7 @@
              <item>
               <widget class="QPushButton" name="bSelectiveSync">
                <property name="styleSheet">
-                <string notr="true">font: 14px &quot;Segoe UI&quot;;</string>
+                <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
                </property>
                <property name="text">
                 <string>Choose what to sync</string>
@@ -732,7 +763,7 @@
              <item>
               <widget class="QLabel" name="lSelectiveSyncSizeLabel">
                <property name="styleSheet">
-                <string notr="true">font: 14px &quot;Segoe UI&quot;;</string>
+                <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">TextLabel</string>
@@ -799,6 +830,11 @@
    </item>
    <item>
     <widget class="QLabel" name="errorLabel">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string notr="true">TextLabel</string>
      </property>
@@ -809,6 +845,11 @@
    </item>
    <item>
     <widget class="QLabel" name="bottomLabel">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string notr="true">TextLabel</string>
      </property>

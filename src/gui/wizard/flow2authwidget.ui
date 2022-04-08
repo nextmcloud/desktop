@@ -107,6 +107,11 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="logoLabel">
+       <property name="font">
+        <font>
+         <family>Microsoft Sans Serif</family>
+        </font>
+       </property>
        <property name="text">
         <string>Logo</string>
        </property>
@@ -132,10 +137,9 @@
       <widget class="QLabel" name="label">
        <property name="font">
         <font>
-         <family>Segoe UI</family>
+         <family>Microsoft Sans Serif</family>
          <pointsize>12</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
@@ -170,6 +174,11 @@
      </item>
      <item>
       <widget class="QLabel" name="statusLabel">
+       <property name="font">
+        <font>
+         <family>Microsoft Sans Serif</family>
+        </font>
+       </property>
        <property name="text">
         <string notr="true">Status</string>
        </property>
@@ -239,7 +248,6 @@
             <font>
              <family>Segoe UI</family>
              <pointsize>-1</pointsize>
-             <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
             </font>
@@ -270,7 +278,6 @@
             <font>
              <family>Segoe UI</family>
              <pointsize>-1</pointsize>
-             <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
             </font>
@@ -308,6 +315,11 @@
      </item>
      <item>
       <widget class="QLabel" name="errorLabel">
+       <property name="font">
+        <font>
+         <family>Microsoft Sans Serif</family>
+        </font>
+       </property>
        <property name="text">
         <string>An error occurred while connecting. Please try again.</string>
        </property>

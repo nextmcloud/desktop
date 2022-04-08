@@ -10,6 +10,11 @@
     <height>138</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Microsoft Sans Serif</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Create new folder</string>
   </property>
@@ -53,6 +58,11 @@
      <width>321</width>
      <height>16</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Microsoft Sans Serif</family>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(255, 0, 0)</string>

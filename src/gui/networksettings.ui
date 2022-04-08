@@ -10,6 +10,11 @@
     <height>581</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Microsoft Sans Serif</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string notr="true">Form</string>
   </property>

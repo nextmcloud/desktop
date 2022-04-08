@@ -16,6 +16,11 @@
   <layout class="QVBoxLayout" name="verticalLayout_7">
    <item>
     <widget class="QLabel" name="conflictMessage">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="text">
       <string>Conflicting versions of %1.</string>
      </property>
@@ -28,6 +33,11 @@
      </property>
      <item>
       <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <family>Microsoft Sans Serif</family>
+        </font>
+       </property>
        <property name="text">
         <string>Which version of the file do you want to keep?&lt;br/&gt;If you select both versions, the local file will have a number added to its name.</string>
        </property>
@@ -53,6 +63,11 @@
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <widget class="QToolButton" name="localVersionButton">
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="toolTip">
                 <string>Click to open the file</string>
                </property>
@@ -92,6 +107,11 @@
              </property>
              <item>
               <widget class="QLabel" name="localVersionMtime">
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="text">
                 <string>today</string>
                </property>
@@ -99,6 +119,11 @@
              </item>
              <item>
               <widget class="QLabel" name="localVersionSize">
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="text">
                 <string>0 byte</string>
                </property>
@@ -106,6 +131,11 @@
              </item>
              <item>
               <widget class="QLabel" name="localVersionLink">
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="text">
                 <string>&lt;a href=&quot;%1&quot;&gt;Open local version&lt;/a&gt;</string>
                </property>
@@ -161,6 +191,11 @@
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
               <widget class="QToolButton" name="remoteVersionButton">
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="toolTip">
                 <string>Click to open the file</string>
                </property>
@@ -200,6 +235,11 @@
              </property>
              <item>
               <widget class="QLabel" name="remoteVersionMtime">
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="text">
                 <string>today</string>
                </property>
@@ -207,6 +247,11 @@
              </item>
              <item>
               <widget class="QLabel" name="remoteVersionSize">
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="text">
                 <string>0 byte</string>
                </property>
@@ -214,6 +259,11 @@
              </item>
              <item>
               <widget class="QLabel" name="remoteVersionLink">
+               <property name="font">
+                <font>
+                 <family>Microsoft Sans Serif</family>
+                </font>
+               </property>
                <property name="text">
                 <string>&lt;a href=&quot;%1&quot;&gt;Open server version&lt;/a&gt;</string>
                </property>
@@ -260,6 +310,11 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>391</width>
+    <width>393</width>
     <height>222</height>
    </rect>
   </property>
@@ -79,6 +79,11 @@
      </colorrole>
     </disabled>
    </palette>
+  </property>
+  <property name="font">
+   <font>
+    <family>Microsoft Sans Serif</family>
+   </font>
   </property>
   <layout class="QVBoxLayout" name="shareDialogVerticalLayout">
    <property name="spacing">
@@ -178,7 +183,7 @@
          </property>
          <property name="font">
           <font>
-           <weight>50</weight>
+           <family>Microsoft Sans Serif</family>
            <bold>false</bold>
           </font>
          </property>
@@ -234,8 +239,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>85</width>
-            <height>133</height>
+            <width>72</width>
+            <height>132</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="scrollAreaVerticalLayout"/>

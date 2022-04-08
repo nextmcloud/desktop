@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>614</width>
+    <width>616</width>
     <height>569</height>
    </rect>
   </property>
@@ -39,9 +39,8 @@
         </property>
         <property name="font">
          <font>
-          <family>Segoe UI</family>
+          <family>Microsoft Sans Serif</family>
           <pointsize>14</pointsize>
-          <weight>50</weight>
           <bold>false</bold>
           <kerning>true</kerning>
          </font>
@@ -233,7 +232,6 @@
         </property>
         <property name="font">
          <font>
-          <family>Segoe UI</family>
           <pointsize>11</pointsize>
          </font>
         </property>
@@ -758,9 +756,8 @@
         </property>
         <property name="font">
          <font>
-          <family>Segoe UI</family>
+          <family>Microsoft Sans Serif</family>
           <pointsize>11</pointsize>
-          <weight>50</weight>
           <bold>false</bold>
           <kerning>true</kerning>
          </font>
@@ -814,7 +811,13 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="KMessageWidget" name="encryptionMessage" native="true"/>
+    <widget class="KMessageWidget" name="encryptionMessage" native="true">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
+    </widget>
    </item>
    <item row="2" column="0">
     <widget class="OCC::FolderStatusView" name="_folderList">
@@ -847,6 +850,11 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <family>Microsoft Sans Serif</family>
+           </font>
           </property>
           <property name="text">
            <string>Unchecked folders will be &lt;b&gt;removed&lt;/b&gt; from your local file system and will not be synchronized to this computer anymore</string>
@@ -887,6 +895,11 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <family>Microsoft Sans Serif</family>
+            </font>
+           </property>
            <property name="text">
             <string>Cancel</string>
            </property>
@@ -899,6 +912,11 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Microsoft Sans Serif</family>
+            </font>
            </property>
            <property name="text">
             <string>Apply</string>
@@ -928,6 +946,11 @@
       </property>
       <item>
        <widget class="QLabel" name="selectiveSyncNotification">
+        <property name="font">
+         <font>
+          <family>Microsoft Sans Serif</family>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">color: red</string>
         </property>
@@ -956,6 +979,11 @@
         </item>
         <item>
          <widget class="QPushButton" name="bigFolderSyncAll">
+          <property name="font">
+           <font>
+            <family>Microsoft Sans Serif</family>
+           </font>
+          </property>
           <property name="text">
            <string>Synchronize all</string>
           </property>
@@ -963,6 +991,11 @@
         </item>
         <item>
          <widget class="QPushButton" name="bigFolderSyncNone">
+          <property name="font">
+           <font>
+            <family>Microsoft Sans Serif</family>
+           </font>
+          </property>
           <property name="text">
            <string>Synchronize none</string>
           </property>
@@ -970,6 +1003,11 @@
         </item>
         <item>
          <widget class="QPushButton" name="bigFolderApply">
+          <property name="font">
+           <font>
+            <family>Microsoft Sans Serif</family>
+           </font>
+          </property>
           <property name="text">
            <string>Apply manual changes</string>
           </property>

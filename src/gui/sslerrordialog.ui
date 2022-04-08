@@ -18,6 +18,7 @@
     <widget class="QCheckBox" name="_cbTrustConnect">
      <property name="font">
       <font>
+       <family>Microsoft Sans Serif</family>
        <pointsize>11</pointsize>
       </font>
      </property>
@@ -28,6 +29,11 @@
    </item>
    <item row="2" column="0">
     <widget class="QDialogButtonBox" name="_dialogButtonBox">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
@@ -35,6 +41,11 @@
    </item>
    <item row="0" column="0">
     <widget class="QTextBrowser" name="_tbErrors">
+     <property name="font">
+      <font>
+       <family>Microsoft Sans Serif</family>
+      </font>
+     </property>
      <property name="openExternalLinks">
       <bool>true</bool>
      </property>

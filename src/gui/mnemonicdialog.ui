@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>588</width>
-    <height>214</height>
+    <height>219</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,6 +18,11 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <family>Microsoft Sans Serif</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string notr="true">Dialog</string>

@@ -7,8 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>367</width>
-    <height>208</height>
+    <height>232</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Microsoft Sans Serif</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Connection failed</string>

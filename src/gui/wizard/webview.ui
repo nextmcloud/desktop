@@ -22,6 +22,11 @@
     <height>0</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Microsoft Sans Serif</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string notr="true">Form</string>
   </property>
@@ -50,6 +55,11 @@
          <width>16777215</width>
          <height>5</height>
         </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Microsoft Sans Serif</family>
+        </font>
        </property>
        <property name="styleSheet">
         <string notr="true">QProgressBar::chunk {
