@@ -5426,6 +5426,22 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <source>&amp;Local Folder</source>
         <translation>&amp;Lokaler Ordner</translation>
     </message>
+	<message>
+          <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="624"/>
+          <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Synchronization settings&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+          <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Synchronizationsoptionen&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+     </message>
+     <message>
+          <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="663"/>
+          <source>Synchronize everything from server</source>
+          <translation>Alle Dateien aus der MagentaCLOUD synchronisieren</translation>
+     </message>
+     <message>
+          <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="722"/>
+          <source>Choose what to sync</source>
+          <translation>Auswählen, was synchronisiert werden soll</translation>
+     </message>
+
 </context>
 <context>
     <name>OwncloudHttpCredsPage</name>
