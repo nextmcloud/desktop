@@ -77,7 +77,16 @@ namespace WizardCommon {
         auto palette = label->palette();
         QColor textColor = palette.color(QPalette::Text);
         textColor.setAlpha(128);
-        palette.setColor(QPalette::Text, textColor);
+        palette.setColor(QPalette::Text, Qt::gray);
+        label->setPalette(palette);
+    }
+
+    void customizeHintLabelDark(QLabel *label)
+    {
+        auto palette = label->palette();
+        QColor textColor = palette.color(QPalette::Text);
+        textColor.setAlpha(128);
+        palette.setColor(QPalette::Text, Qt::white);
         label->setPalette(palette);
     }
 

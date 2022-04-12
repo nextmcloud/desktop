@@ -34,6 +34,7 @@ namespace WizardCommon {
     QString subTitleTemplate();
     void initErrorLabel(QLabel *errorLabel);
     void customizeHintLabel(QLabel *label);
+    void customizeHintLabelDark(QLabel *label);
 
     enum SyncMode {
         SelectiveMode,

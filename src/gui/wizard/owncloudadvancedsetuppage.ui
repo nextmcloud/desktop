@@ -141,7 +141,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 14px &quot;Segoe UI&quot;; color: #191919</string>
+            <string notr="true">font: 14px &quot;Segoe UI&quot;;</string>
            </property>
            <property name="text">
             <string>&lt;b&gt;Magenta&lt;/b&gt;CLOUD</string>
@@ -177,7 +177,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;; color: #191919</string>
+            <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;;</string>
            </property>
            <property name="text">
             <string>User name</string>
@@ -381,7 +381,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 14px &quot;Segoe UI&quot;; color: #191919</string>
+            <string notr="true">font: 14px &quot;Segoe UI&quot;; color:</string>
            </property>
            <property name="text">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Local Folder&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -481,7 +481,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;; color: #191919</string>
+            <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;;</string>
            </property>
            <property name="text">
             <string notr="true">Free space</string>
@@ -564,7 +564,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 75 14px &quot;Segoe UI&quot;; color: #191919</string>
+            <string notr="true">font: 75 14px &quot;Segoe UI&quot;;</string>
            </property>
            <property name="text">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Überprüfen Sie bitte ihren lokalen Ordner&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -586,7 +586,7 @@
           </font>
          </property>
          <property name="styleSheet">
-          <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;; color: #191919</string>
+          <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;;</string>
          </property>
          <property name="text">
           <string>Aufgrund des Wechsels zu einem neuen Produkt können wir nicht sicher erkennen, wo Ihr bisheriger MagentaCLOUD gespeichert ist. Sollten Sie den Speicherort in der bisherigen Software angepasst haben, so wählen Sie den Speicherort bitte oben erneut aus.</string>
@@ -630,7 +630,7 @@
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">font: 75 14px &quot;Segoe UI&quot;; color: #191919</string>
+            <string notr="true">font: 75 14px &quot;Segoe UI&quot;;</string>
            </property>
            <property name="text">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Synchronization settings&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -669,7 +669,7 @@
              <item>
               <widget class="QRadioButton" name="rSyncEverything">
                <property name="styleSheet">
-                <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;; color: #191919</string>
+                <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
                </property>
                <property name="text">
                 <string>Synchronize everything from server</string>
@@ -685,7 +685,7 @@
                 <font/>
                </property>
                <property name="styleSheet">
-                <string notr="true">color: #191919</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string notr="true">Size</string>
@@ -737,7 +737,7 @@
              <item>
               <widget class="QPushButton" name="bSelectiveSync">
                <property name="styleSheet">
-                <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;; color: #191919</string>
+                <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
                </property>
                <property name="text">
                 <string>Choose what to sync</string>
@@ -753,7 +753,7 @@
              <item>
               <widget class="QLabel" name="lSelectiveSyncSizeLabel">
                <property name="styleSheet">
-                <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;; color: #191919</string>
+                <string notr="true">font: 14px &quot;Microsoft Sans Serif&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">TextLabel</string>

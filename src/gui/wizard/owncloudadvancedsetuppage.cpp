@@ -92,7 +92,6 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
         // _ui.confTraillingSizeLabel->hide();
     }
     
-    
 #ifdef Q_OS_WIN
     // _ui.rVirtualFileSync->setText(tr("Use &virtual files instead of downloading content immediately %1").arg(bestAvailableVfsMode() == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
     OwncloudWizard::askExperimentalVirtualFilesFeature(this, [this](bool enable) {
@@ -128,10 +127,10 @@ void OwncloudAdvancedSetupPage::setupCustomization()
     variant = theme->customMedia(Theme::oCSetupBottom);
     WizardCommon::setupCustomMedia(variant, _ui.bottomLabel);
     
-    WizardCommon::customizeHintLabel(_ui.lFreeSpace);
-    WizardCommon::customizeHintLabel(_ui.lSyncEverythingSizeLabel);
-    WizardCommon::customizeHintLabel(_ui.lSelectiveSyncSizeLabel);
-    WizardCommon::customizeHintLabel(_ui.serverAddressLabel);
+//    WizardCommon::customizeHintLabel(_ui.lFreeSpace);
+//    WizardCommon::customizeHintLabel(_ui.lSyncEverythingSizeLabel);
+//    WizardCommon::customizeHintLabel(_ui.lSelectiveSyncSizeLabel);
+//    WizardCommon::customizeHintLabel(_ui.serverAddressLabel);
 }
 
 bool OwncloudAdvancedSetupPage::isComplete() const
@@ -574,13 +573,23 @@ void OwncloudAdvancedSetupPage::customizeStyle()
         const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
         if (isDarkBackground) {
             _progressIndi->setColor(Qt::white);
+            _ui.lLocal->setPixmap(QPixmap(":/client/theme/Computer-Icon_white.svg"));
+            WizardCommon::customizeHintLabelDark(_ui.lFreeSpace);
+            WizardCommon::customizeHintLabelDark(_ui.lSyncEverythingSizeLabel);
+            WizardCommon::customizeHintLabelDark(_ui.lSelectiveSyncSizeLabel);
+            WizardCommon::customizeHintLabelDark(_ui.serverAddressLabel);
         } else {
             _progressIndi->setColor(Qt::black);
+            _ui.lLocal->setPixmap(QPixmap(":/client/theme/Computer-Icon.svg"));
+            WizardCommon::customizeHintLabel(_ui.lFreeSpace);
+            WizardCommon::customizeHintLabel(_ui.lSyncEverythingSizeLabel);
+            WizardCommon::customizeHintLabel(_ui.lSelectiveSyncSizeLabel);
+            WizardCommon::customizeHintLabel(_ui.serverAddressLabel);
         }
     }
     
     styleSyncLogo();
-    styleLocalFolderLabel();
+//    styleLocalFolderLabel();
 }
 
 void OwncloudAdvancedSetupPage::styleLocalFolderLabel()

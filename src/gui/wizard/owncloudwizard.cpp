@@ -395,7 +395,13 @@ void OwncloudWizard::customizeStyle()
     // Set background colors
     auto wizardPalette = palette();
    // const auto backgroundColor = wizardPalette.color(QPalette);
-    wizardPalette.setColor(QPalette::Base, Qt::white);
+    const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
+    if (isDarkBackground) {
+        wizardPalette.setColor(QPalette::Base, Qt::black);
+    } else {
+        wizardPalette.setColor(QPalette::Base, Qt::white);
+    }
+
     // Set separator color
     wizardPalette.setColor(QPalette::Mid, Qt::white);
 

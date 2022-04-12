@@ -11,9 +11,7 @@
    </rect>
   </property>
   <property name="font">
-   <font>
-    <family>Microsoft Sans Serif</family>
-   </font>
+   <font/>
   </property>
   <property name="windowTitle">
    <string notr="true">Form</string>
@@ -107,7 +105,6 @@
           </property>
           <property name="font">
            <font>
-            <family>Microsoft Sans Serif</family>
             <pointsize>10</pointsize>
            </font>
           </property>
@@ -120,7 +117,6 @@
          <widget class="QLabel" name="infoLabel">
           <property name="font">
            <font>
-            <family>Microsoft Sans Serif</family>
             <pointsize>10</pointsize>
            </font>
           </property>
@@ -264,7 +260,7 @@
            <string>Ask for confirmation before synchronizing folders larger than</string>
           </property>
           <property name="checked">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
