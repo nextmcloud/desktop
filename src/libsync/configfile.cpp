@@ -884,9 +884,6 @@ QPair<bool, qint64> ConfigFile::newBigFolderSizeLimit() const
     const auto fallback = getValue(newBigFolderSizeLimitC, QString(), defaultValue).toLongLong();
     const auto value = getPolicySetting(QLatin1String(newBigFolderSizeLimitC), fallback).toLongLong();
     const bool use = value >= 0 && useNewBigFolderSizeLimit();
-    qCInfo(lcConfigFile) << "@@@@@@@@@@@@: " << use;
-    qCInfo(lcConfigFile) << "&&&&&&&&&&&&: " << value;
-    qCInfo(lcConfigFile) << "!!!!!!!!!!!!! " << qMakePair(use, qMax<qint64>(0, value));
     return qMakePair(use, qMax<qint64>(0, value));
 }
 

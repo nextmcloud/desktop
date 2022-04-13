@@ -178,6 +178,8 @@
         <file>theme/colored/wizard-talk@2x.png</file>
         <file>theme/sync-arrow.svg</file>
         <file>theme/white/external.png</file>
+        <file>theme/colored/external.svg</file>
+        <file>theme/colored/external_magenta.png</file>
         <file>theme/white/external@2x.png</file>
         <file>theme/black/external.png</file>
         <file>theme/black/external@2x.png</file>
@@ -244,7 +246,7 @@
         <file>theme/colored/magentacloud-logo-16.png</file>
         <file>theme/colored/magentacloud-logo-32.png</file>
         <file>theme/colored/magentacloud-logo-48.png</file>
-        <file>theme/colored/MagentaCLOUD-sidebar.svg</file>
+        <file>theme/colored/magentacloud-sidebar.svg</file>
         <file>theme/magenta/localFolder_magenta.svg</file>
         <file>theme/magenta/localFolder32x32.svg</file>
         <file>theme/magenta/localFolder_white.svg</file>

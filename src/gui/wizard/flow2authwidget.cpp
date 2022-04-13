@@ -59,8 +59,9 @@ void Flow2AuthWidget::setLogo()
 {
     const auto backgroundColor = palette().window().color();
     const auto logoIconFileName = Theme::instance()->isBranded() ? Theme::hidpiFileName("external.png", backgroundColor)
-                                                                 : Theme::hidpiFileName(":/client/theme/colored/external.png");
+                                                                 : Theme::hidpiFileName(":/client/theme/colored/external_magenta.png");
     _ui.logoLabel->setPixmap(logoIconFileName);
+//    _ui.logoLabel->setPixmap(QPixmap(":/client/theme/colored/external_magenta.png"));
 }
 
 void Flow2AuthWidget::startAuth(Account *account)
@@ -234,7 +235,7 @@ void Flow2AuthWidget::customizeStyle()
                               " stop: 0 #ffffff, stop: 1 #ffffff); "
                               "padding: 5px }");
 
-    WizardCommon::customizeHintLabel(_ui.statusLabel);
+//    WizardCommon::customizeHintLabel(_ui.statusLabel);
 }
 
 } // namespace OCC

@@ -22,70 +22,6 @@
     <height>280</height>
    </size>
   </property>
-  <property name="palette">
-   <palette>
-    <active>
-     <colorrole role="Base">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Window">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </active>
-    <inactive>
-     <colorrole role="Base">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Window">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </inactive>
-    <disabled>
-     <colorrole role="Base">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-     <colorrole role="Window">
-      <brush brushstyle="SolidPattern">
-       <color alpha="255">
-        <red>255</red>
-        <green>255</green>
-        <blue>255</blue>
-       </color>
-      </brush>
-     </colorrole>
-    </disabled>
-   </palette>
-  </property>
   <property name="windowTitle">
    <string>Browser Authentication</string>
   </property>
@@ -108,9 +44,7 @@
      <item>
       <widget class="QLabel" name="logoLabel">
        <property name="font">
-        <font>
-         <family>Microsoft Sans Serif</family>
-        </font>
+        <font/>
        </property>
        <property name="text">
         <string>Logo</string>
@@ -137,13 +71,12 @@
       <widget class="QLabel" name="label">
        <property name="font">
         <font>
-         <family>Microsoft Sans Serif</family>
          <pointsize>12</pointsize>
          <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">color:&quot;#191919&quot;</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>Switch to your browser to connect your account</string>
@@ -175,9 +108,7 @@
      <item>
       <widget class="QLabel" name="statusLabel">
        <property name="font">
-        <font>
-         <family>Microsoft Sans Serif</family>
-        </font>
+        <font/>
        </property>
        <property name="text">
         <string notr="true">Status</string>
@@ -246,7 +177,6 @@
            </property>
            <property name="font">
             <font>
-             <family>Segoe UI</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
@@ -276,7 +206,6 @@
            </property>
            <property name="font">
             <font>
-             <family>Segoe UI</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
@@ -316,9 +245,7 @@
      <item>
       <widget class="QLabel" name="errorLabel">
        <property name="font">
-        <font>
-         <family>Microsoft Sans Serif</family>
-        </font>
+        <font/>
        </property>
        <property name="text">
         <string>An error occurred while connecting. Please try again.</string>
