@@ -901,7 +901,7 @@ bool ConfigFile::confirmExternalStorage() const
 
 bool ConfigFile::useNewBigFolderSizeLimit() const
 {
-    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), true);
+    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), false);
     return getPolicySetting(QLatin1String(useNewBigFolderSizeLimitC), fallback).toBool();
 }
 

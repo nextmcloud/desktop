@@ -287,6 +287,10 @@ public:
     bool isVfsOnOffSwitchPending() const { return _vfsOnOffPending; }
     void setVfsOnOffSwitchPending(bool pending) { _vfsOnOffPending = pending; }
 
+    void switchToVirtualFiles();
+
+    void processSwitchedToVirtualFiles();
+
     /** Whether this folder should show selective sync ui */
     bool supportsSelectiveSync() const;
 
@@ -442,6 +446,8 @@ private:
 
     void startVfs();
 
+    void correctPlaceholderFiles();
+
     AccountStatePtr _accountState;
     FolderDefinition _definition;
     QString _canonicalLocalPath; // As returned with QFileInfo:canonicalFilePath.  Always ends with "/"
@@ -495,6 +501,10 @@ private:
      * disabled or different.
      */
     bool _vfsOnOffPending = false;
+
+    /** Whether this folder has just switched to VFS or not
+     */
+    bool _hasSwitchedToVfs = false;
 
     /**
      * Watches this folder's local directory for changes.

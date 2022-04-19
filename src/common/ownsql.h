@@ -167,10 +167,6 @@ private:
     int _errId;
     QByteArray _sql;
 
-
-
-
-
     friend class SqlDatabase;
     friend class PreparedSqlQueryManager;
 };

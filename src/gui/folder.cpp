@@ -669,19 +669,37 @@ void Folder::setVirtualFilesEnabled(bool enabled)
 
         _definition.virtualFilesMode = newMode;
         startVfs();
-        if (newMode != Vfs::Off)
+        if (newMode != Vfs::Off) {
             _saveInFoldersWithPlaceholders = true;
+            switchToVirtualFiles();
+        }
         saveToSettings();
     }
 }
 
 void Folder::setRootPinState(PinState state)
 {
-    _vfs->setPinState(QString(), state);
+    if (!_vfs->setPinState(QString(), state)) {
+        qCWarning(lcFolder) << "Could not set root pin state of" << _definition.alias;
+    }
 
     // We don't actually need discovery, but it's important to recurse
     // into all folders, so the changes can be applied.
     slotNextSyncFullLocalDiscovery();
+}
+
+void Folder::switchToVirtualFiles()
+{
+    SyncEngine::switchToVirtualFiles(path(), _journal, *_vfs);
+    _hasSwitchedToVfs = true;
+}
+
+void Folder::processSwitchedToVirtualFiles()
+{
+    if (_hasSwitchedToVfs) {
+        _hasSwitchedToVfs = false;
+        saveToSettings();
+    }
 }
 
 bool Folder::supportsSelectiveSync() const
@@ -857,9 +875,25 @@ void Folder::startSync(const QStringList &pathList)
 
     _engine->setIgnoreHiddenFiles(_definition.ignoreHiddenFiles);
 
+    correctPlaceholderFiles();
+
     QMetaObject::invokeMethod(_engine.data(), "startSync", Qt::QueuedConnection);
 
     emit syncStarted();
+}
+
+void Folder::correctPlaceholderFiles()
+{
+    if (_definition.virtualFilesMode == Vfs::Off) {
+        return;
+    }
+    static const auto placeholdersCorrectedKey = QStringLiteral("placeholders_corrected");
+    const auto placeholdersCorrected = _journal.keyValueStoreGetInt(placeholdersCorrectedKey, 0);
+    if (!placeholdersCorrected) {
+        qCDebug(lcFolder) << "Make sure all virtual files are placeholder files";
+        switchToVirtualFiles();
+        _journal.keyValueStoreSet(placeholdersCorrectedKey, true);
+    }
 }
 
 void Folder::setSyncOptions()
@@ -1356,5 +1390,6 @@ QString FolderDefinition::defaultJournalPath(AccountPtr account)
 {
     return SyncJournalDb::makeDbName(localPath, account->url(), targetPath, account->credentials()->user());
 }
+
 
 } // namespace OCC

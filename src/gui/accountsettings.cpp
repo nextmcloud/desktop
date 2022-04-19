@@ -489,8 +489,8 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
     }
 
     // hidden due to NMCLOUD-344
-//    ac = menu.addAction(tr("Edit Ignored Files"));
-//    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
+    ac = menu.addAction(tr("Edit Ignored Files"));
+    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
 
 //    ac = menu.addAction(tr("Create new folder"));
 //    connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
@@ -556,8 +556,8 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentFolder);
 
     // hidden due to NMCLOUD-344
-//    ac = menu->addAction(tr("Edit Ignored Files"));
-//    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
+    ac = menu->addAction(tr("Edit Ignored Files"));
+    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
 
 //    ac = menu->addAction(tr("Create new folder"));
 //    connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
@@ -589,6 +589,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
 
         ac = availabilityMenu->addAction(Utility::vfsPinActionText());
         connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::AlwaysLocal); });
+        ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
 
         ac = availabilityMenu->addAction(Utility::vfsFreeSpaceActionText());
         connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::OnlineOnly); });

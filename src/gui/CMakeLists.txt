@@ -328,6 +328,7 @@ endif()
 set(APP_ICON_SVG "${theme_dir}/colored/${APPLICATION_ICON_NAME}-icon.svg")
 
 
+
 # generate secondary icon if available (currently for Windows only)--------------------------------------
 set(APP_SECONDARY_ICONS "${theme_dir}/colored/icons")
 set(APP_ICON_WIN_FOLDER_SVG "${APP_SECONDARY_ICONS}/${APPLICATION_ICON_NAME}-icon-win-folder.svg")

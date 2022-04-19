@@ -321,8 +321,6 @@ int main(int argc, char **argv)
     qputenv("OPENSSL_CONF", opensslConf.toLocal8Bit());
 #endif
 
-
-
     CmdOptions options;
     options.silent = false;
     options.trustSSL = false;

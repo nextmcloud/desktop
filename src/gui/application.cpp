@@ -463,21 +463,7 @@ void Application::slotSystemOnlineConfigurationChanged(QNetworkConfiguration cnf
 
 void Application::slotCheckConnection()
 {
-    const auto list = AccountManager::instance()->accounts();
-    for (const auto &accountState : list) {
-        AccountState::State state = accountState->state();
-
-        // Don't check if we're manually signed out or
-        // when the error is permanent.
-        const auto pushNotifications = accountState->account()->pushNotifications();
-        const auto pushNotificationsAvailable = (pushNotifications && pushNotifications->isReady());
-        if (state != AccountState::SignedOut && state != AccountState::ConfigurationError
-            && state != AccountState::AskingCredentials && !pushNotificationsAvailable) {
-            accountState->checkConnectivity();
-        }
-    }
-
-    if (list.isEmpty()) {
+    if (AccountManager::instance()->accounts().isEmpty()) {
         // let gui open the setup wizard
         _gui->slotOpenSettingsDialog();
 

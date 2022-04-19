@@ -19,6 +19,7 @@
 #include "common/syncjournalfilerecord.h"
 #include "filesystem.h"
 #include "common/asserts.h"
+#include <QFileInfo>
 #include <QFile>
 #include <QStringList>
 #include <QDir>
@@ -79,7 +80,7 @@ void PropagateRemoteMove::start()
         return;
 
     QString origin = propagator()->adjustRenamedPath(_item->_file);
-    qCDebug(lcPropagateRemoteMove) << origin << _item->_renameTarget;
+    qCInfo(lcPropagateRemoteMove) << origin << _item->_renameTarget;
 
     QString targetFile(propagator()->fullLocalPath(_item->_renameTarget));
 
@@ -207,6 +208,17 @@ void PropagateRemoteMove::slotMoveJobFinished()
     if (err != QNetworkReply::NoError) {
         SyncFileItem::Status status = classifyError(err, _item->_httpErrorCode,
             &propagator()->_anotherSyncNeeded);
+        const auto filePath = propagator()->fullLocalPath(_item->_renameTarget);
+        const auto filePathOriginal = propagator()->fullLocalPath(_item->_originalFile);
+        QFile file(filePath);
+        if (!file.rename(filePathOriginal)) {
+            qCWarning(lcPropagateRemoteMove) << "Could not MOVE file" << filePathOriginal << " to" << filePath
+                                             << " with error:" << _job->errorString() << " and failed to restore it !";
+        } else {
+            qCWarning(lcPropagateRemoteMove)
+                << "Could not MOVE file" << filePathOriginal << " to" << filePath
+                << " with error:" << _job->errorString() << " and successfully restored it.";
+        }
         done(status, _job->errorString());
         return;
     }
@@ -237,10 +249,14 @@ void PropagateRemoteMove::finalize()
     auto &vfs = propagator()->syncOptions()._vfs;
     auto pinState = vfs->pinState(_item->_originalFile);
 
-    // Delete old db data.
-    propagator()->_journal->deleteFileRecord(_item->_originalFile);
-    if (!vfs->setPinState(_item->_originalFile, PinState::Inherited)) {
-        qCWarning(lcPropagateRemoteMove) << "Could not set pin state of" << _item->_originalFile << "to inherited";
+    const auto targetFile = propagator()->fullLocalPath(_item->_renameTarget);
+
+    if (QFileInfo::exists(targetFile)) {
+        // Delete old db data.
+        propagator()->_journal->deleteFileRecord(_item->_originalFile);
+        if (!vfs->setPinState(_item->_originalFile, PinState::Inherited)) {
+            qCWarning(lcPropagateRemoteMove) << "Could not set pin state of" << _item->_originalFile << "to inherited";
+        }
     }
 
     SyncFileItem newItem(*_item);
@@ -254,6 +270,13 @@ void PropagateRemoteMove::finalize()
             newItem._size = oldRecord._fileSize;
         }
     }
+
+    if (!QFileInfo::exists(targetFile)) {
+        propagator()->_journal->commit("Remote Rename");
+        done(SyncFileItem::Success);
+        return;
+    }
+
     const auto result = propagator()->updateMetadata(newItem);
     if (!result) {
         done(SyncFileItem::FatalError, tr("Error updating metadata: %1").arg(result.error()));
