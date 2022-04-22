@@ -1,10 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0px" height="0px" viewBox="0 0 1024 1024">
-  <defs>
-    <clipPath id="clip-MacOS_Sidebar_logo_simple">
-      <rect width="300" height="300"/>
-    </clipPath>
-  </defs>
-  <g id="MacOS_Sidebar_logo_simple" data-name="MacOS Sidebar logo simple" clip-path="url(#clip-MacOS_Sidebar_logo_simple)">
-    <path id="Differenzmenge_12" data-name="Differenzmenge 12" d="M103.2,160.723c-.656,0-1.328,0-1.984-.031-.516.012-1.023.016-1.539.016A72.82,72.82,0,0,1,48.859,140.16a46.428,46.428,0,0,1-8.828,1.172,39.886,39.886,0,0,1-8.586-78.867,39.864,39.864,0,0,1,39.844-37.8,40.279,40.279,0,0,1,11.484,1.684,66.9,66.9,0,0,1,119.3,30.281,42.426,42.426,0,0,1,21.078,71.969,42.524,42.524,0,0,1-29.914,12.172c-.18,0-.344,0-.508,0h-4.391l-1.2,1.168c-6.273,7.246-17.039,11.57-28.8,11.57a36.578,36.578,0,0,1-17.148-3.891V97.473h33.148L123.9,45.844,73.133,97.473h33.453v63.156C105.383,160.691,104.242,160.723,103.2,160.723Z" transform="translate(32.008 70.215)" fill="none" stroke="#0470f5" stroke-width="15"/>
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="svg2" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1024 1024"
+	 style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#0470f5;}
+</style>
+<sodipodi:namedview  bordercolor="#0470f5" borderopacity="2" fit-margin-bottom="0" fit-margin-left="0" fit-margin-right="0" fit-margin-top="0" gridtolerance="10" guidetolerance="10" id="namedview8" inkscape:current-layer="svg2" inkscape:cx="-225.44227" inkscape:cy="284.0991" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="480" inkscape:window-width="640" inkscape:zoom="0.32" objecttolerance="10" pagecolor="#ffffff" showgrid="false">
+	</sodipodi:namedview>
+<g id="MacOS_Sidebar_logo_simple">
+	<path class="st0" d="M460.2,817c-2.4,0-4.8,0-7.2-0.1c-1.9,0-3.7,0-5.5,0c-68.2,0-133-24.5-183.9-69.3c-7.2,1.1-14.4,1.8-21.7,2.1
+		l-0.8,0c-0.2,0-0.4,0-0.6,0c-43.7,0-84.8-17-115.9-47.8c-31.2-31-48.4-72.2-48.6-116.1c-0.2-70.7,45.5-133.6,111.2-156.2
+		c13.1-78.2,81-136.9,162.1-136.9c0,0,0.1,0,0.1,0c10.1,0,20.1,0.9,30,2.8c41.2-47.2,97.4-77.6,160-86
+		c68.4-9.2,136.2,8.8,191.1,50.6c48.6,37.1,82.1,89.4,95.3,148.6c83.6,26.3,135.7,112.3,117.7,200.1c-7,34.2-23.9,65.1-48.9,89.4
+		c-32.6,32-75.8,49.6-121.5,49.6c-0.2,0-0.4,0-0.6,0h-5.9c-27,27.7-69.3,44.2-114.9,44.2c-24.7,0.4-49.4-5.2-71.5-16.3l-14.3-7.2
+		V545.4h79.3L532,429.4l-114,116h80v270l-24.7,1.3C468.6,816.8,464.2,817,460.2,817z M279.5,691l10.2,9.9
+		c42.2,40.9,97.6,63.6,156.2,64V597.4H293.7L532.1,355l236.8,242.4H618.1V735c10.6,3.4,21.8,5,33,4.9l0.5,0
+		c33.4,0,63.4-11.7,80.3-31.2l1.5-1.6l11.7-11.4h27.6c0.1,0,0.3,0,0.4,0c32.1,0,62.3-12.3,85.2-34.8c17.6-17.1,29.4-38.7,34.3-62.6
+		c13.4-65.5-29-129.7-94.4-143.1l-17.7-3.6l-2.8-17.9c-8.2-52.8-36.2-99.8-78.7-132.2c-43.8-33.4-98-47.7-152.5-40.4
+		c-54.6,7.3-103,35.5-136.4,79.3l-10.9,14.3l-17.2-5.1c-10.5-3.1-21.4-4.7-32.4-4.8c0,0-0.1,0-0.1,0c-59.8,0-109.1,46.8-112.2,106.5
+		l-1,19.9l-19.5,4.2c-51.5,11.2-88.8,57.5-88.6,110.2c0.1,30,11.9,58.2,33.2,79.4c21.2,21.1,49.3,32.6,79.2,32.6
+		c8.5-0.3,17-1.5,25.3-3.4L279.5,691z"/>
+</g>
 </svg>
