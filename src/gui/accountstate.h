@@ -16,11 +16,13 @@
 #ifndef ACCOUNTINFO_H
 #define ACCOUNTINFO_H
 
+#include "connectionvalidator.h"
+#include "creds/abstractcredentials.h"
+
 #include <QByteArray>
 #include <QElapsedTimer>
 #include <QPointer>
-#include "connectionvalidator.h"
-#include "creds/abstractcredentials.h"
+#include <QTimer>
 #include "userstatus.h"
 #include <memory>
 
@@ -103,6 +105,9 @@ public:
 
     State state() const;
     static QString stateString(State state);
+
+    int retryCount() const;
+    void increaseRetryCount();
 
     bool isSignedOut() const;
 
@@ -204,6 +209,7 @@ public slots:
 private:
     void setState(State state);
     void fetchNavigationApps();
+    void setRetryCount(int count);
 
 signals:
     void stateChanged(State state);
@@ -225,6 +231,10 @@ protected Q_SLOTS:
     void slotNavigationAppsFetched(const QJsonDocument &reply, int statusCode);
     void slotEtagResponseHeaderReceived(const QByteArray &value, int statusCode);
     void slotOcsError(int statusCode, const QString &message);
+
+private Q_SLOTS:
+
+    void slotCheckConnection();
 
 private:
     AccountPtr _account;
@@ -263,6 +273,11 @@ private:
 
     UserStatus *_userStatus;
     bool _isDesktopNotificationsAllowed;
+
+    int _retryCount = 0;
+
+    QTimer _checkConnectionTimer;
+    QElapsedTimer _lastCheckConnectionTimer;
 };
 
 class AccountApp : public QObject
