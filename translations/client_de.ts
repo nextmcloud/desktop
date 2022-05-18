@@ -2762,10 +2762,6 @@ for additional privileges during the process.</source>
         <translation>%1-Version verfügbar. Anwendung zum Start der Aktualisierung neustarten.</translation>
     </message>
     <message>
-        <source>New %1 is available. Please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt; to download the update.</source>
-        <translation type="vanished">Neue Version von %1 vorhanden. Bitte klicken Sie &lt;a href=&apos;%2&apos;&gt;hier&lt;/a&gt; um die Aktualisierung herunterzuladen.</translation>
-    </message>
-    <message>
         <source>Could not download update. Please open &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt; to download the update manually.</source>
         <translation type="vanished">Aktualisierung kann nicht herunter geladen werden. Bitte öffnen Sie &lt;a href=&apos;%1&apos;&gt;%1&lt;/a&gt;, um die Aktualisierung manuell herunterzuladen.</translation>
     </message>
@@ -2780,13 +2776,9 @@ for additional privileges during the process.</source>
         <translation>Auf neue Aktualisierungen kann nicht geprüft werden.</translation>
     </message>
     <message>
-        <source>New %1 is available. Please open &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt; to download the update.</source>
-        <translation type="vanished">Neue Version von %1 vorhanden. Bitte öffnen Sie &lt;a href=&apos;%2&apos;&gt;%2&lt;/a&gt; um die Aktualisierung herunterzuladen.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="161"/>
-        <source>New %1 is available. Please open %2 to download the update.</source>
-        <translation>Neue Version von %1 vorhanden. Bitte öffnen Sie %2 um die Aktualisierung herunterzuladen.</translation>
+        <source>New %1 is available. Please click on download to get the update.</source>
+        <translation>Neue Version von %1 vorhanden. Bitte klicken Sie auf Download um die Aktualisierung herunterzuladen.</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="163"/>
