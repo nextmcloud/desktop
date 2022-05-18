@@ -165,7 +165,7 @@ QString OCUpdater::statusString(UpdateStatusStringFormat format) const
         if (format == UpdateStatusStringFormat::Html) {
             return tr("New %1 is available. Please click on download to get the update.").arg(updateVersion);
         }
-        return tr("New %1 is available. Please click on download to get the update.").arg(updateVersion, _updateInfo.web());
+        return tr("New %1 is available. Please click on download to get the update.").arg(updateVersion);
     }
     case CheckingServer:
         return tr("Checking update server …");
