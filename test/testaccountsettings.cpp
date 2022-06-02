@@ -20,6 +20,11 @@ AccountSettings::AccountSettings(AccountState *accountState) :
     _ui->moreMemoryButton = new QPushButton();
     _ui->quotaProgressLabel = new QLabel();
     _ui->quotaInfoLabel = new QLabel();
+    _ui->selectiveSyncCancel = new QPushButton();
+    _ui->selectiveSyncApply = new QPushButton();
+    _ui->selectiveSyncStatus = new QWidget();
+    _ui->selectiveSyncButtons = new QWidget();
+    _ui->selectiveSyncLabel = new QLabel();
 
     _wasDisabledBefore = (false);
     _accountState = accountState;
@@ -31,11 +36,6 @@ class TestAccountSettings: public QObject
     Q_OBJECT
 
 private slots:
-    void testslotMoreMemory()
-    {
-        QPointer<AccountSettings> accountSet;
-        accountSet->slotMoreMemory();
-    }
 
     void testcustomizeStyle()
     {
@@ -50,6 +50,9 @@ private slots:
                                     "text-align: center;}QProgressBar::chunk {background-color: #e20074; height: 4px;}");
         QCOMPARE(accountSet->_ui->moreMemoryButton->styleSheet(), expMoreMemoryStyleSheet);
         QCOMPARE(accountSet->_ui->quotaProgressBar->styleSheet(), expQuotaStylesheet);
+
+        delete accountSet;
+        delete accountSt;
     }
 
     void testslotUpdateQuota_Memory50Per()
@@ -85,6 +88,9 @@ private slots:
         QCOMPARE(accountSet->_ui->quotaInfoLabel->toolTip(), expectToolTip);
         QCOMPARE(accountSet->_ui->quotaProgressBar->toolTip(), expectToolTip);
         QCOMPARE(accountSet->_ui->quotaProgressLabel->text(), expectProgressText);
+
+        delete accountSet;
+        delete accountSt;
     }
 
     void testslotUpdateQuota_Memory100Per()
@@ -120,6 +126,9 @@ private slots:
         QCOMPARE(accountSet->_ui->quotaInfoLabel->toolTip(), expectToolTip);
         QCOMPARE(accountSet->_ui->quotaProgressBar->toolTip(), expectToolTip);
         QCOMPARE(accountSet->_ui->quotaProgressLabel->text(), expectProgressText);
+
+        delete accountSet;
+        delete accountSt;
     }
 
     void testslotUpdateQuota_NegativeTotal()
@@ -138,6 +147,90 @@ private slots:
         accountSet->slotUpdateQuota(total, used);
 
         QCOMPARE(accountSet->_ui->quotaInfoLabel->text(), expectInfoText);
+
+        delete accountSet;
+        delete accountSt;
+    }
+
+    /* UI based (event driven) test cases */
+    void test_moreMemoryButton()
+    {
+        AccountPtr account = Account::create();
+        AccountState *accountSt = new AccountState(account);
+        AccountSettings *accountSet = new AccountSettings(accountSt);
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy moreMemoryButtonSpy(accountSet->_ui->moreMemoryButton, SIGNAL(clicked(bool)));
+
+        connect(accountSet->_ui->moreMemoryButton, &QPushButton::clicked, accountSet,
+                &AccountSettings::slotMoreMemory);
+
+        /* generate event/emit signal */
+        QTest::mouseClick( accountSet->_ui->moreMemoryButton, Qt::LeftButton );
+
+        /* verify SIGNAL emit */
+        QCOMPARE(moreMemoryButtonSpy.count(), 1);
+
+        delete accountSet;
+        delete accountSt;
+    }
+
+    void test_selectiveSyncCancel()
+    {
+        AccountPtr account = Account::create();
+        AccountState *accountSt = new AccountState(account);
+        AccountSettings *accountSet = new AccountSettings(accountSt);
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy selectiveSyncCancelSpy(accountSet->_ui->selectiveSyncCancel, SIGNAL(clicked(bool)));
+
+        /*to track the SLOT called or not */
+        connect(accountSet->_ui->selectiveSyncCancel, &QAbstractButton::clicked,
+                accountSet, &AccountSettings::slotHideSelectiveSyncWidget);
+
+        /* generate event/emit signal */
+        QTest::mouseClick( accountSet->_ui->selectiveSyncCancel, Qt::LeftButton );
+
+        /* verify SIGNAL emit */
+        QCOMPARE(selectiveSyncCancelSpy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(accountSet->_ui->selectiveSyncApply->isEnabled(), false);
+        QCOMPARE(accountSet->_ui->selectiveSyncStatus->isHidden(), true);
+        QCOMPARE(accountSet->_ui->selectiveSyncButtons->isHidden(), true);
+        QCOMPARE(accountSet->_ui->selectiveSyncLabel->isHidden(), true);
+
+        delete accountSet;
+        delete accountSt;
+    }
+
+    void test_selectiveSyncApply()
+    {
+        AccountPtr account = Account::create();
+        AccountState *accountSt = new AccountState(account);
+        AccountSettings *accountSet = new AccountSettings(accountSt);
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy selectiveSyncApplySpy(accountSet->_ui->selectiveSyncApply, SIGNAL(clicked(bool)));
+
+        /*to track the SLOT called or not */
+        connect(accountSet->_ui->selectiveSyncApply, &QAbstractButton::clicked,
+                accountSet, &AccountSettings::slotHideSelectiveSyncWidget);
+
+        /* generate event/emit signal */
+        QTest::mouseClick( accountSet->_ui->selectiveSyncApply, Qt::LeftButton );
+
+        /* verify SIGNAL emit */
+        QCOMPARE(selectiveSyncApplySpy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(accountSet->_ui->selectiveSyncApply->isEnabled(), false);
+        QCOMPARE(accountSet->_ui->selectiveSyncStatus->isHidden(), true);
+        QCOMPARE(accountSet->_ui->selectiveSyncButtons->isHidden(), true);
+        QCOMPARE(accountSet->_ui->selectiveSyncLabel->isHidden(), true);
+
+        delete accountSet;
+        delete accountSt;
     }
 };
 
