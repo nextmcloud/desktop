@@ -318,7 +318,7 @@ private slots:
                                                  Share::TypeLink, nullptr,createShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         value.setValue((int)SharePermissionRead);
         widget->_linkShare = linkShare;
 
@@ -410,7 +410,7 @@ private slots:
 
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, createShare, QUrl(), QDate() ));
+                                              SharePermissionRead, createShare, QUrl(), QDate(), "note", "label" ));
         QString permission = "Read only";
 
         widget->setLinkAdvancePermission(linkShare, Share::ShareType::TypeLink, sharee, createShare, permission);
@@ -478,7 +478,7 @@ private slots:
                                                  Share::TypeLink, nullptr,createShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         value.setValue((int)SharePermissionRead);
         widget->_linkShare = linkShare;
 
@@ -591,7 +591,7 @@ private slots:
                                                  Share::TypeLink, nullptr,createShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         value.setValue((int)SharePermissionRead);
         widget->_linkShare = linkShare;
 

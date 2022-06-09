@@ -130,7 +130,7 @@ private slots:
                                        shareDialog._localPath, shareDialog._maxSharingPermissions, "privateLinkUrl", &shareDialog);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         shareDialog._userGroupWidget->setVisible(true);
         QString permission = "Read only";
 
@@ -311,7 +311,7 @@ private slots:
         shareDialog._linkWidgetList.append(widget);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
 
 
         shareDialog.addLinkShareWidget(linkShare);
@@ -380,7 +380,7 @@ private slots:
 
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         shareDialog._sharePermissionGroup = new ShareUserGroupPermissionWidget(shareDialog._accountState->account(), shareDialog._sharePath,
                                             shareDialog._localPath, shareDialog._userLinePermission, shareDialog._maxSharingPermissions,
                                             Share::TypeLink, nullptr,false, parent);
@@ -405,7 +405,7 @@ private slots:
 
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         shareDialog._sharePermissionGroup = new ShareUserGroupPermissionWidget(shareDialog._accountState->account(), shareDialog._sharePath,
                                             shareDialog._localPath, shareDialog._userLinePermission, shareDialog._maxSharingPermissions,
                                             Share::TypeLink, nullptr,false, parent);
@@ -431,7 +431,7 @@ private slots:
 
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         shareDialog._sharePermissionGroup = new ShareUserGroupPermissionWidget(shareDialog._accountState->account(), shareDialog._sharePath,
                                             shareDialog._localPath, shareDialog._userLinePermission, shareDialog._maxSharingPermissions,
                                             Share::TypeLink, nullptr,false, parent);

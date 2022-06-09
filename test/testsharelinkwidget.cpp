@@ -42,7 +42,7 @@ private slots:
                                   "localPath", SharePermissionShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         widget->_isFile = true;
         widget->_linkShare = linkShare;
         value.setValue((int)SharePermissionRead);
@@ -70,7 +70,7 @@ private slots:
                                   "localPath", SharePermissionShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         widget->_isFile = false;
         widget->_linkShare = linkShare;
         value.setValue((int)SharePermissionRead);
@@ -111,7 +111,7 @@ private slots:
                                   "localPath", SharePermissionShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         widget->_isFile = true;
         widget->_linkShare = linkShare;
 
@@ -140,7 +140,7 @@ private slots:
                                   "localPath", SharePermissionShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         widget->_isFile = false;
         widget->_linkShare = linkShare;
 
@@ -170,7 +170,7 @@ private slots:
                                   "localPath", SharePermissionShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         widget->_linkShare = linkShare;
 
         auto *permissionsGroup = new QActionGroup(this);
@@ -198,7 +198,7 @@ private slots:
                                   "localPath", SharePermissionShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         widget->_linkShare = linkShare;
 
         auto *permissionsGroup = new QActionGroup(this);
@@ -226,7 +226,7 @@ private slots:
                                   "localPath", SharePermissionShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         widget->_linkShare = linkShare;
 
         widget->_unshareLinkAction = new QAction(tr("Unshare Link"));
@@ -251,7 +251,7 @@ private slots:
                                   "localPath", SharePermissionShare, parent);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, url, QDate()));
+                                              SharePermissionRead, true, url, QDate(), "note", "label"));
 
         widget->_linkShare = linkShare;
         QCOMPARE(widget->_linkShare->getLink(), url);

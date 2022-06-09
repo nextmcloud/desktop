@@ -11,7 +11,7 @@
 #define private public
 #include "generalsettings.h"
 #undef private
-#include "gui/nextcloudCore_autogen/include_Debug/ui_generalsettings.h"
+#include "gui/nextcloudCore_autogen/include/ui_generalsettings.h"
 
 using namespace OCC;
 

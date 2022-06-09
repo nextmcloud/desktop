@@ -85,13 +85,14 @@ private slots:
 
         FolderWizardRemotePath FolderRemote(account);
 
-        QCOMPARE(FolderRemote._ui.warnLabel->isHidden(), true);
+//        QCOMPARE(FolderRemote._ui.warnLabel->isHidden(), true);
         QCOMPARE(FolderRemote._ui.folderEntry->isHidden(), true);
         QCOMPARE(FolderRemote._ui.content->text(), expectedContent);
         QCOMPARE(FolderRemote._ui.subHeader->text(), expectedSubHeader);
         QCOMPARE(FolderRemote._ui.subContent->text(), expectedSubContent);
     }
 
+    /* showWarn removed from source code.
     void testFolderWizardRemotePath_showWarn_Hidden()
     {
         auto *cred = new HttpCredentialsTest("testuser", "secret");
@@ -102,7 +103,7 @@ private slots:
 
         FolderWizardRemotePath FolderRemote(account);
         QString warn;
-        QString expectedWarn = "TextLabel"; /* Default set */
+        QString expectedWarn = "TextLabel";
 
         FolderRemote.showWarn(warn);
 
@@ -127,6 +128,7 @@ private slots:
         QCOMPARE(FolderRemote._ui.warnLabel->text(), warn);
         QCOMPARE(FolderRemote._ui.warnLabel->isHidden(), false);
     }
+    */
 
     void testFormatWarningsWizardPage_formatWarnings()
     {

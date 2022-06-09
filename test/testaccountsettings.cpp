@@ -45,7 +45,7 @@ private slots:
 
         accountSet->customizeStyle();
 
-        QString expMoreMemoryStyleSheet("QPushButton {height : 24px ; font : 13px; color: #191919; border: 0px solid #CCCCCC; backgroud:#E1E1E1}");
+        QString expMoreMemoryStyleSheet("QPushButton {height : 24px ; font : 13px; border: 2px solid #CCCCCC; backgroud:#E1E1E1}");
         QString expQuotaStylesheet( "QProgressBar {border: 0px solid grey;border-radius: 5px; height: 4px;background-color: #CCCCCC;"
                                     "text-align: center;}QProgressBar::chunk {background-color: #e20074; height: 4px;}");
         QCOMPARE(accountSet->_ui->moreMemoryButton->styleSheet(), expMoreMemoryStyleSheet);
@@ -78,7 +78,7 @@ private slots:
         sprintf(expectInfoText, "<b> %s </b> of %s", usedStr.toStdString().c_str(),
                 totalStr.toStdString().c_str());
         char expectProgressText[25];
-        sprintf(expectProgressText, "Memory Occupied to %d percentage", (int)(percent));
+        sprintf(expectProgressText, "Memory Occupied to %d %%", (int)(percent));
         QString expectStyleSheet = "QLabel { background-color :%1 ; font: 18px; color : #191919; }";
 
         accountSet->slotUpdateQuota(total, used);
@@ -116,7 +116,7 @@ private slots:
         sprintf(expectInfoText, "<b> %s </b> of %s", usedStr.toStdString().c_str(),
                 totalStr.toStdString().c_str());
         char expectProgressText[25];
-        sprintf(expectProgressText, "Memory Occupied to %d percentage", (int)((used * 100)/total));
+        sprintf(expectProgressText, "Memory Occupied to %d %%", (int)((used * 100)/total));
         QString expectStyleSheet = "QLabel { background-color :%1 ; font: 18px; color : #191919; }";
 
         accountSet->slotUpdateQuota(total, used);
