@@ -2304,7 +2304,7 @@ Beachten Sie bitte, dass hierdurch nur ausgewählt wird, aus welchem Pool Upgrad
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="192"/>
-        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Further Information&lt;/a&gt;</source>
+        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Further Informations&lt;/a&gt;</source>
         <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Mehr Informationen&lt;/a&gt;</translation>
     </message>
 </context>
@@ -5700,14 +5700,6 @@ p, li { white-space: pre-wrap; }
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Lokaler Ordner&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Please check your local folder &lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Überprüfen Sie bitte ihren lokalen Ordner &lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>Due to the change to a new product, we cannot be sure where your previous MagentaCLOUD folder is stored. If you have adjusted the location in the previous software, please select the location again above.</source>
-        <translation type="vanished">Aufgrund des Wechsels zu einem neuen Produkt können wir nicht sicher erkennen, wo Ihr bisheriger MagentaCLOUD gespeichert ist. Sollten Sie den Speicherort in der bisherigen Software angepasst haben, so wählen Sie den Speicherort bitte oben erneut aus.</translation>
-    </message>
-    <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Brand new: Virtual files!&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Ganz neu: Virtuelle Dateien!&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -5731,13 +5723,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="570"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Überprüfen Sie bitte ihren lokalen Ordner&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Please check your local folder &lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Überprüfen Sie bitte ihren lokalen Ordner &lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="592"/>
-        <source>Aufgrund des Wechsels zu einem neuen Produkt können wir nicht sicher erkennen, wo Ihr bisheriger MagentaCLOUD gespeichert ist. Sollten Sie den Speicherort in der bisherigen Software angepasst haben, so wählen Sie den Speicherort bitte oben erneut aus.</source>
-        <translation type="unfinished"></translation>
+        <source>Due to the change to a new product, we cannot be sure where your previous MagentaCLOUD folder is stored. If you have adjusted the location in the previous software, please select the location again above.</source>
+        <translation>Aufgrund des Wechsels zu einem neuen Produkt können wir nicht sicher erkennen, wo Ihr bisheriger MagentaCLOUD gespeichert ist. Sollten Sie den Speicherort in der bisherigen Software angepasst haben, so wählen Sie den Speicherort bitte oben erneut aus.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="636"/>
