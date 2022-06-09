@@ -11,6 +11,7 @@ Rectangle {
     color: Style.magenta
     Text {
         id: titleText
+        objectName: "titleText"
         text: qsTr("MagentaCLOUD")
         font.family: Style.swipeFontFamily
         font.pixelSize: Style.topLinePixelSize

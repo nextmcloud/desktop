@@ -98,6 +98,7 @@ Window {
 
     Rectangle {
         id: trayWindowBackground
+        objectName: "trayWindowBackground"
 
         anchors.fill:   parent
         radius:         Style.trayWindowRadius
@@ -109,6 +110,7 @@ Window {
 
         Rectangle {
             id: trayWindowMagentaBarBackground
+            objectName: "trayWindowMagentaBarBackground"
 
             anchors.left:   trayWindowBackground.left
             anchors.right:  trayWindowBackground.right
@@ -119,6 +121,7 @@ Window {
 
             Rectangle {
                 id: trayWindowTLogoBarBackground
+                objectName: "trayWindowTLogoBarBackground"
 
                 anchors.left:   trayWindowMagentaBarBackground.left
                 anchors.right:  trayWindowMagentaBarBackground.right
@@ -128,6 +131,7 @@ Window {
 
                 Rectangle {
                     id: trayWindowTLogoBarTopSpacer
+                    objectName: "trayWindowTLogoBarTopSpacer"
 
                     anchors.left:   trayWindowTLogoBarBackground.left
                     anchors.right:  trayWindowTLogoBarBackground.right
@@ -137,6 +141,7 @@ Window {
                 }
                 Rectangle {
                     id: trayWindowTLogoBarLeftSpacer
+                    objectName: "trayWindowTLogoBarLeftSpacer"
 
                     anchors.left:   trayWindowTLogoBarBackground.left
                     anchors.top:    trayWindowTLogoBarTopSpacer.bottom
@@ -146,6 +151,7 @@ Window {
                 }
                 Image {
                     id: magentaTLogo
+                    objectName: "magentaTLogo"
 
                     anchors.left:   trayWindowTLogoBarLeftSpacer.right
                     anchors.top:    trayWindowTLogoBarTopSpacer.bottom
@@ -157,6 +163,7 @@ Window {
 
             Rectangle {
                 id: trayWindowHeaderBackground
+                objectName: "trayWindowHeaderBackground"
 
                 anchors.left:   trayWindowMagentaBarBackground.left
                 anchors.right:  trayWindowMagentaBarBackground.right
@@ -167,12 +174,14 @@ Window {
 
                 RowLayout {
                     id: trayWindowHeaderLayout
+                    objectName: "trayWindowHeaderLayout"
 
                     spacing:        0
                     anchors.fill:   parent
 
                     Button {
                         id: currentAccountButton
+                        objectName: "currentAccountButton"
 
                         Layout.preferredWidth:  Style.currentAccountButtonWidth
                         Layout.preferredHeight: Style.trayWindowHeaderHeight
@@ -185,6 +194,7 @@ Window {
 
                         MouseArea {
                             id: accountBtnMouseArea
+                            objectName: "accountBtnMouseArea"
 
                             anchors.fill:   parent
                             hoverEnabled:   Style.hoverEffectsEnabled
@@ -203,6 +213,7 @@ Window {
 
                             Menu {
                                 id: accountMenu
+                                objectName: "accountMenu"
 
                                 // x coordinate grows towards the right
                                 // y coordinate grows towards the bottom
@@ -238,12 +249,14 @@ Window {
 
                                 MenuItem {
                                     id: syncPauseButton
+                                    objectName: "syncPauseButton"
                                     //display: AbstractButton.TextBesideIcon
                                     display: AbstractButton.IconOnly
                                     hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/pause/default.png"
                                     icon.color: syncPauseButton.hovered ? Style.magenta : Style.nmcTextColor
                                     Text {
+                                        objectName: "syncPauseButtonText"
                                         anchors.verticalCenter: parent.verticalCenter
                                         //font.wordSpacing:  45
                                         text: "              " + syncPauseButton.text
@@ -275,11 +288,13 @@ Window {
 
                                 MenuItem {
                                     id: settingsButton
+                                    objectName: "settingsButton"
                                     display: AbstractButton.TextBesideIcon
                                     hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/settings/default.png"
                                     icon.color: settingsButton.hovered ? Style.magenta : Style.nmcTextColor
                                     Text {
+                                        objectName: "settingsButtonText"
                                         anchors.verticalCenter: parent.verticalCenter
                                         font.wordSpacing:  45
                                         text:  qsTr(" "+"Settings")
@@ -309,12 +324,14 @@ Window {
 
                                 MenuItem {
                                     id: exitButton
+                                    objectName: "exitButton"
                                     display: AbstractButton.TextBesideIcon
                                     hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/circle-close/default.png"
                                     icon.color: exitButton.hovered ? Style.magenta : Style.nmcTextColor
 
                                     Text {
+                                        objectName: "exitButtonText"
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.bottomMargin: Style.accountMenuPadding
                                         font.wordSpacing:  45
@@ -355,12 +372,14 @@ Window {
 
                         RowLayout {
                             id: accountControlRowLayout
+                            objectName: "accountControlRowLayout"
 
                             height: Style.trayWindowHeaderHeight
                             spacing: 0
 
                             Image {
                                 id: currentAccountAvatar
+                                objectName: "currentAccountAvatar"
 
                                 Layout.leftMargin: Style.accountMenuPadding
                                 verticalAlignment: Qt.AlignCenter
@@ -377,6 +396,7 @@ Window {
 
                                 Rectangle {
                                     id: currentAccountStateIndicatorBackground
+                                    objectName: "currentAccountStateIndicatorBackground"
                                     width: Style.accountAvatarStateIndicatorSize + 2
                                     height: width
                                     anchors.bottom: currentAccountAvatar.bottom
@@ -397,6 +417,7 @@ Window {
 
                                 Image {
                                     id: currentAccountStateIndicator
+                                    objectName: "currentAccountStateIndicator"
                                     source: UserModel.isUserConnected(UserModel.currentUserId)
                                             ? Style.stateOnlineImageSource
                                             : Style.stateOfflineImageSource
@@ -413,6 +434,7 @@ Window {
 
                             Label {
                                 id: currentAccountUser
+                                objectName: "currentAccountUser"
 
                                 Layout.leftMargin: 8
                                 verticalAlignment: Qt.AlignCenter
@@ -457,6 +479,7 @@ Window {
 
                     HeaderButton {
                         id: openAccountServerButton
+                        objectName: "openAccountServerButton"
                         spacing: 0;
                         visible: true
                         icon.source: "qrc:///client/theme/magenta/news/default@svg.svg"
@@ -478,6 +501,7 @@ Window {
 
                     HeaderButton {
                         id: openLocalFolderButton
+                        objectName: "openLocalFolderButton"
                         spacing: 0
                         visible: UserModel.currentUser.hasLocalFolder
                         icon.source: "qrc:///client/theme/magenta/folder/default@svg.svg"
@@ -518,6 +542,7 @@ Window {
         }*/
         MenuSeparator {
             id: trayWindowGradientBarBackground
+            objectName: "trayWindowGradientBarBackground"
             padding: 0
             topPadding: 108
             bottomPadding: 8
