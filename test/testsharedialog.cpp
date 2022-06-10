@@ -358,11 +358,6 @@ private slots:
         QCOMPARE(shareDialog._ui->scrollArea->frameShape() , QFrame::NoFrame);
         QCOMPARE(shareDialog._ui->scrollArea->width() , shareDialog._ui->verticalLayout->sizeHint().width());
 
-        ShareLinkWidget *linkShareWidget = shareDialog._linkWidgetList.at(shareDialog._linkWidgetList.size() -1);
-        QCOMPARE(linkShareWidget->_account , shareDialog._accountState->account());
-        QCOMPARE(linkShareWidget->_sharePath , shareDialog._sharePath);
-        QCOMPARE(linkShareWidget->_localPath , shareDialog._localPath);
-        
         delete shareDialog._userGroupWidget;
         delete layout;
         delete accountSt;
