@@ -172,7 +172,7 @@ private slots:
     void testfolderOverlayIcon_SyncPrepare_True()
     {
         OCC::Theme *themeObj = OCC::Theme::instance();
-        QString key = "magentacloud-icon,colored";
+        QString key = "state-ok,colored";
         QIcon expectedRet = QIcon("test.xpm");
         themeObj->_iconCache[key] = expectedRet;
 
@@ -190,12 +190,12 @@ private slots:
 
         QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::SyncPrepare, false);
 
-//        QCOMPARE(ret, expectedRet);
+        QCOMPARE(ret, expectedRet);
     }
     void testfolderOverlayIcon_Success_True()
     {
         OCC::Theme *themeObj = OCC::Theme::instance();
-        QString key = "magentacloud-icon,colored";
+        QString key = "state-ok,colored";
         QIcon expectedRet = QIcon("test.xpm");
         themeObj->_iconCache[key] = expectedRet;
 
