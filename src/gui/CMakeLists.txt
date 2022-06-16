@@ -1,5 +1,14 @@
 project(gui)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Svg Qml Quick QuickControls2 Xml Network)
+
+if(QUICK_COMPILER)
+        find_package(Qt5QuickCompiler)
+        set_package_properties(Qt5QuickCompiler PROPERTIES
+                DESCRIPTION "Compile QML at build time"
+                TYPE REQUIRED
+        )
+endif()
+
 if (NOT TARGET Qt5::GuiPrivate)
     message(FATAL_ERROR "Could not find GuiPrivate component of Qt5. It might be shipped as a separate package, please check that.")
 endif()
@@ -13,14 +22,12 @@ IF(BUILD_UPDATER)
 endif()
 
 configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
-
-set(MIRALL_RC_SRC ../../resources.qrc)
-list(APPEND MIRALL_RC_SRC ${CMAKE_SOURCE_DIR}/theme.qrc)
 set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
 
 set(client_UI_SRCS
     accountsettings.ui
     conflictdialog.ui
+    internallinkwidget.ui
     invalidfilenamedialog.ui
     foldercreationdialog.ui
     folderwizardsourcepage.ui
@@ -39,6 +46,7 @@ set(client_UI_SRCS
     shareuserline.ui
     sslerrordialog.ui
     addcertificatedialog.ui
+    passwordinputdialog.ui
     proxyauthdialog.ui
     mnemonicdialog.ui
     tray/ActivityActionButton.qml
@@ -53,110 +61,222 @@ set(client_UI_SRCS
     wizard/owncloudsetupnocredspage.ui
     wizard/owncloudwizardresultpage.ui
     wizard/webview.ui
+    wizard/welcomepage.ui
+
     welcome/welcome.qml
     welcome/Page1Form.ui.qml
     welcome/Page2Form.ui.qml
     welcome/Page3Form.ui.qml
 )
 
+if(QUICK_COMPILER)
+    qtquick_compiler_add_resources(client_UI_SRCS ../../resources.qrc ${CMAKE_SOURCE_DIR}/theme.qrc)
+else()
+    qt_add_resources(client_UI_SRCS ../../resources.qrc ${CMAKE_SOURCE_DIR}/theme.qrc)
+endif()
+
 set(client_SRCS
+    accountmanager.h
     accountmanager.cpp
+    accountsettings.h
     accountsettings.cpp
+    application.h
     application.cpp
+    invalidfilenamedialog.h
     invalidfilenamedialog.cpp
+    conflictdialog.h
     conflictdialog.cpp
+    conflictsolver.h
     conflictsolver.cpp
+    connectionvalidator.h
     connectionvalidator.cpp
+    folder.h
     folder.cpp
+    foldercreationdialog.h
     foldercreationdialog.cpp
+    folderman.h
     folderman.cpp
+    folderstatusmodel.h
     folderstatusmodel.cpp
+    folderstatusdelegate.h
     folderstatusdelegate.cpp
+    folderstatusview.h
     folderstatusview.cpp
+    folderwatcher.h
     folderwatcher.cpp
+    folderwizard.h
     folderwizard.cpp
+    generalsettings.h
     generalsettings.cpp
+    legalnotice.h
     legalnotice.cpp
+    internallinkwidget.h
+    internallinkwidget.cpp
+    ignorelisteditor.h
     ignorelisteditor.cpp
+    ignorelisttablewidget.h
     ignorelisttablewidget.cpp
+    lockwatcher.h
     lockwatcher.cpp
+    logbrowser.h
     logbrowser.cpp
+    navigationpanehelper.h
     navigationpanehelper.cpp
+    networksettings.h
     networksettings.cpp
+    ocsnavigationappsjob.h
     ocsnavigationappsjob.cpp
+    ocsjob.h
     ocsjob.cpp
+    ocssharejob.h
     ocssharejob.cpp
+    ocsshareejob.h
     ocsshareejob.cpp
+    openfilemanager.h
     openfilemanager.cpp
+    owncloudgui.h
     owncloudgui.cpp
+    owncloudsetupwizard.h
     owncloudsetupwizard.cpp
+    passwordinputdialog.h
+    passwordinputdialog.cpp
+    selectivesyncdialog.h
     selectivesyncdialog.cpp
+    settingsdialog.h
     settingsdialog.cpp
+    sharedialog.h
     sharedialog.cpp
+    sharelinkwidget.h
     sharelinkwidget.cpp
     shareusermessagewidget.cpp
     shareusergrouppermissionwidget.cpp
+
+    sharemanager.h
     sharemanager.cpp
     shareusergroupwidget.cpp
+    profilepagewidget.h
+    profilepagewidget.cpp
+    sharee.h
     sharee.cpp
+    sslbutton.h
     sslbutton.cpp
+    sslerrordialog.h
     sslerrordialog.cpp
+    syncrunfilelog.h
     syncrunfilelog.cpp
+    systray.h
     systray.cpp
+    thumbnailjob.h
     thumbnailjob.cpp
+    userinfo.h
     userinfo.cpp
-    userstatus.cpp
+    accountstate.h
     accountstate.cpp
+    addcertificatedialog.h
     addcertificatedialog.cpp
+    authenticationdialog.h
     authenticationdialog.cpp
+    proxyauthhandler.h
     proxyauthhandler.cpp
+    proxyauthdialog.h
     proxyauthdialog.cpp
+    tooltipupdater.h
     tooltipupdater.cpp
+    notificationconfirmjob.h
     notificationconfirmjob.cpp
+    guiutility.h
     guiutility.cpp
+    elidedlabel.h
     elidedlabel.cpp
+    headerbanner.h
     headerbanner.cpp
-    iconjob.cpp
+    iconutils.h
+    iconutils.cpp
+    remotewipe.h
     remotewipe.cpp
-    tray/ActivityData.cpp
-    tray/ActivityListModel.cpp
-    tray/UserModel.cpp
-    tray/NotificationHandler.cpp
-    tray/NotificationCache.cpp
+    userstatusselectormodel.h
+    userstatusselectormodel.cpp
+    emojimodel.h
+    emojimodel.cpp
+    fileactivitylistmodel.h
+    fileactivitylistmodel.cpp
+    tray/svgimageprovider.h
+    tray/svgimageprovider.cpp
+    tray/syncstatussummary.h
+    tray/syncstatussummary.cpp
+    tray/activitydata.h
+    tray/activitydata.cpp
+    tray/activitylistmodel.h
+    tray/activitylistmodel.cpp
+    tray/unifiedsearchresult.h
+    tray/asyncimageresponse.cpp
+    tray/unifiedsearchresult.cpp
+    tray/unifiedsearchresultslistmodel.h
+    tray/trayimageprovider.cpp
+    tray/unifiedsearchresultslistmodel.cpp
+    tray/usermodel.h
+    tray/usermodel.cpp
+    tray/notificationhandler.h
+    tray/notificationhandler.cpp
+    creds/credentialsfactory.h
+    tray/talkreply.cpp
     creds/credentialsfactory.cpp
+    creds/httpcredentialsgui.h
     creds/httpcredentialsgui.cpp
+    creds/oauth.h
     creds/oauth.cpp
+    creds/flow2auth.h
     creds/flow2auth.cpp
+    creds/webflowcredentials.h
     creds/webflowcredentials.cpp
+    creds/webflowcredentialsdialog.h
     creds/webflowcredentialsdialog.cpp
+    wizard/postfixlineedit.h
     wizard/postfixlineedit.cpp
+    wizard/abstractcredswizardpage.h
     wizard/abstractcredswizardpage.cpp
+    wizard/owncloudadvancedsetuppage.h
     wizard/owncloudadvancedsetuppage.cpp
+    wizard/owncloudconnectionmethoddialog.h
     wizard/owncloudconnectionmethoddialog.cpp
+    wizard/owncloudhttpcredspage.h
     wizard/owncloudhttpcredspage.cpp
+    wizard/owncloudoauthcredspage.h
     wizard/owncloudoauthcredspage.cpp
+    wizard/flow2authcredspage.h
     wizard/flow2authcredspage.cpp
+    wizard/flow2authwidget.h
     wizard/flow2authwidget.cpp
+    wizard/owncloudsetuppage.h
     wizard/owncloudsetuppage.cpp
+    wizard/owncloudwizardcommon.h
     wizard/owncloudwizardcommon.cpp
+    wizard/owncloudwizard.h
     wizard/owncloudwizard.cpp
-    wizard/owncloudwizardresultpage.cpp
+    wizard/slideshow.h
     wizard/slideshow.cpp
+    wizard/welcomepage.h
     wizard/welcomepage.cpp
+    wizard/linklabel.h
     wizard/linklabel.cpp
     )
 
 if (Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
   list(APPEND client_SRCS
+    wizard/webviewpage.h
     wizard/webviewpage.cpp
+    wizard/webview.h
     wizard/webview.cpp
   )
 endif()
 
 IF(BUILD_UPDATER)
     set(updater_SRCS
+        updater/ocupdater.h
         updater/ocupdater.cpp
+        updater/updateinfo.h
         updater/updateinfo.cpp
+        updater/updater.h
         updater/updater.cpp
     )
 endif()
@@ -190,12 +310,19 @@ list(APPEND client_SRCS folderwatcher_mac.cpp)
 ENDIF()
 
 set(3rdparty_SRC
+    ../3rdparty/QProgressIndicator/QProgressIndicator.h
     ../3rdparty/QProgressIndicator/QProgressIndicator.cpp
+    ../3rdparty/qtlockedfile/qtlockedfile.h
     ../3rdparty/qtlockedfile/qtlockedfile.cpp
+    ../3rdparty/qtsingleapplication/qtlocalpeer.h
     ../3rdparty/qtsingleapplication/qtlocalpeer.cpp
+    ../3rdparty/qtsingleapplication/qtsingleapplication.h
     ../3rdparty/qtsingleapplication/qtsingleapplication.cpp
+    ../3rdparty/qtsingleapplication/qtsinglecoreapplication.h
     ../3rdparty/qtsingleapplication/qtsinglecoreapplication.cpp
+    ../3rdparty/kmessagewidget/kmessagewidget.h
     ../3rdparty/kmessagewidget/kmessagewidget.cpp
+    ../3rdparty/kirigami/wheelhandler.h
     ../3rdparty/kirigami/wheelhandler.cpp
    )
 
@@ -279,7 +406,6 @@ function(generate_sized_png_from_svg icon_path size)
   if (ARG_OUTPUT_ICON_PATH)
     set(icon_name_dir ${ARG_OUTPUT_ICON_PATH})
   endif ()
-  
 
   if (EXISTS "${icon_name_dir}/${size}-${icon_name_wle}.png")
     return()
@@ -327,8 +453,6 @@ endif()
 
 set(APP_ICON_SVG "${theme_dir}/colored/${APPLICATION_ICON_NAME}-icon.svg")
 
-
-
 # generate secondary icon if available (currently for Windows only)--------------------------------------
 set(APP_SECONDARY_ICONS "${theme_dir}/colored/icons")
 set(APP_ICON_WIN_FOLDER_SVG "${APP_SECONDARY_ICONS}/${APPLICATION_ICON_NAME}-icon-win-folder.svg")
@@ -372,6 +496,7 @@ else()
 endif()
 
 file(GLOB_RECURSE OWNCLOUD_ICONS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-icon*")
+
 if(APPLE)
     file(GLOB_RECURSE OWNCLOUD_SIDEBAR_ICONS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-sidebar*")
     MESSAGE(STATUS "OWNCLOUD_SIDEBAR_ICONS: ${APPLICATION_ICON_NAME}: ${OWNCLOUD_SIDEBAR_ICONS}")

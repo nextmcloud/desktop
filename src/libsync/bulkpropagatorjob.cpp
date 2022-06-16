@@ -302,7 +302,7 @@ void BulkPropagatorJob::slotStartUpload(SyncFileItemPtr item,
     item->_modtime = FileSystem::getModTime(originalFilePath);
     if (item->_modtime <= 0) {
         _pendingChecksumFiles.remove(item->_file);
-        slotOnErrorStartFolderUnlock(item, SyncFileItem::NormalError, tr("File %1 has invalid modified time. Do not upload to the server.").arg(QDir::toNativeSeparators(item->_file)));
+        slotOnErrorStartFolderUnlock(item, SyncFileItem::NormalError, tr("File %1 has invalid modification time. Do not upload to the server.").arg(QDir::toNativeSeparators(item->_file)));
         checkPropagationIsDone();
         return;
     }
@@ -417,7 +417,7 @@ void BulkPropagatorJob::slotPutFinished()
         if (!fullReplyObject.contains(singleFile._remotePath)) {
             if (jobError != QNetworkReply::NoError) {
                 singleFile._item->_status = SyncFileItem::NormalError;
-                abortWithError(singleFile._item, SyncFileItem::NormalError, tr("Network Error: %1").arg(jobError));
+                abortWithError(singleFile._item, SyncFileItem::NormalError, tr("Network error: %1").arg(jobError));
             }
             continue;
         }
@@ -673,7 +673,7 @@ void BulkPropagatorJob::handleFileRestoration(SyncFileItemPtr item,
             || item->_status == SyncFileItem::Conflict) {
             item->_status = SyncFileItem::Restoration;
         } else {
-            item->_errorString += tr("; Restoration Failed: %1").arg(errorString);
+            item->_errorString += tr("Restoration failed: %1").arg(errorString);
         }
     } else {
         if (item->_errorString.isEmpty()) {

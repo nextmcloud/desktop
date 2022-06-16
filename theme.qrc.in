@@ -102,13 +102,16 @@
         <file>theme/colored/state-warning-128.png</file>
         <file>theme/colored/state-warning-256.png</file>
         <file>theme/black/folder.png</file>
+        <file>theme/black/folder.svg</file>
         <file>theme/black/folder@2x.png</file>
         <file>theme/white/folder.png</file>
         <file>theme/white/folder@2x.png</file>
         <file>theme/colored/folder.png</file>
         <file>theme/colored/folder@2x.png</file>
+        <file>theme/black/confirm.svg</file>
         <file>theme/black/control-next.svg</file>
         <file>theme/black/control-prev.svg</file>
+        <file>theme/black/settings.svg</file>
         <file>theme/black/state-error.svg</file>
         <file>theme/black/state-error-16.png</file>
         <file>theme/black/state-offline.svg</file>
@@ -129,10 +132,22 @@
         <file>theme/black/state-warning-64.png</file>
         <file>theme/black/state-warning-128.png</file>
         <file>theme/black/state-warning-256.png</file>
+        <file>theme/white/activity.svg</file>
+        <file>theme/white/bell.svg</file>
+        <file>theme/white/calendar.svg</file>
+        <file>theme/white/change.svg</file>
+        <file>theme/white/close.svg</file>
+        <file>theme/white/confirm.svg</file>
         <file>theme/white/control-next.svg</file>
         <file>theme/white/control-prev.svg</file>
+        <file>theme/white/comment.svg</file>
+        <file>theme/white/deck.svg</file>
+        <file>theme/white/edit.svg</file>
+        <file>theme/white/email.svg</file>
+        <file>theme/white/settings.svg</file>
         <file>theme/white/state-error.svg</file>
         <file>theme/white/state-error-16.png</file>
+        <file>theme/white/state-info.svg</file>
         <file>theme/white/state-offline.svg</file>
         <file>theme/white/state-offline-16.png</file>
         <file>theme/white/state-offline-32.png</file>
@@ -153,6 +168,7 @@
         <file>theme/white/state-warning-256.png</file>
         <file>theme/white/wizard-files.png</file>
         <file>theme/white/wizard-files@2x.png</file>
+        <file>theme/white/wizard-groupware.svg</file>
         <file>theme/white/wizard-groupware.png</file>
         <file>theme/white/wizard-groupware@2x.png</file>
         <file>theme/white/wizard-nextcloud.png</file>
@@ -168,6 +184,7 @@
         <file>theme/black/wizard-talk.png</file>
         <file>theme/black/wizard-talk@2x.png</file>
         <file>theme/black/wizard-files.png</file>
+        <file>theme/black/wizard-groupware.svg</file>
         <file>theme/colored/wizard-files.png</file>
         <file>theme/colored/wizard-files@2x.png</file>
         <file>theme/colored/wizard-groupware.png</file>
@@ -197,9 +214,14 @@
         <file>theme/black/add-circle.svg</file>
         <file>theme/black/activity.svg</file>
         <file>theme/black/bell.svg</file>
+        <file>theme/black/wizard-talk.svg</file>
+        <file>theme/black/calendar.svg</file>
+        <file>theme/black/deck.svg</file>
         <file>theme/black/state-info.svg</file>
         <file>theme/black/delete.svg</file>
         <file>theme/close.svg</file>
+        <file>theme/black/close.svg</file>
+        <file>theme/white/close.svg</file>
         <file>theme/refresh.svg</file>
         <file>theme/files.svg</file>
         <file>theme/clipboard.svg</file>
@@ -211,6 +233,7 @@
         <file>theme/copy.svg</file>
         <file>theme/more.svg</file>
         <file>theme/change.svg</file>
+        <file>theme/colored/change-bordered.svg</file>
         <file>theme/lock-http.svg</file>
         <file>theme/lock-https.svg</file>
         <file>theme/lock-broken.svg</file>
@@ -256,5 +279,10 @@
         <file>theme/magenta/network32x32.svg</file>
         <file>theme/magenta/network_magenta32x32.svg</file>
         <file>theme/magenta/network_white.svg</file>
+        <file>theme/black/email.svg</file>
+        <file>theme/black/edit.svg</file>
+        <file>theme/delete.svg</file>
+        <file>theme/send.svg</file>
+        <file>theme/call-notification.wav</file>
     </qresource>
 </RCC>

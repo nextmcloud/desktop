@@ -35,6 +35,7 @@
 #include <memory>
 #include "capabilities.h"
 #include "clientsideencryption.h"
+#include "syncfileitem.h"
 
 class QSettings;
 class QNetworkReply;
@@ -56,6 +57,7 @@ class AccessManager;
 class SimpleNetworkJob;
 class PushNotifications;
 class UserStatusConnector;
+class SyncJournalDb;
 
 /**
  * @brief Reimplement this to handle SSL errors from libsync
@@ -89,6 +91,8 @@ public:
 
     AccountPtr sharedFromThis();
 
+    AccountPtr sharedFromThis() const;
+
     /**
      * The user that can be used in dav url.
      *
@@ -108,6 +112,10 @@ public:
 
     /// The name of the account as shown in the toolbar
     QString displayName() const;
+
+    QColor accentColor() const;
+    QColor headerColor() const;
+    QColor headerTextColor() const;
 
     /// The internal id of the account.
     QString id() const;
@@ -232,6 +240,10 @@ public:
 
     bool isUsernamePrefillSupported() const;
 
+    bool isChecksumRecalculateRequestSupported() const;
+
+    int checksumRecalculateServerVersionMinSupportedMajor() const;
+
     /** True when the server connection is using HTTP2  */
     bool isHttp2Supported() { return _http2Supported; }
     void setHttp2Supported(bool value) { _http2Supported = value; }
@@ -267,6 +279,15 @@ public:
 
     std::shared_ptr<UserStatusConnector> userStatusConnector() const;
 
+    void setLockFileState(const QString &serverRelativePath,
+                          SyncJournalDb * const journal,
+                          const SyncFileItem::LockStatus lockStatus);
+
+    SyncFileItem::LockStatus fileLockStatus(SyncJournalDb * const journal,
+                                            const QString &folderRelativePath) const;
+
+    bool fileCanBeUnlocked(SyncJournalDb * const journal, const QString &folderRelativePath) const;
+
 public slots:
     /// Used when forgetting credentials
     void clearQNAMCache();
@@ -300,6 +321,13 @@ signals:
     void pushNotificationsDisabled(Account *account);
 
     void userStatusChanged();
+
+    void serverUserStatusChanged();
+
+    void capabilitiesChanged();
+
+    void lockFileSuccess();
+    void lockFileError(const QString&);
 
 protected Q_SLOTS:
     void slotCredentialsFetched();

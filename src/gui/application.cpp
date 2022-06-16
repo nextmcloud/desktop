@@ -106,6 +106,21 @@ namespace {
 
 // ----------------------------------------------------------------------------------
 
+#ifdef Q_OS_WIN
+class WindowsNativeEventFilter : public QAbstractNativeEventFilter {
+public:
+    bool nativeEventFilter(const QByteArray &eventType, void *message, long *result) {
+        const auto msg = static_cast<MSG *>(message);
+        if(msg->message == WM_SYSCOLORCHANGE || msg->message == WM_SETTINGCHANGE) {
+            if (const auto ptr = qobject_cast<QGuiApplication *>(QGuiApplication::instance())) {
+                emit ptr->paletteChanged(ptr->palette());
+            }
+        }
+        return false;
+    }
+};
+#endif
+
 bool Application::configVersionMigration()
 {
     QStringList deleteKeys, ignoreKeys;
@@ -193,6 +208,9 @@ Application::Application(int &argc, char **argv)
     // Ensure OpenSSL config file is only loaded from app directory
     QString opensslConf = QCoreApplication::applicationDirPath() + QString("/openssl.cnf");
     qputenv("OPENSSL_CONF", opensslConf.toLocal8Bit());
+
+    // Set up event listener for Windows theme changing
+    installNativeEventFilter(new WindowsNativeEventFilter());
 #endif
 
     // TODO: Can't set this without breaking current config paths
@@ -249,6 +267,10 @@ Application::Application(int &argc, char **argv)
 #endif
             }
         }
+    }
+
+    if (_theme->doNotUseProxy()) {
+        ConfigFile().setProxyType(QNetworkProxy::NoProxy);
     }
 
     parseOptions(arguments());
@@ -457,7 +479,10 @@ void Application::slotCleanup()
 void Application::slotSystemOnlineConfigurationChanged(QNetworkConfiguration cnf)
 {
     if (cnf.state() & QNetworkConfiguration::Active) {
-        QMetaObject::invokeMethod(this, "slotCheckConnection", Qt::QueuedConnection);
+        const auto list = AccountManager::instance()->accounts();
+        for (const auto &accountState : list) {
+            accountState->systemOnlineConfigurationChanged();
+        }
     }
 }
 

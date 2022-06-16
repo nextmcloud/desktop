@@ -106,9 +106,6 @@ public:
     State state() const;
     static QString stateString(State state);
 
-    int retryCount() const;
-    void increaseRetryCount();
-
     bool isSignedOut() const;
 
     AccountAppList appList() const;
@@ -194,12 +191,10 @@ public:
     void setDesktopNotificationsAllowed(bool isAllowed);
 
     ConnectionStatus lastConnectionStatus() const;
-
+    
     void trySignIn();
 
-    /** Fetch the user status (status, icon, message)
-    */
-    void fetchUserStatus();
+    void systemOnlineConfigurationChanged();
 
 public slots:
     /// Triggers a ping to the server to update state and
@@ -209,7 +204,10 @@ public slots:
 private:
     void setState(State state);
     void fetchNavigationApps();
-    void setRetryCount(int count);
+
+    int retryCount() const;
+    void increaseRetryCount();
+    void resetRetryCount();
 
 signals:
     void stateChanged(State state);
@@ -235,6 +233,8 @@ protected Q_SLOTS:
 private Q_SLOTS:
 
     void slotCheckConnection();
+    void slotPushNotificationsReady();
+    void slotServerUserStatusChanged();
 
 private:
     AccountPtr _account;

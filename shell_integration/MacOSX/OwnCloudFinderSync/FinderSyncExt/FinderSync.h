@@ -15,15 +15,20 @@
 
 #import <Cocoa/Cocoa.h>
 #import <FinderSync/FinderSync.h>
-#import "SyncClientProxy.h"
+#import "SyncClient.h"
+#import "LineProcessor.h"
+#import "LocalSocketClient.h"
 
-@interface FinderSync : FIFinderSync <SyncClientProxyDelegate>
+@interface FinderSync : FIFinderSync <SyncClientDelegate>
 {
-	SyncClientProxy *_syncClientProxy;
-	NSMutableSet *_registeredDirectories;
-	NSString *_shareMenuTitle;
-	NSMutableDictionary *_strings;
-	NSMutableArray *_menuItems;
+    NSMutableSet *_registeredDirectories;
+    NSString *_shareMenuTitle;
+    NSMutableDictionary *_strings;
+    NSMutableArray *_menuItems;
+    NSCondition *_menuIsComplete;
 }
+
+@property LineProcessor *lineProcessor;
+@property LocalSocketClient *localSocketClient;
 
 @end

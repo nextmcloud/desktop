@@ -237,11 +237,8 @@ SocketApi::SocketApi(QObject *parent)
         // See issue #2388
         // + Theme::instance()->appName();
     } else if (Utility::isMac()) {
-        // This must match the code signing Team setting of the extension
-        // Example for developer builds (with ad-hoc signing identity): "" "com.owncloud.desktopclient" ".socketApi"
-        // Example for official signed packages: "9B5WD74GWJ." "com.owncloud.desktopclient" ".socketApi"
-        socketPath = SOCKETAPI_TEAM_IDENTIFIER_PREFIX APPLICATION_REV_DOMAIN ".socketApi";
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACOS
+        socketPath = socketApiSocketPath();
         CFURLRef url = (CFURLRef)CFAutorelease((CFURLRef)CFBundleCopyBundleURL(CFBundleGetMainBundle()));
         QString bundlePath = QUrl::fromCFURL(url).path();
 
@@ -269,14 +266,19 @@ SocketApi::SocketApi(QObject *parent)
         qCWarning(lcSocketApi) << "An unexpected system detected, this probably won't work.";
     }
 
-    SocketApiServer::removeServer(socketPath);
-    QFileInfo info(socketPath);
-    if (!info.dir().exists()) {
-        bool result = info.dir().mkpath(".");
-        qCDebug(lcSocketApi) << "creating" << info.dir().path() << result;
-        if (result) {
-            QFile::setPermissions(socketPath,
-                QFile::Permissions(QFile::ReadOwner + QFile::WriteOwner + QFile::ExeOwner));
+    QLocalServer::removeServer(socketPath);
+    // Create the socket path:
+    if (!Utility::isMac()) {
+        // Not on macOS: there the directory is there, and created for us by the sandboxing
+        // environment, because we belong to an App Group.
+        QFileInfo info(socketPath);
+        if (!info.dir().exists()) {
+            bool result = info.dir().mkpath(".");
+            qCDebug(lcSocketApi) << "creating" << info.dir().path() << result;
+            if (result) {
+                QFile::setPermissions(socketPath,
+                    QFile::Permissions(QFile::ReadOwner + QFile::WriteOwner + QFile::ExeOwner));
+            }
         }
     }
     if (!_localServer.listen(socketPath)) {
@@ -285,7 +287,7 @@ SocketApi::SocketApi(QObject *parent)
         qCInfo(lcSocketApi) << "server started, listening at " << socketPath;
     }
 
-    connect(&_localServer, &SocketApiServer::newConnection, this, &SocketApi::slotNewConnection);
+    connect(&_localServer, &QLocalServer::newConnection, this, &SocketApi::slotNewConnection);
 
     // folder watcher
     connect(FolderMan::instance(), &FolderMan::folderSyncStateChange, this, &SocketApi::slotUpdateFolderView);
@@ -497,7 +499,7 @@ void SocketApi::broadcastMessage(const QString &msg, bool doWait)
 void SocketApi::processFileActivityRequest(const QString &localFile)
 {
     const auto fileData = FileData::get(localFile);
-    emit fileActivityCommandReceived(fileData.serverRelativePath, fileData.localPath);
+    emit fileActivityCommandReceived(fileData.serverRelativePath, fileData.journalRecord().numericFileId().toInt());
 }
 
 void SocketApi::processShareRequest(const QString &localFile, SocketListener *listener, ShareDialogStartPage startPage)
@@ -958,6 +960,32 @@ void SocketApi::command_MOVE_ITEM(const QString &localFile, SocketListener *)
     solver.setRemoteVersionFilename(target);
 }
 
+void SocketApi::command_LOCK_FILE(const QString &localFile, SocketListener *listener)
+{
+    Q_UNUSED(listener)
+
+    setFileLock(localFile, SyncFileItem::LockStatus::LockedItem);
+}
+
+void SocketApi::command_UNLOCK_FILE(const QString &localFile, SocketListener *listener)
+{
+    Q_UNUSED(listener)
+
+    setFileLock(localFile, SyncFileItem::LockStatus::UnlockedItem);
+}
+
+void SocketApi::setFileLock(const QString &localFile, const SyncFileItem::LockStatus lockState) const
+{
+    const auto fileData = FileData::get(localFile);
+
+    const auto shareFolder = fileData.folder;
+    if (!shareFolder || !shareFolder->accountState()->isConnected()) {
+        return;
+    }
+
+    shareFolder->accountState()->account()->setLockFileState(fileData.serverRelativePath, shareFolder->journalDb(), lockState);
+}
+
 void SocketApi::command_V2_LIST_ACCOUNTS(const QSharedPointer<SocketApiJobV2> &job) const
 {
     QJsonArray out;
@@ -1045,6 +1073,39 @@ void SocketApi::sendSharingContextMenuOptions(const FileData &fileData, SocketLi
     // Disabled: only providing email option for private links would look odd,
     // and the copy option is more general.
     //listener->sendMessage(QLatin1String("MENU_ITEM:EMAIL_PRIVATE_LINK") + flagString + tr("Send private link by email …"));
+}
+
+void SocketApi::sendLockFileCommandMenuEntries(const QFileInfo &fileInfo,
+                                               Folder* const syncFolder,
+                                               const FileData &fileData,
+                                               const OCC::SocketListener* const listener) const
+{
+    if (!fileInfo.isDir() && syncFolder->accountState()->account()->capabilities().filesLockAvailable()) {
+        if (syncFolder->accountState()->account()->fileLockStatus(syncFolder->journalDb(), fileData.folderRelativePath) == SyncFileItem::LockStatus::UnlockedItem) {
+            listener->sendMessage(QLatin1String("MENU_ITEM:LOCK_FILE::") + tr("Lock file"));
+        } else {
+            if (syncFolder->accountState()->account()->fileCanBeUnlocked(syncFolder->journalDb(), fileData.folderRelativePath)) {
+                listener->sendMessage(QLatin1String("MENU_ITEM:UNLOCK_FILE::") + tr("Unlock file"));
+            }
+        }
+    }
+}
+
+void SocketApi::sendLockFileInfoMenuEntries(const QFileInfo &fileInfo,
+                                            Folder * const syncFolder,
+                                            const FileData &fileData,
+                                            const SocketListener * const listener,
+                                            const SyncJournalFileRecord &record) const
+{
+    static constexpr auto SECONDS_PER_MINUTE = 60;
+    if (!fileInfo.isDir() && syncFolder->accountState()->account()->capabilities().filesLockAvailable() &&
+            syncFolder->accountState()->account()->fileLockStatus(syncFolder->journalDb(), fileData.folderRelativePath) == SyncFileItem::LockStatus::LockedItem) {
+        listener->sendMessage(QLatin1String("MENU_ITEM:LOCKED_FILE_OWNER:d:") + tr("Locked by %1").arg(record._lockstate._lockOwnerDisplayName));
+        const auto lockExpirationTime = record._lockstate._lockTime + record._lockstate._lockTimeout;
+        const auto remainingTime = QDateTime::currentDateTime().secsTo(QDateTime::fromSecsSinceEpoch(lockExpirationTime));
+        const auto remainingTimeInMinute = static_cast<int>(remainingTime > 0 ? remainingTime / SECONDS_PER_MINUTE : 0);
+        listener->sendMessage(QLatin1String("MENU_ITEM:LOCKED_FILE_DATE:d:") + tr("Expire in %1 minutes", "remaining time before lock expire", remainingTimeInMinute).arg(remainingTimeInMinute));
+    }
 }
 
 SocketApi::FileData SocketApi::FileData::get(const QString &localFile)
@@ -1145,6 +1206,7 @@ void SocketApi::command_GET_MENU_ITEMS(const QString &argument, OCC::SocketListe
             listener->sendMessage(QLatin1String("MENU_ITEM:OPEN_PRIVATE_LINK") + flagString + tr("Open in browser"));
         }
 
+        sendLockFileCommandMenuEntries(fileInfo, syncFolder, fileData, listener);
         sendSharingContextMenuOptions(fileData, listener, !isE2eEncryptedPath);
 
         // Conflict files get conflict resolution actions

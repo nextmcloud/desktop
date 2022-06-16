@@ -154,19 +154,6 @@ bool SslErrorDialog::checkFailingCertsKnown(const QList<QSslError> &errors)
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     if (!additionalErrorStrings.isEmpty()) {
         msg += QL("<h4>") + tr("Additional errors:") + QL("</h4>");
 
@@ -176,8 +163,6 @@ bool SslErrorDialog::checkFailingCertsKnown(const QList<QSslError> &errors)
             msg += QL("</div>");
         }
     }
-
-
 
     msg += QL("</div></body></html>");
 

@@ -318,6 +318,9 @@ QString Theme::hidpiFileName(const QString &iconName, const QColor &backgroundCo
 Theme::Theme()
     : QObject(nullptr)
 {
+#if defined(Q_OS_WIN)
+    reserveDarkPalette = QPalette(QColor(49,49,49,255), QColor(35,35,35,255)); // Windows 11 button and window dark colours
+#endif
 }
 
 // If this option returns true, the client only supports one folder to sync.
@@ -808,11 +811,16 @@ QString Theme::versionSwitchOutput() const
     return helpText;
 }
 
-bool Theme::isDarkColor(const QColor &color)
+double Theme::getColorDarkness(const QColor &color)
 {
     // account for different sensitivity of the human eye to certain colors
-    double treshold = 1.0 - (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255.0;
-    return treshold > 0.5;
+    const double threshold = 1.0 - (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255.0;
+    return threshold;
+}
+
+bool Theme::isDarkColor(const QColor &color)
+{
+    return getColorDarkness(color) > 0.5;
 }
 
 QColor Theme::getBackgroundAwareLinkColor(const QColor &backgroundColor)
@@ -843,10 +851,10 @@ void Theme::replaceLinkColorString(QString &linkString, const QColor &newColor)
 QIcon Theme::createColorAwareIcon(const QString &name, const QPalette &palette)
 {
     QSvgRenderer renderer(name);
-    QImage img(32, 32, QImage::Format_ARGB32);
+    QImage img(64, 64, QImage::Format_ARGB32);
     img.fill(Qt::GlobalColor::transparent);
     QPainter imgPainter(&img);
-    QImage inverted(32, 32, QImage::Format_ARGB32);
+    QImage inverted(64, 64, QImage::Format_ARGB32);
     inverted.fill(Qt::GlobalColor::transparent);
     QPainter invPainter(&inverted);
 
@@ -906,6 +914,11 @@ bool Theme::enforceVirtualFilesSyncFolder() const
     return ENFORCE_VIRTUAL_FILES_SYNC_FOLDER && vfsMode != OCC::Vfs::Off;
 }
 
+QColor Theme::defaultColor()
+{
+    return QColor{NEXTCLOUD_BACKGROUND_COLOR};
+}
+
 QColor Theme::errorBoxTextColor() const
 {
     return QColor{"white"};
@@ -919,6 +932,45 @@ QColor Theme::errorBoxBackgroundColor() const
 QColor Theme::errorBoxBorderColor() const
 { 
     return QColor{"black"};
+}
+
+void Theme::connectToPaletteSignal()
+{
+    if (!_paletteSignalsConnected) {
+        if (const auto ptr = qobject_cast<QGuiApplication *>(QGuiApplication::instance())) {
+            connect(ptr, &QGuiApplication::paletteChanged, this, &Theme::systemPaletteChanged);
+            connect(ptr, &QGuiApplication::paletteChanged, this, &Theme::darkModeChanged);
+            _paletteSignalsConnected = true;
+        }
+    }
+}
+
+QPalette Theme::systemPalette()
+{
+    connectToPaletteSignal();
+#if defined(Q_OS_WIN)
+    if(darkMode()) {
+        return reserveDarkPalette;
+    }
+#endif
+    return QGuiApplication::palette();
+}
+
+bool Theme::darkMode()
+{
+    connectToPaletteSignal();
+// Windows: Check registry for dark mode
+#if defined(Q_OS_WIN)
+    const auto darkModeSubkey = QStringLiteral("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
+    if (Utility::registryKeyExists(HKEY_CURRENT_USER, darkModeSubkey) &&
+        !Utility::registryGetKeyValue(HKEY_CURRENT_USER, darkModeSubkey, QStringLiteral("AppsUseLightTheme")).toBool()) {
+        return true;
+    }
+
+    return false;
+#else
+    return Theme::isDarkColor(QGuiApplication::palette().window().color());
+#endif
 }
 
 } // end namespace client

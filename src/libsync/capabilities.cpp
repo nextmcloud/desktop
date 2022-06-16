@@ -221,6 +221,11 @@ bool Capabilities::bulkUpload() const
     return _capabilities["dav"].toMap()["bulkupload"].toByteArray() >= "1.0";
 }
 
+bool Capabilities::filesLockAvailable() const
+{
+    return _capabilities["files"].toMap()["locking"].toByteArray() >= "1.0";
+}
+
 bool Capabilities::userStatus() const
 {
     if (!_capabilities.contains("user_status")) {
@@ -238,6 +243,29 @@ bool Capabilities::userStatusSupportsEmoji() const
     const auto userStatusMap = _capabilities["user_status"].toMap();
     return userStatusMap.value("supports_emoji", false).toBool();
 }
+
+QColor Capabilities::serverColor() const
+{
+    const auto themingMap = serverThemingMap();
+    return themingMap.contains("color") ? QColor(themingMap["color"].toString()) : QColor();
+}
+
+QColor Capabilities::serverTextColor() const
+{
+    const auto themingMap = serverThemingMap();
+    return themingMap.contains("color-text") ? QColor(themingMap["color-text"].toString()) : QColor();
+}
+
+QMap<QString, QVariant> Capabilities::serverThemingMap() const
+{
+    if (!_capabilities.contains("theming")) {
+        return {};
+    }
+
+    return _capabilities["theming"].toMap();
+}
+
+
 
 PushNotificationTypes Capabilities::availablePushNotifications() const
 {

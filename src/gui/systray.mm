@@ -12,6 +12,7 @@ Q_LOGGING_CATEGORY(lcMacSystray, "nextcloud.gui.macsystray")
 @interface NotificationCenterDelegate : NSObject
 @end
 @implementation NotificationCenterDelegate
+
 // Always show, even if app is active at the moment.
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
     willPresentNotification:(UNNotification *)notification
@@ -42,11 +43,12 @@ Q_LOGGING_CATEGORY(lcMacSystray, "nextcloud.gui.macsystray")
 
 namespace OCC {
 
-enum MacNotificationAuthorizationOptions {
-    Default = 0,
-    Provisional
-};
+double statusBarThickness()
+{
+    return [NSStatusBar systemStatusBar].thickness;
+}
 
+// TODO: Get this to actually check for permissions
 bool canOsXSendUserNotification()
 {
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
@@ -76,16 +78,10 @@ void registerNotificationCategories(const QString &localisedDownloadString) {
     [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:[NSSet setWithObjects:generalCategory, updateCategory, nil]];
 }
 
-void checkNotificationAuth(MacNotificationAuthorizationOptions additionalAuthOption = MacNotificationAuthorizationOptions::Provisional)
+void checkNotificationAuth()
 {
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
-
-    if(additionalAuthOption == MacNotificationAuthorizationOptions::Provisional) {
-        authOptions += UNAuthorizationOptionProvisional;
-    }
-
-    [center requestAuthorizationWithOptions:(authOptions)
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNAuthorizationOptionProvisional)
         completionHandler:^(BOOL granted, NSError * _Nullable error) {
             // Enable or disable features based on authorization.
             if(granted) {
@@ -113,41 +109,41 @@ void setUserNotificationCenterDelegate()
 
 UNMutableNotificationContent* basicNotificationContent(const QString &title, const QString &message)
 {
-     UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
-     content.title = title.toNSString();
-     content.body = message.toNSString();
-     content.sound = [UNNotificationSound defaultSound];
+    UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
+    content.title = title.toNSString();
+    content.body = message.toNSString();
+    content.sound = [UNNotificationSound defaultSound];
 
-     return content;
+    return content;
 }
 
 void sendOsXUserNotification(const QString &title, const QString &message)
 {
-     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-     checkNotificationAuth();
+    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    checkNotificationAuth();
 
-     UNMutableNotificationContent* content = basicNotificationContent(title, message);
-     content.categoryIdentifier = @"GENERAL";
+    UNMutableNotificationContent* content = basicNotificationContent(title, message);
+    content.categoryIdentifier = @"GENERAL";
 
-     UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats: NO];
-         UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"NCUserNotification" content:content trigger:trigger];
+    UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats: NO];
+    UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"NCUserNotification" content:content trigger:trigger];
 
-         [center addNotificationRequest:request withCompletionHandler:nil];
-     }
+    [center addNotificationRequest:request withCompletionHandler:nil];
+}
 
 void sendOsXUpdateNotification(const QString &title, const QString &message, const QUrl &webUrl)
 {
-     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-     checkNotificationAuth();
+    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    checkNotificationAuth();
 
-     UNMutableNotificationContent* content = basicNotificationContent(title, message);
-     content.categoryIdentifier = @"UPDATE";
-     content.userInfo = [NSDictionary dictionaryWithObject:[webUrl.toNSURL() absoluteString] forKey:@"webUrl"];
+    UNMutableNotificationContent* content = basicNotificationContent(title, message);
+    content.categoryIdentifier = @"UPDATE";
+    content.userInfo = [NSDictionary dictionaryWithObject:[webUrl.toNSURL() absoluteString] forKey:@"webUrl"];
 
-     UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats: NO];
-     UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"NCUpdateNotification" content:content trigger:trigger];
+    UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats: NO];
+    UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:@"NCUpdateNotification" content:content trigger:trigger];
 
-     [center addNotificationRequest:request withCompletionHandler:nil];
+    [center addNotificationRequest:request withCompletionHandler:nil];
 }
 
 void setTrayWindowLevelAndVisibleOnAllSpaces(QWindow *window)
@@ -159,4 +155,11 @@ void setTrayWindowLevelAndVisibleOnAllSpaces(QWindow *window)
     [nativeWindow setLevel:NSMainMenuWindowLevel];
 }
 
+bool osXInDarkMode()
+{
+    NSString *osxMode = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleInterfaceStyle"];
+    return [osxMode containsString:@"Dark"];
 }
+
+}
+

@@ -39,9 +39,9 @@
 namespace OCC {
 
 OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
-: QWizardPage()
-, _progressIndi(new QProgressIndicator(this))
-, _ocWizard(wizard)
+    : QWizardPage()
+    , _progressIndi(new QProgressIndicator(this))
+    , _ocWizard(wizard)
 {
     _ui.setupUi(this);
     

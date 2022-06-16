@@ -293,6 +293,7 @@ void SelectiveSyncWidget::slotUpdateDirectories(QStringList list)
 void SelectiveSyncWidget::slotUpdateRootFolderFilesSize(const QStringList &subfolders)
 {
     const auto job = qobject_cast<LsColJob *>(sender());
+    
     if (!job) {
         qWarning() << "slotUpdateRootFolderFilesSize must have a valid sender";
         return;

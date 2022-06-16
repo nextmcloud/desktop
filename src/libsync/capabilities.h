@@ -21,6 +21,7 @@
 #include <QVariantMap>
 #include <QStringList>
 #include <QMimeDatabase>
+#include <QColor>
 
 namespace OCC {
 
@@ -64,8 +65,11 @@ public:
     int shareDefaultPermissions() const;
     bool chunkingNg() const;
     bool bulkUpload() const;
+    bool filesLockAvailable() const;
     bool userStatus() const;
     bool userStatusSupportsEmoji() const;
+    QColor serverColor() const;
+    QColor serverTextColor() const;
 
     /// Returns which kind of push notfications are available
     PushNotificationTypes availablePushNotifications() const;
@@ -167,6 +171,8 @@ public:
     DirectEditor* getDirectEditorForOptionalMimetype(const QMimeType &mimeType);
 
 private:
+    QMap<QString, QVariant> serverThemingMap() const;
+
     QVariantMap _capabilities;
 
     QList<DirectEditor*> _directEditors;
