@@ -1,5 +1,14 @@
 project(gui)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Svg Qml Quick QuickControls2 Xml Network)
+
+if(QUICK_COMPILER)
+        find_package(Qt5QuickCompiler)
+        set_package_properties(Qt5QuickCompiler PROPERTIES
+                DESCRIPTION "Compile QML at build time"
+                TYPE REQUIRED
+        )
+endif()
+
 if (NOT TARGET Qt5::GuiPrivate)
     message(FATAL_ERROR "Could not find GuiPrivate component of Qt5. It might be shipped as a separate package, please check that.")
 endif()
@@ -13,14 +22,12 @@ IF(BUILD_UPDATER)
 endif()
 
 configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
-
-set(MIRALL_RC_SRC ../../resources.qrc)
-list(APPEND MIRALL_RC_SRC ${CMAKE_SOURCE_DIR}/theme.qrc)
 set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
 
 set(client_UI_SRCS
     accountsettings.ui
     conflictdialog.ui
+    internallinkwidget.ui
     invalidfilenamedialog.ui
     foldercreationdialog.ui
     folderwizardsourcepage.ui
@@ -39,6 +46,7 @@ set(client_UI_SRCS
     shareuserline.ui
     sslerrordialog.ui
     addcertificatedialog.ui
+    passwordinputdialog.ui
     proxyauthdialog.ui
     mnemonicdialog.ui
     tray/ActivityActionButton.qml
@@ -53,11 +61,19 @@ set(client_UI_SRCS
     wizard/owncloudsetupnocredspage.ui
     wizard/owncloudwizardresultpage.ui
     wizard/webview.ui
+    wizard/welcomepage.ui
     welcome/welcome.qml
     welcome/Page1Form.ui.qml
     welcome/Page2Form.ui.qml
     welcome/Page3Form.ui.qml
+
 )
+
+if(QUICK_COMPILER)
+    qtquick_compiler_add_resources(client_UI_SRCS ../../resources.qrc ${CMAKE_SOURCE_DIR}/theme.qrc)
+else()
+    qt_add_resources(client_UI_SRCS ../../resources.qrc ${CMAKE_SOURCE_DIR}/theme.qrc)
+endif()
 
 set(client_SRCS
     accountmanager.cpp
@@ -77,6 +93,9 @@ set(client_SRCS
     folderwizard.cpp
     generalsettings.cpp
     legalnotice.cpp
+    internallinkwidget.h
+    internallinkwidget.cpp
+    ignorelisteditor.h
     ignorelisteditor.cpp
     ignorelisttablewidget.cpp
     lockwatcher.cpp
@@ -105,7 +124,6 @@ set(client_SRCS
     systray.cpp
     thumbnailjob.cpp
     userinfo.cpp
-    userstatus.cpp
     accountstate.cpp
     addcertificatedialog.cpp
     authenticationdialog.cpp
@@ -116,6 +134,9 @@ set(client_SRCS
     guiutility.cpp
     elidedlabel.cpp
     headerbanner.cpp
+    iconutils.h
+    iconutils.cpp
+    remotewipe.h
     iconjob.cpp
     remotewipe.cpp
     tray/ActivityData.cpp
@@ -123,8 +144,28 @@ set(client_SRCS
     tray/UserModel.cpp
     tray/NotificationHandler.cpp
     tray/NotificationCache.cpp
+    userstatusselectormodel.h
+    userstatusselectormodel.cpp
+    emojimodel.h
+    emojimodel.cpp
+    fileactivitylistmodel.h
+    fileactivitylistmodel.cpp
+    tray/svgimageprovider.h
+    tray/svgimageprovider.cpp
+    tray/syncstatussummary.h
+    tray/syncstatussummary.cpp
+    tray/unifiedsearchresult.h
+    tray/asyncimageresponse.cpp
+    tray/unifiedsearchresult.cpp
+    tray/unifiedsearchresultslistmodel.h
+    tray/trayimageprovider.cpp
+    tray/unifiedsearchresultslistmodel.cpp
+    creds/credentialsfactory.h
+    tray/talkreply.cpp
     creds/credentialsfactory.cpp
+    creds/httpcredentialsgui.h
     creds/httpcredentialsgui.cpp
+    creds/oauth.h
     creds/oauth.cpp
     creds/flow2auth.cpp
     creds/webflowcredentials.cpp

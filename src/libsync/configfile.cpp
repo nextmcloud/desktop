@@ -39,8 +39,6 @@
 #include <QSettings>
 #include <QNetworkProxy>
 #include <QStandardPaths>
-#include <QJsonDocument>
-#include <QJsonObject>
 
 #define QTLEGACY (QT_VERSION < QT_VERSION_CHECK(5,9,0))
 
@@ -70,6 +68,7 @@ static const char monoIconsC[] = "monoIcons";
 static const char promptDeleteC[] = "promptDeleteAllFiles";
 static const char crashReporterC[] = "crashReporter";
 static const char optionalServerNotificationsC[] = "optionalServerNotifications";
+static const char showCallNotificationsC[] = "showCallNotifications";
 static const char showInExplorerNavigationPaneC[] = "showInExplorerNavigationPane";
 static const char skipUpdateCheckC[] = "skipUpdateCheck";
 static const char autoUpdateCheckC[] = "autoUpdateCheck";
@@ -192,6 +191,19 @@ bool ConfigFile::optionalServerNotifications() const
     return settings.value(QLatin1String(optionalServerNotificationsC), true).toBool();
 }
 
+bool ConfigFile::showCallNotifications() const
+{
+    const QSettings settings(configFile(), QSettings::IniFormat);
+    return settings.value(QLatin1String(showCallNotificationsC), true).toBool() && optionalServerNotifications();
+}
+
+void ConfigFile::setShowCallNotifications(bool show)
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.setValue(QLatin1String(showCallNotificationsC), show);
+    settings.sync();
+}
+
 bool ConfigFile::showInExplorerNavigationPane() const
 {
     const bool defaultValue =
@@ -231,7 +243,7 @@ qint64 ConfigFile::chunkSize() const
 qint64 ConfigFile::maxChunkSize() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(maxChunkSizeC), 100 * 1000 * 1000).toLongLong(); // default to 100 MB
+    return settings.value(QLatin1String(maxChunkSizeC), 1000 * 1000 * 1000).toLongLong(); // default to 1000 MB
 }
 
 qint64 ConfigFile::minChunkSize() const
@@ -1105,3 +1117,4 @@ void ConfigFile::setupDefaultExcludeFilePaths(ExcludedFiles &excludedFiles)
     }
 }
 }
+

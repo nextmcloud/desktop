@@ -16,6 +16,7 @@
 
 #include <cmath>
 #include <csignal>
+#include <qqml.h>
 
 #ifdef Q_OS_UNIX
 #include <sys/time.h>
@@ -23,9 +24,14 @@
 #endif
 
 #include "application.h"
+#include "fileactivitylistmodel.h"
 #include "theme.h"
 #include "common/utility.h"
 #include "cocoainitializer.h"
+#include "userstatusselectormodel.h"
+#include "emojimodel.h"
+#include "tray/syncstatussummary.h"
+#include "tray/unifiedsearchresultslistmodel.h"
 
 #if defined(BUILD_UPDATER)
 #include "updater/updater.h"
@@ -36,6 +42,7 @@
 #include <QDebug>
 #include <QQuickStyle>
 #include <QQuickWindow>
+#include <QSurfaceFormat>
 
 using namespace OCC;
 
@@ -57,6 +64,22 @@ int main(int argc, char **argv)
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
 
+    qmlRegisterType<SyncStatusSummary>("com.nextcloud.desktopclient", 1, 0, "SyncStatusSummary");
+    qmlRegisterType<EmojiModel>("com.nextcloud.desktopclient", 1, 0, "EmojiModel");
+    qmlRegisterType<UserStatusSelectorModel>("com.nextcloud.desktopclient", 1, 0, "UserStatusSelectorModel");
+    qmlRegisterType<OCC::ActivityListModel>("com.nextcloud.desktopclient", 1, 0, "ActivityListModel");
+    qmlRegisterType<OCC::FileActivityListModel>("com.nextcloud.desktopclient", 1, 0, "FileActivityListModel");
+    qmlRegisterType<Theme>("com.nextcloud.desktopclient", 1, 0, "Theme");
+    qmlRegisterUncreatableType<OCC::UnifiedSearchResultsListModel>(
+        "com.nextcloud.desktopclient", 1, 0, "UnifiedSearchResultsListModel", "UnifiedSearchResultsListModel");
+    qRegisterMetaType<UnifiedSearchResultsListModel *>("UnifiedSearchResultsListModel*");
+
+    qmlRegisterUncreatableType<OCC::UserStatus>("com.nextcloud.desktopclient", 1, 0, "UserStatus", "Access to Status enum");
+
+    qRegisterMetaTypeStreamOperators<Emoji>();
+    qRegisterMetaType<OCC::UserStatus>("UserStatus");
+
+
     // Work around a bug in KDE's qqc2-desktop-style which breaks
     // buttons with icons not based on a name, by forcing a style name
     // the platformtheme plugin won't try to force qqc2-desktops-style
@@ -71,6 +94,11 @@ int main(int argc, char **argv)
 #ifdef Q_OS_MAC
     Mac::CocoaInitializer cocoaInit; // RIIA
 #endif
+
+    auto surfaceFormat = QSurfaceFormat::defaultFormat();
+    surfaceFormat.setOption(QSurfaceFormat::ResetNotification);
+    QSurfaceFormat::setDefaultFormat(surfaceFormat);
+
     OCC::Application app(argc, argv);
 
 #ifdef Q_OS_WIN

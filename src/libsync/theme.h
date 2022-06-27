@@ -17,6 +17,8 @@
 
 #include <QIcon>
 #include <QObject>
+#include <QPalette>
+#include <QGuiApplication>
 #include "syncresult.h"
 
 class QString;
@@ -62,9 +64,13 @@ class OWNCLOUDSYNC_EXPORT Theme : public QObject
 #endif
     Q_PROPERTY(QString updateCheckUrl READ updateCheckUrl CONSTANT)
 
+    Q_PROPERTY(QColor defaultColor READ defaultColor CONSTANT)
     Q_PROPERTY(QColor errorBoxTextColor READ errorBoxTextColor CONSTANT)
     Q_PROPERTY(QColor errorBoxBackgroundColor READ errorBoxBackgroundColor CONSTANT)
     Q_PROPERTY(QColor errorBoxBorderColor READ errorBoxBorderColor CONSTANT)
+
+    Q_PROPERTY(QPalette systemPalette READ systemPalette NOTIFY systemPaletteChanged)
+    Q_PROPERTY(bool darkMode READ darkMode NOTIFY darkModeChanged)
 public:
     enum CustomMediaType {
         oCSetupTop, // ownCloud connect page
@@ -155,7 +161,17 @@ public:
      */
     QUrl statusInvisibleImageSource() const;
 
+    QUrl syncStatusOk() const;
 
+    QUrl syncStatusError() const;
+
+    QUrl syncStatusRunning() const;
+
+    QUrl syncStatusPause() const;
+
+    QUrl syncStatusWarning() const;
+
+    QUrl folderOffline() const;
 
     /**
      * @brief configFileName
@@ -467,7 +483,9 @@ public:
     * (actually 2019/09/13 only systray theming).
     */
 	virtual QIcon uiThemeIcon(const QString &iconName, bool uiHasDarkBg) const;
-    
+
+    Q_INVOKABLE static double getColorDarkness(const QColor &color);
+
     /**
      * @brief Perform a calculation to check if a colour is dark or light and accounts for different sensitivity of the human eye.
      *
@@ -475,7 +493,7 @@ public:
      *
      * 2019/12/08: Moved here from SettingsDialog.
      */
-    static bool isDarkColor(const QColor &color);
+    Q_INVOKABLE static bool isDarkColor(const QColor &color);
     
     /**
      * @brief Return the colour to be used for HTML links (e.g. used in QLabel), based on the current app palette or given colour (Dark-/Light-Mode switching).
@@ -569,6 +587,8 @@ public:
 
     virtual bool enforceVirtualFilesSyncFolder() const;
 
+    static QColor defaultColor();
+
     /** @return color for the ErrorBox text. */
     virtual QColor errorBoxTextColor() const;
 
@@ -579,6 +599,9 @@ public:
     virtual QColor errorBoxBorderColor() const;
 
     static constexpr const char *themePrefix = ":/client/theme/";
+
+    QPalette systemPalette();
+    bool darkMode();
 
 protected:
 #ifndef TOKEN_AUTH_ONLY
@@ -596,13 +619,22 @@ protected:
 
 signals:
     void systrayUseMonoIconsChanged(bool);
+    void systemPaletteChanged(const QPalette &palette);
+    void darkModeChanged();
 
 private:
     Theme(Theme const &);
     Theme &operator=(Theme const &);
 
+    void connectToPaletteSignal();
+#if defined(Q_OS_WIN)
+    QPalette reserveDarkPalette; // Windows 11 button and window dark colours
+#endif
+
     static Theme *_instance;
     bool _mono = false;
+    bool _paletteSignalsConnected = false;
+
 #ifndef TOKEN_AUTH_ONLY
     mutable QHash<QString, QIcon> _iconCache;
 #endif

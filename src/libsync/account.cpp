@@ -25,8 +25,10 @@
 #include "pushnotifications.h"
 #include "version.h"
 
-#include <deletejob.h>
+#include "deletejob.h"
+#include "lockfilejobs.h"
 
+#include "common/syncjournaldb.h"
 #include "common/asserts.h"
 #include "clientsideencryption.h"
 #include "ocsuserstatusconnector.h"
@@ -57,7 +59,8 @@ using namespace QKeychain;
 
 namespace {
 constexpr int pushNotificationsReconnectInterval = 1000 * 60 * 2;
-constexpr int usernamePrefillServerVersinMinSupportedMajor = 24;
+constexpr int usernamePrefillServerVersionMinSupportedMajor = 24;
+constexpr int checksumRecalculateRequestServerVersionMinSupportedMajor = 24;
 }
 
 namespace OCC {
@@ -112,6 +115,11 @@ AccountPtr Account::sharedFromThis()
     return _sharedThis.toStrongRef();
 }
 
+AccountPtr Account::sharedFromThis() const
+{
+    return _sharedThis.toStrongRef();
+}
+
 QString Account::davUser() const
 {
     return _davUser.isEmpty() && _credentials ? _credentials->user() : _davUser;
@@ -157,6 +165,35 @@ void Account::setDavDisplayName(const QString &newDisplayName)
 {
     _displayName = newDisplayName;
     emit accountChangedDisplayName();
+}
+
+QColor Account::headerColor() const
+{
+    const auto serverColor = capabilities().serverColor();
+    return serverColor.isValid() ? serverColor : Theme::defaultColor();
+}
+
+QColor Account::headerTextColor() const
+{
+    const auto headerTextColor = capabilities().serverTextColor();
+    return headerTextColor.isValid() ? headerTextColor : QColor(255,255,255);
+}
+
+QColor Account::accentColor() const
+{
+    // This will need adjusting when dark theme is a thing
+    auto serverColor = capabilities().serverColor();
+
+    if(!serverColor.isValid()) {
+        serverColor = Theme::defaultColor();
+    }
+
+    const auto effectMultiplier = 8;
+    auto darknessAdjustment = static_cast<int>((1 - Theme::getColorDarkness(serverColor)) * effectMultiplier);
+    darknessAdjustment *= darknessAdjustment; // Square the value to pronounce the darkness more in lighter colours
+    const auto baseAdjustment = 125;
+    const auto adjusted = Theme::isDarkColor(serverColor) ? serverColor : serverColor.darker(baseAdjustment + darknessAdjustment);
+    return adjusted;
 }
 
 QString Account::id() const
@@ -586,6 +623,8 @@ void Account::setCapabilities(const QVariantMap &caps)
 {
     _capabilities = Capabilities(caps);
 
+    emit capabilitiesChanged();
+
     setupUserStatusConnector();
     trySetupPushNotifications();
 }
@@ -596,9 +635,12 @@ void Account::setupUserStatusConnector()
     connect(_userStatusConnector.get(), &UserStatusConnector::userStatusFetched, this, [this](const UserStatus &) {
         emit userStatusChanged();
     });
+    connect(_userStatusConnector.get(), &UserStatusConnector::serverUserStatusChanged, this, &Account::serverUserStatusChanged);
     connect(_userStatusConnector.get(), &UserStatusConnector::messageCleared, this, [this] {
         emit userStatusChanged();
     });
+
+    _userStatusConnector->fetchUserStatus();
 }
 
 QString Account::serverVersion() const
@@ -632,7 +674,17 @@ bool Account::serverVersionUnsupported() const
 
 bool Account::isUsernamePrefillSupported() const
 {
-    return serverVersionInt() >= makeServerVersion(usernamePrefillServerVersinMinSupportedMajor, 0, 0);
+    return serverVersionInt() >= makeServerVersion(usernamePrefillServerVersionMinSupportedMajor, 0, 0);
+}
+
+bool Account::isChecksumRecalculateRequestSupported() const
+{
+    return serverVersionInt() >= makeServerVersion(checksumRecalculateRequestServerVersionMinSupportedMajor, 0, 0);
+}
+
+int Account::checksumRecalculateServerVersionMinSupportedMajor() const
+{
+    return checksumRecalculateRequestServerVersionMinSupportedMajor;
 }
 
 void Account::setServerVersion(const QString &version)
@@ -806,6 +858,60 @@ PushNotifications *Account::pushNotifications() const
 std::shared_ptr<UserStatusConnector> Account::userStatusConnector() const
 {
     return _userStatusConnector;
+}
+
+void Account::setLockFileState(const QString &serverRelativePath,
+                               SyncJournalDb * const journal,
+                               const SyncFileItem::LockStatus lockStatus)
+{
+    auto job = std::make_unique<LockFileJob>(sharedFromThis(), journal, serverRelativePath, lockStatus);
+    connect(job.get(), &LockFileJob::finishedWithoutError, this, [this]() {
+        Q_EMIT lockFileSuccess();
+    });
+    connect(job.get(), &LockFileJob::finishedWithError, this, [lockStatus, serverRelativePath, this](const int httpErrorCode, const QString &errorString, const QString &lockOwnerName) {
+        auto errorMessage = QString{};
+        const auto filePath = serverRelativePath.mid(1);
+
+        if (httpErrorCode == LockFileJob::LOCKED_HTTP_ERROR_CODE) {
+            errorMessage = tr("File %1 is already locked by %2.").arg(filePath, lockOwnerName);
+        } else if (lockStatus == SyncFileItem::LockStatus::LockedItem) {
+             errorMessage = tr("Lock operation on %1 failed with error %2").arg(filePath, errorString);
+        } else if (lockStatus == SyncFileItem::LockStatus::UnlockedItem) {
+             errorMessage = tr("Unlock operation on %1 failed with error %2").arg(filePath, errorString);
+        }
+        Q_EMIT lockFileError(errorMessage);
+    });
+    job->start();
+    static_cast<void>(job.release());
+}
+
+SyncFileItem::LockStatus Account::fileLockStatus(SyncJournalDb * const journal,
+                                                 const QString &folderRelativePath) const
+{
+    SyncJournalFileRecord record;
+    if (journal->getFileRecord(folderRelativePath, &record)) {
+        return record._lockstate._locked ? SyncFileItem::LockStatus::LockedItem : SyncFileItem::LockStatus::UnlockedItem;
+    }
+
+    return SyncFileItem::LockStatus::UnlockedItem;
+}
+
+bool Account::fileCanBeUnlocked(SyncJournalDb * const journal,
+                                const QString &folderRelativePath) const
+{
+    SyncJournalFileRecord record;
+    if (journal->getFileRecord(folderRelativePath, &record)) {
+        if (record._lockstate._lockOwnerType != static_cast<int>(SyncFileItem::LockOwnerType::UserLock)) {
+            return false;
+        }
+
+        if (record._lockstate._lockOwnerId != sharedFromThis()->davUser()) {
+            return false;
+        }
+
+        return true;
+    }
+    return false;
 }
 
 } // namespace OCC

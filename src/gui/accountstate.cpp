@@ -21,6 +21,7 @@
 #include "logger.h"
 #include "configfile.h"
 #include "ocsnavigationappsjob.h"
+#include "ocsuserstatusconnector.h"
 #include "pushnotifications.h"
 
 #include <QSettings>
@@ -47,7 +48,6 @@ AccountState::AccountState(AccountPtr account)
     , _waitingForNewCredentials(false)
     , _maintenanceToConnectedDelay(60000 + (qrand() % (4 * 60000))) // 1-5min delay
     , _remoteWipe(new RemoteWipe(_account))
-    , _userStatus(new UserStatus(this))
     , _isDesktopNotificationsAllowed(true)
 {
     qRegisterMetaType<AccountState *>("AccountState*");
@@ -58,6 +58,10 @@ AccountState::AccountState(AccountPtr account)
         this, &AccountState::slotCredentialsFetched);
     connect(account.data(), &Account::credentialsAsked,
         this, &AccountState::slotCredentialsAsked);
+    connect(account.data(), &Account::pushNotificationsReady,
+            this, &AccountState::slotPushNotificationsReady);
+    connect(account.data(), &Account::serverUserStatusChanged, this,
+        &AccountState::slotServerUserStatusChanged);
 
     connect(this, &AccountState::isConnectedChanged, [=]{
         // Get the Apps available on the server if we're now connected.
@@ -131,8 +135,7 @@ void AccountState::setState(State state)
             emit isConnectedChanged();
         }
         if (_state == Connected) {
-            _checkConnectionTimer.setInterval(ConnectionValidator::DefaultCallingIntervalMsec);
-            setRetryCount(0);
+            resetRetryCount();
         }
     }
 
@@ -140,24 +143,24 @@ void AccountState::setState(State state)
     emit stateChanged(_state);
 }
 
-UserStatus::Status AccountState::status() const
+UserStatus::OnlineStatus AccountState::status() const
 {
-    return _userStatus->status();
+    return account()->userStatusConnector()->userStatus().state();
 }
 
 QString AccountState::statusMessage() const
 {
-    return _userStatus->message();
+    return account()->userStatusConnector()->userStatus().message();
 }
 
 QUrl AccountState::statusIcon() const
 {
-    return _userStatus->icon();
+    return account()->userStatusConnector()->userStatus().stateIcon();
 }
 
 QString AccountState::statusEmoji() const
 {
-    return _userStatus->emoji();
+    return account()->userStatusConnector()->userStatus().icon();
 }
 
 QString AccountState::stateString(State state)
@@ -278,6 +281,11 @@ void AccountState::trySignIn()
     }
 }
 
+void AccountState::systemOnlineConfigurationChanged()
+{
+    QMetaObject::invokeMethod(this, "slotCheckConnection", Qt::QueuedConnection);
+}
+
 void AccountState::checkConnectivity()
 {
     qCInfo(lcAccountState()) << "check connectivity";
@@ -346,9 +354,9 @@ void AccountState::slotConnectionValidatorResult(ConnectionValidator::Status sta
         _lastCheckConnectionTimer.start();
     };
 
-    const auto resetRetryCount = [this]() {
+    const auto resetRetryConnection = [this]() {
         qCInfo(lcAccountState) << "reset retry count";
-        setRetryCount(0);
+        resetRetryCount();
         _lastCheckConnectionTimer.invalidate();
         _lastCheckConnectionTimer.start();
     };
@@ -356,6 +364,8 @@ void AccountState::slotConnectionValidatorResult(ConnectionValidator::Status sta
         qCWarning(lcAccountState) << "Signed out, ignoring" << status << _account->url().toString();
         return;
     }
+
+    _lastConnectionValidatorStatus = status;
 
     // Come online gradually from 503 or maintenance mode
     if (status == ConnectionValidator::Connected
@@ -386,7 +396,7 @@ void AccountState::slotConnectionValidatorResult(ConnectionValidator::Status sta
     case ConnectionValidator::Connected:
         if (_state != Connected) {
             setState(Connected);
-            resetRetryCount();
+            resetRetryConnection();
 
             // Get the Apps available on the server.
             fetchNavigationApps();
@@ -517,15 +527,9 @@ void AccountState::fetchNavigationApps(){
     job->getNavigationApps();
 }
 
-void AccountState::fetchUserStatus() 
+void AccountState::resetRetryCount()
 {
-    connect(_userStatus, &UserStatus::fetchUserStatusFinished, this, &AccountState::statusChanged);
-    _userStatus->fetchUserStatus(_account);
-}
-
-void AccountState::setRetryCount(int count)
-{
-    _retryCount = count;
+    _retryCount = 0;
 }
 
 void AccountState::slotEtagResponseHeaderReceived(const QByteArray &value, int statusCode){
@@ -543,10 +547,11 @@ void AccountState::slotOcsError(int statusCode, const QString &message)
 void AccountState::slotCheckConnection()
 {
     if (_lastCheckConnectionTimer.isValid()) {
-        const auto currentDelay = (retryCount() <= 1 ? ConnectionValidator::DefaultCallingIntervalMsec :
-                                                       (retryCount() == 2 ? ConnectionValidator::DefaultCallingIntervalMsec * 2 :
-                                                                            (retryCount() == 3 ? ConnectionValidator::DefaultCallingIntervalMsec * 4 :
-                                                                                                 ConnectionValidator::DefaultCallingIntervalMsec * 8)));
+        static constexpr auto DefaultCallingIntervalMaxMsec = static_cast<int>(ConnectionValidator::DefaultCallingIntervalMsec) * 8;
+
+        const auto minDelay = std::max(retryCount() * ConnectionValidator::DefaultCallingIntervalMsec,
+                                       static_cast<int>(ConnectionValidator::DefaultCallingIntervalMsec));
+        const auto currentDelay = std::min(minDelay, DefaultCallingIntervalMaxMsec);
 
         if (!_lastCheckConnectionTimer.hasExpired(currentDelay - 1)) {
             qCInfo(lcAccountState()) << "timer has not expired: do not check now" << _lastCheckConnectionTimer.elapsed() << currentDelay;
@@ -567,6 +572,18 @@ void AccountState::slotCheckConnection()
         qCWarning(lcAccountState()) << "Account is signed out due to SSL Handshake error. Going to perform a sign-in attempt...";
         trySignIn();
     }
+}
+
+void AccountState::slotPushNotificationsReady()
+{
+    if (state() != AccountState::State::Connected) {
+        setState(AccountState::State::Connected);
+    }
+}
+
+void AccountState::slotServerUserStatusChanged()
+{
+    setDesktopNotificationsAllowed(_account->userStatusConnector()->userStatus().state() != UserStatus::OnlineStatus::DoNotDisturb);
 }
 
 void AccountState::slotNavigationAppsFetched(const QJsonDocument &reply, int statusCode)

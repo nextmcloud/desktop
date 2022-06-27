@@ -4749,54 +4749,68 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <name>OCC::SyncLogDialog</name>
     <message>
         <source>Synchronisation Log</source>
-        <translation type="vanished">Synchronisierungsprotokoll</translation>
+        <translation>Synchronisierungsprotokoll</translation>
     </message>
 </context>
 <context>
     <name>OCC::SyncStatusSummary</name>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="124"/>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="313"/>
         <source>Offline</source>
-        <translation type="vanished">Offline</translation>
+        <translation>Offline</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="138"/>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="316"/>
+        <location filename="../src/gui/tray/syncstatussummary.h" line="89"/>
         <source>All synced!</source>
-        <translation type="vanished">Alles synchronisiert!</translation>
+        <translation>Alles synchronisiert!</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="147"/>
         <source>Some files couldn&apos;t be synced!</source>
-        <translation type="vanished">Einige Dateien konnten nicht synchronisiert werden!</translation>
+        <translation>Einige Dateien konnten nicht synchronisiert werden!</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="148"/>
         <source>See below for errors</source>
-        <translation type="vanished">Warnungen siehe unten</translation>
+        <translation>Warnungen siehe unten</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="155"/>
         <source>Syncing</source>
-        <translation type="vanished">Synchronisiere</translation>
+        <translation>Synchronisiere</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="162"/>
         <source>Sync paused</source>
-        <translation type="vanished">Synchronisierung pausiert</translation>
+        <translation>Synchronisierung pausiert</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="169"/>
         <source>Some files could not be synced!</source>
-        <translation type="vanished">Einige Dateien konnten nicht synchronisiert werden!</translation>
+        <translation>Einige Dateien konnten nicht synchronisiert werden!</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="170"/>
         <source>See below for warnings</source>
-        <translation type="vanished">Warnungen siehe unten</translation>
+        <translation>Warnungen siehe unten</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="218"/>
         <source>%1 of %2 · %3 left</source>
-        <translation type="vanished">%1 von %2 · %3 verbleiben</translation>
+        <translation>%1 von %2 · %3 verbleiben</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="222"/>
         <source>%1 of %2</source>
-        <translation type="vanished">%1 von %2</translation>
+        <translation>%1 von %2</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/syncstatussummary.cpp" line="227"/>
         <source>Syncing file %1 of %2</source>
-        <translation type="vanished">Synchronisiere Datei %1 von %2</translation>
+        <translation>Synchronisiere Datei %1 von %2</translation>
     </message>
 </context>
 <context>

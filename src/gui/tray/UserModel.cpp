@@ -4,6 +4,7 @@
 #include "accountmanager.h"
 #include "owncloudgui.h"
 #include <pushnotifications.h>
+#include "userstatusselectormodel.h"
 #include "syncengine.h"
 #include "ocsjob.h"
 #include "configfile.h"
@@ -12,6 +13,9 @@
 #include "guiutility.h"
 #include "syncfileitem.h"
 #include "tray/NotificationCache.h"
+#include "systray.h"
+#include "tray/activitylistmodel.h"
+#include "userstatusconnector.h"
 
 #include <QDesktopServices>
 #include <QIcon>
@@ -35,7 +39,7 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
     : QObject(parent)
     , _account(account)
     , _isCurrentUser(isCurrent)
-    , _activityModel(new ActivityListModel(_account.data()))
+    , _activityModel(new ActivityListModel(_account.data(), this))
     , _notificationRequestsRunning(0)
 {
     connect(ProgressDispatcher::instance(), &ProgressDispatcher::progressInfo,
@@ -65,21 +69,28 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
     connect(this, &User::guiLog, Logger::instance(), &Logger::guiLog);
 
     connect(_account->account().data(), &Account::accountChangedAvatar, this, &User::avatarChanged);
-    connect(_account.data(), &AccountState::statusChanged, this, &User::statusChanged);
+    connect(_account->account().data(), &Account::userStatusChanged, this, &User::statusChanged);
     connect(_account.data(), &AccountState::desktopNotificationsAllowedChanged, this, &User::desktopNotificationsAllowedChanged);
 
     connect(_activityModel, &ActivityListModel::sendNotificationRequest, this, &User::slotSendNotificationRequest);
 }
 
-void User::showDesktopNotification(const QString &title, const QString &message)
+void User::showDesktopNotification(const QString &title, const QString &message, const long notificationId)
 {
+    // Notification ids are uints, which are 4 bytes. Error activities don't have ids, however, so we generate one.
+    // To avoid possible collisions between the activity ids which are actually the notification ids received from
+    // the server (which are always positive) and our "fake" error activity ids, we assign a negative id to the
+    // error notification.
+    //
+    // To ensure that we can still treat an unsigned int as normal, we use a long, which is 8 bytes.
+
     ConfigFile cfg;
     if (!cfg.optionalServerNotifications() || !isDesktopNotificationsAllowed()) {
         return;
     }
 
     // after one hour, clear the gui log notification store
-    constexpr quint64 clearGuiLogInterval = 60 * 60 * 1000;
+    constexpr qint64 clearGuiLogInterval = 60 * 60 * 1000;
     if (_guiLogTimer.elapsed() > clearGuiLogInterval) {
         _notificationCache.clear();
     }
@@ -105,7 +116,7 @@ void User::slotBuildNotificationDisplay(const ActivityList &list)
             continue;
         }
         const auto message = AccountManager::instance()->accounts().count() == 1 ? "" : activity._accName;
-        showDesktopNotification(activity._subject, message);
+        showDesktopNotification(activity._subject, message, activity._id); // We assigned the notif. id to the activity id
         _activityModel->addNotificationToActivityList(activity);
     }
 }
@@ -195,7 +206,7 @@ bool User::checkPushNotificationsAreReady() const
 }
 
 void User::slotRefreshImmediately() {
-    if (_account.data() && _account.data()->isConnected()) {
+    if (_account.data() && _account.data()->isConnected() && Systray::instance()->isOpen()) {
         slotRefreshActivities();
     }
     slotRefreshNotifications();
@@ -207,6 +218,7 @@ void User::slotRefresh()
     
     if (checkPushNotificationsAreReady()) {
         // we are relying on WebSocket push notifications - ignore refresh attempts from UI
+        slotRefreshActivitiesInitial();
         _timeSinceLastCheck[_account.data()].invalidate();
         return;
     }
@@ -223,23 +235,30 @@ void User::slotRefresh()
         return;
     }
     if (_account.data() && _account.data()->isConnected()) {
-        if (!timer.isValid()) {
-            slotRefreshActivities();
-        }
+        slotRefreshActivitiesInitial();
         slotRefreshNotifications();
         timer.start();
     }
 }
 
-void User::slotRefreshActivities()
+void User::slotRefreshActivitiesInitial()
 {
-    _activityModel->slotRefreshActivity();
+    if (_account.data()->isConnected() && Systray::instance()->isOpen()) {
+        _activityModel->slotRefreshActivityInitial();
+    }
 }
 
-void User::slotRefreshUserStatus() 
+void User::slotRefreshActivities()
+{
+    if (_account.data()->isConnected() && Systray::instance()->isOpen()) {
+        _activityModel->slotRefreshActivity();
+    }
+}
+
+void User::slotRefreshUserStatus()
 {
     if (_account.data() && _account.data()->isConnected()) {
-        _account.data()->fetchUserStatus();
+        _account->account()->userStatusConnector()->fetchUserStatus();
     }
 }
 
@@ -466,10 +485,13 @@ void User::slotAddErrorToGui(const QString &folderAlias, SyncFileItem::Status st
         activity._accName = folderInstance->accountState()->account()->displayName();
         activity._folder = folderAlias;
 
+        // Error notifications don't have ids by themselves so we will create one for it
+        activity._id = -static_cast<int>(qHash(activity._subject + activity._message));
+
         // add 'other errors' to activity list
         _activityModel->addErrorToActivityList(activity);
 
-        showDesktopNotification(activity._subject, activity._message);
+        showDesktopNotification(activity._subject, activity._message, activity._id);
 
         if (!_expiredActivitiesCheckTimer.isActive()) {
             _expiredActivitiesCheckTimer.start(expiredActivitiesCheckIntervalMsecs);
@@ -495,8 +517,8 @@ void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr 
     activity._status = item->_status;
     activity._dateTime = QDateTime::currentDateTime();
     activity._message = item->_originalFile;
-    activity._link = folder->accountState()->account()->url();
-    activity._accName = folder->accountState()->account()->displayName();
+    activity._link = account()->url();
+    activity._accName = account()->displayName();
     activity._file = item->_file;
     activity._folder = folder->alias();
     activity._fileAction = "";
@@ -530,13 +552,14 @@ void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr 
     } else {
         qCWarning(lcActivity) << "Item " << item->_file << " retrieved resulted in error " << item->_errorString;
         activity._subject = item->_errorString;
+        activity._id = -static_cast<int>(qHash(activity._subject + activity._message));
 
         if (item->_status == SyncFileItem::Status::FileIgnored) {
             _activityModel->addIgnoredFileToList(activity);
         } else {
             // add 'protocol error' to activity list
             if (item->_status == SyncFileItem::Status::FileNameInvalid) {
-                showDesktopNotification(item->_file, activity._subject);
+                showDesktopNotification(item->_file, activity._subject, activity._id);
             }
             _activityModel->addErrorToActivityList(activity);
         }
@@ -558,6 +581,11 @@ void User::slotItemCompleted(const QString &folder, const SyncFileItemPtr &item)
 AccountPtr User::account() const
 {
     return _account->account();
+}
+
+AccountStatePtr User::accountState() const
+{
+    return _account;
 }
 
 void User::setCurrentUser(const bool &isCurrent)
@@ -621,24 +649,24 @@ QString User::server(bool shortened) const
     return serverUrl;
 }
 
-UserStatus::Status User::status() const
+UserStatus::OnlineStatus User::status() const
 {
-    return _account->status();
+    return _account->account()->userStatusConnector()->userStatus().state();
 }
 
 QString User::statusMessage() const
 {
-    return _account->statusMessage();
+    return _account->account()->userStatusConnector()->userStatus().message();
 }
 
 QUrl User::statusIcon() const
 {
-    return _account->statusIcon();
+    return _account->account()->userStatusConnector()->userStatus().stateIcon();
 }
 
 QString User::statusEmoji() const
 {
-    return _account->statusEmoji();
+    return _account->account()->userStatusConnector()->userStatus().icon();
 }
 
 bool User::serverHasUserStatus() const
@@ -817,7 +845,7 @@ void UserModel::addUser(AccountStatePtr &user, const bool &isCurrent)
 
         endInsertRows();
         ConfigFile cfg;
-        _users.last()->setNotificationRefreshInterval(cfg.notificationRefreshInterval());
+        u->setNotificationRefreshInterval(cfg.notificationRefreshInterval());
         emit newUserSelected();
     }
 }
@@ -918,6 +946,15 @@ Q_INVOKABLE void UserModel::removeAccount(const int &id)
     beginRemoveRows(QModelIndex(), id, id);
     _users.removeAt(id);
     endRemoveRows();
+}
+
+std::shared_ptr<OCC::UserStatusConnector> UserModel::userStatusConnector(int id)
+{
+    if (id < 0 || id >= _users.size()) {
+        return nullptr;
+    }
+
+    return _users[id]->account()->userStatusConnector();
 }
 
 int UserModel::rowCount(const QModelIndex &parent) const

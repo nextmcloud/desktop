@@ -142,8 +142,6 @@ void Flow2Auth::fetchNewToken(const TokenAction action)
             }
         }
 
-
-
         _pollToken = pollToken;
         _pollEndpoint = pollEndpoint;
 

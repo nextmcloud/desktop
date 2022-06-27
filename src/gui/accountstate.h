@@ -18,12 +18,13 @@
 
 #include "connectionvalidator.h"
 #include "creds/abstractcredentials.h"
+#include "userstatusselectormodel.h"
+#include "userstatusconnector.h"
 
 #include <QByteArray>
 #include <QElapsedTimer>
 #include <QPointer>
 #include <QTimer>
-#include "userstatus.h"
 #include <memory>
 
 class QSettings;
@@ -106,9 +107,6 @@ public:
     State state() const;
     static QString stateString(State state);
 
-    int retryCount() const;
-    void increaseRetryCount();
-
     bool isSignedOut() const;
 
     AccountAppList appList() const;
@@ -170,7 +168,7 @@ public:
     /** Returns the user status (Online, Dnd, Away, Offline, Invisible)
      *  https://gist.github.com/georgehrke/55a0412007f13be1551d1f9436a39675
     */
-    UserStatus::Status status() const;
+    UserStatus::OnlineStatus status() const;
 
     /** Returns the user status Message (text)
     */
@@ -197,9 +195,7 @@ public:
 
     void trySignIn();
 
-    /** Fetch the user status (status, icon, message)
-    */
-    void fetchUserStatus();
+    void systemOnlineConfigurationChanged();
 
 public slots:
     /// Triggers a ping to the server to update state and
@@ -209,7 +205,9 @@ public slots:
 private:
     void setState(State state);
     void fetchNavigationApps();
-    void setRetryCount(int count);
+    int retryCount() const;
+    void increaseRetryCount();
+    void resetRetryCount();
 
 signals:
     void stateChanged(State state);
@@ -235,6 +233,8 @@ protected Q_SLOTS:
 private Q_SLOTS:
 
     void slotCheckConnection();
+    void slotPushNotificationsReady();
+    void slotServerUserStatusChanged();
 
 private:
     AccountPtr _account;

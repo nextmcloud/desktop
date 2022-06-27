@@ -47,6 +47,7 @@ Window {
         // see also id:accountMenu below
         userLineInstantiator.active = false;
         userLineInstantiator.active = true;
+        syncStatus.model.load();
     }
 
 
@@ -60,6 +61,7 @@ Window {
         }
         onNewUserSelected: {
             accountMenu.close();
+            syncStatus.model.load();
         }
     }
 
@@ -527,11 +529,21 @@ Window {
                 color: "#e5e5e5"
             }
         }
+        SyncStatus {
+            id: syncStatus
+
+            visible: !trayWindowBackground.isUnifiedSearchActive
+
+            anchors.top: trayWindowGradientBarBackground.bottom
+            anchors.left: trayWindowBackground.left
+            anchors.right: trayWindowBackground.right
+            anchors.leftMargin: 16
+        }
 
 
         ListView {
             id: activityListView
-            anchors.top: trayWindowGradientBarBackground.bottom
+            anchors.top: syncStatus.bottom
             anchors.left: trayWindowBackground.left
             anchors.right: trayWindowBackground.right
             anchors.bottom: trayWindowBackground.bottom

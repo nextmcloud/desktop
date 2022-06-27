@@ -159,6 +159,36 @@ QUrl Theme::statusInvisibleImageSource() const
     return imagePathToUrl(themeImagePath("user-status-invisible", 16));
 }
 
+QUrl Theme::syncStatusOk() const
+{
+    return imagePathToUrl(themeImagePath("state-ok", 16));
+}
+
+QUrl Theme::syncStatusError() const
+{
+    return imagePathToUrl(themeImagePath("state-error", 16));
+}
+
+QUrl Theme::syncStatusRunning() const
+{
+    return imagePathToUrl(themeImagePath("state-sync", 16));
+}
+
+QUrl Theme::syncStatusPause() const
+{
+    return imagePathToUrl(themeImagePath("state-pause", 16));
+}
+
+QUrl Theme::syncStatusWarning() const
+{
+    return imagePathToUrl(themeImagePath("state-warning", 16));
+}
+
+QUrl Theme::folderOffline() const
+{
+    return imagePathToUrl(themeImagePath("state-offline"));
+}
+
 QString Theme::version() const
 {
     return MIRALL_VERSION_STRING;
@@ -318,6 +348,9 @@ QString Theme::hidpiFileName(const QString &iconName, const QColor &backgroundCo
 Theme::Theme()
     : QObject(nullptr)
 {
+#if defined(Q_OS_WIN)
+    reserveDarkPalette = QPalette(QColor(49,49,49,255), QColor(35,35,35,255)); // Windows 11 button and window dark colours
+#endif
 }
 
 // If this option returns true, the client only supports one folder to sync.
@@ -808,11 +841,16 @@ QString Theme::versionSwitchOutput() const
     return helpText;
 }
 
-bool Theme::isDarkColor(const QColor &color)
+double Theme::getColorDarkness(const QColor &color)
 {
     // account for different sensitivity of the human eye to certain colors
-    double treshold = 1.0 - (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255.0;
-    return treshold > 0.5;
+    const double threshold = 1.0 - (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255.0;
+    return threshold;
+}
+
+bool Theme::isDarkColor(const QColor &color)
+{
+    return getColorDarkness(color) > 0.5;
 }
 
 QColor Theme::getBackgroundAwareLinkColor(const QColor &backgroundColor)
@@ -906,6 +944,11 @@ bool Theme::enforceVirtualFilesSyncFolder() const
     return ENFORCE_VIRTUAL_FILES_SYNC_FOLDER && vfsMode != OCC::Vfs::Off;
 }
 
+QColor Theme::defaultColor()
+{
+    return QColor{NEXTCLOUD_BACKGROUND_COLOR};
+}
+
 QColor Theme::errorBoxTextColor() const
 {
     return QColor{"white"};
@@ -919,6 +962,45 @@ QColor Theme::errorBoxBackgroundColor() const
 QColor Theme::errorBoxBorderColor() const
 { 
     return QColor{"black"};
+}
+
+void Theme::connectToPaletteSignal()
+{
+    if (!_paletteSignalsConnected) {
+        if (const auto ptr = qobject_cast<QGuiApplication *>(QGuiApplication::instance())) {
+            connect(ptr, &QGuiApplication::paletteChanged, this, &Theme::systemPaletteChanged);
+            connect(ptr, &QGuiApplication::paletteChanged, this, &Theme::darkModeChanged);
+            _paletteSignalsConnected = true;
+        }
+    }
+}
+
+QPalette Theme::systemPalette()
+{
+    connectToPaletteSignal();
+#if defined(Q_OS_WIN)
+    if(darkMode()) {
+        return reserveDarkPalette;
+    }
+#endif
+    return QGuiApplication::palette();
+}
+
+bool Theme::darkMode()
+{
+    connectToPaletteSignal();
+// Windows: Check registry for dark mode
+#if defined(Q_OS_WIN)
+    const auto darkModeSubkey = QStringLiteral("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
+    if (Utility::registryKeyExists(HKEY_CURRENT_USER, darkModeSubkey) &&
+        !Utility::registryGetKeyValue(HKEY_CURRENT_USER, darkModeSubkey, QStringLiteral("AppsUseLightTheme")).toBool()) {
+        return true;
+    }
+
+    return false;
+#else
+    return Theme::isDarkColor(QGuiApplication::palette().window().color());
+#endif
 }
 
 } // end namespace client
