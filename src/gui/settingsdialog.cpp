@@ -45,7 +45,7 @@ namespace {
 const QString TOOLBAR_CSS()
 {
     return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 8px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
-                          "QToolBar QToolButton { background: %1; font: 14px; color: #191919; border: none; border-bottom: 1px solid %2; margin: 8px; padding: 8px; } "
+                          "QToolBar QToolButton { background: %1; font: 14px; color: #191919; border: none; border-bottom: 1px solid %2; margin: 0px; padding: 13px; } "
                           "QToolBar QToolBarExtension { padding:0; } "
                           "QToolBar QToolButton:checked { background: %1; color: #e20074; }");
 }
@@ -91,6 +91,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar = new QToolBar;
     _toolBar->setIconSize(QSize(32, 32));
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    _toolBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     layout()->setMenuBar(_toolBar);
 
     // People perceive this as a Window, so also make Ctrl+W work
