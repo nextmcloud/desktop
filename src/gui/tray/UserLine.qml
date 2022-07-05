@@ -17,6 +17,7 @@ MenuItem {
 
         RowLayout {
             id: userLineLayout
+            objectName: "userLineLayout"
             spacing: 0
             width: Style.accountMenuWidth
             height: parent.height
@@ -69,6 +70,7 @@ MenuItem {
                     spacing: 0
                     Image {
                         id: accountAvatar
+                        objectName: "accountAvatar"
                         Layout.topMargin: Style.accountMenuPadding
                         Layout.leftMargin: Style.accountMenuPadding
                         Layout.rightMargin: 0
@@ -93,12 +95,14 @@ MenuItem {
 
                     Column {
                         id: accountLabels
+                        objectName: "accountLabels"
                         spacing: 0
                         Layout.alignment: Qt.AlignLeft
                         Layout.leftMargin: Style.accountMenuHalfPadding
 
                         Label {
                             id: accountUser
+                            objectName: "accountUser"
                             width: (Style.accountMenuWidth - Style.headerButtonIconSize - Style.accountMenuHalfPadding)
                             text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
                             elide: Text.ElideRight

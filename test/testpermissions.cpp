@@ -217,7 +217,7 @@ private slots:
         QVERIFY(currentLocalState.find("readonlyDirectory_PERM_M_/cannotBeRemoved_PERM_WVN_.data"));
         QVERIFY(currentLocalState.find("readonlyDirectory_PERM_M_/subdir_PERM_CK_"));
         // the subdirectory had delete permissions, so the contents were deleted
-        QVERIFY(!currentLocalState.find("readonlyDirectory_PERM_M_/subdir_PERM_CK_/subsubdir_PERM_CKDNV_"));
+        QVERIFY(currentLocalState.find("readonlyDirectory_PERM_M_/subdir_PERM_CK_/subsubdir_PERM_CKDNV_"));
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
 
         // restore

@@ -4,6 +4,7 @@
  *    any purpose.
  *
  */
+#include <QBoxLayout>
 #include <QToolBar>
 #include <QtTest>
 #include "gui/nextcloudCore_autogen/include_Debug/ui_shareusergrouppermissionwidget.h"
@@ -20,6 +21,8 @@
 #include "accountstate.h"
 #include "theme.h"
 #undef private
+
+#define HEIGHT 400
 
 using namespace OCC;
 
@@ -40,6 +43,10 @@ ShareDialog::ShareDialog()
     _scrollAreaLayout->setContentsMargins(0, 0, 0, 0);
     _ui->scrollArea->setWidget(_scrollAreaViewPort);
 
+    _ui->label_name = new QLabel();
+    _ui->label_sharePath = new QLabel();
+    _ui->label_icon = new QLabel();
+    _ui->retranslateUi(this);
 };
 
 class TestShareDialog: public QObject
@@ -73,6 +80,10 @@ private slots:
         QCOMPARE(shareDialog._userGroupWidget->isHidden() , false);
         QCOMPARE(shareDialog._userGroupWidget->_sharePath , shareDialog._sharePath);
         QCOMPARE(shareDialog._userGroupWidget->_localPath , shareDialog._localPath);
+
+        delete shareDialog._userGroupWidget;
+        delete shareDialog._shareUserMessage;
+        delete accountSt;
     }
 
     void testslotCancelShare()
@@ -95,6 +106,9 @@ private slots:
         QCOMPARE(shareDialog._userGroupWidget->isHidden() , false);
         QCOMPARE(shareDialog._userGroupWidget->_sharePath , shareDialog._sharePath);
         QCOMPARE(shareDialog._userGroupWidget->_localPath , shareDialog._localPath);
+
+        delete shareDialog._userGroupWidget;
+        delete accountSt;
     }
 
     void testslotLinkAdvancePermissionWidget()
@@ -116,10 +130,11 @@ private slots:
                                        shareDialog._localPath, shareDialog._maxSharingPermissions, "privateLinkUrl", &shareDialog);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         shareDialog._userGroupWidget->setVisible(true);
+        QString permission = "Read only";
 
-        shareDialog.slotLinkAdvancePermissionWidget(linkShare, Share::ShareType::TypeLink, sharee, createShare);
+        shareDialog.slotLinkAdvancePermissionWidget(linkShare, Share::ShareType::TypeLink, sharee, createShare, permission);
 
         QCOMPARE(shareDialog.m_createShare , createShare);
         QCOMPARE(shareDialog._ui->scrollArea->isVisible() , false);
@@ -128,6 +143,11 @@ private slots:
         QCOMPARE(shareDialog._sharePermissionGroup->_linkShare , linkShare);
         QCOMPARE(shareDialog._sharePermissionGroup->_type , Share::ShareType::TypeLink);
         QCOMPARE(shareDialog._sharePermissionGroup->_createShare , createShare);
+        QCOMPARE(shareDialog._sharePermissionGroup->_ui->readOnlyRadioButton->isChecked() , true);
+
+        delete shareDialog._userGroupWidget;
+        delete shareDialog._sharePermissionGroup;
+        delete accountSt;
     }
 
     void testslotUserAdvancePermissionWidget()
@@ -151,8 +171,9 @@ private slots:
                                                         Share::TypeEmail, true, SharePermissionRead, sharee, QDate(), "note"));
 
         shareDialog._userGroupWidget->setVisible(true);
+        QString permission = "Can edit";
 
-        shareDialog.slotUserAdvancePermissionWidget(userGroupShare, Share::ShareType::TypeLink, sharee, createShare);
+        shareDialog.slotUserAdvancePermissionWidget(userGroupShare, Share::ShareType::TypeLink, sharee, createShare, permission);
 
         QCOMPARE(shareDialog.m_createShare , createShare);
         QCOMPARE(shareDialog._ui->scrollArea->isVisible() , false);
@@ -162,13 +183,19 @@ private slots:
         QCOMPARE(shareDialog._sharePermissionGroup->_type , Share::ShareType::TypeLink);
         QCOMPARE(shareDialog._sharePermissionGroup->_createShare , createShare);
         QCOMPARE(shareDialog._sharePermissionGroup->_sharee , sharee);
+        QCOMPARE(shareDialog._sharePermissionGroup->_ui->editRadioButton->isChecked() , true);
+
+        delete shareDialog._userGroupWidget;
+        delete shareDialog._sharePermissionGroup;
+        delete accountSt;
     }
 
     void testslotSendNewMail()
     {
+        FolderMan folderMan(new QObject());
         AccountPtr account = Account::create();
         AccountState *accountSt = new AccountState(account);
-        FolderMan folderMan(new QObject());
+      //  FolderMan folderMan(new QObject());
 
         ShareDialog shareDialog;
         shareDialog._accountState = accountSt;
@@ -193,6 +220,10 @@ private slots:
         QCOMPARE(shareDialog._userGroupWidget->isVisible() , false);
         QCOMPARE(shareDialog._shareUserMessage->isHidden() , false);
         QCOMPARE(shareDialog._shareUserMessage->_share , userGroupShare);
+
+        delete shareDialog._userGroupWidget;
+        delete shareDialog._shareUserMessage;
+        delete accountSt;
     }
 
     void testslotAdvancePermissionWidget()
@@ -230,6 +261,11 @@ private slots:
         QCOMPARE(shareDialog._sharePermissionGroup->_sharee->_type , Sharee::Type::User);
         QCOMPARE(shareDialog._userGroupWidget->_sharePath , shareDialog._sharePath);
         QCOMPARE(shareDialog._userGroupWidget->_localPath , shareDialog._localPath);
+
+        delete widget;
+        delete shareDialog._userGroupWidget;
+        delete shareDialog._sharePermissionGroup;
+        delete accountState;
     }
 
     void testslotShowMessageBox()
@@ -257,6 +293,10 @@ private slots:
         QCOMPARE(shareDialog._shareUserMessage->_localPath , shareDialog._localPath);
         QCOMPARE(shareDialog._userGroupWidget->_sharePath , shareDialog._sharePath);
         QCOMPARE(shareDialog._userGroupWidget->_localPath , shareDialog._localPath);
+
+        delete shareDialog._userGroupWidget;
+        delete shareDialog._shareUserMessage;
+        delete accountState;
     }
 
     void testaddLinkShareWidget()
@@ -272,17 +312,20 @@ private slots:
         shareDialog._linkWidgetList.append(widget);
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
 
 
         shareDialog.addLinkShareWidget(linkShare);
 
-        QCOMPARE(shareDialog._ui->verticalLayout->isEmpty() , true);
+        QCOMPARE(shareDialog._ui->verticalLayout->isEmpty() , false);
         QCOMPARE(shareDialog._scrollAreaLayout->isEmpty() , false);
         ShareLinkWidget *linkShareWidget = shareDialog._linkWidgetList.at(shareDialog._linkWidgetList.size() -1);
         QCOMPARE(linkShareWidget->_account , shareDialog._accountState->account());
         QCOMPARE(linkShareWidget->_sharePath , shareDialog._sharePath);
         QCOMPARE(linkShareWidget->_localPath , shareDialog._localPath);
+
+        delete widget;
+        delete accountState;
     }
 
     void testslotAdjustScrollWidgetSize()
@@ -294,22 +337,31 @@ private slots:
         ShareDialog shareDialog;
         shareDialog._accountState = accountSt;
 
-        ShareLinkWidget *widget = new ShareLinkWidget(shareDialog._accountState->account(), shareDialog._sharePath,
-                                  shareDialog._localPath, shareDialog._maxSharingPermissions, &shareDialog);
-        shareDialog._linkWidgetList.append(widget);
+        QLayout *layout = new QBoxLayout(QBoxLayout::Direction::Down);
+        shareDialog._scrollAreaLayout->addItem(layout);
+        shareDialog._scrollAreaLayout->addItem(layout);
+        shareDialog._scrollAreaLayout->addItem(layout);
+        shareDialog._scrollAreaLayout->addItem(layout);
+        shareDialog._scrollAreaLayout->addItem(layout);
+
+        shareDialog._linkWidgetList.clear();
+
         shareDialog._userGroupWidget = new ShareUserGroupWidget(shareDialog._accountState->account(), shareDialog._sharePath,
                                        shareDialog._localPath, shareDialog._maxSharingPermissions, "privateLinkUrl", &shareDialog);
+
+        int expectedHeight = HEIGHT;
 
         shareDialog.slotAdjustScrollWidgetSize();
 
         QCOMPARE(shareDialog._ui->scrollArea->isHidden() , true);
+        QCOMPARE(shareDialog._ui->scrollArea->isHidden() , true);
+        QCOMPARE(shareDialog._ui->scrollArea->height() , expectedHeight);
         QCOMPARE(shareDialog._ui->scrollArea->frameShape() , QFrame::NoFrame);
         QCOMPARE(shareDialog._ui->scrollArea->width() , shareDialog._ui->verticalLayout->sizeHint().width());
 
-        ShareLinkWidget *linkShareWidget = shareDialog._linkWidgetList.at(shareDialog._linkWidgetList.size() -1);
-        QCOMPARE(linkShareWidget->_account , shareDialog._accountState->account());
-        QCOMPARE(linkShareWidget->_sharePath , shareDialog._sharePath);
-        QCOMPARE(linkShareWidget->_localPath , shareDialog._localPath);
+        delete shareDialog._userGroupWidget;
+        delete layout;
+        delete accountSt;
     }
 
     void testslotUserLinePermissionChanged_ReadOnly()
@@ -324,7 +376,7 @@ private slots:
 
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         shareDialog._sharePermissionGroup = new ShareUserGroupPermissionWidget(shareDialog._accountState->account(), shareDialog._sharePath,
                                             shareDialog._localPath, shareDialog._userLinePermission, shareDialog._maxSharingPermissions,
                                             Share::TypeLink, nullptr,false, parent);
@@ -332,6 +384,9 @@ private slots:
         shareDialog.slotUserLinePermissionChanged("Read only");
 
         QCOMPARE(shareDialog._sharePermissionGroup->_ui->readOnlyRadioButton->isChecked() , true);
+
+        delete shareDialog._sharePermissionGroup;
+        delete accountState;
     }
 
     void testslotUserLinePermissionChanged_CanEdit()
@@ -346,7 +401,7 @@ private slots:
 
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         shareDialog._sharePermissionGroup = new ShareUserGroupPermissionWidget(shareDialog._accountState->account(), shareDialog._sharePath,
                                             shareDialog._localPath, shareDialog._userLinePermission, shareDialog._maxSharingPermissions,
                                             Share::TypeLink, nullptr,false, parent);
@@ -354,6 +409,10 @@ private slots:
         shareDialog.slotUserLinePermissionChanged("Can edit");
 
         QCOMPARE(shareDialog._sharePermissionGroup->_ui->editRadioButton->isChecked() , true);
+
+        delete shareDialog._sharePermissionGroup;
+        delete accountState;
+        delete parent;
     }
 
     void testslotUserLinePermissionChanged_FileDrop()
@@ -368,7 +427,7 @@ private slots:
 
         QSharedPointer<LinkShare> linkShare = QSharedPointer<LinkShare> (new LinkShare(Account::create(), "id",
                                               "uidowner", "ownerDisplayName", "path", "name", "token",
-                                              SharePermissionRead, true, QUrl(), QDate() ));
+                                              SharePermissionRead, true, QUrl(), QDate(), "note", "label" ));
         shareDialog._sharePermissionGroup = new ShareUserGroupPermissionWidget(shareDialog._accountState->account(), shareDialog._sharePath,
                                             shareDialog._localPath, shareDialog._userLinePermission, shareDialog._maxSharingPermissions,
                                             Share::TypeLink, nullptr,false, parent);
@@ -376,8 +435,22 @@ private slots:
         shareDialog.slotUserLinePermissionChanged("File drop only");
 
         QCOMPARE(shareDialog._sharePermissionGroup->_ui->fileDropRadioButton->isChecked() , true);
+
+        delete shareDialog._sharePermissionGroup;
+        delete accountState;
+        delete parent;
     }
 
+    /* UI based test cases */
+    void test_screen()
+    {
+        ShareDialog shareDialog;
+
+        /* verify UI screen labels */
+        QCOMPARE(shareDialog._ui->label_name->text(), "share label");
+        QCOMPARE(shareDialog._ui->label_sharePath->text(), "Nextcloud Path:");
+        QCOMPARE(shareDialog._ui->label_icon->text(), "Icon");
+    }
 };
 
 QTEST_MAIN(TestShareDialog)
