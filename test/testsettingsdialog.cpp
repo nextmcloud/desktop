@@ -45,7 +45,7 @@ private slots:
         setDialog->customizeStyle();
 
         QString expToolbarStyleSheet("QToolBar { background: %1; margin: 0; padding: 8px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
-                                     "QToolBar QToolButton { background: %1; font: 14px; border: none; border-bottom: 1px solid %2; margin: 0px; padding: 13px; } "
+                                     "QToolBar QToolButton { background: %1; font: 14px; color: #191919; border: none; border-bottom: 1px solid %2; margin: 0px; padding: 13px; } "
                                      "QToolBar QToolBarExtension { padding:0; } "
                                      "QToolBar QToolButton:checked { background: %1; color: #e20074; }");
         QToolBar *toolBar = new QToolBar();

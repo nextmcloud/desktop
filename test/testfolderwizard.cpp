@@ -6,8 +6,8 @@
  */
 
 #define TEST_FOLD_WIZ
-#include "gui/nextcloudCore_autogen/include_Debug/ui_folderwizardsourcepage.h"
-#include "gui/nextcloudCore_autogen/include_Debug/ui_folderwizardtargetpage.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_folderwizardsourcepage.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_folderwizardtargetpage.h"
 #include "creds/abstractcredentials.h"
 #include "folderwizard.h"
 #include "accountstate.h"

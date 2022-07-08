@@ -185,6 +185,9 @@ private:
     bool _hideOldActivities = true;
 
     static constexpr quint32 MaxActionButtons = 3;
+
+    /* for Unit Test */
+    friend class::TestActivityListModel;
 };
 }
 
