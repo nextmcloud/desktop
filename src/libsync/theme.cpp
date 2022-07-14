@@ -186,7 +186,7 @@ QUrl Theme::syncStatusWarning() const
 
 QUrl Theme::folderOffline() const
 {
-    return imagePathToUrl(themeImagePath("state-offline"));
+    return imagePathToUrl(themeImagePath("icon-offline"));
 }
 
 QString Theme::version() const

@@ -2616,7 +2616,7 @@ Objekte, bei denen Löschen erlaubt ist, werden gelöscht, wenn diese das Lösch
     <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="157"/>
         <source>Filename contains leading spaces.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateiname enthält führende Leerzeichen.</translation>
     </message>
     <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="159"/>
@@ -3491,7 +3491,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/libsync/discovery.cpp" line="311"/>
         <source>Filename contains leading spaces.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dateiname enthält führende Leerzeichen.</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="315"/>
@@ -3541,7 +3541,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/libsync/discovery.cpp" line="490"/>
         <source>permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Berechtigungen</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="498"/>
@@ -3551,7 +3551,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/libsync/discovery.cpp" line="843"/>
         <source>Cannot sync due to invalid modification time</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchronisierung aufgrund ungültiger Änderungszeit nicht möglich.</translation>
     </message>
     <message>
         <source>permissions</source>

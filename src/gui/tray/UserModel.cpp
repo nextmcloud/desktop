@@ -627,6 +627,8 @@ void User::login() const
 void User::logout() const
 {
     _account->signOutByUi();
+    AccountManager::instance()->deleteAccount(_account.data());
+    AccountManager::instance()->save();
 }
 
 QString User::name() const
@@ -905,7 +907,11 @@ Q_INVOKABLE void UserModel::login(const int &id)
     if (id < 0 || id >= _users.size())
         return;
 
-    _users[id]->login();
+    beginRemoveRows(QModelIndex(), id, id);
+    _users.removeAt(id);
+    endRemoveRows();
+
+    emit addAccount();
 }
 
 Q_INVOKABLE void UserModel::logout(const int &id)

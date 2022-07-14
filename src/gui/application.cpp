@@ -391,7 +391,7 @@ Application::Application(int &argc, char **argv)
     // Update checks
     auto *updaterScheduler = new UpdaterScheduler(this);
     connect(updaterScheduler, &UpdaterScheduler::updaterAnnouncement,
-        _gui.data(), &ownCloudGui::slotShowTrayMessage);
+        _gui.data(), &ownCloudGui::slotShowTrayUpdateMessage);
     connect(updaterScheduler, &UpdaterScheduler::requestRestart,
         _folderManager.data(), &FolderMan::slotScheduleAppRestart);
 #endif
@@ -443,11 +443,11 @@ void Application::slotAccountStateRemoved(AccountState *accountState)
     }
 
     // if there is no more account, show the wizard.
-    if (_gui && AccountManager::instance()->accounts().isEmpty()) {
+    /*if (_gui && AccountManager::instance()->accounts().isEmpty()) {
         // allow to add a new account if there is non any more. Always think
         // about single account theming!
         OwncloudSetupWizard::runWizard(this, SLOT(slotownCloudWizardDone(int)));
-    }
+    }*/
 }
 
 void Application::slotAccountStateAdded(AccountState *accountState)

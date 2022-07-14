@@ -562,7 +562,6 @@ Window {
             anchors.top: trayWindowGradientBarBackground.bottom
             anchors.left: trayWindowBackground.left
             anchors.right: trayWindowBackground.right
-            anchors.leftMargin: 16
         }
 
 

@@ -444,7 +444,8 @@ void AccountSettings::openIgnoredFilesDialog(const QString & absFolderPath)
     auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     layout->addWidget(buttonBox);
 
-    auto dialog = new QDialog();
+    auto dialog = new QDialog(nullptr, Qt::WindowTitleHint| Qt::WindowCloseButtonHint);
+    //auto dialog = new QDialog();
     dialog->setLayout(layout);
 
     connect(buttonBox, &QDialogButtonBox::clicked, [=](QAbstractButton * button) {
