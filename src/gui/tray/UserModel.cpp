@@ -763,6 +763,13 @@ UserModel::UserModel(QObject *parent)
 
 void UserModel::buildUserList()
 {
+    if(rowCount() > 0)
+    {
+        beginRemoveRows(QModelIndex(), _currentUserId, _currentUserId);
+        _users.removeAt(_currentUserId);
+        endRemoveRows();
+    }
+
     for (int i = 0; i < AccountManager::instance()->accounts().size(); i++) {
         auto user = AccountManager::instance()->accounts().at(i);
         addUser(user);
@@ -907,9 +914,9 @@ Q_INVOKABLE void UserModel::login(const int &id)
     if (id < 0 || id >= _users.size())
         return;
 
-    beginRemoveRows(QModelIndex(), id, id);
-    _users.removeAt(id);
-    endRemoveRows();
+    //beginRemoveRows(QModelIndex(), id, id);
+    //_users.removeAt(id);
+    //endRemoveRows();
 
     emit addAccount();
 }
