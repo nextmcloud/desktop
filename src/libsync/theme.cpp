@@ -161,7 +161,7 @@ QUrl Theme::statusInvisibleImageSource() const
 
 QUrl Theme::syncStatusOk() const
 {
-    return imagePathToUrl(themeImagePath("state-ok", 16));
+    return imagePathToUrl(themeImagePath("Icon-synch-done", 16));
 }
 
 QUrl Theme::syncStatusError() const

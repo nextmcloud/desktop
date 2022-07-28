@@ -181,9 +181,9 @@ void WebFlowCredentials::slotAskFromUserCredentialsProvided(const QString &user,
 
     // Compare the re-entered username case-insensitive and save the new value (avoid breaking the account)
     // See issue: https://github.com/nextcloud/desktop/issues/1741
-    //if (QString::compare(_user, user, Qt::CaseInsensitive) == 0) {
+    if (QString::compare(_user, user, Qt::CaseInsensitive) == 0) {
         _user = user;
-    /*} else {
+    } else {
         qCInfo(lcWebFlowCredentials()) << "Authed with the wrong user!";
 
         QString msg = tr("Please login with the user: %1")
@@ -198,7 +198,7 @@ void WebFlowCredentials::slotAskFromUserCredentialsProvided(const QString &user,
         }
 
         return;
-    }*/
+    }
 
     qCInfo(lcWebFlowCredentials()) << "Obtained a new password";
 

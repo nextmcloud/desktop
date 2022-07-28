@@ -384,7 +384,6 @@ void AccountManager::deleteAccount(AccountState *account)
 
     emit accountSyncConnectionRemoved(account);
     emit accountRemoved(account);
-    emit removeAccountFolders(account);
 }
 
 AccountPtr AccountManager::createAccount()

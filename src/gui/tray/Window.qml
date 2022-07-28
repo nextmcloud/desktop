@@ -194,23 +194,27 @@ Window {
                         Accessible.name: qsTr("Current account")
                         Accessible.onPressAction: currentAccountButton.clicked()
 
-                        MouseArea {
+                       /* MouseArea {
                             id: accountBtnMouseArea
                             objectName: "accountBtnMouseArea"
 
                             anchors.fill:   parent
-                            hoverEnabled:   Style.hoverEffectsEnabled
+                            hoverEnabled:   Style.hoverEffectsEnabled*/
 
                             // We call open() instead of popup() because we want to position it
                             // exactly below the dropdown button, not the mouse
                             onClicked: {
 
-                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause synchronization")
+                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync")
                                 if (accountMenu.visible) {
                                     accountMenu.close()
                                 } else {
                                     accountMenu.open()
                                 }
+                            }
+
+                            Loader {
+                                id: userStatusSelectorDialogLoader
                             }
 
                             Menu {
@@ -222,13 +226,29 @@ Window {
                                 x: (currentAccountButton.x + 2)
                                 y: (currentAccountButton.y + Style.trayWindowHeaderHeight - 6)
 
-                                width: Style.accountMenuWidth
+                                width: 220
                                 height: Math.min(implicitHeight, maxMenuHeight)
                                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
                                 background: Rectangle {
                                     border.color: Style.menuBorder
                                     radius: Style.currentAccountButtonRadius
+                                }
+
+                                contentItem: ScrollView {
+                                    id: accMenuScrollView
+                                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
+                                    data: WheelHandler {
+                                        target: accMenuScrollView.contentItem
+                                    }
+                                    ListView {
+                                        implicitHeight: contentHeight
+                                        model: accountMenu.contentModel
+                                        interactive: true
+                                        clip: true
+                                        currentIndex: accountMenu.currentIndex
+                                    }
                                 }
 
                                 Accessible.role: PopupMenu
@@ -247,6 +267,50 @@ Window {
                                     delegate: UserLine {}
                                     onObjectAdded: accountMenu.insertItem(index, object)
                                     onObjectRemoved: accountMenu.removeItem(object)
+                                }
+
+                                MenuItem {
+                                    id: addAccountButton
+                                    height: Style.addAccountButtonHeight
+                                    display: AbstractButton.TextBesideIcon
+                                    hoverEnabled: true
+                                    icon.source: "qrc:///client/theme/black/add.svg"
+                                    icon.color: settingsButton.hovered ? Style.magenta : Style.nmcTextColor
+
+                                    Text {
+                                        objectName: "addAccountButton"
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        //font.wordSpacing:  45
+                                        text:  qsTr("            "+"Add account")
+                                        font.family: "Segoe UI"
+                                        font.pixelSize: Style.topLinePixelSize
+                                        color: parent.hovered ? Style.magenta : Style.nmcTextColor
+                                    }
+
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.menu.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered || parent.parent.visualFocus ? Style.lightHover : "transparent"
+                                        }
+                                    }
+                                    horizontalPadding: Style.accountMenuPadding
+                                    verticalPadding: Style.accountMenuHalfPadding
+                                    spacing: 4
+                                    onClicked: UserModel.addAccount()
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: qsTr("Add new account")
+                                    Accessible.onPressAction: addAccountButton.clicked()
+                                }
+
+                                MenuSeparator {
+                                    contentItem: Rectangle {
+                                        implicitHeight: 1
+                                        color: Style.menuBorder
+                                    }
                                 }
 
                                 MenuItem {
@@ -284,7 +348,7 @@ Window {
                                     }
 
                                     Accessible.role: Accessible.MenuItem
-                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause synchronization")
+                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync")
                                     Accessible.onPressAction: syncPauseButton.clicked()
                                 }
 
@@ -337,7 +401,7 @@ Window {
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.bottomMargin: Style.accountMenuPadding
                                         font.wordSpacing:  45
-                                        text:  qsTr(" "+"Close")
+                                        text:  qsTr(" "+"Exit")
                                         font.family: "Segoe UI"
                                         font.pixelSize: Style.topLinePixelSize
                                         color: parent.hovered ? Style.magenta : Style.nmcTextColor
@@ -365,12 +429,12 @@ Window {
                                     Accessible.onPressAction: exitButton.clicked()
                                 }
                             }
-                        }
+                       // }
 
-                        background: Rectangle {
+                       /* background: Rectangle {
                             color: accountBtnMouseArea.containsMouse ? "white" : "transparent"
                             opacity: 0.2
-                        }
+                        }*/
 
                         RowLayout {
                             id: accountControlRowLayout

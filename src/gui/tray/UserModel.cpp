@@ -15,7 +15,9 @@
 #include "tray/NotificationCache.h"
 #include "systray.h"
 #include "tray/activitylistmodel.h"
+#include "tray/talkreply.h"
 #include "userstatusconnector.h"
+#include "thumbnailjob.h"
 
 #include <QDesktopServices>
 #include <QIcon>
@@ -66,8 +68,6 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
 
     connect(FolderMan::instance(), &FolderMan::folderListChanged, this, &User::hasLocalFolderChanged);
 
-    connect(this, &User::guiLog, Logger::instance(), &Logger::guiLog);
-
     connect(_account->account().data(), &Account::accountChangedAvatar, this, &User::avatarChanged);
     connect(_account->account().data(), &Account::userStatusChanged, this, &User::statusChanged);
     connect(_account.data(), &AccountState::desktopNotificationsAllowedChanged, this, &User::desktopNotificationsAllowedChanged);
@@ -101,7 +101,7 @@ void User::showDesktopNotification(const QString &title, const QString &message,
     }
 
     _notificationCache.insert(notification);
-    emit guiLog(notification.title, notification.message);
+    Logger::instance()->postGuiLog(title, message);
     // restart the gui log timer now that we show a new notification
     _guiLogTimer.start();
 }
@@ -512,6 +512,30 @@ bool User::isUnsolvableConflict(const SyncFileItemPtr &item) const
 
 void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr &item)
 {
+    const auto fileActionFromInstruction = [](const int instruction) {
+        if (instruction == CSYNC_INSTRUCTION_REMOVE) {
+            return QStringLiteral("file_deleted");
+        } else if (instruction == CSYNC_INSTRUCTION_NEW) {
+            return QStringLiteral("file_created");
+        } else if (instruction == CSYNC_INSTRUCTION_RENAME) {
+            return QStringLiteral("file_renamed");
+        } else {
+            return QStringLiteral("file_changed");
+        }
+    };
+
+    const auto messageFromFileAction = [](const QString &fileAction, const QString &fileName) {
+        if (fileAction == QStringLiteral("file_renamed")) {
+            return QObject::tr("You renamed %1").arg(fileName);
+        } else if (fileAction == QStringLiteral("file_deleted")) {
+            return QObject:: tr("You deleted %1").arg(fileName);
+        } else if (fileAction == QStringLiteral("file_created")) {
+            return QObject::tr("You created %1").arg(fileName);
+        } else {
+            return QObject::tr("You changed %1").arg(fileName);
+        }
+    };
+
     Activity activity;
     activity._type = Activity::SyncFileItemType; //client activity
     activity._status = item->_status;
@@ -523,29 +547,45 @@ void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr 
     activity._folder = folder->alias();
     activity._fileAction = "";
 
-    if (item->_instruction == CSYNC_INSTRUCTION_REMOVE) {
-        activity._fileAction = "file_deleted";
-    } else if (item->_instruction == CSYNC_INSTRUCTION_NEW) {
-        activity._fileAction = "file_created";
-    } else if (item->_instruction == CSYNC_INSTRUCTION_RENAME) {
-        activity._fileAction = "file_renamed";
-    } else {
-        activity._fileAction = "file_changed";
-    }
+    const auto fileName = QFileInfo(item->_originalFile).fileName();
+
+    activity._fileAction = fileActionFromInstruction(item->_instruction);
 
     if (item->_status == SyncFileItem::NoStatus || item->_status == SyncFileItem::Success) {
         qCWarning(lcActivity) << "Item " << item->_file << " retrieved successfully.";
 
         if (item->_direction != SyncFileItem::Up) {
-            activity._message = tr("Synced %1").arg(item->_originalFile);
-        } else if (activity._fileAction == "file_renamed") {
-            activity._message = tr("You renamed %1").arg(item->_originalFile);
-        } else if (activity._fileAction == "file_deleted") {
-            activity._message = tr("You deleted %1").arg(item->_originalFile);
-        } else if (activity._fileAction == "file_created") {
-            activity._message = tr("You created %1").arg(item->_originalFile);
+            activity._message = QObject::tr("Synced %1").arg(fileName);
         } else {
-            activity._message = tr("You changed %1").arg(item->_originalFile);
+            activity._message = messageFromFileAction(activity._fileAction, fileName);
+        }
+
+        if(activity._fileAction != "file_deleted" && !item->isEmpty()) {
+            auto remotePath = folder->remotePath();
+            remotePath.append(activity._fileAction == "file_renamed" ? item->_renameTarget : activity._file);
+
+            const auto localFiles = FolderMan::instance()->findFileInLocalFolders(item->_file, account());
+            if (!localFiles.isEmpty()) {
+                const auto firstFilePath = localFiles.constFirst();
+                const auto itemJournalRecord = item->toSyncJournalFileRecordWithInode(firstFilePath);
+
+                if(!itemJournalRecord.isVirtualFile()) {
+                    const auto mimeType = _mimeDb.mimeTypeForFile(QFileInfo(localFiles.constFirst()));
+
+                    // Set the preview data, though for now we can skip setting file ID, link, and view
+                    PreviewData preview;
+                    preview._mimeType = mimeType.name();
+                    preview._filename = fileName;
+                    preview._isMimeTypeIcon = true;
+
+                    if(item->isDirectory()) {
+                        preview._source = account()->url().toString() + QStringLiteral("/index.php/apps/theming/img/core/filetypes/folder.svg");
+                    } else {
+                        preview._source = account()->url().toString() + Activity::relativeServerFileTypeIconPath(mimeType);
+                    }
+                    activity._previews.append(preview);
+                }
+            }
         }
 
         _activityModel->addSyncFileItemToActivityList(activity);
@@ -627,8 +667,6 @@ void User::login() const
 void User::logout() const
 {
     _account->signOutByUi();
-    AccountManager::instance()->deleteAccount(_account.data());
-    AccountManager::instance()->save();
 }
 
 QString User::name() const
@@ -763,13 +801,6 @@ UserModel::UserModel(QObject *parent)
 
 void UserModel::buildUserList()
 {
-    if(rowCount() > 0)
-    {
-        beginRemoveRows(QModelIndex(), _currentUserId, _currentUserId);
-        _users.removeAt(_currentUserId);
-        endRemoveRows();
-    }
-
     for (int i = 0; i < AccountManager::instance()->accounts().size(); i++) {
         auto user = AccountManager::instance()->accounts().at(i);
         addUser(user);
@@ -914,11 +945,7 @@ Q_INVOKABLE void UserModel::login(const int &id)
     if (id < 0 || id >= _users.size())
         return;
 
-    //beginRemoveRows(QModelIndex(), id, id);
-    //_users.removeAt(id);
-    //endRemoveRows();
-
-    emit addAccount();
+    _users[id]->login();
 }
 
 Q_INVOKABLE void UserModel::logout(const int &id)
