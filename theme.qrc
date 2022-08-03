@@ -19,7 +19,10 @@
         <file>theme/magenta/folder/default@svg.svg</file>
         <file>theme/magenta/news/default@svg.svg</file>
         <file>theme/magenta/user/default@svg.svg</file>
+        <file>theme/magenta/user/default-32x32px.svg</file>
+        <file>theme/magenta/user/default-32x32px-magenta.svg</file>
         <file>theme/magenta/user/default.png</file>
+        <file>theme/magenta/user/default@3x.png</file>
         <file>theme/magenta/share/default@svg.svg</file>
         <file>theme/magenta/share/default.png</file>
         <file>theme/magenta/action/circle-close/default@svg.svg</file>

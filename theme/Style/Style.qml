@@ -22,7 +22,7 @@ QtObject {
     property string swipeFontFamily: "Segoe UI"
 
     // Dimensions and sizes
-    property int trayWindowWidth: 360
+    property int trayWindowWidth: 380
     property int trayWindowHeight: 600
     property int trayWindowRadius: 0 //10
     property int trayWindowBorderWidth: 0

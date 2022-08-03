@@ -226,7 +226,7 @@ Window {
                                 x: (currentAccountButton.x + 2)
                                 y: (currentAccountButton.y + Style.trayWindowHeaderHeight - 6)
 
-                                width: 220
+                                width: 230
                                 height: Math.min(implicitHeight, maxMenuHeight)
                                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
@@ -275,7 +275,7 @@ Window {
                                     display: AbstractButton.TextBesideIcon
                                     hoverEnabled: true
                                     icon.source: "qrc:///client/theme/black/add.svg"
-                                    icon.color: settingsButton.hovered ? Style.magenta : Style.nmcTextColor
+                                    icon.color: addAccountButton.hovered ? Style.magenta : Style.nmcTextColor
 
                                     Text {
                                         objectName: "addAccountButton"
@@ -613,7 +613,7 @@ Window {
             topPadding: 108
             bottomPadding: 8
             contentItem: Rectangle {
-                implicitWidth: 360
+                implicitWidth: 380
                 implicitHeight: 1
                 color: "#e5e5e5"
             }

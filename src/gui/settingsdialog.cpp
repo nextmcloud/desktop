@@ -61,7 +61,7 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
     if (user.isEmpty()) {
         user = account->credentials()->user();
     }
-    QString host = account->url().host();
+    /*QString host = account->url().host();
     int port = account->url().port();
     if (port > 0 && port != 80 && port != 443) {
         host.append(QLatin1Char(':'));
@@ -72,8 +72,8 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
         QFontMetrics fm(f);
         host = fm.elidedText(host, Qt::ElideMiddle, width);
         user = fm.elidedText(user, Qt::ElideRight, width);
-    }
-    return QStringLiteral("%1\n%2").arg(user, host);
+    }*/
+    return QStringLiteral("%1").arg(user);
 }
 }
 
@@ -119,9 +119,11 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     connect(_actionGroup, &QActionGroup::triggered, this, &SettingsDialog::slotSwitchPage);
     //connect(_actionGroup, &QActionGroup::hovered, this, &SettingsDialog::slotHoverEffect);
 
-    foreach(auto ai, AccountManager::instance()->accounts()) {
-        accountAdded(ai.data());
-    }
+    // Adds space between users + activities and general + network actions
+    auto *spacer = new QWidget();
+    spacer->setMinimumWidth(10);
+    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
+    _toolBar->addWidget(spacer);
 
     QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/service32x32.svg"), tr("General"));
     _actionGroup->addAction(generalAction);
@@ -140,6 +142,10 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
 
     _actionGroupWidgets.insert(generalAction, generalSettings);
     _actionGroupWidgets.insert(networkAction, networkSettings);
+
+    foreach(auto ai, AccountManager::instance()->accounts()) {
+        accountAdded(ai.data());
+    }
 
     customizeStyle();
 
@@ -211,20 +217,20 @@ void SettingsDialog::slotSwitchPage(QAction *action)
 {
     _ui->stack->setCurrentWidget(_actionGroupWidgets.value(action));
     customizeStyle();
-    if((action->text() == "Synchronization") || (action->text() == "Synchronisieren"))
+    if((action->text() == "Allgemein") || (action->text() == "General"))
     {
-    const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder_magenta.svg"));
-    action->setIcon(openIcon);
-    }
-    else if((action->text() == "Allgemein") || (action->text() == "General"))
-    {
-    const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
-    action->setIcon(openIcon);
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
+        action->setIcon(openIcon);
     }
     else if((action->text() == "Netzwerk") || (action->text() == "Network"))
     {
-    const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
-    action->setIcon(openIcon);
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
+        action->setIcon(openIcon);
+    }
+    else
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/user/default-32x32px-magenta.svg"));
+        action->setIcon(openIcon);
     }
 }
 
@@ -268,23 +274,23 @@ void SettingsDialog::showIssuesList(AccountState *account)
 void SettingsDialog::accountAdded(AccountState *s)
 {
     auto height = _toolBar->sizeHint().height();
-   // bool brandingSingleAccount = !Theme::instance()->multiAccount();
+    bool brandingSingleAccount = !Theme::instance()->multiAccount();
 
     QAction *accountAction = nullptr;
-   //QImage avatar = s->account()->avatar();
-    //const QString actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
-    //if (avatar.isNull()) {
-        accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/localFolder32x32.svg"),
-            tr("Synchronization"));
-   // } else {
-       // QIcon icon(QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatar)));
-       // accountAction = createActionWithIcon(icon, actionText);
-   // }
-
-    //if (!brandingSingleAccount) {
-       // accountAction->setToolTip(s->account()->displayName());
-       // accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
+    QImage avatar = s->account()->avatar();
+    const QString actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
+    /*if (avatar.isNull()) {
+        accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/user/default.png"),
+            actionText);
+    } else {*/
+        //QIcon icon(QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatar)));
+        accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/user/default-32x32px.svg"), actionText);
     //}
+
+   /* if (!brandingSingleAccount) {
+        accountAction->setToolTip(s->account()->displayName());
+        accountAction->setIconText(account->credentials()->user());
+    }*/
     // Adds space before users + activities
     /*auto *spacer = new QWidget();
     spacer->setFixedWidth(8);
@@ -292,17 +298,17 @@ void SettingsDialog::accountAdded(AccountState *s)
     spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _toolBar->insertWidget(accountAction, spacer);*/
 
-    //_toolBar->insertAction(_toolBar->actions().at(0), accountAction);
-    _toolBar->addAction(accountAction);
+    _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
+    //_toolBar->addAction(accountAction);
     auto accountSettings = new AccountSettings(s, this);
-    QString objectName = QLatin1String("Synchronization_");
-    //objectName += s->account()->displayName();
+    QString objectName = QLatin1String("accountSettings_");
+    objectName += s->account()->displayName();
     accountSettings->setObjectName(objectName);
     _ui->stack->insertWidget(0 , accountSettings);
 
     _actionGroup->addAction(accountAction);
     _actionGroupWidgets.insert(accountAction, accountSettings);
-   // _actionForAccount.insert(s->account().data(), accountAction);
+    _actionForAccount.insert(s->account().data(), accountAction);
     accountAction->trigger();
 
     connect(accountSettings, &AccountSettings::folderChanged, _gui, &ownCloudGui::slotFoldersChanged);
@@ -324,7 +330,7 @@ void SettingsDialog::slotAccountAvatarChanged()
         if (action) {
             QImage pix = account->avatar();
             if (!pix.isNull()) {
-                action->setIcon(QPixmap::fromImage(AvatarJob::makeCircularAvatar(pix)));
+                //action->setIcon(QIcon(":/client/theme/magenta/user/default.svg"));
             }
         }
     }

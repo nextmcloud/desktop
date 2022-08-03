@@ -23,7 +23,7 @@ MenuItem {
 
             Button {
                 id: accountButton
-                Layout.preferredWidth: (userLineLayout.width * (5/6))
+                Layout.preferredWidth: (userLineLayout.width * (5/6) - 16)
                 Layout.preferredHeight: (userLineLayout.height)
                 display: AbstractButton.IconOnly
                 hoverEnabled: true
@@ -50,9 +50,8 @@ MenuItem {
 
                 RowLayout {
                     id: accountControlRowLayout
-                    height: accountButton.height
-                    width: accountButton.width
-                    spacing: 0
+                    anchors.fill: parent
+                    spacing: Style.userStatusSpacing
                     Image {
                         id: accountAvatar
                         Layout.topMargin: Style.accountMenuPadding
@@ -105,19 +104,17 @@ MenuItem {
 
                     Column {
                         id: accountLabels
-                        spacing: 0
-                        Layout.alignment: Qt.AlignLeft
-                        Layout.leftMargin: Style.accountMenuHalfPadding
-                        //Layout.maximumWidth: parent.width - Style.accountLabelsSpacing
+                        Layout.leftMargin: Style.accountLabelsSpacing
+                        Layout.fillWidth: true
+                        Layout.maximumWidth: parent.width - Style.accountLabelsSpacing
                         Label {
                             id: accountUser
-                            width: (Style.accountMenuWidth - Style.headerButtonIconSize - Style.accountMenuHalfPadding)
+                            width: parent.width
                             text: name
                             elide: Text.ElideRight
                             color: hovered ? Style.magenta : Style.nmcTextColor
                             font.family: "Segoe UI"
                             font.pixelSize: Style.topLinePixelSize
-                            font.bold: true
                         }
                        /* Row {
                             visible: model.isConnected &&
@@ -155,11 +152,11 @@ MenuItem {
 
             Button {
                 id: userMoreButton
-                Layout.preferredWidth: (userLineLayout.width * (1/6))
+                Layout.preferredWidth: (userLineLayout.width * (1/6)+16)
                 Layout.preferredHeight: userLineLayout.height
                 //Layout.topMargin: Style.accountMenuPadding
                 //Layout.leftMargin: Style.accountMenuPadding
-                //Layout.rightMargin: 0
+                Layout.rightMargin: Style.accountMenuPadding
                 //Layout.bottomMargin: Style.accountMenuHalfPadding
                 //display: AbstractButton.IconOnly
                 //hoverEnabled: true
@@ -208,7 +205,7 @@ MenuItem {
                         x: (userMoreButton.x + 2)
                         y: (userMoreButton.y + Style.trayWindowHeaderHeight - 6)
 
-                        width: 150
+                        width: 170
                         height: Math.min(implicitHeight, maxMenuHeight)
                         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
@@ -268,6 +265,10 @@ MenuItem {
 
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
+                            anchors.leftMargin: Style.accountMenuHalfPadding
+                            anchors.topMargin: Style.accountMenuHalfPadding
+                            anchors.bottomMargin: Style.accountMenuHalfPadding
+                            anchors.rightMargin: Style.accountMenuPadding
                             //font.wordSpacing:  45
                             text: "              " + (model.isConnected ? qsTr("Log out") : qsTr("Log in"))
                             font.family: "Segoe UI"
@@ -275,10 +276,11 @@ MenuItem {
                             color: logoutButton.hovered ? Style.magenta : Style.nmcTextColor
                         }
 
-                        topPadding: Style.accountMenuPadding
                         horizontalPadding: Style.accountMenuPadding
-                        verticalPadding: Style.accountMenuHalfPadding
-                        spacing: 0
+                        rightPadding: Style.accountMenuHalfPadding
+                        topPadding: Style.accountMenuHalfPadding
+                        bottomPadding: Style.accountMenuHalfPadding
+                        //spacing: -4
 
                         onClicked: {
                             model.isConnected ? UserModel.logout(index) : UserModel.login(index)
@@ -315,6 +317,10 @@ MenuItem {
 
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
+                            anchors.leftMargin: Style.accountMenuHalfPadding
+                            anchors.topMargin: Style.accountMenuHalfPadding
+                            anchors.bottomMargin: Style.accountMenuHalfPadding
+                            anchors.rightMargin: Style.accountMenuPadding
                             //font.wordSpacing:  45
                             text: qsTr("              " + "Remove account")
                             font.family: "Segoe UI"
@@ -322,10 +328,11 @@ MenuItem {
                             color: removeAccountButton.hovered ? Style.magenta : Style.nmcTextColor
                         }
 
-                        bottomPadding: Style.accountMenuPadding
                         horizontalPadding: Style.accountMenuPadding
-                        verticalPadding: Style.accountMenuHalfPadding
-                        spacing: 0
+                        rightPadding: Style.accountMenuHalfPadding
+                        topPadding: Style.accountMenuHalfPadding
+                        bottomPadding: Style.accountMenuHalfPadding
+                        //spacing: Style.accountMenuSpacing
                         onClicked: {
                             UserModel.removeAccount(index)
                             accountMenu.close()
