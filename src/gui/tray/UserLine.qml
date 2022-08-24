@@ -15,6 +15,12 @@ MenuItem {
     Accessible.role: Accessible.MenuItem
     Accessible.name: qsTr("Account entry")
 
+    property variant dialog;
+    property variant comp;
+    activeFocusOnTab: false
+
+    signal showUserStatusSelectorDialog(int id)
+
         RowLayout {
             id: userLineLayout
             objectName: "userLineLayout"
@@ -233,17 +239,14 @@ MenuItem {
                         Accessible.role: PopupMenu
                         Accessible.name: qsTr("Account switcher and settings menu")
 
-                    /*MenuItem {
+                    MenuItem {
                         visible: model.isConnected && model.serverHasUserStatus
                         height: visible ? implicitHeight : 0
                         text: qsTr("Set status")
                         font.pixelSize: Style.topLinePixelSize
                         palette.windowText: Style.nmcTextColor
                         hoverEnabled: true
-                        onClicked: {
-                            showUserStatusSelectorDialog(index)
-                            accountMenu.close()
-                        }
+                        onClicked: showUserStatusSelectorDialog(index)
 
                         background: Item {
                             height: parent.height
@@ -254,7 +257,7 @@ MenuItem {
                                 color: parent.parent.hovered ? Style.lightHover : "transparent"
                             }
                         }
-                    }*/
+                    }
 
                     MenuItem {
                         id: logoutButton

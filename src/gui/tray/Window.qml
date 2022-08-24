@@ -213,10 +213,6 @@ Window {
                                 }
                             }
 
-                            Loader {
-                                id: userStatusSelectorDialogLoader
-                            }
-
                             Menu {
                                 id: accountMenu
                                 objectName: "accountMenu"
@@ -261,10 +257,38 @@ Window {
                                     userLineInstantiator.active = true;
                                 }
 
+                                Loader {
+                                    id: userStatusSelectorDialogLoader
+
+                                    property int userIndex
+
+                                    function openDialog(newUserIndex) {
+                                        console.log(`About to show dialog for user with index ${newUserIndex}`);
+                                        userIndex = newUserIndex;
+                                        active = true;
+                                        item.show();
+                                    }
+
+                                    active: false
+                                    sourceComponent: UserStatusSelectorDialog {
+                                        userIndex: userStatusSelectorDialogLoader.userIndex
+                                    }
+
+                                    onLoaded: {
+                                        item.model.load(userIndex);
+                                        item.show();
+                                    }
+                                }
+
                                 Instantiator {
                                     id: userLineInstantiator
                                     model: UserModel
-                                    delegate: UserLine {}
+                                    delegate: UserLine {
+                                        onShowUserStatusSelectorDialog: {
+                                            userStatusSelectorDialogLoader.openDialog(model.index);
+                                            accountMenu.close();
+                                        }
+                                    }
                                     onObjectAdded: accountMenu.insertItem(index, object)
                                     onObjectRemoved: accountMenu.removeItem(object)
                                 }

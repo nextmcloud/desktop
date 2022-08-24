@@ -58,9 +58,9 @@ const float buttonSizeRatio = 1.618f; // golden ratio
 QString shortDisplayNameForSettings(OCC::Account *account, int width)
 {
     QString user = account->davDisplayName();
-    if (user.isEmpty()) {
-        user = account->credentials()->user();
-    }
+    /*if (user.isEmpty()) {
+        user = account->;
+    }*/
     /*QString host = account->url().host();
     int port = account->url().port();
     if (port > 0 && port != 80 && port != 443) {
@@ -126,6 +126,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar->addWidget(spacer);
 
     QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/service32x32.svg"), tr("General"));
+    generalAction->setToolTip(QString());
     _actionGroup->addAction(generalAction);
     _toolBar->addAction(generalAction);
     auto *generalSettings = new GeneralSettings;
@@ -135,6 +136,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettings::slotStyleChanged);
 
     QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/network32x32.svg"), tr("Network"));
+    networkAction->setToolTip(QString());
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
     auto *networkSettings = new NetworkSettings;
@@ -278,7 +280,7 @@ void SettingsDialog::accountAdded(AccountState *s)
 
     QAction *accountAction = nullptr;
     QImage avatar = s->account()->avatar();
-    const QString actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
+    const QString actionText = brandingSingleAccount ? tr("Account") : s->account()->davDisplayName();
     /*if (avatar.isNull()) {
         accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/user/default.png"),
             actionText);
@@ -297,12 +299,12 @@ void SettingsDialog::accountAdded(AccountState *s)
     spacer->setMinimumWidth(0);
     spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _toolBar->insertWidget(accountAction, spacer);*/
-
+    accountAction->setToolTip(QString());
     _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
     //_toolBar->addAction(accountAction);
     auto accountSettings = new AccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
-    objectName += s->account()->displayName();
+    objectName += s->account()->davDisplayName();
     accountSettings->setObjectName(objectName);
     _ui->stack->insertWidget(0 , accountSettings);
 
@@ -342,7 +344,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
     if (account && _actionForAccount.contains(account)) {
         QAction *action = _actionForAccount[account];
         if (action) {
-            QString displayName = account->displayName();
+            QString displayName = account->davDisplayName();
             action->setText(displayName);
             auto height = _toolBar->sizeHint().height();
             action->setIconText(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
@@ -438,6 +440,7 @@ public:
     {
         setText(text);
         setIcon(icon);
+
     }
 
 
@@ -458,6 +461,7 @@ public:
         btn->setDefaultAction(this);
         btn->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
         btn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        btn->setToolTip(QString());
         return btn;
     }
 };

@@ -199,6 +199,7 @@ Application::Application(int &argc, char **argv)
     , _userTriggeredConnect(false)
     , _debugMode(false)
     , _backgroundMode(false)
+    , _showSwipeScreen(false)
 {
     _startedAt.start();
 
@@ -410,7 +411,7 @@ Application::Application(int &argc, char **argv)
     view.setFlags(view.flags());
     QObject *rootObj = view.rootObject();
     connect(rootObj->findChild<QObject*>("cancelButton"), SIGNAL(cancelClicked()),
-        this, SLOT(slotSwipeCancelClicked()));
+            this, SLOT(slotSwipeCancelClicked()));
 }
 
 Application::~Application()
@@ -530,9 +531,13 @@ void Application::slotownCloudWizardDone(int res)
 
         Systray::instance()->showWindow();
         /* Swipe screen works in a slideshow mode  */
-        QObject *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
-        view.show();
-        timerSlideShow->setProperty("running", true);
+        if(!_showSwipeScreen)
+        {
+            _showSwipeScreen = true;
+            QObject *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
+            view.show();
+            timerSlideShow->setProperty("running", true);
+        }
     }
 }
 

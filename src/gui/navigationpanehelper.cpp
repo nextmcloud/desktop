@@ -104,7 +104,7 @@ void NavigationPaneHelper::updateCloudStorageRegistry()
                 QString title = folder->shortGuiRemotePathOrAppName();
                 // Write the account name in the sidebar only when using more than one account.
                 if (AccountManager::instance()->accounts().size() > 1)
-                    title = title % " - " % folder->accountState()->account()->displayName();
+                    title = title % " - " % folder->accountState()->account()->davDisplayName();
                 QString iconPath = QDir::toNativeSeparators(qApp->applicationFilePath());
                 QString targetFolderPath = QDir::toNativeSeparators(folder->cleanPath());
 
