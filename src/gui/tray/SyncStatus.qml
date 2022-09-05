@@ -64,6 +64,8 @@ RowLayout {
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusString
+            width: parent.width
+            elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: Style.syncStatusFontSize
             font.bold: true
@@ -89,8 +91,10 @@ RowLayout {
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusDetailString
+            width: parent.width
             visible: syncStatus.syncStatusDetailString !== ""
             color: Style.ncSecondaryTextColor
+            elide: Text.ElideRight
             font.pixelSize: Style.syncStatusSublineFontSize
         }
     }

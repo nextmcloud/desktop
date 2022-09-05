@@ -531,7 +531,7 @@ void Application::slotownCloudWizardDone(int res)
 
         Systray::instance()->showWindow();
         /* Swipe screen works in a slideshow mode  */
-        if(!_showSwipeScreen)
+        if(FolderMan::instance()->map().isEmpty())
         {
             _showSwipeScreen = true;
             QObject *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");

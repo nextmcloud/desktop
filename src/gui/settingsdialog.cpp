@@ -44,7 +44,7 @@
 namespace {
 const QString TOOLBAR_CSS()
 {
-    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 8px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
+    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 8px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 8px; } "
                           "QToolBar QToolButton { background: %1; font: 14px; color: #191919; border: none; border-bottom: 1px solid %2; margin: 0px; padding: 13px; } "
                           "QToolBar QToolBarExtension { padding:0; } "
                           "QToolBar QToolButton:checked { background: %1; color: #e20074; }");
@@ -58,9 +58,9 @@ const float buttonSizeRatio = 1.618f; // golden ratio
 QString shortDisplayNameForSettings(OCC::Account *account, int width)
 {
     QString user = account->davDisplayName();
-    /*if (user.isEmpty()) {
-        user = account->;
-    }*/
+    if (user.isEmpty()) {
+        user = account->credentials()->user();
+    }
     /*QString host = account->url().host();
     int port = account->url().port();
     if (port > 0 && port != 80 && port != 443) {
@@ -289,10 +289,10 @@ void SettingsDialog::accountAdded(AccountState *s)
         accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/user/default-32x32px.svg"), actionText);
     //}
 
-   /* if (!brandingSingleAccount) {
-        accountAction->setToolTip(s->account()->displayName());
-        accountAction->setIconText(account->credentials()->user());
-    }*/
+   if (!brandingSingleAccount) {
+        //accountAction->setToolTip(s->account()->displayName());
+        accountAction->setIconText(s->account()->davDisplayName());
+    }
     // Adds space before users + activities
     /*auto *spacer = new QWidget();
     spacer->setFixedWidth(8);
