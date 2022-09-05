@@ -1194,6 +1194,7 @@ void SocketApi::command_GET_MENU_ITEMS(const QString &argument, OCC::SocketListe
         auto flagString = isOnTheServer && !isE2eEncryptedPath ? QLatin1String("::") : QLatin1String(":d:");
 
         const QFileInfo fileInfo(fileData.localPath);
+        sendLockFileInfoMenuEntries(fileInfo, syncFolder, fileData, listener, record);
 //        if (!fileInfo.isDir()) {
 //            listener->sendMessage(QLatin1String("MENU_ITEM:ACTIVITY") + flagString + tr("Activity"));
 //        }

@@ -1136,8 +1136,7 @@ Folder *FolderMan::addFolderInternal(
     /* Root folder is the only that should be shown in a file manager nav pane
      * and if the map isn't empty this means that the root folder is already there
      */
-    if (_navigationPaneHelper.showInExplorerNavigationPane() && folderDefinition.navigationPaneClsid.isNull() &&
-        map().empty())
+    if (_navigationPaneHelper.showInExplorerNavigationPane() && folderDefinition.navigationPaneClsid.isNull())
     {
         folder->setNavigationPaneClsid(QUuid::createUuid());
         folder->saveToSettings();
@@ -1658,7 +1657,7 @@ QString FolderMan::findGoodPathForNewSyncFolder(const QString &basePath, const Q
         return basePath;
     }
 
-   /* int attempt = 1;
+    int attempt = 1;
     forever {
         const bool isGood =
             !QFileInfo(folder).exists()
@@ -1674,7 +1673,7 @@ QString FolderMan::findGoodPathForNewSyncFolder(const QString &basePath, const Q
         }
 
         folder = basePath + QString::number(attempt);
-    }*/
+    }
 
     return folder;
 }

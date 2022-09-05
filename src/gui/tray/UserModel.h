@@ -8,25 +8,22 @@
 #include <QQuickImageProvider>
 #include <QHash>
 
-#include "activitylistmodel.h"
+#include "ActivityListModel.h"
 #include "accountfwd.h"
 #include "accountmanager.h"
 #include "folderman.h"
+#include "NotificationCache.h"
 #include "userstatusselectormodel.h"
 #include "userstatusconnector.h"
 #include <chrono>
 
 namespace OCC {
-class UnifiedSearchResultsListModel;
 
 class User : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(QString server READ server CONSTANT)
-    Q_PROPERTY(QColor headerColor READ headerColor NOTIFY headerColorChanged)
-    Q_PROPERTY(QColor headerTextColor READ headerTextColor NOTIFY headerTextColorChanged)
-    Q_PROPERTY(QColor accentColor READ accentColor NOTIFY accentColorChanged)
     Q_PROPERTY(bool serverHasUserStatus READ serverHasUserStatus CONSTANT)
     Q_PROPERTY(QUrl statusIcon READ statusIcon NOTIFY statusChanged)
     Q_PROPERTY(QString statusEmoji READ statusEmoji NOTIFY statusChanged)
@@ -36,8 +33,6 @@ class User : public QObject
     Q_PROPERTY(bool serverHasTalk READ serverHasTalk NOTIFY serverHasTalkChanged)
     Q_PROPERTY(QString avatar READ avatarUrl NOTIFY avatarChanged)
     Q_PROPERTY(bool isConnected READ isConnected NOTIFY accountStateChanged)
-    Q_PROPERTY(UnifiedSearchResultsListModel* unifiedSearchResultsListModel READ getUnifiedSearchResultsListModel CONSTANT)
-
 public:
     User(AccountStatePtr &account, const bool &isCurrent = false, QObject *parent = nullptr);
 
@@ -49,7 +44,6 @@ public:
     void setCurrentUser(const bool &isCurrent);
     Folder *getFolder() const;
     ActivityListModel *getActivityModel();
-    UnifiedSearchResultsListModel *getUnifiedSearchResultsListModel() const;
     void openLocalFolder();
     QString name() const;
     QString server(bool shortened = true) const;
@@ -58,9 +52,6 @@ public:
     bool serverHasUserStatus() const;
     AccountApp *talkApp() const;
     bool hasActivities() const;
-    QColor accentColor() const;
-    QColor headerColor() const;
-    QColor headerTextColor() const;
     AccountAppList appList() const;
     QImage avatar() const;
     void login() const;
@@ -82,10 +73,6 @@ signals:
     void accountStateChanged();
     void statusChanged();
     void desktopNotificationsAllowedChanged();
-    void headerColorChanged();
-    void headerTextColorChanged();
-    void accentColorChanged();
-    void sendReplyMessage(const int activityIndex, const QString &conversationToken, const QString &message, const QString &replyTo);
 
 public slots:
     void slotItemCompleted(const QString &folder, const SyncFileItemPtr &item);
@@ -98,7 +85,6 @@ public slots:
     void slotNotifyServerFinished(const QString &reply, int replyCode);
     void slotSendNotificationRequest(const QString &accountName, const QString &link, const QByteArray &verb, int row);
     void slotBuildNotificationDisplay(const ActivityList &list);
-    void slotBuildIncomingCallDialogs(const ActivityList &list);
     void slotRefreshNotifications();
     void slotRefreshActivitiesInitial();
     void slotRefreshActivities();
@@ -107,7 +93,6 @@ public slots:
     void slotRefreshImmediately();
     void setNotificationRefreshInterval(std::chrono::milliseconds interval);
     void slotRebuildNavigationAppList();
-    void slotSendReplyMessage(const int activityIndex, const QString &conversationToken, const QString &message, const QString &replyTo);
 
 private:
     void slotPushNotificationsReady();
@@ -128,7 +113,6 @@ private:
     AccountStatePtr _account;
     bool _isCurrentUser;
     ActivityListModel *_activityModel;
-    UnifiedSearchResultsListModel *_unifiedSearchResultsModel;
     ActivityList _blacklistedNotifications;
 
     QTimer _expiredActivitiesCheckTimer;
@@ -136,7 +120,7 @@ private:
     QHash<AccountState *, QElapsedTimer> _timeSinceLastCheck;
 
     QElapsedTimer _guiLogTimer;
-    QSet<long> _notifiedNotifications;
+    NotificationCache _notificationCache;
     QMimeDatabase _mimeDb;
 
     // number of currently running notification requests. If non zero,
@@ -254,5 +238,6 @@ private:
 
     AccountAppList _apps;
 };
+
 }
 #endif // USERMODEL_H

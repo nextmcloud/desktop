@@ -370,8 +370,6 @@ Example:
 
   <oc:id>00000020oc5cfy6qqizm</oc:id>
 
-
-
 End-to-end Encryption
 ---------------------
 

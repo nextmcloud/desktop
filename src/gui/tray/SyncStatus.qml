@@ -27,7 +27,8 @@ RowLayout {
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         Layout.topMargin: 16
-        Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
+       // Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
+        //Layout.rightMargin: 8
         Layout.bottomMargin: 16
         Layout.leftMargin: Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
 
@@ -51,7 +52,8 @@ RowLayout {
 
         Layout.alignment: Qt.AlignVCenter
         Layout.topMargin: 8
-        Layout.rightMargin: Style.trayHorizontalMargin
+        Layout.rightMargin: 16
+        Layout.leftMargin: -2
         Layout.bottomMargin: 8
         Layout.fillWidth: true
         Layout.fillHeight: true
@@ -62,10 +64,12 @@ RowLayout {
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusString
+            width: parent.width
+            elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Style.topLinePixelSize
+            font.pixelSize: Style.syncStatusFontSize
             font.bold: true
-            color: Style.ncTextColor
+            color: Style.nmcTextColor
         }
 
         Loader {
@@ -87,9 +91,11 @@ RowLayout {
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusDetailString
+            width: parent.width
             visible: syncStatus.syncStatusDetailString !== ""
             color: Style.ncSecondaryTextColor
-            font.pixelSize: Style.subLinePixelSize
+            elide: Text.ElideRight
+            font.pixelSize: Style.syncStatusSublineFontSize
         }
     }
 }

@@ -47,6 +47,7 @@ Window {
         // see also id:accountMenu below
         userLineInstantiator.active = false;
         userLineInstantiator.active = true;
+        syncStatus.model.load();
     }
 
 
@@ -60,6 +61,7 @@ Window {
         }
         onNewUserSelected: {
             accountMenu.close();
+            syncStatus.model.load();
         }
     }
 
@@ -98,6 +100,7 @@ Window {
 
     Rectangle {
         id: trayWindowBackground
+        objectName: "trayWindowBackground"
 
         anchors.fill:   parent
         radius:         Style.trayWindowRadius
@@ -109,6 +112,7 @@ Window {
 
         Rectangle {
             id: trayWindowMagentaBarBackground
+            objectName: "trayWindowMagentaBarBackground"
 
             anchors.left:   trayWindowBackground.left
             anchors.right:  trayWindowBackground.right
@@ -119,6 +123,7 @@ Window {
 
             Rectangle {
                 id: trayWindowTLogoBarBackground
+                objectName: "trayWindowTLogoBarBackground"
 
                 anchors.left:   trayWindowMagentaBarBackground.left
                 anchors.right:  trayWindowMagentaBarBackground.right
@@ -128,6 +133,7 @@ Window {
 
                 Rectangle {
                     id: trayWindowTLogoBarTopSpacer
+                    objectName: "trayWindowTLogoBarTopSpacer"
 
                     anchors.left:   trayWindowTLogoBarBackground.left
                     anchors.right:  trayWindowTLogoBarBackground.right
@@ -137,6 +143,7 @@ Window {
                 }
                 Rectangle {
                     id: trayWindowTLogoBarLeftSpacer
+                    objectName: "trayWindowTLogoBarLeftSpacer"
 
                     anchors.left:   trayWindowTLogoBarBackground.left
                     anchors.top:    trayWindowTLogoBarTopSpacer.bottom
@@ -146,6 +153,7 @@ Window {
                 }
                 Image {
                     id: magentaTLogo
+                    objectName: "magentaTLogo"
 
                     anchors.left:   trayWindowTLogoBarLeftSpacer.right
                     anchors.top:    trayWindowTLogoBarTopSpacer.bottom
@@ -157,6 +165,7 @@ Window {
 
             Rectangle {
                 id: trayWindowHeaderBackground
+                objectName: "trayWindowHeaderBackground"
 
                 anchors.left:   trayWindowMagentaBarBackground.left
                 anchors.right:  trayWindowMagentaBarBackground.right
@@ -167,12 +176,14 @@ Window {
 
                 RowLayout {
                     id: trayWindowHeaderLayout
+                    objectName: "trayWindowHeaderLayout"
 
                     spacing:        0
                     anchors.fill:   parent
 
                     Button {
                         id: currentAccountButton
+                        objectName: "currentAccountButton"
 
                         Layout.preferredWidth:  Style.currentAccountButtonWidth
                         Layout.preferredHeight: Style.trayWindowHeaderHeight
@@ -183,17 +194,18 @@ Window {
                         Accessible.name: qsTr("Current account")
                         Accessible.onPressAction: currentAccountButton.clicked()
 
-                        MouseArea {
+                       /* MouseArea {
                             id: accountBtnMouseArea
+                            objectName: "accountBtnMouseArea"
 
                             anchors.fill:   parent
-                            hoverEnabled:   Style.hoverEffectsEnabled
+                            hoverEnabled:   Style.hoverEffectsEnabled*/
 
                             // We call open() instead of popup() because we want to position it
                             // exactly below the dropdown button, not the mouse
                             onClicked: {
 
-                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause synchronization")
+                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync")
                                 if (accountMenu.visible) {
                                     accountMenu.close()
                                 } else {
@@ -203,19 +215,36 @@ Window {
 
                             Menu {
                                 id: accountMenu
+                                objectName: "accountMenu"
 
                                 // x coordinate grows towards the right
                                 // y coordinate grows towards the bottom
                                 x: (currentAccountButton.x + 2)
                                 y: (currentAccountButton.y + Style.trayWindowHeaderHeight - 6)
 
-                                width: Style.accountMenuWidth
+                                width: 230
                                 height: Math.min(implicitHeight, maxMenuHeight)
                                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
                                 background: Rectangle {
                                     border.color: Style.menuBorder
                                     radius: Style.currentAccountButtonRadius
+                                }
+
+                                contentItem: ScrollView {
+                                    id: accMenuScrollView
+                                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
+                                    data: WheelHandler {
+                                        target: accMenuScrollView.contentItem
+                                    }
+                                    ListView {
+                                        implicitHeight: contentHeight
+                                        model: accountMenu.contentModel
+                                        interactive: true
+                                        clip: true
+                                        currentIndex: accountMenu.currentIndex
+                                    }
                                 }
 
                                 Accessible.role: PopupMenu
@@ -228,22 +257,96 @@ Window {
                                     userLineInstantiator.active = true;
                                 }
 
+                                Loader {
+                                    id: userStatusSelectorDialogLoader
+
+                                    property int userIndex
+
+                                    function openDialog(newUserIndex) {
+                                        console.log(`About to show dialog for user with index ${newUserIndex}`);
+                                        userIndex = newUserIndex;
+                                        active = true;
+                                        item.show();
+                                    }
+
+                                    active: false
+                                    sourceComponent: UserStatusSelectorDialog {
+                                        userIndex: userStatusSelectorDialogLoader.userIndex
+                                    }
+
+                                    onLoaded: {
+                                        item.model.load(userIndex);
+                                        item.show();
+                                    }
+                                }
+
                                 Instantiator {
                                     id: userLineInstantiator
                                     model: UserModel
-                                    delegate: UserLine {}
+                                    delegate: UserLine {
+                                        onShowUserStatusSelectorDialog: {
+                                            userStatusSelectorDialogLoader.openDialog(model.index);
+                                            accountMenu.close();
+                                        }
+                                    }
                                     onObjectAdded: accountMenu.insertItem(index, object)
                                     onObjectRemoved: accountMenu.removeItem(object)
                                 }
 
                                 MenuItem {
+                                    id: addAccountButton
+                                    height: Style.addAccountButtonHeight
+                                    display: AbstractButton.TextBesideIcon
+                                    hoverEnabled: true
+                                    icon.source: "qrc:///client/theme/black/add.svg"
+                                    icon.color: addAccountButton.hovered ? Style.magenta : Style.nmcTextColor
+
+                                    Text {
+                                        objectName: "addAccountButton"
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        //font.wordSpacing:  45
+                                        text:  qsTr("            "+"Add account")
+                                        font.family: "Segoe UI"
+                                        font.pixelSize: Style.topLinePixelSize
+                                        color: parent.hovered ? Style.magenta : Style.nmcTextColor
+                                    }
+
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.menu.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered || parent.parent.visualFocus ? Style.lightHover : "transparent"
+                                        }
+                                    }
+                                    horizontalPadding: Style.accountMenuPadding
+                                    verticalPadding: Style.accountMenuHalfPadding
+                                    spacing: 4
+                                    onClicked: UserModel.addAccount()
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: qsTr("Add new account")
+                                    Accessible.onPressAction: addAccountButton.clicked()
+                                }
+
+                                MenuSeparator {
+                                    contentItem: Rectangle {
+                                        implicitHeight: 1
+                                        color: Style.menuBorder
+                                    }
+                                }
+
+                                MenuItem {
                                     id: syncPauseButton
+                                    objectName: "syncPauseButton"
                                     //display: AbstractButton.TextBesideIcon
                                     display: AbstractButton.IconOnly
                                     hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/pause/default.png"
                                     icon.color: syncPauseButton.hovered ? Style.magenta : Style.nmcTextColor
                                     Text {
+                                        objectName: "syncPauseButtonText"
                                         anchors.verticalCenter: parent.verticalCenter
                                         //font.wordSpacing:  45
                                         text: "              " + syncPauseButton.text
@@ -269,17 +372,19 @@ Window {
                                     }
 
                                     Accessible.role: Accessible.MenuItem
-                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause synchronization")
+                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync")
                                     Accessible.onPressAction: syncPauseButton.clicked()
                                 }
 
                                 MenuItem {
                                     id: settingsButton
+                                    objectName: "settingsButton"
                                     display: AbstractButton.TextBesideIcon
                                     hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/settings/default.png"
                                     icon.color: settingsButton.hovered ? Style.magenta : Style.nmcTextColor
                                     Text {
+                                        objectName: "settingsButtonText"
                                         anchors.verticalCenter: parent.verticalCenter
                                         font.wordSpacing:  45
                                         text:  qsTr(" "+"Settings")
@@ -309,16 +414,18 @@ Window {
 
                                 MenuItem {
                                     id: exitButton
+                                    objectName: "exitButton"
                                     display: AbstractButton.TextBesideIcon
                                     hoverEnabled: true
                                     icon.source: "qrc:///client/theme/magenta/action/circle-close/default.png"
                                     icon.color: exitButton.hovered ? Style.magenta : Style.nmcTextColor
 
                                     Text {
+                                        objectName: "exitButtonText"
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.bottomMargin: Style.accountMenuPadding
                                         font.wordSpacing:  45
-                                        text:  qsTr(" "+"Close")
+                                        text:  qsTr(" "+"Exit")
                                         font.family: "Segoe UI"
                                         font.pixelSize: Style.topLinePixelSize
                                         color: parent.hovered ? Style.magenta : Style.nmcTextColor
@@ -346,21 +453,23 @@ Window {
                                     Accessible.onPressAction: exitButton.clicked()
                                 }
                             }
-                        }
+                       // }
 
-                        background: Rectangle {
+                       /* background: Rectangle {
                             color: accountBtnMouseArea.containsMouse ? "white" : "transparent"
                             opacity: 0.2
-                        }
+                        }*/
 
                         RowLayout {
                             id: accountControlRowLayout
+                            objectName: "accountControlRowLayout"
 
                             height: Style.trayWindowHeaderHeight
                             spacing: 0
 
                             Image {
                                 id: currentAccountAvatar
+                                objectName: "currentAccountAvatar"
 
                                 Layout.leftMargin: Style.accountMenuPadding
                                 verticalAlignment: Qt.AlignCenter
@@ -377,6 +486,7 @@ Window {
 
                                 Rectangle {
                                     id: currentAccountStateIndicatorBackground
+                                    objectName: "currentAccountStateIndicatorBackground"
                                     width: Style.accountAvatarStateIndicatorSize + 2
                                     height: width
                                     anchors.bottom: currentAccountAvatar.bottom
@@ -397,6 +507,7 @@ Window {
 
                                 Image {
                                     id: currentAccountStateIndicator
+                                    objectName: "currentAccountStateIndicator"
                                     source: UserModel.isUserConnected(UserModel.currentUserId)
                                             ? Style.stateOnlineImageSource
                                             : Style.stateOfflineImageSource
@@ -413,6 +524,7 @@ Window {
 
                             Label {
                                 id: currentAccountUser
+                                objectName: "currentAccountUser"
 
                                 Layout.leftMargin: 8
                                 verticalAlignment: Qt.AlignCenter
@@ -457,6 +569,7 @@ Window {
 
                     HeaderButton {
                         id: openAccountServerButton
+                        objectName: "openAccountServerButton"
                         spacing: 0;
                         visible: true
                         icon.source: "qrc:///client/theme/magenta/news/default@svg.svg"
@@ -478,6 +591,7 @@ Window {
 
                     HeaderButton {
                         id: openLocalFolderButton
+                        objectName: "openLocalFolderButton"
                         spacing: 0
                         visible: UserModel.currentUser.hasLocalFolder
                         icon.source: "qrc:///client/theme/magenta/folder/default@svg.svg"
@@ -518,20 +632,30 @@ Window {
         }*/
         MenuSeparator {
             id: trayWindowGradientBarBackground
+            objectName: "trayWindowGradientBarBackground"
             padding: 0
             topPadding: 108
             bottomPadding: 8
             contentItem: Rectangle {
-                implicitWidth: 360
+                implicitWidth: 380
                 implicitHeight: 1
                 color: "#e5e5e5"
             }
+        }
+        SyncStatus {
+            id: syncStatus
+
+            visible: !trayWindowBackground.isUnifiedSearchActive
+
+            anchors.top: trayWindowGradientBarBackground.bottom
+            anchors.left: trayWindowBackground.left
+            anchors.right: trayWindowBackground.right
         }
 
 
         ListView {
             id: activityListView
-            anchors.top: trayWindowGradientBarBackground.bottom
+            anchors.top: syncStatus.bottom
             anchors.left: trayWindowBackground.left
             anchors.right: trayWindowBackground.right
             anchors.bottom: trayWindowBackground.bottom

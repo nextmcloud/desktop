@@ -64,7 +64,6 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     , _account(account)
 {
     _ui.setupUi(this);
-//    adjustSize();
     registerField(QLatin1String("sourceFolder*"), _ui.localFolderLineEdit);
     connect(_ui.localFolderChooseBtn, &QAbstractButton::clicked, this, &FolderWizardLocalPath::slotChooseLocalFolder);
     _ui.localFolderChooseBtn->setToolTip(tr("Click to select a local folder to sync."));
@@ -661,13 +660,7 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     //, _folderWizardTargetPage(nullptr)
     //, _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
 {
-//    ClassicStyle,
-//    ModernStyle,
-//    MacStyle,
-//    AeroStyle,
-//    NStyles
     setWizardStyle(QWizard::ClassicStyle);
-//    adjustSize();
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);
     _folderWizardSourcePage->installEventFilter(this);

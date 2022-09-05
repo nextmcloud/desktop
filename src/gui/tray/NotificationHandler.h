@@ -3,7 +3,7 @@
 
 #include <QtCore>
 
-#include "usermodel.h"
+#include "UserModel.h"
 
 class QJsonDocument;
 

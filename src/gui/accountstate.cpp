@@ -21,6 +21,7 @@
 #include "logger.h"
 #include "configfile.h"
 #include "ocsnavigationappsjob.h"
+#include "ocsuserstatusconnector.h"
 #include "pushnotifications.h"
 
 #include <QSettings>
@@ -47,7 +48,6 @@ AccountState::AccountState(AccountPtr account)
     , _waitingForNewCredentials(false)
     , _maintenanceToConnectedDelay(60000 + (qrand() % (4 * 60000))) // 1-5min delay
     , _remoteWipe(new RemoteWipe(_account))
-    , _userStatus(new UserStatus(this))
     , _isDesktopNotificationsAllowed(true)
 {
     qRegisterMetaType<AccountState *>("AccountState*");
@@ -143,24 +143,24 @@ void AccountState::setState(State state)
     emit stateChanged(_state);
 }
 
-UserStatus::Status AccountState::status() const
+UserStatus::OnlineStatus AccountState::status() const
 {
-    return _userStatus->status();
+    return account()->userStatusConnector()->userStatus().state();
 }
 
 QString AccountState::statusMessage() const
 {
-    return _userStatus->message();
+    return account()->userStatusConnector()->userStatus().message();
 }
 
 QUrl AccountState::statusIcon() const
 {
-    return _userStatus->icon();
+    return account()->userStatusConnector()->userStatus().stateIcon();
 }
 
 QString AccountState::statusEmoji() const
 {
-    return _userStatus->emoji();
+    return account()->userStatusConnector()->userStatus().icon();
 }
 
 QString AccountState::stateString(State state)
@@ -360,6 +360,8 @@ void AccountState::slotConnectionValidatorResult(ConnectionValidator::Status sta
         _lastCheckConnectionTimer.invalidate();
         _lastCheckConnectionTimer.start();
     };
+
+
 
     if (isSignedOut()) {
         qCWarning(lcAccountState) << "Signed out, ignoring" << status << _account->url().toString();

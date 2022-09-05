@@ -14,9 +14,7 @@
 
 #include "ui_sharedialog.h"
 #include "sharedialog.h"
-#include "sharee.h"
 #include "sharelinkwidget.h"
-#include "internallinkwidget.h"
 #include "shareusergroupwidget.h"
 
 
@@ -28,9 +26,6 @@
 
 
 #include "account.h"
-#include "passwordinputdialog.h"
-
-#include "sharemanager.h"
 #include "accountstate.h"
 #include "configfile.h"
 #include "theme.h"
@@ -67,7 +62,6 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     const QString &localPath,
     SharePermissions maxSharingPermissions,
     const QByteArray &numericFileId,
-    SyncJournalFileLockInfo filelockState,
     ShareDialogStartPage startPage,
     QWidget *parent)
     : QDialog(parent)
@@ -76,7 +70,6 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     , _sharePath(sharePath)
     , _localPath(localPath)
     , _maxSharingPermissions(maxSharingPermissions)
-    , _filelockState(std::move(filelockState))
     , _privateLinkUrl(accountState->account()->deprecatedPrivateLinkUrl(numericFileId).toString(QUrl::FullyEncoded))
     , _startPage(startPage)
     , _userLinePermission(SharePermissionRead)
@@ -109,16 +102,6 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     QFont f(_ui->label_name->font());
     f.setPointSize(qRound(f.pointSize() * 1.4));
     _ui->label_name->setFont(f);
-
-    if (_filelockState._locked) {
-        static constexpr auto SECONDS_PER_MINUTE = 60;
-        const auto lockExpirationTime = _filelockState._lockTime + _filelockState._lockTimeout;
-        const auto remainingTime = QDateTime::currentDateTime().secsTo(QDateTime::fromSecsSinceEpoch(lockExpirationTime));
-        const auto remainingTimeInMinute = static_cast<int>(remainingTime > 0 ? remainingTime / SECONDS_PER_MINUTE : 0);
-        _ui->label_lockinfo->setText(tr("Locked by %1 - Expire in %2 minutes", "remaining time before lock expire", remainingTimeInMinute).arg(_filelockState._lockOwnerDisplayName).arg(remainingTimeInMinute));
-    } else {
-        _ui->label_lockinfo->setVisible(false);
-    }
 
     QString ocDir(_sharePath);
     ocDir.truncate(ocDir.length() - fileName.length());
@@ -161,7 +144,6 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     connect(job, &PropfindJob::result, this, &ShareDialog::slotPropfindReceived);
     connect(job, &PropfindJob::finishedWithError, this, &ShareDialog::slotPropfindError);
     job->start();
-    initShareManager();
 
     bool sharingPossible = true;
     if (!accountState->account()->capabilities().sharePublicLink()) {
@@ -198,11 +180,6 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     _scrollAreaLayout = new QVBoxLayout(_scrollAreaViewPort);
     _scrollAreaLayout->setContentsMargins(0, 0, 0, 0);
     _ui->scrollArea->setWidget(_scrollAreaViewPort);
-
-    _internalLinkWidget = new InternalLinkWidget(localPath, this);
-    _ui->verticalLayout->addWidget(_internalLinkWidget);
-    _internalLinkWidget->setupUiOptions();
-    connect(this, &ShareDialog::styleChanged, _internalLinkWidget, &InternalLinkWidget::slotStyleChanged);
 }
 
 ShareLinkWidget *ShareDialog::addLinkShareWidget(const QSharedPointer<LinkShare> &linkShare)

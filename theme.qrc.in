@@ -19,7 +19,10 @@
         <file>theme/magenta/folder/default@svg.svg</file>
         <file>theme/magenta/news/default@svg.svg</file>
         <file>theme/magenta/user/default@svg.svg</file>
+        <file>theme/magenta/user/default-32x32px.svg</file>
+        <file>theme/magenta/user/default-32x32px-magenta.svg</file>
         <file>theme/magenta/user/default.png</file>
+        <file>theme/magenta/user/default@3x.png</file>
         <file>theme/magenta/share/default@svg.svg</file>
         <file>theme/magenta/share/default.png</file>
         <file>theme/magenta/action/circle-close/default@svg.svg</file>
@@ -83,6 +86,7 @@
         <file>theme/black/state-sync-256.png</file>
         <file>theme/colored/state-error.svg</file>
         <file>theme/colored/state-error-16.png</file>
+        <file>theme/colored/icon-offline.svg</file>
         <file>theme/colored/state-offline.svg</file>
         <file>theme/colored/state-offline-16.png</file>
         <file>theme/colored/state-offline-32.png</file>
@@ -90,6 +94,7 @@
         <file>theme/colored/state-offline-128.png</file>
         <file>theme/colored/state-offline-256.png</file>
         <file>theme/colored/state-ok.svg</file>
+        <file>theme/colored/Icon-synch-done.svg</file>
         <file>theme/colored/state-ok-16.png</file>
         <file>theme/colored/state-pause.svg</file>
         <file>theme/colored/state-pause-16.png</file>
@@ -114,6 +119,7 @@
         <file>theme/black/settings.svg</file>
         <file>theme/black/state-error.svg</file>
         <file>theme/black/state-error-16.png</file>
+        <file>theme/black/icon-offline.svg</file>
         <file>theme/black/state-offline.svg</file>
         <file>theme/black/state-offline-16.png</file>
         <file>theme/black/state-offline-32.png</file>

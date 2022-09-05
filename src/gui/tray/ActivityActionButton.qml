@@ -1,66 +1,109 @@
-import QtQuick 2.15
+import QtQuick 2.5
 import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.15
 import Style 1.0
-import com.nextcloud.desktopclient 1.0
 
 Item {
     id: root
+    readonly property bool labelVisible: label.visible
+    readonly property bool iconVisible: icon.visible
 
+    // label value
     property string text: ""
-    property string toolTipText: ""
+    
+    // font value
+    property var font: label.font
 
-    property bool bold: false
-
+    // icon value
     property string imageSource: ""
-    property string imageSourceHover: ""
 
+    // Tooltip value
+    property string tooltipText: text
+
+    // text color
     property color textColor: Style.ncTextColor
-    property color textColorHovered: Style.ncSecondaryTextColor
+    property color textColorHovered: Style.lightHover
+
+    // text background color
+    property color textBgColor: "transparent"
+    property color textBgColorHovered: Style.lightHover
+
+    // icon background color
+    property color iconBgColor: "transparent"
+    property color iconBgColorHovered: Style.lightHover
+
+    // text border color
+    property color textBorderColor: "transparent"
+
+    property alias hovered: mouseArea.containsMouse
 
     signal clicked()
 
-    Loader {
-        active: root.imageSource === ""
+    Accessible.role: Accessible.Button
+    Accessible.name: text !== "" ? text : (tooltipText !== "" ? tooltipText : qsTr("Activity action button"))
+    Accessible.onPressAction: clicked()
+
+    // background with border around the Text
+    Rectangle {
+        visible: parent.labelVisible
 
         anchors.fill: parent
 
-        sourceComponent: CustomTextButton {
-             anchors.fill: parent
-             text: root.text
-             toolTipText: root.toolTipText
+        // padding
+        anchors.topMargin: 10
+        anchors.bottomMargin: 10
 
-             textColor: root.textColor
-             textColorHovered: root.textColorHovered
+        border.color: parent.textBorderColor
+        border.width: 1
 
-             onClicked: root.clicked()
-        }
+        color: parent.hovered ? parent.textBgColorHovered : parent.textBgColor
+
+        radius: 25
     }
 
-    Loader {
-        active: root.imageSource !== ""
+    // background with border around the Image
+    Rectangle {
+        visible: parent.iconVisible
 
         anchors.fill: parent
 
-        sourceComponent: CustomButton {
-            anchors.fill: parent
-            anchors.topMargin: Style.roundedButtonBackgroundVerticalMargins
-            anchors.bottomMargin: Style.roundedButtonBackgroundVerticalMargins
+        color: parent.hovered ? parent.iconBgColorHovered : parent.iconBgColor
+    }
 
-            text: root.text
-            toolTipText: root.toolTipText
+    // label
+    Text {
+        id: label
+        visible: parent.text !== ""
+        text: parent.text
+        font: parent.font
+        color: parent.hovered ? parent.textColorHovered : parent.textColor
+        anchors.fill: parent
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
+    }
 
-            textColor: root.textColor
-            textColorHovered: root.textColorHovered
+    // icon
+    Image {
+        id: icon
+        visible: parent.imageSource !== ""
+        anchors.centerIn: parent
+        source: parent.imageSource
+        sourceSize.width: visible ? 32 : 0
+        sourceSize.height: visible ? 32 : 0
+    }
 
-            bold: root.bold
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: parent.clicked()
+        hoverEnabled: true
+    }
 
-            imageSource: root.imageSource
-            imageSourceHover: root.imageSourceHover
-
-            bgColor: UserModel.currentUser.headerColor
-
-            onClicked: root.clicked()
-        }
+    ToolTip {
+        text: parent.tooltipText
+        delay: 1000
+        visible: text != "" && parent.hovered
     }
 }

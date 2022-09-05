@@ -159,6 +159,36 @@ QUrl Theme::statusInvisibleImageSource() const
     return imagePathToUrl(themeImagePath("user-status-invisible", 16));
 }
 
+QUrl Theme::syncStatusOk() const
+{
+    return imagePathToUrl(themeImagePath("Icon-synch-done", 16));
+}
+
+QUrl Theme::syncStatusError() const
+{
+    return imagePathToUrl(themeImagePath("state-error", 16));
+}
+
+QUrl Theme::syncStatusRunning() const
+{
+    return imagePathToUrl(themeImagePath("state-sync", 16));
+}
+
+QUrl Theme::syncStatusPause() const
+{
+    return imagePathToUrl(themeImagePath("state-pause", 16));
+}
+
+QUrl Theme::syncStatusWarning() const
+{
+    return imagePathToUrl(themeImagePath("state-warning", 16));
+}
+
+QUrl Theme::folderOffline() const
+{
+    return imagePathToUrl(themeImagePath("icon-offline"));
+}
+
 QString Theme::version() const
 {
     return MIRALL_VERSION_STRING;

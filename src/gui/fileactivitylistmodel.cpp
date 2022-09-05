@@ -26,7 +26,7 @@ FileActivityListModel::FileActivityListModel(QObject *parent)
     setDisplayActions(false);
 }
 
-void FileActivityListModel::load(AccountState *accountState, const int objectId)
+void FileActivityListModel::load(AccountState *accountState, const QString &localPath)
 {
     Q_ASSERT(accountState);
     if (!accountState || currentlyFetching()) {
@@ -34,7 +34,18 @@ void FileActivityListModel::load(AccountState *accountState, const int objectId)
     }
     setAccountState(accountState);
 
-    _objectId = objectId;
+    const auto folder = FolderMan::instance()->folderForPath(localPath);
+    if (!folder) {
+        return;
+    }
+
+    const auto file = folder->fileFromLocalPath(localPath);
+    SyncJournalFileRecord fileRecord;
+    if (!folder->journalDb()->getFileRecord(file, &fileRecord) || !fileRecord.isValid()) {
+        return;
+    }
+
+    _fileId = fileRecord._fileId;
     slotRefreshActivity();
 }
 
@@ -53,7 +64,7 @@ void FileActivityListModel::startFetchJob()
     QUrlQuery params;
     params.addQueryItem(QStringLiteral("sort"), QStringLiteral("asc"));
     params.addQueryItem(QStringLiteral("object_type"), "files");
-    params.addQueryItem(QStringLiteral("object_id"), QString::number(_objectId));
+    params.addQueryItem(QStringLiteral("object_id"), _fileId);
     job->addQueryParams(params);
     setDoneFetching(true);
     setHideOldActivities(true);

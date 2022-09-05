@@ -444,7 +444,8 @@ void AccountSettings::openIgnoredFilesDialog(const QString & absFolderPath)
     auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     layout->addWidget(buttonBox);
 
-    auto dialog = new QDialog();
+    auto dialog = new QDialog(nullptr, Qt::WindowTitleHint| Qt::WindowCloseButtonHint);
+    //auto dialog = new QDialog();
     dialog->setLayout(layout);
 
     connect(buttonBox, &QDialogButtonBox::clicked, [=](QAbstractButton * button) {
@@ -731,7 +732,7 @@ void AccountSettings::slotFolderWizardAccepted()
     /* Root folder is the only that should be shown in a file manager nav pane
      * and if the map isn't empty this means that the root folder is already there
      */
-    if (folderMan->navigationPaneHelper().showInExplorerNavigationPane() && folderMan->map().isEmpty())
+    if (folderMan->navigationPaneHelper().showInExplorerNavigationPane())
         definition.navigationPaneClsid = QUuid::createUuid();
 
     auto selectiveSyncBlackList = folderWizard->property("selectiveSyncBlackList").toStringList();

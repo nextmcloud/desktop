@@ -193,7 +193,13 @@ set(client_SRCS
     iconutils.h
     iconutils.cpp
     remotewipe.h
+    iconjob.cpp
     remotewipe.cpp
+    tray/ActivityData.cpp
+    tray/ActivityListModel.cpp
+    tray/UserModel.cpp
+    tray/NotificationHandler.cpp
+    tray/NotificationCache.cpp
     userstatusselectormodel.h
     userstatusselectormodel.cpp
     emojimodel.h
@@ -204,20 +210,12 @@ set(client_SRCS
     tray/svgimageprovider.cpp
     tray/syncstatussummary.h
     tray/syncstatussummary.cpp
-    tray/activitydata.h
-    tray/activitydata.cpp
-    tray/activitylistmodel.h
-    tray/activitylistmodel.cpp
     tray/unifiedsearchresult.h
     tray/asyncimageresponse.cpp
     tray/unifiedsearchresult.cpp
     tray/unifiedsearchresultslistmodel.h
     tray/trayimageprovider.cpp
     tray/unifiedsearchresultslistmodel.cpp
-    tray/usermodel.h
-    tray/usermodel.cpp
-    tray/notificationhandler.h
-    tray/notificationhandler.cpp
     creds/credentialsfactory.h
     tray/talkreply.cpp
     creds/credentialsfactory.cpp
@@ -253,7 +251,7 @@ set(client_SRCS
     wizard/owncloudwizardcommon.cpp
     wizard/owncloudwizard.h
     wizard/owncloudwizard.cpp
-    wizard/slideshow.h
+    wizard/owncloudwizardresultpage.cpp
     wizard/slideshow.cpp
     wizard/welcomepage.h
     wizard/welcomepage.cpp
@@ -406,6 +404,7 @@ function(generate_sized_png_from_svg icon_path size)
   if (ARG_OUTPUT_ICON_PATH)
     set(icon_name_dir ${ARG_OUTPUT_ICON_PATH})
   endif ()
+  
 
   if (EXISTS "${icon_name_dir}/${size}-${icon_name_wle}.png")
     return()

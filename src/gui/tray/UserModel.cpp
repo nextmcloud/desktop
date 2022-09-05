@@ -1,5 +1,5 @@
-#include "notificationhandler.h"
-#include "usermodel.h"
+#include "NotificationHandler.h"
+#include "UserModel.h"
 
 #include "accountmanager.h"
 #include "owncloudgui.h"
@@ -12,9 +12,9 @@
 #include "logger.h"
 #include "guiutility.h"
 #include "syncfileitem.h"
+#include "tray/NotificationCache.h"
 #include "systray.h"
 #include "tray/activitylistmodel.h"
-#include "tray/unifiedsearchresultslistmodel.h"
 #include "tray/talkreply.h"
 #include "userstatusconnector.h"
 #include "thumbnailjob.h"
@@ -31,8 +31,8 @@
 #define NOTIFICATION_REQUEST_FREE_PERIOD 15000
 
 namespace {
-constexpr qint64 expiredActivitiesCheckIntervalMsecs = 1000 * 60;
-constexpr qint64 activityDefaultExpirationTimeMsecs = 1000 * 60 * 10;
+    constexpr qint64 expiredActivitiesCheckIntervalMsecs = 1000 * 60;
+    constexpr qint64 activityDefaultExpirationTimeMsecs = 1000 * 60 * 10;
 }
 
 namespace OCC {
@@ -42,7 +42,6 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
     , _account(account)
     , _isCurrentUser(isCurrent)
     , _activityModel(new ActivityListModel(_account.data(), this))
-    , _unifiedSearchResultsModel(new UnifiedSearchResultsListModel(_account.data(), this))
     , _notificationRequestsRunning(0)
 {
     connect(ProgressDispatcher::instance(), &ProgressDispatcher::progressInfo,
@@ -73,13 +72,7 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
     connect(_account->account().data(), &Account::userStatusChanged, this, &User::statusChanged);
     connect(_account.data(), &AccountState::desktopNotificationsAllowedChanged, this, &User::desktopNotificationsAllowedChanged);
 
-    connect(_account->account().data(), &Account::capabilitiesChanged, this, &User::headerColorChanged);
-    connect(_account->account().data(), &Account::capabilitiesChanged, this, &User::headerTextColorChanged);
-    connect(_account->account().data(), &Account::capabilitiesChanged, this, &User::accentColorChanged);
-
     connect(_activityModel, &ActivityListModel::sendNotificationRequest, this, &User::slotSendNotificationRequest);
-    
-    connect(this, &User::sendReplyMessage, this, &User::slotSendReplyMessage);
 }
 
 void User::showDesktopNotification(const QString &title, const QString &message, const long notificationId)
@@ -99,14 +92,15 @@ void User::showDesktopNotification(const QString &title, const QString &message,
     // after one hour, clear the gui log notification store
     constexpr qint64 clearGuiLogInterval = 60 * 60 * 1000;
     if (_guiLogTimer.elapsed() > clearGuiLogInterval) {
-        _notifiedNotifications.clear();
+        _notificationCache.clear();
     }
 
-    if (_notifiedNotifications.contains(notificationId)) {
+    const NotificationCache::Notification notification { title, message };
+    if (_notificationCache.contains(notification)) {
         return;
     }
 
-    _notifiedNotifications.insert(notificationId);
+    _notificationCache.insert(notification);
     Logger::instance()->postGuiLog(title, message);
     // restart the gui log timer now that we show a new notification
     _guiLogTimer.start();
@@ -124,18 +118,6 @@ void User::slotBuildNotificationDisplay(const ActivityList &list)
         const auto message = AccountManager::instance()->accounts().count() == 1 ? "" : activity._accName;
         showDesktopNotification(activity._subject, message, activity._id); // We assigned the notif. id to the activity id
         _activityModel->addNotificationToActivityList(activity);
-    }
-}
-
-void User::slotBuildIncomingCallDialogs(const ActivityList &list)
-{
-    const auto systray = Systray::instance();
-    const ConfigFile cfg;
-
-    if(systray && cfg.showCallNotifications()) {
-        for(const auto &activity : list) {
-            systray->createCallDialog(activity);
-        }
     }
 }
 
@@ -288,8 +270,6 @@ void User::slotRefreshNotifications()
         auto *snh = new ServerNotificationHandler(_account.data());
         connect(snh, &ServerNotificationHandler::newNotificationList,
             this, &User::slotBuildNotificationDisplay);
-        connect(snh, &ServerNotificationHandler::newIncomingCallsList,
-            this, &User::slotBuildIncomingCallDialogs);
 
         snh->slotFetchNotifications();
     } else {
@@ -611,7 +591,6 @@ void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr 
         _activityModel->addSyncFileItemToActivityList(activity);
     } else {
         qCWarning(lcActivity) << "Item " << item->_file << " retrieved resulted in error " << item->_errorString;
-
         activity._subject = item->_errorString;
         activity._id = -static_cast<int>(qHash(activity._subject + activity._message));
 
@@ -668,11 +647,6 @@ Folder *User::getFolder() const
 ActivityListModel *User::getActivityModel()
 {
     return _activityModel;
-}
-
-UnifiedSearchResultsListModel *User::getUnifiedSearchResultsListModel() const
-{
-    return _unifiedSearchResultsModel;
 }
 
 void User::openLocalFolder()
@@ -774,21 +748,6 @@ bool User::hasActivities() const
     return _account->account()->capabilities().hasActivities();
 }
 
-QColor User::headerColor() const
-{
-    return _account->account()->headerColor();
-}
-
-QColor User::headerTextColor() const
-{
-    return _account->account()->headerTextColor();
-}
-
-QColor User::accentColor() const
-{
-    return _account->account()->accentColor();
-}
-
 AccountAppList User::appList() const
 {
     return _account->appList();
@@ -814,15 +773,6 @@ void User::removeAccount() const
 {
     AccountManager::instance()->deleteAccount(_account.data());
     AccountManager::instance()->save();
-}
-
-void User::slotSendReplyMessage(const int activityIndex, const QString &token, const QString &message, const QString &replyTo)
-{
-    QPointer<TalkReply> talkReply = new TalkReply(_account.data(), this);
-    talkReply->sendReplyMessage(token, message, replyTo);
-    connect(talkReply, &TalkReply::replyMessageSent, this, [&, activityIndex](const QString &message) {
-        _activityModel->setReplyMessageSent(activityIndex, message);
-    });
 }
 
 /*-------------------------------------------------------------------------------------*/
@@ -878,7 +828,6 @@ Q_INVOKABLE bool UserModel::isUserConnected(const int &id)
 
     return _users[id]->isConnected();
 }
-
 QImage UserModel::avatarById(const int &id)
 {
     if (id < 0 || id >= _users.size())
@@ -1256,9 +1205,5 @@ QHash<int, QByteArray> UserAppsModel::roleNames() const
     roles[IconUrlRole] = "appIconUrl";
     return roles;
 }
-
-
-
-
 
 }

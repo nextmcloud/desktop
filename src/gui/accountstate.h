@@ -18,12 +18,13 @@
 
 #include "connectionvalidator.h"
 #include "creds/abstractcredentials.h"
+#include "userstatusselectormodel.h"
+#include "userstatusconnector.h"
 
 #include <QByteArray>
 #include <QElapsedTimer>
 #include <QPointer>
 #include <QTimer>
-#include "userstatus.h"
 #include <memory>
 
 class QSettings;
@@ -167,7 +168,7 @@ public:
     /** Returns the user status (Online, Dnd, Away, Offline, Invisible)
      *  https://gist.github.com/georgehrke/55a0412007f13be1551d1f9436a39675
     */
-    UserStatus::Status status() const;
+    UserStatus::OnlineStatus status() const;
 
     /** Returns the user status Message (text)
     */
