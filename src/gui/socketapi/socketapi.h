@@ -15,6 +15,7 @@
 #ifndef SOCKETAPI_H
 #define SOCKETAPI_H
 
+#include <QLocalServer>
 #include "syncfileitem.h"
 #include "common/syncfilestatus.h"
 #include "sharedialog.h" // for the ShareDialogStartPage
@@ -24,9 +25,6 @@
 
 #if defined(Q_OS_MAC)
 #include "socketapisocket_mac.h"
-#else
-#include <QLocalServer>
-using SocketApiServer = QLocalServer;
 #endif
 
 class QUrl;

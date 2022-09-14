@@ -205,7 +205,7 @@ Window {
                             // exactly below the dropdown button, not the mouse
                             onClicked: {
 
-                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync")
+                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync") : qsTr("Pause sync")
                                 if (accountMenu.visible) {
                                     accountMenu.close()
                                 } else {
@@ -305,7 +305,7 @@ Window {
                                         objectName: "addAccountButton"
                                         anchors.verticalCenter: parent.verticalCenter
                                         //font.wordSpacing:  45
-                                        text:  qsTr("            "+"Add account")
+                                        text:  qsTr("              "+"Add account")
                                         font.family: "Segoe UI"
                                         font.pixelSize: Style.topLinePixelSize
                                         color: parent.hovered ? Style.magenta : Style.nmcTextColor
@@ -372,7 +372,7 @@ Window {
                                     }
 
                                     Accessible.role: Accessible.MenuItem
-                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync")
+                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync") : qsTr("Pause sync")
                                     Accessible.onPressAction: syncPauseButton.clicked()
                                 }
 
