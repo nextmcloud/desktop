@@ -17,7 +17,6 @@
 #include "account.h"
 #include "sharee.h"
 #include "networkjobs.h"
-
 #define setPermissions(a, b) setPermissions(a)
 #define setNote(a,b) setNote(a)
 #include "ocssharejob.h"

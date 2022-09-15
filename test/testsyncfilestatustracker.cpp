@@ -22,6 +22,7 @@ public:
 
     SyncFileStatus statusOf(const QString &relativePath) const {
         QFileInfo file(_syncEngine.localPath(), relativePath);
+        auto locPath = _syncEngine.localPath();
         // Start from the end to get the latest status
         for (int i = size() - 1; i >= 0; --i) {
             if (QFileInfo(at(i)[0].toString()) == file)
@@ -467,6 +468,7 @@ private slots:
     }
 
     void renameError() {
+        // when rename has failed - the old file name must be restored
         FakeFolder fakeFolder{FileInfo::A12_B12_C12_S12()};
         fakeFolder.serverErrorPaths().append("A/a1");
         fakeFolder.localModifier().rename("A/a1", "A/a1m");

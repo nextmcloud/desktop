@@ -8,8 +8,8 @@
 #include <QtTest>
 #include <QMenu>
 
-#include "gui/nextcloudCore_autogen/include_Debug/ui_shareusermessagewidget.h"
-#include "gui/nextcloudCore_autogen/include_Debug/ui_shareuserline.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_shareusermessagewidget.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_shareuserline.h"
 #include "shareusermessagewidget.h"
 #include <QCalendarWidget>
 #include "sharedialog.h"
@@ -20,7 +20,7 @@
 #include "networkjobs.h"
 #define setNote(a,b) setNote(a)
 #include "ocssharejob.h"
-#include "sharemanager.cpp"
+#include "gui/sharemanager.cpp"
 #undef setNote
 
 static QVariant value;

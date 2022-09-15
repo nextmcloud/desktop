@@ -248,7 +248,7 @@ private slots:
         QObject *syncPauseButton = rootObj->findChild<QObject*>("syncPauseButton");
         QString text = "Test";
         syncPauseButton->setProperty("text", text);
-        QString finalText = "              " + text;
+        QString finalText = "            " + text;
         QCOMPARE(syncPauseButtonText->property("text"), finalText);
     }
 

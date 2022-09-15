@@ -62,7 +62,6 @@ set(client_UI_SRCS
     wizard/owncloudwizardresultpage.ui
     wizard/webview.ui
     wizard/welcomepage.ui
-
     welcome/welcome.qml
     welcome/Page1Form.ui.qml
     welcome/Page2Form.ui.qml

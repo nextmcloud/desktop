@@ -195,6 +195,7 @@ private slots:
         FolderMan folderMan(new QObject());
         AccountPtr account = Account::create();
         AccountState *accountSt = new AccountState(account);
+      //  FolderMan folderMan(new QObject());
 
         ShareDialog shareDialog;
         shareDialog._accountState = accountSt;
