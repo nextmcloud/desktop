@@ -488,22 +488,22 @@ private slots:
         fakeFolder.execUntilFinished();
         verifyThatPushMatchesPull(fakeFolder, statusSpy);
         QCOMPARE(statusSpy.statusOf("A/a1m"), SyncFileStatus(SyncFileStatus::StatusError));
-        QCOMPARE(statusSpy.statusOf("A/a1"), statusSpy.statusOf("A/a1notexist"));
+        QCOMPARE(statusSpy.statusOf("A/a1"), SyncFileStatus(SyncFileStatus::StatusUpToDate));
         QCOMPARE(statusSpy.statusOf("A"), SyncFileStatus(SyncFileStatus::StatusWarning));
         QCOMPARE(statusSpy.statusOf(""), SyncFileStatus(SyncFileStatus::StatusWarning));
         QCOMPARE(statusSpy.statusOf("B"), SyncFileStatus(SyncFileStatus::StatusUpToDate));
         QCOMPARE(statusSpy.statusOf("B/b1m"), SyncFileStatus(SyncFileStatus::StatusUpToDate));
         statusSpy.clear();
 
-        QVERIFY(!fakeFolder.syncOnce());
+        QVERIFY(fakeFolder.syncOnce());
         verifyThatPushMatchesPull(fakeFolder, statusSpy);
         statusSpy.clear();
-        QVERIFY(!fakeFolder.syncOnce());
+        QVERIFY(fakeFolder.syncOnce());
         verifyThatPushMatchesPull(fakeFolder, statusSpy);
-        QCOMPARE(statusSpy.statusOf("A/a1m"), SyncFileStatus(SyncFileStatus::StatusError));
+        QCOMPARE(statusSpy.statusOf("A/a1m"), SyncFileStatus(SyncFileStatus::StatusNone));
         QCOMPARE(statusSpy.statusOf("A/a1"), statusSpy.statusOf("A/a1notexist"));
-        QCOMPARE(statusSpy.statusOf("A"), SyncFileStatus(SyncFileStatus::StatusWarning));
-        QCOMPARE(statusSpy.statusOf(""), SyncFileStatus(SyncFileStatus::StatusWarning));
+        QCOMPARE(statusSpy.statusOf("A"), SyncFileStatus(SyncFileStatus::StatusNone));
+        QCOMPARE(statusSpy.statusOf(""), SyncFileStatus(SyncFileStatus::StatusUpToDate));
         QCOMPARE(statusSpy.statusOf("B"), SyncFileStatus(SyncFileStatus::StatusNone));
         QCOMPARE(statusSpy.statusOf("B/b1m"), SyncFileStatus(SyncFileStatus::StatusNone));
         statusSpy.clear();

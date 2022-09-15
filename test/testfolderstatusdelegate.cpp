@@ -23,19 +23,19 @@ private slots:
     void testaddFolderText_AB_Textline()
     {
         QString ret = FolderStatusDelegate::addFolderText(FolderStatusDelegate::addButtonText::AB_Textline);
-        QCOMPARE(ret, "A local folder and a directory in the cloud will be synced and updated automatically");
+        QCOMPARE(ret, "Synchronize any other local folder with your MagentaCLOUD.");
     }
 
     void testaddFolderText_AB_Headline()
     {
         QString ret = FolderStatusDelegate::addFolderText(FolderStatusDelegate::addButtonText::AB_Headline);
-        QCOMPARE(ret, "Add folder synchronization");
+        QCOMPARE(ret, "Add Live-Backup");
     }
 
     void testaddFolderText_Other()
     {
         QString ret = FolderStatusDelegate::addFolderText((FolderStatusDelegate::addButtonText)3);
-        QCOMPARE(ret, "Add folder synchronization");
+        QCOMPARE(ret, "Add Live-Backup");
     }
 
     void testaddButtonRect()
@@ -93,6 +93,29 @@ private slots:
 
         delete model;
         delete parent;
+    }
+
+    void testrootFolderHeightWithoutErrors()
+    {
+        FolderStatusDelegate folderStDel;
+        QFont font = {"Times", 10, QFont::Bold};
+        QFontMetrics fontMatrics(font);
+
+        const int aliasMargin = fontMatrics.height() / 2;
+        const int margin = fontMatrics.height() / 4;
+        const int topMargin = 15;
+        int expectedHeight = aliasMargin + topMargin; // margin to top
+        expectedHeight += fontMatrics.height(); // alias
+        expectedHeight += margin; // between alias and local path
+        expectedHeight += fontMatrics.height(); // local path
+        expectedHeight += margin; // between local and remote path
+        expectedHeight += fontMatrics.height(); // remote path
+        expectedHeight += margin; // bottom margin
+
+
+        int retHeight = folderStDel.rootFolderHeightWithoutErrors(fontMatrics, fontMatrics);
+
+        QCOMPARE(retHeight, expectedHeight);
     }
 };
 

@@ -16,6 +16,7 @@ using namespace OCC;
 
 SettingsDialog::SettingsDialog() : _ui(new Ui::SettingsDialog)
 {
+    _gui = new ownCloudGui();
     _ui->stack= new QStackedWidget();
     _actionGroup = new QActionGroup(this);
     _toolBar = new QToolBar;
@@ -43,12 +44,10 @@ private slots:
 
         setDialog->customizeStyle();
 
-        QString expToolbarStyleSheet("QToolBar { background: %1; margin: 0; padding: 0px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
-                                     "QToolBar QToolButton { background: %1; font: 14px; color: #191919; border: none; border-bottom: 1px solid %2; margin: 0; padding: 5px; } "
+        QString expToolbarStyleSheet("QToolBar { background: %1; margin: 0; padding: 8px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
+                                     "QToolBar QToolButton { background: %1; font: 14px; border: none; border-bottom: 1px solid %2; margin: 0px; padding: 13px; } "
                                      "QToolBar QToolBarExtension { padding:0; } "
-                                     "QToolBar QToolButton:checked { background: %1; color: #e20074; }"
-                                     "QToolBar QToolButton:hover {background: %1; color: #e20074; }");
-
+                                     "QToolBar QToolButton:checked { background: %1; color: #e20074; }");
         QToolBar *toolBar = new QToolBar();
         QString highlightColor(palette().highlight().color().name());
         QString highlightTextColor(palette().highlightedText().color().name());
@@ -99,6 +98,23 @@ private slots:
         delete action;
     }
 
+    void testaccountAdded()
+    {
+        FolderMan folderMan(new QObject());
+        AccountPtr account = Account::create();
+        AccountState *accountSt = new AccountState(account);
+
+        SettingsDialog *setDialog = new SettingsDialog();
+        QString expectedText("Synchronization");
+
+        setDialog->accountAdded(accountSt);
+
+        QList<QAction*> accountAction = setDialog->_toolBar->actions();
+        QCOMPARE(accountAction.empty(), false);
+        QCOMPARE(accountAction.at(0)->text(), expectedText);
+    }
+
+    /* if hover added then remove below commented code else remove below code
     void testslotHoverEffect_Sync()
     {
         SettingsDialog *setDialog = new SettingsDialog();
@@ -137,6 +153,7 @@ private slots:
         QCOMPARE(action->icon().Active, expectedOpenIcon.Active);
         delete action;
     }
+    */
 };
 
 QTEST_MAIN(TestSettingsDialog)

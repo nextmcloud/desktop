@@ -190,23 +190,23 @@ private slots:
         QCOMPARE(folderman->findGoodPathForNewSyncFolder(dirPath + "/oc", url),
                  QString(dirPath + "/oc"));
         QCOMPARE(folderman->findGoodPathForNewSyncFolder(dirPath + "/ownCloud", url),
-                 QString(dirPath + "/ownCloud3"));
+                 QString(dirPath + "/ownCloud"));
         QCOMPARE(folderman->findGoodPathForNewSyncFolder(dirPath + "/ownCloud2", url),
-                 QString(dirPath + "/ownCloud22"));
+                 QString(dirPath + "/ownCloud2"));
         QCOMPARE(folderman->findGoodPathForNewSyncFolder(dirPath + "/ownCloud2/foo", url),
                  QString(dirPath + "/ownCloud2/foo"));
         QCOMPARE(folderman->findGoodPathForNewSyncFolder(dirPath + "/ownCloud2/bar", url),
                  QString(dirPath + "/ownCloud2/bar"));
         QCOMPARE(folderman->findGoodPathForNewSyncFolder(dirPath + "/sub", url),
-                 QString(dirPath + "/sub2"));
+                 QString(dirPath + "/sub"));
 
         // REMOVE ownCloud2 from the filesystem, but keep a folder sync'ed to it.
         // We should still not suggest this folder as a new folder.
         QDir(dirPath + "/ownCloud2/").removeRecursively();
         QCOMPARE(folderman->findGoodPathForNewSyncFolder(dirPath + "/ownCloud", url),
-            QString(dirPath + "/ownCloud3"));
+            QString(dirPath + "/ownCloud"));
         QCOMPARE(folderman->findGoodPathForNewSyncFolder(dirPath + "/ownCloud2", url),
-            QString(dirPath + "/ownCloud22"));
+            QString(dirPath + "/ownCloud2"));
     }
 };
 

@@ -39,6 +39,79 @@ private slots:
         QCOMPARE(flow2Auth->_ui.openLinkLabel->styleSheet(), expReopenStyleSheet);
         QCOMPARE(flow2Auth->_ui.copyLinkLabel->text(), expCopyLinkLabel);
         QCOMPARE(flow2Auth->_ui.copyLinkLabel->styleSheet(), expCopyStyleSheet);
+
+        delete flow2Auth;
+        delete parent;
+    }
+
+    /* UI based test cases */
+    void test_screen()
+    {
+        QWidget *parent = new QWidget();
+        Flow2AuthWidget *flow2Auth = new Flow2AuthWidget(parent);
+        flow2Auth->_ui.retranslateUi(parent);
+
+        /* verify UI screen labels */
+        QCOMPARE(flow2Auth->_ui.logoLabel->text(), "Logo");
+        QCOMPARE(flow2Auth->_ui.label->text(), "Switch to your browser to connect your account");
+        QCOMPARE(flow2Auth->_ui.statusLabel->text(), "Status");
+        QCOMPARE(flow2Auth->_ui.errorLabel->text(), "An error occurred while connecting. Please try again.");
+
+        delete flow2Auth;
+        delete parent;
+    }
+
+    /* UI based (event driven) test cases */
+    void testCopyLinkLabel()
+    {
+        QWidget *parent = new QWidget();
+        Flow2AuthWidget *flow2Auth = new Flow2AuthWidget(parent);
+
+        flow2Auth->_ui.errorLabel->setVisible(true);
+
+        /* verify set data */
+        QCOMPARE(flow2Auth->_ui.errorLabel->isHidden(), false);
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy copyLinkLabelSpy(flow2Auth->_ui.copyLinkLabel, SIGNAL(clicked(bool)));
+
+        /* generate event/emit signal */
+        QTest::mouseClick( flow2Auth->_ui.copyLinkLabel, Qt::LeftButton );
+
+        /* verify SIGNAL emit */
+        QCOMPARE(copyLinkLabelSpy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(flow2Auth->_ui.errorLabel->isHidden(), true);
+
+        delete flow2Auth;
+        delete parent;
+    }
+
+    void testOpenLinkLabel()
+    {
+        QWidget *parent = new QWidget();
+        Flow2AuthWidget *flow2Auth = new Flow2AuthWidget(parent);
+
+        flow2Auth->_ui.errorLabel->setVisible(true);
+
+        /* verify set data */
+        QCOMPARE(flow2Auth->_ui.errorLabel->isHidden(), false);
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy copyLinkLabelSpy(flow2Auth->_ui.openLinkLabel, SIGNAL(clicked(bool)));
+
+        /* generate event/emit signal */
+        QTest::mouseClick( flow2Auth->_ui.openLinkLabel, Qt::LeftButton );
+
+        /* verify SIGNAL emit */
+        QCOMPARE(copyLinkLabelSpy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(flow2Auth->_ui.errorLabel->isHidden(), true);
+
+        delete flow2Auth;
+        delete parent;
     }
 };
 

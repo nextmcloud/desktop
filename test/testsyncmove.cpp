@@ -958,8 +958,8 @@ private slots:
             fakeFolder.syncOnce();
         }
 
-        QVERIFY(!fakeFolder.currentLocalState().find(src));
-        QVERIFY(fakeFolder.currentLocalState().find(getName(dest)));
+        QVERIFY(fakeFolder.currentLocalState().find(getName(src)));
+        QVERIFY(!fakeFolder.currentLocalState().find(getName(dest)));
         if (vfsMode == Vfs::WithSuffix)
         {
             // the placeholder was not restored as it is still in error state

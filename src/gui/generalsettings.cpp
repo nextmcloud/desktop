@@ -189,7 +189,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     QString infoUrl = Theme::instance()->helpUrl();
     _ui->infoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->infoLabel->setOpenExternalLinks(true);
-    _ui->infoLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Further Information</a>").arg(infoUrl));
+    _ui->infoLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Further Informations</a>").arg(infoUrl));
 
     loadMiscSettings();
     // updater info now set in: customizeStyle
