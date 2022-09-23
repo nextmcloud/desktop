@@ -205,7 +205,7 @@ Window {
                             // exactly below the dropdown button, not the mouse
                             onClicked: {
 
-                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync")
+                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync") : qsTr("Pause sync")
                                 if (accountMenu.visible) {
                                     accountMenu.close()
                                 } else {
@@ -372,7 +372,7 @@ Window {
                                     }
 
                                     Accessible.role: Accessible.MenuItem
-                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync for all") : qsTr("Pause sync")
+                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync") : qsTr("Pause sync")
                                     Accessible.onPressAction: syncPauseButton.clicked()
                                 }
 

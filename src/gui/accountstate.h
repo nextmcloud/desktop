@@ -192,7 +192,7 @@ public:
     void setDesktopNotificationsAllowed(bool isAllowed);
 
     ConnectionStatus lastConnectionStatus() const;
-
+    
     void trySignIn();
 
     void systemOnlineConfigurationChanged();

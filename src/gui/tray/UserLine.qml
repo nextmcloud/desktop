@@ -60,6 +60,7 @@ MenuItem {
                     spacing: Style.userStatusSpacing
                     Image {
                         id: accountAvatar
+                        objectName: "accountAvatar"
                         Layout.topMargin: Style.accountMenuPadding
                         Layout.leftMargin: Style.accountMenuPadding
                         Layout.rightMargin: 0
@@ -110,11 +111,13 @@ MenuItem {
 
                     Column {
                         id: accountLabels
+                        objectName: "accountLabels"
                         Layout.leftMargin: Style.accountLabelsSpacing
                         Layout.fillWidth: true
                         Layout.maximumWidth: parent.width - Style.accountLabelsSpacing
                         Label {
                             id: accountUser
+                            objectName: "accountUser"
                             width: parent.width
                             text: name
                             elide: Text.ElideRight
