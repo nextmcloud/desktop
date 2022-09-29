@@ -29,9 +29,10 @@ NavigationPaneHelper::NavigationPaneHelper(FolderMan *folderMan)
 {
     ConfigFile cfg;
     _showInExplorerNavigationPane = cfg.showInExplorerNavigationPane();
-
+   // Folder *folder;
     _updateCloudStorageRegistryTimer.setSingleShot(true);
     connect(&_updateCloudStorageRegistryTimer, &QTimer::timeout, this, &NavigationPaneHelper::updateCloudStorageRegistry);
+    //connect(folder->accountState()->account().data(), &Account::accountChangedDisplayName, this, &NavigationPaneHelper::slotAccountDisplayNameChanged);
 
     // Ensure that the folder integration stays persistent in Explorer,
     // the uninstaller removes the folder upon updating the client.
@@ -104,8 +105,15 @@ void NavigationPaneHelper::updateCloudStorageRegistry()
                 QString title = folder->shortGuiRemotePathOrAppName();
                 // Write the account name in the sidebar only when using more than one account.
                 if (AccountManager::instance()->accounts().size() > 1){
-                    title = title % " - " % folder->accountState()->account()->displayName();
+                    if(folder->accountState()->account()->davDisplayName() != NULL)
+                    {
+                        title = title % " - " % folder->accountState()->account()->davDisplayName();
+                    }
+                    else {
+                        title = title % " - " % folder->accountState()->account()->displayName();
+                    }
                 }
+                connect(folder->accountState()->account().data(), &Account::accountChangedDisplayName, this, &NavigationPaneHelper::slotAccountDisplayNameChanged);
                 QString iconPath = QDir::toNativeSeparators(qApp->applicationFilePath());
                 QString targetFolderPath = QDir::toNativeSeparators(folder->cleanPath());
 
@@ -176,6 +184,41 @@ void NavigationPaneHelper::updateCloudStorageRegistry()
         Utility::registryDeleteKeyTree(HKEY_CURRENT_USER, namespacePath);
         Utility::registryDeleteKeyValue(HKEY_CURRENT_USER, QStringLiteral("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\HideDesktopIcons\\NewStartPanel"), clsidStr);
 #endif
+    }
+}
+
+void NavigationPaneHelper::slotAccountDisplayNameChanged()
+{
+    //updateCloudStorageRegistry();
+    foreach (Folder *folder, _folderMan->map()) {
+        // Only the route folder has a valid CLSID because this is the only folder that's shown in a nav pane
+        if (!folder->navigationPaneClsid().isNull()) {
+            // If it already exists, unmark it for removal, this is a valid sync root.
+            //entriesToRemove.removeOne(folder->navigationPaneClsid());
+
+            QString clsidStr = folder->navigationPaneClsid().toString();
+            QString clsidPath = QString() % R"(Software\Classes\CLSID\)" % clsidStr;
+            QString clsidPathWow64 = QString() % R"(Software\Classes\Wow6432Node\CLSID\)" % clsidStr;
+            QString namespacePath = QString() % R"(Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\)" % clsidStr;
+
+            QString title = folder->shortGuiRemotePathOrAppName();
+            // Write the account name in the sidebar only when using more than one account.
+            if (AccountManager::instance()->accounts().size() > 1){
+                if(folder->accountState()->account()->davDisplayName() != NULL)
+                {
+                    title = title % " - " % folder->accountState()->account()->davDisplayName();
+                }
+                else {
+                    title = title % " - " % folder->accountState()->account()->displayName();
+                }
+            }
+
+            #ifdef Q_OS_WIN
+            Utility::registrySetKeyValue(HKEY_CURRENT_USER, clsidPath, QString(), REG_SZ, title);
+            Utility::registrySetKeyValue(HKEY_CURRENT_USER, clsidPathWow64, QString(), REG_SZ, title);
+            Utility::registrySetKeyValue(HKEY_CURRENT_USER, namespacePath, QString(), REG_SZ, title);
+            #endif
+        }
     }
 }
 
