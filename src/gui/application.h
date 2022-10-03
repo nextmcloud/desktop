@@ -138,6 +138,7 @@ private:
     bool _userTriggeredConnect;
     bool _debugMode;
     bool _backgroundMode;
+    bool _showSwipeScreen;
 
     ClientProxy _proxy;
 

@@ -360,9 +360,6 @@ void AccountState::slotConnectionValidatorResult(ConnectionValidator::Status sta
         _lastCheckConnectionTimer.invalidate();
         _lastCheckConnectionTimer.start();
     };
-
-
-
     if (isSignedOut()) {
         qCWarning(lcAccountState) << "Signed out, ignoring" << status << _account->url().toString();
         return;

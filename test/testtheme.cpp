@@ -13,10 +13,16 @@
  */
 
 #include <QTest>
-
-#include "theme.h"
+#include "config.h"
+#include "version.h"
 #include "themeutils.h"
+
+#define private public
+#include "theme.h"
+#include "syncresult.h"
 #include "iconutils.h"
+#undef private
+
 
 class TestTheme : public QObject
 {
@@ -106,7 +112,226 @@ private slots:
 
         QCOMPARE(OCC::Theme::isHidpi(&paintDevice), false);
     }
+
+    void testfolderOverlayIcon_Undefined()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-warning,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::Undefined, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+    void testfolderOverlayIcon_NotYetStarted()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-sync,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::NotYetStarted, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+    void testfolderOverlayIcon_SyncRunning()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-sync,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::SyncRunning, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+
+    void testfolderOverlayIcon_SyncAbortRequested()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-pause,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::SyncAbortRequested, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+    void testfolderOverlayIcon_Paused()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-pause,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::Paused, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+    void testfolderOverlayIcon_SyncPrepare_True()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-ok,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::SyncPrepare, true);
+
+        QCOMPARE(ret, expectedRet);
+    }
+
+    void testfolderOverlayIcon_SyncPrepare_False()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-ok,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::SyncPrepare, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+    void testfolderOverlayIcon_Success_True()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-ok,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::Success, true);
+
+        QCOMPARE(ret, expectedRet);
+    }
+
+    void testfolderOverlayIcon_Success_False()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-ok,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::Success, false);
+
+//        QCOMPARE(ret, expectedRet);
+    }
+    void testfolderOverlayIcon_Problem()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-warning,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::Problem, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+    void testfolderOverlayIcon_Error()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-error,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::Error, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+    void testfolderOverlayIcon_SetupError()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-error,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon(OCC::SyncResult::Status::SetupError, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+    void testfolderOverlayIcon_Other()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "state-error,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->folderOverlayIcon((OCC::SyncResult::Status)10, false);
+
+        QCOMPARE(ret, expectedRet);
+    }
+
+    void testfolderOkIcon()
+    {
+        QString pixmapName = QString::fromLatin1(":/client/theme/%1/%2-%3.png").
+                             arg("colored").arg("folder-ok").arg(64);
+        QIcon expectedRet = QPixmap(pixmapName);
+        OCC::Theme *themeObj = OCC::Theme::instance();
+
+        QIcon ret = themeObj->folderOkIcon();
+
+        QCOMPARE(ret.availableSizes(), expectedRet.availableSizes());
+    }
+
+    void testaddButtonIcon()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = "circle-add-magenta,colored";
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->addButtonIcon();
+
+        QCOMPARE(ret, expectedRet);
+    }
+
+    void testapplicationLogo()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = QStringLiteral(APPLICATION_ICON_NAME "-icon" ",colored");
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->applicationLogo();
+
+        QCOMPARE(ret, expectedRet);
+    }
+
+    void testAbout()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString expectedDevString = tr("<p>%1 Desktop Client Version %2.</p>")
+                                    .arg(APPLICATION_NAME)
+                                    .arg(QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)));
+
+        QString devString = themeObj->about();
+
+        QCOMPARE(devString, expectedDevString);
+    }
+
+    void testapplicationIcon()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString key = QStringLiteral(APPLICATION_ICON_NAME "-icon" ",colored");
+        QIcon expectedRet = QIcon("test.xpm");
+        themeObj->_iconCache[key] = expectedRet;
+
+        QIcon ret = themeObj->applicationIcon();
+
+        QCOMPARE(ret, expectedRet);
+    }
+
+    void testfolderDisabledIcon()
+    {
+        QString pixmapName = QString::fromLatin1(":/client/theme/%1/%2-%3.png").
+                             arg("colored").arg("folder-ok").arg(64);
+        QIcon expectedRet = QPixmap(pixmapName);
+        OCC::Theme *themeObj = OCC::Theme::instance();
+
+        QIcon ret = themeObj->folderDisabledIcon();
+
+        QCOMPARE(ret.availableSizes(), expectedRet.availableSizes());
+    }
 };
 
-QTEST_GUILESS_MAIN(TestTheme)
+QTEST_MAIN(TestTheme)
 #include "testtheme.moc"

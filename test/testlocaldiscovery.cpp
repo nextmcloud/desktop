@@ -207,66 +207,146 @@ private slots:
 
     void testCreateFileWithTrailingSpaces_localAndRemoteTrimmedDoNotExist_renameAndUploadFile()
     {
-        FakeFolder fakeFolder { FileInfo::A12_B12_C12_S12() };
+        FakeFolder fakeFolder{FileInfo{}};
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
         const QString fileWithSpaces1(" foo");
-        const QString fileWithSpaces2(" bar  ");
+        const QString fileWithSpaces2(" bar ");
         const QString fileWithSpaces3("bla ");
         const QString fileWithSpaces4("A/ foo");
-        const QString fileWithSpaces5("A/ bar  ");
+        const QString fileWithSpaces5("A/ bar ");
         const QString fileWithSpaces6("A/bla ");
 
         fakeFolder.localModifier().insert(fileWithSpaces1);
         fakeFolder.localModifier().insert(fileWithSpaces2);
         fakeFolder.localModifier().insert(fileWithSpaces3);
+        fakeFolder.localModifier().mkdir("A");
         fakeFolder.localModifier().insert(fileWithSpaces4);
         fakeFolder.localModifier().insert(fileWithSpaces5);
         fakeFolder.localModifier().insert(fileWithSpaces6);
+        fakeFolder.localModifier().mkdir(QStringLiteral(" with spaces "));
+
+        ItemCompletedSpy completeSpy(fakeFolder);
+        completeSpy.clear();
 
         QVERIFY(fakeFolder.syncOnce());
 
-        QVERIFY(fakeFolder.currentRemoteState().find(fileWithSpaces1.trimmed()));
-        QVERIFY(!fakeFolder.currentRemoteState().find(fileWithSpaces1));
-        QVERIFY(fakeFolder.currentLocalState().find(fileWithSpaces1.trimmed()));
-        QVERIFY(!fakeFolder.currentLocalState().find(fileWithSpaces1));
+        QCOMPARE(completeSpy.findItem(fileWithSpaces1)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces2)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces3)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces4)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces5)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces6)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(QStringLiteral(" with spaces "))->_status, SyncFileItem::Status::FileNameInvalid);
 
-        QVERIFY(fakeFolder.currentRemoteState().find(fileWithSpaces2.trimmed()));
-        QVERIFY(!fakeFolder.currentRemoteState().find(fileWithSpaces2));
-        QVERIFY(fakeFolder.currentLocalState().find(fileWithSpaces2.trimmed()));
-        QVERIFY(!fakeFolder.currentLocalState().find(fileWithSpaces2));
+        fakeFolder.syncEngine().addAcceptedInvalidFileName(fakeFolder.localPath() + fileWithSpaces1);
+        fakeFolder.syncEngine().addAcceptedInvalidFileName(fakeFolder.localPath() + fileWithSpaces2);
+        fakeFolder.syncEngine().addAcceptedInvalidFileName(fakeFolder.localPath() + fileWithSpaces3);
+        fakeFolder.syncEngine().addAcceptedInvalidFileName(fakeFolder.localPath() + fileWithSpaces4);
+        fakeFolder.syncEngine().addAcceptedInvalidFileName(fakeFolder.localPath() + fileWithSpaces5);
+        fakeFolder.syncEngine().addAcceptedInvalidFileName(fakeFolder.localPath() + fileWithSpaces6);
+        fakeFolder.syncEngine().addAcceptedInvalidFileName(fakeFolder.localPath() + QStringLiteral(" with spaces "));
 
-        QVERIFY(fakeFolder.currentRemoteState().find(fileWithSpaces3.trimmed()));
-        QVERIFY(!fakeFolder.currentRemoteState().find(fileWithSpaces3));
-        QVERIFY(fakeFolder.currentLocalState().find(fileWithSpaces3.trimmed()));
-        QVERIFY(!fakeFolder.currentLocalState().find(fileWithSpaces3));
+        completeSpy.clear();
 
-        QVERIFY(fakeFolder.currentRemoteState().find("A/foo"));
-        QVERIFY(!fakeFolder.currentRemoteState().find(fileWithSpaces4));
-        QVERIFY(fakeFolder.currentLocalState().find("A/foo"));
-        QVERIFY(!fakeFolder.currentLocalState().find(fileWithSpaces4));
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(LocalDiscoveryStyle::DatabaseAndFilesystem, {QStringLiteral("foo"), QStringLiteral("bar"), QStringLiteral("bla"), QStringLiteral("A/foo"), QStringLiteral("A/bar"), QStringLiteral("A/bla")});
+        QVERIFY(fakeFolder.syncOnce());
 
-        QVERIFY(fakeFolder.currentRemoteState().find("A/bar"));
-        QVERIFY(!fakeFolder.currentRemoteState().find(fileWithSpaces5));
-        QVERIFY(fakeFolder.currentLocalState().find("A/bar"));
-        QVERIFY(!fakeFolder.currentLocalState().find(fileWithSpaces5));
-
-        QVERIFY(fakeFolder.currentRemoteState().find("A/bla"));
-        QVERIFY(!fakeFolder.currentRemoteState().find(fileWithSpaces6));
-        QVERIFY(fakeFolder.currentLocalState().find("A/bla"));
-        QVERIFY(!fakeFolder.currentLocalState().find(fileWithSpaces6));
+        QCOMPARE(completeSpy.findItem(fileWithSpaces1)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces2)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces3)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces4)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces5)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces6)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(QStringLiteral(" with spaces "))->_status, SyncFileItem::Status::Success);
     }
 
-    void testCreateFileWithTrailingSpaces_localTrimmedDoesExist_dontRenameAndUploadFile()
+    void testCreateFileWithTrailingSpaces_remoteDontGetRenamedAutomatically()
     {
-        FakeFolder fakeFolder { FileInfo::A12_B12_C12_S12() };
+        // On Windows we can't create files/folders with leading/trailing spaces locally. So, we have to fail those items. On other OSs - we just sync them down normally.
+        FakeFolder fakeFolder{FileInfo()};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+        const QString fileWithSpaces4("A/ foo");
+        const QString fileWithSpaces5("A/ bar ");
+        const QString fileWithSpaces6("A/bla ");
+
+        fakeFolder.remoteModifier().mkdir("A");
+        fakeFolder.remoteModifier().insert(fileWithSpaces4);
+        fakeFolder.remoteModifier().insert(fileWithSpaces5);
+        fakeFolder.remoteModifier().insert(fileWithSpaces6);
+
+        ItemCompletedSpy completeSpy(fakeFolder);
+        completeSpy.clear();
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        if (Utility::isWindows()) {
+            QCOMPARE(completeSpy.findItem(fileWithSpaces4)->_status, SyncFileItem::Status::FileNameInvalid);
+            QCOMPARE(completeSpy.findItem(fileWithSpaces5)->_status, SyncFileItem::Status::FileNameInvalid);
+            QCOMPARE(completeSpy.findItem(fileWithSpaces6)->_status, SyncFileItem::Status::FileNameInvalid);
+        } else {
+            QCOMPARE(completeSpy.findItem(fileWithSpaces4)->_status, SyncFileItem::Status::Success);
+            QCOMPARE(completeSpy.findItem(fileWithSpaces5)->_status, SyncFileItem::Status::Success);
+            QCOMPARE(completeSpy.findItem(fileWithSpaces6)->_status, SyncFileItem::Status::Success);
+        }
+    }
+
+    void testCreateFileWithTrailingSpaces_remoteGetRenamedManually()
+    {
+        // On Windows we can't create files/folders with leading/trailing spaces locally. So, we have to fail those items. On other OSs - we just sync them down normally.
+        FakeFolder fakeFolder{FileInfo()};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+        const QString fileWithSpaces4("A/ foo");
+        const QString fileWithSpaces5("A/ bar ");
+        const QString fileWithSpaces6("A/bla ");
+
+        const QString fileWithoutSpaces4("A/foo");
+        const QString fileWithoutSpaces5("A/bar");
+        const QString fileWithoutSpaces6("A/bla");
+
+        fakeFolder.remoteModifier().mkdir("A");
+        fakeFolder.remoteModifier().insert(fileWithSpaces4);
+        fakeFolder.remoteModifier().insert(fileWithSpaces5);
+        fakeFolder.remoteModifier().insert(fileWithSpaces6);
+
+        ItemCompletedSpy completeSpy(fakeFolder);
+        completeSpy.clear();
+
+        QVERIFY(fakeFolder.syncOnce());        
+
+        if (Utility::isWindows()) {
+            QCOMPARE(completeSpy.findItem(fileWithSpaces4)->_status, SyncFileItem::Status::FileNameInvalid);
+            QCOMPARE(completeSpy.findItem(fileWithSpaces5)->_status, SyncFileItem::Status::FileNameInvalid);
+            QCOMPARE(completeSpy.findItem(fileWithSpaces6)->_status, SyncFileItem::Status::FileNameInvalid);
+        } else {
+            QCOMPARE(completeSpy.findItem(fileWithSpaces4)->_status, SyncFileItem::Status::Success);
+            QCOMPARE(completeSpy.findItem(fileWithSpaces5)->_status, SyncFileItem::Status::Success);
+            QCOMPARE(completeSpy.findItem(fileWithSpaces6)->_status, SyncFileItem::Status::Success);
+        }
+
+        fakeFolder.remoteModifier().rename(fileWithSpaces4, fileWithoutSpaces4);
+        fakeFolder.remoteModifier().rename(fileWithSpaces5, fileWithoutSpaces5);
+        fakeFolder.remoteModifier().rename(fileWithSpaces6, fileWithoutSpaces6);
+
+        completeSpy.clear();
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces4)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces5)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces6)->_status, SyncFileItem::Status::Success);
+    }
+
+    void testCreateFileWithTrailingSpaces_localTrimmedAlsoCreated_dontRenameAutomaticallyAndDontUploadFile()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
         const QString fileWithSpaces(" foo");
         const QString fileTrimmed("foo");
 
         fakeFolder.localModifier().insert(fileTrimmed);
-        QVERIFY(fakeFolder.syncOnce());
         fakeFolder.localModifier().insert(fileWithSpaces);
-        QVERIFY(!fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.syncOnce());
 
         QVERIFY(fakeFolder.currentRemoteState().find(fileTrimmed));
         QVERIFY(!fakeFolder.currentRemoteState().find(fileWithSpaces));
@@ -274,21 +354,295 @@ private slots:
         QVERIFY(fakeFolder.currentLocalState().find(fileTrimmed));
     }
 
-    void testCreateFileWithTrailingSpaces_localTrimmedAlsoCreated_dontRenameAndUploadFile()
+    void testCreateFileWithTrailingSpaces_localTrimmedAlsoCreated_dontRenameAutomaticallyAndUploadBothFiles()
     {
-        FakeFolder fakeFolder { FileInfo::A12_B12_C12_S12() };
+        FakeFolder fakeFolder{FileInfo{}};
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
         const QString fileWithSpaces(" foo");
         const QString fileTrimmed("foo");
 
         fakeFolder.localModifier().insert(fileTrimmed);
         fakeFolder.localModifier().insert(fileWithSpaces);
-        QVERIFY(!fakeFolder.syncOnce());
+
+        fakeFolder.syncEngine().addAcceptedInvalidFileName(fakeFolder.localPath() + fileWithSpaces);
+
+        QVERIFY(fakeFolder.syncOnce());
 
         QVERIFY(fakeFolder.currentRemoteState().find(fileTrimmed));
-        QVERIFY(!fakeFolder.currentRemoteState().find(fileWithSpaces));
+        QVERIFY(fakeFolder.currentRemoteState().find(fileWithSpaces));
         QVERIFY(fakeFolder.currentLocalState().find(fileWithSpaces));
         QVERIFY(fakeFolder.currentLocalState().find(fileTrimmed));
+    }
+
+    void testCreateFileWithTrailingSpaces_localAndRemoteTrimmedExists_renameFile()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+        const QString fileWithSpaces1(" foo");
+        const QString fileWithSpaces2(" bar ");
+        const QString fileWithSpaces3("bla ");
+
+        fakeFolder.localModifier().insert(fileWithSpaces1);
+        fakeFolder.localModifier().insert(fileWithSpaces2);
+        fakeFolder.localModifier().insert(fileWithSpaces3);
+        fakeFolder.remoteModifier().insert(fileWithSpaces1);
+        fakeFolder.remoteModifier().insert(fileWithSpaces2);
+        fakeFolder.remoteModifier().insert(fileWithSpaces3);
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        auto expectedState = fakeFolder.currentLocalState();
+        qDebug() << expectedState;
+        QCOMPARE(fakeFolder.currentRemoteState(), expectedState);
+    }
+
+    void testBlockInvalidMtimeSyncRemote()
+    {
+        constexpr auto INVALID_MODTIME1 = 0;
+        constexpr auto INVALID_MODTIME2 = -3600;
+
+        FakeFolder fakeFolder{FileInfo{}};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+        const QString fooFileRootFolder("foo");
+        const QString barFileRootFolder("bar");
+        const QString blaFileRootFolder("bla");
+        const QString fooFileSubFolder("subfolder/foo");
+        const QString barFileSubFolder("subfolder/bar");
+        const QString blaFileSubFolder("subfolder/bla");
+
+        fakeFolder.remoteModifier().insert(fooFileRootFolder);
+        fakeFolder.remoteModifier().insert(barFileRootFolder);
+        fakeFolder.remoteModifier().insert(blaFileRootFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileSubFolder);
+        fakeFolder.remoteModifier().insert(barFileSubFolder);
+        fakeFolder.remoteModifier().insert(blaFileSubFolder);
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().setModTime(fooFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.remoteModifier().setModTime(barFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.remoteModifier().setModTime(blaFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.remoteModifier().setModTime(fooFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.remoteModifier().setModTime(barFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.remoteModifier().setModTime(blaFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+
+        QVERIFY(!fakeFolder.syncOnce());
+
+        QVERIFY(!fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().setModTime(fooFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.remoteModifier().setModTime(barFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.remoteModifier().setModTime(blaFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.remoteModifier().setModTime(fooFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.remoteModifier().setModTime(barFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.remoteModifier().setModTime(blaFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+
+        QVERIFY(!fakeFolder.syncOnce());
+
+        QVERIFY(!fakeFolder.syncOnce());
+    }
+
+    void testBlockInvalidMtimeSyncLocal()
+    {
+        constexpr auto INVALID_MODTIME1 = 0;
+        constexpr auto INVALID_MODTIME2 = -3600;
+
+        FakeFolder fakeFolder{FileInfo{}};
+
+        int nGET = 0;
+        fakeFolder.setServerOverride([&](QNetworkAccessManager::Operation op, const QNetworkRequest &, QIODevice *) {
+            if (op == QNetworkAccessManager::GetOperation)
+                ++nGET;
+            return nullptr;
+        });
+
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+        const QString fooFileRootFolder("foo");
+        const QString barFileRootFolder("bar");
+        const QString blaFileRootFolder("bla");
+        const QString fooFileSubFolder("subfolder/foo");
+        const QString barFileSubFolder("subfolder/bar");
+        const QString blaFileSubFolder("subfolder/bla");
+
+        fakeFolder.remoteModifier().insert(fooFileRootFolder);
+        fakeFolder.remoteModifier().insert(barFileRootFolder);
+        fakeFolder.remoteModifier().insert(blaFileRootFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileSubFolder);
+        fakeFolder.remoteModifier().insert(barFileSubFolder);
+        fakeFolder.remoteModifier().insert(blaFileSubFolder);
+
+        QVERIFY(fakeFolder.syncOnce());
+        nGET = 0;
+
+        fakeFolder.localModifier().setModTime(fooFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.localModifier().setModTime(barFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.localModifier().setModTime(blaFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.localModifier().setModTime(fooFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.localModifier().setModTime(barFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+        fakeFolder.localModifier().setModTime(blaFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME1));
+
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(nGET, 0);
+
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(nGET, 0);
+
+        fakeFolder.localModifier().setModTime(fooFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.localModifier().setModTime(barFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.localModifier().setModTime(blaFileRootFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.localModifier().setModTime(fooFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.localModifier().setModTime(barFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+        fakeFolder.localModifier().setModTime(blaFileSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MODTIME2));
+
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(nGET, 0);
+
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(nGET, 0);
+    }
+
+    void testDoNotSyncInvalidFutureMtime()
+    {
+        constexpr auto FUTURE_MTIME = 0xFFFFFFFF;
+        constexpr auto CURRENT_MTIME = 1646057277;
+
+        FakeFolder fakeFolder{FileInfo{}};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        const QString fooFileRootFolder("foo");
+        const QString barFileRootFolder("bar");
+        const QString fooFileSubFolder("subfolder/foo");
+        const QString barFileSubFolder("subfolder/bar");
+        const QString fooFileAaaSubFolder("aaa/subfolder/foo");
+        const QString barFileAaaSubFolder("aaa/subfolder/bar");
+
+        fakeFolder.remoteModifier().insert(fooFileRootFolder);
+        fakeFolder.remoteModifier().insert(barFileRootFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileSubFolder);
+        fakeFolder.remoteModifier().insert(barFileSubFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa"));
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa/subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileAaaSubFolder);
+        fakeFolder.remoteModifier().insert(barFileAaaSubFolder);
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().setModTime(fooFileRootFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.remoteModifier().setModTime(barFileRootFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.remoteModifier().setModTime(fooFileSubFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.remoteModifier().setModTime(barFileSubFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.remoteModifier().setModTime(fooFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.remoteModifier().setModTime(barFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.localModifier().setModTime(fooFileRootFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.localModifier().setModTime(barFileRootFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.localModifier().setModTime(fooFileSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.localModifier().setModTime(barFileSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.localModifier().setModTime(fooFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.localModifier().setModTime(barFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+
+        QVERIFY(!fakeFolder.syncOnce());
+    }
+
+    void testInvalidFutureMtimeRecovery()
+    {
+        constexpr auto FUTURE_MTIME = 0xFFFFFFFF;
+        constexpr auto CURRENT_MTIME = 1646057277;
+
+        FakeFolder fakeFolder{FileInfo{}};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        const QString fooFileRootFolder("foo");
+        const QString barFileRootFolder("bar");
+        const QString fooFileSubFolder("subfolder/foo");
+        const QString barFileSubFolder("subfolder/bar");
+        const QString fooFileAaaSubFolder("aaa/subfolder/foo");
+        const QString barFileAaaSubFolder("aaa/subfolder/bar");
+
+        fakeFolder.remoteModifier().insert(fooFileRootFolder);
+        fakeFolder.remoteModifier().insert(barFileRootFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileSubFolder);
+        fakeFolder.remoteModifier().insert(barFileSubFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa"));
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa/subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileAaaSubFolder);
+        fakeFolder.remoteModifier().insert(barFileAaaSubFolder);
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().setModTimeKeepEtag(fooFileRootFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.remoteModifier().setModTimeKeepEtag(barFileRootFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.remoteModifier().setModTimeKeepEtag(fooFileSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.remoteModifier().setModTimeKeepEtag(barFileSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.remoteModifier().setModTimeKeepEtag(fooFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.remoteModifier().setModTimeKeepEtag(barFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.localModifier().setModTime(fooFileRootFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.localModifier().setModTime(barFileRootFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.localModifier().setModTime(fooFileSubFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.localModifier().setModTime(barFileSubFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.localModifier().setModTime(fooFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+        fakeFolder.localModifier().setModTime(barFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(FUTURE_MTIME));
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        auto expectedState = fakeFolder.currentLocalState();
+        QCOMPARE(fakeFolder.currentRemoteState(), expectedState);
+    }
+
+    void testDiscoverLockChanges()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+        fakeFolder.syncEngine().account()->setCapabilities({{"activity", QVariantMap{{"apiv2", QVariantList{"filters", "filters-api", "previews", "rich-strings"}}}},
+                                                            {"bruteforce", QVariantMap{{"delay", 0}}},
+                                                            {"core", QVariantMap{{"pollinterval", 60}, {"webdav-root", "remote.php/webdav"}}},
+                                                            {"dav", QVariantMap{{"chunking", "1.0"}}},
+                                                            {"files", QVariantMap{{"bigfilechunking", true}, {"blacklisted_files", QVariantList{".htaccess"}},
+                                                                                  {"comments", true},
+                                                                                  {"directEditing", QVariantMap{{"etag", "c748e8fc588b54fc5af38c4481a19d20"}, {"url", "https://nextcloud.local/ocs/v2.php/apps/files/api/v1/directEditing"}}},
+                                                                                  {"locking", "1.0"}}}});
+
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        const QString fooFileRootFolder("foo");
+        const QString barFileRootFolder("bar");
+        const QString fooFileSubFolder("subfolder/foo");
+        const QString barFileSubFolder("subfolder/bar");
+        const QString fooFileAaaSubFolder("aaa/subfolder/foo");
+        const QString barFileAaaSubFolder("aaa/subfolder/bar");
+
+        fakeFolder.remoteModifier().insert(fooFileRootFolder);
+
+        fakeFolder.remoteModifier().insert(barFileRootFolder);
+        fakeFolder.remoteModifier().find("bar")->extraDavProperties = "<nc:lock>1</nc:lock>"
+                                                                      "<nc:lock-owner-type>0</nc:lock-owner-type>"
+                                                                      "<nc:lock-owner>user1</nc:lock-owner>"
+                                                                      "<nc:lock-owner-displayname>user1</nc:lock-owner-displayname>"
+                                                                      "<nc:lock-owner-editor>user1</nc:lock-owner-editor>"
+                                                                      "<nc:lock-time>1648046707</nc:lock-time>";
+
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileSubFolder);
+        fakeFolder.remoteModifier().insert(barFileSubFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa"));
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa/subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileAaaSubFolder);
+        fakeFolder.remoteModifier().insert(barFileAaaSubFolder);
+
+        //QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().find("bar")->extraDavProperties = "<nc:lock>0</nc:lock>";
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(LocalDiscoveryStyle::DatabaseAndFilesystem);
+        //QVERIFY(fakeFolder.syncOnce());
     }
 };
 

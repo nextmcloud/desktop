@@ -711,27 +711,27 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
         <translation>Einige Ordner konnten nicht synchronisiert werden, da sie zu groß sind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1375"/>
+(??)        <location filename="../src/gui/accountsettings.cpp" line="1367"/>
         <source>There are folders that were not synchronized because they are external storages: </source>
         <translation>Es gibt Ordner, die nicht synchronisiert werden konnten, da sie externe Speicher sind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1376"/>
+(??)        <location filename="../src/gui/accountsettings.cpp" line="1368"/>
         <source>There are folders that were not synchronized because they are too big or external storages: </source>
         <translation>Es gibt Ordner, die nicht synchronisiert werden konnten, da sie zu groß oder externe Speicher sind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1388"/>
+(??)        <location filename="../src/gui/accountsettings.cpp" line="1380"/>
         <source>Confirm Account Removal</source>
         <translation>Kontenentfernung bestätigen</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1389"/>
+(??)        <location filename="../src/gui/accountsettings.cpp" line="1381"/>
         <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Möchten Sie wirklich die Verbindung zum Konto &lt;i&gt;%1&lt;/i&gt; lösen?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Anmerkung:&lt;/b&gt; Dieser Vorgang wird &lt;b&gt;keine&lt;/b&gt; Dateien löschen.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1394"/>
+(??)        <location filename="../src/gui/accountsettings.cpp" line="1386"/>
         <source>Remove connection</source>
         <translation>Verbindung entfernen</translation>
     </message>
@@ -806,17 +806,12 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
 <context>
     <name>OCC::ActivityListModel</name>
     <message>
-        <location filename="../src/gui/tray/ActivityListModel.cpp" line="418"/>
-        <source>Fetching activities…</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/ActivityListModel.cpp" line="489"/>
+(??)        <location filename="../src/gui/tray/ActivityListModel.cpp" line="335"/>
         <source>Files from the ignore list as well as symbolic links are not synced.</source>
         <translation>Dateien aus der Ignorierliste sowie symbolische Links werden nicht synchronisiert.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/ActivityListModel.cpp" line="396"/>
+(??)        <location filename="../src/gui/tray/ActivityListModel.cpp" line="512"/>
         <source>For more activities please open the Activity app.</source>
         <translation>Um weitere Aktivitäten anzusehen bitte die Activity-App öffnen.</translation>
     </message>
@@ -1699,32 +1694,32 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation>Ein altes Synchronisierungsprotokoll &quot;%1&quot; wurde gefunden, konnte jedoch nicht entfernt werden. Bitte stellen Sie sicher, dass keine Anwendung es verwendet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1254"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1230"/>
         <source> (backup)</source>
         <translation>(Sicherung)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1259"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1235"/>
         <source> (backup %1)</source>
         <translation>(Sicherung %1)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1504"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1480"/>
         <source>Undefined State.</source>
         <translation>Undefinierter Zustand.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1507"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1483"/>
         <source>Waiting to start syncing.</source>
         <translation>Wartet auf Beginn der Synchronisierung.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1510"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1486"/>
         <source>Preparing for sync.</source>
         <translation>Synchronisierung wird vorbereitet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1513"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1489"/>
         <source>Sync is running.</source>
         <translation>Synchronisierung läuft.</translation>
     </message>
@@ -1733,72 +1728,67 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation type="vanished">Synchronisierung erfolgreich, ungelöste Konflikte vorhanden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1518"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1494"/>
         <source>Sync finished with unresolved conflicts.</source>
         <translation>Synchronisierung mit ungelösten Konflikten beendet.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1520"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1496"/>
         <source>Last Sync was successful.</source>
         <translation>Die letzte Synchronisierung war erfolgreich.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1526"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1502"/>
         <source>Setup Error.</source>
         <translation>Einrichtungsfehler.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1529"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1505"/>
         <source>User Abort.</source>
         <translation>Benutzerabbruch.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1532"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1508"/>
         <source>Sync is paused.</source>
         <translation>Synchronisierung ist pausiert.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1538"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1514"/>
         <source>%1 (Sync is paused)</source>
         <translation>%1 (Synchronisierung ist pausiert)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1546"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1522"/>
         <source>No valid folder selected!</source>
         <translation>Kein gültiger Ordner gewählt!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1555"/>
-        <source>Please select valid path</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1561"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1534"/>
         <source>The selected path does not exist!</source>
         <translation>Der gewählte Pfad existiert nicht!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1565"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1538"/>
         <source>The selected path is not a folder!</source>
         <translation>Der gewählte Pfad ist kein Ordner!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1569"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1542"/>
         <source>You have no permission to write to the selected folder!</source>
         <translation>Sie haben keine Schreibberechtigung für den ausgewählten Ordner!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1616"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1589"/>
         <source>The local folder %1 already contains a folder used in a folder sync connection. Please pick another one!</source>
         <translation>Der lokale Ordner %1 liegt innerhalb eines synchronisierten Ordners. Bitte wählen Sie einen anderen aus!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1622"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1595"/>
         <source>The local folder %1 is already contained in a folder used in a folder sync connection. Please pick another one!</source>
         <translation>Der lokale Ordner %1 liegt in einem Ordner, der bereits synchronisiert wird. Bitte wählen Sie einen anderen aus!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1636"/>
+(??)        <location filename="../src/gui/folderman.cpp" line="1609"/>
         <source>There is already a sync from the server to this local folder. Please pick another local folder!</source>
         <translation>Es existiert bereits eine Synchronisierung vom Server zu diesem lokalen Ordner. Bitte wählen Sie einen anderen lokalen Ordner!</translation>
     </message>
@@ -2017,12 +2007,12 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
 <context>
     <name>OCC::FolderWizard</name>
     <message>
-        <location filename="../src/gui/folderwizard.cpp" line="681"/>
+(??)        <location filename="../src/gui/folderwizard.cpp" line="648"/>
         <source>Add Folder Sync Connection</source>
         <translation>Ordner-Synchronisierung hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderwizard.cpp" line="684"/>
+(??)        <location filename="../src/gui/folderwizard.cpp" line="651"/>
         <source>Finish</source>
         <translation>Übernehmen</translation>
     </message>
@@ -2112,12 +2102,12 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <translation type="vanished">Konnte Ordner nicht listen. Fehler: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderwizard.cpp" line="348"/>
+(??)        <location filename="../src/gui/folderwizard.cpp" line="339"/>
         <source>Choose this to sync the entire account</source>
         <translation>Wählen Sie dies, um das gesamte Konto zu synchronisieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderwizard.cpp" line="491"/>
+(??)        <location filename="../src/gui/folderwizard.cpp" line="482"/>
         <source>This folder is already synchronized in the MagentaCLOUD.</source>
         <translation>Der Hauptordner der MagentaCLOUD wird bereits synchronisiert. Bitte wählen Sie einen Unterordner aus.</translation>
     </message>
@@ -2223,6 +2213,26 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
         <location filename="../src/gui/generalsettings.ui" line="23"/>
         <source>Data Privacy</source>
         <translation>Datenschutz</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="50"/>
+        <source>Imprint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="60"/>
+        <source>Privacy Policy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="70"/>
+        <source>Used Open Source Software</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="125"/>
+        <source>Further Information</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="51"/>
@@ -2551,27 +2561,27 @@ Objekte, bei denen Löschen erlaubt ist, werden gelöscht, wenn diese das Lösch
 <context>
     <name>OCC::InvalidFilenameDialog</name>
     <message>
-        <location filename="../src/gui/invalidfilenamedialog.ui" line="19"/>
+(??)
         <source>Invalid filename</source>
         <translation>Ungültiger Dateiname</translation>
     </message>
     <message>
-        <location filename="../src/gui/invalidfilenamedialog.ui" line="28"/>
+(??)
         <source>The file could not be synced because it contains characters which are not allowed on this system.</source>
         <translation>Die Datei konnte nicht synchronisiert werden, da der Name Zeichen enthält, die auf diesem System nicht zulässig sind.</translation>
     </message>
     <message>
-        <location filename="../src/gui/invalidfilenamedialog.ui" line="41"/>
+(??)
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../src/gui/invalidfilenamedialog.ui" line="54"/>
+(??)
         <source>Please enter a new name for the file:</source>
         <translation>Bitte geben Sie einen neuen Namen für die Datei ein:</translation>
     </message>
     <message>
-        <location filename="../src/gui/invalidfilenamedialog.ui" line="67"/>
+(??)
         <source>New filename</source>
         <translation>Neuer Dateiname</translation>
     </message>
@@ -3114,23 +3124,17 @@ for additional privileges during the process.</source>
         <translation>%1 freier Platz</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="384"/>
+(??)        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="376"/>
         <source>Virtual files are not available for the selected folder</source>
         <translation>Virtuelle Dateien sind für den ausgewählten Ordner nicht verfügbar</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="444"/>
+(??)        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="457"/>
         <source>Local Sync Folder</source>
         <translation>Lokaler Ordner für die Synchronisierung</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="504"/>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="545"/>
-        <source>(%1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="562"/>
+(??)        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="575"/>
         <source>There isn&apos;t enough free space in the local folder!</source>
         <translation>Nicht genug freier Platz im lokalen Ordner vorhanden!</translation>
     </message>
@@ -3388,12 +3392,12 @@ for additional privileges during the process.</source>
         <translation>%1 Konto hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="429"/>
+(??)        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="436"/>
         <source>Enable experimental feature?</source>
         <translation>Experimentelle Funktion aktivieren?</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="430"/>
+(??)        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="437"/>
         <source>When the &quot;virtual files&quot; mode is enabled no files will be downloaded initially. Instead, a tiny &quot;%1&quot; file will be created for each file that exists on the server. The contents can be downloaded by running these files or by using their context menu.
 
 The virtual files mode is mutually exclusive with selective sync. Currently unselected folders will be translated to online-only folders and your selective sync settings will be reset.
@@ -3410,12 +3414,12 @@ Wenn Sie in diesen Modus wechseln, wird eine aktuell laufende Synchronisierung a
 Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu verwenden, melden Sie bitte alle auftretenden Probleme.</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="444"/>
+(??)        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="451"/>
         <source>Enable experimental placeholder mode</source>
         <translation>Experimentellen Platzhaltermodus aktivieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="445"/>
+(??)        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="452"/>
         <source>Stay safe</source>
         <translation>Bleiben Sie sicher</translation>
     </message>
@@ -3509,17 +3513,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Dateiname enthält Leerzeichen am Ende.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="311"/>
-        <source>Filename contains leading spaces.</source>
-        <translation type="unfinished">Dateiname enthält führende Leerzeichen.</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/discovery.cpp" line="315"/>
-        <source>Filename contains leading and trailing spaces.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/discovery.cpp" line="319"/>
+(??)        <location filename="../src/libsync/discovery.cpp" line="288"/>
         <source>Filename is too long.</source>
         <translation>Der Dateiname ist zu lang.</translation>
     </message>
@@ -3561,23 +3555,11 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
     <message>
         <location filename="../src/libsync/discovery.cpp" line="490"/>
         <source>permission</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/discovery.cpp" line="498"/>
-        <source>Server reported no %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/discovery.cpp" line="843"/>
-        <source>Cannot sync due to invalid modification time</source>
-        <translation>Synchronisierung aufgrund ungültiger Änderungszeit nicht möglich.</translation>
-    </message>
-    <message>
-        <source>permissions</source>
+(??)
         <translation type="vanished">Berechtigungen</translation>
     </message>
     <message>
+(??)
         <location filename="../src/libsync/discovery.cpp" line="494"/>
         <source>file id</source>
         <translation>Datei-ID</translation>
@@ -4129,18 +4111,18 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="110"/>
+(??)        <location filename="../src/gui/settingsdialog.cpp" line="107"/>
         <source>%1 Settings</source>
         <extracomment>This name refers to the application name e.g Nextcloud</extracomment>
         <translation>%1-Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="130"/>
+(??)        <location filename="../src/gui/settingsdialog.cpp" line="124"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="140"/>
+(??)        <location filename="../src/gui/settingsdialog.cpp" line="133"/>
         <source>Network</source>
         <translation>Netzwerk</translation>
     </message>
@@ -4149,7 +4131,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation type="vanished">Aktivität</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="286"/>
+(??)
         <source>Account</source>
         <translation>Benutzerkonto</translation>
     </message>
@@ -4870,67 +4852,62 @@ p, li { white-space: pre-wrap; }
         <translation>Kann keine sichere Verbindung zu &lt;i&gt;%1&lt;/i&gt; herstellen:</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="158"/>
-        <source>Additional errors:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="184"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="166"/>
         <source>with Certificate %1</source>
         <translation>mit Zertifikat %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="193"/>
-        <location filename="../src/gui/sslerrordialog.cpp" line="195"/>
-        <location filename="../src/gui/sslerrordialog.cpp" line="197"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="175"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="177"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="179"/>
         <source>&amp;lt;not specified&amp;gt;</source>
         <translation>&amp;lt;nicht angegeben&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="198"/>
-        <location filename="../src/gui/sslerrordialog.cpp" line="223"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="180"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="205"/>
         <source>Organization: %1</source>
         <translation>Organisation: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="199"/>
-        <location filename="../src/gui/sslerrordialog.cpp" line="224"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="181"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="206"/>
         <source>Unit: %1</source>
         <translation>Einheit: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="200"/>
-        <location filename="../src/gui/sslerrordialog.cpp" line="225"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="182"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="207"/>
         <source>Country: %1</source>
         <translation>Land: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="207"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="189"/>
         <source>Fingerprint (SHA1): &lt;tt&gt;%1&lt;/tt&gt;</source>
         <translation>Fingerabdruck (SHA1): &lt;tt&gt;%1&lt;/tt&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="212"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="194"/>
         <source>Fingerprint (SHA-256): &lt;tt&gt;%1&lt;/tt&gt;</source>
         <translation>Fingerabdruck (SHA-256): &lt;tt&gt;%1&lt;/tt&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="213"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="195"/>
         <source>Fingerprint (SHA-512): &lt;tt&gt;%1&lt;/tt&gt;</source>
         <translation>Fingerabdruck (SHA-512): &lt;tt&gt;%1&lt;/tt&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="215"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="197"/>
         <source>Effective Date: %1</source>
         <translation>Datum des Inkrafttretens: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="216"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="198"/>
         <source>Expiration Date: %1</source>
         <translation>Ablaufdatum: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/sslerrordialog.cpp" line="220"/>
+(??)        <location filename="../src/gui/sslerrordialog.cpp" line="202"/>
         <source>Issuer: %1</source>
         <translation>Aussteller: %1</translation>
     </message>
@@ -5255,11 +5232,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OCC::Systray</name>
     <message>
-        <location filename="../src/gui/systray.cpp" line="105"/>
-        <source>Download</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
+(??)
         <location filename="../src/gui/systray.cpp" line="155"/>
         <source>Add account</source>
         <translation>Konto hinzufügen</translation>
@@ -5287,11 +5260,7 @@ p, li { white-space: pre-wrap; }
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="163"/>
-        <source>Help</source>
-        <translation type="unfinished">Hilfe</translation>
-    </message>
-    <message>
+(??)
         <location filename="../src/gui/systray.cpp" line="164"/>
         <source>Exit %1</source>
         <translation>%1 beenden</translation>
@@ -5307,6 +5276,7 @@ p, li { white-space: pre-wrap; }
         <translation>Synchronisierung für alle fortsetzen</translation>
     </message>
     <message>
+(??)
         <location filename="../src/gui/systray.cpp" line="332"/>
         <source>%1: %2</source>
         <translation>%1: %2</translation>
@@ -5366,7 +5336,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OCC::User</name>
     <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="454"/>
+(??)        <location filename="../src/gui/tray/UserModel.cpp" line="435"/>
         <source>Retry all uploads</source>
         <translation>Alle Uploads neu starten</translation>
     </message>
@@ -5394,22 +5364,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OCC::UserModel</name>
     <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="965"/>
+(??)        <location filename="../src/gui/tray/UserModel.cpp" line="897"/>
         <source>Confirm Account Removal</source>
         <translation>Kontenentfernung bestätigen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="966"/>
+(??)        <location filename="../src/gui/tray/UserModel.cpp" line="898"/>
         <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Möchten Sie wirklich die Verbindung zum Konto &lt;i&gt;%1&lt;/i&gt; entfernen?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Hinweis:&lt;/b&gt; Es werden &lt;b&gt;keine&lt;/b&gt; Dateien gelöscht.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="971"/>
+(??)        <location filename="../src/gui/tray/UserModel.cpp" line="903"/>
         <source>Remove connection</source>
         <translation>Verbindung entfernen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="972"/>
+(??)        <location filename="../src/gui/tray/UserModel.cpp" line="904"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -6122,37 +6092,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <source>Online</source>
-        <translation type="vanished">Online</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/ActivityListModel.cpp" line="735"/>
-        <source>Mark as read</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="529"/>
-        <source>You renamed %1</source>
-        <translation type="unfinished">Sie haben %1 umbenannt</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="531"/>
-        <source>You deleted %1</source>
-        <translation type="unfinished">Sie haben %1 gelöscht</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="533"/>
-        <source>You created %1</source>
-        <translation type="unfinished">Sie haben %1 erstellt</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="535"/>
-        <source>You changed %1</source>
-        <translation type="unfinished">Sie haben %1 geändert</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserModel.cpp" line="558"/>
-        <source>Synced %1</source>
-        <translation type="unfinished">%1 synchronisiert</translation>
+(??)        <translation>Online</translation>
     </message>
 </context>
 <context>
@@ -6232,7 +6172,7 @@ p, li { white-space: pre-wrap; }
         <translation>Kontoeintrag</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="39"/>
+(??)
         <source>Switch to account</source>
         <translation>Zu Konto wechseln</translation>
     </message>
@@ -6245,29 +6185,19 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Konto nicht verbunden</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="98"/>
+(??)
         <source>Current user status is online</source>
         <translation>Aktueller Benutzerstatus ist Online</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="98"/>
+(??)
         <source>Current user status is do not disturb</source>
         <translation>Aktueller Benutzerstatus ist Nicht stören</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="180"/>
+(??)
         <source>Account actions</source>
-        <translation>Konto-Aktionen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="243"/>
-        <source>Account switcher and settings menu</source>
-        <translation type="unfinished">Konto-Umschalter und Einstellungsmenü</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="331"/>
-        <source>              Remove account</source>
-        <translation>              Konto löschen</translation>
+(??)        <translation type="vanished">Konto-Aktionen</translation>
     </message>
     <message>
         <source>Remove Account</source>
@@ -6279,20 +6209,16 @@ p, li { white-space: pre-wrap; }
         <translation>Status setzen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="279"/>
-        <location filename="../src/gui/tray/UserLine.qml" line="307"/>
+(??)        <location filename="../src/gui/tray/UserLine.qml" line="33"/>
+(??)        <location filename="../src/gui/tray/UserLine.qml" line="103"/>
         <source>Log out</source>
         <translation>Abmelden</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="279"/>
-        <location filename="../src/gui/tray/UserLine.qml" line="307"/>
+(??)        <location filename="../src/gui/tray/UserLine.qml" line="33"/>
+(??)        <location filename="../src/gui/tray/UserLine.qml" line="103"/>
         <source>Log in</source>
         <translation>Anmelden</translation>
-    </message>
-    <message>
-        <source>Remove account</source>
-        <translation type="vanished">Konto löschen</translation>
     </message>
 </context>
 <context>
@@ -6346,14 +6272,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/UserStatusSelector.qml" line="184"/>
         <source>Set status message</source>
         <translation>Statusnachricht setzen</translation>
-    </message>
-</context>
-<context>
-    <name>UserStatusSelectorDialog</name>
-    <message>
-        <location filename="../src/gui/UserStatusSelectorDialog.qml" line="8"/>
-        <source>Set user status</source>
-        <translation>Benutzerstatus setzen</translation>
+(??)
     </message>
 </context>
 <context>
@@ -6476,6 +6395,8 @@ p, li { white-space: pre-wrap; }
         <translation>Aktuelles Konto</translation>
     </message>
     <message>
+(??)        <location filename="../src/gui/tray/Window.qml" line="196"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="272"/>
         <source>Resume sync for all</source>
         <translation type="obsolete">Synchronisierung für alle fortsetzen</translation>
     </message>
@@ -6503,12 +6424,12 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Konto hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="329"/>
+(??)
         <source>Add new account</source>
         <translation>Neues Konto hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="390"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="285"/>
         <source> Settings</source>
         <translation> Einstellungen</translation>
     </message>
@@ -6517,7 +6438,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished"> Beenden</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="485"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="376"/>
         <source>Current user avatar</source>
         <translation>Avatar des aktuellen Benutzers</translation>
     </message>
@@ -6538,7 +6459,7 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Synchronisierung pausieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="251"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="222"/>
         <source>Account switcher and settings menu</source>
         <translation>Konto-Umschalter und Einstellungsmenü</translation>
     </message>
@@ -6547,47 +6468,32 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Beenden</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="208"/>
-        <location filename="../src/gui/tray/Window.qml" line="375"/>
-        <source>Pause sync</source>
-        <translation>Synchronisierung pausieren</translation>
-    </message>
-    <message>
-        <source>            Add account</source>
-        <translation type="vanished">            Konto hinzufügen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="428"/>
-        <source> Exit</source>
-        <translation> Beenden</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="521"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="410"/>
         <source>Connected</source>
         <translation>Verbunden</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="521"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="410"/>
         <source>Disconnected</source>
         <translation>Getrennt</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="576"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="463"/>
         <source>Open website</source>
         <translation>Webseite öffnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="582"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="469"/>
         <source>Open website of current account</source>
         <translation>Webseite des aktuellen Kontos öffnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="598"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="484"/>
         <source>Local folder</source>
         <translation>Lokalen Ordner</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="604"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="490"/>
         <source>Open local folder of current account</source>
         <translation>Lokalen Ordner des aktuellen Kontos öffnen</translation>
     </message>
@@ -6608,12 +6514,12 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">%1 im Browser öffnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="672"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="548"/>
         <source>Activity list</source>
         <translation>Aktivitätenliste</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="689"/>
+(??)        <location filename="../src/gui/tray/Window.qml" line="565"/>
         <source>Open %1 locally</source>
         <translation>%1 lokal öffnen</translation>
     </message>

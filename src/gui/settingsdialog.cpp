@@ -442,6 +442,7 @@ public:
     {
         setText(text);
         setIcon(icon);
+
     }
 
 

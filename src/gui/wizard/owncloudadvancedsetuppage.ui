@@ -135,6 +135,7 @@
           <widget class="QLabel" name="userNameLabel_2">
            <property name="font">
             <font>
+             <family>Segoe UI</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
@@ -171,6 +172,7 @@
           <widget class="QLabel" name="userNameLabel">
            <property name="font">
             <font>
+             <family>Microsoft Sans Serif</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
@@ -191,6 +193,7 @@
           <widget class="QLabel" name="serverAddressLabel">
            <property name="font">
             <font>
+             <family>Microsoft Sans Serif</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
@@ -375,6 +378,7 @@
           <widget class="QLabel" name="localFolderDescriptionLabel">
            <property name="font">
             <font>
+             <family>Segoe UI</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
@@ -428,6 +432,7 @@
              </property>
              <property name="font">
               <font>
+               <family>Microsoft Sans Serif</family>
                <pointsize>-1</pointsize>
                <italic>false</italic>
                <bold>false</bold>
@@ -475,6 +480,7 @@
            </property>
            <property name="font">
             <font>
+             <family>Microsoft Sans Serif</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
@@ -558,6 +564,7 @@
           <widget class="QLabel" name="localFolderHead_5">
            <property name="font">
             <font>
+             <family>Segoe UI</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
@@ -567,7 +574,7 @@
             <string notr="true">font: 75 14px &quot;Segoe UI&quot;;</string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Überprüfen Sie bitte ihren lokalen Ordner&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Please check your local folder&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -580,6 +587,7 @@
         <widget class="QLabel" name="localFolderHead_6">
          <property name="font">
           <font>
+           <family>Microsoft Sans Serif</family>
            <pointsize>-1</pointsize>
            <italic>false</italic>
            <bold>false</bold>
@@ -589,7 +597,7 @@
           <string notr="true">font: 13px &quot;Microsoft Sans Serif&quot;;</string>
          </property>
          <property name="text">
-          <string>Aufgrund des Wechsels zu einem neuen Produkt können wir nicht sicher erkennen, wo Ihr bisheriger MagentaCLOUD gespeichert ist. Sollten Sie den Speicherort in der bisherigen Software angepasst haben, so wählen Sie den Speicherort bitte oben erneut aus.</string>
+          <string>Due to the change to a new product, we cannot be sure where your previous MagentaCLOUD folder is stored. If you have adjusted the location in the previous software, please select the location again above.</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -624,6 +632,7 @@
           <widget class="QLabel" name="synchronizationSettingsLabel">
            <property name="font">
             <font>
+             <family>Segoe UI</family>
              <pointsize>-1</pointsize>
              <italic>false</italic>
              <bold>false</bold>
