@@ -39,7 +39,7 @@ class UploadDevice : public QIODevice
     Q_OBJECT
 public:
     UploadDevice(const QString &fileName, qint64 start, qint64 size, BandwidthManager *bwm);
-    ~UploadDevice();
+    ~UploadDevice() override;
 
     bool open(QIODevice::OpenMode mode) override;
     void close() override;
@@ -118,7 +118,7 @@ public:
     {
         _device->setParent(this);
     }
-    ~PUTFileJob();
+    ~PUTFileJob() override;
 
     int _chunk;
 
@@ -131,7 +131,7 @@ public:
         return _device;
     }
 
-    QString errorString()
+    QString errorString() const override
     {
         return _errorString.isEmpty() ? AbstractNetworkJob::errorString() : _errorString;
     }
@@ -418,7 +418,7 @@ private slots:
     void slotPropfindFinishedWithError();
     void slotPropfindIterate(const QString &name, const QMap<QString, QString> &properties);
     void slotDeleteJobFinished();
-    void slotMkColFinished(QNetworkReply::NetworkError);
+    void slotMkColFinished();
     void slotPutFinished();
     void slotMoveJobFinished();
     void slotUploadProgress(qint64, qint64);

@@ -83,6 +83,10 @@ void PropagateUploadFileNG::doStartUpload()
     propagator()->_activeJobList.append(this);
 
     const SyncJournalDb::UploadInfo progressInfo = propagator()->_journal->getUploadInfo(_item->_file);
+    Q_ASSERT(_item->_modtime > 0);
+    if (_item->_modtime <= 0) {
+        qCWarning(lcPropagateUpload()) << "invalid modified time" << _item->_file << _item->_modtime;
+    }
     if (progressInfo._valid && progressInfo.isChunked() && progressInfo._modtime == _item->_modtime
             && progressInfo._size == _item->_size) {
         _transferId = progressInfo._transferid;
@@ -229,7 +233,11 @@ void PropagateUploadFileNG::slotDeleteJobFinished()
 void PropagateUploadFileNG::startNewUpload()
 {
     ASSERT(propagator()->_activeJobList.count(this) == 1);
-    _transferId = uint(qrand() ^ uint(_item->_modtime) ^ (uint(_fileToUpload._size) << 16) ^ qHash(_fileToUpload._file));
+    Q_ASSERT(_item->_modtime > 0);
+    if (_item->_modtime <= 0) {
+        qCWarning(lcPropagateUpload()) << "invalid modified time" << _item->_file << _item->_modtime;
+    }
+    _transferId = uint(Utility::rand() ^ uint(_item->_modtime) ^ (uint(_fileToUpload._size) << 16) ^ qHash(_fileToUpload._file));
     _sent = 0;
     _currentChunk = 0;
 
@@ -238,6 +246,10 @@ void PropagateUploadFileNG::startNewUpload()
     SyncJournalDb::UploadInfo pi;
     pi._valid = true;
     pi._transferid = _transferId;
+    Q_ASSERT(_item->_modtime > 0);
+    if (_item->_modtime <= 0) {
+        qCWarning(lcPropagateUpload()) << "invalid modified time" << _item->_file << _item->_modtime;
+    }
     pi._modtime = _item->_modtime;
     pi._contentChecksum = _item->_checksumHeader;
     pi._size = _item->_size;
@@ -249,13 +261,15 @@ void PropagateUploadFileNG::startNewUpload()
     headers["OC-Total-Length"] = QByteArray::number(_fileToUpload._size);
     auto job = new MkColJob(propagator()->account(), chunkUrl(), headers, this);
 
-    connect(job, SIGNAL(finished(QNetworkReply::NetworkError)),
-        this, SLOT(slotMkColFinished(QNetworkReply::NetworkError)));
+    connect(job, &MkColJob::finishedWithError,
+        this, &PropagateUploadFileNG::slotMkColFinished);
+    connect(job, &MkColJob::finishedWithoutError,
+        this, &PropagateUploadFileNG::slotMkColFinished);
     connect(job, &QObject::destroyed, this, &PropagateUploadFileCommon::slotJobDestroyed);
     job->start();
 }
 
-void PropagateUploadFileNG::slotMkColFinished(QNetworkReply::NetworkError)
+void PropagateUploadFileNG::slotMkColFinished()
 {
     propagator()->_activeJobList.removeOne(this);
     auto job = qobject_cast<MkColJob *>(sender());
@@ -421,6 +435,10 @@ void PropagateUploadFileNG::slotPutFinished()
     }
 
     // Check whether the file changed since discovery - this acts on the original file.
+    Q_ASSERT(_item->_modtime > 0);
+    if (_item->_modtime <= 0) {
+        qCWarning(lcPropagateUpload()) << "invalid modified time" << _item->_file << _item->_modtime;
+    }
     if (!FileSystem::verifyFileUnchanged(fullFilePath, _item->_size, _item->_modtime)) {
         propagator()->_anotherSyncNeeded = true;
         if (!_finished) {

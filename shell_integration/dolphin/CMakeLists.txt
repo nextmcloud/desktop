@@ -1,8 +1,8 @@
 project(dolphin-owncloud)
 
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.16)
 
-set(QT_MIN_VERSION "5.12.0")
+set(QT_MIN_VERSION "5.15.0")
 set(KF5_MIN_VERSION "5.16.0")
 set(KDE_INSTALL_USE_QT_SYS_PATHS ON CACHE BOOL "Install the plugin in the right directory")
 
@@ -26,7 +26,9 @@ add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
 #---HELPER---
 set(OWNCLOUDDOLPHINHELPER ${APPLICATION_EXECUTABLE}dolphinpluginhelper)
-add_library(${OWNCLOUDDOLPHINHELPER} SHARED ownclouddolphinpluginhelper.cpp)
+add_library(${OWNCLOUDDOLPHINHELPER} SHARED
+    ownclouddolphinpluginhelper.h
+    ownclouddolphinpluginhelper.cpp)
 target_link_libraries(${OWNCLOUDDOLPHINHELPER} Qt5::Network)
 generate_export_header(${OWNCLOUDDOLPHINHELPER} BASE_NAME ownclouddolphinpluginhelper)
 install(TARGETS ${OWNCLOUDDOLPHINHELPER} LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})

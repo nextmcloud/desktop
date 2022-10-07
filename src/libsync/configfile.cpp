@@ -39,8 +39,6 @@
 #include <QSettings>
 #include <QNetworkProxy>
 #include <QStandardPaths>
-#include <QJsonDocument>
-#include <QJsonObject>
 
 #define QTLEGACY (QT_VERSION < QT_VERSION_CHECK(5,9,0))
 
@@ -70,6 +68,7 @@ static const char monoIconsC[] = "monoIcons";
 static const char promptDeleteC[] = "promptDeleteAllFiles";
 static const char crashReporterC[] = "crashReporter";
 static const char optionalServerNotificationsC[] = "optionalServerNotifications";
+static const char showCallNotificationsC[] = "showCallNotifications";
 static const char showInExplorerNavigationPaneC[] = "showInExplorerNavigationPane";
 static const char skipUpdateCheckC[] = "skipUpdateCheck";
 static const char autoUpdateCheckC[] = "autoUpdateCheck";
@@ -189,7 +188,20 @@ bool ConfigFile::setConfDir(const QString &value)
 bool ConfigFile::optionalServerNotifications() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(optionalServerNotificationsC), true).toBool();
+    return settings.value(QLatin1String(optionalServerNotificationsC), false).toBool();
+}
+
+bool ConfigFile::showCallNotifications() const
+{
+    const QSettings settings(configFile(), QSettings::IniFormat);
+    return settings.value(QLatin1String(showCallNotificationsC), true).toBool() && optionalServerNotifications();
+}
+
+void ConfigFile::setShowCallNotifications(bool show)
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.setValue(QLatin1String(showCallNotificationsC), show);
+    settings.sync();
 }
 
 bool ConfigFile::showInExplorerNavigationPane() const
@@ -231,7 +243,7 @@ qint64 ConfigFile::chunkSize() const
 qint64 ConfigFile::maxChunkSize() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(maxChunkSizeC), 100 * 1000 * 1000).toLongLong(); // default to 100 MB
+    return settings.value(QLatin1String(maxChunkSizeC), 1000 * 1000 * 1000).toLongLong(); // default to 1000 MB
 }
 
 qint64 ConfigFile::minChunkSize() const
@@ -646,7 +658,7 @@ bool ConfigFile::transferUsageData(const QString &connection) const
     if (connection.isEmpty())
         con = defaultConnection();
 
-    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, true);
+    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, false);
     fallback = getValue(QLatin1String(TransferUsageDataC), QString(), fallback);
 
     QVariant value = getPolicySetting(QLatin1String(TransferUsageDataC), fallback);
@@ -674,7 +686,7 @@ int ConfigFile::updateSegment() const
     // Invalid? (Unset at the very first launch)
     if(segment < 0 || segment > 99) {
         // Save valid segment value, normally has to be done only once.
-        segment = qrand() % 99;
+        segment = Utility::rand() % 99;
         settings.setValue(QLatin1String(updateSegmentC), segment);
     }
 
@@ -901,7 +913,7 @@ bool ConfigFile::confirmExternalStorage() const
 
 bool ConfigFile::useNewBigFolderSizeLimit() const
 {
-    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), true);
+    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), false);
     return getPolicySetting(QLatin1String(useNewBigFolderSizeLimitC), fallback).toBool();
 }
 

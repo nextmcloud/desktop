@@ -91,7 +91,7 @@ void IgnoreListTableWidget::slotWriteIgnoreFile(const QString & file)
         }
     } else {
         QMessageBox::warning(this, tr("Could not open file"),
-            tr("Cannot write changes to '%1'.").arg(file));
+            tr("Cannot write changes to \"%1\".").arg(file));
     }
     ignores.close(); //close the file before reloading stuff.
 
@@ -111,7 +111,7 @@ void IgnoreListTableWidget::slotAddPattern()
     bool okClicked = false;
     QString pattern = QInputDialog::getText(this, tr("Add Ignore Pattern"),
         tr("Add a new ignore pattern:"),
-        QLineEdit::Normal, QString(), &okClicked);
+        QLineEdit::Normal, QString(), &okClicked, Qt::WindowTitleHint| Qt::WindowCloseButtonHint);
 
     if (!okClicked || pattern.isEmpty())
         return;

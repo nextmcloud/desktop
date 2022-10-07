@@ -71,7 +71,7 @@ public:
     UpdaterScheduler(QObject *parent);
 
 signals:
-    void updaterAnnouncement(const QString &title, const QString &msg);
+    void updaterAnnouncement(const QString &title, const QString &msg, const QUrl &webUrl);
     void requestRestart();
 
 private slots:
@@ -97,6 +97,11 @@ public:
         DownloadFailed,
         DownloadTimedOut,
         UpdateOnlyAvailableThroughSystem };
+
+    enum UpdateStatusStringFormat {
+        PlainText,
+        Html,
+    };
     explicit OCUpdater(const QUrl &url);
 
     void setUpdateUrl(const QUrl &url);
@@ -105,13 +110,13 @@ public:
 
     void checkForUpdate() override;
 
-    QString statusString() const;
+    QString statusString(UpdateStatusStringFormat format = PlainText) const;
     int downloadState() const;
     void setDownloadState(DownloadState state);
 
 signals:
     void downloadStateChanged();
-    void newUpdateAvailable(const QString &header, const QString &message);
+    void newUpdateAvailable(const QString &header, const QString &message, const QUrl &webUrl);
     void requestRestart();
 
 public slots:

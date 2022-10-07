@@ -17,6 +17,8 @@
 
 #include <QIcon>
 #include <QObject>
+#include <QPalette>
+#include <QGuiApplication>
 #include "syncresult.h"
 
 class QString;
@@ -61,6 +63,14 @@ class OWNCLOUDSYNC_EXPORT Theme : public QObject
     Q_PROPERTY(QColor wizardHeaderBackgroundColor READ wizardHeaderBackgroundColor CONSTANT)
 #endif
     Q_PROPERTY(QString updateCheckUrl READ updateCheckUrl CONSTANT)
+
+    Q_PROPERTY(QColor defaultColor READ defaultColor CONSTANT)
+    Q_PROPERTY(QColor errorBoxTextColor READ errorBoxTextColor CONSTANT)
+    Q_PROPERTY(QColor errorBoxBackgroundColor READ errorBoxBackgroundColor CONSTANT)
+    Q_PROPERTY(QColor errorBoxBorderColor READ errorBoxBorderColor CONSTANT)
+
+    Q_PROPERTY(QPalette systemPalette READ systemPalette NOTIFY systemPaletteChanged)
+    Q_PROPERTY(bool darkMode READ darkMode NOTIFY darkModeChanged)
 public:
     enum CustomMediaType {
         oCSetupTop, // ownCloud connect page
@@ -72,7 +82,7 @@ public:
     /* returns a singleton instance. */
     static Theme *instance();
 
-    ~Theme();
+    ~Theme() override;
 
     /**
      * @brief isBranded indicates if the current application is branded
@@ -151,6 +161,18 @@ public:
      */
     QUrl statusInvisibleImageSource() const;
 
+    QUrl syncStatusOk() const;
+
+    QUrl syncStatusError() const;
+
+    QUrl syncStatusRunning() const;
+
+    QUrl syncStatusPause() const;
+
+    QUrl syncStatusWarning() const;
+
+    QUrl folderOffline() const;
+
     /**
      * @brief configFileName
      * @return the name of the config file.
@@ -228,6 +250,27 @@ public:
      * When true, the respective UI controls will be disabled
      */
     virtual bool forceOverrideServerUrl() const;
+    
+    /**
+     * Enable OCSP stapling for SSL handshakes
+     *
+     * When true, peer will be requested for Online Certificate Status Protocol response
+     */
+    virtual bool enableStaplingOCSP() const;
+
+    /**
+     * Enforce SSL validity
+     *
+     * When true, trusting the untrusted certificate is not allowed
+     */
+    virtual bool forbidBadSSL() const;
+
+    /**
+     * Forbid use of proxy
+     *
+     * When true, the app always connects to the server directly
+     */
+    virtual bool doNotUseProxy() const;
 
     /**
      * This is only usefull when previous version had a different overrideServerUrl
@@ -249,7 +292,7 @@ public:
     /**
      * Override to encforce a particular locale, i.e. "de" or "pt_BR"
      */
-    virtual QString enforcedLocale() const { return "de"; }
+    virtual QString enforcedLocale() const { return QString(); }
 
     /** colored, white or black */
     QString systrayIconFlavor(bool mono) const;
@@ -440,7 +483,9 @@ public:
     * (actually 2019/09/13 only systray theming).
     */
 	virtual QIcon uiThemeIcon(const QString &iconName, bool uiHasDarkBg) const;
-    
+
+    Q_INVOKABLE static double getColorDarkness(const QColor &color);
+
     /**
      * @brief Perform a calculation to check if a colour is dark or light and accounts for different sensitivity of the human eye.
      *
@@ -448,7 +493,7 @@ public:
      *
      * 2019/12/08: Moved here from SettingsDialog.
      */
-    static bool isDarkColor(const QColor &color);
+    Q_INVOKABLE static bool isDarkColor(const QColor &color);
     
     /**
      * @brief Return the colour to be used for HTML links (e.g. used in QLabel), based on the current app palette or given colour (Dark-/Light-Mode switching).
@@ -540,6 +585,24 @@ public:
      */
     virtual bool showVirtualFilesOption() const;
 
+    virtual bool enforceVirtualFilesSyncFolder() const;
+
+    static QColor defaultColor();
+
+    /** @return color for the ErrorBox text. */
+    virtual QColor errorBoxTextColor() const;
+
+    /** @return color for the ErrorBox background. */
+    virtual QColor errorBoxBackgroundColor() const;
+
+    /** @return color for the ErrorBox border. */
+    virtual QColor errorBoxBorderColor() const;
+
+    static constexpr const char *themePrefix = ":/client/theme/";
+
+    QPalette systemPalette();
+    bool darkMode();
+
 protected:
 #ifndef TOKEN_AUTH_ONLY
     QIcon themeIcon(const QString &name, bool sysTray = false) const;
@@ -556,13 +619,22 @@ protected:
 
 signals:
     void systrayUseMonoIconsChanged(bool);
+    void systemPaletteChanged(const QPalette &palette);
+    void darkModeChanged();
 
 private:
     Theme(Theme const &);
     Theme &operator=(Theme const &);
 
+    void connectToPaletteSignal();
+#if defined(Q_OS_WIN)
+    QPalette reserveDarkPalette; // Windows 11 button and window dark colours
+#endif
+
     static Theme *_instance;
     bool _mono = false;
+    bool _paletteSignalsConnected = false;
+
 #ifndef TOKEN_AUTH_ONLY
     mutable QHash<QString, QIcon> _iconCache;
 #endif

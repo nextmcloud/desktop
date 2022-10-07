@@ -92,7 +92,7 @@ private slots:
         auto oldRemoteState = fakeFolder.currentRemoteState();
 
         QString errorFolder = "dav/files/admin/B";
-        QString fatalErrorPrefix = "Server replied with an error while reading directory 'B' : ";
+        QString fatalErrorPrefix = "Server replied with an error while reading directory \"B\" : ";
         fakeFolder.setServerOverride([&](QNetworkAccessManager::Operation op, const QNetworkRequest &req, QIODevice *)
                 -> QNetworkReply *{
             if (req.attribute(QNetworkRequest::CustomVerbAttribute) == "PROPFIND" && req.url().path().endsWith(errorFolder)) {
@@ -134,7 +134,7 @@ private slots:
         // Check the same discovery error on the sync root
         //
         errorFolder = "dav/files/admin/";
-        fatalErrorPrefix = "Server replied with an error while reading directory '' : ";
+        fatalErrorPrefix = "Server replied with an error while reading directory \"\" : ";
         errorSpy.clear();
         QVERIFY(!fakeFolder.syncOnce());
         QCOMPARE(errorSpy.size(), 1);
@@ -169,7 +169,7 @@ private slots:
         QCOMPARE(completeSpy.findItem("nopermissions/A")->_instruction, CSYNC_INSTRUCTION_ERROR);
         QVERIFY(completeSpy.findItem("noetag")->_errorString.contains("ETag"));
         QVERIFY(completeSpy.findItem("nofileid")->_errorString.contains("file id"));
-        QVERIFY(completeSpy.findItem("nopermissions/A")->_errorString.contains("permissions"));
+        QVERIFY(completeSpy.findItem("nopermissions/A")->_errorString.contains("permission"));
     }
 };
 

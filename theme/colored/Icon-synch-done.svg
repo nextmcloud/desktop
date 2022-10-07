@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-Icon-synch-done">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="Icon-synch-done" clip-path="url(#clip-Icon-synch-done)">
+    <g id="Gruppe_539" data-name="Gruppe 539" transform="translate(-190 -156)">
+      <path id="Check-Icon" d="M19.768,4.095a11.118,11.118,0,0,0-15.573.1,11.012,11.012,0,0,0,7.787,18.768,11.384,11.384,0,0,0,7.787-3.195l.1-.1A11.119,11.119,0,0,0,19.768,4.095Zm-1.1,5.191L9.985,17.971,5.392,13.379a.776.776,0,0,1,1.1-1.1l3.494,3.494,7.587-7.587a.712.712,0,0,1,1.1.1A.907.907,0,0,1,18.67,9.286Z" transform="translate(190 156.038)" fill="#73c354"/>
+    </g>
+  </g>
+</svg>

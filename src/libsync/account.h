@@ -35,6 +35,7 @@
 #include <memory>
 #include "capabilities.h"
 #include "clientsideencryption.h"
+#include "syncfileitem.h"
 
 class QSettings;
 class QNetworkReply;
@@ -55,6 +56,8 @@ using AccountPtr = QSharedPointer<Account>;
 class AccessManager;
 class SimpleNetworkJob;
 class PushNotifications;
+class UserStatusConnector;
+class SyncJournalDb;
 
 /**
  * @brief Reimplement this to handle SSL errors from libsync
@@ -84,9 +87,11 @@ class OWNCLOUDSYNC_EXPORT Account : public QObject
 
 public:
     static AccountPtr create();
-    ~Account();
+    ~Account() override;
 
     AccountPtr sharedFromThis();
+
+    AccountPtr sharedFromThis() const;
 
     /**
      * The user that can be used in dav url.
@@ -107,6 +112,10 @@ public:
 
     /// The name of the account as shown in the toolbar
     QString displayName() const;
+
+    QColor accentColor() const;
+    QColor headerColor() const;
+    QColor headerTextColor() const;
 
     /// The internal id of the account.
     QString id() const;
@@ -149,6 +158,12 @@ public:
         const QUrl &url,
         QNetworkRequest req = QNetworkRequest(),
         QIODevice *data = nullptr);
+
+    QNetworkReply *sendRawRequest(const QByteArray &verb,
+        const QUrl &url, QNetworkRequest req, const QByteArray &data);
+
+    QNetworkReply *sendRawRequest(const QByteArray &verb,
+        const QUrl &url, QNetworkRequest req, QHttpMultiPart *data);
 
     /** Create and start network job for a simple one-off request.
      *
@@ -223,6 +238,12 @@ public:
      */
     bool serverVersionUnsupported() const;
 
+    bool isUsernamePrefillSupported() const;
+
+    bool isChecksumRecalculateRequestSupported() const;
+
+    int checksumRecalculateServerVersionMinSupportedMajor() const;
+
     /** True when the server connection is using HTTP2  */
     bool isHttp2Supported() { return _http2Supported; }
     void setHttp2Supported(bool value) { _http2Supported = value; }
@@ -245,13 +266,27 @@ public:
     void writeAppPasswordOnce(QString appPassword);
     void deleteAppPassword();
 
+    void deleteAppToken();
+
     /// Direct Editing
     // Check for the directEditing capability
     void fetchDirectEditors(const QUrl &directEditingURL, const QString &directEditingETag);
 
+    void setupUserStatusConnector();
     void trySetupPushNotifications();
     PushNotifications *pushNotifications() const;
     void setPushNotificationsReconnectInterval(int interval);
+
+    std::shared_ptr<UserStatusConnector> userStatusConnector() const;
+
+    void setLockFileState(const QString &serverRelativePath,
+                          SyncJournalDb * const journal,
+                          const SyncFileItem::LockStatus lockStatus);
+
+    SyncFileItem::LockStatus fileLockStatus(SyncJournalDb * const journal,
+                                            const QString &folderRelativePath) const;
+
+    bool fileCanBeUnlocked(SyncJournalDb * const journal, const QString &folderRelativePath) const;
 
 public slots:
     /// Used when forgetting credentials
@@ -284,6 +319,15 @@ signals:
 
     void pushNotificationsReady(Account *account);
     void pushNotificationsDisabled(Account *account);
+
+    void userStatusChanged();
+
+    void serverUserStatusChanged();
+
+    void capabilitiesChanged();
+
+    void lockFileSuccess();
+    void lockFileError(const QString&);
 
 protected Q_SLOTS:
     void slotCredentialsFetched();
@@ -340,6 +384,8 @@ private:
     QString _lastDirectEditingETag;
 
     PushNotifications *_pushNotifications = nullptr;
+
+    std::shared_ptr<UserStatusConnector> _userStatusConnector;
 
     /* IMPORTANT - remove later - FIXME MS@2019-12-07 -->
      * TODO: For "Log out" & "Remove account": Remove client CA certs and KEY!

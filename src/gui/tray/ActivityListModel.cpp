@@ -28,9 +28,12 @@
 #include "accessmanager.h"
 #include "owncloudgui.h"
 #include "guiutility.h"
+#include "invalidfilenamedialog.h"
 
-#include "ActivityData.h"
-#include "ActivityListModel.h"
+#include "activitydata.h"
+#include "activitylistmodel.h"
+#include "systray.h"
+#include "tray/usermodel.h"
 
 #include "theme.h"
 
@@ -38,7 +41,13 @@ namespace OCC {
 
 Q_LOGGING_CATEGORY(lcActivity, "nextcloud.gui.activity", QtInfoMsg)
 
-ActivityListModel::ActivityListModel(AccountState *accountState, QObject *parent)
+ActivityListModel::ActivityListModel(QObject *parent)
+    : QAbstractListModel(parent)
+{
+}
+
+ActivityListModel::ActivityListModel(AccountState *accountState,
+    QObject *parent)
     : QAbstractListModel(parent)
     , _accountState(accountState)
 {
@@ -46,20 +55,75 @@ ActivityListModel::ActivityListModel(AccountState *accountState, QObject *parent
 
 QHash<int, QByteArray> ActivityListModel::roleNames() const
 {
-    QHash<int, QByteArray> roles;
+    auto roles = QAbstractListModel::roleNames();
     roles[DisplayPathRole] = "displayPath";
     roles[PathRole] = "path";
+    roles[DisplayLocationRole] = "displayLocation";
     roles[AbsolutePathRole] = "absolutePath";
     roles[LinkRole] = "link";
     roles[MessageRole] = "message";
     roles[ActionRole] = "type";
+    roles[DarkIconRole] = "darkIcon";
+    roles[LightIconRole] = "lightIcon";
     roles[ActionIconRole] = "icon";
     roles[ActionTextRole] = "subject";
     roles[ActionsLinksRole] = "links";
+    roles[ActionsLinksContextMenuRole] = "linksContextMenu";
+    roles[ActionsLinksForActionButtonsRole] = "linksForActionButtons";
     roles[ActionTextColorRole] = "activityTextTitleColor";
     roles[ObjectTypeRole] = "objectType";
+    roles[ObjectIdRole] = "objectId";
+    roles[ObjectNameRole] = "objectName";
     roles[PointInTimeRole] = "dateTime";
+    roles[DisplayActions] = "displayActions";
+    roles[ShareableRole] = "isShareable";
+    roles[IsCurrentUserFileActivityRole] = "isCurrentUserFileActivity";
+    roles[ThumbnailRole] = "thumbnail";
+    roles[TalkNotificationConversationTokenRole] = "conversationToken";
+    roles[TalkNotificationMessageIdRole] = "messageId";
+    roles[TalkNotificationMessageSentRole] = "messageSent";
+    roles[TalkNotificationUserAvatarRole] = "userAvatar";
+
     return roles;
+}
+
+void ActivityListModel::setAccountState(AccountState *state)
+{
+    _accountState = state;
+}
+
+void ActivityListModel::setCurrentItem(const int currentItem)
+{
+    _currentItem = currentItem;
+}
+
+void ActivityListModel::setAndRefreshCurrentlyFetching(bool value)
+{
+    if (_currentlyFetching == value) {
+        return;
+    }
+    _currentlyFetching = value;
+    insertOrRemoveDummyFetchingActivity();
+}
+
+bool ActivityListModel::currentlyFetching() const
+{
+    return _currentlyFetching;
+}
+
+void ActivityListModel::setDoneFetching(bool value)
+{
+    _doneFetching = value;
+}
+
+void ActivityListModel::setHideOldActivities(bool value)
+{
+    _hideOldActivities = value;
+}
+
+void ActivityListModel::setDisplayActions(bool value)
+{
+    _displayActions = value;
 }
 
 QVariant ActivityListModel::data(const QModelIndex &index, int role) const
@@ -73,6 +137,33 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
     AccountStatePtr ast = AccountManager::instance()->account(a._accName);
     if (!ast && _accountState != ast.data())
         return QVariant();
+
+    const auto getFilePath = [&]() {
+        const auto fileName = a._fileAction == QStringLiteral("file_renamed") ? a._renamedFile : a._file;
+        if (!fileName.isEmpty()) {
+            const auto folder = FolderMan::instance()->folder(a._folder);
+
+            const QString relPath = folder ? folder->remotePath() + fileName : fileName;
+
+            const auto localFiles = FolderMan::instance()->findFileInLocalFolders(relPath, ast->account());
+
+            if (localFiles.isEmpty()) {
+                return QString();
+            }
+
+            // If this is an E2EE file or folder, pretend we got no path, hiding the share button which is what we want
+            if (folder) {
+                SyncJournalFileRecord rec;
+                folder->journalDb()->getFileRecord(fileName.mid(1), &rec);
+                if (rec.isValid() && (rec._isE2eEncrypted || !rec._e2eMangledName.isEmpty())) {
+                    return QString();
+                }
+            }
+
+            return localFiles.constFirst();
+        }
+        return QString();
+    };
 
     switch (role) {
     case DisplayPathRole:
@@ -93,34 +184,7 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
         }
         return QString();
     case PathRole:
-        if (!a._file.isEmpty()) {
-            const auto folder = FolderMan::instance()->folder(a._folder);
-
-            QString relPath(a._file);
-            if (folder) {
-                relPath.prepend(folder->remotePath());
-            }
-
-            // get relative path to the file so we can open it in the file manager
-            const auto localFiles = FolderMan::instance()->findFileInLocalFolders(QFileInfo(relPath).path(), ast->account());
-
-            if (localFiles.isEmpty()) {
-                return QString();
-            }
-
-            // If this is an E2EE file or folder, pretend we got no path, this leads to
-            // hiding the share button which is what we want
-            if (folder) {
-                SyncJournalFileRecord rec;
-                folder->journalDb()->getFileRecord(a._file.mid(1), &rec);
-                if (rec.isValid() && (rec._isE2eEncrypted || !rec._e2eMangledName.isEmpty())) {
-                    return QString();
-                }
-            }
-
-            return QUrl::fromLocalFile(localFiles.constFirst());
-        }
-        return QString();
+        return QFileInfo(getFilePath()).path();
     case AbsolutePathRole: {
         const auto folder = FolderMan::instance()->folder(a._folder);
         QString relPath(a._file);
@@ -226,17 +290,21 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-int ActivityListModel::rowCount(const QModelIndex &) const
+int ActivityListModel::rowCount(const QModelIndex &parent) const
 {
+    if(parent.isValid()) {
+        return 0;
+    }
+
     return _finalList.count();
 }
 
 bool ActivityListModel::canFetchMore(const QModelIndex &) const
 {
     // We need to be connected to be able to fetch more
-    if (_accountState && _accountState->isConnected()) {
+    if (_accountState && _accountState->isConnected() && Systray::instance()->isOpen()) {
         // If the fetching is reported to be done or we are currently fetching we can't fetch more
-        if (!_doneFetching && !_currentlyFetching) {
+        if (!_doneFetching && !currentlyFetching()) {
             return true;
         }
     }
@@ -246,65 +314,57 @@ bool ActivityListModel::canFetchMore(const QModelIndex &) const
 
 void ActivityListModel::startFetchJob()
 {
-    if (!_accountState->isConnected()) {
+    if (!_accountState->isConnected() || currentlyFetching()) {
         return;
     }
     auto *job = new JsonApiJob(_accountState->account(), QLatin1String("ocs/v2.php/apps/activity/api/v2/activity"), this);
     QObject::connect(job, &JsonApiJob::jsonReceived,
-        this, &ActivityListModel::slotActivitiesReceived);
+        this, &ActivityListModel::activitiesReceived);
 
     QUrlQuery params;
+    params.addQueryItem(QLatin1String("previews"), QLatin1String("true"));
     params.addQueryItem(QLatin1String("since"), QString::number(_currentItem));
     params.addQueryItem(QLatin1String("limit"), QString::number(50));
     job->addQueryParams(params);
 
-    _currentlyFetching = true;
+    setAndRefreshCurrentlyFetching(true);
     qCInfo(lcActivity) << "Start fetching activities for " << _accountState->account()->displayName();
     job->start();
 }
 
-void ActivityListModel::slotActivitiesReceived(const QJsonDocument &json, int statusCode)
+void ActivityListModel::setFinalList(const ActivityList &finalList)
 {
-    auto activities = json.object().value("ocs").toObject().value("data").toArray();
+    _finalList = finalList;
+}
 
+const ActivityList &ActivityListModel::finalList() const
+{
+    return _finalList;
+}
+
+int ActivityListModel::currentItem() const
+{
+    return _currentItem;
+}
+
+void ActivityListModel::ingestActivities(const QJsonArray &activities)
+{
     ActivityList list;
-    auto ast = _accountState;
-    if (!ast) {
-        return;
-    }
-
-    if (activities.size() == 0) {
-        _doneFetching = true;
-    }
-
-    _currentlyFetching = false;
 
     QDateTime oldestDate = QDateTime::currentDateTime();
-    oldestDate = oldestDate.addDays(_maxActivitiesDays * -1);
+    oldestDate = oldestDate.addDays(static_cast<qint64>(_maxActivitiesDays) * -1);
 
-    foreach (auto activ, activities) {
-        auto json = activ.toObject();
+    for (const auto &activ : activities) {
+        const auto json = activ.toObject();
 
-        Activity a;
-        a._type = Activity::ActivityType;
-        a._objectType = json.value("object_type").toString();
-        a._accName = ast->account()->displayName();
-        a._id = json.value("activity_id").toInt();
-        a._fileAction = json.value("type").toString();
-        a._subject = json.value("subject").toString();
-        a._message = json.value("message").toString();
-        a._file = json.value("object_name").toString();
-        a._link = QUrl(json.value("link").toString());
-        a._dateTime = QDateTime::fromString(json.value("datetime").toString(), Qt::ISODate);
-        a._icon = json.value("icon").toString();
+        auto a = Activity::fromActivityJson(json, _accountState->account());
 
         list.append(a);
         _currentItem = list.last()._id;
 
         _totalActivitiesFetched++;
-        if(_totalActivitiesFetched == _maxActivities ||
-            a._dateTime < oldestDate) {
-
+        if (_totalActivitiesFetched == _maxActivities
+            || (_hideOldActivities && a._dateTime < oldestDate)) {
             _showMoreActivitiesAvailableEntry = true;
             _doneFetching = true;
             break;
@@ -313,9 +373,103 @@ void ActivityListModel::slotActivitiesReceived(const QJsonDocument &json, int st
 
     _activityLists.append(list);
 
-    emit activityJobStatusCode(statusCode);
+    if (list.size() > 0) {
+        std::sort(list.begin(), list.end());
+        beginInsertRows({}, _finalList.size(), _finalList.size() + list.size() - 1);
+        _finalList.append(list);
+        endInsertRows();
 
-    combineActivityLists();
+        appendMoreActivitiesAvailableEntry();
+    }
+}
+
+void ActivityListModel::appendMoreActivitiesAvailableEntry()
+{
+    const QString moreActivitiesEntryObjectType = QLatin1String("activity_fetch_more_activities");
+    if (_showMoreActivitiesAvailableEntry && !_finalList.isEmpty()
+        && _finalList.last()._objectType != moreActivitiesEntryObjectType) {
+        Activity a;
+        a._type = Activity::ActivityType;
+        a._accName = _accountState->account()->displayName();
+        a._id = -1;
+        a._objectType = moreActivitiesEntryObjectType;
+        a._subject = tr("For more activities please open the Activity app.");
+        a._dateTime = QDateTime::currentDateTime();
+
+        if (const auto *app = _accountState->findApp(QLatin1String("activity"))) {
+            a._link = app->url();
+        }
+
+        beginInsertRows({}, _finalList.size(), _finalList.size());
+        _finalList.append(a);
+        endInsertRows();
+    }
+}
+
+void ActivityListModel::insertOrRemoveDummyFetchingActivity()
+{
+    const QString dummyFetchingActivityObjectType = QLatin1String("dummy_fetching_activity");
+    if (_currentlyFetching && _finalList.isEmpty()) {
+        Activity a;
+        a._type = Activity::ActivityType;
+        a._accName = _accountState->account()->displayName();
+        a._id = -2;
+        a._objectType = dummyFetchingActivityObjectType;
+        a._subject = tr("Fetching activities…");
+        a._dateTime = QDateTime::currentDateTime();
+        a._icon = QLatin1String("qrc:///client/theme/colored/change-bordered.svg");
+
+        beginInsertRows({}, 0, 0);
+        _finalList.prepend(a);
+        endInsertRows();
+    } else if (!_finalList.isEmpty() && _finalList.first()._objectType == dummyFetchingActivityObjectType) {
+        beginRemoveRows({}, 0, 0);
+        _finalList.removeAt(0);
+        endRemoveRows();
+    }
+}
+
+void ActivityListModel::clearActivities()
+{
+    _activityLists.clear();
+    if (!_finalList.isEmpty()) {
+        const auto firstActivityIt = std::find_if(std::begin(_finalList), std::end(_finalList),
+            [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
+
+        if (firstActivityIt != std::end(_finalList)) {
+            const auto lastActivityItReverse = std::find_if(std::rbegin(_finalList), std::rend(_finalList),
+                    [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
+
+            const auto lastActivityIt = (lastActivityItReverse + 1).base();
+
+            if (lastActivityIt != std::end(_finalList)) {
+                const int beginRemoveIndex = std::distance(std::begin(_finalList), firstActivityIt);
+                const int endRemoveIndex = std::distance(std::begin(_finalList), lastActivityIt);
+                beginRemoveRows({}, beginRemoveIndex, endRemoveIndex);
+                _finalList.erase(firstActivityIt, std::end(_finalList));
+                endRemoveRows();
+            }
+        }
+    }
+}
+
+void ActivityListModel::activitiesReceived(const QJsonDocument &json, int statusCode)
+{
+    const auto activities = json.object().value(QStringLiteral("ocs")).toObject().value(QStringLiteral("data")).toArray();
+
+    if (!_accountState) {
+        return;
+    }
+
+    if (activities.empty()) {
+        _doneFetching = true;
+    }
+
+    setAndRefreshCurrentlyFetching(false);
+
+    ingestActivities(activities);
+
+    emit activityJobStatusCode(statusCode);
 }
 
 void ActivityListModel::addErrorToActivityList(Activity activity)
@@ -385,8 +539,15 @@ void ActivityListModel::removeActivityFromActivityList(Activity activity)
     int index = -1;
     if (activity._type == Activity::ActivityType) {
         index = _activityLists.indexOf(activity);
-        if (index != -1)
+        if (index != -1) {
             _activityLists.removeAt(index);
+            const auto indexInFinalList = _finalList.indexOf(activity);
+            if (indexInFinalList != -1) {
+                beginRemoveRows({}, indexInFinalList, indexInFinalList);
+                _finalList.removeAt(indexInFinalList);
+                endRemoveRows();
+            }
+        }
     } else if (activity._type == Activity::NotificationType) {
         index = _notificationLists.indexOf(activity);
         if (index != -1)
@@ -404,7 +565,7 @@ void ActivityListModel::removeActivityFromActivityList(Activity activity)
     }
 }
 
-void ActivityListModel::triggerDefaultAction(int activityIndex)
+void ActivityListModel::slotTriggerDefaultAction(const int activityIndex)
 {
     if (activityIndex < 0 || activityIndex >= _finalList.size()) {
         qCWarning(lcActivity) << "Couldn't trigger default action at index" << activityIndex << "/ final list size:" << _finalList.size();
@@ -412,7 +573,7 @@ void ActivityListModel::triggerDefaultAction(int activityIndex)
     }
 
     const auto modelIndex = index(activityIndex);
-    const auto path = data(modelIndex, PathRole).toUrl();
+    const auto path = data(modelIndex, PathRole).toString();
 
     const auto activity = _finalList.at(activityIndex);
     if (activity._status == SyncFileItem::Conflict) {
@@ -445,17 +606,36 @@ void ActivityListModel::triggerDefaultAction(int activityIndex)
         _currentConflictDialog->open();
         ownCloudGui::raiseDialog(_currentConflictDialog);
         return;
+    } else if (activity._status == SyncFileItem::FileNameInvalid) {
+        if (!_currentInvalidFilenameDialog.isNull()) {
+            _currentInvalidFilenameDialog->close();
+        }
+
+        auto folder = FolderMan::instance()->folder(activity._folder);
+        const auto folderDir = QDir(folder->path());
+        _currentInvalidFilenameDialog = new InvalidFilenameDialog(_accountState->account(), folder,
+            folderDir.filePath(activity._file));
+        connect(_currentInvalidFilenameDialog, &InvalidFilenameDialog::accepted, folder, [folder]() {
+            folder->scheduleThisFolderSoon();
+        });
+        connect(_currentInvalidFilenameDialog, &InvalidFilenameDialog::acceptedInvalidName, folder, [folder](const QString& filePath) {
+            folder->acceptInvalidFileName(filePath);
+            folder->scheduleThisFolderSoon();
+        });
+        _currentInvalidFilenameDialog->open();
+        ownCloudGui::raiseDialog(_currentInvalidFilenameDialog);
+        return;
     }
 
-    if (path.isValid()) {
-        QDesktopServices::openUrl(path);
+    if (!path.isEmpty()) {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(path));
     } else {
         const auto link = data(modelIndex, LinkRole).toUrl();
         Utility::openBrowser(link);
     }
 }
 
-void ActivityListModel::triggerAction(int activityIndex, int actionIndex)
+void ActivityListModel::slotTriggerAction(const int activityIndex, const int actionIndex)
 {
     if (activityIndex < 0 || activityIndex >= _finalList.size()) {
         qCWarning(lcActivity) << "Couldn't trigger action on activity at index" << activityIndex << "/ final list size:" << _finalList.size();
@@ -477,6 +657,102 @@ void ActivityListModel::triggerAction(int activityIndex, int actionIndex)
     }
 
     emit sendNotificationRequest(activity._accName, action._link, action._verb, activityIndex);
+}
+
+void ActivityListModel::slotTriggerDismiss(const int activityIndex)
+{
+    if (activityIndex < 0 || activityIndex >= _finalList.size()) {
+        qCWarning(lcActivity) << "Couldn't trigger action on activity at index" << activityIndex << "/ final list size:" << _finalList.size();
+        return;
+    }
+
+    const auto activityLinks = _finalList[activityIndex]._links;
+
+    const auto foundActivityLinkIt = std::find_if(std::cbegin(activityLinks), std::cend(activityLinks), [](const ActivityLink &link) {
+        return link._verb == QStringLiteral("DELETE");
+    });
+
+    if (foundActivityLinkIt == std::cend(activityLinks)) {
+        qCWarning(lcActivity) << "Couldn't find dismiss action in activity at index" << activityIndex
+                              << " links.size() " << activityLinks.size();
+        return;
+    }
+
+    const auto actionIndex = static_cast<int>(std::distance(activityLinks.begin(), foundActivityLinkIt));
+
+    if (actionIndex < 0 || actionIndex > activityLinks.size()) {
+        qCWarning(lcActivity) << "Couldn't find dismiss action in activity at index" << activityIndex
+                              << " actionIndex found " << actionIndex;
+        return;
+    }
+
+    slotTriggerAction(activityIndex, actionIndex);
+}
+
+AccountState *ActivityListModel::accountState() const
+{
+    return _accountState;
+}
+
+QVariantList ActivityListModel::convertLinksToActionButtons(const Activity &activity)
+{
+    QVariantList customList;
+
+    if (activity._links.size() == 1) {
+        return customList;
+    }
+
+    if (static_cast<quint32>(activity._links.size()) > maxActionButtons()) {
+        customList << ActivityListModel::convertLinkToActionButton(activity._links.first());
+        return customList;
+    }
+
+    for (const auto &activityLink : activity._links) {
+        if (activityLink._primary
+            || activityLink._verb == QStringLiteral("DELETE")
+            || activityLink._verb == QStringLiteral("WEB")) {
+            customList << ActivityListModel::convertLinkToActionButton(activityLink);
+        }
+    }
+
+    return customList;
+}
+
+QVariant ActivityListModel::convertLinkToActionButton(const OCC::ActivityLink &activityLink)
+{
+    auto activityLinkCopy = activityLink;
+
+    const auto isReplyIconApplicable = activityLink._verb == QStringLiteral("REPLY");
+
+    const QString replyButtonPath = QStringLiteral("image://svgimage-custom-color/reply.svg");
+
+    if (isReplyIconApplicable) {
+        activityLinkCopy._imageSource = QString(replyButtonPath + "/");
+        activityLinkCopy._imageSourceHovered = QString(replyButtonPath + "/");
+    }
+
+    if (activityLink._verb == QStringLiteral("DELETE")) {
+        activityLinkCopy._label = QObject::tr("Mark as read");
+    }
+
+    return QVariant::fromValue(activityLinkCopy);
+}
+
+QVariantList ActivityListModel::convertLinksToMenuEntries(const Activity &activity)
+{
+    QVariantList customList;
+
+    if (static_cast<quint32>(activity._links.size()) > maxActionButtons()) {
+        for (int i = 0; i < activity._links.size(); ++i) {
+            const auto &activityLink = activity._links[i];
+            if (!activityLink._primary) {
+                customList << QVariantMap{
+                    {QStringLiteral("actionIndex"), i}, {QStringLiteral("label"), activityLink._label}};
+            }
+        }
+    }
+
+    return customList;
 }
 
 void ActivityListModel::combineActivityLists()
@@ -503,32 +779,20 @@ void ActivityListModel::combineActivityLists()
     if (_activityLists.count() > 0) {
         std::sort(_activityLists.begin(), _activityLists.end());
         resultList.append(_activityLists);
-
-        if(_showMoreActivitiesAvailableEntry) {
-            Activity a;
-            a._type = Activity::ActivityType;
-            a._accName = _accountState->account()->displayName();
-            a._id = -1;
-            a._subject = tr("For more activities please open the Activity app.");
-            a._dateTime = QDateTime::currentDateTime();
-
-            AccountApp *app = _accountState->findApp(QLatin1String("activity"));
-            if(app) {
-                a._link = app->url();
-            }
-
-            resultList.append(a);
-        }
     }
 
-    beginResetModel();
-    _finalList.clear();
-    endResetModel();
-
-    if (resultList.count() > 0) {
-        beginInsertRows(QModelIndex(), 0, ((maxVisibleActivities <= resultList.count()) ? maxVisibleActivities - 1 : resultList.count() - 1));
+    if (_finalList.isEmpty() && !resultList.isEmpty()) {
+        beginInsertRows({}, 0, resultList.size() - 1);
         _finalList = resultList;
         endInsertRows();
+    } else if (!_finalList.isEmpty()) {
+        beginResetModel();
+        _finalList = resultList;
+        endResetModel();
+    }
+
+    if (_activityLists.size() > 0) {
+        appendMoreActivitiesAvailableEntry();
     }
 }
 
@@ -541,15 +805,12 @@ void ActivityListModel::fetchMore(const QModelIndex &)
 {
     if (canFetchActivities()) {
         startFetchJob();
-    } else {
-        _doneFetching = true;
-        combineActivityLists();
     }
 }
 
 void ActivityListModel::slotRefreshActivity()
 {
-    _activityLists.clear();
+    clearActivities();
     _doneFetching = false;
     _currentItem = 0;
     _totalActivitiesFetched = 0;
@@ -563,14 +824,34 @@ void ActivityListModel::slotRefreshActivity()
     }
 }
 
+void ActivityListModel::slotRefreshActivityInitial()
+{
+    if (_activityLists.isEmpty() && !currentlyFetching()) {
+        slotRefreshActivity();
+    }
+}
+
 void ActivityListModel::slotRemoveAccount()
 {
     _finalList.clear();
     _activityLists.clear();
-    _currentlyFetching = false;
+    setAndRefreshCurrentlyFetching(false);
     _doneFetching = false;
     _currentItem = 0;
     _totalActivitiesFetched = 0;
     _showMoreActivitiesAvailableEntry = false;
 }
+
+void ActivityListModel::setReplyMessageSent(const int activityIndex, const QString &message)
+{
+    if (activityIndex < 0 || activityIndex >= _finalList.size()) {
+        qCWarning(lcActivity) << "Couldn't trigger action on activity at index" << activityIndex << "/ final list size:" << _finalList.size();
+        return;
+    }
+
+    _finalList[activityIndex]._talkNotificationData.messageSent = message;
+
+    emit dataChanged(index(activityIndex, 0), index(activityIndex, 0), {ActivityListModel::TalkNotificationMessageSentRole});
 }
+}
+

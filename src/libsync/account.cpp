@@ -13,6 +13,8 @@
  */
 
 #include "account.h"
+#include "accountfwd.h"
+#include "clientsideencryptionjobs.h"
 #include "cookiejar.h"
 #include "networkjobs.h"
 #include "configfile.h"
@@ -23,8 +25,13 @@
 #include "pushnotifications.h"
 #include "version.h"
 
+#include "deletejob.h"
+#include "lockfilejobs.h"
+
+#include "common/syncjournaldb.h"
 #include "common/asserts.h"
 #include "clientsideencryption.h"
+#include "ocsuserstatusconnector.h"
 
 #include <QLoggingCategory>
 #include <QNetworkReply>
@@ -41,7 +48,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QLoggingCategory>
+#include <QHttpMultiPart>
 
+#include <qsslconfiguration.h>
 #include <qt5keychain/keychain.h>
 #include "creds/abstractcredentials.h"
 
@@ -49,6 +59,8 @@ using namespace QKeychain;
 
 namespace {
 constexpr int pushNotificationsReconnectInterval = 1000 * 60 * 2;
+constexpr int usernamePrefillServerVersionMinSupportedMajor = 24;
+constexpr int checksumRecalculateRequestServerVersionMinSupportedMajor = 24;
 }
 
 namespace OCC {
@@ -90,6 +102,7 @@ QString Account::davPath() const
 void Account::setSharedThis(AccountPtr sharedThis)
 {
     _sharedThis = sharedThis.toWeakRef();
+    setupUserStatusConnector();
 }
 
 QString Account::davPathBase()
@@ -98,6 +111,11 @@ QString Account::davPathBase()
 }
 
 AccountPtr Account::sharedFromThis()
+{
+    return _sharedThis.toStrongRef();
+}
+
+AccountPtr Account::sharedFromThis() const
 {
     return _sharedThis.toStrongRef();
 }
@@ -147,6 +165,35 @@ void Account::setDavDisplayName(const QString &newDisplayName)
 {
     _displayName = newDisplayName;
     emit accountChangedDisplayName();
+}
+
+QColor Account::headerColor() const
+{
+    const auto serverColor = capabilities().serverColor();
+    return serverColor.isValid() ? serverColor : Theme::defaultColor();
+}
+
+QColor Account::headerTextColor() const
+{
+    const auto headerTextColor = capabilities().serverTextColor();
+    return headerTextColor.isValid() ? headerTextColor : QColor(255,255,255);
+}
+
+QColor Account::accentColor() const
+{
+    // This will need adjusting when dark theme is a thing
+    auto serverColor = capabilities().serverColor();
+
+    if(!serverColor.isValid()) {
+        serverColor = Theme::defaultColor();
+    }
+
+    const auto effectMultiplier = 8;
+    auto darknessAdjustment = static_cast<int>((1 - Theme::getColorDarkness(serverColor)) * effectMultiplier);
+    darknessAdjustment *= darknessAdjustment; // Square the value to pronounce the darkness more in lighter colours
+    const auto baseAdjustment = 125;
+    const auto adjusted = Theme::isDarkColor(serverColor) ? serverColor : serverColor.darker(baseAdjustment + darknessAdjustment);
+    return adjusted;
 }
 
 QString Account::id() const
@@ -334,6 +381,36 @@ QNetworkReply *Account::sendRawRequest(const QByteArray &verb, const QUrl &url, 
     return _am->sendCustomRequest(req, verb, data);
 }
 
+QNetworkReply *Account::sendRawRequest(const QByteArray &verb, const QUrl &url, QNetworkRequest req, const QByteArray &data)
+{
+    req.setUrl(url);
+    req.setSslConfiguration(this->getOrCreateSslConfig());
+    if (verb == "HEAD" && data.isEmpty()) {
+        return _am->head(req);
+    } else if (verb == "GET" && data.isEmpty()) {
+        return _am->get(req);
+    } else if (verb == "POST") {
+        return _am->post(req, data);
+    } else if (verb == "PUT") {
+        return _am->put(req, data);
+    } else if (verb == "DELETE" && data.isEmpty()) {
+        return _am->deleteResource(req);
+    }
+    return _am->sendCustomRequest(req, verb, data);
+}
+
+QNetworkReply *Account::sendRawRequest(const QByteArray &verb, const QUrl &url, QNetworkRequest req, QHttpMultiPart *data)
+{
+    req.setUrl(url);
+    req.setSslConfiguration(this->getOrCreateSslConfig());
+    if (verb == "PUT") {
+        return _am->put(req, data);
+    } else if (verb == "POST") {
+        return _am->post(req, data);
+    }
+    return _am->sendCustomRequest(req, verb, data);
+}
+
 SimpleNetworkJob *Account::sendRequest(const QByteArray &verb, const QUrl &url, QNetworkRequest req, QIODevice *data)
 {
     auto job = new SimpleNetworkJob(sharedFromThis());
@@ -363,13 +440,15 @@ QSslConfiguration Account::getOrCreateSslConfig()
     sslConfig.setSslOption(QSsl::SslOptionDisableSessionSharing, false);
     sslConfig.setSslOption(QSsl::SslOptionDisableSessionPersistence, false);
 
+    sslConfig.setOcspStaplingEnabled(Theme::instance()->enableStaplingOCSP());
+
     return sslConfig;
 }
 
 void Account::setApprovedCerts(const QList<QSslCertificate> certs)
 {
     _approvedCerts = certs;
-    QSslSocket::addDefaultCaCertificates(certs);
+    QSslConfiguration::defaultConfiguration().addCaCertificates(certs);
 }
 
 void Account::addApprovedCerts(const QList<QSslCertificate> certs)
@@ -430,6 +509,9 @@ void Account::slotHandleSslErrors(QNetworkReply *reply, QList<QSslError> errors)
                      << "\n";
     }
 
+    qCInfo(lcAccount()) << "ssl errors" << out;
+    qCInfo(lcAccount()) << reply->sslConfiguration().peerCertificateChain();
+
     bool allPreviouslyRejected = true;
     foreach (const QSslError &error, errors) {
         if (!_rejectedCertificates.contains(error.certificate())) {
@@ -461,7 +543,7 @@ void Account::slotHandleSslErrors(QNetworkReply *reply, QList<QSslError> errors)
             return;
 
         if (!approvedCerts.isEmpty()) {
-            QSslSocket::addDefaultCaCertificates(approvedCerts);
+            QSslConfiguration::defaultConfiguration().addCaCertificates(approvedCerts);
             addApprovedCerts(approvedCerts);
             emit wantsAccountSaved(this);
 
@@ -541,7 +623,24 @@ void Account::setCapabilities(const QVariantMap &caps)
 {
     _capabilities = Capabilities(caps);
 
+    emit capabilitiesChanged();
+
+    setupUserStatusConnector();
     trySetupPushNotifications();
+}
+
+void Account::setupUserStatusConnector()
+{
+    _userStatusConnector = std::make_shared<OcsUserStatusConnector>(sharedFromThis());
+    connect(_userStatusConnector.get(), &UserStatusConnector::userStatusFetched, this, [this](const UserStatus &) {
+        emit userStatusChanged();
+    });
+    connect(_userStatusConnector.get(), &UserStatusConnector::serverUserStatusChanged, this, &Account::serverUserStatusChanged);
+    connect(_userStatusConnector.get(), &UserStatusConnector::messageCleared, this, [this] {
+        emit userStatusChanged();
+    });
+
+    _userStatusConnector->fetchUserStatus();
 }
 
 QString Account::serverVersion() const
@@ -571,6 +670,21 @@ bool Account::serverVersionUnsupported() const
     }
     return serverVersionInt() < makeServerVersion(NEXTCLOUD_SERVER_VERSION_MIN_SUPPORTED_MAJOR,
                NEXTCLOUD_SERVER_VERSION_MIN_SUPPORTED_MINOR, NEXTCLOUD_SERVER_VERSION_MIN_SUPPORTED_PATCH);
+}
+
+bool Account::isUsernamePrefillSupported() const
+{
+    return serverVersionInt() >= makeServerVersion(usernamePrefillServerVersionMinSupportedMajor, 0, 0);
+}
+
+bool Account::isChecksumRecalculateRequestSupported() const
+{
+    return serverVersionInt() >= makeServerVersion(checksumRecalculateRequestServerVersionMinSupportedMajor, 0, 0);
+}
+
+int Account::checksumRecalculateServerVersionMinSupportedMajor() const
+{
+    return checksumRecalculateRequestServerVersionMinSupportedMajor;
 }
 
 void Account::setServerVersion(const QString &version)
@@ -643,7 +757,8 @@ void Account::retrieveAppPassword(){
     job->start();
 }
 
-void Account::deleteAppPassword(){
+void Account::deleteAppPassword()
+{
     const QString kck = AbstractCredentials::keychainKey(
                 url().toString(),
                 credentials()->user() + app_password,
@@ -669,6 +784,25 @@ void Account::deleteAppPassword(){
         _wroteAppPassword = false;
     });
     job->start();
+}
+
+void Account::deleteAppToken()
+{
+    const auto deleteAppTokenJob = new DeleteJob(sharedFromThis(), QStringLiteral("/ocs/v2.php/core/apppassword"));
+    connect(deleteAppTokenJob, &DeleteJob::finishedSignal, this, [this]() {
+        if (const auto deleteJob = qobject_cast<DeleteJob *>(QObject::sender())) {
+            const auto httpCode = deleteJob->reply()->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+            if (httpCode != 200) {
+                qCWarning(lcAccount) << "AppToken remove failed for user: " << displayName() << " with code: " << httpCode;
+            } else {
+                qCInfo(lcAccount) << "AppToken for user: " << displayName() << " has been removed.";
+            }
+        } else {
+            Q_ASSERT(false);
+            qCWarning(lcAccount) << "The sender is not a DeleteJob instance.";
+        }
+    });
+    deleteAppTokenJob->start();
 }
 
 void Account::fetchDirectEditors(const QUrl &directEditingURL, const QString &directEditingETag)
@@ -719,6 +853,65 @@ void Account::slotDirectEditingRecieved(const QJsonDocument &json)
 PushNotifications *Account::pushNotifications() const
 {
     return _pushNotifications;
+}
+
+std::shared_ptr<UserStatusConnector> Account::userStatusConnector() const
+{
+    return _userStatusConnector;
+}
+
+void Account::setLockFileState(const QString &serverRelativePath,
+                               SyncJournalDb * const journal,
+                               const SyncFileItem::LockStatus lockStatus)
+{
+    auto job = std::make_unique<LockFileJob>(sharedFromThis(), journal, serverRelativePath, lockStatus);
+    connect(job.get(), &LockFileJob::finishedWithoutError, this, [this]() {
+        Q_EMIT lockFileSuccess();
+    });
+    connect(job.get(), &LockFileJob::finishedWithError, this, [lockStatus, serverRelativePath, this](const int httpErrorCode, const QString &errorString, const QString &lockOwnerName) {
+        auto errorMessage = QString{};
+        const auto filePath = serverRelativePath.mid(1);
+
+        if (httpErrorCode == LockFileJob::LOCKED_HTTP_ERROR_CODE) {
+            errorMessage = tr("File %1 is already locked by %2.").arg(filePath, lockOwnerName);
+        } else if (lockStatus == SyncFileItem::LockStatus::LockedItem) {
+             errorMessage = tr("Lock operation on %1 failed with error %2").arg(filePath, errorString);
+        } else if (lockStatus == SyncFileItem::LockStatus::UnlockedItem) {
+             errorMessage = tr("Unlock operation on %1 failed with error %2").arg(filePath, errorString);
+        }
+        Q_EMIT lockFileError(errorMessage);
+    });
+    job->start();
+    static_cast<void>(job.release());
+}
+
+SyncFileItem::LockStatus Account::fileLockStatus(SyncJournalDb * const journal,
+                                                 const QString &folderRelativePath) const
+{
+    SyncJournalFileRecord record;
+    if (journal->getFileRecord(folderRelativePath, &record)) {
+        return record._lockstate._locked ? SyncFileItem::LockStatus::LockedItem : SyncFileItem::LockStatus::UnlockedItem;
+    }
+
+    return SyncFileItem::LockStatus::UnlockedItem;
+}
+
+bool Account::fileCanBeUnlocked(SyncJournalDb * const journal,
+                                const QString &folderRelativePath) const
+{
+    SyncJournalFileRecord record;
+    if (journal->getFileRecord(folderRelativePath, &record)) {
+        if (record._lockstate._lockOwnerType != static_cast<int>(SyncFileItem::LockOwnerType::UserLock)) {
+            return false;
+        }
+
+        if (record._lockstate._lockOwnerId != sharedFromThis()->davUser()) {
+            return false;
+        }
+
+        return true;
+    }
+    return false;
 }
 
 } // namespace OCC

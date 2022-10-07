@@ -32,6 +32,7 @@ using SocketApiServer = QLocalServer;
 class QUrl;
 class QLocalSocket;
 class QStringList;
+class QFileInfo;
 
 namespace OCC {
 
@@ -40,8 +41,13 @@ class Folder;
 class SocketListener;
 class DirectEditor;
 class SocketApiJob;
+class SocketApiJobV2;
 
 Q_DECLARE_LOGGING_CATEGORY(lcSocketApi)
+
+#ifdef Q_OS_MACOS
+QString socketApiSocketPath();
+#endif
 
 /**
  * @brief The SocketApi class
@@ -53,7 +59,7 @@ class SocketApi : public QObject
 
 public:
     explicit SocketApi(QObject *parent = nullptr);
-    virtual ~SocketApi();
+    ~SocketApi() override;
 
 public slots:
     void slotUpdateFolderView(Folder *f);
@@ -63,6 +69,7 @@ public slots:
 
 signals:
     void shareCommandReceived(const QString &sharePath, const QString &localPath, ShareDialogStartPage startPage);
+    void fileActivityCommandReceived(const QString &objectName, const int objectId);
 
 private slots:
     void slotNewConnection();
@@ -101,6 +108,7 @@ private:
 
     // opens share dialog, sends reply
     void processShareRequest(const QString &localFile, SocketListener *listener, ShareDialogStartPage startPage);
+    void processFileActivityRequest(const QString &localFile);
 
     Q_INVOKABLE void command_RETRIEVE_FOLDER_STATUS(const QString &argument, SocketListener *listener);
     Q_INVOKABLE void command_RETRIEVE_FILE_STATUS(const QString &argument, SocketListener *listener);
@@ -110,6 +118,7 @@ private:
     Q_INVOKABLE void command_SHARE_MENU_TITLE(const QString &argument, SocketListener *listener);
 
     // The context menu actions
+    Q_INVOKABLE void command_ACTIVITY(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_SHARE(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_MANAGE_PUBLIC_LINKS(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_COPY_PUBLIC_LINK(const QString &localFile, SocketListener *listener);
@@ -121,6 +130,10 @@ private:
     Q_INVOKABLE void command_RESOLVE_CONFLICT(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_DELETE_ITEM(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_MOVE_ITEM(const QString &localFile, SocketListener *listener);
+    Q_INVOKABLE void command_LOCK_FILE(const QString &localFile, SocketListener *listener);
+    Q_INVOKABLE void command_UNLOCK_FILE(const QString &localFile, SocketListener *listener);
+
+    void setFileLock(const QString &localFile, const SyncFileItem::LockStatus lockState) const;
 
     // Windows Shell / Explorer pinning fallbacks, see issue: https://github.com/nextcloud/desktop/issues/1599
 #ifdef Q_OS_WIN
@@ -128,6 +141,10 @@ private:
     Q_INVOKABLE void command_OPENNEWWINDOW(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_OPEN(const QString &localFile, SocketListener *listener);
 #endif
+
+    // External sync
+    Q_INVOKABLE void command_V2_LIST_ACCOUNTS(const QSharedPointer<SocketApiJobV2> &job) const;
+    Q_INVOKABLE void command_V2_UPLOAD_FILES_FROM(const QSharedPointer<SocketApiJobV2> &job) const;
 
     // Fetch the private link and call targetFun
     void fetchPrivateLinkUrlHelper(const QString &localFile, const std::function<void(const QString &url)> &targetFun);
@@ -137,6 +154,17 @@ private:
 
     // Sends the context menu options relating to sharing to listener
     void sendSharingContextMenuOptions(const FileData &fileData, SocketListener *listener, bool enabled);
+
+    void sendLockFileCommandMenuEntries(const QFileInfo &fileInfo,
+                                        Folder * const syncFolder,
+                                        const FileData &fileData,
+                                        const SocketListener * const listener) const;
+
+    void sendLockFileInfoMenuEntries(const QFileInfo &fileInfo,
+                                     Folder * const syncFolder,
+                                     const FileData &fileData,
+                                     const SocketListener * const listener,
+                                     const SyncJournalFileRecord &record) const;
 
     /** Send the list of menu item. (added in version 1.1)
      * argument is a list of files for which the menu should be shown, separated by '\x1e'
@@ -164,8 +192,8 @@ private:
     QString buildRegisterPathMessage(const QString &path);
 
     QSet<QString> _registeredAliases;
-    QList<SocketListener> _listeners;
-    SocketApiServer _localServer;
+    QMap<QIODevice *, QSharedPointer<SocketListener>> _listeners;
+    QLocalServer _localServer;
 };
 }
 

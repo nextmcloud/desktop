@@ -288,10 +288,10 @@ QVariant FolderStatusModel::data(const QModelIndex &index, int role) const
                         if (f->syncResult().hasUnresolvedConflicts()) {
                             return theme->folderOverlayIcon(SyncResult::Problem);
                         } else {
-                            return theme->folderOverlayIcon(SyncResult::Success, firstRow);
+                            return theme->folderOverlayIcon(SyncResult::Success);
                         }
                     } else {
-                        return theme->folderOverlayIcon(status, firstRow);
+                        return theme->folderOverlayIcon(status);
                     }
                 }
             }

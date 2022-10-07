@@ -49,13 +49,14 @@ private slots:
         QString expectedImprintLabel = tr("<a href='%1' style=\"color: #e20074;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL));
         QString expectedPrivacyPolicyLabel = tr("<a href='%1' style=\"color: #e20074;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL));
         QString expectedOpenSourceSwLabel = tr("<a href='%1' style=\"color: #e20074;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL));
-        QString expectedInfoLabel = tr("<a href='%1' style=\"color: #e20074;\">Further Informations</a>").arg(Theme::instance()->helpUrl());
+        QString expectedInfoLabel = tr("<a href='%1' style=\"color: #e20074;\">Further Information</a>").arg(Theme::instance()->helpUrl());
 
         ConfigFile cfgFile;
         FolderMan folderMan(new QObject());
 
         GeneralSettings genSetting(new QWidget());
 
+        QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isHidden(), false);
         QCOMPARE(cfgFile.showInExplorerNavigationPane(), true);
 
         QCOMPARE(genSetting._ui->imprintLabel->openExternalLinks(), true);
@@ -87,11 +88,11 @@ private slots:
         QMetaObject::invokeMethod( &genSetting, "loadMiscSettings");
 
         QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isChecked(), true);
-        QCOMPARE(genSetting._ui->transferUsageDataCheckBox->isChecked(), true);
+//        QCOMPARE(genSetting._ui->transferUsageDataCheckBox->isChecked(), true);
         QCOMPARE(cfgFile.confirmExternalStorage(), true);
     }
 
-    void testLoadMiscSettings_NotChecked()
+    void testLoadMiscSettings_UnChecked()
     {
         ConfigFile cfgFile;
         FolderMan folderMan(new QObject());
@@ -106,30 +107,163 @@ private slots:
         QCOMPARE(cfgFile.confirmExternalStorage(), true);
     }
 
-    void testSlotTransferUsageData_NotChecked()
+    void testslotUpdateInfo()
     {
         ConfigFile cfgFile;
         FolderMan folderMan(new QObject());
         GeneralSettings genSetting(new QWidget());
 
+        QMetaObject::invokeMethod( &genSetting, "slotUpdateInfo");
+
+        QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isHidden(), false);
+        QCOMPARE(genSetting._ui->restartButton->isHidden(), true);
+        QCOMPARE(genSetting._ui->updateButton->isHidden(), true);
+    }
+
+    /* UI based (event driven) test cases */
+    void test_autoCheckForUpdatesCheckBox_Checked()
+    {
+        ConfigFile cfgFile;
+        FolderMan folderMan(new QObject());
+        GeneralSettings genSetting(new QWidget());
+
+        /* Initial set un-checked */
+        genSetting._ui->autoCheckForUpdatesCheckBox->setChecked(false);
+        QVERIFY( genSetting._ui->autoCheckForUpdatesCheckBox->checkState() == Qt::Unchecked );
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy spy(genSetting._ui->autoCheckForUpdatesCheckBox, SIGNAL(toggled(bool)));
+
+        /* generate event/emit signal */
+        genSetting._ui->autoCheckForUpdatesCheckBox->toggle();
+
+        /* verify SIGNAL emit */
+        QCOMPARE(spy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(cfgFile.autoUpdateCheck(), true);
+        QVERIFY( genSetting._ui->autoCheckForUpdatesCheckBox->checkState() == Qt::Checked );
+    }
+
+    void test_autoCheckForUpdatesCheckBox_UnChecked()
+    {
+        ConfigFile cfgFile;
+        FolderMan folderMan(new QObject());
+        GeneralSettings genSetting(new QWidget());
+
+        /* Initial set checked */
+        genSetting._ui->autoCheckForUpdatesCheckBox->setChecked(true);
+        QVERIFY( genSetting._ui->autoCheckForUpdatesCheckBox->checkState() == Qt::Checked );
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy spy(genSetting._ui->autoCheckForUpdatesCheckBox, SIGNAL(toggled(bool)));
+
+        /* generate event/emit signal */
+        genSetting._ui->autoCheckForUpdatesCheckBox->toggle();
+
+        /* verify SIGNAL emit */
+        QCOMPARE(spy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(cfgFile.autoUpdateCheck(), false);
+        QVERIFY( genSetting._ui->autoCheckForUpdatesCheckBox->checkState() == Qt::Unchecked );
+    }
+
+    void test_transferUsageDataCheckBox_Checked()
+    {
+        ConfigFile cfgFile;
+        FolderMan folderMan(new QObject());
+        GeneralSettings genSetting(new QWidget());
+
+        /* Initial set un-checked */
         genSetting._ui->transferUsageDataCheckBox->setChecked(false);
-        QMetaObject::invokeMethod( &genSetting, "slotTransferUsageData");
+        QVERIFY( genSetting._ui->transferUsageDataCheckBox->checkState() == Qt::Unchecked );
 
-        QCOMPARE(cfgFile.transferUsageData(), false);
+        /*to track the SIGNAL emit or not */
+        QSignalSpy spy(genSetting._ui->transferUsageDataCheckBox, SIGNAL(toggled(bool)));
+
+        /* generate event/emit signal */
+        genSetting._ui->transferUsageDataCheckBox->toggle();
+
+        /* verify SIGNAL emit */
+        QCOMPARE(spy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(cfgFile.transferUsageData(), true);
+        QVERIFY( genSetting._ui->transferUsageDataCheckBox->checkState() == Qt::Checked );
     }
 
-    void testSlotTransferUsageData_Checked()
+    void test_transferUsageDataCheckBox_UnChecked()
     {
         ConfigFile cfgFile;
         FolderMan folderMan(new QObject());
         GeneralSettings genSetting(new QWidget());
 
+        /* Initial set checked */
         genSetting._ui->transferUsageDataCheckBox->setChecked(true);
-        QMetaObject::invokeMethod( &genSetting, "slotTransferUsageData");
+        QVERIFY( genSetting._ui->transferUsageDataCheckBox->checkState() == Qt::Checked );
 
-        QCOMPARE(cfgFile.transferUsageData(), true);
+        /*to track the SIGNAL emit or not */
+        QSignalSpy spy(genSetting._ui->transferUsageDataCheckBox, SIGNAL(toggled(bool)));
+
+        /* generate event/emit signal */
+        genSetting._ui->transferUsageDataCheckBox->toggle();
+
+        /* verify SIGNAL emit */
+        QCOMPARE(spy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(cfgFile.transferUsageData(), false);
+        QVERIFY( genSetting._ui->transferUsageDataCheckBox->checkState() == Qt::Unchecked );
     }
 
+    void test_serverNotificationsCheckBox_Checked()
+    {
+        ConfigFile cfgFile;
+        FolderMan folderMan(new QObject());
+        GeneralSettings genSetting(new QWidget());
+
+        /* Initial set un-checked */
+        genSetting._ui->serverNotificationsCheckBox->setChecked(false);
+        QVERIFY( genSetting._ui->serverNotificationsCheckBox->checkState() == Qt::Unchecked );
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy spy(genSetting._ui->serverNotificationsCheckBox, SIGNAL(toggled(bool)));
+
+        /* generate event/emit signal */
+        genSetting._ui->serverNotificationsCheckBox->toggle();
+
+        /* verify SIGNAL emit */
+        QCOMPARE(spy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(cfgFile.optionalServerNotifications(), true);
+        QVERIFY( genSetting._ui->serverNotificationsCheckBox->checkState() == Qt::Checked );
+    }
+
+    void test_serverNotificationsCheckBox_UnChecked()
+    {
+        ConfigFile cfgFile;
+        FolderMan folderMan(new QObject());
+        GeneralSettings genSetting(new QWidget());
+
+        /* Initial set checked */
+        genSetting._ui->serverNotificationsCheckBox->setChecked(true);
+        QVERIFY( genSetting._ui->serverNotificationsCheckBox->checkState() == Qt::Checked );
+
+        /*to track the SIGNAL emit or not */
+        QSignalSpy spy(genSetting._ui->serverNotificationsCheckBox, SIGNAL(toggled(bool)));
+
+        /* generate event/emit signal */
+        genSetting._ui->serverNotificationsCheckBox->toggle();
+
+        /* verify SIGNAL emit */
+        QCOMPARE(spy.count(), 1);
+
+        /* verify SLOT data */
+        QCOMPARE(cfgFile.optionalServerNotifications(), false);
+        QVERIFY( genSetting._ui->serverNotificationsCheckBox->checkState() == Qt::Unchecked );
+    }
 };
 
 QTEST_MAIN(TestGeneralSettings)

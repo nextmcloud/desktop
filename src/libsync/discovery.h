@@ -78,11 +78,11 @@ public:
         ProcessDirectoryJob *parent)
         : QObject(parent)
         , _dirItem(dirItem)
+        , _lastSyncTimestamp(lastSyncTimestamp)
         , _queryServer(queryServer)
         , _queryLocal(queryLocal)
         , _discoveryData(parent->_discoveryData)
         , _currentFolder(path)
-        , _lastSyncTimestamp(lastSyncTimestamp)
     {
         computePinState(parent->_pinState);
     }
@@ -104,6 +104,13 @@ public:
     SyncFileItemPtr _dirItem;
 
 private:
+    struct Entries
+    {
+        QString nameOverride;
+        SyncJournalFileRecord dbEntry;
+        RemoteInfo serverEntry;
+        LocalInfo localEntry;
+    };
 
     /** Structure representing a path during discovery. A same path may have different value locally
      * or on the server in case of renames.
@@ -153,8 +160,7 @@ private:
 
     // return true if the file is excluded.
     // path is the full relative path of the file. localName is the base name of the local entry.
-    bool handleExcluded(const QString &path, const QString &localName, bool isDirectory,
-        bool isHidden, bool isSymlink);
+    bool handleExcluded(const QString &path, const Entries &entries, bool isHidden);
 
     /** Reconcile local/remote/db information for a single item.
      *
@@ -183,6 +189,10 @@ private:
      * inside it.
      */
     bool checkPermissions(const SyncFileItemPtr &item);
+
+    bool isAnyParentBeingRestored(const QString &file) const;
+
+    bool isRename(const QString &originalPath) const;
 
     struct MovePermissionResult
     {
@@ -293,6 +303,6 @@ private:
 signals:
     void finished();
     // The root etag of this directory was fetched
-    void etag(const QString &, const QDateTime &time);
+    void etag(const QByteArray &, const QDateTime &time);
 };
 }

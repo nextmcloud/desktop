@@ -360,7 +360,7 @@
               <string notr="true">font: 14px &quot;Segoe UI&quot;;</string>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Lokaler Ordner&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Local Folder&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -546,7 +546,7 @@
               <string notr="true">font: 75 14px &quot;Segoe UI&quot;;</string>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Überprüfen Sie bitte ihren lokalen Ordner&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Please check your local folder &lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -570,7 +570,7 @@
             <string notr="true">font: 13px &quot;Segoe UI&quot;;</string>
            </property>
            <property name="text">
-            <string>Aufgrund des Wechsels zu einem neuen Produkt können wir nicht sicher erkennen, wo Ihr bisheriger MagentaCLOUD gespeichert ist. Sollten Sie den Speicherort in der bisherigen Software angepasst haben, so wählen Sie den Speicherort bitte oben erneut aus.</string>
+            <string>Due to the change to a new product, we cannot be sure where your previous MagentaCLOUD folder is stored. If you have adjusted the location in the previous software, please select the location again above.</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -611,7 +611,7 @@
             <string notr="true">font: 75 14px &quot;Segoe UI&quot;;</string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Ganz neu: Virtuelle Dateien!&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Brand new: Virtual files!&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -635,7 +635,7 @@
               <string notr="true">font: 13px &quot;Segoe UI&quot;;</string>
              </property>
              <property name="text">
-              <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dateien in Ihrem lokalen Ordner werden nicht ständig vollständig heruntergeladen, sondern stattdessen nur auf Bedarf. Der Vorteil ist, dass alle Dateien und Ordner für Sie sichtbar sind, ohne dass sie Speicherplatz belegen.&lt;/p&gt;&lt;p&gt;Ob eine Datei gerade Ihren Speicherplatz belegt, sehen sie an den grünen Häkchen im Explorer. Sie können Ordner und Dateien auch zwingen vollständig heruntergeladen zur Verfügung zu stehen. Klicken Sie dazu mit der rechten Maustaste auf das Objekt, navigieren Sie zum Eintrag &quot;MagentaCLOUD&quot; und wählen Sie &quot;Immer lokal verfügbar machen&quot;.&lt;/p&gt;&lt;p&gt;Umgekehrt können Sie im selben Menü Speicherplatz schneller wieder freigeben, als es sonst automatisch geschehen würde. Das blaue Wolken-Symbol zeigt Ihnen, welche Objekte gerade keinen Speicherplatz verbrauchen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Files in your local folder are not downloaded completely all the time, but instead only on demand. The advantage is that all files and folders are visible to you without taking up storage space.&lt;/p&gt;&lt;p&gt;You can see whether a file is currently occupying your storage space by the green checkmarks in the explorer. You can also force folders and files to be available completely downloaded. To do this, right-click on the object, navigate to the entry  &quot;MagentaCLOUD&quot; and select  &quot;Always make available locally&quot;.&lt;/p&gt;&lt;p&gt;Conversely, you can release storage space more quickly in the same menu than would otherwise happen automatically. The blue cloud symbol shows you which objects are currently not consuming any storage space.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

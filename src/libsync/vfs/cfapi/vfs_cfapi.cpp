@@ -16,7 +16,6 @@
 
 #include <QDir>
 #include <QFile>
-#include <QMessageBox>
 
 #include "cfapiwrapper.h"
 #include "hydrationjob.h"
@@ -133,26 +132,19 @@ Result<void, QString> VfsCfApi::createPlaceholder(const SyncFileItem &item)
 
 Result<void, QString> VfsCfApi::dehydratePlaceholder(const SyncFileItem &item)
 {
-    const auto previousPin = pinState(item._file);
-
-    if (!FileSystem::remove(_setupParams.filesystemPath + item._file)) {
-        return QStringLiteral("Couldn't remove %1 to fulfill dehydration").arg(item._file);
-    }
-
-    const auto r = createPlaceholder(item);
-    if (!r) {
-        return r;
-    }
-
-    if (previousPin) {
-        if (*previousPin == PinState::AlwaysLocal) {
-            setPinState(item._file, PinState::Unspecified);
+    const auto localPath = QDir::toNativeSeparators(_setupParams.filesystemPath + item._file);
+    const auto handle = cfapi::handleForPath(localPath);
+    if (handle) {
+        auto result = cfapi::dehydratePlaceholder(handle, item._modtime, item._size, item._fileId);
+        if (result) {
+            return {};
         } else {
-            setPinState(item._file, *previousPin);
+            return result.error();
         }
+    } else {
+        qCWarning(lcCfApi) << "Couldn't update metadata for non existing file" << localPath;
+        return {QStringLiteral("Couldn't update metadata")};
     }
-
-    return {};
 }
 
 Result<Vfs::ConvertToPlaceholderResult, QString> VfsCfApi::convertToPlaceholder(const QString &filename, const SyncFileItem &item, const QString &replacesFile)
@@ -161,6 +153,9 @@ Result<Vfs::ConvertToPlaceholderResult, QString> VfsCfApi::convertToPlaceholder(
     const auto replacesPath = QDir::toNativeSeparators(replacesFile);
 
     const auto handle = cfapi::handleForPath(localPath);
+    if (!handle) {
+        return { "Invalid handle for path " + localPath };
+    }
     if (cfapi::findPlaceholderInfo(handle)) {
         return cfapi::updatePlaceholderInfo(handle, item._modtime, item._size, item._fileId, replacesPath);
     } else {
@@ -323,28 +318,8 @@ void VfsCfApi::requestHydration(const QString &requestId, const QString &path)
         return;
     }
 
-    // This is impossible to handle with CfAPI since the file size is generally different
-    // between the encrypted and the decrypted file which would make CfAPI reject the hydration
-    // of the placeholder with decrypted data
-    if (record._isE2eEncrypted || !record._e2eMangledName.isEmpty()) {
-        qCInfo(lcCfApi) << "Couldn't hydrate, the file is E2EE this is not supported";
-
-        QMessageBox e2eeFileDownloadRequestWarningMsgBox;
-        e2eeFileDownloadRequestWarningMsgBox.setText(tr("Download of end-to-end encrypted file failed"));
-        e2eeFileDownloadRequestWarningMsgBox.setInformativeText(tr("It seems that you are trying to download a virtual file that"
-                                                                   " is end-to-end encrypted. Implicitly downloading such files is not"
-                                                                   " supported at the moment. To workaround this issue, go to the"
-                                                                   " settings and mark the encrypted folder with \"Make always available"
-                                                                   " locally\"."));
-        e2eeFileDownloadRequestWarningMsgBox.setIcon(QMessageBox::Warning);
-        e2eeFileDownloadRequestWarningMsgBox.exec();
-
-        emit hydrationRequestFailed(requestId);
-        return;
-    }
-
     // All good, let's hydrate now
-    scheduleHydrationJob(requestId, relativePath);
+    scheduleHydrationJob(requestId, relativePath, record);
 }
 
 void VfsCfApi::fileStatusChanged(const QString &systemFileName, SyncFileStatus fileStatus)
@@ -353,7 +328,7 @@ void VfsCfApi::fileStatusChanged(const QString &systemFileName, SyncFileStatus f
     Q_UNUSED(fileStatus);
 }
 
-void VfsCfApi::scheduleHydrationJob(const QString &requestId, const QString &folderPath)
+void VfsCfApi::scheduleHydrationJob(const QString &requestId, const QString &folderPath, const SyncJournalFileRecord &record)
 {
     const auto jobAlreadyScheduled = std::any_of(std::cbegin(d->hydrationJobs), std::cend(d->hydrationJobs), [=](HydrationJob *job) {
         return job->requestId() == requestId || job->folderPath() == folderPath;
@@ -376,6 +351,8 @@ void VfsCfApi::scheduleHydrationJob(const QString &requestId, const QString &fol
     job->setJournal(params().journal);
     job->setRequestId(requestId);
     job->setFolderPath(folderPath);
+    job->setIsEncryptedFile(record._isE2eEncrypted);
+    job->setE2eMangledName(record._e2eMangledName);
     connect(job, &HydrationJob::finished, this, &VfsCfApi::onHydrationJobFinished);
     d->hydrationJobs << job;
     job->start();

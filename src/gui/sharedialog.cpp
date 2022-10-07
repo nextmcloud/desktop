@@ -100,8 +100,8 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     QString ocDir(_sharePath);
     ocDir.truncate(ocDir.length() - fileName.length());
 
-    ocDir.replace(QRegExp("^/*"), "");
-    ocDir.replace(QRegExp("/*$"), "");
+    ocDir.replace(QRegularExpression("^/*"), "");
+    ocDir.replace(QRegularExpression("/*$"), "");
 
     // Laying this out is complex because sharePath
     // may be in use or not.

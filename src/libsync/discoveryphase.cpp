@@ -185,7 +185,9 @@ QPair<bool, QByteArray> DiscoveryPhase::findAndCancelDeletedJob(const QString &o
                 qCWarning(lcDiscovery) << "instruction" << instruction;
                 qCWarning(lcDiscovery) << "(*it)->_type" << (*it)->_type;
                 qCWarning(lcDiscovery) << "(*it)->_isRestoration " << (*it)->_isRestoration;
-                ENFORCE(false);
+                Q_ASSERT(false);
+                addErrorToGui(SyncFileItem::Status::FatalError, tr("Error while canceling deletion of a file"), originalPath);
+                emit fatalError(tr("Error while canceling deletion of %1").arg(originalPath));
             }
             (*it)->_instruction = CSYNC_INSTRUCTION_NONE;
             result = true;
@@ -199,6 +201,17 @@ QPair<bool, QByteArray> DiscoveryPhase::findAndCancelDeletedJob(const QString &o
         result = true;
     }
     return { result, oldEtag };
+}
+
+void DiscoveryPhase::enqueueDirectoryToDelete(const QString &path, ProcessDirectoryJob* const directoryJob)
+{
+    _queuedDeletedDirectories[path] = directoryJob;
+
+    if (directoryJob->_dirItem && directoryJob->_dirItem->_isRestoration
+        && directoryJob->_dirItem->_direction == SyncFileItem::Down
+        && directoryJob->_dirItem->_instruction == CSYNC_INSTRUCTION_NEW) {
+        _directoryNamesToRestoreOnPropagation.push_back(path);
+    }
 }
 
 void DiscoveryPhase::startJob(ProcessDirectoryJob *job)
@@ -349,7 +362,9 @@ void DiscoverySingleDirectoryJob::start()
           << "getlastmodified"
           << "getcontentlength"
           << "getetag"
+          << "http://owncloud.org/ns:size"
           << "http://owncloud.org/ns:id"
+          << "http://owncloud.org/ns:fileid"
           << "http://owncloud.org/ns:downloadURL"
           << "http://owncloud.org/ns:dDC"
           << "http://owncloud.org/ns:permissions"
@@ -362,6 +377,15 @@ void DiscoverySingleDirectoryJob::start()
     }
     if (_account->capabilities().clientSideEncryptionAvailable()) {
         props << "http://nextcloud.org/ns:is-encrypted";
+    }
+    if (_account->capabilities().filesLockAvailable()) {
+        props << "http://nextcloud.org/ns:lock"
+              << "http://nextcloud.org/ns:lock-owner-displayname"
+              << "http://nextcloud.org/ns:lock-owner"
+              << "http://nextcloud.org/ns:lock-owner-type"
+              << "http://nextcloud.org/ns:lock-owner-editor"
+              << "http://nextcloud.org/ns:lock-time"
+              << "http://nextcloud.org/ns:lock-timeout";
     }
 
     lsColJob->setProperties(props);
@@ -392,7 +416,10 @@ static void propertyMapToRemoteInfo(const QMap<QString, QString> &map, RemoteInf
         } else if (property == QLatin1String("getlastmodified")) {
             const auto date = QDateTime::fromString(value, Qt::RFC2822Date);
             Q_ASSERT(date.isValid());
-            result.modtime = date.toTime_t();
+            result.modtime = 0;
+            if (date.toSecsSinceEpoch() > 0) {
+                result.modtime = date.toSecsSinceEpoch();
+            }
         } else if (property == QLatin1String("getcontentlength")) {
             // See #4573, sometimes negative size values are returned
             bool ok = false;
@@ -427,7 +454,50 @@ static void propertyMapToRemoteInfo(const QMap<QString, QString> &map, RemoteInf
             }
         } else if (property == "is-encrypted" && value == QStringLiteral("1")) {
             result.isE2eEncrypted = true;
+        } else if (property == "lock") {
+            result.locked = (value == QStringLiteral("1") ? SyncFileItem::LockStatus::LockedItem : SyncFileItem::LockStatus::UnlockedItem);
         }
+        if (property == "lock-owner-displayname") {
+            result.lockOwnerDisplayName = value;
+        }
+        if (property == "lock-owner") {
+            result.lockOwnerId = value;
+        }
+        if (property == "lock-owner-type") {
+            auto ok = false;
+            const auto intConvertedValue = value.toULongLong(&ok);
+            if (ok) {
+                result.lockOwnerType = static_cast<SyncFileItem::LockOwnerType>(intConvertedValue);
+            } else {
+                result.lockOwnerType = SyncFileItem::LockOwnerType::UserLock;
+            }
+        }
+        if (property == "lock-owner-editor") {
+            result.lockEditorApp = value;
+        }
+        if (property == "lock-time") {
+            auto ok = false;
+            const auto intConvertedValue = value.toULongLong(&ok);
+            if (ok) {
+                result.lockTime = intConvertedValue;
+            } else {
+                result.lockTime = 0;
+            }
+        }
+        if (property == "lock-timeout") {
+            auto ok = false;
+            const auto intConvertedValue = value.toULongLong(&ok);
+            if (ok) {
+                result.lockTimeout = intConvertedValue;
+            } else {
+                result.lockTimeout = 0;
+            }
+        }
+
+    }
+
+    if (result.isDirectory && map.contains("size")) {
+        result.sizeOfFolder = map.value("size").toInt();
     }
 }
 
@@ -448,12 +518,18 @@ void DiscoverySingleDirectoryJob::directoryListingIteratedSlot(const QString &fi
                 _dataFingerprint = "[empty]";
             }
         }
+        if (map.contains(QStringLiteral("fileid"))) {
+            _localFileId = map.value(QStringLiteral("fileid")).toUtf8();
+        }
         if (map.contains("id")) {
             _fileId = map.value("id").toUtf8();
         }
         if (map.contains("is-encrypted") && map.value("is-encrypted") == QStringLiteral("1")) {
             _isE2eEncrypted = true;
             Q_ASSERT(!_fileId.isEmpty());
+        }
+        if (map.contains("size")) {
+            _size = map.value("size").toInt();
         }
     } else {
 
@@ -472,19 +548,13 @@ void DiscoverySingleDirectoryJob::directoryListingIteratedSlot(const QString &fi
             result.remotePerm.unsetPermission(RemotePermissions::IsMounted);
             result.remotePerm.setPermission(RemotePermissions::IsMountedSub);
         }
-
-        QStringRef fileRef(&file);
-        int slashPos = file.lastIndexOf(QLatin1Char('/'));
-        if (slashPos > -1) {
-            fileRef = file.midRef(slashPos + 1);
-        }
         _results.push_back(std::move(result));
     }
 
     //This works in concerto with the RequestEtagJob and the Folder object to check if the remote folder changed.
     if (map.contains("getetag")) {
         if (_firstEtag.isEmpty()) {
-            _firstEtag = parseEtag(map.value("getetag").toUtf8()); // for directory itself
+            _firstEtag = parseEtag(map.value(QStringLiteral("getetag")).toUtf8()); // for directory itself
         }
     }
 }
@@ -527,7 +597,7 @@ void DiscoverySingleDirectoryJob::lsJobFinishedWithErrorSlot(QNetworkReply *r)
 
 void DiscoverySingleDirectoryJob::fetchE2eMetadata()
 {
-    auto job = new GetMetadataApiJob(_account, _fileId);
+    const auto job = new GetMetadataApiJob(_account, _localFileId);
     connect(job, &GetMetadataApiJob::jsonReceived,
             this, &DiscoverySingleDirectoryJob::metadataReceived);
     connect(job, &GetMetadataApiJob::error,

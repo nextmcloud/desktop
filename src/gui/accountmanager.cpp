@@ -380,6 +380,8 @@ void AccountManager::deleteAccount(AccountState *account)
     // Forget E2E keys
     account->account()->e2e()->forgetSensitiveData(account->account());
 
+    account->account()->deleteAppToken();
+
     emit accountSyncConnectionRemoved(account);
     emit accountRemoved(account);
 }
@@ -390,6 +392,8 @@ AccountPtr AccountManager::createAccount()
     acc->setSslErrorHandler(new SslDialogErrorHandler);
     connect(acc.data(), &Account::proxyAuthenticationRequired,
         ProxyAuthHandler::instance(), &ProxyAuthHandler::handleProxyAuthenticationRequired);
+    connect(acc.data(), &Account::lockFileError,
+        Systray::instance(), &Systray::showErrorMessageDialog);
 
     return acc;
 }

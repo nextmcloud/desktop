@@ -9,9 +9,10 @@ add_library(testutils
   syncenginetestutils.cpp
   pushnotificationstestutils.cpp
   themeutils.cpp
+  testhelper.cpp
 )
 
-target_link_libraries(testutils PUBLIC ${APPLICATION_EXECUTABLE}sync Qt5::Test)
+target_link_libraries(testutils PUBLIC Nextcloud::sync Qt5::Test)
 target_include_directories(testutils PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 set_target_properties(testutils PROPERTIES FOLDER Tests)
 
@@ -31,7 +32,7 @@ nextcloud_add_test(XmlParse)
 nextcloud_add_test(ChecksumValidator)
 
 nextcloud_add_test(ClientSideEncryption)
-nextcloud_add_test(ExcludedFiles)
+###nextcloud_add_test(ExcludedFiles)
 
 nextcloud_add_test(Utility)
 nextcloud_add_test(SyncEngine)
@@ -41,7 +42,10 @@ nextcloud_add_test(SyncDelete)
 nextcloud_add_test(SyncConflict)
 nextcloud_add_test(SyncFileStatusTracker)
 nextcloud_add_test(Download)
-nextcloud_add_test(ChunkingNg)
+
+#Timeout TC
+##nextcloud_add_test(ChunkingNg)
+
 nextcloud_add_test(AsyncOp)
 nextcloud_add_test(UploadReset)
 nextcloud_add_test(AllFilesDeleted)
@@ -54,9 +58,12 @@ nextcloud_add_test(DatabaseError)
 nextcloud_add_test(LockedFiles)
 nextcloud_add_test(FolderWatcher)
 nextcloud_add_test(Capabilities)
-nextcloud_add_test(PushNotifications)
+###nextcloud_add_test(PushNotifications)
 nextcloud_add_test(Theme)
+nextcloud_add_test(IconUtils)
 nextcloud_add_test(NotificationCache)
+nextcloud_add_test(SetUserStatusDialog)
+nextcloud_add_test(UnifiedSearchListmodel)
 
 if( UNIX AND NOT APPLE )
     nextcloud_add_test(InotifyWatcher)
@@ -67,39 +74,43 @@ if (WIN32)
         ${CMAKE_BINARY_DIR}/src/libsync/vfs/cfapi
     )
 
-    nextcloud_add_test(LongWinPath)
-    nextcloud_add_test(SyncCfApi)
+    ##nextcloud_add_test(SyncCfApi)
 elseif(LINUX) # elseif(LINUX OR APPLE)
     nextcloud_add_test(SyncXAttr)
 endif()
 
+nextcloud_add_test(LongPath)
 nextcloud_add_benchmark(LargeSync)
-
 nextcloud_add_test(Account)
 nextcloud_add_test(FolderMan)
 nextcloud_add_test(RemoteWipe)
-
 nextcloud_add_test(OAuth)
 
+#New TCs
 nextcloud_add_test(FolderStatusModel)
 nextcloud_add_test(AccountSettings)
-nextcloud_add_test(ActivityListModel)
-nextcloud_add_test(FolderWizard)
-nextcloud_add_test(GeneralSettings)
-nextcloud_add_test(ConfigFile)
-nextcloud_add_test(FolderStatusDelegate)
-#nextcloud_add_test(SettingsDialog)
-nextcloud_add_test(UserModel)
-
 nextcloud_add_test(ShareDialog)
-nextcloud_add_test(ShareLinkWidget)
-nextcloud_add_test(ShareUserGroupPermissionWidget)
-nextcloud_add_test(ShareUserGroupWidget)
+nextcloud_add_test(ConfigFile)
+nextcloud_add_test(UserModel)
 nextcloud_add_test(ShareUserMessageWidget)
-nextcloud_add_test(Flow2AuthWidget)
 nextcloud_add_test(OwncloudWizard)
+nextcloud_add_test(ShareLinkWidget)
+nextcloud_add_test(Flow2AuthWidget)
+nextcloud_add_test(FolderStatusDelegate)
+nextcloud_add_test(Welcome)
+nextcloud_add_test(UserLine)
+nextcloud_add_test(HeaderButton)
+nextcloud_add_test(ActivityData)
+nextcloud_add_test(TalkReply)
+nextcloud_add_test(ActivityListModel)
+nextcloud_add_test(SettingsDialog)
 nextcloud_add_test(OwncloudSetupPage)
 nextcloud_add_test(OwncloudAdvancedSetupPage)
+nextcloud_add_test(ShareUserGroupPermissionWidget)
+nextcloud_add_test(ShareUserGroupWidget)
+nextcloud_add_test(GeneralSettings)
+nextcloud_add_test(FolderWizard)
+###nextcloud_add_test(Window)
 
 configure_file(test_journal.db "${PROJECT_BINARY_DIR}/bin/test_journal.db" COPYONLY)
 

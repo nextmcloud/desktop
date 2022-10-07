@@ -30,6 +30,7 @@ class TestFolderWizard;
 class TestGeneralSettings;
 class TestShareDialog;
 class TestShareUserGroupWidget;
+class TestSettingsDialog;
 
 namespace OCC {
 
@@ -66,7 +67,7 @@ class FolderMan : public QObject
 {
     Q_OBJECT
 public:
-    ~FolderMan();
+    ~FolderMan() override;
     static FolderMan *instance();
 
     int setupFolders();
@@ -328,6 +329,8 @@ private:
 
     bool pushNotificationsFilesReady(Account *account);
 
+    bool isSwitchToVfsNeeded(const FolderDefinition &folderDefinition) const;
+
     QSet<Folder *> _disabledFolders;
     Folder::Map _folderMap;
     QString _folderConfigPath;
@@ -368,6 +371,7 @@ private:
     friend class ::TestGeneralSettings;
     friend class ::TestShareDialog;
     friend class ::TestShareUserGroupWidget;
+    friend class ::TestSettingsDialog;
 };
 
 } // namespace OCC

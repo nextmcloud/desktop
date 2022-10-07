@@ -52,6 +52,8 @@
 
 namespace OCC {
 
+Q_LOGGING_CATEGORY(lcOwnCloudGui, "com.nextcloud.owncloudgui")
+
 const char propertyAccountC[] = "oc_account";
 
 ownCloudGui::ownCloudGui(Application *parent)
@@ -373,10 +375,21 @@ void ownCloudGui::hideAndShowTray()
 
 void ownCloudGui::slotShowTrayMessage(const QString &title, const QString &msg)
 {
-    if (_tray)
+    qCDebug(lcOwnCloudGui) << "Going to show notification with title: '" << title << "' and message: '" << msg << "'";
+    if (_tray) {
         _tray->showMessage(title, msg);
-    else
+    } else {
         qCWarning(lcApplication) << "Tray not ready: " << msg;
+    }
+}
+
+void ownCloudGui::slotShowTrayUpdateMessage(const QString &title, const QString &msg, const QUrl &webUrl)
+{
+    if(_tray) {
+        _tray->showUpdateMessage(title, msg, webUrl);
+    } else {
+        qCWarning(lcApplication) << "Tray not ready: " << msg;
+    }
 }
 
 void ownCloudGui::slotShowOptionalTrayMessage(const QString &title, const QString &msg)
@@ -415,10 +428,10 @@ void ownCloudGui::slotUpdateProgress(const QString &folder, const ProgressInfo &
     if (progress.status() == ProgressInfo::Discovery) {
 #if 0
         if (!progress._currentDiscoveredRemoteFolder.isEmpty()) {
-            _actionStatus->setText(tr("Checking for changes in remote '%1'")
+            _actionStatus->setText(tr("Checking for changes in remote \"%1\"")
                                        .arg(progress._currentDiscoveredRemoteFolder));
         } else if (!progress._currentDiscoveredLocalFolder.isEmpty()) {
-            _actionStatus->setText(tr("Checking for changes in local '%1'")
+            _actionStatus->setText(tr("Checking for changes in local \"%1\"")
                                        .arg(progress._currentDiscoveredLocalFolder));
         }
 #endif
@@ -631,19 +644,7 @@ void ownCloudGui::slotShowShareDialog(const QString &sharePath, const QString &l
         }
     }
 
-    // As a first approximation, set the set of permissions that can be granted
-    // either to everything (resharing allowed) or nothing (no resharing).
-    //
-    // The correct value will be found with a propfind from ShareDialog.
-    // (we want to show the dialog directly, not wait for the propfind first)
-    SharePermissions maxSharingPermissions =
-        SharePermissionRead
-        | SharePermissionUpdate | SharePermissionCreate | SharePermissionDelete
-        | SharePermissionShare;
-    if (!resharingAllowed) {
-        maxSharingPermissions = {};
-    }
-
+    auto maxSharingPermissions = resharingAllowed? SharePermissions(accountState->account()->capabilities().shareDefaultPermissions()) : SharePermissions({});
 
     ShareDialog *w = nullptr;
     if (_shareDialogs.contains(localPath) && _shareDialogs[localPath]) {

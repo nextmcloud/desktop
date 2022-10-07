@@ -17,7 +17,7 @@
 #include "folder.h"
 #include "syncresult.h"
 #include "theme.h"
-#include "socketapi.h"
+#include "socketapi/socketapi.h"
 #include "account.h"
 #include "accountstate.h"
 #include "accountmanager.h"
@@ -211,6 +211,10 @@ int FolderMan::setupFolders()
 
     emit folderListChanged(_folderMap);
 
+    for (const auto folder : _folderMap) {
+        folder->processSwitchedToVirtualFiles();
+    }
+
     return _folderMap.size();
 }
 
@@ -292,6 +296,11 @@ void FolderMan::setupFoldersHelper(QSettings &settings, AccountStatePtr account,
                 SyncJournalDb::maybeMigrateDb(folderDefinition.localPath, folderDefinition.absoluteJournalPath());
             }
 
+            const auto switchToVfs = isSwitchToVfsNeeded(folderDefinition);
+            if (switchToVfs) {
+                folderDefinition.virtualFilesMode = bestAvailableVfsMode();
+            }
+
             auto vfs = createVfsFromPlugin(folderDefinition.virtualFilesMode);
             if (!vfs) {
                 // TODO: Must do better error handling
@@ -300,6 +309,9 @@ void FolderMan::setupFoldersHelper(QSettings &settings, AccountStatePtr account,
 
             Folder *f = addFolderInternal(std::move(folderDefinition), account.data(), std::move(vfs));
             if (f) {
+                if (switchToVfs) {
+                    f->switchToVirtualFiles();
+                }
                 // Migrate the old "usePlaceholders" setting to the root folder pin state
                 if (settings.value(QLatin1String(versionC), 1).toInt() == 1
                     && settings.value(QLatin1String("usePlaceholders"), false).toBool()) {
@@ -387,7 +399,7 @@ bool FolderMan::ensureJournalGone(const QString &journalDbFile)
     while (QFile::exists(journalDbFile) && !QFile::remove(journalDbFile)) {
         qCWarning(lcFolderMan) << "Could not remove old db file at" << journalDbFile;
         int ret = QMessageBox::warning(nullptr, tr("Could not reset folder state"),
-            tr("An old sync journal '%1' was found, "
+            tr("An old sync journal \"%1\" was found, "
                "but could not be removed. Please make sure "
                "that no application is currently using it.")
                 .arg(QDir::fromNativeSeparators(QDir::cleanPath(journalDbFile))),
@@ -837,6 +849,19 @@ bool FolderMan::pushNotificationsFilesReady(Account *account)
     return pushFilesAvailable && pushNotifications && pushNotifications->isReady();
 }
 
+bool FolderMan::isSwitchToVfsNeeded(const FolderDefinition &folderDefinition) const
+{
+    auto result = false;
+    if (ENFORCE_VIRTUAL_FILES_SYNC_FOLDER &&
+            folderDefinition.virtualFilesMode != bestAvailableVfsMode() &&
+            folderDefinition.virtualFilesMode == Vfs::Off &&
+            OCC::Theme::instance()->showVirtualFilesOption()) {
+        result = true;
+    }
+
+    return result;
+}
+
 void FolderMan::slotEtagPollTimerTimeout()
 {
     qCInfo(lcFolderMan) << "Etag poll timer timeout";
@@ -1075,7 +1100,7 @@ Folder *FolderMan::addFolder(AccountState *accountState, const FolderDefinition 
     // Migration: The first account that's configured for a local folder shall
     // be saved in a backwards-compatible way.
     const auto folderList = FolderMan::instance()->map();
-    const auto oneAccountOnly = std::none_of(folderList.cbegin(), folderList.cend(), [this, folder](const auto *other) {
+    const auto oneAccountOnly = std::none_of(folderList.cbegin(), folderList.cend(), [folder](const auto *other) {
         return other != folder && other->cleanPath() == folder->cleanPath();
     });
 
@@ -1111,8 +1136,7 @@ Folder *FolderMan::addFolderInternal(
     /* Root folder is the only that should be shown in a file manager nav pane
      * and if the map isn't empty this means that the root folder is already there
      */
-    if (_navigationPaneHelper.showInExplorerNavigationPane() && folderDefinition.navigationPaneClsid.isNull() &&
-        map().empty())
+    if (_navigationPaneHelper.showInExplorerNavigationPane() && folderDefinition.navigationPaneClsid.isNull())
     {
         folder->setNavigationPaneClsid(QUuid::createUuid());
         folder->saveToSettings();
@@ -1527,6 +1551,9 @@ static QString checkPathValidityRecursive(const QString &path)
 #endif
     const QFileInfo selFile(path);
 
+    if (!selFile.isAbsolute()) {
+        return FolderMan::tr("Please select valid path");
+    }
     if (!selFile.exists()) {
         QString parentPath = selFile.dir().path();
         if (parentPath != path)
@@ -1630,7 +1657,7 @@ QString FolderMan::findGoodPathForNewSyncFolder(const QString &basePath, const Q
         return basePath;
     }
 
-   /* int attempt = 1;
+    int attempt = 1;
     forever {
         const bool isGood =
             !QFileInfo(folder).exists()
@@ -1646,7 +1673,7 @@ QString FolderMan::findGoodPathForNewSyncFolder(const QString &basePath, const Q
         }
 
         folder = basePath + QString::number(attempt);
-    }*/
+    }
 
     return folder;
 }

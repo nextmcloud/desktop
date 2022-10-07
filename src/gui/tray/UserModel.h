@@ -9,9 +9,12 @@
 #include <QHash>
 
 #include "ActivityListModel.h"
+#include "accountfwd.h"
 #include "accountmanager.h"
 #include "folderman.h"
 #include "NotificationCache.h"
+#include "userstatusselectormodel.h"
+#include "userstatusconnector.h"
 #include <chrono>
 
 namespace OCC {
@@ -34,6 +37,7 @@ public:
     User(AccountStatePtr &account, const bool &isCurrent = false, QObject *parent = nullptr);
 
     AccountPtr account() const;
+    AccountStatePtr accountState() const;
 
     bool isConnected() const;
     bool isCurrentUser() const;
@@ -55,14 +59,13 @@ public:
     void removeAccount() const;
     QString avatarUrl() const;
     bool isDesktopNotificationsAllowed() const;
-    UserStatus::Status status() const;
+    UserStatus::OnlineStatus status() const;
     QString statusMessage() const;
     QUrl statusIcon() const;
     QString statusEmoji() const;
     void processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr &item);
 
 signals:
-    void guiLog(const QString &, const QString &);
     void nameChanged();
     void hasLocalFolderChanged();
     void serverHasTalkChanged();
@@ -83,6 +86,7 @@ public slots:
     void slotSendNotificationRequest(const QString &accountName, const QString &link, const QByteArray &verb, int row);
     void slotBuildNotificationDisplay(const ActivityList &list);
     void slotRefreshNotifications();
+    void slotRefreshActivitiesInitial();
     void slotRefreshActivities();
     void slotRefresh();
     void slotRefreshUserStatus();
@@ -103,7 +107,7 @@ private:
     bool isActivityOfCurrentAccount(const Folder *folder) const;
     bool isUnsolvableConflict(const SyncFileItemPtr &item) const;
 
-    void showDesktopNotification(const QString &title, const QString &message);
+    void showDesktopNotification(const QString &title, const QString &message, const long notificationId);
 
 private:
     AccountStatePtr _account;
@@ -117,6 +121,7 @@ private:
 
     QElapsedTimer _guiLogTimer;
     NotificationCache _notificationCache;
+    QMimeDatabase _mimeDb;
 
     // number of currently running notification requests. If non zero,
     // no query for notifications is started.
@@ -130,7 +135,7 @@ class UserModel : public QAbstractListModel
     Q_PROPERTY(int currentUserId READ currentUserId NOTIFY newUserSelected)
 public:
     static UserModel *instance();
-    virtual ~UserModel() = default;
+    ~UserModel() override = default;
 
     void addUser(AccountStatePtr &user, const bool &isCurrent = false);
     int currentUserIndex();
@@ -157,6 +162,8 @@ public:
     Q_INVOKABLE void login(const int &id);
     Q_INVOKABLE void logout(const int &id);
     Q_INVOKABLE void removeAccount(const int &id);
+
+    Q_INVOKABLE std::shared_ptr<OCC::UserStatusConnector> userStatusConnector(int id);
 
     ActivityListModel *currentActivityModel();
 
@@ -205,7 +212,7 @@ class UserAppsModel : public QAbstractListModel
     Q_OBJECT
 public:
     static UserAppsModel *instance();
-    virtual ~UserAppsModel() = default;
+    ~UserAppsModel() override = default;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 

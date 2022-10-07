@@ -4,6 +4,7 @@
 #include "accountmanager.h"
 #include "owncloudgui.h"
 #include <pushnotifications.h>
+#include "userstatusselectormodel.h"
 #include "syncengine.h"
 #include "ocsjob.h"
 #include "configfile.h"
@@ -12,6 +13,11 @@
 #include "guiutility.h"
 #include "syncfileitem.h"
 #include "tray/NotificationCache.h"
+#include "systray.h"
+#include "tray/activitylistmodel.h"
+#include "tray/talkreply.h"
+#include "userstatusconnector.h"
+#include "thumbnailjob.h"
 
 #include <QDesktopServices>
 #include <QIcon>
@@ -35,7 +41,7 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
     : QObject(parent)
     , _account(account)
     , _isCurrentUser(isCurrent)
-    , _activityModel(new ActivityListModel(_account.data()))
+    , _activityModel(new ActivityListModel(_account.data(), this))
     , _notificationRequestsRunning(0)
 {
     connect(ProgressDispatcher::instance(), &ProgressDispatcher::progressInfo,
@@ -62,24 +68,29 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
 
     connect(FolderMan::instance(), &FolderMan::folderListChanged, this, &User::hasLocalFolderChanged);
 
-    connect(this, &User::guiLog, Logger::instance(), &Logger::guiLog);
-
     connect(_account->account().data(), &Account::accountChangedAvatar, this, &User::avatarChanged);
-    connect(_account.data(), &AccountState::statusChanged, this, &User::statusChanged);
+    connect(_account->account().data(), &Account::userStatusChanged, this, &User::statusChanged);
     connect(_account.data(), &AccountState::desktopNotificationsAllowedChanged, this, &User::desktopNotificationsAllowedChanged);
 
     connect(_activityModel, &ActivityListModel::sendNotificationRequest, this, &User::slotSendNotificationRequest);
 }
 
-void User::showDesktopNotification(const QString &title, const QString &message)
+void User::showDesktopNotification(const QString &title, const QString &message, const long notificationId)
 {
+    // Notification ids are uints, which are 4 bytes. Error activities don't have ids, however, so we generate one.
+    // To avoid possible collisions between the activity ids which are actually the notification ids received from
+    // the server (which are always positive) and our "fake" error activity ids, we assign a negative id to the
+    // error notification.
+    //
+    // To ensure that we can still treat an unsigned int as normal, we use a long, which is 8 bytes.
+
     ConfigFile cfg;
     if (!cfg.optionalServerNotifications() || !isDesktopNotificationsAllowed()) {
         return;
     }
 
     // after one hour, clear the gui log notification store
-    constexpr quint64 clearGuiLogInterval = 60 * 60 * 1000;
+    constexpr qint64 clearGuiLogInterval = 60 * 60 * 1000;
     if (_guiLogTimer.elapsed() > clearGuiLogInterval) {
         _notificationCache.clear();
     }
@@ -90,7 +101,7 @@ void User::showDesktopNotification(const QString &title, const QString &message)
     }
 
     _notificationCache.insert(notification);
-    emit guiLog(notification.title, notification.message);
+    Logger::instance()->postGuiLog(title, message);
     // restart the gui log timer now that we show a new notification
     _guiLogTimer.start();
 }
@@ -105,7 +116,7 @@ void User::slotBuildNotificationDisplay(const ActivityList &list)
             continue;
         }
         const auto message = AccountManager::instance()->accounts().count() == 1 ? "" : activity._accName;
-        showDesktopNotification(activity._subject, message);
+        showDesktopNotification(activity._subject, message, activity._id); // We assigned the notif. id to the activity id
         _activityModel->addNotificationToActivityList(activity);
     }
 }
@@ -195,7 +206,7 @@ bool User::checkPushNotificationsAreReady() const
 }
 
 void User::slotRefreshImmediately() {
-    if (_account.data() && _account.data()->isConnected()) {
+    if (_account.data() && _account.data()->isConnected() && Systray::instance()->isOpen()) {
         slotRefreshActivities();
     }
     slotRefreshNotifications();
@@ -207,6 +218,7 @@ void User::slotRefresh()
     
     if (checkPushNotificationsAreReady()) {
         // we are relying on WebSocket push notifications - ignore refresh attempts from UI
+        slotRefreshActivitiesInitial();
         _timeSinceLastCheck[_account.data()].invalidate();
         return;
     }
@@ -223,23 +235,30 @@ void User::slotRefresh()
         return;
     }
     if (_account.data() && _account.data()->isConnected()) {
-        if (!timer.isValid()) {
-            slotRefreshActivities();
-        }
+        slotRefreshActivitiesInitial();
         slotRefreshNotifications();
         timer.start();
     }
 }
 
-void User::slotRefreshActivities()
+void User::slotRefreshActivitiesInitial()
 {
-    _activityModel->slotRefreshActivity();
+    if (_account.data()->isConnected() && Systray::instance()->isOpen()) {
+        _activityModel->slotRefreshActivityInitial();
+    }
 }
 
-void User::slotRefreshUserStatus() 
+void User::slotRefreshActivities()
+{
+    if (_account.data()->isConnected() && Systray::instance()->isOpen()) {
+        _activityModel->slotRefreshActivity();
+    }
+}
+
+void User::slotRefreshUserStatus()
 {
     if (_account.data() && _account.data()->isConnected()) {
-        _account.data()->fetchUserStatus();
+        _account->account()->userStatusConnector()->fetchUserStatus();
     }
 }
 
@@ -466,10 +485,13 @@ void User::slotAddErrorToGui(const QString &folderAlias, SyncFileItem::Status st
         activity._accName = folderInstance->accountState()->account()->displayName();
         activity._folder = folderAlias;
 
+        // Error notifications don't have ids by themselves so we will create one for it
+        activity._id = -static_cast<int>(qHash(activity._subject + activity._message));
+
         // add 'other errors' to activity list
         _activityModel->addErrorToActivityList(activity);
 
-        showDesktopNotification(activity._subject, activity._message);
+        showDesktopNotification(activity._subject, activity._message, activity._id);
 
         if (!_expiredActivitiesCheckTimer.isActive()) {
             _expiredActivitiesCheckTimer.start(expiredActivitiesCheckIntervalMsecs);
@@ -490,53 +512,94 @@ bool User::isUnsolvableConflict(const SyncFileItemPtr &item) const
 
 void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr &item)
 {
+    const auto fileActionFromInstruction = [](const int instruction) {
+        if (instruction == CSYNC_INSTRUCTION_REMOVE) {
+            return QStringLiteral("file_deleted");
+        } else if (instruction == CSYNC_INSTRUCTION_NEW) {
+            return QStringLiteral("file_created");
+        } else if (instruction == CSYNC_INSTRUCTION_RENAME) {
+            return QStringLiteral("file_renamed");
+        } else {
+            return QStringLiteral("file_changed");
+        }
+    };
+
+    const auto messageFromFileAction = [](const QString &fileAction, const QString &fileName) {
+        if (fileAction == QStringLiteral("file_renamed")) {
+            return QObject::tr("You renamed %1").arg(fileName);
+        } else if (fileAction == QStringLiteral("file_deleted")) {
+            return QObject:: tr("You deleted %1").arg(fileName);
+        } else if (fileAction == QStringLiteral("file_created")) {
+            return QObject::tr("You created %1").arg(fileName);
+        } else {
+            return QObject::tr("You changed %1").arg(fileName);
+        }
+    };
+
     Activity activity;
     activity._type = Activity::SyncFileItemType; //client activity
     activity._status = item->_status;
     activity._dateTime = QDateTime::currentDateTime();
     activity._message = item->_originalFile;
-    activity._link = folder->accountState()->account()->url();
-    activity._accName = folder->accountState()->account()->displayName();
+    activity._link = account()->url();
+    activity._accName = account()->displayName();
     activity._file = item->_file;
     activity._folder = folder->alias();
     activity._fileAction = "";
 
-    if (item->_instruction == CSYNC_INSTRUCTION_REMOVE) {
-        activity._fileAction = "file_deleted";
-    } else if (item->_instruction == CSYNC_INSTRUCTION_NEW) {
-        activity._fileAction = "file_created";
-    } else if (item->_instruction == CSYNC_INSTRUCTION_RENAME) {
-        activity._fileAction = "file_renamed";
-    } else {
-        activity._fileAction = "file_changed";
-    }
+    const auto fileName = QFileInfo(item->_originalFile).fileName();
+
+    activity._fileAction = fileActionFromInstruction(item->_instruction);
 
     if (item->_status == SyncFileItem::NoStatus || item->_status == SyncFileItem::Success) {
         qCWarning(lcActivity) << "Item " << item->_file << " retrieved successfully.";
 
         if (item->_direction != SyncFileItem::Up) {
-            activity._message = tr("Synced %1").arg(item->_originalFile);
-        } else if (activity._fileAction == "file_renamed") {
-            activity._message = tr("You renamed %1").arg(item->_originalFile);
-        } else if (activity._fileAction == "file_deleted") {
-            activity._message = tr("You deleted %1").arg(item->_originalFile);
-        } else if (activity._fileAction == "file_created") {
-            activity._message = tr("You created %1").arg(item->_originalFile);
+            activity._message = QObject::tr("Synced %1").arg(fileName);
         } else {
-            activity._message = tr("You changed %1").arg(item->_originalFile);
+            activity._message = messageFromFileAction(activity._fileAction, fileName);
+        }
+
+        if(activity._fileAction != "file_deleted" && !item->isEmpty()) {
+            auto remotePath = folder->remotePath();
+            remotePath.append(activity._fileAction == "file_renamed" ? item->_renameTarget : activity._file);
+
+            const auto localFiles = FolderMan::instance()->findFileInLocalFolders(item->_file, account());
+            if (!localFiles.isEmpty()) {
+                const auto firstFilePath = localFiles.constFirst();
+                const auto itemJournalRecord = item->toSyncJournalFileRecordWithInode(firstFilePath);
+
+                if(!itemJournalRecord.isVirtualFile()) {
+                    const auto mimeType = _mimeDb.mimeTypeForFile(QFileInfo(localFiles.constFirst()));
+
+                    // Set the preview data, though for now we can skip setting file ID, link, and view
+                    PreviewData preview;
+                    preview._mimeType = mimeType.name();
+                    preview._filename = fileName;
+                    preview._isMimeTypeIcon = true;
+
+                    if(item->isDirectory()) {
+                        preview._source = account()->url().toString() + QStringLiteral("/index.php/apps/theming/img/core/filetypes/folder.svg");
+                    } else {
+                        preview._source = account()->url().toString() + Activity::relativeServerFileTypeIconPath(mimeType);
+                    }
+                    activity._previews.append(preview);
+                }
+            }
         }
 
         _activityModel->addSyncFileItemToActivityList(activity);
     } else {
         qCWarning(lcActivity) << "Item " << item->_file << " retrieved resulted in error " << item->_errorString;
         activity._subject = item->_errorString;
+        activity._id = -static_cast<int>(qHash(activity._subject + activity._message));
 
         if (item->_status == SyncFileItem::Status::FileIgnored) {
             _activityModel->addIgnoredFileToList(activity);
         } else {
             // add 'protocol error' to activity list
             if (item->_status == SyncFileItem::Status::FileNameInvalid) {
-                showDesktopNotification(item->_file, activity._subject);
+                showDesktopNotification(item->_file, activity._subject, activity._id);
             }
             _activityModel->addErrorToActivityList(activity);
         }
@@ -558,6 +621,11 @@ void User::slotItemCompleted(const QString &folder, const SyncFileItemPtr &item)
 AccountPtr User::account() const
 {
     return _account->account();
+}
+
+AccountStatePtr User::accountState() const
+{
+    return _account;
 }
 
 void User::setCurrentUser(const bool &isCurrent)
@@ -621,24 +689,24 @@ QString User::server(bool shortened) const
     return serverUrl;
 }
 
-UserStatus::Status User::status() const
+UserStatus::OnlineStatus User::status() const
 {
-    return _account->status();
+    return _account->account()->userStatusConnector()->userStatus().state();
 }
 
 QString User::statusMessage() const
 {
-    return _account->statusMessage();
+    return _account->account()->userStatusConnector()->userStatus().message();
 }
 
 QUrl User::statusIcon() const
 {
-    return _account->statusIcon();
+    return _account->account()->userStatusConnector()->userStatus().stateIcon();
 }
 
 QString User::statusEmoji() const
 {
-    return _account->statusEmoji();
+    return _account->account()->userStatusConnector()->userStatus().icon();
 }
 
 bool User::serverHasUserStatus() const
@@ -817,7 +885,7 @@ void UserModel::addUser(AccountStatePtr &user, const bool &isCurrent)
 
         endInsertRows();
         ConfigFile cfg;
-        _users.last()->setNotificationRefreshInterval(cfg.notificationRefreshInterval());
+        u->setNotificationRefreshInterval(cfg.notificationRefreshInterval());
         emit newUserSelected();
     }
 }
@@ -918,6 +986,15 @@ Q_INVOKABLE void UserModel::removeAccount(const int &id)
     beginRemoveRows(QModelIndex(), id, id);
     _users.removeAt(id);
     endRemoveRows();
+}
+
+std::shared_ptr<OCC::UserStatusConnector> UserModel::userStatusConnector(int id)
+{
+    if (id < 0 || id >= _users.size()) {
+        return nullptr;
+    }
+
+    return _users[id]->account()->userStatusConnector();
 }
 
 int UserModel::rowCount(const QModelIndex &parent) const

@@ -73,14 +73,14 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     QString defaultPath = QDir::homePath() + QLatin1Char('/') + Theme::instance()->appName();
     defaultPath = FolderMan::instance()->findGoodPathForNewSyncFolder(defaultPath, serverUrl);
    //_ui.localFolderLineEdit->setText(QDir::toNativeSeparators(defaultPath));
-    _ui.localFolderLineEdit->setText("Bitte wählen Sie einen Ordner aus");
+    _ui.localFolderLineEdit->setText(tr("Please select a folder"));
     _ui.localFolderLineEdit->setToolTip(tr("Enter the path to the local folder."));
 
     _ui.warnLabel->setTextFormat(Qt::RichText);
     _ui.warnLabel->hide();
-    _ui.content->setText("Wählen Sie einen Ordner auf Ihrer Festplatte aus, der mit Ihrer MagentaCLOUD dauerhaft verbunden werden soll. Alle Dateien und Unterordner werden automatisch hochgeladen und synchronisiert.");
+    _ui.content->setText(tr("Select a folder on your hard drive, that will be connected to your MangentaCLOUD and permanently connected. All files and sub-folders are automatically uploaded and synchronized."));
     //_ui.subContent->setText(tr("If you don't make a selection, an empty folder will automatically be created for you.");
-    _ui.subHeader->setText("Schritt 1 von 2: Lokaler Ordner wählen");
+    _ui.subHeader->setText(tr("Step 1 from 2: Local Folder"));
 }
 
 FolderWizardLocalPath::~FolderWizardLocalPath() = default;
@@ -154,7 +154,7 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
 {
     _ui.setupUi(this);
     //_ui.warnFrame->hide();
-    _ui.warnLabel->hide();
+  //  _ui.warnLabel->hide();
     _ui.folderEntry->hide();
 
     _ui.folderTreeWidget->setSortingEnabled(true);
@@ -173,9 +173,9 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
     _ui.folderTreeWidget->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     // Make sure that there will be a scrollbar when the contents is too wide
     _ui.folderTreeWidget->header()->setStretchLastSection(false);
-    _ui.subHeader->setText("Schritt 2 von 2: Verzeichnis in Ihrer MagentaCLOUD");
-    _ui.content->setText("Bitte wählen oder erstellen Sie nun einen Ziel Ordner in Ihrer MagentaCLOUD, wo die Inhalte hochgeladen und synchronisiert werden sollen.");
-    _ui.subContent->setText("Beide Ordner werden dauerhaft verknüpft, die jeweiligen Inhalte werden automatisch abgeglichen und aktualisiert.");
+    _ui.subHeader->setText(tr("Step 2 from 2: Directory in your CLOUD"));
+    _ui.content->setText(tr("Both folders are permanently linked, the respective contents are automatically compared and updated."));
+    _ui.subContent->setText(tr("Please select or create a target folder in your MangentaCLOUD, where the content will be uploaded and synchronized."));
 }
 
 void FolderWizardRemotePath::slotAddRemoteFolder()
@@ -210,31 +210,29 @@ void FolderWizardRemotePath::slotCreateRemoteFolder(const QString &folder)
 
     auto *job = new MkColJob(_account, fullPath, this);
     /* check the owncloud configuration file and query the ownCloud */
-    connect(job, static_cast<void (MkColJob::*)(QNetworkReply::NetworkError)>(&MkColJob::finished),
+    connect(job, &MkColJob::finishedWithoutError,
         this, &FolderWizardRemotePath::slotCreateRemoteFolderFinished);
     connect(job, &AbstractNetworkJob::networkError, this, &FolderWizardRemotePath::slotHandleMkdirNetworkError);
     job->start();
 }
 
-void FolderWizardRemotePath::slotCreateRemoteFolderFinished(QNetworkReply::NetworkError error)
+void FolderWizardRemotePath::slotCreateRemoteFolderFinished()
 {
-    if (error == QNetworkReply::NoError) {
-        qCDebug(lcWizard) << "webdav mkdir request finished";
-        showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
-        slotRefreshFolders();
-        _ui.folderEntry->setText(static_cast<MkColJob *>(sender())->path());
-        slotLsColFolderEntry();
-    }
+    qCDebug(lcWizard) << "webdav mkdir request finished";
+  //  showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
+    slotRefreshFolders();
+    _ui.folderEntry->setText(static_cast<MkColJob *>(sender())->path());
+    slotLsColFolderEntry();
 }
 
 void FolderWizardRemotePath::slotHandleMkdirNetworkError(QNetworkReply *reply)
 {
     qCWarning(lcWizard) << "webdav mkdir request failed:" << reply->error();
     if (!_account->credentials()->stillValid(reply)) {
-        showWarn(tr("Authentication failed accessing %1").arg(Theme::instance()->appNameGUI()));
+      //  showWarn(tr("Authentication failed accessing %1").arg(Theme::instance()->appNameGUI()));
     } else {
-        showWarn(tr("Failed to create the folder on %1. Please check manually.")
-                     .arg(Theme::instance()->appNameGUI()));
+       // showWarn(tr("Failed to create the folder on %1. Please check manually.")
+              //       .arg(Theme::instance()->appNameGUI()));
     }
 }
 
@@ -246,13 +244,13 @@ void FolderWizardRemotePath::slotHandleLsColNetworkError(QNetworkReply *reply)
     // is selected in the tree view.
     int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (httpCode == 404) {
-        showWarn(QString()); // hides the warning pane
+      //  showWarn(QString()); // hides the warning pane
         return;
     }
     auto job = qobject_cast<LsColJob *>(sender());
     ASSERT(job);
-    showWarn(tr("Failed to list a folder. Error: %1")
-                 .arg(job->errorStringParsingBody()));
+   // showWarn(tr("Failed to list a folder. Error: %1")
+               //  .arg(job->errorStringParsingBody()));
 }
 
 static QTreeWidgetItem *findFirstChild(QTreeWidgetItem *parent, const QString &text)
@@ -479,10 +477,10 @@ bool FolderWizardRemotePath::isComplete() const
         }
         QString curDir = f->remotePathTrailingSlash();
         if (QDir::cleanPath(dir) == QDir::cleanPath(curDir)) {
-            warnStrings.append("Der Hauptordner der MagentaCLOUD wird bereits synchronisiert. Bitte wählen Sie einen Unterordner aus.");
+            warnStrings.append(tr("This folder is already synchronized in the MagentaCLOUD."));
         }
         else {
-            _ui.warnLabel->hide();
+           // _ui.warnLabel->hide();
         }
        /* else if (dir.startsWith(curDir)) {
             warnStrings.append(tr("You are already syncing <i>%1</i>, which is a parent folder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
@@ -491,23 +489,23 @@ bool FolderWizardRemotePath::isComplete() const
         }*/
     }
 
-    if (!warnStrings.empty())
-        showWarn(formatWarnings(warnStrings));
+  //  if (!warnStrings.empty())
+  //      showWarn(formatWarnings(warnStrings));
     return true;
 }
 
 void FolderWizardRemotePath::cleanupPage()
 {
-    showWarn();
+  //  showWarn();
 }
 
 void FolderWizardRemotePath::initializePage()
 {
-    showWarn();
+  //  showWarn();
     slotRefreshFolders();
 }
 
-void FolderWizardRemotePath::showWarn(const QString &msg) const
+/*void FolderWizardRemotePath::showWarn(const QString &msg) const
 {
     if (msg.isEmpty()) {
         //_ui.warnFrame->hide();
@@ -519,7 +517,7 @@ void FolderWizardRemotePath::showWarn(const QString &msg) const
         _ui.warnLabel->setText(msg);
     }
 }
-
+*/
 // ====================================================================================
 /*
 FolderWizardSelectiveSync::FolderWizardSelectiveSync(const AccountPtr &account)
@@ -567,6 +565,11 @@ void FolderWizardSelectiveSync::initializePage()
             _virtualFilesCheckBox->setChecked(bestAvailableVfsMode() == Vfs::WindowsCfApi);
             _virtualFilesCheckBox->setEnabled(true);
             _virtualFilesCheckBox->setText(tr("Use virtual files instead of downloading content immediately %1").arg(bestAvailableVfsMode() == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
+
+            if (Theme::instance()->enforceVirtualFilesSyncFolder()) {
+                _virtualFilesCheckBox->setChecked(true);
+                _virtualFilesCheckBox->setDisabled(true);
+            }
         }
         //
     }

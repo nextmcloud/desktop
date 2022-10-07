@@ -36,6 +36,7 @@ public:
 
 private:
     void updateCloudStorageRegistry();
+    void slotAccountDisplayNameChanged();
 
     FolderMan *_folderMan;
     bool _showInExplorerNavigationPane;

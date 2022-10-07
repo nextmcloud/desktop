@@ -11,6 +11,7 @@ Rectangle {
     color: Style.magenta
     Text {
         id: titleText
+        objectName: "titleText"
         text: qsTr("MagentaCLOUD")
         font.family: Style.swipeFontFamily
         font.pixelSize: Style.topLinePixelSize
@@ -48,7 +49,7 @@ Rectangle {
         width: Style.skipButtonWidth
         height: Style.skipButtonHeight
 
-        text: qsTr("Überspringen")
+        text: qsTr("Skip introduction")
         font.family: Style.swipeFontFamily
         font.pixelSize: Style.topLinePixelSize
 

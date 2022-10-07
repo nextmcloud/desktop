@@ -87,11 +87,11 @@ void showEnableE2eeWithVirtualFilesWarningDialog(std::function<void(void)> onAcc
     const auto messageBox = new QMessageBox;
     messageBox->setAttribute(Qt::WA_DeleteOnClose);
     messageBox->setText(AccountSettings::tr("End-to-End Encryption with Virtual Files"));
-    messageBox->setInformativeText(AccountSettings::tr("You seem to have the Virtual Files feature enabled on this folder. At "
-                                                       " the moment, it is not possible to implicitly download virtual files that are "
-                                                       "End-to-End encrypted. To get the best experience with Virtual Files and"
-                                                       " End-to-End Encryption, make sure the encrypted folder is marked with"
-                                                       " \"Make always available locally\"."));
+    messageBox->setInformativeText(AccountSettings::tr("You seem to have the Virtual Files feature enabled on this folder. "
+                                                       "At the moment, it is not possible to implicitly download virtual files that are "
+                                                       "End-to-End encrypted. To get the best experience with Virtual Files and "
+                                                       "End-to-End Encryption, make sure the encrypted folder is marked with "
+                                                       "\"Make always available locally\"."));
     messageBox->setIcon(QMessageBox::Warning);
     const auto dontEncryptButton = messageBox->addButton(QMessageBox::StandardButton::Cancel);
     Q_ASSERT(dontEncryptButton);
@@ -444,7 +444,8 @@ void AccountSettings::openIgnoredFilesDialog(const QString & absFolderPath)
     auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     layout->addWidget(buttonBox);
 
-    auto dialog = new QDialog();
+    auto dialog = new QDialog(nullptr, Qt::WindowTitleHint| Qt::WindowCloseButtonHint);
+    //auto dialog = new QDialog();
     dialog->setLayout(layout);
 
     connect(buttonBox, &QDialogButtonBox::clicked, [=](QAbstractButton * button) {
@@ -489,8 +490,8 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
     }
 
     // hidden due to NMCLOUD-344
-//    ac = menu.addAction(tr("Edit Ignored Files"));
-//    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
+    ac = menu.addAction(tr("Edit Ignored Files"));
+    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
 
 //    ac = menu.addAction(tr("Create new folder"));
 //    connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
@@ -556,8 +557,8 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentFolder);
 
     // hidden due to NMCLOUD-344
-//    ac = menu->addAction(tr("Edit Ignored Files"));
-//    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
+    ac = menu->addAction(tr("Edit Ignored Files"));
+    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
 
 //    ac = menu->addAction(tr("Create new folder"));
 //    connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
@@ -589,6 +590,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
 
         ac = availabilityMenu->addAction(Utility::vfsPinActionText());
         connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::AlwaysLocal); });
+        ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
 
         ac = availabilityMenu->addAction(Utility::vfsFreeSpaceActionText());
         connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::OnlineOnly); });
@@ -728,7 +730,7 @@ void AccountSettings::slotFolderWizardAccepted()
     /* Root folder is the only that should be shown in a file manager nav pane
      * and if the map isn't empty this means that the root folder is already there
      */
-    if (folderMan->navigationPaneHelper().showInExplorerNavigationPane() && folderMan->map().isEmpty())
+    if (folderMan->navigationPaneHelper().showInExplorerNavigationPane())
         definition.navigationPaneClsid = QUuid::createUuid();
 
     auto selectiveSyncBlackList = folderWizard->property("selectiveSyncBlackList").toStringList();
@@ -847,7 +849,9 @@ void AccountSettings::slotEnableVfsCurrentFolder()
             folder->setRootPinState(PinState::Unspecified);
             for (const auto &entry : oldBlacklist) {
                 folder->journalDb()->schedulePathForRemoteDiscovery(entry);
-                folder->vfs().setPinState(entry, PinState::OnlineOnly);
+                if (!folder->vfs().setPinState(entry, PinState::OnlineOnly)) {
+                    qCWarning(lcAccountSettings) << "Could not set pin state of" << entry << "to online only";
+                }
             }
             folder->slotNextSyncFullLocalDiscovery();
 
@@ -953,7 +957,9 @@ void AccountSettings::slotSetSubFolderAvailability(Folder *folder, const QString
     Q_ASSERT(!path.endsWith('/'));
 
     // Update the pin state on all items
-    folder->vfs().setPinState(path, state);
+    if (!folder->vfs().setPinState(path, state)) {
+        qCWarning(lcAccountSettings) << "Could not set pin state of" << path << "to" << state;
+    }
 
     // Trigger sync
     folder->schedulePathForLocalDiscovery(path);

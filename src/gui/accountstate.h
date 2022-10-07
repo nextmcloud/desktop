@@ -16,12 +16,15 @@
 #ifndef ACCOUNTINFO_H
 #define ACCOUNTINFO_H
 
+#include "connectionvalidator.h"
+#include "creds/abstractcredentials.h"
+#include "userstatusselectormodel.h"
+#include "userstatusconnector.h"
+
 #include <QByteArray>
 #include <QElapsedTimer>
 #include <QPointer>
-#include "connectionvalidator.h"
-#include "creds/abstractcredentials.h"
-#include "userstatus.h"
+#include <QTimer>
 #include <memory>
 
 class QSettings;
@@ -82,7 +85,7 @@ public:
 
     /// Use the account as parent
     explicit AccountState(AccountPtr account);
-    ~AccountState();
+    ~AccountState() override;
 
     /** Creates an account state from settings and an Account object.
      *
@@ -165,7 +168,7 @@ public:
     /** Returns the user status (Online, Dnd, Away, Offline, Invisible)
      *  https://gist.github.com/georgehrke/55a0412007f13be1551d1f9436a39675
     */
-    UserStatus::Status status() const;
+    UserStatus::OnlineStatus status() const;
 
     /** Returns the user status Message (text)
     */
@@ -188,9 +191,11 @@ public:
     */
     void setDesktopNotificationsAllowed(bool isAllowed);
 
-    /** Fetch the user status (status, icon, message)
-    */
-    void fetchUserStatus();
+    ConnectionStatus lastConnectionStatus() const;
+    
+    void trySignIn();
+
+    void systemOnlineConfigurationChanged();
 
 public slots:
     /// Triggers a ping to the server to update state and
@@ -200,6 +205,9 @@ public slots:
 private:
     void setState(State state);
     void fetchNavigationApps();
+    int retryCount() const;
+    void increaseRetryCount();
+    void resetRetryCount();
 
 signals:
     void stateChanged(State state);
@@ -222,10 +230,17 @@ protected Q_SLOTS:
     void slotEtagResponseHeaderReceived(const QByteArray &value, int statusCode);
     void slotOcsError(int statusCode, const QString &message);
 
+private Q_SLOTS:
+
+    void slotCheckConnection();
+    void slotPushNotificationsReady();
+    void slotServerUserStatusChanged();
+
 private:
     AccountPtr _account;
     State _state;
     ConnectionStatus _connectionStatus;
+    ConnectionStatus _lastConnectionValidatorStatus = ConnectionStatus::Undefined;
     QStringList _connectionErrors;
     bool _waitingForNewCredentials;
     QDateTime _timeOfLastETagCheck;
@@ -258,6 +273,11 @@ private:
 
     UserStatus *_userStatus;
     bool _isDesktopNotificationsAllowed;
+
+    int _retryCount = 0;
+
+    QTimer _checkConnectionTimer;
+    QElapsedTimer _lastCheckConnectionTimer;
 };
 
 class AccountApp : public QObject
