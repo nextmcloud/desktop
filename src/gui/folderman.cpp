@@ -36,6 +36,8 @@
 #include <QMutableSetIterator>
 #include <QSet>
 #include <QNetworkProxy>
+#include <QDesktopServices>
+#include <QtConcurrent>
 
 static const char versionC[] = "version";
 static const int maxFoldersVersion = 1;

@@ -31,6 +31,7 @@ class TestGeneralSettings;
 class TestShareDialog;
 class TestShareUserGroupWidget;
 class TestSettingsDialog;
+class TestCfApiShellExtensionsIPC;
 
 namespace OCC {
 
@@ -372,6 +373,7 @@ private:
     friend class ::TestShareDialog;
     friend class ::TestShareUserGroupWidget;
     friend class ::TestSettingsDialog;
+    friend class ::TestCfApiShellExtensionsIPC;
 };
 
 } // namespace OCC

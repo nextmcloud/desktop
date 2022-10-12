@@ -21,6 +21,7 @@
 #include "configfile.h"
 #include "owncloudsetupwizard.h"
 #include "accountmanager.h"
+#include "guiutility.h"
 
 #if defined(BUILD_UPDATER)
 #include "updater/updater.h"
@@ -34,6 +35,8 @@
 #include "ignorelisteditor.h"
 #include "common/utility.h"
 #include "logger.h"
+
+#include "legalnotice.h"
 
 #include "config.h"
 #include <QFileDialog>
@@ -112,7 +115,9 @@ void createDebugArchive(const QString &filename)
 {
     const auto entries = createFileList();
 
+    // TODO: Port away from this private API (best to port to KArchive)
     QZipWriter zip(filename);
+    zip.setCreationPermissions(zip.creationPermissions() | QFile::ReadOther);
     for (const auto &entry : entries) {
         if (entry.localFilename.isEmpty()) {
             zip.addDirectory(entry.zipFilename);
@@ -207,6 +212,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     // Hide on non-Windows, or WindowsVersion < 10.
     // The condition should match the default value of ConfigFile::showInExplorerNavigationPane.
 
+
     /* Set the left contents margin of the layout to zero to make the checkboxes
      * align properly vertically , fixes bug #3758
      */
@@ -288,7 +294,11 @@ void GeneralSettings::slotUpdateInfo()
 
 void GeneralSettings::slotUpdateCheckNow()
 {
+#if defined(Q_OS_MAC) && defined(HAVE_SPARKLE)
+    auto *updater = qobject_cast<SparkleUpdater *>(Updater::instance());
+#else
     auto *updater = qobject_cast<OCUpdater *>(Updater::instance());
+#endif
     if (ConfigFile().skipUpdateCheck()) {
         updater = nullptr; // don't show update info if updates are disabled
     }
@@ -354,6 +364,13 @@ void GeneralSettings::slotCreateDebugArchive()
 
     createDebugArchive(filename);
     QMessageBox::information(this, tr("Debug Archive Created"), tr("Debug archive is created at %1").arg(filename));
+}
+
+void GeneralSettings::slotShowLegalNotice()
+{
+    auto notice = new LegalNotice();
+    notice->exec();
+    delete notice;
 }
 
 void GeneralSettings::slotStyleChanged()

@@ -17,6 +17,7 @@
 #include "common/result.h"
 
 #include <userstatusconnector.h>
+#include <ocsuserstatusconnector.h>
 #include <datetimeprovider.h>
 
 #include <QObject>
