@@ -47,7 +47,7 @@ Q_DECLARE_LOGGING_CATEGORY(lcApplication)
 
 class Theme;
 class Folder;
-//class ShellExtensionsServer;
+class ShellExtensionsServer;
 class SslErrorDialog;
 
 /**
@@ -152,9 +152,9 @@ private:
     QScopedPointer<FolderMan> _folderManager;
     const int slideShowDelay = 3000;
     const int startPage = 0;
-//#ifdef Q_OS_WIN
-  //  QScopedPointer<ShellExtensionsServer> _shellExtensionsServer;
-//#endif
+#ifdef Q_OS_WIN
+    QScopedPointer<ShellExtensionsServer> _shellExtensionsServer;
+#endif
 
 };
 

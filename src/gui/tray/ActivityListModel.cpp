@@ -18,6 +18,7 @@
 #include <QWidget>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <qloggingcategory.h>
 
 #include "account.h"
 #include "accountstate.h"
@@ -853,5 +854,9 @@ void ActivityListModel::setReplyMessageSent(const int activityIndex, const QStri
 
     emit dataChanged(index(activityIndex, 0), index(activityIndex, 0), {ActivityListModel::TalkNotificationMessageSentRole});
 }
-}
 
+QString ActivityListModel::replyMessageSent(const Activity &activity) const
+{
+    return activity._talkNotificationData.messageSent;
+}
+}

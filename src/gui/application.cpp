@@ -322,9 +322,9 @@ Application::Application(int &argc, char **argv)
         qCInfo(lcApplication) << "VFS suffix plugin is available";
 
     _folderManager.reset(new FolderMan);
-//#ifdef Q_OS_WIN
-//    _shellExtensionsServer.reset(new ShellExtensionsServer);
-//#endif
+#ifdef Q_OS_WIN
+    _shellExtensionsServer.reset(new ShellExtensionsServer);
+#endif
 
     connect(this, &SharedTools::QtSingleApplication::messageReceived, this, &Application::slotParseMessage);
 

@@ -133,6 +133,8 @@ set(client_SRCS
     notificationconfirmjob.cpp
     guiutility.cpp
     elidedlabel.cpp
+    callstatechecker.cpp
+    callstatechecker.h
     headerbanner.cpp
     iconutils.h
     iconutils.cpp

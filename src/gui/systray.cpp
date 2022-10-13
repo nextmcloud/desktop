@@ -18,11 +18,12 @@
 #include "config.h"
 #include "common/utility.h"
 #include "tray/svgimageprovider.h"
-#include "tray/usermodel.h"
+#include "tray/UserModel.h"
 #include "wheelhandler.h"
 #include "tray/trayimageprovider.h"
 #include "configfile.h"
 #include "accessmanager.h"
+#include "callstatechecker.h"
 
 #include <QCursor>
 #include <QGuiApplication>
@@ -98,6 +99,7 @@ Systray::Systray()
     );
 
     qmlRegisterType<WheelHandler>("com.nextcloud.desktopclient", 1, 0, "WheelHandler");
+    qmlRegisterType<CallStateChecker>("com.nextcloud.desktopclient", 1, 0, "CallStateChecker");
 
 #ifdef Q_OS_MACOS
     setUserNotificationCenterDelegate();

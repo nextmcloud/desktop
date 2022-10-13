@@ -165,6 +165,8 @@ void FolderMan::registerFolderWithSocketApi(Folder *folder)
 
 int FolderMan::setupFolders()
 {
+    Utility::registerUriHandlerForLocalEditing();
+
     unloadAndDeleteAllFolders();
 
     QStringList skipSettingsKeys;
