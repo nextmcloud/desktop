@@ -29,7 +29,10 @@
 #include <QXmlStreamNamespaceDeclaration>
 #include <QStack>
 #include <QInputDialog>
+#include <QDialog>
 #include <QLineEdit>
+#include <QListWidget>
+#include <QListWidgetItem>
 #include <QIODevice>
 #include <QUuid>
 #include <QScopeGuard>
@@ -1078,11 +1081,6 @@ void ClientSideEncryption::forgetSensitiveData(const AccountPtr &account)
     startDeleteJob(user + e2e_mnemonic);
 }
 
-void ClientSideEncryption::slotRequestMnemonic()
-{
-    emit showMnemonic(_mnemonic);
-}
-
 void ClientSideEncryption::generateKeyPair(const AccountPtr &account)
 {
     // AES/GCM/NoPadding,
@@ -1200,10 +1198,7 @@ void ClientSideEncryption::encryptPrivateKey(const AccountPtr &account)
 {
     QStringList list = WordList::getRandomWords(12);
     _mnemonic = list.join(' ');
-    _newMnemonicGenerated = true;
     qCInfo(lcCse()) << "mnemonic Generated:" << _mnemonic;
-
-    emit mnemonicGenerated(_mnemonic);
 
     QString passPhrase = list.join(QString()).toLower();
     qCInfo(lcCse()) << "Passphrase Generated:" << passPhrase;
@@ -1223,7 +1218,7 @@ void ClientSideEncryption::encryptPrivateKey(const AccountPtr &account)
                 writePrivateKey(account);
                 writeCertificate(account);
                 writeMnemonic(account);
-                emit initializationFinished();
+                emit initializationFinished(true);
                 break;
             default:
                 qCInfo(lcCse()) << "Store private key failed, return code:" << retCode;
@@ -1232,24 +1227,18 @@ void ClientSideEncryption::encryptPrivateKey(const AccountPtr &account)
     job->start();
 }
 
-bool ClientSideEncryption::newMnemonicGenerated() const
-{
-    return _newMnemonicGenerated;
-}
-
 void ClientSideEncryption::decryptPrivateKey(const AccountPtr &account, const QByteArray &key) {
     QString msg = tr("Please enter your end to end encryption passphrase:<br>"
                      "<br>"
-                     "User: %2<br>"
-                     "Account: %3<br>")
-                      .arg(Utility::escape(account->credentials()->user()),
-                           Utility::escape(account->displayName()));
+                     "User: %2<br>")
+                      .arg(Utility::escape(account->credentials()->user()));
 
     QInputDialog dialog;
-    dialog.setWindowTitle(tr("Enter E2E passphrase"));
+    dialog.setWindowFlags(dialog.windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    dialog.setWindowTitle(tr("Enter end-to-end encryption"));
     dialog.setLabelText(msg);
     dialog.setTextEchoMode(QLineEdit::Normal);
-
+    dialog.setFixedSize(588,214);
     QString prev;
 
     while(true) {
@@ -1326,6 +1315,11 @@ void ClientSideEncryption::getPublicKeyFromServer(const AccountPtr &account)
                 fetchAndValidatePublicKeyFromServer(account);
             } else if (retCode == 404) {
                 qCInfo(lcCse()) << "No public key on the server";
+                if (!account->e2eEncryptionKeysGenerationAllowed()) {
+                    qCInfo(lcCse()) << "User did not allow E2E keys generation.";
+                    emit initializationFinished();
+                    return;
+                }
                 generateKeyPair(account);
             } else {
                 qCInfo(lcCse()) << "Error while requesting public key: " << retCode;

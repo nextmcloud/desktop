@@ -17,6 +17,7 @@
 #include "common/syncjournalfilerecord.h"
 #include "qmessagebox.h"
 #include "ui_accountsettings.h"
+#include "ui_mnemonicdialog.h"
 
 #include "theme.h"
 #include "foldercreationdialog.h"
@@ -63,6 +64,9 @@
 namespace {
 constexpr auto propertyFolder = "folder";
 constexpr auto propertyPath = "path";
+constexpr auto e2eUiActionIdKey = "id";
+constexpr auto e2EeUiActionEnableEncryptionId = "enable_encryption";
+constexpr auto e2EeUiActionDisplayMnemonicId = "display_mnemonic";
 }
 
 namespace OCC {
@@ -225,20 +229,7 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     customizeStyle();
 
     // Connect E2E stuff
-    connect(this, &AccountSettings::requestMnemonic, _accountState->account()->e2e(), &ClientSideEncryption::slotRequestMnemonic);
-    connect(_accountState->account()->e2e(), &ClientSideEncryption::showMnemonic, this, &AccountSettings::slotShowMnemonic);
-
-    connect(_accountState->account()->e2e(), &ClientSideEncryption::mnemonicGenerated, this, &AccountSettings::slotNewMnemonicGenerated);
-    if (_accountState->account()->e2e()->newMnemonicGenerated()) {
-        slotNewMnemonicGenerated();
-    } else {
-        _ui->encryptionMessage->setText(tr("This account supports end-to-end encryption"));
-
-        auto *mnemonic = new QAction(tr("Display mnemonic"), this);
-        connect(mnemonic, &QAction::triggered, this, &AccountSettings::requestMnemonic);
-        _ui->encryptionMessage->addAction(mnemonic);
-        _ui->encryptionMessage->hide();
-    }
+    initializeE2eEncryption();
 
     //_ui->connectLabel->setText(tr("No account configured."));
 
@@ -249,16 +240,34 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
         this, &AccountSettings::slotUpdateQuota);
 }
 
-void AccountSettings::slotNewMnemonicGenerated()
+void AccountSettings::slotE2eEncryptionMnemonicReady()
 {
-    _ui->encryptionMessage->setText(tr("This account supports end-to-end encryption"));
-
-    auto *mnemonic = new QAction(tr("Enable encryption"), this);
-    connect(mnemonic, &QAction::triggered, this, &AccountSettings::requestMnemonic);
-    connect(mnemonic, &QAction::triggered, _ui->encryptionMessage, &KMessageWidget::hide);
-
-    _ui->encryptionMessage->addAction(mnemonic);
+    auto *const actionDisplayMnemonic = addActionToEncryptionMessage(tr("Displays 12 word key (passhprase)"), e2EeUiActionDisplayMnemonicId);
+    connect(actionDisplayMnemonic, &QAction::triggered, this, [this]() {
+        displayMnemonic(_accountState->account()->e2e()->_mnemonic);
+    });
+    _ui->encryptionMessage->setText(tr("This account supports End-to-End encryption"));
     _ui->encryptionMessage->show();
+
+}
+
+void AccountSettings::slotE2eEncryptionGenerateKeys()
+{
+    connect(_accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, &AccountSettings::slotE2eEncryptionInitializationFinished);
+    _accountState->account()->setE2eEncryptionKeysGenerationAllowed(true);
+    _accountState->account()->e2e()->initialize(_accountState->account());
+}
+
+void AccountSettings::slotE2eEncryptionInitializationFinished(bool isNewMnemonicGenerated)
+{
+    disconnect(_accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, &AccountSettings::slotE2eEncryptionInitializationFinished);
+    if (!_accountState->account()->e2e()->_mnemonic.isEmpty()) {
+        removeActionFromEncryptionMessage(e2EeUiActionEnableEncryptionId);
+        slotE2eEncryptionMnemonicReady();
+        if (isNewMnemonicGenerated) {
+            displayMnemonic(_accountState->account()->e2e()->_mnemonic);
+        }
+    }
 }
 
 void AccountSettings::slotEncryptFolderFinished(int status)
@@ -308,11 +317,6 @@ void AccountSettings::doExpand()
     }
 }
 
-void AccountSettings::slotShowMnemonic(const QString &mnemonic)
-{
-    AccountManager::instance()->displayMnemonic(mnemonic);
-}
-
 bool AccountSettings::canEncryptOrDecrypt (const FolderStatusModel::SubFolderInfo* info) {
     if (info->_folder->syncResult().status() != SyncResult::Status::Success) {
         QMessageBox msgBox;
@@ -327,8 +331,8 @@ bool AccountSettings::canEncryptOrDecrypt (const FolderStatusModel::SubFolderInf
 
     if (folderPath.count() != 0) {
         QMessageBox msgBox;
-        msgBox.setText(tr("You cannot encrypt a folder with contents, please remove the files.\n"
-                       "Wait for the new sync, then encrypt it."));
+        msgBox.setText(tr("You can only activate encryption for empty folders.\n"
+                          "Please remove the files or create a new folder."));
         msgBox.exec();
         return false;
     }
@@ -966,6 +970,25 @@ void AccountSettings::slotSetSubFolderAvailability(Folder *folder, const QString
     folder->scheduleThisFolderSoon();
 }
 
+void AccountSettings::displayMnemonic(const QString &mnemonic)
+{
+    auto *widget = new QDialog;
+    Ui_Dialog ui;
+    ui.setupUi(widget);
+    widget->setWindowTitle(tr("End to end encryption mnemonic"));
+    widget->setWindowFlags(widget->windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    ui.label->setText(tr("For the encryption, a randomly generated word sequence"
+                         "(passphrase) of 12 words is created. We recommend that you write  down the passphrase and keep it safe.\n"
+                         "\n"
+                         "The passphrase is your personal password with which you can access  encrypted data in your MagentaCLOUD or enable access to these files  on other devices such as your smartphones."));
+    ui.textEdit->setText(mnemonic);
+    ui.textEdit->focusWidget();
+    ui.textEdit->selectAll();
+    ui.textEdit->setAlignment(Qt::AlignLeft);
+    widget->exec();
+    widget->resize(widget->sizeHint());
+}
+
 void AccountSettings::showConnectionLabel(const QString &message, QStringList errors)
 {
     const QString errStyle = QLatin1String("color:#ffffff; background-color:#bb4d4d;padding:5px;"
@@ -1438,6 +1461,46 @@ void AccountSettings::customizeStyle()
     QColor color = palette().highlight().color();
     QString background(palette().base().color().name());
     _ui->quotaProgressBar->setStyleSheet(QString::fromLatin1(progressBarStyleC).arg(background,color.name()));
+}
+
+void AccountSettings::initializeE2eEncryption()
+{
+    if (!_accountState->account()->e2e()->_mnemonic.isEmpty()) {
+        slotE2eEncryptionMnemonicReady();
+    } else {
+        _ui->encryptionMessage->setText(tr("This account supports End-to-End encryption"));
+        _ui->encryptionMessage->hide();
+
+        auto *const actionEnableE2e = addActionToEncryptionMessage(tr("Enable encryption"), e2EeUiActionEnableEncryptionId);
+        connect(actionEnableE2e, &QAction::triggered, this, &AccountSettings::slotE2eEncryptionGenerateKeys);
+    }
+}
+
+void AccountSettings::removeActionFromEncryptionMessage(const QString &actionId)
+{
+    const auto foundEnableEncryptionActionIt = std::find_if(std::cbegin(_ui->encryptionMessage->actions()), std::cend(_ui->encryptionMessage->actions()), [&actionId](const QAction *action) {
+        return action->property(e2eUiActionIdKey).toString() == actionId;
+    });
+    if (foundEnableEncryptionActionIt != std::cend(_ui->encryptionMessage->actions())) {
+        _ui->encryptionMessage->removeAction(*foundEnableEncryptionActionIt);
+        (*foundEnableEncryptionActionIt)->deleteLater();
+    }
+}
+
+QAction *AccountSettings::addActionToEncryptionMessage(const QString &actionTitle, const QString &actionId)
+{
+    for (const auto &action : _ui->encryptionMessage->actions()) {
+        if (action->property(e2eUiActionIdKey) == actionId) {
+            return action;
+        }
+    }
+
+    auto *const action = new QAction(actionTitle, this);
+    if (!actionId.isEmpty()) {
+        action->setProperty(e2eUiActionIdKey, actionId);
+    }
+    _ui->encryptionMessage->addAction(action);
+    return action;
 }
 
 } // namespace OCC

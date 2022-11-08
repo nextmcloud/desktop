@@ -303,17 +303,17 @@
 <context>
     <name>OCC::Account</name>
     <message>
-        <location filename="../src/libsync/account.cpp" line="876"/>
+        <location filename="../src/libsync/account.cpp" line="890"/>
         <source>File %1 is already locked by %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="878"/>
+        <location filename="../src/libsync/account.cpp" line="892"/>
         <source>Lock operation on %1 failed with error %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="880"/>
+        <location filename="../src/libsync/account.cpp" line="894"/>
         <source>Unlock operation on %1 failed with error %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -321,14 +321,20 @@
 <context>
     <name>OCC::AccountManager</name>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="406"/>
         <source>End to end encryption mnemonic</source>
-        <translation>Gedächtnisstütze für Ende-zu-Ende Verschlüsselung</translation>
+        <translation type="vanished">Gedächtnisstütze für Ende-zu-Ende Verschlüsselung</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="407"/>
+        <source>For the encryption, a randomly generated word sequence(passphrase) of 12 words is created. We recommend that you write  down the passphrase and keep it safe.
+
+The passphrase is your personal password with which you can access  encrypted data in your MagentaCLOUD or enable access to these files  on other devices such as your smartphones.</source>
+        <translation type="vanished">Für der Verschlüsselung wird ihnen eine aus 12 Wörtern zufällig  erzeugte Wortfolge (Passphrase) erstellt. Wir empfehlen ihnen, die  Passphrase zu notieren und sicher aufzubewahren.
+
+Die Passphrase ist ihr persönliches Kennwort mit dem sie auf  verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder  den Zugriff auf diese Dateien auf anderen Geräten wie z.B.  Smartphones zu ermöglichen.</translation>
+    </message>
+    <message>
         <source>To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. Please note these down and keep them safe. They will be needed to add other devices to your account (like your mobile phone or laptop).</source>
-        <translation>Um Ihre kryptografische Identität zu schützen, verschlüsseln wir sie mit einer Gedächtnisstütze von 12 Wörterbuchwörtern. Bitte notieren Sie sich diese und bewahren Sie sie auf. Sie werden benötigt, um Ihrem Konto weitere Geräte hinzuzufügen (z. B. Ihr Mobiltelefon oder Laptop).</translation>
+        <translation type="vanished">Um Ihre kryptografische Identität zu schützen, verschlüsseln wir sie mit einer Gedächtnisstütze von 12 Wörterbuchwörtern. Bitte notieren Sie sich diese und bewahren Sie sie auf. Sie werden benötigt, um Ihrem Konto weitere Geräte hinzuzufügen (z. B. Ihr Mobiltelefon oder Laptop).</translation>
     </message>
 </context>
 <context>
@@ -355,9 +361,9 @@
     </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="891"/>
-        <location filename="../src/gui/accountsettings.cpp" line="782"/>
-        <location filename="../src/gui/accountsettings.cpp" line="894"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1393"/>
+        <location filename="../src/gui/accountsettings.cpp" line="786"/>
+        <location filename="../src/gui/accountsettings.cpp" line="898"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1426"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -390,35 +396,32 @@
         <translation>Manuelle Änderungen anwenden</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="89"/>
+        <location filename="../src/gui/accountsettings.cpp" line="93"/>
         <source>End-to-End Encryption with Virtual Files</source>
         <translation>Ende-zu-Ende-Verschlüsselung mit virtuellen Dateien</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="90"/>
+        <location filename="../src/gui/accountsettings.cpp" line="94"/>
         <source>You seem to have the Virtual Files feature enabled on this folder. At the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
         <translation>Sie scheinen die Funktion &quot;Virtuelle Dateien&quot; für diesen Ordner aktiviert zu haben. Im Moment ist es nicht möglich, virtuelle Dateien, die Ende-zu-Ende-verschlüsselt sind, implizit herunterzuladen. Um die beste Erfahrung mit virtuellen Dateien und Ende-zu-Ende-Verschlüsselung zu machen, stellen Sie sicher, dass der verschlüsselte Ordner mit &quot;Immer lokal verfügbar machen&quot; markiert ist.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="98"/>
+        <location filename="../src/gui/accountsettings.cpp" line="102"/>
         <source>Don&apos;t encrypt folder</source>
         <translation>Ordner nicht verschlüsseln</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="101"/>
+        <location filename="../src/gui/accountsettings.cpp" line="105"/>
         <source>Encrypt folder</source>
         <translation>Ordner verschlüsseln</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="235"/>
-        <location filename="../src/gui/accountsettings.cpp" line="254"/>
         <source>This account supports end-to-end encryption</source>
-        <translation>Dieses Konto unterstützt Ende-zu-Ende-Verschlüsselung</translation>
+        <translation type="vanished">Dieses Konto unterstützt Ende-zu-Ende-Verschlüsselung</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="237"/>
         <source>Display mnemonic</source>
-        <translation>Mnemonik anzeigen</translation>
+        <translation type="vanished">Mnemonik anzeigen</translation>
     </message>
     <message>
         <source>No account configured.</source>
@@ -441,7 +444,7 @@
         <translation type="vanished">Benutzerkonto</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="256"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1484"/>
         <source>Enable encryption</source>
         <translation>Verschlüsselung aktivieren</translation>
     </message>
@@ -450,7 +453,7 @@
         <translation type="vanished">Gedächtnisstütze für E2E anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="270"/>
+        <location filename="../src/gui/accountsettings.cpp" line="279"/>
         <source>Warning</source>
         <translation>Warnung</translation>
     </message>
@@ -459,72 +462,71 @@
         <translation type="vanished">Sie scheinen die Funktion &quot;Virtuelle Dateien&quot; für diesen Ordner aktiviert zu haben. Im Moment ist es nicht möglich, virtuelle Dateien, die Ende-zu-Ende-verschlüsselt sind, implizit herunterzuladen. Um die beste Erfahrung mit virtuellen Dateien und Ende-zu-Ende-Verschlüsselung zu machen, stellen Sie sicher, dass der verschlüsselte Ordner mit &quot;Immer lokal verfügbar machen&quot; markiert ist.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="330"/>
         <source>You cannot encrypt a folder with contents, please remove the files.
 Wait for the new sync, then encrypt it.</source>
-        <translation>Sie können einen Ordner nicht mit Inhalten verschlüsseln, bitte Dateien entfernen.
+        <translation type="vanished">Sie können einen Ordner nicht mit Inhalten verschlüsseln, bitte Dateien entfernen.
 Warten Sie auf die neue Synchronisierung und verschlüsseln Sie sie dann.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="354"/>
+        <location filename="../src/gui/accountsettings.cpp" line="358"/>
         <source>Encryption failed</source>
         <translation>Verschlüsselung fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="354"/>
+        <location filename="../src/gui/accountsettings.cpp" line="358"/>
         <source>Could not encrypt folder because the folder does not exist anymore</source>
         <translation>Der Ordner konnte nicht verschlüsselt werden, da er nicht mehr existiert</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="467"/>
-        <location filename="../src/gui/accountsettings.cpp" line="556"/>
+        <location filename="../src/gui/accountsettings.cpp" line="471"/>
+        <location filename="../src/gui/accountsettings.cpp" line="560"/>
         <source>Open folder</source>
         <translation>Ordner öffnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="484"/>
+        <location filename="../src/gui/accountsettings.cpp" line="488"/>
         <source>Encrypt</source>
         <translation>Verschlüsseln</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="493"/>
-        <location filename="../src/gui/accountsettings.cpp" line="560"/>
+        <location filename="../src/gui/accountsettings.cpp" line="497"/>
+        <location filename="../src/gui/accountsettings.cpp" line="564"/>
         <source>Edit Ignored Files</source>
         <translation>Ignorierte Dateien bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="502"/>
-        <location filename="../src/gui/accountsettings.cpp" line="589"/>
+        <location filename="../src/gui/accountsettings.cpp" line="506"/>
+        <location filename="../src/gui/accountsettings.cpp" line="593"/>
         <source>Availability</source>
         <translation>Verfügbarkeit</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="568"/>
+        <location filename="../src/gui/accountsettings.cpp" line="572"/>
         <source>Choose what to sync</source>
         <translation>Zu synchronisierende Elemente auswählen</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="574"/>
+        <location filename="../src/gui/accountsettings.cpp" line="578"/>
         <source>Force sync now</source>
         <translation>Synchronisierung jetzt erzwingen </translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="576"/>
+        <location filename="../src/gui/accountsettings.cpp" line="580"/>
         <source>Restart sync</source>
         <translation>Synchronisierung neustarten</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="582"/>
+        <location filename="../src/gui/accountsettings.cpp" line="586"/>
         <source>Resume sync</source>
         <translation>Synchronisierung fortsetzen</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="582"/>
+        <location filename="../src/gui/accountsettings.cpp" line="586"/>
         <source>Pause sync</source>
         <translation>Synchronisierung pausieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="585"/>
+        <location filename="../src/gui/accountsettings.cpp" line="589"/>
         <source>Remove folder sync connection</source>
         <translation>Ordner-Synchronisierung entfernen</translation>
     </message>
@@ -533,47 +535,47 @@ Warten Sie auf die neue Synchronisierung und verschlüsseln Sie sie dann.</trans
         <translation type="vanished">Unterstützung für virtuelle Dateien deaktivieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="608"/>
+        <location filename="../src/gui/accountsettings.cpp" line="612"/>
         <source>Enable virtual file support %1 …</source>
         <translation>Unterstützung für virtuelle Dateien aktivieren %1 …</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="608"/>
+        <location filename="../src/gui/accountsettings.cpp" line="612"/>
         <source>(experimental)</source>
         <translation>(experimentell)</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="714"/>
+        <location filename="../src/gui/accountsettings.cpp" line="718"/>
         <source>Folder creation failed</source>
         <translation>Anlegen des Ordners fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="715"/>
+        <location filename="../src/gui/accountsettings.cpp" line="719"/>
         <source>&lt;p&gt;Could not create local folder &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Konnte lokalen Ordner &lt;i&gt;%1&lt;/i&gt; nicht anle‏gen.‎&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="773"/>
+        <location filename="../src/gui/accountsettings.cpp" line="777"/>
         <source>Confirm Folder Sync Connection Removal</source>
         <translation>Bestätigen Sie die Löschung der Ordner-Synchronisierung</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="774"/>
+        <location filename="../src/gui/accountsettings.cpp" line="778"/>
         <source>&lt;p&gt;Do you really want to stop syncing the folder &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Möchten Sie den Ordner &lt;i&gt;%1&lt;/i&gt; nicht mehr synchronisieren?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Anmerkung:&lt;/b&gt; Dies wird &lt;b&gt;keine&lt;/b&gt; Dateien löschen.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="781"/>
+        <location filename="../src/gui/accountsettings.cpp" line="785"/>
         <source>Remove Folder Sync Connection</source>
         <translation>Ordner-Synchronisierung entfernen</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="885"/>
+        <location filename="../src/gui/accountsettings.cpp" line="889"/>
         <source>Disable virtual file support?</source>
         <translation>Unterstützung für virtuelle Dateien deaktivieren?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="886"/>
+        <location filename="../src/gui/accountsettings.cpp" line="890"/>
         <source>This action will disable virtual file support. As a consequence contents of folders that are currently marked as &quot;available online only&quot; will be downloaded.
 
 The only advantage of disabling virtual file support is that the selective sync feature will become available again.
@@ -586,22 +588,22 @@ Der einzige Vorteil der Deaktivierung der Unterstützung für virtuelle Dateien 
 Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="893"/>
+        <location filename="../src/gui/accountsettings.cpp" line="897"/>
         <source>Disable support</source>
         <translation>Unterstützung deaktivieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1011"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1044"/>
         <source>Sync Running</source>
         <translation>Synchronisierung läuft</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1012"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1045"/>
         <source>The syncing operation is running.&lt;br/&gt;Do you want to terminate it?</source>
         <translation>Die Synchronisierung läuft gerade.&lt;br/&gt;Wollen Sie diese beenden?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1096"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1129"/>
         <source>%1 (%3%) of %2. Some folders, including network mounted or shared folders, might have different limits.</source>
         <translation>%1 (%3%) von %2. Einige Ordner, einschließlich über das Netzwerk verbundene oder geteilte Ordner, können unterschiedliche Beschränkungen aufweisen. </translation>
     </message>
@@ -610,7 +612,7 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
         <translation type="vanished">%1 von %2 Serverkapazität verwendet</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1110"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1143"/>
         <source>Currently there is no storage usage information available.</source>
         <translation>Derzeit sind keine Speichernutzungsinformationen verfügbar.</translation>
     </message>
@@ -631,102 +633,134 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
         <translation type="vanished">Anmelden</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1097"/>
+        <location filename="../src/gui/accountsettings.cpp" line="245"/>
+        <source>Displays 12 word key (passhprase)</source>
+        <translation>12-Wort-Schlüssel anzeigen (Passphrase)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="249"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1481"/>
+        <source>This account supports End-to-End encryption</source>
+        <translation>Dieses Konto unterstützt Ende-zu-Ende-Verschlüsselung</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="334"/>
+        <source>You can only activate encryption for empty folders.
+Please remove the files or create a new folder.</source>
+        <translation>Sie können die Verschlüsselung nur für leere Ordner aktivieren.
+        Bitte entfernen Sie die Dateien oder legen Sie einen neuen Ordner an.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="978"/>
+        <source>End-to-End encryption mnemonic</source>
+        <translation>Gedächtnisstütze für Ende-zu-Ende Verschlüsselung</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="979"/>
+        <source>For the encryption, a randomly generated word sequence(passphrase) of 12 words is created. We recommend that you write  down the passphrase and keep it safe.
+
+The passphrase is your personal password with which you can access  encrypted data in your MagentaCLOUD or enable access to these files  on other devices such as your smartphones.</source>
+        <translation >Für der Verschlüsselung wird ihnen eine aus 12 Wörtern zufällig  erzeugte Wortfolge (Passphrase) erstellt. Wir empfehlen ihnen, die  Passphrase zu notieren und sicher aufzubewahren.
+
+Die Passphrase ist ihr persönliches Kennwort mit dem sie auf  verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder  den Zugriff auf diese Dateien auf anderen Geräten wie z.B.  Smartphones zu ermöglichen.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1130"/>
         <source>&lt;b&gt; %1 &lt;/b&gt; of %2</source>
         <translation>&lt;b&gt; %1 &lt;/b&gt; von %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1101"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1134"/>
         <source>Memory Occupied to %1 %</source>
         <translation>Speicherplatz zu %1 % belegt</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1113"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1146"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1140"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1173"/>
         <source>%1 as %2</source>
         <translation>%1 als %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1147"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1180"/>
         <source>The server version %1 is unsupported! Proceed at your own risk.</source>
         <translation>Die Serverversion %1 wird nicht unterstützt! Fortfahren auf eigenes Risiko.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1149"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1182"/>
         <source>Connected to %1.</source>
         <translation>Verbunden mit %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1153"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1186"/>
         <source>Server %1 is temporarily unavailable.</source>
         <translation>Server %1 ist derzeit nicht verfügbar.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1156"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1189"/>
         <source>Server %1 is currently in maintenance mode.</source>
         <translation>Server %1 befindet sich im Wartungsmodus.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1159"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1192"/>
         <source>Signed out from %1.</source>
         <translation>Abgemeldet von %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1169"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1202"/>
         <source>Obtaining authorization from the browser. &lt;a href=&apos;%1&apos;&gt;Click here&lt;/a&gt; to re-open the browser.</source>
         <translation>Berechtigung vom Browser einholen. &lt;a href=&apos;%1&apos;&gt; Klicken Sie hier &lt;/a&gt;, um den Browser erneut zu öffnen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1173"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1206"/>
         <source>Connecting to %1 …</source>
         <translation>Verbinde zu %1 …</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1178"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1211"/>
         <source>No connection to %1 at %2.</source>
         <translation>Keine Verbindung zu %1 auf %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1183"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1216"/>
         <source>Server configuration error: %1 at %2.</source>
         <translation>Konfigurationsfehler des Servers: %1 auf %2.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1194"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1227"/>
         <source>No %1 connection configured.</source>
         <translation>Keine %1-Verbindung konfiguriert.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1371"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1404"/>
         <source>There are folders that were not synchronized because they are too big: </source>
         <translation>Einige Ordner konnten nicht synchronisiert werden, da sie zu groß sind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1373"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1406"/>
         <source>There are folders that were not synchronized because they are external storages: </source>
         <translation>Es gibt Ordner, die nicht synchronisiert werden konnten, da sie externe Speicher sind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1374"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1407"/>
         <source>There are folders that were not synchronized because they are too big or external storages: </source>
         <translation>Es gibt Ordner, die nicht synchronisiert werden konnten, da sie zu groß oder externe Speicher sind:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1386"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1419"/>
         <source>Confirm Account Removal</source>
         <translation>Kontenentfernung bestätigen</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1387"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1420"/>
         <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Möchten Sie wirklich die Verbindung zum Konto &lt;i&gt;%1&lt;/i&gt; lösen?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Anmerkung:&lt;/b&gt; Dieser Vorgang wird &lt;b&gt;keine&lt;/b&gt; Dateien löschen.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1392"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1425"/>
         <source>Remove connection</source>
         <translation>Verbindung entfernen</translation>
     </message>
@@ -801,17 +835,17 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
 <context>
     <name>OCC::ActivityListModel</name>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="418"/>
+        <location filename="../src/gui/tray/ActivityListModel.cpp" line="418"/>
         <source>Fetching activities…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="489"/>
+        <location filename="../src/gui/tray/ActivityListModel.cpp" line="489"/>
         <source>Files from the ignore list as well as symbolic links are not synced.</source>
         <translation>Dateien aus der Ignorierliste sowie symbolische Links werden nicht synchronisiert.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="396"/>
+        <location filename="../src/gui/tray/ActivityListModel.cpp" line="396"/>
         <source>For more activities please open the Activity app.</source>
         <translation>Um weitere Aktivitäten anzusehen bitte die Activity-App öffnen.</translation>
     </message>
@@ -1026,14 +1060,22 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
 <context>
     <name>OCC::ClientSideEncryption</name>
     <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1241"/>
         <source>Please enter your end to end encryption passphrase:&lt;br&gt;&lt;br&gt;User: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation>Geben Sie Ihre Passphrase für Ende-zu-Ende-Verschlüsselung ein:&lt;br&gt;&lt;br&gt;Benutzer: %2&lt;br&gt;Konto: %3&lt;br&gt;</translation>
+        <translation type="vanished">Geben Sie Ihre Passphrase für Ende-zu-Ende-Verschlüsselung ein:&lt;br&gt;&lt;br&gt;Benutzer: %2&lt;br&gt;Konto: %3&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1249"/>
         <source>Enter E2E passphrase</source>
-        <translation>E2E-Passphrase eingeben</translation>
+        <translation type="vanished">Ende-zu-Ende Passphrase eingeben</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/clientsideencryption.cpp" line="1231"/>
+        <source>Please enter your end to end encryption passphrase:&lt;br&gt;&lt;br&gt;User: %2&lt;br&gt;</source>
+        <translation>Geben Sie Ihre Passphrase für Ende-zu-Ende-Verschlüsselung ein:&lt;br&gt;&lt;br&gt;Benutzer: %2&lt;br&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/clientsideencryption.cpp" line="1238"/>
+        <source>Enter end-to-end encryption</source>
+        <translation>Ende-zu-Ende Passphrase eingeben</translation>
     </message>
 </context>
 <context>
@@ -4109,18 +4151,18 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="108"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="106"/>
         <source>%1 Settings</source>
         <extracomment>This name refers to the application name e.g Nextcloud</extracomment>
         <translation>%1-Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="128"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="126"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="138"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="136"/>
         <source>Network</source>
         <translation>Netzwerk</translation>
     </message>
@@ -4129,7 +4171,7 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation type="vanished">Aktivität</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="283"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="281"/>
         <source>Account</source>
         <translation>Benutzerkonto</translation>
     </message>
@@ -5346,7 +5388,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OCC::User</name>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="454"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="454"/>
         <source>Retry all uploads</source>
         <translation>Alle Uploads neu starten</translation>
     </message>
@@ -5374,22 +5416,22 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>OCC::UserModel</name>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="965"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="986"/>
         <source>Confirm Account Removal</source>
         <translation>Kontenentfernung bestätigen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="966"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="987"/>
         <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Möchten Sie wirklich die Verbindung zum Konto &lt;i&gt;%1&lt;/i&gt; entfernen?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Hinweis:&lt;/b&gt; Es werden &lt;b&gt;keine&lt;/b&gt; Dateien gelöscht.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="971"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="992"/>
         <source>Remove connection</source>
         <translation>Verbindung entfernen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="972"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="993"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
@@ -6085,32 +6127,32 @@ p, li { white-space: pre-wrap; }
         <translation type="vanished">Online</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="735"/>
+        <location filename="../src/gui/tray/ActivityListModel.cpp" line="735"/>
         <source>Mark as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="529"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="529"/>
         <source>You renamed %1</source>
         <translation type="unfinished">Sie haben %1 umbenannt</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="531"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="531"/>
         <source>You deleted %1</source>
         <translation type="unfinished">Sie haben %1 gelöscht</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="533"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="533"/>
         <source>You created %1</source>
         <translation type="unfinished">Sie haben %1 erstellt</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="535"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="535"/>
         <source>You changed %1</source>
         <translation type="unfinished">Sie haben %1 geändert</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="558"/>
+        <location filename="../src/gui/tray/UserModel.cpp" line="558"/>
         <source>Synced %1</source>
         <translation type="unfinished">%1 synchronisiert</translation>
     </message>

@@ -83,7 +83,9 @@ class OWNCLOUDSYNC_EXPORT Account : public QObject
     Q_PROPERTY(QString id MEMBER _id)
     Q_PROPERTY(QString davUser MEMBER _davUser)
     Q_PROPERTY(QString displayName MEMBER _displayName)
+    Q_PROPERTY(QString prettyName READ prettyName NOTIFY prettyNameChanged)
     Q_PROPERTY(QUrl url MEMBER _url)
+    Q_PROPERTY(bool e2eEncryptionKeysGenerationAllowed MEMBER _e2eEncryptionKeysGenerationAllowed)
 
 public:
     static AccountPtr create();
@@ -112,6 +114,11 @@ public:
 
     /// The name of the account as shown in the toolbar
     QString displayName() const;
+
+    /// The name of the account that is displayed as nicely as possible,
+    /// e.g. the actual name of the user (John Doe). If this cannot be
+    /// provided, defaults to davUser (e.g. johndoe)
+    QString prettyName() const;
 
     QColor accentColor() const;
     QColor headerColor() const;
@@ -288,6 +295,9 @@ public:
 
     bool fileCanBeUnlocked(SyncJournalDb * const journal, const QString &folderRelativePath) const;
 
+    void setE2eEncryptionKeysGenerationAllowed(bool allowed);
+    bool e2eEncryptionKeysGenerationAllowed() const;
+
 public slots:
     /// Used when forgetting credentials
     void clearQNAMCache();
@@ -313,6 +323,7 @@ signals:
 
     void accountChangedAvatar();
     void accountChangedDisplayName();
+    void prettyNameChanged();
 
     /// Used in RemoteWipe
     void appPasswordRetrieved(QString);
@@ -339,6 +350,8 @@ private:
     void setSharedThis(AccountPtr sharedThis);
 
     static QString davPathBase();
+
+    bool _e2eEncryptionKeysGenerationAllowed = false;
 
     QWeakPointer<Account> _sharedThis;
     QString _id;
