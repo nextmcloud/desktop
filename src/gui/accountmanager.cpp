@@ -26,18 +26,18 @@
 #include <QNetworkAccessManager>
 #include <QMessageBox>
 #include "clientsideencryption.h"
-#include "ui_mnemonicdialog.h"
 
 namespace {
-static const char urlC[] = "url";
-static const char authTypeC[] = "authType";
-static const char userC[] = "user";
-static const char httpUserC[] = "http_user";
-static const char davUserC[] = "dav_user";
-static const char caCertsKeyC[] = "CaCertificates";
-static const char accountsC[] = "Accounts";
-static const char versionC[] = "version";
-static const char serverVersionC[] = "serverVersion";
+constexpr auto urlC = "url";
+constexpr auto authTypeC = "authType";
+constexpr auto userC = "user";
+constexpr auto displayNameC = "displayName";
+constexpr auto httpUserC = "http_user";
+constexpr auto davUserC = "dav_user";
+constexpr auto caCertsKeyC = "CaCertificates";
+constexpr auto accountsC = "Accounts";
+constexpr auto versionC = "version";
+constexpr auto serverVersionC = "serverVersion";
 
 // The maximum versions that this client can read
 static const int maxAccountsVersion = 2;
@@ -222,6 +222,7 @@ void AccountManager::saveAccountHelper(Account *acc, QSettings &settings, bool s
     settings.setValue(QLatin1String(versionC), maxAccountVersion);
     settings.setValue(QLatin1String(urlC), acc->_url.toString());
     settings.setValue(QLatin1String(davUserC), acc->_davUser);
+    settings.setValue(QLatin1String(displayNameC), acc->_displayName);
     settings.setValue(QLatin1String(serverVersionC), acc->_serverVersion);
     if (acc->_credentials) {
         if (saveCredentials) {
@@ -321,6 +322,7 @@ AccountPtr AccountManager::loadAccountHelper(QSettings &settings)
 
     // We want to only restore settings for that auth type and the user value
     acc->_settingsMap.insert(QLatin1String(userC), settings.value(userC));
+    acc->_displayName = settings.value(QLatin1String(displayNameC), "").toString();
     QString authTypePrefix = authType + "_";
     for (const auto &key : settings.childKeys()) {
         if (!key.startsWith(authTypePrefix))
@@ -396,23 +398,6 @@ AccountPtr AccountManager::createAccount()
         Systray::instance(), &Systray::showErrorMessageDialog);
 
     return acc;
-}
-
-void AccountManager::displayMnemonic(const QString& mnemonic)
-{
-    auto *widget = new QDialog;
-    Ui_Dialog ui;
-    ui.setupUi(widget);
-    widget->setWindowTitle(tr("End to end encryption mnemonic"));
-    ui.label->setText(tr("To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. "
-                         "Please note these down and keep them safe. "
-                         "They will be needed to add other devices to your account (like your mobile phone or laptop)."));
-    ui.textEdit->setText(mnemonic);
-    ui.textEdit->focusWidget();
-    ui.textEdit->selectAll();
-    ui.textEdit->setAlignment(Qt::AlignCenter);
-    widget->exec();
-    widget->resize(widget->sizeHint());
 }
 
 void AccountManager::shutdown()

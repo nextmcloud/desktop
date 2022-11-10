@@ -29,9 +29,10 @@ NavigationPaneHelper::NavigationPaneHelper(FolderMan *folderMan)
 {
     ConfigFile cfg;
     _showInExplorerNavigationPane = cfg.showInExplorerNavigationPane();
-
+   // Folder *folder;
     _updateCloudStorageRegistryTimer.setSingleShot(true);
     connect(&_updateCloudStorageRegistryTimer, &QTimer::timeout, this, &NavigationPaneHelper::updateCloudStorageRegistry);
+    //connect(folder->accountState()->account().data(), &Account::accountChangedDisplayName, this, &NavigationPaneHelper::slotAccountDisplayNameChanged);
 
     // Ensure that the folder integration stays persistent in Explorer,
     // the uninstaller removes the folder upon updating the client.
