@@ -230,7 +230,10 @@ public:
      */
     int serverVersionInt() const;
 
-    static int makeServerVersion(int majorVersion, int minorVersion, int patchVersion);
+    static constexpr int makeServerVersion(const int majorVersion, const int minorVersion, const int patchVersion) {
+        return (majorVersion << 16) + (minorVersion << 8) + patchVersion;
+    };
+
     void setServerVersion(const QString &version);
 
     /** Whether the server is too old.
@@ -295,6 +298,9 @@ public:
 
     bool fileCanBeUnlocked(SyncJournalDb * const journal, const QString &folderRelativePath) const;
 
+    void setTrustCertificates(bool trustCertificates);
+    bool trustCertificates() const;
+
     void setE2eEncryptionKeysGenerationAllowed(bool allowed);
     bool e2eEncryptionKeysGenerationAllowed() const;
 
@@ -350,6 +356,7 @@ private:
     void setSharedThis(AccountPtr sharedThis);
 
     static QString davPathBase();
+    bool _trustCertificates = false;
 
     bool _e2eEncryptionKeysGenerationAllowed = false;
 

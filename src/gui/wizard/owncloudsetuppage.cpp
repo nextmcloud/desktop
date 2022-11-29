@@ -74,11 +74,6 @@ OwncloudSetupPage::OwncloudSetupPage(QWidget *parent)
     addCertDial = new AddCertificateDialog(this);
     connect(addCertDial, &QDialog::accepted, this, &OwncloudSetupPage::slotCertificateAccepted);
 
-    _ui.serverAddressLabel->hide();
-    _ui.leUrl->hide();
-    _ui.serverAddressDescriptionLabel->hide();
-    _ui.errorLabel->hide();
-    //_ui.logoLabel->hide();
 }
 
 void OwncloudSetupPage::setLogo()

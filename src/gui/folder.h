@@ -206,8 +206,6 @@ public:
       */
     virtual void wipeForRemoval();
 
-    void onAssociatedAccountRemoved();
-
     void setSyncState(SyncResult::Status state);
 
     void setDirtyNetworkLimits();
@@ -430,7 +428,7 @@ private:
 
     void checkLocalPath();
 
-    void setSyncOptions();
+    SyncOptions initializeSyncOptions() const;
 
     enum LogStatus {
         LogStatusRemove,

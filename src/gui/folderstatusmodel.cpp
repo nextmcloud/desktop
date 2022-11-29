@@ -919,7 +919,7 @@ void FolderStatusModel::slotApplySelectiveSync()
 
         // The folders that were undecided or blacklisted and that are now checked should go on the white list.
         // The user confirmed them already just now.
-        QStringList toAddToWhiteList = ((oldBlackListSet + folder->journalDb()->getSelectiveSyncList(SyncJournalDb::SelectiveSyncUndecidedList, &ok).toSet()) - blackListSet).toList();
+        QStringList toAddToWhiteList = ((oldBlackListSet + folder->journalDb()->getSelectiveSyncList(SyncJournalDb::SelectiveSyncUndecidedList, &ok).toSet()) - blackListSet).values();
 
         if (!toAddToWhiteList.isEmpty()) {
             auto whiteList = folder->journalDb()->getSelectiveSyncList(SyncJournalDb::SelectiveSyncWhiteList, &ok);
@@ -943,7 +943,7 @@ void FolderStatusModel::slotApplySelectiveSync()
                 folder->journalDb()->schedulePathForRemoteDiscovery(it);
                 folder->schedulePathForLocalDiscovery(it);
             }
-            FolderMan::instance()->scheduleFolder(folder);
+            FolderMan::instance()->scheduleFolderForImmediateSync(folder);
         }
     }
 
@@ -974,6 +974,9 @@ void FolderStatusModel::slotSetProgress(const ProgressInfo &progress)
     }
 
     auto *pi = &_folders[folderIndex]._progress;
+    if (progress.status() == ProgressInfo::Starting) {
+        _isSyncRunningForAwhile = false;
+    }
 
     QVector<int> roles;
     roles << FolderStatusDelegate::SyncProgressItemString
@@ -982,11 +985,11 @@ void FolderStatusModel::slotSetProgress(const ProgressInfo &progress)
 
     if (progress.status() == ProgressInfo::Discovery) {
         if (!progress._currentDiscoveredRemoteFolder.isEmpty()) {
-            pi->_overallSyncString = tr("Checking for changes in remote '%1'").arg(progress._currentDiscoveredRemoteFolder);
+            pi->_overallSyncString = tr("Checking for changes in remote \"%1\"").arg(progress._currentDiscoveredRemoteFolder);
             emit dataChanged(index(folderIndex), index(folderIndex), roles);
             return;
         } else if (!progress._currentDiscoveredLocalFolder.isEmpty()) {
-            pi->_overallSyncString = tr("Checking for changes in local '%1'").arg(progress._currentDiscoveredLocalFolder);
+            pi->_overallSyncString = tr("Checking for changes in local \"%1\"").arg(progress._currentDiscoveredLocalFolder);
             emit dataChanged(index(folderIndex), index(folderIndex), roles);
             return;
         }
@@ -1098,13 +1101,23 @@ void FolderStatusModel::slotSetProgress(const ProgressInfo &progress)
         QString s1 = Utility::octetsToString(completedSize);
         QString s2 = Utility::octetsToString(totalSize);
 
-        if (progress.trustEta()) {
+        const auto estimatedEta = progress.totalProgress().estimatedEta;
+
+        if (progress.trustEta() && (estimatedEta > 0 || _isSyncRunningForAwhile)) {
+            _isSyncRunningForAwhile = true;
             //: Example text: "5 minutes left, 12 MB of 345 MB, file 6 of 7"
-            overallSyncString = tr("%5 left, %1 of %2, file %3 of %4")
-                                    .arg(s1, s2)
-                                    .arg(currentFile)
-                                    .arg(totalFileCount)
-                                    .arg(Utility::durationToDescriptiveString1(progress.totalProgress().estimatedEta));
+            if (estimatedEta == 0) {
+                overallSyncString = tr("A few seconds left, %1 of %2, file %3 of %4")
+                                        .arg(s1, s2)
+                                        .arg(currentFile)
+                                        .arg(totalFileCount);
+            } else {
+                overallSyncString = tr("%5 left, %1 of %2, file %3 of %4")
+                                        .arg(s1, s2)
+                                        .arg(currentFile)
+                                        .arg(totalFileCount)
+                                        .arg(Utility::durationToDescriptiveString1(estimatedEta));
+            }
 
         } else {
             //: Example text: "12 MB of 345 MB, file 6 of 7"

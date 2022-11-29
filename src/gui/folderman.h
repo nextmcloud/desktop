@@ -67,6 +67,14 @@ class FolderMan : public QObject
 {
     Q_OBJECT
 public:
+    enum class PathValidityResult {
+        Valid,
+        ErrorRecursiveValidity,
+        ErrorContainsFolder,
+        ErrorContainedInFolder,
+        ErrorNonEmptyFolder
+    };
+
     ~FolderMan() override;
     static FolderMan *instance();
 
@@ -138,9 +146,9 @@ public:
      *
      * Note that different accounts are allowed to sync to the same folder.
      *
-     * @returns an empty string if it is allowed, or an error if it is not allowed
+     * @returns an empty string and PathValidityResult::Valid if it is allowed, or an error if it is not allowed
      */
-    QString checkPathValidityForNewFolder(const QString &path, const QUrl &serverUrl = QUrl()) const;
+    QPair<PathValidityResult, QString> checkPathValidityForNewFolder(const QString &path, const QUrl &serverUrl = QUrl()) const;
 
     /**
      * Attempts to find a non-existing, acceptable path for creating a new sync folder.
@@ -196,6 +204,8 @@ public:
 
     /** Queues a folder for syncing. */
     void scheduleFolder(Folder *);
+    /** Queues a folder for syncing that starts immediately. */
+    void scheduleFolderForImmediateSync(Folder *);
 
     /** Puts a folder in the very front of the queue. */
     void scheduleFolderNext(Folder *);
@@ -357,6 +367,8 @@ private:
 
     /// Picks the next scheduled folder and starts the sync
     QTimer _startScheduledSyncTimer;
+
+    bool _nextSyncShouldStartImmediately = false;
 
     QScopedPointer<SocketApi> _socketApi;
     NavigationPaneHelper _navigationPaneHelper;

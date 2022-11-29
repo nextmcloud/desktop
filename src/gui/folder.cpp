@@ -79,7 +79,7 @@ Folder::Folder(const FolderDefinition &definition,
 
     _syncResult.setFolder(_definition.alias);
 
-    _engine.reset(new SyncEngine(_accountState->account(), path(), remotePath(), &_journal));
+    _engine.reset(new SyncEngine(_accountState->account(), path(), initializeSyncOptions(), remotePath(), &_journal));
     // pass the setting if hidden files are to be ignored, will be read in csync_update
     _engine->setIgnoreHiddenFiles(_definition.ignoreHiddenFiles);
 
@@ -302,14 +302,6 @@ void Folder::setSyncPaused(bool paused)
     emit canSyncChanged();
 }
 
-void Folder::onAssociatedAccountRemoved()
-{
-    if (_vfs) {
-        _vfs->stop();
-        _vfs->unregisterFolder();
-    }
-}
-
 void Folder::setSyncState(SyncResult::Status state)
 {
     _syncResult.setStatus(state);
@@ -498,6 +490,7 @@ void Folder::startVfs()
     vfsParams.filesystemPath = path();
     vfsParams.displayName = shortGuiRemotePathOrAppName();
     vfsParams.alias = alias();
+    vfsParams.navigationPaneClsid = navigationPaneClsid().toString();
     vfsParams.remotePath = remotePathTrailingSlash();
     vfsParams.account = _accountState->account();
     vfsParams.journal = &_journal;
@@ -845,7 +838,7 @@ void Folder::startSync(const QStringList &pathList)
     }
 
     setDirtyNetworkLimits();
-    setSyncOptions();
+    syncEngine().setSyncOptions(initializeSyncOptions());
 
     static std::chrono::milliseconds fullLocalDiscoveryInterval = []() {
         auto interval = ConfigFile().fullLocalDiscoveryInterval();
@@ -896,7 +889,7 @@ void Folder::correctPlaceholderFiles()
     }
 }
 
-void Folder::setSyncOptions()
+SyncOptions Folder::initializeSyncOptions() const
 {
     SyncOptions opt;
     ConfigFile cfgFile;
@@ -916,7 +909,7 @@ void Folder::setSyncOptions()
     opt.fillFromEnvironmentVariables();
     opt.verifyChunkSizes();
 
-    _engine->setSyncOptions(opt);
+    return opt;
 }
 
 void Folder::setDirtyNetworkLimits()

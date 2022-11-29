@@ -1,6 +1,8 @@
 set( APPLICATION_NAME       "MagentaCLOUD" )
 set( APPLICATION_SHORTNAME  "MagentaCLOUD" )
 set( APPLICATION_EXECUTABLE "magentacloud" )
+set( APPLICATION_CONFIG_NAME "magentacloud" )
+set( APPLICATION_CONFIG_NAME "magentacloud" )
 set( LINUX_APPLICATION_ID "de.magentacloud.magentacloud" )
 set( APPLICATION_DOMAIN     "dev1.next.magentacloud.de" )
 set( APPLICATION_VENDOR     "Deutsche Telekom AG" )

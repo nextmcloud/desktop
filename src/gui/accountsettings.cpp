@@ -99,7 +99,7 @@ void showEnableE2eeWithVirtualFilesWarningDialog(std::function<void(void)> onAcc
     messageBox->setIcon(QMessageBox::Warning);
     const auto dontEncryptButton = messageBox->addButton(QMessageBox::StandardButton::Cancel);
     Q_ASSERT(dontEncryptButton);
-    dontEncryptButton->setText(AccountSettings::tr("Don't encrypt folder"));
+    dontEncryptButton->setText(AccountSettings::tr("Do not encrypt folder"));
     const auto encryptButton = messageBox->addButton(QMessageBox::StandardButton::Ok);
     Q_ASSERT(encryptButton);
     encryptButton->setText(AccountSettings::tr("Encrypt folder"));
@@ -730,10 +730,6 @@ void AccountSettings::slotFolderWizardAccepted()
      * The default is to sync hidden files
      */
     definition.ignoreHiddenFiles = folderMan->ignoreHiddenFiles();
-
-    /* Root folder is the only that should be shown in a file manager nav pane
-     * and if the map isn't empty this means that the root folder is already there
-     */
     if (folderMan->navigationPaneHelper().showInExplorerNavigationPane())
         definition.navigationPaneClsid = QUuid::createUuid();
 

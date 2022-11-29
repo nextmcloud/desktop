@@ -572,7 +572,7 @@ chrono::milliseconds ConfigFile::notificationRefreshInterval(const QString &conn
     QSettings settings(configFile(), QSettings::IniFormat);
     settings.beginGroup(con);
 
-    auto defaultInterval = chrono::minutes(5);
+    const auto defaultInterval = chrono::minutes(1);
     auto interval = millisecondsValue(settings, notificationRefreshIntervalC, defaultInterval);
     if (interval < chrono::minutes(1)) {
         qCWarning(lcConfigFile) << "Notification refresh interval smaller than one minute, setting to one minute";

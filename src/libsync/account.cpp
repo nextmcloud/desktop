@@ -671,11 +671,6 @@ int Account::serverVersionInt() const
         components.value(2).toInt());
 }
 
-int Account::makeServerVersion(int majorVersion, int minorVersion, int patchVersion)
-{
-    return (majorVersion << 16) + (minorVersion << 8) + patchVersion;
-}
-
 bool Account::serverVersionUnsupported() const
 {
     if (serverVersionInt() == 0) {
@@ -926,6 +921,16 @@ bool Account::fileCanBeUnlocked(SyncJournalDb * const journal,
         return true;
     }
     return false;
+}
+
+void Account::setTrustCertificates(bool trustCertificates)
+{
+    _trustCertificates = trustCertificates;
+}
+
+bool Account::trustCertificates() const
+{
+    return _trustCertificates;
 }
 
 void Account::setE2eEncryptionKeysGenerationAllowed(bool allowed)

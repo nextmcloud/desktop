@@ -159,7 +159,7 @@ void OwncloudAdvancedSetupPage::initializePage()
     updateStatus();
 
     // ensure "next" gets the focus, not obSelectLocalFolder
-    QTimer::singleShot(0, wizard()->button(QWizard::NextButton), SLOT(setFocus()));
+    QTimer::singleShot(0, wizard()->button(QWizard::NextButton), qOverload<>(&QWidget::setFocus));
 
     auto acc = static_cast<OwncloudWizard *>(wizard())->account();
     auto quotaJob = new PropfindJob(acc, _remoteFolder, this);
@@ -262,8 +262,9 @@ void OwncloudAdvancedSetupPage::updateStatus()
     const QString locFolder = localFolder();
 
     // check if the local folder exists. If so, and if its not empty, show a warning.
-    QString errorStr = FolderMan::instance()->checkPathValidityForNewFolder(locFolder, serverUrl());
-    _localFolderValid = errorStr.isEmpty();
+    const auto pathValidityCheckResult = FolderMan::instance()->checkPathValidityForNewFolder(locFolder, serverUrl());
+    auto errorStr = pathValidityCheckResult.second;
+    _localFolderValid = errorStr.isEmpty() || pathValidityCheckResult.first == FolderMan::PathValidityResult::ErrorNonEmptyFolder;
 
     QString t;
 
@@ -273,7 +274,7 @@ void OwncloudAdvancedSetupPage::updateStatus()
         if (_remoteFolder.isEmpty() || _remoteFolder == QLatin1String("/")) {
             t = "";
         } else {
-            t = Utility::escape(tr("%1 folder '%2' is synced to local folder '%3'")
+            t = Utility::escape(tr(R"(%1 folder "%2" is synced to local folder "%3")")
                                     .arg(Theme::instance()->appName(), _remoteFolder,
                                         QDir::toNativeSeparators(locFolder)));
             //_ui.rSyncEverything->setText(tr("Sync the folder '%1'").arg(_remoteFolder));

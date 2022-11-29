@@ -82,9 +82,6 @@ ownCloudGui::ownCloudGui(Application *parent)
     connect(_tray.data(), &Systray::openAccountWizard,
         this, &ownCloudGui::slotNewAccountWizard);
 
-    connect(_tray.data(), &Systray::openMainDialog,
-        this, &ownCloudGui::slotOpenMainDialog);
-
     connect(_tray.data(), &Systray::openSettings,
         this, &ownCloudGui::slotShowSettings);
 
@@ -157,14 +154,14 @@ void ownCloudGui::slotOpenSettingsDialog()
 
 void ownCloudGui::slotOpenMainDialog()
 {
-    if (!_tray->isOpen()) {
-        _tray->showWindow();
-    }
+    _tray->showWindow();
 }
 
 void ownCloudGui::slotTrayClicked(QSystemTrayIcon::ActivationReason reason)
 {
-    if (reason == QSystemTrayIcon::Trigger) {
+    if (reason == QSystemTrayIcon::DoubleClick && UserModel::instance()->currentUser()->hasLocalFolder()) {
+        UserModel::instance()->openCurrentAccountLocalFolder();
+    } else if (reason == QSystemTrayIcon::Trigger) {
         if (OwncloudSetupWizard::bringWizardToFrontIfVisible()) {
             // brought wizard to front
         } else if (_shareDialogs.size() > 0) {
@@ -652,7 +649,7 @@ void ownCloudGui::slotShowShareDialog(const QString &sharePath, const QString &l
         w = _shareDialogs[localPath];
     } else {
         qCInfo(lcApplication) << "Opening share dialog" << sharePath << localPath << maxSharingPermissions;
-        w = new ShareDialog(accountState, sharePath, localPath, maxSharingPermissions, fileRecord.numericFileId(), startPage);
+        w = new ShareDialog(accountState, sharePath, localPath, maxSharingPermissions, fileRecord.numericFileId(), fileRecord._lockstate, startPage);
         w->setAttribute(Qt::WA_DeleteOnClose, true);
 
         _shareDialogs[localPath] = w;
