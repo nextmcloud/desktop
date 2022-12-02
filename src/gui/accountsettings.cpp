@@ -320,8 +320,29 @@ void AccountSettings::doExpand()
 bool AccountSettings::canEncryptOrDecrypt (const FolderStatusModel::SubFolderInfo* info) {
     if (info->_folder->syncResult().status() != SyncResult::Status::Success) {
         QMessageBox msgBox;
-        msgBox.setText("Please wait for the folder to sync before trying to encrypt it.");
+        msgBox.setText(tr("Please wait for the folder to sync before trying to encrypt it."));
         msgBox.exec();
+        return false;
+    }
+
+    if (!_accountState->account()->e2e() || _accountState->account()->e2e()->_mnemonic.isEmpty()) {
+        QMessageBox msgBox;
+        msgBox.setText(tr("End-to-end encryption is not configured on this device. "
+                          "Once it is configured, you will be able to encrypt this folder.\n"
+                          "Would you like to set up end-to-end encryption?"));
+        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        const auto ret = msgBox.exec();
+
+        switch (ret) {
+        case QMessageBox::Ok:
+            slotE2eEncryptionGenerateKeys();
+            break;
+        case QMessageBox::Cancel:
+        default:
+            break;
+        }
+
         return false;
     }
 
@@ -420,7 +441,7 @@ void AccountSettings::slotOpenMakeFolderDialog()
     }();
 
     if (!fileName.isEmpty()) {
-        const auto folderCreationDialog = new FolderCreationDialog(fileName, this); 
+        const auto folderCreationDialog = new FolderCreationDialog(fileName, this);
         folderCreationDialog->setAttribute(Qt::WA_DeleteOnClose);
         folderCreationDialog->open();
     }
@@ -975,12 +996,12 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
     auto *widget = new QDialog;
     Ui_Dialog ui;
     ui.setupUi(widget);
-    widget->setWindowTitle(tr("End to end encryption mnemonic"));
+    widget->setWindowTitle(tr("End-to-End encryption mnemonic"));
     widget->setWindowFlags(widget->windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui.label->setText(tr("For the encryption, a randomly generated word sequence"
-                         "(passphrase) of 12 words is created. We recommend that you write  down the passphrase and keep it safe.\n"
+                         "(passphrase) of 12 words is created. We recommend that you write down the passphrase and keep it safe.\n"
                          "\n"
-                         "The passphrase is your personal password with which you can access  encrypted data in your MagentaCLOUD or enable access to these files  on other devices such as your smartphones."));
+                         "The passphrase is your personal password with which you can access encrypted data in your MagentaCLOUD or enable access to these files on other devices such as your smartphones."));
     ui.textEdit->setText(mnemonic);
     ui.textEdit->focusWidget();
     ui.textEdit->selectAll();

@@ -1228,7 +1228,7 @@ void ClientSideEncryption::encryptPrivateKey(const AccountPtr &account)
 }
 
 void ClientSideEncryption::decryptPrivateKey(const AccountPtr &account, const QByteArray &key) {
-    QString msg = tr("Please enter your end to end encryption passphrase:<br>"
+    QString msg = tr("Please enter your end-to-end encryption passphrase:<br>"
                      "<br>"
                      "User: %2<br>")
                       .arg(Utility::escape(account->credentials()->user()));
