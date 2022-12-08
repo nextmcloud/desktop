@@ -295,8 +295,10 @@ int ActivityListModel::rowCount(const QModelIndex &parent) const
     if(parent.isValid()) {
         return 0;
     }
-
-    return _finalList.count();
+    if(_finalList.count()<maxVisibleActivities)
+        return _finalList.count();
+    else
+        return maxVisibleActivities;
 }
 
 bool ActivityListModel::canFetchMore(const QModelIndex &) const
@@ -375,7 +377,7 @@ void ActivityListModel::ingestActivities(const QJsonArray &activities)
 
     if (list.size() > 0) {
         std::sort(list.begin(), list.end());
-        beginInsertRows({}, _finalList.size(), _finalList.size() + list.size() - 1);
+        beginInsertRows({}, _finalList.size(),_finalList.size() +  list.size() - 1);
         _finalList.append(list);
         endInsertRows();
 
@@ -506,8 +508,15 @@ void ActivityListModel::addIgnoredFileToList(Activity newActivity)
 void ActivityListModel::addNotificationToActivityList(Activity activity)
 {
     qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
-    _notificationLists.prepend(activity);
-    combineActivityLists();
+    QDate _notificationDate = activity._dateTime.date();
+    QDate _currentDate = QDateTime::currentDateTime().date();
+    if(_currentDate.month()<=_notificationDate.month()){
+        if((_currentDate.day()-6)<=_notificationDate.day()){
+            _notificationLists.append(activity);//prepend(activity);
+            combineActivityLists();
+        }
+    }
+
 }
 
 void ActivityListModel::clearNotifications()
@@ -766,10 +775,10 @@ void ActivityListModel::combineActivityLists()
     if (_listOfIgnoredFiles.size() > 0)
         resultList.append(_notificationIgnoredFiles);
 
-    if (_notificationLists.count() > 0) {
-        std::sort(_notificationLists.begin(), _notificationLists.end());
-        resultList.append(_notificationLists);
-    }
+//    if (_notificationLists.count() > 0) {
+//        std::sort(_notificationLists.begin(), _notificationLists.end());
+//        resultList.append(_notificationLists);
+//    }
 
     if (_syncFileItemLists.count() > 0) {
         std::sort(_syncFileItemLists.begin(), _syncFileItemLists.end());
@@ -779,6 +788,10 @@ void ActivityListModel::combineActivityLists()
     if (_activityLists.count() > 0) {
         std::sort(_activityLists.begin(), _activityLists.end());
         resultList.append(_activityLists);
+    }
+    if (_notificationLists.count() > 0) {
+        std::sort(_notificationLists.begin(), _notificationLists.end());
+        resultList.append(_notificationLists);
     }
 
     if (_finalList.isEmpty() && !resultList.isEmpty()) {
@@ -794,6 +807,8 @@ void ActivityListModel::combineActivityLists()
     if (_activityLists.size() > 0) {
         appendMoreActivitiesAvailableEntry();
     }
+
+
 }
 
 bool ActivityListModel::canFetchActivities() const
