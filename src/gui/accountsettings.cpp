@@ -66,6 +66,7 @@ constexpr auto propertyFolder = "folder";
 constexpr auto propertyPath = "path";
 constexpr auto e2eUiActionIdKey = "id";
 constexpr auto e2EeUiActionEnableEncryptionId = "enable_encryption";
+constexpr auto e2EeUiActionDisableEncryptionId = "disable_encryption";
 constexpr auto e2EeUiActionDisplayMnemonicId = "display_mnemonic";
 }
 
@@ -242,11 +243,18 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
 
 void AccountSettings::slotE2eEncryptionMnemonicReady()
 {
-    auto *const actionDisplayMnemonic = addActionToEncryptionMessage(tr("Displays 12 word key (passhprase)"), e2EeUiActionDisplayMnemonicId);
+    const auto actionDisableEncryption = addActionToEncryptionMessage(tr("Disable encryption"), e2EeUiActionDisableEncryptionId);
+    connect(actionDisableEncryption, &QAction::triggered, this, [this] {
+        disableEncryptionForAccount(_accountState->account());
+    });
+
+    const auto actionDisplayMnemonic = addActionToEncryptionMessage(tr("Displays 12 word key (passhprase)"), e2EeUiActionDisplayMnemonicId);
     connect(actionDisplayMnemonic, &QAction::triggered, this, [this]() {
         displayMnemonic(_accountState->account()->e2e()->_mnemonic);
     });
-    _ui->encryptionMessage->setText(tr("This account supports End-to-End encryption"));
+    _ui->encryptionMessage->setMessageType(KMessageWidget::Positive);
+    _ui->encryptionMessage->setText(tr("End-to-end encryption has been enabled for this account"));
+    _ui->encryptionMessage->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/lock.svg")));
     _ui->encryptionMessage->show();
 
 }
@@ -317,13 +325,33 @@ void AccountSettings::doExpand()
     }
 }
 
-bool AccountSettings::canEncryptOrDecrypt (const FolderStatusModel::SubFolderInfo* info) {
+bool AccountSettings::canEncryptOrDecrypt(const FolderStatusModel::SubFolderInfo* info) {
     if (info->_folder->syncResult().status() != SyncResult::Status::Success) {
         QMessageBox msgBox;
         msgBox.setText("Please wait for the folder to sync before trying to encrypt it.");
         msgBox.exec();
         return false;
     }
+    if (!_accountState->account()->e2e() || _accountState->account()->e2e()->_mnemonic.isEmpty()) {
+            QMessageBox msgBox;
+            msgBox.setText(tr("End-to-end encryption is not configured on this device. "
+                              "Once it is configured, you will be able to encrypt this folder.\n"
+                              "Would you like to set up end-to-end encryption?"));
+            msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+            const auto ret = msgBox.exec();
+
+            switch (ret) {
+            case QMessageBox::Ok:
+                slotE2eEncryptionGenerateKeys();
+                break;
+            case QMessageBox::Cancel:
+            default:
+                break;
+            }
+
+            return false;
+        }
 
     // for some reason the actual folder in disk is info->_folder->path + info->_path.
     QDir folderPath(info->_folder->path() + info->_path);
@@ -975,12 +1003,12 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
     auto *widget = new QDialog;
     Ui_Dialog ui;
     ui.setupUi(widget);
-    widget->setWindowTitle(tr("End to end encryption mnemonic"));
+    widget->setWindowTitle(tr("End-to-End encryption mnemonic"));
     widget->setWindowFlags(widget->windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui.label->setText(tr("For the encryption, a randomly generated word sequence"
-                         "(passphrase) of 12 words is created. We recommend that you write  down the passphrase and keep it safe.\n"
+                         "(passphrase) of 12 words is created. We recommend that you write down the passphrase and keep it safe.\n"
                          "\n"
-                         "The passphrase is your personal password with which you can access  encrypted data in your MagentaCLOUD or enable access to these files  on other devices such as your smartphones."));
+                         "The passphrase is your personal password with which you can access encrypted data in your MagentaCLOUD or enable access to these files on other devices such as your smartphones."));
     ui.textEdit->setText(mnemonic);
     ui.textEdit->focusWidget();
     ui.textEdit->selectAll();
@@ -988,6 +1016,32 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
     widget->exec();
     widget->resize(widget->sizeHint());
 }
+
+void AccountSettings::disableEncryptionForAccount(const AccountPtr &account) const
+{
+    QMessageBox dialog;
+    dialog.setWindowTitle(tr("Disable end-to-end encryption"));
+    dialog.setText(tr("Disable end-to-end encryption for %1?").arg(account->prettyName()));
+    dialog.setInformativeText(tr("Removing end-to-end encryption will remove locally-synced files that are encrypted."
+                                 "<br>"
+                                 "Encrypted files will remain on the server."));
+    dialog.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    dialog.setDefaultButton(QMessageBox::Ok);
+    dialog.adjustSize();
+
+    const auto ret = dialog.exec();
+    switch(ret) {
+    case QMessageBox::Ok:
+        connect(account->e2e(), &ClientSideEncryption::sensitiveDataForgotten,
+                this, &AccountSettings::resetE2eEncryption);
+        account->e2e()->forgetSensitiveData(account);
+        break;
+    case QMessageBox::Cancel:
+        break;
+    Q_UNREACHABLE();
+    }
+}
+
 
 void AccountSettings::showConnectionLabel(const QString &message, QStringList errors)
 {
@@ -1238,16 +1292,21 @@ void AccountSettings::slotAccountStateChanged()
     refreshSelectiveSyncStatus();
 
     if (state == AccountState::State::Connected) {
-        /* TODO: We should probably do something better here.
-         * Verify if the user has a private key already uploaded to the server,
-         * if it has, do not offer to create one.
-         */
-        qCInfo(lcAccountSettings) << "Account" << accountsState()->account()->displayName()
-            << "Client Side Encryption" << accountsState()->account()->capabilities().clientSideEncryptionAvailable();
+        checkClientSideEncryptionState();
+    }
+}
 
-        if (_accountState->account()->capabilities().clientSideEncryptionAvailable()) {
-            _ui->encryptionMessage->show();
-        }
+void AccountSettings::checkClientSideEncryptionState()
+{
+    /* TODO: We should probably do something better here.
+     * Verify if the user has a private key already uploaded to the server,
+     * if it has, do not offer to create one.
+     */
+    qCInfo(lcAccountSettings) << "Account" << accountsState()->account()->displayName()
+        << "Client Side Encryption" << accountsState()->account()->capabilities().clientSideEncryptionAvailable();
+
+    if (_accountState->account()->capabilities().clientSideEncryptionAvailable()) {
+        _ui->encryptionMessage->show();
     }
 }
 
@@ -1468,11 +1527,40 @@ void AccountSettings::initializeE2eEncryption()
     if (!_accountState->account()->e2e()->_mnemonic.isEmpty()) {
         slotE2eEncryptionMnemonicReady();
     } else {
-        _ui->encryptionMessage->setText(tr("This account supports End-to-End encryption"));
+        _ui->encryptionMessage->setMessageType(KMessageWidget::Information);
+        _ui->encryptionMessage->setText(tr("This account supports End-to-end encryption"));
+        _ui->encryptionMessage->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/black/state-info.svg")));
         _ui->encryptionMessage->hide();
 
-        auto *const actionEnableE2e = addActionToEncryptionMessage(tr("Enable encryption"), e2EeUiActionEnableEncryptionId);
+        auto *const actionEnableE2e = addActionToEncryptionMessage(tr("Setup encryption"), e2EeUiActionEnableEncryptionId);
         connect(actionEnableE2e, &QAction::triggered, this, &AccountSettings::slotE2eEncryptionGenerateKeys);
+
+
+        connect(_accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this] {
+            if (!_accountState->account()->e2e()->_publicKey.isNull()) {
+                _ui->encryptionMessage->setText(tr("End-to-end encryption has been enabled on this account with another device."
+                                                   "<br>"
+                                                   "It can be enabled on this device by entering your mnemonic."));
+            }
+        });
+        _accountState->account()->setE2eEncryptionKeysGenerationAllowed(false);
+        _accountState->account()->e2e()->initialize(_accountState->account());
+    }
+}
+
+void AccountSettings::resetE2eEncryption()
+{
+    for (const auto action : _ui->encryptionMessage->actions()) {
+        _ui->encryptionMessage->removeAction(action);
+    }
+    _ui->encryptionMessage->setText({});
+    _ui->encryptionMessage->setIcon({});
+    initializeE2eEncryption();
+    checkClientSideEncryptionState();
+
+    const auto account = _accountState->account();
+    if (account->e2e()->_mnemonic.isEmpty()) {
+        FolderMan::instance()->removeE2eFiles(account);
     }
 }
 
