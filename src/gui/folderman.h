@@ -266,6 +266,8 @@ public slots:
     /** Wipe folder */
     void slotWipeFolderForAccount(AccountState *accountState);
 
+    void removeE2eFiles(const AccountPtr &account) const;
+
 private slots:
     void slotFolderSyncPaused(Folder *, bool paused);
     void slotFolderCanSyncChanged();
