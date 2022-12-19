@@ -113,8 +113,11 @@ protected slots:
 
     void slotSelectiveSyncChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight,
                                   const QVector<int> &roles);
+    void slotPossiblyUnblacklistE2EeFoldersAndRestartSync();
 
 private slots:
+    void updateBlackListAndScheduleFolderSync(const QStringList &blackList, OCC::Folder *folder, const QStringList &foldersToRemoveFromBlacklist) const;
+    void folderTerminateSyncAndUpdateBlackList(const QStringList &blackList, OCC::Folder *folder, const QStringList &foldersToRemoveFromBlacklist);
     void displayMnemonic(const QString &mnemonic);
     void disableEncryptionForAccount(const AccountPtr &account) const;
     void showConnectionLabel(const QString &message, QStringList errors = QStringList());
@@ -143,6 +146,8 @@ private:
     QAction *_addAccountAction;
 
     bool _menuShown;
+
+    QHash<QString, QMetaObject::Connection> _folderConnections;
 
     /* for Unit Test */
     friend class:: TestAccountSettings;
