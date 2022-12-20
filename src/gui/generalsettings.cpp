@@ -147,7 +147,6 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
     _ui->serverNotificationsCheckBox->setToolTip(tr("Server notifications that require attention."));
-    connect(_ui->autoCheckForUpdatesCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotToggleAutoUpdateCheck);
 
     slotShowInExplorerNavigationPane(true);
 
@@ -247,7 +246,7 @@ void GeneralSettings::loadMiscSettings()
     auto newFolderLimit = cfgFile.newBigFolderSizeLimit();
     _ui->newFolderLimitCheckBox->setChecked(newFolderLimit.first);
     _ui->newFolderLimitSpinBox->setValue(newFolderLimit.second);
-    //_ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
+    _ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
     _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
 
     cfgFile.setConfirmExternalStorage(true);
@@ -256,7 +255,8 @@ void GeneralSettings::loadMiscSettings()
 #if defined(BUILD_UPDATER)
 void GeneralSettings::slotUpdateInfo()
 {
-    if (ConfigFile().skipUpdateCheck() || !Updater::instance()) {
+    const auto updater = Updater::instance();
+    if (ConfigFile().skipUpdateCheck() || !updater) {
         // updater disabled on compile
         _ui->autoCheckForUpdatesCheckBox->setVisible(true);
         _ui->restartButton->setVisible(false);
@@ -264,13 +264,20 @@ void GeneralSettings::slotUpdateInfo()
         return;
     }
 
+    if (updater) {
+        connect(_ui->updateButton, &QAbstractButton::clicked, this,
+                &GeneralSettings::slotUpdateCheckNow, Qt::UniqueConnection);
+        connect(_ui->autoCheckForUpdatesCheckBox, &QAbstractButton::toggled, this,
+                &GeneralSettings::slotToggleAutoUpdateCheck, Qt::UniqueConnection);
+        _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
+    }
+
     // Note: the sparkle-updater is not an OCUpdater
-    auto *ocupdater = qobject_cast<OCUpdater *>(Updater::instance());
+    auto *ocupdater = qobject_cast<OCUpdater *>(updater);
     if (ocupdater) {
         connect(ocupdater, &OCUpdater::downloadStateChanged, this, &GeneralSettings::slotUpdateInfo, Qt::UniqueConnection);
         connect(_ui->restartButton, &QAbstractButton::clicked, ocupdater, &OCUpdater::slotStartInstaller, Qt::UniqueConnection);
         connect(_ui->restartButton, &QAbstractButton::clicked, qApp, &QApplication::quit, Qt::UniqueConnection);
-        connect(_ui->updateButton, &QAbstractButton::clicked, this, &GeneralSettings::slotUpdateCheckNow, Qt::UniqueConnection);
 
         _ui->restartButton->setVisible(ocupdater->downloadState() == OCUpdater::DownloadComplete);
 
@@ -280,7 +287,7 @@ void GeneralSettings::slotUpdateInfo()
 
     }
 #if defined(Q_OS_MAC) && defined(HAVE_SPARKLE)
-    else if (auto sparkleUpdater = qobject_cast<SparkleUpdater *>(Updater::instance())) {
+    else if (auto sparkleUpdater = qobject_cast<SparkleUpdater *>(updater)) {
         _ui->restartButton->setVisible(false);
     }
 #endif
@@ -288,7 +295,11 @@ void GeneralSettings::slotUpdateInfo()
 
 void GeneralSettings::slotUpdateCheckNow()
 {
+#if defined(Q_OS_MAC) && defined(HAVE_SPARKLE)
+    auto *updater = qobject_cast<SparkleUpdater *>(Updater::instance());
+#else
     auto *updater = qobject_cast<OCUpdater *>(Updater::instance());
+#endif
     if (ConfigFile().skipUpdateCheck()) {
         updater = nullptr; // don't show update info if updates are disabled
     }
@@ -298,7 +309,6 @@ void GeneralSettings::slotUpdateCheckNow()
         updater->checkForUpdate();
     }
 }
-#endif // defined(BUILD_UPDATER)
 
 void GeneralSettings::slotToggleAutoUpdateCheck()
 {
@@ -306,6 +316,7 @@ void GeneralSettings::slotToggleAutoUpdateCheck()
     bool isChecked = _ui->autoCheckForUpdatesCheckBox->isChecked();
     cfgFile.setAutoUpdateCheck(isChecked, QString());
 }
+#endif // defined(BUILD_UPDATER)
 
 void GeneralSettings::slotTransferUsageData()
 {
