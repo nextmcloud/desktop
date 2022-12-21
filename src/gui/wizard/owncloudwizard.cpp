@@ -304,15 +304,14 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         button(QWizard::NextButton)->setHidden(true);
         // Need to set it from here, otherwise it has no effect
         _welcomePage->setLoginButtonDefault();
-#ifdef WITH_WEBENGINE
     } else if (
-        id == WizardCommon::Page_WebView) {
-        setButtonLayout({ QWizard::Stretch, QWizard::BackButton });
+#ifdef WITH_WEBENGINE
+        id == WizardCommon::Page_WebView ||
 #endif // WITH_WEBENGINE
-    } else if(id == WizardCommon::Page_Flow2AuthCreds){
+        id == WizardCommon::Page_Flow2AuthCreds) {
+        setButtonLayout({ QWizard::Stretch, QWizard::BackButton });
         button(QWizard::BackButton)->setHidden(true);
-        button(QWizard::NextButton)->setHidden(true);
-    }else if (id == WizardCommon::Page_AdvancedSetup) {
+    } else if (id == WizardCommon::Page_AdvancedSetup) {
         setButtonLayout({ QWizard::Stretch, QWizard::BackButton, QWizard::FinishButton });
         setNextButtonAsDefault();
     } else {
