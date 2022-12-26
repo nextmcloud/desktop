@@ -333,6 +333,27 @@ bool AccountSettings::canEncryptOrDecrypt (const FolderStatusModel::SubFolderInf
         return false;
     }
 
+    if (!_accountState->account()->e2e() || _accountState->account()->e2e()->_mnemonic.isEmpty()) {
+        QMessageBox msgBox;
+        msgBox.setText(tr("End-to-end encryption is not configured on this device. "
+                          "Once it is configured, you will be able to encrypt this folder.\n"
+                          "Would you like to set up end-to-end encryption?"));
+        msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        const auto ret = msgBox.exec();
+
+        switch (ret) {
+        case QMessageBox::Ok:
+            slotE2eEncryptionGenerateKeys();
+            break;
+        case QMessageBox::Cancel:
+        default:
+            break;
+        }
+
+        return false;
+    }
+
     // for some reason the actual folder in disk is info->_folder->path + info->_path.
     QDir folderPath(info->_folder->path() + info->_path);
     folderPath.setFilter( QDir::AllEntries | QDir::NoDotAndDotDot );
@@ -1507,7 +1528,7 @@ void AccountSettings::initializeE2eEncryption()
         _ui->encryptionMessage->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/black/state-info.svg")));
         _ui->encryptionMessage->hide();
 
-        auto *const actionEnableE2e = addActionToEncryptionMessage(tr("Setup encryption"), e2EeUiActionEnableEncryptionId);
+        auto *const actionEnableE2e = addActionToEncryptionMessage(tr("Enable encryption"), e2EeUiActionEnableEncryptionId);
         connect(actionEnableE2e, &QAction::triggered, this, &AccountSettings::slotE2eEncryptionGenerateKeys);
        //connect(_accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this] {
             if (!_accountState->account()->e2e()->_publicKey.isNull()) {
