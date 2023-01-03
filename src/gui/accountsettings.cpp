@@ -100,11 +100,11 @@ void showEnableE2eeWithVirtualFilesWarningDialog(std::function<void(void)> onAcc
     messageBox->setIcon(QMessageBox::Warning);
     const auto dontEncryptButton = messageBox->addButton(QMessageBox::StandardButton::Cancel);
     Q_ASSERT(dontEncryptButton);
-    dontEncryptButton->setText(AccountSettings::tr("Do not encrypt folder"));
-    const auto encryptButton = messageBox->addButton(QMessageBox::StandardButton::Ok);
-    Q_ASSERT(encryptButton);
-    encryptButton->setText(AccountSettings::tr("Encrypt folder"));
-    QObject::connect(messageBox, &QMessageBox::accepted, onAccept);
+    dontEncryptButton->setText(AccountSettings::tr("Cancel"));
+    //const auto encryptButton = messageBox->addButton(QMessageBox::StandardButton::Ok);
+    //Q_ASSERT(encryptButton);
+   // encryptButton->setText(AccountSettings::tr("Encrypt folder"));
+    //QObject::connect(messageBox, &QMessageBox::accepted, onAccept);
 
     messageBox->open();
 }
@@ -399,8 +399,9 @@ void AccountSettings::slotMarkSubfolderEncrypted(FolderStatusModel::SubFolderInf
         job->start();
     };
 
+    auto pinState = folder->vfs().pinState(path);
     if (folder->virtualFilesEnabled()
-        && folder->vfs().mode() == Vfs::WindowsCfApi) {
+        && folder->vfs().mode() == Vfs::WindowsCfApi && (*pinState != PinState::AlwaysLocal)) {
         showEnableE2eeWithVirtualFilesWarningDialog(encryptFolder);
         return;
     }
