@@ -328,7 +328,7 @@ void AccountSettings::doExpand()
 bool AccountSettings::canEncryptOrDecrypt (const FolderStatusModel::SubFolderInfo* info) {
     if (info->_folder->syncResult().status() != SyncResult::Status::Success) {
         QMessageBox msgBox;
-        msgBox.setText("Please wait for the folder to sync before trying to encrypt it.");
+        msgBox.setText(tr("Please wait for the folder to sync before trying to encrypt it."));
         msgBox.exec();
         return false;
     }

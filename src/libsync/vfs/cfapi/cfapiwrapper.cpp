@@ -729,7 +729,7 @@ OCC::Result<void, QString> OCC::CfApiWrapper::createPlaceholderInfo(const QStrin
     const qint64 result = CfCreatePlaceholders(localBasePath.data(), &cloudEntry, 1, CF_CREATE_FLAG_NONE, nullptr);
     if (result != S_OK) {
         qCWarning(lcCfApiWrapper) << "Couldn't create placeholder info for" << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage());
-        return { "Couldn't create placeholder info" };
+        return { tr("Couldn't create placeholder info") };
     }
 
     const auto parentInfo = findPlaceholderInfo(QDir::toNativeSeparators(QFileInfo(path).absolutePath()));
@@ -773,7 +773,7 @@ OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> OCC::CfApiWrapper::up
 
     if (result != S_OK) {
         qCWarning(lcCfApiWrapper) << "Couldn't update placeholder info for" << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage()) << replacesPath;
-        return { "Couldn't update placeholder info" };
+        return { tr("Couldn't update placeholder info") };
     }
 
     // Pin state tends to be lost on updates, so restore it every time
@@ -808,7 +808,7 @@ OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> OCC::CfApiWrapper::de
 
     if (result != S_OK) {
         qCWarning(lcCfApiWrapper) << "Couldn't update placeholder info for" << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage());
-        return { "Couldn't update placeholder info" };
+        return { tr("Couldn't update placeholder info") };
     }
 
     return OCC::Vfs::ConvertToPlaceholderResult::Ok;
