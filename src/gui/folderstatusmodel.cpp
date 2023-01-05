@@ -769,7 +769,9 @@ void FolderStatusModel::slotUpdateDirectories(const QStringList &list)
             && _accountState->account()->e2e()->_privateKey.isNull();
 
         SyncJournalFileRecord rec;
-        parentInfo->_folder->journalDb()->getFileRecordByE2eMangledName(removeTrailingSlash(relativePath), &rec);
+        if (!parentInfo->_folder->journalDb()->getFileRecordByE2eMangledName(removeTrailingSlash(relativePath), &rec)) {
+            qCWarning(lcFolderStatus) << "Could not get file record by E2E Mangled Name from local DB" << removeTrailingSlash(relativePath);
+        }
         if (rec.isValid()) {
             newInfo._name = removeTrailingSlash(rec._path).split('/').last();
             if (rec._isE2eEncrypted && !rec._e2eMangledName.isEmpty()) {
@@ -831,7 +833,7 @@ void FolderStatusModel::slotUpdateDirectories(const QStringList &list)
     }
 
     for (int undecidedIndex : qAsConst(undecidedIndexes)) {
-        suggestExpand(index(undecidedIndex, 0, idx));
+        emit suggestExpand(index(undecidedIndex, 0, idx));
     }
     /* Try to remove the the undecided lists the items that are not on the server. */
     auto it = std::remove_if(selectiveSyncUndecidedList.begin(), selectiveSyncUndecidedList.end(),
