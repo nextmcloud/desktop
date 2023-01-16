@@ -28,6 +28,7 @@
 #include <memory>
 
 class QSettings;
+class FakeAccountState;
 
 namespace OCC {
 
@@ -200,10 +201,10 @@ public:
 public slots:
     /// Triggers a ping to the server to update state and
     /// connection status and errors.
-    void checkConnectivity();
+    virtual void checkConnectivity();
 
 private:
-    void setState(State state);
+    virtual void setState(State state);
     void fetchNavigationApps();
 
     int retryCount() const;
@@ -279,6 +280,10 @@ private:
 
     QTimer _checkConnectionTimer;
     QElapsedTimer _lastCheckConnectionTimer;
+    explicit AccountState() = default;
+
+
+    friend class ::FakeAccountState;
 };
 
 class AccountApp : public QObject

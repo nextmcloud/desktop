@@ -139,11 +139,24 @@
     NSLog(@"Closing connection.");
     
     if(self.readSource) {
+        // Since dispatch_source_cancel works asynchronously, if we deallocate the dispatch source here then we can
+        // cause a crash. So instead we strongly hold a reference to the read source and deallocate it asynchronously
+        // with the handler.
+        __block dispatch_source_t previousReadSource = self.readSource;
+        dispatch_source_set_cancel_handler(self.readSource, ^{
+            previousReadSource = nil;
+        });
         dispatch_source_cancel(self.readSource);
+        // The readSource is still alive due to the other reference and will be deallocated by the cancel handler
         self.readSource = nil;
     }
     
     if(self.writeSource) {
+        // Same deal with the write source
+        __block dispatch_source_t previousWriteSource = self.writeSource;
+        dispatch_source_set_cancel_handler(self.writeSource, ^{
+            previousWriteSource = nil;
+        });
         dispatch_source_cancel(self.writeSource);
         self.writeSource = nil;
     }
@@ -207,9 +220,9 @@
     NSLog(@"About to write %li bytes from outbuffer to socket.", [self.outBuffer length]);
     
     long bytesWritten = write(self.sock, [self.outBuffer bytes], [self.outBuffer length]);
-    char lineWritten[4096];
+    char lineWritten[[self.outBuffer length]];
     memcpy(lineWritten, [self.outBuffer bytes], [self.outBuffer length]);
-    NSLog(@"Wrote %li bytes to socket. Line was: '%@'", bytesWritten, [NSString stringWithUTF8String:lineWritten]);
+    NSLog(@"Wrote %li bytes to socket. Line written was: '%@'", bytesWritten, [NSString stringWithUTF8String:lineWritten]);
     
     if(bytesWritten == 0) {
         // 0 means we reached "end of file" and thus the socket was closed. So let's restart it

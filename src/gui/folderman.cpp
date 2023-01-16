@@ -163,6 +163,8 @@ void FolderMan::registerFolderWithSocketApi(Folder *folder)
 
 int FolderMan::setupFolders()
 {
+    Utility::registerUriHandlerForLocalEditing();
+
     unloadAndDeleteAllFolders();
 
     QStringList skipSettingsKeys;
@@ -597,6 +599,16 @@ void FolderMan::scheduleAllFolders()
     }
 }
 
+void FolderMan::removeE2eFiles(const AccountPtr &account) const
+{
+    Q_ASSERT(account->e2e()->_mnemonic.isEmpty());
+    for (const auto folder : map()) {
+        if(folder->accountState()->account()->id() == account->id()) {
+            folder->removeLocalE2eFiles();
+        }
+    }
+}
+
 void FolderMan::slotScheduleAppRestart()
 {
     _appRestartRequired = true;
@@ -637,6 +649,12 @@ void FolderMan::scheduleFolder(Folder *f)
     }
 
     startScheduledSyncSoon();
+}
+
+void FolderMan::scheduleFolderForImmediateSync(Folder *f)
+{
+    _nextSyncShouldStartImmediately = true;
+    scheduleFolder(f);
 }
 
 void FolderMan::scheduleFolderNext(Folder *f)
@@ -788,6 +806,12 @@ void FolderMan::startScheduledSyncSoon()
     // Time since the last sync run counts against the delay
     msDelay = qMax(1ll, msDelay - msSinceLastSync);
 
+    if (_nextSyncShouldStartImmediately) {
+        _nextSyncShouldStartImmediately = false;
+        qCInfo(lcFolderMan) << "Next sync is marked to start immediately, so setting the delay to '0'";
+        msDelay = 0;
+    }
+
     qCInfo(lcFolderMan) << "Starting the next scheduled sync in" << (msDelay / 1000) << "seconds";
     _startScheduledSyncTimer.start(msDelay);
 }
@@ -929,10 +953,14 @@ void FolderMan::runEtagJobIfPossible(Folder *folder)
 
 void FolderMan::slotAccountRemoved(AccountState *accountState)
 {
+    QVector<Folder *> foldersToRemove;
     for (const auto &folder : qAsConst(_folderMap)) {
         if (folder->accountState() == accountState) {
-            folder->onAssociatedAccountRemoved();
+            foldersToRemove.push_back(folder);
         }
+    }
+    for (const auto &folder : qAsConst(foldersToRemove)) {
+        removeFolder(folder);
     }
 }
 
@@ -1133,11 +1161,7 @@ Folder *FolderMan::addFolderInternal(
 
     auto folder = new Folder(folderDefinition, accountState, std::move(vfs), this);
 
-    /* Root folder is the only that should be shown in a file manager nav pane
-     * and if the map isn't empty this means that the root folder is already there
-     */
-    if (_navigationPaneHelper.showInExplorerNavigationPane() && folderDefinition.navigationPaneClsid.isNull())
-    {
+    if (_navigationPaneHelper.showInExplorerNavigationPane() && folderDefinition.navigationPaneClsid.isNull()) {
         folder->setNavigationPaneClsid(QUuid::createUuid());
         folder->saveToSettings();
     }
@@ -1501,7 +1525,7 @@ QString FolderMan::trayTooltipStatusString(
     QString folderMessage;
     switch (syncStatus) {
     case SyncResult::Undefined:
-        folderMessage = tr("Undefined State.");
+        folderMessage = tr("Undefined state.");
         break;
     case SyncResult::NotYetStarted:
         folderMessage = tr("Waiting to start syncing.");
@@ -1517,16 +1541,16 @@ QString FolderMan::trayTooltipStatusString(
         if (hasUnresolvedConflicts) {
             folderMessage = tr("Sync finished with unresolved conflicts.");
         } else {
-            folderMessage = tr("Last Sync was successful.");
+            folderMessage = tr("Last sync was successful.");
         }
         break;
     case SyncResult::Error:
         break;
     case SyncResult::SetupError:
-        folderMessage = tr("Setup Error.");
+        folderMessage = tr("Setup error.");
         break;
     case SyncResult::SyncAbortRequested:
-        folderMessage = tr("User Abort.");
+        folderMessage = tr("Sync request was cancelled.");
         break;
     case SyncResult::Paused:
         folderMessage = tr("Sync is paused.");
@@ -1592,12 +1616,16 @@ static QString canonicalPath(const QString &path)
     return selFile.canonicalFilePath();
 }
 
-QString FolderMan::checkPathValidityForNewFolder(const QString &path, const QUrl &serverUrl) const
+QPair<FolderMan::PathValidityResult, QString> FolderMan::checkPathValidityForNewFolder(const QString &path, const QUrl &serverUrl) const
 {
-    QString recursiveValidity = checkPathValidityRecursive(path);
+    QPair<FolderMan::PathValidityResult, QString> result;
+
+    const auto recursiveValidity = checkPathValidityRecursive(path);
     if (!recursiveValidity.isEmpty()) {
         qCDebug(lcFolderMan) << path << recursiveValidity;
-        return recursiveValidity;
+        result.first = FolderMan::PathValidityResult::ErrorRecursiveValidity;
+        result.second = recursiveValidity;
+        return result;
     }
 
     // check if the local directory isn't used yet in another ownCloud sync
@@ -1613,15 +1641,19 @@ QString FolderMan::checkPathValidityForNewFolder(const QString &path, const QUrl
 
         bool differentPaths = QString::compare(folderDir, userDir, cs) != 0;
         if (differentPaths && folderDir.startsWith(userDir, cs)) {
-            return tr("The local folder %1 already contains a folder used in a folder sync connection. "
-                      "Please pick another one!")
-                .arg(QDir::toNativeSeparators(path));
+            result.first = FolderMan::PathValidityResult::ErrorContainsFolder;
+            result.second = tr("The local folder %1 already contains a folder used in a folder sync connection. "
+                              "Please pick another one!")
+                                .arg(QDir::toNativeSeparators(path));
+            return result;
         }
 
         if (differentPaths && userDir.startsWith(folderDir, cs)) {
-            return tr("The local folder %1 is already contained in a folder used in a folder sync connection. "
+            result.first = FolderMan::PathValidityResult::ErrorContainedInFolder;
+            result.second = tr("The local folder %1 is already contained in a folder used in a folder sync connection. "
                       "Please pick another one!")
                 .arg(QDir::toNativeSeparators(path));
+            return result;
         }
 
         // if both pathes are equal, the server url needs to be different
@@ -1633,13 +1665,15 @@ QString FolderMan::checkPathValidityForNewFolder(const QString &path, const QUrl
             folderUrl.setUserName(user);
 
             if (serverUrl == folderUrl) {
-                return tr("There is already a sync from the server to this local folder. "
+                result.first = FolderMan::PathValidityResult::ErrorNonEmptyFolder;
+                result.second = tr("There is already a sync from the server to this local folder. "
                           "Please pick another local folder!");
+                return result;
             }
         }
     }
 
-    return QString();
+    return result;
 }
 
 QString FolderMan::findGoodPathForNewSyncFolder(const QString &basePath, const QUrl &serverUrl) const
@@ -1661,7 +1695,7 @@ QString FolderMan::findGoodPathForNewSyncFolder(const QString &basePath, const Q
     forever {
         const bool isGood =
             !QFileInfo(folder).exists()
-            && FolderMan::instance()->checkPathValidityForNewFolder(folder, serverUrl).isEmpty();
+            && FolderMan::instance()->checkPathValidityForNewFolder(folder, serverUrl).second.isEmpty();
         if (isGood) {
             break;
         }

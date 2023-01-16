@@ -25,6 +25,7 @@
 #include "configfile.h"
 #include "folderman.h"
 #include "folder.h"
+#include "encryptfolderjob.h"
 #include "theme.h"
 #include "common/syncjournalfilerecord.h"
 #include "syncengine.h"
@@ -80,6 +81,11 @@
 // The first number should be changed if there is an incompatible change that breaks old clients.
 // The second number should be changed when there are new features.
 #define MIRALL_SOCKET_API_VERSION "1.1"
+
+namespace {
+constexpr auto encryptJobPropertyFolder = "folder";
+constexpr auto encryptJobPropertyPath = "path";
+}
 
 namespace {
 
@@ -304,8 +310,6 @@ SocketApi::~SocketApi()
 
 void SocketApi::slotNewConnection()
 {
-    // Note that on macOS this is not actually a line-based QIODevice, it's a SocketApiSocket which is our
-    // custom message based macOS IPC.
     QIODevice *socket = _localServer.nextPendingConnection();
 
     if (!socket) {
@@ -502,6 +506,61 @@ void SocketApi::processFileActivityRequest(const QString &localFile)
     emit fileActivityCommandReceived(fileData.serverRelativePath, fileData.journalRecord().numericFileId().toInt());
 }
 
+void SocketApi::processEncryptRequest(const QString &localFile)
+{
+    Q_ASSERT(QFileInfo(localFile).isDir());
+
+    const auto fileData = FileData::get(localFile);
+
+    const auto folder = fileData.folder;
+    Q_ASSERT(folder);
+
+    const auto account = folder->accountState()->account();
+    Q_ASSERT(account);
+
+    const auto rec = fileData.journalRecord();
+    Q_ASSERT(rec.isValid());
+
+    if (!account->e2e() || account->e2e()->_mnemonic.isEmpty()) {
+        const int ret = QMessageBox::critical(nullptr,
+                                              tr("Failed to encrypt folder at \"%1\"").arg(fileData.folderRelativePath),
+                                              tr("The account %1 does not have end-to-end encryption configured. "
+                                                 "Please configure this in your account settings to enable folder encryption.").arg(account->prettyName()));
+        Q_UNUSED(ret)
+        return;
+    }
+
+    auto path = rec._path;
+    // Folder records have directory paths in Foo/Bar/ convention...
+    // But EncryptFolderJob expects directory path Foo/Bar convention
+    auto choppedPath = path;
+    if (choppedPath.endsWith('/') && choppedPath != QStringLiteral("/")) {
+        choppedPath.chop(1);
+    }
+    if (choppedPath.startsWith('/') && choppedPath != QStringLiteral("/")) {
+        choppedPath = choppedPath.mid(1);
+    }
+
+    auto job = new OCC::EncryptFolderJob(account, folder->journalDb(), choppedPath, rec.numericFileId(), this);
+    connect(job, &OCC::EncryptFolderJob::finished, this, [fileData, job](const int status) {
+        if (status == OCC::EncryptFolderJob::Error) {
+            const int ret = QMessageBox::critical(nullptr,
+                                                  tr("Failed to encrypt folder"),
+                                                  tr("Could not encrypt the following folder: \"%1\". \n\n"
+                                                     "Server replied with error: %2").arg(fileData.folderRelativePath, job->errorString()));
+            Q_UNUSED(ret)
+        } else {
+            const int ret = QMessageBox::information(nullptr,
+                                                     tr("Folder encrypted successfully").arg(fileData.folderRelativePath),
+                                                     tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
+            Q_UNUSED(ret)
+        }
+    });
+    job->setProperty(encryptJobPropertyFolder, QVariant::fromValue(folder));
+    job->setProperty(encryptJobPropertyPath, QVariant::fromValue(path));
+    job->start();
+}
+
 void SocketApi::processShareRequest(const QString &localFile, SocketListener *listener, ShareDialogStartPage startPage)
 {
     auto theme = Theme::instance();
@@ -591,6 +650,13 @@ void SocketApi::command_ACTIVITY(const QString &localFile, SocketListener *liste
     Q_UNUSED(listener);
 
     processFileActivityRequest(localFile);
+}
+
+void SocketApi::command_ENCRYPT(const QString &localFile, SocketListener *listener)
+{
+    Q_UNUSED(listener);
+
+    processEncryptRequest(localFile);
 }
 
 void SocketApi::command_MANAGE_PUBLIC_LINKS(const QString &localFile, SocketListener *listener)
@@ -1075,6 +1141,39 @@ void SocketApi::sendSharingContextMenuOptions(const FileData &fileData, SocketLi
     //listener->sendMessage(QLatin1String("MENU_ITEM:EMAIL_PRIVATE_LINK") + flagString + tr("Send private link by email …"));
 }
 
+void SocketApi::sendEncryptFolderCommandMenuEntries(const QFileInfo &fileInfo,
+                                                    const FileData &fileData,
+                                                    const bool isE2eEncryptedPath,
+                                                    const OCC::SocketListener* const listener) const
+{
+    if (!listener ||
+            !fileData.folder ||
+            !fileData.folder->accountState() ||
+            !fileData.folder->accountState()->account() ||
+            !fileData.folder->accountState()->account()->capabilities().clientSideEncryptionAvailable() ||
+            !fileInfo.isDir() ||
+            isE2eEncryptedPath) {
+        return;
+    }
+
+    bool anyAncestorEncrypted = false;
+    auto ancestor = fileData.parentFolder();
+    while (ancestor.journalRecord().isValid()) {
+        if (ancestor.journalRecord()._isE2eEncrypted) {
+            anyAncestorEncrypted = true;
+            break;
+        }
+
+        ancestor = ancestor.parentFolder();
+    }
+
+    if (!anyAncestorEncrypted) {
+        const auto isOnTheServer = fileData.journalRecord().isValid();
+        const auto flagString = isOnTheServer ? QLatin1String("::") : QLatin1String(":d:");
+        listener->sendMessage(QStringLiteral("MENU_ITEM:ENCRYPT") + flagString + tr("Encrypt"));
+    }
+}
+
 void SocketApi::sendLockFileCommandMenuEntries(const QFileInfo &fileInfo,
                                                Folder* const syncFolder,
                                                const FileData &fileData,
@@ -1104,7 +1203,7 @@ void SocketApi::sendLockFileInfoMenuEntries(const QFileInfo &fileInfo,
         const auto lockExpirationTime = record._lockstate._lockTime + record._lockstate._lockTimeout;
         const auto remainingTime = QDateTime::currentDateTime().secsTo(QDateTime::fromSecsSinceEpoch(lockExpirationTime));
         const auto remainingTimeInMinute = static_cast<int>(remainingTime > 0 ? remainingTime / SECONDS_PER_MINUTE : 0);
-        listener->sendMessage(QLatin1String("MENU_ITEM:LOCKED_FILE_DATE:d:") + tr("Expire in %1 minutes", "remaining time before lock expire", remainingTimeInMinute).arg(remainingTimeInMinute));
+        listener->sendMessage(QLatin1String("MENU_ITEM:LOCKED_FILE_DATE:d:") + tr("Expires in %1 minutes", "remaining time before lock expires", remainingTimeInMinute).arg(remainingTimeInMinute));
     }
 }
 
@@ -1207,6 +1306,7 @@ void SocketApi::command_GET_MENU_ITEMS(const QString &argument, OCC::SocketListe
             listener->sendMessage(QLatin1String("MENU_ITEM:OPEN_PRIVATE_LINK") + flagString + tr("Open in browser"));
         }
 
+        sendEncryptFolderCommandMenuEntries(fileInfo, fileData, isE2eEncryptedPath, listener);
         sendLockFileCommandMenuEntries(fileInfo, syncFolder, fileData, listener);
         sendSharingContextMenuOptions(fileData, listener, !isE2eEncryptedPath);
 

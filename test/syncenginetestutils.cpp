@@ -103,6 +103,10 @@ void DiskFileModifier::setModTime(const QString &relativePath, const QDateTime &
     OCC::FileSystem::setModTime(_rootDir.filePath(relativePath), OCC::Utility::qDateTimeToTime_t(modTime));
 }
 
+void DiskFileModifier::setE2EE([[maybe_unused]] const QString &relativePath, [[maybe_unused]] const bool enable)
+{
+}
+
 FileInfo FileInfo::A12_B12_C12_S12()
 {
     FileInfo fi { QString {}, {
@@ -193,6 +197,13 @@ void FileInfo::setModTimeKeepEtag(const QString &relativePath, const QDateTime &
     FileInfo *file = find(relativePath);
     Q_ASSERT(file);
     file->lastModified = modTime;
+}
+
+void FileInfo::setE2EE(const QString &relativePath, const bool enable)
+{
+    FileInfo *file = findInvalidatingEtags(relativePath);
+    Q_ASSERT(file);
+    file->isEncrypted = enable;
 }
 
 FileInfo *FileInfo::find(PathComponents pathComponents, const bool invalidateEtags)
@@ -332,6 +343,7 @@ FakePropfindReply::FakePropfindReply(FileInfo &remoteRootFileInfo, QNetworkAcces
         xml.writeTextElement(ocUri, QStringLiteral("permissions"), !fileInfo.permissions.isNull() ? QString(fileInfo.permissions.toString()) : fileInfo.isShared ? QStringLiteral("SRDNVCKW") : QStringLiteral("RDNVCKW"));
         xml.writeTextElement(ocUri, QStringLiteral("id"), QString::fromUtf8(fileInfo.fileId));
         xml.writeTextElement(ocUri, QStringLiteral("checksums"), QString::fromUtf8(fileInfo.checksums));
+        xml.writeTextElement(ncUri, QStringLiteral("is-encrypted"), fileInfo.isEncrypted ? QString::number(1) : QString::number(0));
         buffer.write(fileInfo.extraDavProperties);
         xml.writeEndElement(); // prop
         xml.writeTextElement(davUri, QStringLiteral("status"), QStringLiteral("HTTP/1.1 200 OK"));
@@ -966,11 +978,13 @@ QNetworkReply *FakeQNAM::createRequest(QNetworkAccessManager::Operation op, cons
     newRequest.setRawHeader("X-Request-ID", OCC::AccessManager::generateRequestId());
     auto contentType = request.header(QNetworkRequest::ContentTypeHeader).toString();
     if (_override) {
+        qDebug() << "Using override!";
         if (auto _reply = _override(op, newRequest, outgoingData)) {
             reply = _reply;
         }
     }
     if (!reply) {
+        qDebug() << newRequest.url();
         reply = overrideReplyWithError(getFilePathFromUrl(newRequest.url()), op, newRequest);
     }
     if (!reply) {
