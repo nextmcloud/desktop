@@ -97,6 +97,10 @@ void FolderWizardLocalPath::cleanupPage()
     _ui.warnLabel->hide();
 }
 
+void FolderWizardLocalPath::isDarkMode()
+{
+}
+
 bool FolderWizardLocalPath::isComplete() const
 {
     QUrl serverUrl = _account->url();
@@ -203,6 +207,23 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
     _ui.subHeader->setText(tr("Step 2 from 2: Directory in your CLOUD"));
     _ui.content->setText(tr("Both folders are permanently linked, the respective contents are automatically compared and updated."));
     _ui.subContent->setText(tr("Please select or create a target folder in your MangentaCLOUD, where the content will be uploaded and synchronized."));
+}
+void FolderWizardRemotePath::isDarkMode()
+{
+//    const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
+//    if (isDarkBackground) {
+//        _ui.content->setColor(25, 25, 25);
+//        _ui.content->setStyleSheet("QLabel {color: #FFFFFF}");
+//        _ui.subContent->setStyleSheet("QLabel {color: #FFFFFF}");
+//    } else {
+//        _ui.content->setStyleSheet("QLabel {color: #191919}");
+//        _ui.subContent->setStyleSheet("QLabel {color: #191919}");
+//    }
+//    _ui.content->setPalette(QGuiApplication::palette());
+//    _ui.subContent->setPalette(QGuiApplication::palette());
+//    QPalette palette = _ui.content->palette();
+//    palette.setColor(_ui.content->foregroundRole(), rgb(25, 25, 25));
+//    _ui.content->setPalette(palette);
 }
 
 void FolderWizardRemotePath::slotAddRemoteFolder()
@@ -704,6 +725,11 @@ void FolderWizard::resizeEvent(QResizeEvent *event)
             setTitleFormat(titleFormat()); // And another workaround for QTBUG-3396
         }
     }
+}
+void FolderWizard::slotChangeEventCallForDarkMode()
+{
+    _folderWizardSourcePage->isDarkMode();
+    _folderWizardTargetPage->isDarkMode();
 }
 
 } // end namespace
