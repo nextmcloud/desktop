@@ -195,8 +195,12 @@ void OwncloudAdvancedSetupPage::initializePage()
 void OwncloudAdvancedSetupPage::fetchUserAvatar()
 {
     // Reset user avatar
-    //const auto appIcon = Theme::instance()->applicationIcon();
-    //_ui.lServerIcon->setPixmap(appIcon.pixmap(48));
+    //const auto theme = Theme::instance();
+    //const auto appIcon = theme->applicationIcon();
+    //const auto appIconSize = Theme::isHidpi() ? 128 : 64;
+
+    //_ui.lServerIcon->setPixmap(appIcon.pixmap(appIconSize));
+
     // Fetch user avatar
     const auto account = _ocWizard->account();
     auto avatarSize = 94;
@@ -211,9 +215,9 @@ void OwncloudAdvancedSetupPage::fetchUserAvatar()
         }
        // const auto avatarPixmap = QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatarImage));
        // _ui.lServerIcon->setPixmap(avatarPixmap);
-        const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/Product-icon.svg"));
-        QPixmap pixmap = avatarIcon.pixmap(QSize(94, 71));
-        _ui.lServerIcon->setPixmap(pixmap);
+        //const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/Product-icon.svg"));
+        //QPixmap pixmap = avatarIcon.pixmap(QSize(94, 71));
+        //_ui.lServerIcon->setPixmap(pixmap);
     });
     avatarJob->start();
 }

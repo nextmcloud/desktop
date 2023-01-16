@@ -352,9 +352,9 @@
         <source>For the encryption, a randomly generated word sequence(passphrase) of 12 words is created. We recommend that you write  down the passphrase and keep it safe.
 
 The passphrase is your personal password with which you can access  encrypted data in your MagentaCLOUD or enable access to these files  on other devices such as your smartphones.</source>
-        <translation type="vanished">Für der Verschlüsselung wird ihnen eine aus 12 Wörtern zufällig  erzeugte Wortfolge (Passphrase) erstellt. Wir empfehlen ihnen, die  Passphrase zu notieren und sicher aufzubewahren.
+        <translation type="vanished">Für der Verschlüsselung wird ihnen eine aus 12 Wörtern zufällig erzeugte Wortfolge (Passphrase) erstellt. Wir empfehlen ihnen, die  Passphrase zu notieren und sicher aufzubewahren.
 
-Die Passphrase ist ihr persönliches Kennwort mit dem sie auf  verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder  den Zugriff auf diese Dateien auf anderen Geräten wie z.B.  Smartphones zu ermöglichen.</translation>
+Die Passphrase ist ihr persönliches Kennwort mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder  den Zugriff auf diese Dateien auf anderen Geräten wie z.B.  Smartphones zu ermöglichen.</translation>
     </message>
     <message>
         <source>To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. Please note these down and keep them safe. They will be needed to add other devices to your account (like your mobile phone or laptop).</source>
@@ -665,7 +665,7 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
         <source>You can only activate encryption for empty folders.
 Please remove the files or create a new folder.</source>
         <translation>Sie können die Verschlüsselung nur für leere Ordner aktivieren.
-        Bitte entfernen Sie die Dateien oder legen Sie einen neuen Ordner an.</translation>
+Bitte entfernen Sie die Dateien oder legen Sie einen neuen Ordner an.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1004"/>
@@ -703,13 +703,19 @@ Would you like to set up end-to-end encryption?</source>
 Möchten Sie die Ende-zu-Ende Verschlüsselung jetzt einrichten?</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="530"/>
+        <location filename="../src/gui/accountsettings.cpp" line="597"/>
+        <source>Create new folder</source>
+        <translation>Neuen Ordner erstellen</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1006"/>
         <source>For the encryption, a randomly generated word sequence(passphrase) of 12 words is created. We recommend that you write down the passphrase and keep it safe.
 
 The passphrase is your personal password with which you can access encrypted data in your MagentaCLOUD or enable access to these files on other devices such as your smartphones.</source>
-        <translation>Für der Verschlüsselung wird ihnen eine aus 12 Wörtern zufällig  erzeugte Wortfolge (Passphrase) erstellt. Wir empfehlen ihnen, die  Passphrase zu notieren und sicher aufzubewahren.
+        <translation>Für der Verschlüsselung wird ihnen eine aus 12 Wörtern zufällig erzeugte Wortfolge(Passphrase) erstellt. Wir empfehlen ihnen, die Passphrase zu notieren und sicher aufzubewahren.
 
-Die Passphrase ist ihr persönliches Kennwort mit dem sie auf  verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder  den Zugriff auf diese Dateien auf anderen Geräten wie z.B.  Smartphones zu ermöglichen</translation>
+Die Passphrase ist ihr persönliches Kennwort mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder den Zugriff auf diese Dateien auf anderen Geräten wie z.B. Smartphones zu ermöglichen</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1020"/>
@@ -3299,33 +3305,33 @@ for additional privileges during the process.</source>
         <translation type="vanished">%1 Ordner &apos;%2&apos; wird mit dem lokalen Ordner &apos;%3&apos; synchronisiert</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="277"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="281"/>
         <source>%1 folder &quot;%2&quot; is synced to local folder &quot;%3&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="285"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="289"/>
         <source>Warning: The local folder is not empty. Pick a resolution!</source>
         <translation>Achtung: Der lokale Ordner ist nicht leer. Bitte wählen Sie eine entsprechende Lösung!</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="293"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="297"/>
         <source>%1 free space</source>
         <comment>%1 gets replaced with the size and a matching unit. Example: 3 MB or 5 GB</comment>
         <translation>%1 freier Platz</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="378"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="382"/>
         <source>Virtual files are not available for the selected folder</source>
         <translation>Virtuelle Dateien sind für den ausgewählten Ordner nicht verfügbar</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="438"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="442"/>
         <source>Local Sync Folder</source>
         <translation>Lokaler Ordner für die Synchronisierung</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="556"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="560"/>
         <source>There isn&apos;t enough free space in the local folder!</source>
         <translation>Nicht genug freier Platz im lokalen Ordner vorhanden!</translation>
     </message>
@@ -6117,57 +6123,57 @@ Server replied with error: %2</source>
 <context>
     <name>OwncloudAdvancedSetupPage</name>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="123"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="121"/>
         <source>&lt;b&gt;Magenta&lt;/b&gt;CLOUD</source>
         <translation>&lt;b&gt;Magenta&lt;/b&gt;CLOUD</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="161"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="157"/>
         <source>User name</source>
         <translation>Benutzername</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="183"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="177"/>
         <source>Server address</source>
         <translation>Serveradresse</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="363"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="355"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Local Folder&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Lokaler Ordner&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="549"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="535"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Please check your local folder &lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Überprüfen Sie bitte ihren lokalen Ordner &lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="573"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="557"/>
         <source>Due to the change to a new product, we cannot be sure where your previous MagentaCLOUD folder is stored. If you have adjusted the location in the previous software, please select the location again above.</source>
         <translation>Aufgrund des Wechsels zu einem neuen Produkt können wir nicht sicher erkennen, wo Ihr bisheriger MagentaCLOUD gespeichert ist. Sollten Sie den Speicherort in der bisherigen Software angepasst haben, so wählen Sie den Speicherort bitte oben erneut aus.</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="614"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="596"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Brand new: Virtual files!&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;b&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Ganz neu: Virtuelle Dateien!&lt;/span&gt;&lt;/b&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="638"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="618"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Files in your local folder are not downloaded completely all the time, but instead only on demand. The advantage is that all files and folders are visible to you without taking up storage space.&lt;/p&gt;&lt;p&gt;You can see whether a file is currently occupying your storage space by the green checkmarks in the explorer. You can also force folders and files to be available completely downloaded. To do this, right-click on the object, navigate to the entry  &quot;MagentaCLOUD&quot; and select  &quot;Always make available locally&quot;.&lt;/p&gt;&lt;p&gt;Conversely, you can release storage space more quickly in the same menu than would otherwise happen automatically. The blue cloud symbol shows you which objects are currently not consuming any storage space.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dateien in Ihrem lokalen Ordner werden nicht ständig vollständig heruntergeladen, sondern stattdessen nur auf Bedarf. Der Vorteil ist, dass alle Dateien und Ordner für Sie sichtbar sind, ohne dass sie Speicherplatz belegen.&lt;/p&gt;&lt;p&gt;Ob eine Datei gerade Ihren Speicherplatz belegt, sehen sie an den grünen Häkchen im Explorer. Sie können Ordner und Dateien auch zwingen vollständig heruntergeladen zur Verfügung zu stehen. Klicken Sie dazu mit der rechten Maustaste auf das Objekt, navigieren Sie zum Eintrag &quot;MagentaCLOUD&quot; und wählen Sie  &quot;Immer lokal verfügbar machen&quot;.&lt;/p&gt;&lt;p&gt;Umgekehrt können Sie im selben Menü Speicherplatz schneller wieder freigeben, als es sonst automatisch geschehen würde. Das blaue Wolken-Symbol zeigt Ihnen, welche Objekte gerade keinen Speicherplatz verbrauchen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="663"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="643"/>
         <source>png</source>
         <translation>png</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="251"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="245"/>
         <source>Sync Logo</source>
         <translation>Sync-Logo</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="322"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="316"/>
         <source>&amp;Local Folder</source>
         <translation>&amp;Lokaler Ordner</translation>
     </message>
