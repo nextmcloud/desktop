@@ -270,7 +270,7 @@
 <context>
     <name>FolderWizardSourcePage</name>
     <message>
-        <location filename="../src/gui/folderwizardsourcepage.ui" line="115"/>
+        <location filename="../src/gui/folderwizardsourcepage.ui" line="94"/>
         <source>&amp;Choose …</source>
         <translation>&amp;Wählen …</translation>
     </message>
@@ -713,9 +713,9 @@ Möchten Sie die Ende-zu-Ende Verschlüsselung jetzt einrichten?</translation>
         <source>For the encryption, a randomly generated word sequence(passphrase) of 12 words is created. We recommend that you write down the passphrase and keep it safe.
 
 The passphrase is your personal password with which you can access encrypted data in your MagentaCLOUD or enable access to these files on other devices such as your smartphones.</source>
-        <translation>Für der Verschlüsselung wird ihnen eine aus 12 Wörtern zufällig erzeugte Wortfolge(Passphrase) erstellt. Wir empfehlen ihnen, die Passphrase zu notieren und sicher aufzubewahren.
+        <translation>Für die Verschlüsselung wird ihnen eine aus 12 Wörtern zufällig erzeugte Wortfolge (Passphrase) erstellt. Wir empfehlen ihnen, die Passphrase zu notieren und sicher aufzubewahren.
 
-Die Passphrase ist ihr persönliches Kennwort mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder den Zugriff auf diese Dateien auf anderen Geräten wie z.B. Smartphones zu ermöglichen</translation>
+Die Passphrase ist ihr persönlicher Schlüssel mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1020"/>
@@ -2223,12 +2223,12 @@ Wenn Sie sich entscheiden, die Dateien zu löschen, sind sie für Sie nicht mehr
 <context>
     <name>OCC::FolderWizard</name>
     <message>
-        <location filename="../src/gui/folderwizard.cpp" line="678"/>
+        <location filename="../src/gui/folderwizard.cpp" line="679"/>
         <source>Add Folder Sync Connection</source>
         <translation>Ordner-Synchronisierung hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderwizard.cpp" line="681"/>
+        <location filename="../src/gui/folderwizard.cpp" line="684"/>
         <source>Finish</source>
         <translation>Übernehmen</translation>
     </message>
@@ -2599,22 +2599,22 @@ Beachten Sie bitte, dass hierdurch nur ausgewählt wird, aus welchem Pool Upgrad
 <context>
     <name>OCC::GetOrCreatePublicLinkShare</name>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="774"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="783"/>
         <source>Password for share required</source>
         <translation type="unfinished">Passwort für die Freigabe erforderlich</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="775"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="784"/>
         <source>Please enter a password for your link share:</source>
         <translation type="unfinished">Bitte Passwort für die Link-Freigabe eingeben:</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="801"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="810"/>
         <source>Sharing error</source>
         <translation type="unfinished">Fehler beim Teilen</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="802"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="811"/>
         <source>Could not retrieve or create the public link share. Error:
 
 %1</source>
@@ -4816,82 +4816,82 @@ Server replied with error: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="554"/>
-        <source>Folder encrypted successfully</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="555"/>
-        <source>The following folder was encrypted successfully: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <source>Folder encrypted successfully</source>
+        <translation>Ordner erfolgreich verschlüsselt</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="746"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="556"/>
+        <source>The following folder was encrypted successfully: &quot;%1&quot;</source>
+        <translation>Der Ordner wurde erfolgreich verschlüsselt: &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="755"/>
         <source>Context menu share</source>
         <translation>Kontextmenü Freigabe</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1018"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1027"/>
         <source>Select new location …</source>
         <translation>Neuen Ort auswählen …</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1074"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1083"/>
         <source>I shared something with you</source>
         <translation>Ich habe etwas mit Ihnen geteilt</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1087"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1096"/>
         <source>Share options</source>
         <translation>Freigabeoptionen</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1088"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1097"/>
         <source>Activity</source>
         <translation type="unfinished">Aktivität</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1090"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1099"/>
         <source>Copy private link to clipboard</source>
         <translation>Privater Link in die Zwischenablage kopiert</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1091"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1100"/>
         <source>Send private link by email …</source>
         <translation>Privaten Link als E-Mail verschicken …</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1117"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1126"/>
         <source>Resharing this file is not allowed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1117"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1126"/>
         <source>Resharing this folder is not allowed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1173"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1182"/>
         <source>Encrypt</source>
         <translation type="unfinished">Verschlüsseln</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1184"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1193"/>
         <source>Lock file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1187"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1196"/>
         <source>Unlock file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1202"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1211"/>
         <source>Locked by %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1206"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1215"/>
         <source>Expires in %1 minutes</source>
         <comment>remaining time before lock expires</comment>
         <translation type="unfinished">
@@ -4900,42 +4900,42 @@ Server replied with error: %2</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1304"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1313"/>
         <source>Edit</source>
         <translation>Bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1306"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1315"/>
         <source>Open in browser</source>
         <translation>Im Browser öffnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1331"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1340"/>
         <source>Resolve conflict …</source>
         <translation>Konflikt lösen…</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1335"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1344"/>
         <source>Move and rename …</source>
         <translation>Verschieben und umbenennen …</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1338"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1347"/>
         <source>Move, rename and upload …</source>
         <translation>Verschieben, umbenennen und hochladen …</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1340"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1349"/>
         <source>Delete local changes</source>
         <translation>Lokale Änderungen löschen</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1346"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1355"/>
         <source>Move and upload …</source>
         <translation>Verschieben und hochladen …</translation>
     </message>
     <message>
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1347"/>
+        <location filename="../src/gui/socketapi/socketapi.cpp" line="1356"/>
         <source>Delete</source>
         <translation>Löschen</translation>
     </message>
