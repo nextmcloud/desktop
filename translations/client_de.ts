@@ -6711,9 +6711,8 @@ Server replied with error: %2</source>
         <translation type="vanished">Konto hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="329"/>
         <source>Add new account</source>
-        <translation>Neues Konto hinzufügen</translation>
+        <translation type="vanished">Neues Konto hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="390"/>
@@ -6767,9 +6766,8 @@ Server replied with error: %2</source>
         <translation>Synchronisierung fortsetzen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="308"/>
         <source>            Add account</source>
-        <translation>            Konto hinzufügen</translation>
+        <translation type="vanished">            Konto hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="428"/>
