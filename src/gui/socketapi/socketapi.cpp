@@ -550,10 +550,19 @@ void SocketApi::processEncryptRequest(const QString &localFile)
                                                      "Server replied with error: %2").arg(fileData.folderRelativePath, job->errorString()));
             Q_UNUSED(ret)
         } else {
-            const int ret = QMessageBox::information(nullptr,
-                                                     tr("Folder encrypted successfully").arg(fileData.folderRelativePath),
-                                                     tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
-            Q_UNUSED(ret)
+            const auto messageBox = new QMessageBox;
+                messageBox->setAttribute(Qt::WA_DeleteOnClose);
+                messageBox->setWindowTitle(tr("Folder encrypted successfully").arg(fileData.folderRelativePath));
+                messageBox->setText(tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
+                const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/lock.svg"));
+                QPixmap pixmap = avatarIcon.pixmap(QSize(24, 24));
+                messageBox->setIconPixmap(pixmap);
+                messageBox->addButton(QMessageBox::NoButton);
+                messageBox->show();
+            //const int ret = QMessageBox::information(nullptr,
+                                                    // tr("Folder encrypted successfully").arg(fileData.folderRelativePath),
+                                                    // tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
+            //Q_UNUSED(ret)
         }
     });
     job->setProperty(encryptJobPropertyFolder, QVariant::fromValue(folder));

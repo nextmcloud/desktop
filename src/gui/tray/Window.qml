@@ -293,7 +293,7 @@ Window {
                                     onObjectRemoved: accountMenu.removeItem(object)
                                 }
 
-                                MenuItem {
+                                /*MenuItem {
                                     id: addAccountButton
                                     height: Style.addAccountButtonHeight
                                     display: AbstractButton.TextBesideIcon
@@ -328,7 +328,7 @@ Window {
                                     Accessible.role: Accessible.MenuItem
                                     Accessible.name: qsTr("Add new account")
                                     Accessible.onPressAction: addAccountButton.clicked()
-                                }
+                                }*/
 
                                 MenuSeparator {
                                     contentItem: Rectangle {

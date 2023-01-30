@@ -679,6 +679,7 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     //, _folderWizardTargetPage(nullptr)
     //, _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
 {
+    setWizardStyle(QWizard::ClassicStyle);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);
     _folderWizardSourcePage->installEventFilter(this);
@@ -698,7 +699,9 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
 
     setWindowTitle(tr("Add Folder Sync Connection"));
     setOptions(QWizard::CancelButtonOnLeft);
-    //setButtonText(QWizard::FinishButton, tr("Add Sync Connection"));
+    setOption(QWizard::NoBackButtonOnStartPage);
+    setOption(QWizard::NoBackButtonOnLastPage);
+    button(QWizard::BackButton)->setHidden(true);
     setButtonText(QWizard::FinishButton, tr("Finish"));
 }
 
