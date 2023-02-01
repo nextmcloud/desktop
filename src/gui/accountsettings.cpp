@@ -661,7 +661,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         }
     }*/
 
-
+    _model->resetAndFetch(index);
     menu->popup(tv->mapToGlobal(pos));
 }
 
