@@ -7,7 +7,7 @@
 #include <QToolBar>
 #include <QtTest>
 
-#include "gui/nextcloudCore_autogen/include_Debug/ui_shareusergrouppermissionwidget.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_shareusergrouppermissionwidget.h"
 #include "shareusergrouppermissionwidget.h"
 #include <QCalendarWidget>
 #include "account.h"

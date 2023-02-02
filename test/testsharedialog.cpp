@@ -7,8 +7,8 @@
 #include <QBoxLayout>
 #include <QToolBar>
 #include <QtTest>
-#include "gui/nextcloudCore_autogen/include_Debug/ui_shareusergrouppermissionwidget.h"
-#include "gui/nextcloudCore_autogen/include_Debug/ui_sharedialog.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_shareusergrouppermissionwidget.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_sharedialog.h"
 #define ShareDialog(a, b, c, d, e, f, g) ShareDialog()
 #include "sharedialog.h"
 #undef ShareDialog

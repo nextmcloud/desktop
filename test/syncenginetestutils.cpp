@@ -103,10 +103,6 @@ void DiskFileModifier::setModTime(const QString &relativePath, const QDateTime &
     OCC::FileSystem::setModTime(_rootDir.filePath(relativePath), OCC::Utility::qDateTimeToTime_t(modTime));
 }
 
-void DiskFileModifier::setE2EE([[maybe_unused]] const QString &relativePath, [[maybe_unused]] const bool enable)
-{
-}
-
 FileInfo FileInfo::A12_B12_C12_S12()
 {
     FileInfo fi { QString {}, {
@@ -197,13 +193,6 @@ void FileInfo::setModTimeKeepEtag(const QString &relativePath, const QDateTime &
     FileInfo *file = find(relativePath);
     Q_ASSERT(file);
     file->lastModified = modTime;
-}
-
-void FileInfo::setE2EE(const QString &relativePath, const bool enable)
-{
-    FileInfo *file = findInvalidatingEtags(relativePath);
-    Q_ASSERT(file);
-    file->isEncrypted = enable;
 }
 
 FileInfo *FileInfo::find(PathComponents pathComponents, const bool invalidateEtags)
@@ -309,11 +298,13 @@ FakePropfindReply::FakePropfindReply(FileInfo &remoteRootFileInfo, QNetworkAcces
     // Don't care about the request and just return a full propfind
     const QString davUri { QStringLiteral("DAV:") };
     const QString ocUri { QStringLiteral("http://owncloud.org/ns") };
+    const QString ncUri { QStringLiteral("http://nextcloud.org/ns") };
     QBuffer buffer { &payload };
     buffer.open(QIODevice::WriteOnly);
     QXmlStreamWriter xml(&buffer);
     xml.writeNamespace(davUri, QStringLiteral("d"));
     xml.writeNamespace(ocUri, QStringLiteral("oc"));
+    xml.writeNamespace(ncUri, QStringLiteral("nc"));
     xml.writeStartDocument();
     xml.writeStartElement(davUri, QStringLiteral("multistatus"));
     auto writeFileResponse = [&](const FileInfo &fileInfo) {
@@ -343,7 +334,6 @@ FakePropfindReply::FakePropfindReply(FileInfo &remoteRootFileInfo, QNetworkAcces
         xml.writeTextElement(ocUri, QStringLiteral("permissions"), !fileInfo.permissions.isNull() ? QString(fileInfo.permissions.toString()) : fileInfo.isShared ? QStringLiteral("SRDNVCKW") : QStringLiteral("RDNVCKW"));
         xml.writeTextElement(ocUri, QStringLiteral("id"), QString::fromUtf8(fileInfo.fileId));
         xml.writeTextElement(ocUri, QStringLiteral("checksums"), QString::fromUtf8(fileInfo.checksums));
-        xml.writeTextElement(ncUri, QStringLiteral("is-encrypted"), fileInfo.isEncrypted ? QString::number(1) : QString::number(0));
         buffer.write(fileInfo.extraDavProperties);
         xml.writeEndElement(); // prop
         xml.writeTextElement(davUri, QStringLiteral("status"), QStringLiteral("HTTP/1.1 200 OK"));
@@ -469,8 +459,10 @@ QVector<FileInfo *> FakePutMultiFileReply::performMultiPart(FileInfo &remoteRoot
             auto headerParts = oneHeader.split(QStringLiteral(": "));
             allHeaders[headerParts.at(0)] = headerParts.at(1);
         }
-        auto fileName = allHeaders[QStringLiteral("X-File-Path")];
+        const auto fileName = allHeaders[QStringLiteral("X-File-Path")];
+        const auto modtime = allHeaders[QByteArrayLiteral("X-File-Mtime")].toLongLong();
         Q_ASSERT(!fileName.isEmpty());
+        Q_ASSERT(modtime > 0);
         FileInfo *fileInfo = remoteRootFileInfo.find(fileName);
         if (fileInfo) {
             fileInfo->size = onePartBody.size();
@@ -499,13 +491,7 @@ void FakePutMultiFileReply::respond()
     for(auto fileInfo : qAsConst(_allFileInfo)) {
         QJsonObject fileInfoReply;
         fileInfoReply.insert("error", QStringLiteral("false"));
-        fileInfoReply.insert("OC-OperationStatus", fileInfo->operationStatus);
-        fileInfoReply.insert("X-File-Path", fileInfo->path());
-        fileInfoReply.insert("OC-ETag", QLatin1String{fileInfo->etag});
-        fileInfoReply.insert("ETag", QLatin1String{fileInfo->etag});
         fileInfoReply.insert("etag", QLatin1String{fileInfo->etag});
-        fileInfoReply.insert("OC-FileID", QLatin1String{fileInfo->fileId});
-        fileInfoReply.insert("X-OC-MTime", "accepted"); // Prevents Q_ASSERT(!_runningNow) since we'll call PropagateItemJob::done twice in that case.
         emit uploadProgress(fileInfo->size, totalSize);
         allFileInfoReply.insert(QChar('/') + fileInfo->path(), fileInfoReply);
     }
@@ -855,6 +841,9 @@ void FakePayloadReply::respond()
 {
     setAttribute(QNetworkRequest::HttpStatusCodeAttribute, 200);
     setHeader(QNetworkRequest::ContentLengthHeader, _body.size());
+    for (auto it = _additionalHeaders.constKeyValueBegin(); it != _additionalHeaders.constKeyValueEnd(); ++it) {
+        setHeader(it->first, it->second);
+    }
     emit metaDataChanged();
     emit readyRead();
     setFinished(true);
@@ -978,13 +967,11 @@ QNetworkReply *FakeQNAM::createRequest(QNetworkAccessManager::Operation op, cons
     newRequest.setRawHeader("X-Request-ID", OCC::AccessManager::generateRequestId());
     auto contentType = request.header(QNetworkRequest::ContentTypeHeader).toString();
     if (_override) {
-        qDebug() << "Using override!";
         if (auto _reply = _override(op, newRequest, outgoingData)) {
             reply = _reply;
         }
     }
     if (!reply) {
-        qDebug() << newRequest.url();
         reply = overrideReplyWithError(getFilePathFromUrl(newRequest.url()), op, newRequest);
     }
     if (!reply) {
@@ -998,7 +985,12 @@ QNetworkReply *FakeQNAM::createRequest(QNetworkAccessManager::Operation op, cons
         } else if (verb == QLatin1String("GET") || op == QNetworkAccessManager::GetOperation) {
             reply = new FakeGetReply { info, op, newRequest, this };
         } else if (verb == QLatin1String("PUT") || op == QNetworkAccessManager::PutOperation) {
-            reply = new FakePutReply { info, op, newRequest, outgoingData->readAll(), this };
+            if (request.hasRawHeader(QByteArrayLiteral("X-OC-Mtime")) &&
+                    request.rawHeader(QByteArrayLiteral("X-OC-Mtime")).toLongLong() <= 0) {
+                reply = new FakeErrorReply { op, request, this, 500 };
+            } else {
+                reply = new FakePutReply { info, op, newRequest, outgoingData->readAll(), this };
+            }
         } else if (verb == QLatin1String("MKCOL")) {
             reply = new FakeMkcolReply { info, op, newRequest, this };
         } else if (verb == QLatin1String("DELETE") || op == QNetworkAccessManager::DeleteOperation) {
@@ -1011,6 +1003,8 @@ QNetworkReply *FakeQNAM::createRequest(QNetworkAccessManager::Operation op, cons
             if (contentType.startsWith(QStringLiteral("multipart/related; boundary="))) {
                 reply = new FakePutMultiFileReply { info, op, newRequest, contentType, outgoingData->readAll(), this };
             }
+        } else if (verb == QLatin1String("LOCK") || verb == QLatin1String("UNLOCK")) {
+            reply = new FakeFileLockReply{info, op, newRequest, this};
         } else {
             qDebug() << verb << outgoingData;
             Q_UNREACHABLE();
@@ -1056,7 +1050,7 @@ FakeFolder::FakeFolder(const FileInfo &fileTemplate, const OCC::Optional<FileInf
     _account->setServerVersion(QStringLiteral("10.0.0"));
 
     _journalDb = std::make_unique<OCC::SyncJournalDb>(localPath() + QStringLiteral(".sync_test.db"));
-    _syncEngine = std::make_unique<OCC::SyncEngine>(_account, localPath(), remotePath, _journalDb.get());
+    _syncEngine = std::make_unique<OCC::SyncEngine>(_account, localPath(), OCC::SyncOptions{}, remotePath, _journalDb.get());
     // Ignore temporary files from the download. (This is in the default exclude list, but we don't load it)
     _syncEngine->excludedFiles().addManualExclude(QStringLiteral("]*.~*"));
 
@@ -1261,4 +1255,51 @@ FakeJsonErrorReply::FakeJsonErrorReply(QNetworkAccessManager::Operation op,
                                        const QJsonDocument &reply)
     : FakeErrorReply{ op, request, parent, httpErrorCode, reply.toJson() }
 {
+}
+
+FakeFileLockReply::FakeFileLockReply(FileInfo &remoteRootFileInfo,
+                                     QNetworkAccessManager::Operation op,
+                                     const QNetworkRequest &request,
+                                     QObject *parent)
+    : FakePropfindReply(remoteRootFileInfo, op, request, parent)
+{
+    const auto verb = request.attribute(QNetworkRequest::CustomVerbAttribute);
+
+    setRequest(request);
+    setUrl(request.url());
+    setOperation(op);
+    open(QIODevice::ReadOnly);
+
+    QString fileName = getFilePathFromUrl(request.url());
+    Q_ASSERT(!fileName.isNull()); // for root, it should be empty
+    FileInfo *fileInfo = remoteRootFileInfo.find(fileName);
+    if (!fileInfo) {
+        QMetaObject::invokeMethod(this, "respond404", Qt::QueuedConnection);
+        return;
+    }
+
+    const QString prefix = request.url().path().left(request.url().path().size() - fileName.size());
+
+    // Don't care about the request and just return a full propfind
+    const QString davUri { QStringLiteral("DAV:") };
+    const QString ocUri { QStringLiteral("http://owncloud.org/ns") };
+    const QString ncUri { QStringLiteral("http://nextcloud.org/ns") };
+    payload.clear();
+    QBuffer buffer { &payload };
+    buffer.open(QIODevice::WriteOnly);
+    QXmlStreamWriter xml(&buffer);
+    xml.writeNamespace(davUri, QStringLiteral("d"));
+    xml.writeNamespace(ocUri, QStringLiteral("oc"));
+    xml.writeNamespace(ncUri, QStringLiteral("nc"));
+    xml.writeStartDocument();
+    xml.writeStartElement(davUri, QStringLiteral("prop"));
+    xml.writeTextElement(ncUri, QStringLiteral("lock"), verb == QStringLiteral("LOCK") ? "1" : "0");
+    xml.writeTextElement(ncUri, QStringLiteral("lock-owner-type"), QString::number(0));
+    xml.writeTextElement(ncUri, QStringLiteral("lock-owner"), QStringLiteral("admin"));
+    xml.writeTextElement(ncUri, QStringLiteral("lock-owner-displayname"), QStringLiteral("John Doe"));
+    xml.writeTextElement(ncUri, QStringLiteral("lock-owner-editor"), {});
+    xml.writeTextElement(ncUri, QStringLiteral("lock-time"), QString::number(1234560));
+    xml.writeTextElement(ncUri, QStringLiteral("lock-timeout"), QString::number(1800));
+    xml.writeEndElement(); // prop
+    xml.writeEndDocument();
 }

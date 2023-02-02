@@ -5,7 +5,7 @@
  *
  */
 #include <QtTest>
-#include "gui/nextcloudCore_autogen/include_Debug/ui_accountsettings.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_accountsettings.h"
 
 #define AccountSettings(a, b) AccountSettings(a)
 #include "accountsettings.h"

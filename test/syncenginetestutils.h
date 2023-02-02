@@ -84,7 +84,6 @@ public:
     virtual void mkdir(const QString &relativePath) = 0;
     virtual void rename(const QString &relativePath, const QString &relativeDestinationDirectory) = 0;
     virtual void setModTime(const QString &relativePath, const QDateTime &modTime) = 0;
-    virtual void setE2EE(const QString &relativepath, const bool enabled) = 0;
 };
 
 class DiskFileModifier : public FileModifier
@@ -100,7 +99,6 @@ public:
     void mkdir(const QString &relativePath) override;
     void rename(const QString &from, const QString &to) override;
     void setModTime(const QString &relativePath, const QDateTime &modTime) override;
-    void setE2EE(const QString &relativepath, const bool enabled) override;
 };
 
 class FileInfo : public FileModifier
@@ -129,8 +127,6 @@ public:
     void rename(const QString &oldPath, const QString &newPath) override;
 
     void setModTime(const QString &relativePath, const QDateTime &modTime) override;
-
-    void setE2EE(const QString &relativepath, const bool enabled) override;
 
     void setModTimeKeepEtag(const QString &relativePath, const QDateTime &modTime);
 
@@ -167,7 +163,6 @@ public:
     QByteArray extraDavProperties;
     qint64 size = 0;
     char contentChar = 'W';
-    bool isEncrypted = false;
 
     // Sorted by name to be able to compare trees
     QMap<QString, FileInfo> children;
@@ -357,6 +352,8 @@ public:
     qint64 bytesAvailable() const override;
     QByteArray _body;
 
+    QMap<QNetworkRequest::KnownHeaders, QByteArray> _additionalHeaders;
+
     static const int defaultDelay = 10;
 };
 
@@ -405,6 +402,16 @@ public:
 
     void abort() override;
     qint64 readData(char *, qint64) override { return 0; }
+};
+
+class FakeFileLockReply : public FakePropfindReply
+{
+    Q_OBJECT
+public:
+    FakeFileLockReply(FileInfo &remoteRootFileInfo,
+                      QNetworkAccessManager::Operation op,
+                      const QNetworkRequest &request,
+                      QObject *parent);
 };
 
 // A delayed reply
@@ -483,7 +490,7 @@ public:
 class FakeFolder
 {
     QTemporaryDir _tempDir;
-    DiskFileModifier _filelocalModifier;
+    DiskFileModifier _localModifier;
     // FIXME: Clarify ownership, double delete
     FakeQNAM *_fakeQnam;
     OCC::AccountPtr _account;
