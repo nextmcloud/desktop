@@ -525,6 +525,15 @@ bool SyncJournalDb::checkConnect()
     if (!createQuery.exec()) {
         return sqlFail(QStringLiteral("Create table version"), createQuery);
     }
+    // create the e2EeLockedFolders table.
+    createQuery.prepare(
+        "CREATE TABLE IF NOT EXISTS e2EeLockedFolders("
+        "folderId VARCHAR(128) PRIMARY KEY,"
+        "token VARCHAR(4096)"
+        ");");
+    if (!createQuery.exec()) {
+        return sqlFail(QStringLiteral("Create table e2EeLockedFolders"), createQuery);
+    }
 
     bool forceRemoteDiscovery = false;
 
@@ -2237,6 +2246,78 @@ void SyncJournalDb::markVirtualFileForDownloadRecursively(const QByteArray &path
                   "(" IS_PREFIX_PATH_OF("?1", "path") " OR ?1 == '' OR " IS_PREFIX_PATH_OR_EQUAL("path", "?1") ") AND type == 2;");
     query.bindValue(1, path);
     query.exec();
+}
+void SyncJournalDb::setE2EeLockedFolder(const QByteArray &folderId, const QByteArray &folderToken)
+{
+    QMutexLocker locker(&_mutex);
+    if (!checkConnect()) {
+        return;
+    }
+
+    const auto query = _queryManager.get(PreparedSqlQueryManager::SetE2EeLockedFolderQuery,
+                                         QByteArrayLiteral("INSERT OR REPLACE INTO e2EeLockedFolders "
+                                                           "(folderId, token) "
+                                                           "VALUES (?1, ?2);"),
+                                         _db);
+    ASSERT(query)
+    query->bindValue(1, folderId);
+    query->bindValue(2, folderToken);
+    ASSERT(query->exec())
+}
+
+QByteArray SyncJournalDb::e2EeLockedFolder(const QByteArray &folderId)
+{
+    QMutexLocker locker(&_mutex);
+    if (!checkConnect()) {
+        return {};
+    }
+    const auto query = _queryManager.get(PreparedSqlQueryManager::GetE2EeLockedFolderQuery,
+                                         QByteArrayLiteral("SELECT token FROM e2EeLockedFolders WHERE folderId=?1;"),
+                                         _db);
+    ASSERT(query)
+    query->bindValue(1, folderId);
+    ASSERT(query->exec())
+    if (!query->next().hasData) {
+        return {};
+    }
+
+    return query->baValue(0);
+}
+
+QList<QPair<QByteArray, QByteArray>> SyncJournalDb::e2EeLockedFolders()
+{
+    QMutexLocker locker(&_mutex);
+
+    QList<QPair<QByteArray, QByteArray>> res;
+
+    if (!checkConnect()) {
+        return res;
+    }
+
+    const auto query = _queryManager.get(PreparedSqlQueryManager::GetE2EeLockedFoldersQuery, QByteArrayLiteral("SELECT * FROM e2EeLockedFolders"), _db);
+    ASSERT(query)
+
+    if (!query->exec()) {
+        return res;
+    }
+
+    while (query->next().hasData) {
+        res.append({query->baValue(0), query->baValue(1)});
+    }
+    return res;
+}
+
+void SyncJournalDb::deleteE2EeLockedFolder(const QByteArray &folderId)
+{
+    QMutexLocker locker(&_mutex);
+    if (!checkConnect()) {
+        return;
+    }
+
+    const auto query = _queryManager.get(PreparedSqlQueryManager::DeleteE2EeLockedFolderQuery, QByteArrayLiteral("DELETE FROM e2EeLockedFolders WHERE folderId=?1;"), _db);
+    ASSERT(query)
+    query->bindValue(1, folderId);
+    ASSERT(query->exec())
 }
 
 Optional<PinState> SyncJournalDb::PinStateInterface::rawForPath(const QByteArray &path)
