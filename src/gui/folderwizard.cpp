@@ -662,6 +662,9 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);
     _folderWizardSourcePage->installEventFilter(this);
+    this->setObjectName("wizard");
+    //const QString style = QLatin1String("background-color:#ffffff;");
+    this->setStyleSheet("#wizard { background-color : #ffffff; }");
 
 	/*if (!Theme::instance()->singleSyncFolder())
     {
@@ -677,6 +680,7 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     //setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
 
     setWindowTitle(tr("Add Folder Sync Connection"));
+    //setWindowIcon(QIcon(QLatin1String(":/client/theme/magenta/MagentaCLOUD_App-Icon-whitespace.svg")));
     setOptions(QWizard::CancelButtonOnLeft);
     setOption(QWizard::NoBackButtonOnStartPage);
     setOption(QWizard::NoBackButtonOnLastPage);
