@@ -418,6 +418,7 @@ void AccountSettings::slotEditCurrentIgnoredFiles()
 
 void AccountSettings::slotOpenMakeFolderDialog()
 {
+
     const auto &selected = _ui->_folderList->selectionModel()->currentIndex();
 
     if (!selected.isValid()) {
@@ -454,6 +455,8 @@ void AccountSettings::slotOpenMakeFolderDialog()
         folderCreationDialog->setAttribute(Qt::WA_DeleteOnClose);
         folderCreationDialog->open();
     }
+
+
 }
 
 void AccountSettings::slotEditCurrentLocalIgnoredFiles()
@@ -661,7 +664,6 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         }
     }*/
 
-    _model->resetAndFetch(index);
     menu->popup(tv->mapToGlobal(pos));
 }
 
