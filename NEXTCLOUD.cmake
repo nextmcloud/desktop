@@ -1,5 +1,5 @@
-set( APPLICATION_NAME       "MagentaCLOUD-test" )
-set( APPLICATION_SHORTNAME  "MagentaCLOUD-test" )
+set( APPLICATION_NAME       "MagentaCLOUD" )
+set( APPLICATION_SHORTNAME  "MagentaCLOUD" )
 set( APPLICATION_EXECUTABLE "magentacloud" )
 set( APPLICATION_CONFIG_NAME "magentacloud" )
 set( APPLICATION_CONFIG_NAME "magentacloud" )
