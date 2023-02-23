@@ -8,8 +8,8 @@ To help you identify the brand elements, see:
     ./theme:       folder contains brand-design specific icons or images
     theme.qrc.in:  contains the pathes for the images used
     Brand-protected Magenta color definitions are (unfortunately) spread over the source code.
-	
-	
+
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
 
