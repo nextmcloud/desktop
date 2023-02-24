@@ -8,7 +8,7 @@
 #include <QtTest>
 
 #define TEST_OWNCL_PAGE
-#include "gui/nextcloudCore_autogen/include_Debug/ui_owncloudsetupnocredspage.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_owncloudsetupnocredspage.h"
 #define OwncloudSetupPage(a) OwncloudSetupPage()
 #include "gui/wizard/owncloudsetuppage.h"
 #undef OwncloudSetupPage

@@ -18,7 +18,7 @@
 
 #include <QDialog>
 
-#include "gui/nextcloudCore_autogen/include_Debug/ui_owncloudconnectionmethoddialog.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_owncloudconnectionmethoddialog.h"
 
 namespace OCC {
 

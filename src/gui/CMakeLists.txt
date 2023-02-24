@@ -76,74 +76,130 @@ else()
 endif()
 
 set(client_SRCS
+    accountmanager.h
     accountmanager.cpp
+    accountsettings.h
     accountsettings.cpp
+    application.h
     application.cpp
+    invalidfilenamedialog.h
     invalidfilenamedialog.cpp
+    callstatechecker.h
+    callstatechecker.cpp
+    conflictdialog.h
     conflictdialog.cpp
+    conflictsolver.h
     conflictsolver.cpp
+    connectionvalidator.h
     connectionvalidator.cpp
+    editlocallyjob.h
+    editlocallyjob.cpp
+    editlocallymanager.h
+    editlocallymanager.cpp
+    folder.h
     folder.cpp
+    foldercreationdialog.h
     foldercreationdialog.cpp
+    folderman.h
     folderman.cpp
+    folderstatusmodel.h
     folderstatusmodel.cpp
+    folderstatusdelegate.h
     folderstatusdelegate.cpp
+    folderstatusview.h
     folderstatusview.cpp
+    folderwatcher.h
     folderwatcher.cpp
+    folderwizard.h
     folderwizard.cpp
+    generalsettings.h
     generalsettings.cpp
+    legalnotice.h
     legalnotice.cpp
     internallinkwidget.h
     internallinkwidget.cpp
     ignorelisteditor.h
     ignorelisteditor.cpp
+    ignorelisttablewidget.h
     ignorelisttablewidget.cpp
+    lockwatcher.h
     lockwatcher.cpp
+    logbrowser.h
     logbrowser.cpp
+    navigationpanehelper.h
     navigationpanehelper.cpp
+    networksettings.h
     networksettings.cpp
+    ocsnavigationappsjob.h
     ocsnavigationappsjob.cpp
+    ocsjob.h
     ocsjob.cpp
+    ocssharejob.h
     ocssharejob.cpp
+    ocsshareejob.h
     ocsshareejob.cpp
+    openfilemanager.h
     openfilemanager.cpp
+    owncloudgui.h
     owncloudgui.cpp
+    owncloudsetupwizard.h
     owncloudsetupwizard.cpp
+    passwordinputdialog.h
+    passwordinputdialog.cpp
+    selectivesyncdialog.h
     selectivesyncdialog.cpp
+    settingsdialog.h
     settingsdialog.cpp
+    sharedialog.h
     sharedialog.cpp
+    sharelinkwidget.h
     sharelinkwidget.cpp
     shareusermessagewidget.cpp
     shareusergrouppermissionwidget.cpp
     sharemanager.cpp
+    shareusergroupwidget.h
     shareusergroupwidget.cpp
+    profilepagewidget.h
+    profilepagewidget.cpp
+    sharee.h
     sharee.cpp
+    sslbutton.h
     sslbutton.cpp
+    sslerrordialog.h
     sslerrordialog.cpp
+    syncrunfilelog.h
     syncrunfilelog.cpp
+    systray.h
     systray.cpp
+    thumbnailjob.h
     thumbnailjob.cpp
+    userinfo.h
     userinfo.cpp
+    accountstate.h
     accountstate.cpp
+    addcertificatedialog.h
     addcertificatedialog.cpp
+    authenticationdialog.h
     authenticationdialog.cpp
+    proxyauthhandler.h
     proxyauthhandler.cpp
+    proxyauthdialog.h
     proxyauthdialog.cpp
+    tooltipupdater.h
     tooltipupdater.cpp
+    notificationconfirmjob.h
     notificationconfirmjob.cpp
+    guiutility.h
     guiutility.cpp
+    elidedlabel.h
     elidedlabel.cpp
+    headerbanner.h
     headerbanner.cpp
     iconutils.h
     iconutils.cpp
     remotewipe.h
     iconjob.cpp
     remotewipe.cpp
-    tray/ActivityData.cpp
-    tray/ActivityListModel.cpp
-    tray/UserModel.cpp
-    tray/NotificationHandler.cpp
-    tray/NotificationCache.cpp
     userstatusselectormodel.h
     userstatusselectormodel.cpp
     emojimodel.h
@@ -154,12 +210,22 @@ set(client_SRCS
     tray/svgimageprovider.cpp
     tray/syncstatussummary.h
     tray/syncstatussummary.cpp
+    tray/activitydata.h
+    tray/activitydata.cpp
+    tray/activitylistmodel.h
+    tray/activitylistmodel.cpp
     tray/unifiedsearchresult.h
     tray/asyncimageresponse.cpp
     tray/unifiedsearchresult.cpp
     tray/unifiedsearchresultslistmodel.h
     tray/trayimageprovider.cpp
     tray/unifiedsearchresultslistmodel.cpp
+    tray/usermodel.h
+    tray/usermodel.cpp
+    tray/notificationhandler.h
+    tray/notificationhandler.cpp
+    tray/notificationcache.h
+    tray/notificationcache.cpp
     creds/credentialsfactory.h
     tray/talkreply.cpp
     creds/credentialsfactory.cpp
@@ -167,37 +233,59 @@ set(client_SRCS
     creds/httpcredentialsgui.cpp
     creds/oauth.h
     creds/oauth.cpp
+    creds/flow2auth.h
     creds/flow2auth.cpp
+    creds/webflowcredentials.h
     creds/webflowcredentials.cpp
+    creds/webflowcredentialsdialog.h
     creds/webflowcredentialsdialog.cpp
+    wizard/postfixlineedit.h
     wizard/postfixlineedit.cpp
+    wizard/abstractcredswizardpage.h
     wizard/abstractcredswizardpage.cpp
+    wizard/owncloudadvancedsetuppage.h
     wizard/owncloudadvancedsetuppage.cpp
+    wizard/owncloudconnectionmethoddialog.h
     wizard/owncloudconnectionmethoddialog.cpp
+    wizard/owncloudhttpcredspage.h
     wizard/owncloudhttpcredspage.cpp
+    wizard/owncloudoauthcredspage.h
     wizard/owncloudoauthcredspage.cpp
+    wizard/flow2authcredspage.h
     wizard/flow2authcredspage.cpp
+    wizard/flow2authwidget.h
     wizard/flow2authwidget.cpp
+    wizard/owncloudsetuppage.h
     wizard/owncloudsetuppage.cpp
+    wizard/owncloudwizardcommon.h
     wizard/owncloudwizardcommon.cpp
+    wizard/owncloudwizard.h
     wizard/owncloudwizard.cpp
     wizard/owncloudwizardresultpage.cpp
+    wizard/slideshow.h
     wizard/slideshow.cpp
+    wizard/welcomepage.h
     wizard/welcomepage.cpp
+    wizard/linklabel.h
     wizard/linklabel.cpp
     )
 
 if (Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
   list(APPEND client_SRCS
+    wizard/webviewpage.h
     wizard/webviewpage.cpp
+    wizard/webview.h
     wizard/webview.cpp
   )
 endif()
 
 IF(BUILD_UPDATER)
     set(updater_SRCS
+        updater/ocupdater.h
         updater/ocupdater.cpp
+        updater/updateinfo.h
         updater/updateinfo.cpp
+        updater/updater.h
         updater/updater.cpp
     )
 endif()
@@ -224,19 +312,26 @@ IF( NOT WIN32 AND NOT APPLE )
 set(client_SRCS ${client_SRCS} folderwatcher_linux.cpp)
 ENDIF()
 IF( WIN32 )
-set(client_SRCS ${client_SRCS} folderwatcher_win.cpp)
+set(client_SRCS ${client_SRCS} folderwatcher_win.cpp shellextensionsserver.cpp ${CMAKE_SOURCE_DIR}/src/common/shellextensionutils.cpp)
 ENDIF()
 IF( APPLE )
 list(APPEND client_SRCS folderwatcher_mac.cpp)
 ENDIF()
 
 set(3rdparty_SRC
+    ../3rdparty/QProgressIndicator/QProgressIndicator.h
     ../3rdparty/QProgressIndicator/QProgressIndicator.cpp
+    ../3rdparty/qtlockedfile/qtlockedfile.h
     ../3rdparty/qtlockedfile/qtlockedfile.cpp
+    ../3rdparty/qtsingleapplication/qtlocalpeer.h
     ../3rdparty/qtsingleapplication/qtlocalpeer.cpp
+    ../3rdparty/qtsingleapplication/qtsingleapplication.h
     ../3rdparty/qtsingleapplication/qtsingleapplication.cpp
+    ../3rdparty/qtsingleapplication/qtsinglecoreapplication.h
     ../3rdparty/qtsingleapplication/qtsinglecoreapplication.cpp
+    ../3rdparty/kmessagewidget/kmessagewidget.h
     ../3rdparty/kmessagewidget/kmessagewidget.cpp
+    ../3rdparty/kirigami/wheelhandler.h
     ../3rdparty/kirigami/wheelhandler.cpp
    )
 
@@ -305,7 +400,7 @@ endif()
 
 function(generate_sized_png_from_svg icon_path size)
   set(options)
-  set(oneValueArgs OUTPUT_ICON_NAME OUTPUT_ICON_PATH)
+  set(oneValueArgs OUTPUT_ICON_NAME OUTPUT_ICON_FULL_NAME_WLE OUTPUT_ICON_PATH)
   set(multiValueArgs)
 
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -320,13 +415,18 @@ function(generate_sized_png_from_svg icon_path size)
   if (ARG_OUTPUT_ICON_PATH)
     set(icon_name_dir ${ARG_OUTPUT_ICON_PATH})
   endif ()
-  
 
-  if (EXISTS "${icon_name_dir}/${size}-${icon_name_wle}.png")
+  set(output_icon_full_name_wle "${size}-${icon_name_wle}")
+
+  if (ARG_OUTPUT_ICON_FULL_NAME_WLE)
+    set(output_icon_full_name_wle ${ARG_OUTPUT_ICON_FULL_NAME_WLE})
+  endif ()
+
+  if (EXISTS "${icon_name_dir}/${output_icon_full_name_wle}.png")
     return()
   endif()
 
-  set(icon_output_name "${size}-${icon_name_wle}.png")
+  set(icon_output_name "${output_icon_full_name_wle}.png")
   message(STATUS "Generate ${icon_output_name}")
   execute_process(COMMAND
     "${SVG_CONVERTER}" -w ${size} -h ${size} "${icon_path}" -o "${icon_output_name}"
@@ -342,6 +442,23 @@ function(generate_sized_png_from_svg icon_path size)
   else()
   endif()
 endfunction()
+
+set(STATE_ICONS_COLORS colored black white)
+
+foreach(state_icons_color ${STATE_ICONS_COLORS})
+    set(STATE_ICONS_PATH "${theme_dir}/${state_icons_color}/")
+
+    message("Generating state icons from SVG in path: ${STATE_ICONS_PATH}")
+
+    file(GLOB_RECURSE STATE_ICONS_SVG "${STATE_ICONS_PATH}/state-*.svg")
+
+    foreach(state_icon_svg ${STATE_ICONS_SVG})
+        get_filename_component(status_icon_name_wle ${state_icon_svg} NAME_WLE)
+        foreach(size IN ITEMS 16;32;64;128;256)
+            generate_sized_png_from_svg(${state_icon_svg} ${size} OUTPUT_ICON_FULL_NAME_WLE "${status_icon_name_wle}-${size}")
+        endforeach()
+    endforeach()
+endforeach()
 
 if ((APPLICATION_ICON_SET MATCHES "PNG")
     AND
@@ -483,7 +600,6 @@ endif()
 set_target_properties(nextcloudCore
   PROPERTIES
   AUTOUIC ON
-  AUTORCC ON
   AUTOMOC ON
 )
 
@@ -595,7 +711,7 @@ endif()
 
 if (APPLE)
     find_package(Qt5 COMPONENTS MacExtras)
-    target_link_libraries(nextcloudCore PUBLIC Qt5::MacExtras)
+    target_link_libraries(nextcloudCore PUBLIC Qt5::MacExtras "-framework UserNotifications")
 endif()
 
 if(WITH_CRASHREPORTER)

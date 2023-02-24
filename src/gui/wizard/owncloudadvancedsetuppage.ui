@@ -109,9 +109,7 @@
             <widget class="QLabel" name="userNameLabel_2">
              <property name="font">
               <font>
-               <family>Segoe UI</family>
                <pointsize>-1</pointsize>
-               <weight>50</weight>
                <italic>false</italic>
                <bold>false</bold>
               </font>
@@ -147,9 +145,7 @@
             <widget class="QLabel" name="userNameLabel">
              <property name="font">
               <font>
-               <family>Segoe UI</family>
                <pointsize>-1</pointsize>
-               <weight>50</weight>
                <italic>false</italic>
                <bold>false</bold>
               </font>
@@ -169,9 +165,7 @@
             <widget class="QLabel" name="serverAddressLabel">
              <property name="font">
               <font>
-               <family>Segoe UI</family>
                <pointsize>-1</pointsize>
-               <weight>50</weight>
                <italic>false</italic>
                <bold>false</bold>
               </font>
@@ -234,7 +228,7 @@
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>52</height>
+               <height>60</height>
               </size>
              </property>
             </spacer>
@@ -251,7 +245,7 @@
               <string>Sync Logo</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignCenter</set>
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
              </property>
             </widget>
            </item>
@@ -349,9 +343,7 @@
             <widget class="QLabel" name="localFolderDescriptionLabel">
              <property name="font">
               <font>
-               <family>Segoe UI</family>
                <pointsize>-1</pointsize>
-               <weight>50</weight>
                <italic>false</italic>
                <bold>false</bold>
               </font>
@@ -404,9 +396,7 @@
                </property>
                <property name="font">
                 <font>
-                 <family>Segoe UI</family>
                  <pointsize>-1</pointsize>
-                 <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
                 </font>
@@ -453,9 +443,7 @@
              </property>
              <property name="font">
               <font>
-               <family>Segoe UI</family>
                <pointsize>-1</pointsize>
-               <weight>50</weight>
                <italic>false</italic>
                <bold>false</bold>
               </font>
@@ -535,9 +523,7 @@
             <widget class="QLabel" name="localFolderHead_5">
              <property name="font">
               <font>
-               <family>Segoe UI</family>
                <pointsize>-1</pointsize>
-               <weight>9</weight>
                <italic>false</italic>
                <bold>false</bold>
               </font>
@@ -559,9 +545,7 @@
           <widget class="QLabel" name="localFolderHead_6">
            <property name="font">
             <font>
-             <family>Segoe UI</family>
              <pointsize>-1</pointsize>
-             <weight>50</weight>
              <italic>false</italic>
              <bold>false</bold>
             </font>
@@ -600,9 +584,7 @@
           <widget class="QLabel" name="localFolderHead_7">
            <property name="font">
             <font>
-             <family>Segoe UI</family>
              <pointsize>-1</pointsize>
-             <weight>9</weight>
              <italic>false</italic>
              <bold>false</bold>
             </font>
@@ -624,9 +606,7 @@
             <widget class="QLabel" name="localFolderHead_8">
              <property name="font">
               <font>
-               <family>Segoe UI</family>
                <pointsize>-1</pointsize>
-               <weight>50</weight>
                <italic>false</italic>
                <bold>false</bold>
               </font>

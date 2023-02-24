@@ -159,7 +159,7 @@ void OwncloudAdvancedSetupPage::initializePage()
     updateStatus();
 
     // ensure "next" gets the focus, not obSelectLocalFolder
-    QTimer::singleShot(0, wizard()->button(QWizard::NextButton), SLOT(setFocus()));
+    QTimer::singleShot(0, wizard()->button(QWizard::NextButton), qOverload<>(&QWidget::setFocus));
 
     auto acc = static_cast<OwncloudWizard *>(wizard())->account();
     auto quotaJob = new PropfindJob(acc, _remoteFolder, this);
@@ -195,8 +195,12 @@ void OwncloudAdvancedSetupPage::initializePage()
 void OwncloudAdvancedSetupPage::fetchUserAvatar()
 {
     // Reset user avatar
-    //const auto appIcon = Theme::instance()->applicationIcon();
-    //_ui.lServerIcon->setPixmap(appIcon.pixmap(48));
+    //const auto theme = Theme::instance();
+    //const auto appIcon = theme->applicationIcon();
+    //const auto appIconSize = Theme::isHidpi() ? 128 : 64;
+
+    //_ui.lServerIcon->setPixmap(appIcon.pixmap(appIconSize));
+
     // Fetch user avatar
     const auto account = _ocWizard->account();
     auto avatarSize = 94;
@@ -211,9 +215,9 @@ void OwncloudAdvancedSetupPage::fetchUserAvatar()
         }
        // const auto avatarPixmap = QPixmap::fromImage(AvatarJob::makeCircularAvatar(avatarImage));
        // _ui.lServerIcon->setPixmap(avatarPixmap);
-        const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/Product-icon.svg"));
-        QPixmap pixmap = avatarIcon.pixmap(QSize(94, 71));
-        _ui.lServerIcon->setPixmap(pixmap);
+        //const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/Product-icon.svg"));
+        //QPixmap pixmap = avatarIcon.pixmap(QSize(94, 71));
+        //_ui.lServerIcon->setPixmap(pixmap);
     });
     avatarJob->start();
 }
@@ -262,8 +266,9 @@ void OwncloudAdvancedSetupPage::updateStatus()
     const QString locFolder = localFolder();
 
     // check if the local folder exists. If so, and if its not empty, show a warning.
-    QString errorStr = FolderMan::instance()->checkPathValidityForNewFolder(locFolder, serverUrl());
-    _localFolderValid = errorStr.isEmpty();
+    const auto pathValidityCheckResult = FolderMan::instance()->checkPathValidityForNewFolder(locFolder, serverUrl());
+    auto errorStr = pathValidityCheckResult.second;
+    _localFolderValid = errorStr.isEmpty() || pathValidityCheckResult.first == FolderMan::PathValidityResult::ErrorNonEmptyFolder;
 
     QString t;
 
@@ -273,7 +278,7 @@ void OwncloudAdvancedSetupPage::updateStatus()
         if (_remoteFolder.isEmpty() || _remoteFolder == QLatin1String("/")) {
             t = "";
         } else {
-            t = Utility::escape(tr("%1 folder '%2' is synced to local folder '%3'")
+            t = Utility::escape(tr(R"(%1 folder "%2" is synced to local folder "%3")")
                                     .arg(Theme::instance()->appName(), _remoteFolder,
                                         QDir::toNativeSeparators(locFolder)));
             //_ui.rSyncEverything->setText(tr("Sync the folder '%1'").arg(_remoteFolder));

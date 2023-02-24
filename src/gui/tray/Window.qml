@@ -293,7 +293,7 @@ Window {
                                     onObjectRemoved: accountMenu.removeItem(object)
                                 }
 
-                                MenuItem {
+                                /*MenuItem {
                                     id: addAccountButton
                                     height: Style.addAccountButtonHeight
                                     display: AbstractButton.TextBesideIcon
@@ -328,7 +328,7 @@ Window {
                                     Accessible.role: Accessible.MenuItem
                                     Accessible.name: qsTr("Add new account")
                                     Accessible.onPressAction: addAccountButton.clicked()
-                                }
+                                }*/
 
                                 MenuSeparator {
                                     contentItem: Rectangle {
@@ -505,7 +505,7 @@ Window {
                                     radius: width*0.5
                                 }
 
-                                Image {
+                                /*Image {
                                     id: currentAccountStateIndicator
                                     objectName: "currentAccountStateIndicator"
                                     source: UserModel.isUserConnected(UserModel.currentUserId)
@@ -519,7 +519,7 @@ Window {
 
                                     Accessible.role: Accessible.Indicator
                                     Accessible.name: UserModel.isUserConnected(UserModel.currentUserId()) ? qsTr("Connected") : qsTr("Disconnected")
-                                }
+                                }*/
                             }
 
                             Label {

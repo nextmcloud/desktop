@@ -30,6 +30,8 @@
 #include "configfile.h"
 #include "discovery.h"
 #include "common/vfs.h"
+#include "clientsideencryption.h"
+#include "clientsideencryptionjobs.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -81,8 +83,11 @@ static const std::chrono::milliseconds s_touchedFilesMaxAgeMs(3 * 1000);
 // doc in header
 std::chrono::milliseconds SyncEngine::minimumFileAgeForUpload(2000);
 
-SyncEngine::SyncEngine(AccountPtr account, const QString &localPath,
-    const QString &remotePath, OCC::SyncJournalDb *journal)
+SyncEngine::SyncEngine(AccountPtr account,
+                       const QString &localPath,
+                       const SyncOptions &syncOptions,
+                       const QString &remotePath,
+                       OCC::SyncJournalDb *journal)
     : _account(account)
     , _needsUpdate(false)
     , _syncRunning(false)
@@ -94,6 +99,7 @@ SyncEngine::SyncEngine(AccountPtr account, const QString &localPath,
     , _hasRemoveFile(false)
     , _uploadLimit(0)
     , _downloadLimit(0)
+    , _syncOptions(syncOptions)
     , _anotherSyncNeeded(NoFollowUpSync)
 {
     qRegisterMetaType<SyncFileItem>("SyncFileItem");
@@ -436,6 +442,17 @@ void SyncEngine::startSync()
             connect(job, &CleanupPollsJob::aborted, this, &SyncEngine::slotCleanPollsJobAborted);
             job->start();
             return;
+        }
+        const auto e2EeLockedFolders = _journal->e2EeLockedFolders();
+
+        if (!e2EeLockedFolders.isEmpty()) {
+            for (const auto &e2EeLockedFolder : e2EeLockedFolders) {
+                const auto folderId = e2EeLockedFolder.first;
+                qCInfo(lcEngine()) << "start unlock job for folderId:" << folderId;
+                const auto folderToken = EncryptionHelper::decryptStringAsymmetric(_account->e2e()->_privateKey, e2EeLockedFolder.second);
+                const auto unlockJob = new OCC::UnlockEncryptFolderApiJob(_account, folderId, folderToken, _journal, this);
+                unlockJob->start();
+            }
         }
     }
 
@@ -1052,19 +1069,16 @@ void SyncEngine::switchToVirtualFiles(const QString &localPath, SyncJournalDb &j
 
 void SyncEngine::abort()
 {
-    if (_propagator)
-        qCInfo(lcEngine) << "Aborting sync";
-
     if (_propagator) {
         // If we're already in the propagation phase, aborting that is sufficient
+        qCInfo(lcEngine) << "Aborting sync in propagator...";
         _propagator->abort();
     } else if (_discoveryPhase) {
         // Delete the discovery and all child jobs after ensuring
         // it can't finish and start the propagator
         disconnect(_discoveryPhase.data(), nullptr, this, nullptr);
         _discoveryPhase.take()->deleteLater();
-
-        Q_EMIT syncError(tr("Synchronization will resume shortly."));
+        qCInfo(lcEngine) << "Aborting sync in discovery...";
         finalize(false);
     }
 }

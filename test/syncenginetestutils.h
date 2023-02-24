@@ -352,6 +352,8 @@ public:
     qint64 bytesAvailable() const override;
     QByteArray _body;
 
+    QMap<QNetworkRequest::KnownHeaders, QByteArray> _additionalHeaders;
+
     static const int defaultDelay = 10;
 };
 
@@ -400,6 +402,16 @@ public:
 
     void abort() override;
     qint64 readData(char *, qint64) override { return 0; }
+};
+
+class FakeFileLockReply : public FakePropfindReply
+{
+    Q_OBJECT
+public:
+    FakeFileLockReply(FileInfo &remoteRootFileInfo,
+                      QNetworkAccessManager::Operation op,
+                      const QNetworkRequest &request,
+                      QObject *parent);
 };
 
 // A delayed reply

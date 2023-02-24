@@ -22,6 +22,7 @@
 #include "config.h"
 #include "account.h"
 #include "accountstate.h"
+#include "editlocallymanager.h"
 #include "connectionvalidator.h"
 #include "folder.h"
 #include "folderman.h"
@@ -35,6 +36,7 @@
 #include "accountmanager.h"
 #include "creds/abstractcredentials.h"
 #include "pushnotifications.h"
+#include "shellextensionsserver.h"
 
 #if defined(BUILD_UPDATER)
 #include "updater/ocupdater.h"
@@ -61,6 +63,7 @@
 #include <QDesktopServices>
 #include <QGuiApplication>
 #include <QQuickItem>
+#include <QUrlQuery>
 
 class QSocket;
 
@@ -321,6 +324,9 @@ Application::Application(int &argc, char **argv)
         qCInfo(lcApplication) << "VFS suffix plugin is available";
 
     _folderManager.reset(new FolderMan);
+#ifdef Q_OS_WIN
+    _shellExtensionsServer.reset(new ShellExtensionsServer);
+#endif
 
     connect(this, &SharedTools::QtSingleApplication::messageReceived, this, &Application::slotParseMessage);
 
@@ -335,7 +341,7 @@ Application::Application(int &argc, char **argv)
                 nullptr,
                 tr("Error accessing the configuration file"),
                 tr("There was an error while accessing the configuration "
-                   "file at %1. Please make sure the file can be accessed by your user.")
+                   "file at %1. Please make sure the file can be accessed by your system account.")
                     .arg(ConfigFile().configFile()),
                 tr("Quit %1").arg(Theme::instance()->appNameGUI()));
             QTimer::singleShot(0, qApp, SLOT(quit()));
@@ -404,6 +410,7 @@ Application::Application(int &argc, char **argv)
     connect(_gui.data(), &ownCloudGui::isShowingSettingsDialog, this, &Application::slotGuiIsShowingSettings);
 
     _gui->createTray();
+    handleEditLocallyFromOptions();
 
     /* Setup the swipe screen */
     view.engine()->addImportPath("qrc:/qml/theme");
@@ -598,6 +605,8 @@ void Application::slotParseMessage(const QString &msg, QObject *)
             qApp->quit();
         }
 
+        handleEditLocallyFromOptions();
+
     } else if (msg.startsWith(QLatin1String("MSG_SHOWMAINDIALOG"))) {
         qCInfo(lcApplication) << "Running for" << _startedAt.elapsed() / 1000.0 << "sec";
         if (_startedAt.elapsed() < 10 * 1000) {
@@ -673,7 +682,17 @@ void Application::parseOptions(const QStringList &options)
         } else if (option.endsWith(QStringLiteral(APPLICATION_DOTVIRTUALFILE_SUFFIX))) {
             // virtual file, open it after the Folder were created (if the app is not terminated)
             QTimer::singleShot(0, this, [this, option] { openVirtualFile(option); });
-        } else {
+        } else if (option.startsWith(QStringLiteral(APPLICATION_URI_HANDLER_SCHEME "://open"))) {
+            // see the section Local file editing of the Architecture page of the user documenation
+            _editFileLocallyUrl = QUrl::fromUserInput(option);
+            if (!_editFileLocallyUrl.isValid()) {
+                _editFileLocallyUrl.clear();
+                const auto errorParsingLocalFileEditingUrl = QStringLiteral("The supplied url for local file editing '%1' is invalid!").arg(option);
+                qCInfo(lcApplication) << errorParsingLocalFileEditingUrl;
+                showHint(errorParsingLocalFileEditingUrl.toStdString());
+            }
+        }
+        else {
             showHint("Unrecognized option '" + option.toStdString() + "'");
         }
     }
@@ -752,6 +771,16 @@ bool Application::backgroundMode() const
 void Application::setHelp()
 {
     _helpOnly = true;
+}
+
+void Application::handleEditLocallyFromOptions()
+{
+    if (!_editFileLocallyUrl.isValid()) {
+        return;
+    }
+
+    EditLocallyManager::instance()->editLocally(_editFileLocallyUrl);
+    _editFileLocallyUrl.clear();
 }
 
 QString substLang(const QString &lang)
@@ -881,15 +910,26 @@ void Application::tryTrayAgain()
 
 bool Application::event(QEvent *event)
 {
-#ifdef Q_OS_MAC
     if (event->type() == QEvent::FileOpen) {
-        QFileOpenEvent *openEvent = static_cast<QFileOpenEvent *>(event);
-        qCDebug(lcApplication) << "QFileOpenEvent" << openEvent->file();
-        // virtual file, open it after the Folder were created (if the app is not terminated)
-        QString fn = openEvent->file();
-        QTimer::singleShot(0, this, [this, fn] { openVirtualFile(fn); });
+        const auto openEvent = static_cast<QFileOpenEvent *>(event);
+        qCDebug(lcApplication) << "macOS: Received a QFileOpenEvent";
+
+        if(!openEvent->file().isEmpty()) {
+            qCDebug(lcApplication) << "QFileOpenEvent" << openEvent->file();
+            // virtual file, open it after the Folder were created (if the app is not terminated)
+            const auto fn = openEvent->file();
+            QTimer::singleShot(0, this, [this, fn] { openVirtualFile(fn); });
+        } else if (!openEvent->url().isEmpty() && openEvent->url().isValid()) {
+            // On macOS, Qt does not handle receiving a custom URI as it does on other systems (as an application argument).
+            // Instead, it sends out a QFileOpenEvent. We therefore need custom handling for our URI handling on macOS.
+            qCInfo(lcApplication) << "macOS: Opening local file for editing: " << openEvent->url();
+            EditLocallyManager::instance()->editLocally(openEvent->url());
+        } else {
+            const auto errorParsingLocalFileEditingUrl = QStringLiteral("The supplied url for local file editing '%1' is invalid!").arg(openEvent->url().toString());
+            qCInfo(lcApplication) << errorParsingLocalFileEditingUrl;
+            showHint(errorParsingLocalFileEditingUrl.toStdString());
+        }
     }
-#endif
     return SharedTools::QtSingleApplication::event(event);
 }
 

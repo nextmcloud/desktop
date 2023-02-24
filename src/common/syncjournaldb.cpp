@@ -526,6 +526,16 @@ bool SyncJournalDb::checkConnect()
         return sqlFail(QStringLiteral("Create table version"), createQuery);
     }
 
+    // create the e2EeLockedFolders table.
+    createQuery.prepare(
+                "CREATE TABLE IF NOT EXISTS e2EeLockedFolders("
+                "folderId VARCHAR(128) PRIMARY KEY,"
+                "token VARCHAR(4096)"
+                ");");
+    if (!createQuery.exec()) {
+        return sqlFail(QStringLiteral("Create table e2EeLockedFolders"), createQuery);
+    }
+
     bool forceRemoteDiscovery = false;
 
     SqlQuery versionQuery("SELECT major, minor, patch FROM version;", _db);
@@ -2222,21 +2232,96 @@ void SyncJournalDb::markVirtualFileForDownloadRecursively(const QByteArray &path
     QMutexLocker lock(&_mutex);
     if (!checkConnect())
         return;
-
     static_assert(ItemTypeVirtualFile == 4 && ItemTypeVirtualFileDownload == 5, "");
     SqlQuery query("UPDATE metadata SET type=5 WHERE "
                    "(" IS_PREFIX_PATH_OF("?1", "path") " OR ?1 == '') "
-                   "AND type=4;", _db);
+                                                       "AND type=4;", _db);
     query.bindValue(1, path);
-    query.exec();
-
+    if (!query.exec()) {
+        sqlFail(QStringLiteral("markVirtualFileForDownloadRecursively UPDATE metadata SET type=5 path: %1").arg(QString::fromUtf8(path)), query);
+    }
     // We also must make sure we do not read the files from the database (same logic as in schedulePathForRemoteDiscovery)
     // This includes all the parents up to the root, but also all the directory within the selected dir.
     static_assert(ItemTypeDirectory == 2, "");
     query.prepare("UPDATE metadata SET md5='_invalid_' WHERE "
                   "(" IS_PREFIX_PATH_OF("?1", "path") " OR ?1 == '' OR " IS_PREFIX_PATH_OR_EQUAL("path", "?1") ") AND type == 2;");
     query.bindValue(1, path);
-    query.exec();
+    if (!query.exec()) {
+        sqlFail(QStringLiteral("markVirtualFileForDownloadRecursively UPDATE metadata SET md5='_invalid_' path: %1").arg(QString::fromUtf8(path)), query);
+    }
+}
+
+void SyncJournalDb::setE2EeLockedFolder(const QByteArray &folderId, const QByteArray &folderToken)
+{
+    QMutexLocker locker(&_mutex);
+    if (!checkConnect()) {
+        return;
+    }
+
+    const auto query = _queryManager.get(PreparedSqlQueryManager::SetE2EeLockedFolderQuery,
+                                         QByteArrayLiteral("INSERT OR REPLACE INTO e2EeLockedFolders "
+                                                           "(folderId, token) "
+                                                           "VALUES (?1, ?2);"),
+                                         _db);
+    ASSERT(query)
+    query->bindValue(1, folderId);
+    query->bindValue(2, folderToken);
+    ASSERT(query->exec())
+}
+
+QByteArray SyncJournalDb::e2EeLockedFolder(const QByteArray &folderId)
+{
+    QMutexLocker locker(&_mutex);
+    if (!checkConnect()) {
+        return {};
+    }
+    const auto query = _queryManager.get(PreparedSqlQueryManager::GetE2EeLockedFolderQuery,
+                                         QByteArrayLiteral("SELECT token FROM e2EeLockedFolders WHERE folderId=?1;"),
+                                         _db);
+    ASSERT(query)
+    query->bindValue(1, folderId);
+    ASSERT(query->exec())
+    if (!query->next().hasData) {
+        return {};
+    }
+
+    return query->baValue(0);
+}
+
+QList<QPair<QByteArray, QByteArray>> SyncJournalDb::e2EeLockedFolders()
+{
+    QMutexLocker locker(&_mutex);
+
+    QList<QPair<QByteArray, QByteArray>> res;
+
+    if (!checkConnect()) {
+        return res;
+    }
+
+    const auto query = _queryManager.get(PreparedSqlQueryManager::GetE2EeLockedFoldersQuery, QByteArrayLiteral("SELECT * FROM e2EeLockedFolders"), _db);
+    ASSERT(query)
+
+    if (!query->exec()) {
+        return res;
+    }
+
+    while (query->next().hasData) {
+        res.append({query->baValue(0), query->baValue(1)});
+    }
+    return res;
+}
+
+void SyncJournalDb::deleteE2EeLockedFolder(const QByteArray &folderId)
+{
+    QMutexLocker locker(&_mutex);
+    if (!checkConnect()) {
+        return;
+    }
+
+    const auto query = _queryManager.get(PreparedSqlQueryManager::DeleteE2EeLockedFolderQuery, QByteArrayLiteral("DELETE FROM e2EeLockedFolders WHERE folderId=?1;"), _db);
+    ASSERT(query)
+    query->bindValue(1, folderId);
+    ASSERT(query->exec())
 }
 
 Optional<PinState> SyncJournalDb::PinStateInterface::rawForPath(const QByteArray &path)
@@ -2425,7 +2510,9 @@ void SyncJournalDb::commitInternal(const QString &context, bool startTrans)
 
 SyncJournalDb::~SyncJournalDb()
 {
-    close();
+    if (isOpen()) {
+        close();
+    }
 }
 
 

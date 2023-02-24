@@ -91,7 +91,7 @@ void OAuth::start()
 
                 auto requestBody = new QBuffer;
                 QUrlQuery arguments(QString(
-                    "grant_type=authorization_code&code=%1&redirect_uri=http://localhost:%2")
+                    "scope=openid&prompt=x-no-sso&grant_type=authorization_code&x_telekom.refresh_token.creation=false&code=%1&redirect_uri=http://localhost:%2")
                                         .arg(code, QString::number(_server.serverPort())));
                 requestBody->setData(arguments.query(QUrl::FullyEncoded).toLatin1());
 
@@ -137,10 +137,10 @@ void OAuth::start()
                     }
                     if (!_expectedUser.isNull() && user != _expectedUser) {
                         // Connected with the wrong user
-                        QString message = tr("<h1>Wrong user</h1>"
-                                             "<p>You logged-in with user <em>%1</em>, but must login with user <em>%2</em>.<br>"
+                        QString message = tr("<h1>Wrong account</h1>"
+                                             "<p>You logged in with the account <em>%1</em>, but must log in with the account <em>%2</em>.<br>"
                                              "Please log out of %3 in another tab, then <a href='%4'>click here</a> "
-                                             "and log in as user %2</p>")
+                                             "and log in with %2.</p>")
                                               .arg(user, _expectedUser, Theme::instance()->appNameGUI(),
                                                   authorisationLink().toString(QUrl::FullyEncoded));
                         httpReplyAndClose(socket, "200 OK", message.toUtf8().constData());
@@ -166,8 +166,10 @@ QUrl OAuth::authorisationLink() const
     Q_ASSERT(_server.isListening());
     QUrlQuery query;
     query.setQueryItems({ { QLatin1String("response_type"), QLatin1String("code") },
-        { QLatin1String("client_id"), Theme::instance()->oauthClientId() },
-        { QLatin1String("redirect_uri"), QLatin1String("http://localhost:") + QString::number(_server.serverPort()) } });
+                          { QLatin1String("client_id"), Theme::instance()->oauthClientId() },
+                          { QLatin1String("scope"), QLatin1String("openid") },
+                          { QLatin1String("prompt"), QLatin1String("x-no-sso") },
+                          { QLatin1String("redirect_uri"), QLatin1String("http://localhost:") + QString::number(_server.serverPort()) } });
     if (!_expectedUser.isNull())
         query.addQueryItem("user", _expectedUser);
     QUrl url = Utility::concatUrlPath(_account->url(), QLatin1String("/index.php/apps/oauth2/authorize"), query);

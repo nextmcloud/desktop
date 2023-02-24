@@ -47,7 +47,7 @@ ActivityListModel::ActivityListModel(QObject *parent)
 }
 
 ActivityListModel::ActivityListModel(AccountState *accountState,
-    QObject *parent)
+                                     QObject *parent)
     : QAbstractListModel(parent)
     , _accountState(accountState)
 {
@@ -218,15 +218,15 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
             return "qrc:///client/theme/black/state-error.svg";
         } else if (a._type == Activity::SyncFileItemType) {
             if (a._status == SyncFileItem::NormalError
-                || a._status == SyncFileItem::FatalError
-                || a._status == SyncFileItem::DetailError
-                || a._status == SyncFileItem::BlacklistedError) {
+                    || a._status == SyncFileItem::FatalError
+                    || a._status == SyncFileItem::DetailError
+                    || a._status == SyncFileItem::BlacklistedError) {
                 return "qrc:///client/theme/black/state-error.svg";
             } else if (a._status == SyncFileItem::SoftError
-                || a._status == SyncFileItem::Conflict
-                || a._status == SyncFileItem::Restoration
-                || a._status == SyncFileItem::FileLocked
-                || a._status == SyncFileItem::FileNameInvalid) {
+                       || a._status == SyncFileItem::Conflict
+                       || a._status == SyncFileItem::Restoration
+                       || a._status == SyncFileItem::FileLocked
+                       || a._status == SyncFileItem::FileNameInvalid) {
                 return "qrc:///client/theme/black/state-warning.svg";
             } else if (a._status == SyncFileItem::FileIgnored) {
                 return "qrc:///client/theme/black/state-info.svg";
@@ -296,7 +296,11 @@ int ActivityListModel::rowCount(const QModelIndex &parent) const
         return 0;
     }
 
-    return _finalList.count();
+    // return _finalList.count();
+    if(_finalList.count()<maxVisibleActivities)
+        return _finalList.count();
+    else
+        return maxVisibleActivities;
 }
 
 bool ActivityListModel::canFetchMore(const QModelIndex &) const
@@ -319,7 +323,7 @@ void ActivityListModel::startFetchJob()
     }
     auto *job = new JsonApiJob(_accountState->account(), QLatin1String("ocs/v2.php/apps/activity/api/v2/activity"), this);
     QObject::connect(job, &JsonApiJob::jsonReceived,
-        this, &ActivityListModel::activitiesReceived);
+                     this, &ActivityListModel::activitiesReceived);
 
     QUrlQuery params;
     params.addQueryItem(QLatin1String("previews"), QLatin1String("true"));
@@ -364,7 +368,7 @@ void ActivityListModel::ingestActivities(const QJsonArray &activities)
 
         _totalActivitiesFetched++;
         if (_totalActivitiesFetched == _maxActivities
-            || (_hideOldActivities && a._dateTime < oldestDate)) {
+                || (_hideOldActivities && a._dateTime < oldestDate)) {
             _showMoreActivitiesAvailableEntry = true;
             _doneFetching = true;
             break;
@@ -387,7 +391,7 @@ void ActivityListModel::appendMoreActivitiesAvailableEntry()
 {
     const QString moreActivitiesEntryObjectType = QLatin1String("activity_fetch_more_activities");
     if (_showMoreActivitiesAvailableEntry && !_finalList.isEmpty()
-        && _finalList.last()._objectType != moreActivitiesEntryObjectType) {
+            && _finalList.last()._objectType != moreActivitiesEntryObjectType) {
         Activity a;
         a._type = Activity::ActivityType;
         a._accName = _accountState->account()->displayName();
@@ -434,11 +438,11 @@ void ActivityListModel::clearActivities()
     _activityLists.clear();
     if (!_finalList.isEmpty()) {
         const auto firstActivityIt = std::find_if(std::begin(_finalList), std::end(_finalList),
-            [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
+                                                  [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
 
         if (firstActivityIt != std::end(_finalList)) {
             const auto lastActivityItReverse = std::find_if(std::rbegin(_finalList), std::rend(_finalList),
-                    [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
+                                                            [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
 
             const auto lastActivityIt = (lastActivityItReverse + 1).base();
 
@@ -505,9 +509,28 @@ void ActivityListModel::addIgnoredFileToList(Activity newActivity)
 
 void ActivityListModel::addNotificationToActivityList(Activity activity)
 {
-    qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
-    _notificationLists.prepend(activity);
-    combineActivityLists();
+  //  qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
+   // _notificationLists.prepend(activity);
+    //combineActivityLists();
+
+    QDate _notificationDate = activity._dateTime.date();
+    QDate _currentDate = QDateTime::currentDateTime().date();
+    const auto maxNotificationDay = 7;
+    if((_currentDate.month()==_notificationDate.month())){
+        if((_currentDate.day()-maxNotificationDay)<=_notificationDate.day()){
+            qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._dateTime;
+            _notificationLists.append(activity);
+            combineActivityLists();
+        }
+
+    }
+    if((_currentDate.month()==_notificationDate.month()+1)){
+        if((_notificationDate.daysInMonth()-_notificationDate.day()+_currentDate.day())<=maxNotificationDay){
+            qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._dateTime;
+            _notificationLists.append(activity);
+            combineActivityLists();
+        }
+    }
 }
 
 void ActivityListModel::clearNotifications()
@@ -614,7 +637,7 @@ void ActivityListModel::slotTriggerDefaultAction(const int activityIndex)
         auto folder = FolderMan::instance()->folder(activity._folder);
         const auto folderDir = QDir(folder->path());
         _currentInvalidFilenameDialog = new InvalidFilenameDialog(_accountState->account(), folder,
-            folderDir.filePath(activity._file));
+                                                                  folderDir.filePath(activity._file));
         connect(_currentInvalidFilenameDialog, &InvalidFilenameDialog::accepted, folder, [folder]() {
             folder->scheduleThisFolderSoon();
         });
@@ -709,8 +732,8 @@ QVariantList ActivityListModel::convertLinksToActionButtons(const Activity &acti
 
     for (const auto &activityLink : activity._links) {
         if (activityLink._primary
-            || activityLink._verb == QStringLiteral("DELETE")
-            || activityLink._verb == QStringLiteral("WEB")) {
+                || activityLink._verb == QStringLiteral("DELETE")
+                || activityLink._verb == QStringLiteral("WEB")) {
             customList << ActivityListModel::convertLinkToActionButton(activityLink);
         }
     }
@@ -747,7 +770,7 @@ QVariantList ActivityListModel::convertLinksToMenuEntries(const Activity &activi
             const auto &activityLink = activity._links[i];
             if (!activityLink._primary) {
                 customList << QVariantMap{
-                    {QStringLiteral("actionIndex"), i}, {QStringLiteral("label"), activityLink._label}};
+                {QStringLiteral("actionIndex"), i}, {QStringLiteral("label"), activityLink._label}};
             }
         }
     }
@@ -766,10 +789,10 @@ void ActivityListModel::combineActivityLists()
     if (_listOfIgnoredFiles.size() > 0)
         resultList.append(_notificationIgnoredFiles);
 
-    if (_notificationLists.count() > 0) {
-        std::sort(_notificationLists.begin(), _notificationLists.end());
-        resultList.append(_notificationLists);
-    }
+    //    if (_notificationLists.count() > 0) {
+    //        std::sort(_notificationLists.begin(), _notificationLists.end());
+    //        resultList.append(_notificationLists);
+    //    }
 
     if (_syncFileItemLists.count() > 0) {
         std::sort(_syncFileItemLists.begin(), _syncFileItemLists.end());
@@ -779,6 +802,11 @@ void ActivityListModel::combineActivityLists()
     if (_activityLists.count() > 0) {
         std::sort(_activityLists.begin(), _activityLists.end());
         resultList.append(_activityLists);
+    }
+
+    if (_notificationLists.count() > 0) {
+        std::sort(_notificationLists.begin(), _notificationLists.end());
+        resultList.append(_notificationLists);
     }
 
     if (_finalList.isEmpty() && !resultList.isEmpty()) {
@@ -800,6 +828,7 @@ bool ActivityListModel::canFetchActivities() const
 {
     return _accountState->isConnected() && _accountState->account()->capabilities().hasActivities();
 }
+
 
 void ActivityListModel::fetchMore(const QModelIndex &)
 {

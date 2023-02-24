@@ -21,6 +21,7 @@
         <file>theme/magenta/user/default@svg.svg</file>
         <file>theme/magenta/user/default-32x32px.svg</file>
         <file>theme/magenta/user/default-32x32px-magenta.svg</file>
+        <file>theme/magenta/MagentaCLOUD_App-Icon-whitespace.svg</file>
         <file>theme/magenta/user/default.png</file>
         <file>theme/magenta/user/default@3x.png</file>
         <file>theme/magenta/share/default@svg.svg</file>
@@ -202,6 +203,7 @@
         <file>theme/black/activity.svg</file>
         <file>theme/black/bell.svg</file>
         <file>theme/black/state-info.svg</file>
+        <file>theme/lock.svg</file>
         <file>theme/black/delete.svg</file>
         <file>theme/close.svg</file>
         <file>theme/refresh.svg</file>
@@ -227,6 +229,7 @@
         <file>theme/add.svg</file>
         <file>theme/Computer-Icon.svg</file>
         <file>theme/share.svg</file>
+        <file>theme/content-lock.png</file>
         <file>theme/link.svg</file>
         <file>theme/upload-cloud.svg</file>
         <file>theme/reply.svg</file>

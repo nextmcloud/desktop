@@ -66,6 +66,12 @@ public:
     AccountStatePtr account(const QString &name);
 
     /**
+     * Return the account state pointer for an account from its id
+     */
+
+    AccountStatePtr accountFromUserId(const QString &id) const;
+
+    /**
      * Delete the AccountState
      */
     void deleteAccount(AccountState *account);
@@ -106,9 +112,6 @@ public slots:
 
     /// Saves account state data, not including the account
     void saveAccountState(AccountState *a);
-
-    /// Display a Box with the mnemonic so the user can copy it to a safe place.
-    static void displayMnemonic(const QString& mnemonic);
 
 
 Q_SIGNALS:
