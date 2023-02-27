@@ -12,6 +12,7 @@
  * for more details.
  */
 
+#include "account.h"
 #include "discovery.h"
 #include "common/filesystembase.h"
 #include "common/syncjournaldb.h"
@@ -177,10 +178,23 @@ void ProcessDirectoryJob::process()
         if (handleExcluded(path._target, e, isHidden))
             continue;
 
-        if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original)) {
+        const auto isEncryptedFolderButE2eIsNotSetup = e.serverEntry.isValid() && e.serverEntry.isE2eEncrypted &&
+                _discoveryData->_account->e2e() && !_discoveryData->_account->e2e()->_publicKey.isNull() && _discoveryData->_account->e2e()->_privateKey.isNull();
+        if (isEncryptedFolderButE2eIsNotSetup) {
+            checkAndUpdateSelectiveSyncListsForE2eeFolders(path._server + "/");
+        }
+
+        if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original) || isEncryptedFolderButE2eIsNotSetup) {
             processBlacklisted(path, e.localEntry, e.dbEntry);
             continue;
         }
+
+        // HACK: Sometimes the serverEntry.etag does not correctly have its quotation marks amputated in the string.
+        // We are once again making sure they are chopped off here, but we should really find the root cause for why
+        // exactly they are not being lobbed off at any of the prior points of processing.
+
+        e.serverEntry.etag = Utility::normalizeEtag(e.serverEntry.etag);
+
         processFile(std::move(path), e.localEntry, e.serverEntry, e.dbEntry);
     }
     QTimer::singleShot(0, _discoveryData, &DiscoveryPhase::scheduleMoreJobs);
@@ -247,18 +261,7 @@ bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &ent
         }
     }
 
-#ifdef Q_OS_WIN
-    // exclude ".lnk" files as they are not essential, but, causing troubles when enabling the VFS due to
-    // QFileInfo::isDir() and other methods are freezing, which causes the ".lnk" files to start hydrating and freezing
-    // the app eventually.
-    const bool isServerEntryWindowsShortcut = !entries.localEntry.isValid() && entries.serverEntry.isValid()
-        && !entries.serverEntry.isDirectory && FileSystem::isLnkFile(entries.serverEntry.name);
-#else
-    const bool isServerEntryWindowsShortcut = false;
-#endif
-    const auto isSymlink = entries.localEntry.isSymLink || isServerEntryWindowsShortcut;
-
-    if (excluded == CSYNC_NOT_EXCLUDED && !isSymlink) {
+    if (excluded == CSYNC_NOT_EXCLUDED && !entries.localEntry.isSymLink) {
         return false;
     } else if (excluded == CSYNC_FILE_SILENTLY_EXCLUDED || excluded == CSYNC_FILE_EXCLUDE_AND_REMOVE) {
         emit _discoveryData->silentlyExcluded(path);
@@ -270,7 +273,7 @@ bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &ent
     item->_originalFile = path;
     item->_instruction = CSYNC_INSTRUCTION_IGNORE;
 
-    if (isSymlink) {
+    if (entries.localEntry.isSymLink) {
         /* Symbolic links are ignored. */
         item->_errorString = tr("Symbolic links are not supported in syncing.");
     } else {
@@ -343,6 +346,26 @@ bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &ent
     return true;
 }
 
+void ProcessDirectoryJob::checkAndUpdateSelectiveSyncListsForE2eeFolders(const QString &path)
+{
+    bool ok = false;
+
+    const auto pathWithTrailingSpace = path.endsWith(QLatin1Char('/')) ? path : path + QLatin1Char('/');
+    auto blackListSet = _discoveryData->_statedb->getSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, &ok).toSet();
+    blackListSet.insert(pathWithTrailingSpace);
+    auto blackList = blackListSet.toList();
+    blackList.sort();
+    _discoveryData->_statedb->setSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, blackList);
+
+    auto toRemoveFromBlacklistSet = _discoveryData->_statedb->getSelectiveSyncList(SyncJournalDb::SelectiveSyncE2eFoldersToRemoveFromBlacklist, &ok).toSet();
+    toRemoveFromBlacklistSet.insert(pathWithTrailingSpace);
+    // record it into a separate list to automatically remove from blacklist once the e2EE gets set up
+    auto toRemoveFromBlacklist = toRemoveFromBlacklistSet.toList();
+    toRemoveFromBlacklist.sort();
+    _discoveryData->_statedb->setSelectiveSyncList(SyncJournalDb::SelectiveSyncE2eFoldersToRemoveFromBlacklist, toRemoveFromBlacklist);
+}
+
+
 void ProcessDirectoryJob::processFile(PathTuple path,
     const LocalInfo &localEntry, const RemoteInfo &serverEntry,
     const SyncJournalFileRecord &dbEntry)
@@ -352,6 +375,7 @@ void ProcessDirectoryJob::processFile(PathTuple path,
     const auto serverFileIsLocked = serverEntry.locked == SyncFileItem::LockStatus::LockedItem ? "locked" : "not locked";
     const auto localFileIsLocked = dbEntry._lockstate._locked ? "locked" : "not locked";
     qCInfo(lcDisco).nospace() << "Processing " << path._original
+                              << " | (db/local/remote)"
                               << " | valid: " << dbEntry.isValid() << "/" << hasLocal << "/" << hasServer
                               << " | mtime: " << dbEntry._modtime << "/" << localEntry.modtime << "/" << serverEntry.modtime
                               << " | size: " << dbEntry._fileSize << "/" << localEntry.size << "/" << serverEntry.size
@@ -535,6 +559,11 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(
                 item->_instruction = CSYNC_INSTRUCTION_NEW;
             } else {
                 item->_instruction = CSYNC_INSTRUCTION_SYNC;
+                qCDebug(lcDisco) << "CSYNC_INSTRUCTION_SYNC: File" << item->_file << "if (dbEntry._etag != serverEntry.etag)"
+                                 << "dbEntry._etag:" << dbEntry._etag
+                                 << "serverEntry.etag:" << serverEntry.etag
+                                 << "serverEntry.isDirectory:" << serverEntry.isDirectory
+                                 << "dbEntry.isDirectory:" << dbEntry.isDirectory();
             }
         } else if (dbEntry._modtime != serverEntry.modtime && localEntry.size == serverEntry.size && dbEntry._fileSize == serverEntry.size && dbEntry._etag == serverEntry.etag) {
             item->_direction = SyncFileItem::Down;
@@ -627,6 +656,7 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(
         if (!localEntry.isValid()
             && item->_type == ItemTypeFile
             && opts._vfs->mode() != Vfs::Off
+            && !FileSystem::isLnkFile(item->_file)
             && _pinState != PinState::AlwaysLocal
             && !FileSystem::isExcludeFile(item->_file)) {
             item->_type = ItemTypeVirtualFile;
@@ -812,6 +842,9 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
 
     bool serverModified = item->_instruction == CSYNC_INSTRUCTION_NEW || item->_instruction == CSYNC_INSTRUCTION_SYNC
         || item->_instruction == CSYNC_INSTRUCTION_RENAME || item->_instruction == CSYNC_INSTRUCTION_TYPE_CHANGE;
+    
+    qCDebug(lcDisco) << "File" << item->_file << "- servermodified:" << serverModified
+                     << "noServerEntry:" << noServerEntry;
 
     // Decay server modifications to UPDATE_METADATA if the local virtual exists
     bool hasLocalVirtual = localEntry.isVirtualFile || (_queryLocal == ParentNotChanged && dbEntry.isVirtualFile());
@@ -1004,6 +1037,9 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
             item->_modtime = dbEntry._modtime;
             item->_previousModtime = dbEntry._modtime;
             item->_type = localEntry.isDirectory ? ItemTypeDirectory : ItemTypeFile;
+            qCDebug(lcDisco) << "CSYNC_INSTRUCTION_SYNC: File" << item->_file << "if (dbEntry._modtime > 0 && localEntry.modtime <= 0)"
+                             << "dbEntry._modtime:" << dbEntry._modtime
+                             << "localEntry.modtime:" << localEntry.modtime;
             _childModified = true;
         } else {
             // Local file was changed
@@ -1017,6 +1053,13 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
             item->_size = localEntry.size;
             item->_modtime = localEntry.modtime;
             _childModified = true;
+            
+            qCDebug(lcDisco) << "Local file was changed: File" << item->_file
+                             << "item->_instruction:" << item->_instruction
+                             << "noServerEntry:" << noServerEntry
+                             << "item->_direction:" << item->_direction
+                             << "item->_size:" << item->_size
+                             << "item->_modtime:" << item->_modtime;
 
             // Checksum comparison at this stage is only enabled for .eml files,
             // check #4754 #4755
@@ -1354,7 +1397,20 @@ void ProcessDirectoryJob::processFileConflict(const SyncFileItemPtr &item, Proce
         // whatever reason.
         item->_instruction = isConflict ? CSYNC_INSTRUCTION_CONFLICT : CSYNC_INSTRUCTION_UPDATE_METADATA;
         item->_direction = isConflict ? SyncFileItem::None : SyncFileItem::Down;
+        qCDebug(lcDisco) << "CSYNC_INSTRUCTION_CONFLICT: File" << item->_file << "if (serverEntry.checksumHeader.isEmpty())";
+        qCDebug(lcDisco) << "CSYNC_INSTRUCTION_CONFLICT: serverEntry.size:" << serverEntry.size
+                         << "localEntry.size:" << localEntry.size
+                         << "serverEntry.modtime:" << serverEntry.modtime
+                         << "localEntry.modtime:" << localEntry.modtime;
         return;
+    }
+    
+    if (!serverEntry.checksumHeader.isEmpty()) {
+        qCDebug(lcDisco) << "CSYNC_INSTRUCTION_CONFLICT: File" << item->_file << "if (!serverEntry.checksumHeader.isEmpty())";
+        qCDebug(lcDisco) << "CSYNC_INSTRUCTION_CONFLICT: serverEntry.size:" << serverEntry.size
+                         << "localEntry.size:" << localEntry.size
+                         << "serverEntry.modtime:" << serverEntry.modtime
+                         << "localEntry.modtime:" << localEntry.modtime;
     }
 
     // Do we have an UploadInfo for this?
@@ -1366,6 +1422,10 @@ void ProcessDirectoryJob::processFileConflict(const SyncFileItemPtr &item, Proce
         item->_instruction = up._modtime == localEntry.modtime && up._size == localEntry.size
             ? CSYNC_INSTRUCTION_NONE : CSYNC_INSTRUCTION_SYNC;
         item->_direction = SyncFileItem::Up;
+        qCDebug(lcDisco) << "CSYNC_INSTRUCTION_SYNC: File" << item->_file << "if (up._valid && up._contentChecksum == serverEntry.checksumHeader)";
+        qCDebug(lcDisco) << "CSYNC_INSTRUCTION_SYNC: up._valid:" << up._valid
+                         << "up._contentChecksum:" << up._contentChecksum
+                         << "serverEntry.checksumHeader:" << serverEntry.checksumHeader;
 
         // Update the etag and other server metadata in the journal already
         // (We can't use a typical CSYNC_INSTRUCTION_UPDATE_METADATA because
@@ -1383,6 +1443,13 @@ void ProcessDirectoryJob::processFileConflict(const SyncFileItemPtr &item, Proce
             _discoveryData->_statedb->setFileRecord(rec);
         }
         return;
+    }
+    
+    if (!up._valid || up._contentChecksum != serverEntry.checksumHeader) {
+        qCDebug(lcDisco) << "CSYNC_INSTRUCTION_SYNC: File" << item->_file << "if (!up._valid && up._contentChecksum != serverEntry.checksumHeader)";
+        qCDebug(lcDisco) << "CSYNC_INSTRUCTION_SYNC: up._valid:" << up._valid
+                         << "up._contentChecksum:" << up._contentChecksum
+                         << "serverEntry.checksumHeader:" << serverEntry.checksumHeader;
     }
 
     // Rely on content hash comparisons to optimize away non-conflicts inside the job

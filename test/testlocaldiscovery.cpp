@@ -637,12 +637,12 @@ private slots:
         fakeFolder.remoteModifier().insert(fooFileAaaSubFolder);
         fakeFolder.remoteModifier().insert(barFileAaaSubFolder);
 
-        //QVERIFY(fakeFolder.syncOnce());
+        QVERIFY(fakeFolder.syncOnce());
 
         fakeFolder.remoteModifier().find("bar")->extraDavProperties = "<nc:lock>0</nc:lock>";
 
         fakeFolder.syncEngine().setLocalDiscoveryOptions(LocalDiscoveryStyle::DatabaseAndFilesystem);
-        //QVERIFY(fakeFolder.syncOnce());
+        QVERIFY(fakeFolder.syncOnce());
     }
 };
 

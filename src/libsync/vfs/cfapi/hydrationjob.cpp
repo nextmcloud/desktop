@@ -226,24 +226,28 @@ void OCC::HydrationJob::slotCheckFolderEncryptedMetadata(const QJsonDocument &js
 
 void OCC::HydrationJob::cancel()
 {
-    Q_ASSERT(_signalSocket);
-
     _isCancelled = true;
     if (_job) {
         _job->cancel();
     }
 
-    _signalSocket->write("cancelled");
-    _signalSocket->close();
-    _transferDataSocket->close();
+    if (_signalSocket) {
+        _signalSocket->write("cancelled");
+        _signalSocket->close();
+    }
 
+    if (_transferDataSocket) {
+        _transferDataSocket->close();
+    }
     emitFinished(Cancelled);
 }
 
 void OCC::HydrationJob::emitFinished(Status status)
 {
     _status = status;
-    _signalSocket->close();
+    if (_signalSocket) {
+        _signalSocket->close();
+    }
 
     if (status == Success) {
         connect(_transferDataSocket, &QLocalSocket::disconnected, this, [=] {
@@ -253,7 +257,10 @@ void OCC::HydrationJob::emitFinished(Status status)
         _transferDataSocket->disconnectFromServer();
         return;
     }
-    _transferDataSocket->close();
+
+    if (_transferDataSocket) {
+        _transferDataSocket->close();
+    }
 
     emit finished(this);
 }

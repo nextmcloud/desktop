@@ -47,6 +47,7 @@ Q_DECLARE_LOGGING_CATEGORY(lcApplication)
 
 class Theme;
 class Folder;
+class ShellExtensionsServer;
 class SslErrorDialog;
 
 /**
@@ -72,6 +73,8 @@ public:
 
     ownCloudGui *gui() const;
 
+    bool event(QEvent *event) override;
+
 public slots:
     // TODO: this should not be public
     void slotownCloudWizardDone(int);
@@ -91,7 +94,6 @@ protected:
     void parseOptions(const QStringList &);
     void setupTranslations();
     void setupLogging();
-    bool event(QEvent *event) override;
 
 signals:
     void folderRemoved();
@@ -110,6 +112,8 @@ protected slots:
 
 private:
     void setHelp();
+
+    void handleEditLocallyFromOptions();
 
     /**
      * Maybe a newer version of the client was used with this config file:
@@ -138,6 +142,7 @@ private:
     bool _userTriggeredConnect;
     bool _debugMode;
     bool _backgroundMode;
+    QUrl _editFileLocallyUrl;
     bool _showSwipeScreen;
 
     ClientProxy _proxy;
@@ -149,6 +154,9 @@ private:
     QScopedPointer<CrashReporter::Handler> _crashHandler;
 #endif
     QScopedPointer<FolderMan> _folderManager;
+#ifdef Q_OS_WIN
+    QScopedPointer<ShellExtensionsServer> _shellExtensionsServer;
+#endif
 
     const int slideShowDelay = 3000;
     const int startPage = 0;

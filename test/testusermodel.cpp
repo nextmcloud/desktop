@@ -10,7 +10,7 @@
 #include "syncengine.h"
 #include <QtTest>
 
-#define displayName() d_Name()
+//#define displayName() d_Name()
 #include "account.h"
 
 #define private public
@@ -37,12 +37,12 @@ Folder::Folder()
 
 };
 
-QString  Account::d_Name() const
+/*QString  Account::d_Name() const
 {
     QString dn = QString("Name");
 
     return dn;
-}
+}*/
 #include "gui/tray/UserModel.cpp"
 
 class TestUserModel: public QObject

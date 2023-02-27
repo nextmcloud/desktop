@@ -29,9 +29,10 @@ NavigationPaneHelper::NavigationPaneHelper(FolderMan *folderMan)
 {
     ConfigFile cfg;
     _showInExplorerNavigationPane = cfg.showInExplorerNavigationPane();
-
+   // Folder *folder;
     _updateCloudStorageRegistryTimer.setSingleShot(true);
     connect(&_updateCloudStorageRegistryTimer, &QTimer::timeout, this, &NavigationPaneHelper::updateCloudStorageRegistry);
+    //connect(folder->accountState()->account().data(), &Account::accountChangedDisplayName, this, &NavigationPaneHelper::slotAccountDisplayNameChanged);
 
     // Ensure that the folder integration stays persistent in Explorer,
     // the uninstaller removes the folder upon updating the client.
@@ -47,13 +48,8 @@ void NavigationPaneHelper::setShowInExplorerNavigationPane(bool show)
     _showInExplorerNavigationPane = show;
     // Re-generate a new CLSID when enabling, possibly throwing away the old one.
     // updateCloudStorageRegistry will take care of removing any unknown CLSID our application owns from the registry.
-    foreach (Folder *folder, _folderMan->map()) {
-        // Only route remote folder is shown in a file manager nav pane
-        if (folder->remotePath() == "/") {
-            folder->setNavigationPaneClsid(show ? QUuid::createUuid() : QUuid());
-            break;
-        }
-    }
+    foreach (Folder *folder, _folderMan->map())
+        folder->setNavigationPaneClsid(show ? QUuid::createUuid() : QUuid());
 
     scheduleUpdateCloudStorageRegistry();
 }

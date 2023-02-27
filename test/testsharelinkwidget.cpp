@@ -9,7 +9,7 @@
 #include <QtTest>
 #include <QMenu>
 
-#include "gui/nextcloudCore_autogen/include_Debug/ui_sharelinkwidget.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_sharelinkwidget.h"
 #include "sharelinkwidget.h"
 #include "sharemanager.h"
 #include "account.h"

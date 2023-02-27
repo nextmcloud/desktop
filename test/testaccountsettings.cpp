@@ -5,7 +5,7 @@
  *
  */
 #include <QtTest>
-#include "gui/nextcloudCore_autogen/include_Debug/ui_accountsettings.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_accountsettings.h"
 
 #define AccountSettings(a, b) AccountSettings(a)
 #include "accountsettings.h"
@@ -36,6 +36,11 @@ class TestAccountSettings: public QObject
     Q_OBJECT
 
 private slots:
+    void testslotMoreMemory()
+    {
+        QPointer<AccountSettings> accountSet;
+        accountSet->slotMoreMemory();
+    }
 
     void testcustomizeStyle()
     {
@@ -45,7 +50,7 @@ private slots:
 
         accountSet->customizeStyle();
 
-        QString expMoreMemoryStyleSheet("QPushButton {height : 24px ; font : 13px; border: 2px solid #CCCCCC; backgroud:#E1E1E1}");
+        QString expMoreMemoryStyleSheet("QPushButton {height : 24px ; font : 13px; color: #191919; border: 2px solid #CCCCCC; backgroud:#E1E1E1}");
         QString expQuotaStylesheet( "QProgressBar {border: 0px solid grey;border-radius: 5px; height: 4px;background-color: #CCCCCC;"
                                     "text-align: center;}QProgressBar::chunk {background-color: #e20074; height: 4px;}");
         QCOMPARE(accountSet->_ui->moreMemoryButton->styleSheet(), expMoreMemoryStyleSheet);

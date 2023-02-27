@@ -7,7 +7,7 @@
 
 #include <QtTest>
 #define TEST_FLOW_AUTH
-#include "gui/nextcloudCore_autogen/include_Debug/ui_flow2authwidget.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_flow2authwidget.h"
 #include "gui/wizard/flow2authwidget.h"
 
 using namespace OCC;

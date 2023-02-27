@@ -81,6 +81,8 @@ public:
     QString windowTitle() const;
     bool useNormalWindow() const;
     void createCallDialog(const Activity &callNotification);
+    void createEditFileLocallyLoadingDialog(const QString &fileName);
+    void destroyEditFileLocallyLoadingDialog();
 
     Q_INVOKABLE void pauseResumeSync();
     Q_INVOKABLE bool syncIsPaused();
@@ -139,6 +141,7 @@ private:
     AccessManagerFactory _accessManagerFactory;
 
     QSet<qlonglong> _callsAlreadyNotified;
+    QPointer<QObject> _editFileLocallyLoadingDialog;
 };
 
 } // namespace OCC

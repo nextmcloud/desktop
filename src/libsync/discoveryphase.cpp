@@ -207,9 +207,10 @@ void DiscoveryPhase::enqueueDirectoryToDelete(const QString &path, ProcessDirect
 {
     _queuedDeletedDirectories[path] = directoryJob;
 
-    if (directoryJob->_dirItem && directoryJob->_dirItem->_isRestoration
-        && directoryJob->_dirItem->_direction == SyncFileItem::Down
-        && directoryJob->_dirItem->_instruction == CSYNC_INSTRUCTION_NEW) {
+    if (directoryJob->_dirItem &&
+            directoryJob->_dirItem->_isRestoration &&
+            directoryJob->_dirItem->_direction == SyncFileItem::Down &&
+            directoryJob->_dirItem->_instruction == CSYNC_INSTRUCTION_NEW) {
         _directoryNamesToRestoreOnPropagation.push_back(path);
     }
 }
@@ -583,14 +584,20 @@ void DiscoverySingleDirectoryJob::lsJobFinishedWithoutErrorSlot()
 
 void DiscoverySingleDirectoryJob::lsJobFinishedWithErrorSlot(QNetworkReply *r)
 {
-    QString contentType = r->header(QNetworkRequest::ContentTypeHeader).toString();
-    int httpCode = r->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    QString msg = r->errorString();
+    const auto contentType = r->header(QNetworkRequest::ContentTypeHeader).toString();
+    const auto invalidContentType = !contentType.contains("application/xml; charset=utf-8") &&
+                                    !contentType.contains("application/xml; charset=\"utf-8\"") &&
+                                    !contentType.contains("text/xml; charset=utf-8") &&
+                                    !contentType.contains("text/xml; charset=\"utf-8\"");
+    const auto httpCode = r->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    auto msg = r->errorString();
+
     qCWarning(lcDiscovery) << "LSCOL job error" << r->errorString() << httpCode << r->error();
-    if (r->error() == QNetworkReply::NoError
-        && !contentType.contains("application/xml; charset=utf-8")) {
+
+    if (r->error() == QNetworkReply::NoError && invalidContentType) {
         msg = tr("Server error: PROPFIND reply is not XML formatted!");
     }
+
     emit finished(HttpError{ httpCode, msg });
     deleteLater();
 }

@@ -66,6 +66,7 @@ set(client_UI_SRCS
     welcome/Page1Form.ui.qml
     welcome/Page2Form.ui.qml
     welcome/Page3Form.ui.qml
+
 )
 
 if(QUICK_COMPILER)
@@ -83,12 +84,18 @@ set(client_SRCS
     application.cpp
     invalidfilenamedialog.h
     invalidfilenamedialog.cpp
+    callstatechecker.h
+    callstatechecker.cpp
     conflictdialog.h
     conflictdialog.cpp
     conflictsolver.h
     conflictsolver.cpp
     connectionvalidator.h
     connectionvalidator.cpp
+    editlocallyjob.h
+    editlocallyjob.cpp
+    editlocallymanager.h
+    editlocallymanager.cpp
     folder.h
     folder.cpp
     foldercreationdialog.h
@@ -149,9 +156,8 @@ set(client_SRCS
     sharelinkwidget.cpp
     shareusermessagewidget.cpp
     shareusergrouppermissionwidget.cpp
-
-    sharemanager.h
     sharemanager.cpp
+    shareusergroupwidget.h
     shareusergroupwidget.cpp
     profilepagewidget.h
     profilepagewidget.cpp
@@ -194,11 +200,6 @@ set(client_SRCS
     remotewipe.h
     iconjob.cpp
     remotewipe.cpp
-    tray/ActivityData.cpp
-    tray/ActivityListModel.cpp
-    tray/UserModel.cpp
-    tray/NotificationHandler.cpp
-    tray/NotificationCache.cpp
     userstatusselectormodel.h
     userstatusselectormodel.cpp
     emojimodel.h
@@ -209,12 +210,22 @@ set(client_SRCS
     tray/svgimageprovider.cpp
     tray/syncstatussummary.h
     tray/syncstatussummary.cpp
+    tray/activitydata.h
+    tray/activitydata.cpp
+    tray/activitylistmodel.h
+    tray/activitylistmodel.cpp
     tray/unifiedsearchresult.h
     tray/asyncimageresponse.cpp
     tray/unifiedsearchresult.cpp
     tray/unifiedsearchresultslistmodel.h
     tray/trayimageprovider.cpp
     tray/unifiedsearchresultslistmodel.cpp
+    tray/usermodel.h
+    tray/usermodel.cpp
+    tray/notificationhandler.h
+    tray/notificationhandler.cpp
+    tray/notificationcache.h
+    tray/notificationcache.cpp
     creds/credentialsfactory.h
     tray/talkreply.cpp
     creds/credentialsfactory.cpp
@@ -251,6 +262,7 @@ set(client_SRCS
     wizard/owncloudwizard.h
     wizard/owncloudwizard.cpp
     wizard/owncloudwizardresultpage.cpp
+    wizard/slideshow.h
     wizard/slideshow.cpp
     wizard/welcomepage.h
     wizard/welcomepage.cpp
@@ -300,7 +312,7 @@ IF( NOT WIN32 AND NOT APPLE )
 set(client_SRCS ${client_SRCS} folderwatcher_linux.cpp)
 ENDIF()
 IF( WIN32 )
-set(client_SRCS ${client_SRCS} folderwatcher_win.cpp)
+set(client_SRCS ${client_SRCS} folderwatcher_win.cpp shellextensionsserver.cpp ${CMAKE_SOURCE_DIR}/src/common/shellextensionutils.cpp)
 ENDIF()
 IF( APPLE )
 list(APPEND client_SRCS folderwatcher_mac.cpp)
@@ -388,7 +400,7 @@ endif()
 
 function(generate_sized_png_from_svg icon_path size)
   set(options)
-  set(oneValueArgs OUTPUT_ICON_NAME OUTPUT_ICON_PATH)
+  set(oneValueArgs OUTPUT_ICON_NAME OUTPUT_ICON_FULL_NAME_WLE OUTPUT_ICON_PATH)
   set(multiValueArgs)
 
   cmake_parse_arguments(ARG "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -403,13 +415,18 @@ function(generate_sized_png_from_svg icon_path size)
   if (ARG_OUTPUT_ICON_PATH)
     set(icon_name_dir ${ARG_OUTPUT_ICON_PATH})
   endif ()
-  
 
-  if (EXISTS "${icon_name_dir}/${size}-${icon_name_wle}.png")
+  set(output_icon_full_name_wle "${size}-${icon_name_wle}")
+
+  if (ARG_OUTPUT_ICON_FULL_NAME_WLE)
+    set(output_icon_full_name_wle ${ARG_OUTPUT_ICON_FULL_NAME_WLE})
+  endif ()
+
+  if (EXISTS "${icon_name_dir}/${output_icon_full_name_wle}.png")
     return()
   endif()
 
-  set(icon_output_name "${size}-${icon_name_wle}.png")
+  set(icon_output_name "${output_icon_full_name_wle}.png")
   message(STATUS "Generate ${icon_output_name}")
   execute_process(COMMAND
     "${SVG_CONVERTER}" -w ${size} -h ${size} "${icon_path}" -o "${icon_output_name}"
@@ -425,6 +442,23 @@ function(generate_sized_png_from_svg icon_path size)
   else()
   endif()
 endfunction()
+
+set(STATE_ICONS_COLORS colored black white)
+
+foreach(state_icons_color ${STATE_ICONS_COLORS})
+    set(STATE_ICONS_PATH "${theme_dir}/${state_icons_color}/")
+
+    message("Generating state icons from SVG in path: ${STATE_ICONS_PATH}")
+
+    file(GLOB_RECURSE STATE_ICONS_SVG "${STATE_ICONS_PATH}/state-*.svg")
+
+    foreach(state_icon_svg ${STATE_ICONS_SVG})
+        get_filename_component(status_icon_name_wle ${state_icon_svg} NAME_WLE)
+        foreach(size IN ITEMS 16;32;64;128;256)
+            generate_sized_png_from_svg(${state_icon_svg} ${size} OUTPUT_ICON_FULL_NAME_WLE "${status_icon_name_wle}-${size}")
+        endforeach()
+    endforeach()
+endforeach()
 
 if ((APPLICATION_ICON_SET MATCHES "PNG")
     AND
@@ -450,6 +484,8 @@ if(WIN32)
 endif()
 
 set(APP_ICON_SVG "${theme_dir}/colored/${APPLICATION_ICON_NAME}-icon.svg")
+
+
 
 # generate secondary icon if available (currently for Windows only)--------------------------------------
 set(APP_SECONDARY_ICONS "${theme_dir}/colored/icons")
@@ -494,7 +530,6 @@ else()
 endif()
 
 file(GLOB_RECURSE OWNCLOUD_ICONS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-icon*")
-
 if(APPLE)
     file(GLOB_RECURSE OWNCLOUD_SIDEBAR_ICONS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-sidebar*")
     MESSAGE(STATUS "OWNCLOUD_SIDEBAR_ICONS: ${APPLICATION_ICON_NAME}: ${OWNCLOUD_SIDEBAR_ICONS}")
@@ -565,7 +600,6 @@ endif()
 set_target_properties(nextcloudCore
   PROPERTIES
   AUTOUIC ON
-  AUTORCC ON
   AUTOMOC ON
 )
 

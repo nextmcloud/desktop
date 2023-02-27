@@ -7,7 +7,7 @@
 #include <QToolBar>
 #include <QtTest>
 
-#include "gui/nextcloudCore_autogen/include_Debug/ui_settingsdialog.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_settingsdialog.h"
 #define SettingsDialog(a, b) SettingsDialog()
 #include "settingsdialog.h"
 #undef SettingsDialog
