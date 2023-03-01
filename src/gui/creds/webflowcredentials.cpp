@@ -150,6 +150,7 @@ void WebFlowCredentials::askFromUser() {
 #ifdef WITH_WEBENGINE
         bool useFlow2 = (type != DetermineAuthTypeJob::WebViewFlow);
 #else // WITH_WEBENGINE
+        Q_UNUSED(type)
         bool useFlow2 = true;
 #endif // WITH_WEBENGINE
 
@@ -163,7 +164,7 @@ void WebFlowCredentials::askFromUser() {
         }
 
         QString msg = tr("You have been logged out of %1 as user %2. Please login again.")
-                          .arg(_account->displayName(), _user);
+                          .arg(_account->prettyName(), _account->url().toDisplayString());
         _askDialog->setInfo(msg);
 
         _askDialog->show();
@@ -187,7 +188,7 @@ void WebFlowCredentials::slotAskFromUserCredentialsProvided(const QString &user,
         qCInfo(lcWebFlowCredentials()) << "Authed with the wrong user!";
 
         QString msg = tr("Please login with the user: %1")
-                .arg(_user);
+                .arg(_account->prettyName());
         _askDialog->setError(msg);
 
         if (!_askDialog->isUsingFlow2()) {

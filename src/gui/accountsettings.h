@@ -106,20 +106,31 @@ protected slots:
     void slotMoreMemory();
 
     // Encryption Related Stuff.
-    void slotShowMnemonic(const QString &mnemonic);
-    void slotNewMnemonicGenerated();
+    void slotE2eEncryptionMnemonicReady();
+    void slotE2eEncryptionGenerateKeys();
+    void slotE2eEncryptionInitializationFinished(bool isNewMnemonicGenerated);
     void slotEncryptFolderFinished(int status);
 
     void slotSelectiveSyncChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight,
                                   const QVector<int> &roles);
+    void slotPossiblyUnblacklistE2EeFoldersAndRestartSync();
 
-private:
-    void showConnectionLabel(const QString &message,
-        QStringList errors = QStringList());
-    bool event(QEvent *) override;
-    void createAccountToolbox();
+private slots:
+    void updateBlackListAndScheduleFolderSync(const QStringList &blackList, OCC::Folder *folder, const QStringList &foldersToRemoveFromBlacklist) const;
+    void folderTerminateSyncAndUpdateBlackList(const QStringList &blackList, OCC::Folder *folder, const QStringList &foldersToRemoveFromBlacklist);
+    void displayMnemonic(const QString &mnemonic);
+    void disableEncryptionForAccount(const AccountPtr &account) const;
+    void showConnectionLabel(const QString &message, QStringList errors = QStringList());
     void openIgnoredFilesDialog(const QString & absFolderPath);
     void customizeStyle();
+
+    void initializeE2eEncryption();
+    void resetE2eEncryption();
+    void checkClientSideEncryptionState();
+    void removeActionFromEncryptionMessage(const QString &actionId);
+private:
+    bool event(QEvent *) override;
+    QAction *addActionToEncryptionMessage(const QString &actionTitle, const QString &actionId);
 
     /// Returns the alias of the selected folder, empty string if none
     QString selectedFolderAlias() const;
@@ -135,6 +146,7 @@ private:
     QAction *_addAccountAction;
 
     bool _menuShown;
+    QHash<QString, QMetaObject::Connection> _folderConnections;
 
     /* for Unit Test */
     friend class:: TestAccountSettings;

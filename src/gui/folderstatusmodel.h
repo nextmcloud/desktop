@@ -44,7 +44,7 @@ public:
     enum {FileIdRole = Qt::UserRole+1};
 
     FolderStatusModel(QObject *parent = nullptr);
-    ~FolderStatusModel();
+    ~FolderStatusModel() override;
     void setAccountState(const AccountState *accountState);
 
     Qt::ItemFlags flags(const QModelIndex &) const override;
@@ -81,6 +81,8 @@ public:
         QByteArray _fileId; // the file id for this folder on the server.
 
         Qt::CheckState _checked = Qt::Checked;
+
+        bool _isNonDecryptable = false;
 
         // Whether this has a FetchLabel subrow
         bool hasLabel() const;
@@ -127,6 +129,7 @@ public slots:
     void slotSyncAllPendingBigFolders();
     void slotSyncNoPendingBigFolders();
     void slotSetProgress(const ProgressInfo &progress);
+    void e2eInitializationFinished(bool isNewMnemonicGenerated);
 
 private slots:
     void slotUpdateDirectories(const QStringList &);
@@ -148,6 +151,7 @@ private:
         const QStringList &oldBlackList) const;
     const AccountState *_accountState = nullptr;
     bool _dirty = false; // If the selective sync checkboxes were changed
+    bool _isSyncRunningForAwhile = false;
 
     /* for Unit Test */
     friend class:: TestFolderStatusModel;

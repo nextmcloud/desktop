@@ -8,8 +8,8 @@
 #include <QtTest>
 #include <QMenu>
 
-#include "gui/nextcloudCore_autogen/include_Debug/ui_shareusergroupwidget.h"
-#include "gui/nextcloudCore_autogen/include_Debug/ui_shareuserline.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_shareusergroupwidget.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_shareuserline.h"
 #include "shareusergroupwidget.h"
 #include <QCalendarWidget>
 #include "testhelper.h"

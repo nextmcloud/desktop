@@ -1,5 +1,4 @@
 find_package(Qt5 COMPONENTS Core Test Xml Network Qml Quick REQUIRED)
-
 macro(nextcloud_add_test test_class)
     set(CMAKE_AUTOMOC TRUE)
     set(OWNCLOUD_TEST_CLASS ${test_class})

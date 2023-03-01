@@ -62,6 +62,7 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     const QString &localPath,
     SharePermissions maxSharingPermissions,
     const QByteArray &numericFileId,
+    SyncJournalFileLockInfo filelockState,
     ShareDialogStartPage startPage,
     QWidget *parent)
     : QDialog(parent)
@@ -70,6 +71,7 @@ ShareDialog::ShareDialog(QPointer<AccountState> accountState,
     , _sharePath(sharePath)
     , _localPath(localPath)
     , _maxSharingPermissions(maxSharingPermissions)
+    , _filelockState(std::move(filelockState))
     , _privateLinkUrl(accountState->account()->deprecatedPrivateLinkUrl(numericFileId).toString(QUrl::FullyEncoded))
     , _startPage(startPage)
     , _userLinePermission(SharePermissionRead)

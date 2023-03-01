@@ -81,6 +81,8 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     _ui.content->setText(tr("Select a folder on your hard drive, that will be connected to your MangentaCLOUD and permanently connected. All files and sub-folders are automatically uploaded and synchronized."));
     //_ui.subContent->setText(tr("If you don't make a selection, an empty folder will automatically be created for you.");
     _ui.subHeader->setText(tr("Step 1 from 2: Local Folder"));
+
+    changeStyle();
 }
 
 FolderWizardLocalPath::~FolderWizardLocalPath() = default;
@@ -95,13 +97,17 @@ void FolderWizardLocalPath::cleanupPage()
     _ui.warnLabel->hide();
 }
 
+void FolderWizardLocalPath::isDarkMode()
+{
+}
+
 bool FolderWizardLocalPath::isComplete() const
 {
     QUrl serverUrl = _account->url();
     serverUrl.setUserName(_account->credentials()->user());
 
-    QString errorStr = FolderMan::instance()->checkPathValidityForNewFolder(
-        QDir::fromNativeSeparators(_ui.localFolderLineEdit->text()), serverUrl);
+    const auto errorStr = FolderMan::instance()->checkPathValidityForNewFolder(
+        QDir::fromNativeSeparators(_ui.localFolderLineEdit->text()), serverUrl).second;
 
 
     bool isOk = errorStr.isEmpty();
@@ -145,15 +151,29 @@ void FolderWizardLocalPath::slotChooseLocalFolder()
     emit completeChanged();
 }
 
-void FolderWizardLocalPath::isDarkMode()
-{
-//    const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
-//    if (isDarkBackground) {
-//        _ui.content->setStyleSheet("QLabel {color: #FFFFFF}");
 
-//    } else {
-//        _ui.content->setStyleSheet("QLabel {color: #191919}");
-//    }
+void FolderWizardLocalPath::changeEvent(QEvent *e)
+{
+    switch (e->type()) {
+    case QEvent::StyleChange:
+    case QEvent::PaletteChange:
+    case QEvent::ThemeChange:
+        // Notify the other widgets (Dark-/Light-Mode switching)
+        changeStyle();
+        break;
+    default:
+        break;
+    }
+
+    FormatWarningsWizardPage::changeEvent(e);
+}
+
+void FolderWizardLocalPath::changeStyle()
+{
+    const auto warnYellow = Theme::isDarkColor(QGuiApplication::palette().base().color()) ? QColor(63, 63, 0) : QColor(255, 255, 192);
+    auto modifiedPalette = _ui.warnLabel->palette();
+    modifiedPalette.setColor(QPalette::Window, warnYellow);
+    //_ui.warnLabel->setPalette(modifiedPalette);
 }
 
 // =================================================================================
@@ -187,6 +207,23 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
     _ui.subHeader->setText(tr("Step 2 from 2: Directory in your CLOUD"));
     _ui.content->setText(tr("Both folders are permanently linked, the respective contents are automatically compared and updated."));
     _ui.subContent->setText(tr("Please select or create a target folder in your MangentaCLOUD, where the content will be uploaded and synchronized."));
+}
+void FolderWizardRemotePath::isDarkMode()
+{
+//    const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
+//    if (isDarkBackground) {
+//        _ui.content->setColor(25, 25, 25);
+//        _ui.content->setStyleSheet("QLabel {color: #FFFFFF}");
+//        _ui.subContent->setStyleSheet("QLabel {color: #FFFFFF}");
+//    } else {
+//        _ui.content->setStyleSheet("QLabel {color: #191919}");
+//        _ui.subContent->setStyleSheet("QLabel {color: #191919}");
+//    }
+//    _ui.content->setPalette(QGuiApplication::palette());
+//    _ui.subContent->setPalette(QGuiApplication::palette());
+//    QPalette palette = _ui.content->palette();
+//    palette.setColor(_ui.content->foregroundRole(), rgb(25, 25, 25));
+//    _ui.content->setPalette(palette);
 }
 
 void FolderWizardRemotePath::slotAddRemoteFolder()
@@ -516,24 +553,6 @@ void FolderWizardRemotePath::initializePage()
     slotRefreshFolders();
 }
 
-void FolderWizardRemotePath::isDarkMode()
-{
-//    const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
-//    if (isDarkBackground) {
-//        _ui.content->setColor(25, 25, 25);
-//        _ui.content->setStyleSheet("QLabel {color: #FFFFFF}");
-//        _ui.subContent->setStyleSheet("QLabel {color: #FFFFFF}");
-//    } else {
-//        _ui.content->setStyleSheet("QLabel {color: #191919}");
-//        _ui.subContent->setStyleSheet("QLabel {color: #191919}");
-//    }
-//    _ui.content->setPalette(QGuiApplication::palette());
-//    _ui.subContent->setPalette(QGuiApplication::palette());
-//    QPalette palette = _ui.content->palette();
-//    palette.setColor(_ui.content->foregroundRole(), rgb(25, 25, 25));
-//    _ui.content->setPalette(palette);
-}
-
 /*void FolderWizardRemotePath::showWarn(const QString &msg) const
 {
     if (msg.isEmpty()) {
@@ -680,9 +699,10 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
 
     setWindowTitle(tr("Add Folder Sync Connection"));
     setOptions(QWizard::CancelButtonOnLeft);
-    //setButtonText(QWizard::FinishButton, tr("Add Sync Connection"));
+    setOption(QWizard::NoBackButtonOnStartPage);
+    setOption(QWizard::NoBackButtonOnLastPage);
+    button(QWizard::BackButton)->setHidden(true);
     setButtonText(QWizard::FinishButton, tr("Finish"));
-
 }
 
 FolderWizard::~FolderWizard() = default;
@@ -709,7 +729,6 @@ void FolderWizard::resizeEvent(QResizeEvent *event)
         }
     }
 }
-
 void FolderWizard::slotChangeEventCallForDarkMode()
 {
     _folderWizardSourcePage->isDarkMode();

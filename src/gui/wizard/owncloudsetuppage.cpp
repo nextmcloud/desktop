@@ -78,7 +78,8 @@ OwncloudSetupPage::OwncloudSetupPage(QWidget *parent)
     _ui.leUrl->hide();
     _ui.serverAddressDescriptionLabel->hide();
     _ui.errorLabel->hide();
-    //_ui.logoLabel->hide();
+  //_ui.logoLabel->hide();
+
 }
 
 void OwncloudSetupPage::setLogo()

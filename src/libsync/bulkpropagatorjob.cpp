@@ -391,6 +391,8 @@ void BulkPropagatorJob::slotPutFinishedOneFile(const BulkUploadItem &singleFile,
     computeFileId(singleFile._item, fileReply);
 
     singleFile._item->_etag = etag;
+    singleFile._item->_fileId = getHeaderFromJsonReply(fileReply, "fileid");
+    singleFile._item->_remotePerm = RemotePermissions::fromServerString(getHeaderFromJsonReply(fileReply, "permissions"));
 
     if (getHeaderFromJsonReply(fileReply, "X-OC-MTime") != "accepted") {
         // X-OC-MTime is supported since owncloud 5.0.   But not when chunking.
@@ -709,6 +711,7 @@ void BulkPropagatorJob::handleJobDoneErrors(SyncFileItemPtr item,
     case SyncFileItem::FileIgnored:
     case SyncFileItem::FileLocked:
     case SyncFileItem::FileNameInvalid:
+    case SyncFileItem::FileNameClash:
     case SyncFileItem::NoStatus:
     case SyncFileItem::NormalError:
     case SyncFileItem::Restoration:

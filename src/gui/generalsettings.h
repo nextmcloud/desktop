@@ -15,6 +15,8 @@
 #ifndef MIRALL_GENERALSETTINGS_H
 #define MIRALL_GENERALSETTINGS_H
 
+#include "config.h"
+
 #include <QWidget>
 #include <QPointer>
 
@@ -36,7 +38,7 @@ class GeneralSettings : public QWidget
 
 public:
     explicit GeneralSettings(QWidget *parent = nullptr);
-    ~GeneralSettings();
+    ~GeneralSettings() override;
     QSize sizeHint() const override;
 
 public slots:
@@ -50,10 +52,10 @@ private slots:
     void slotCreateDebugArchive();
     void loadMiscSettings();
     void slotTransferUsageData();
-    void slotToggleAutoUpdateCheck();
 #if defined(BUILD_UPDATER)
     void slotUpdateInfo();
     void slotUpdateCheckNow();
+    void slotToggleAutoUpdateCheck();
 #endif
 
 private:
