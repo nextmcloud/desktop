@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.3
 import Style 1.0
 
-Label {
+EnforcedPlainTextLabel {
     id: root
 
     property string toolTipText: ""
@@ -32,19 +32,9 @@ Label {
     signal pressed(QtObject mouse)
     signal clicked(QtObject mouse)
 
-    ToolTip {
-        id: customTextButtonTooltip
+    NCToolTip {
         text: root.toolTipText
-        delay: Qt.styleHints.mousePressAndHoldInterval
         visible: root.toolTipText !== "" && root.hovered
-        contentItem: Label {
-            text: customTextButtonTooltip.text
-            color: Style.ncTextColor
-        }
-        background: Rectangle {
-            border.color: Style.menuBorder
-            color: Style.backgroundColor
-        }
     }
 
     MouseArea {

@@ -30,8 +30,6 @@
 #include "configfile.h"
 #include "discovery.h"
 #include "common/vfs.h"
-#include "clientsideencryption.h"
-#include "clientsideencryptionjobs.h"
 
 #ifdef Q_OS_WIN
 #include <windows.h>
@@ -320,6 +318,8 @@ void SyncEngine::conflictRecordMaintenance()
 
 void OCC::SyncEngine::slotItemDiscovered(const OCC::SyncFileItemPtr &item)
 {
+    emit itemDiscovered(item);
+
     if (Utility::isConflictFile(item->_file))
         _seenConflictFiles.insert(item->_file);
     if (item->_instruction == CSYNC_INSTRUCTION_UPDATE_METADATA && !item->isDirectory()) {
@@ -374,6 +374,13 @@ void OCC::SyncEngine::slotItemDiscovered(const OCC::SyncFileItemPtr &item)
                     item->_status = SyncFileItem::Status::NormalError;
                     item->_instruction = CSYNC_INSTRUCTION_ERROR;
                     item->_errorString = tr("Could not update virtual file metadata: %1").arg(r.error());
+                    emit itemCompleted(item);
+                    return;
+                }
+            } else {
+                if (!FileSystem::setModTime(filePath, item->_modtime)) {
+                    item->_instruction = CSYNC_INSTRUCTION_ERROR;
+                    item->_errorString = tr("Could not update file metadata: %1").arg(filePath);
                     emit itemCompleted(item);
                     return;
                 }
@@ -442,17 +449,6 @@ void SyncEngine::startSync()
             connect(job, &CleanupPollsJob::aborted, this, &SyncEngine::slotCleanPollsJobAborted);
             job->start();
             return;
-        }
-        const auto e2EeLockedFolders = _journal->e2EeLockedFolders();
-
-        if (!e2EeLockedFolders.isEmpty()) {
-            for (const auto &e2EeLockedFolder : e2EeLockedFolders) {
-                const auto folderId = e2EeLockedFolder.first;
-                qCInfo(lcEngine()) << "start unlock job for folderId:" << folderId;
-                const auto folderToken = EncryptionHelper::decryptStringAsymmetric(_account->e2e()->_privateKey, e2EeLockedFolder.second);
-                const auto unlockJob = new OCC::UnlockEncryptFolderApiJob(_account, folderId, folderToken, _journal, this);
-                unlockJob->start();
-            }
         }
     }
 
@@ -581,7 +577,11 @@ void SyncEngine::startSync()
     if (!_discoveryPhase->_remoteFolder.endsWith('/'))
         _discoveryPhase->_remoteFolder+='/';
     _discoveryPhase->_syncOptions = _syncOptions;
-    _discoveryPhase->_shouldDiscoverLocaly = [this](const QString &s) { return shouldDiscoverLocally(s); };
+    _discoveryPhase->_shouldDiscoverLocaly = [this](const QString &path) {
+        const auto result = shouldDiscoverLocally(path);
+        qCInfo(lcEngine) << "shouldDiscoverLocaly" << path << (result ? "true" : "false");
+        return result;
+    };
     _discoveryPhase->setSelectiveSyncBlackList(selectiveSyncBlackList);
     _discoveryPhase->setSelectiveSyncWhiteList(_journal->getSelectiveSyncList(SyncJournalDb::SelectiveSyncWhiteList, &ok));
     if (!ok) {
@@ -617,8 +617,54 @@ void SyncEngine::startSync()
     connect(_discoveryPhase.data(), &DiscoveryPhase::silentlyExcluded,
         _syncFileStatusTracker.data(), &SyncFileStatusTracker::slotAddSilentlyExcluded);
 
-    auto discoveryJob = new ProcessDirectoryJob(
-        _discoveryPhase.data(), PinState::AlwaysLocal, _journal->keyValueStoreGetInt("last_sync", 0), _discoveryPhase.data());
+    ProcessDirectoryJob *discoveryJob = nullptr;
+
+    if (!singleItemDiscoveryOptions().filePathRelative.isEmpty()) {
+        _discoveryPhase->_listExclusiveFiles.clear();
+        _discoveryPhase->_listExclusiveFiles.push_back(singleItemDiscoveryOptions().filePathRelative);
+    }
+
+    if (!singleItemDiscoveryOptions().discoveryPath.isEmpty() && singleItemDiscoveryOptions().discoveryDirItem) {
+        ProcessDirectoryJob::PathTuple path = {};
+        path._local = path._original = path._server = path._target = singleItemDiscoveryOptions().discoveryPath;
+
+        SyncJournalFileRecord rec;
+        const auto localQueryMode = _journal->getFileRecord(singleItemDiscoveryOptions().discoveryDirItem->_file, &rec) && rec.isValid()
+            ? ProcessDirectoryJob::NormalQuery
+            : ProcessDirectoryJob::ParentDontExist;
+
+        const auto pinState = [this, &rec]() {
+            if (!_syncOptions._vfs || _syncOptions._vfs->mode() == Vfs::Off) {
+                return PinState::AlwaysLocal;
+            }
+            if (!rec.isValid()) {
+                return PinState::OnlineOnly;
+            }
+            const auto pinStateInDb = _journal->internalPinStates().rawForPath(singleItemDiscoveryOptions().discoveryDirItem->_file.toUtf8());
+            if (pinStateInDb) {
+                return *pinStateInDb;
+            }
+            return PinState::Unspecified;
+        }();
+
+        discoveryJob = new ProcessDirectoryJob(
+            _discoveryPhase.data(),
+            pinState,
+            path,
+            singleItemDiscoveryOptions().discoveryDirItem,
+            localQueryMode,
+            _journal->keyValueStoreGetInt("last_sync", 0),
+            _discoveryPhase.data()
+        );
+    } else {
+        discoveryJob = new ProcessDirectoryJob(
+            _discoveryPhase.data(),
+            PinState::AlwaysLocal,
+            _journal->keyValueStoreGetInt("last_sync", 0),
+            _discoveryPhase.data()
+        );
+    }
+    
     _discoveryPhase->startJob(discoveryJob);
     connect(discoveryJob, &ProcessDirectoryJob::etag, this, &SyncEngine::slotRootEtagReceived);
     connect(_discoveryPhase.data(), &DiscoveryPhase::addErrorToGui, this, &SyncEngine::addErrorToGui);
@@ -852,6 +898,8 @@ void SyncEngine::slotPropagationFinished(bool success)
 
 void SyncEngine::finalize(bool success)
 {
+    setSingleItemDiscoveryOptions({});
+
     qCInfo(lcEngine) << "Sync run took " << _stopWatch.addLapTime(QLatin1String("Sync Finished")) << "ms";
     _stopWatch.stop();
 
@@ -984,6 +1032,16 @@ void SyncEngine::setLocalDiscoveryOptions(LocalDiscoveryStyle style, std::set<QS
             ++it;
         }
     }
+}
+
+void SyncEngine::setSingleItemDiscoveryOptions(const SingleItemDiscoveryOptions &singleItemDiscoveryOptions)
+{
+    _singleItemDiscoveryOptions = singleItemDiscoveryOptions;
+}
+
+const SyncEngine::SingleItemDiscoveryOptions &SyncEngine::singleItemDiscoveryOptions() const
+{
+    return _singleItemDiscoveryOptions;
 }
 
 bool SyncEngine::shouldDiscoverLocally(const QString &path) const

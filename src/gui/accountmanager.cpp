@@ -28,16 +28,15 @@
 #include "clientsideencryption.h"
 
 namespace {
-constexpr auto urlC = "url";
-constexpr auto authTypeC = "authType";
-constexpr auto userC = "user";
-constexpr auto displayNameC = "displayName";
-constexpr auto httpUserC = "http_user";
-constexpr auto davUserC = "dav_user";
-constexpr auto caCertsKeyC = "CaCertificates";
-constexpr auto accountsC = "Accounts";
-constexpr auto versionC = "version";
-constexpr auto serverVersionC = "serverVersion";
+static const char urlC[] = "url";
+static const char authTypeC[] = "authType";
+static const char userC[] = "user";
+static const char httpUserC[] = "http_user";
+static const char davUserC[] = "dav_user";
+static const char caCertsKeyC[] = "CaCertificates";
+static const char accountsC[] = "Accounts";
+static const char versionC[] = "version";
+static const char serverVersionC[] = "serverVersion";
 
 // The maximum versions that this client can read
 static const int maxAccountsVersion = 2;
@@ -55,7 +54,7 @@ AccountManager *AccountManager::instance()
     return &instance;
 }
 
-bool AccountManager::restore()
+bool AccountManager::restore(bool alsoRestoreLegacySettings)
 {
     QStringList skipSettingsKeys;
     backwardMigrationSettingsKeys(&skipSettingsKeys, &skipSettingsKeys);
@@ -74,8 +73,7 @@ bool AccountManager::restore()
     }
 
     // If there are no accounts, check the old format.
-    if (settings->childGroups().isEmpty()
-        && !settings->contains(QLatin1String(versionC))) {
+    if (settings->childGroups().isEmpty() && !settings->contains(QLatin1String(versionC)) && alsoRestoreLegacySettings) {
         restoreFromLegacySettings();
         return true;
     }
@@ -222,7 +220,6 @@ void AccountManager::saveAccountHelper(Account *acc, QSettings &settings, bool s
     settings.setValue(QLatin1String(versionC), maxAccountVersion);
     settings.setValue(QLatin1String(urlC), acc->_url.toString());
     settings.setValue(QLatin1String(davUserC), acc->_davUser);
-    settings.setValue(QLatin1String(displayNameC), acc->_displayName);
     settings.setValue(QLatin1String(serverVersionC), acc->_serverVersion);
     if (acc->_credentials) {
         if (saveCredentials) {
@@ -322,7 +319,6 @@ AccountPtr AccountManager::loadAccountHelper(QSettings &settings)
 
     // We want to only restore settings for that auth type and the user value
     acc->_settingsMap.insert(QLatin1String(userC), settings.value(userC));
-    acc->_displayName = settings.value(QLatin1String(displayNameC), "").toString();
     QString authTypePrefix = authType + "_";
     for (const auto &key : settings.childKeys()) {
         if (!key.startsWith(authTypePrefix))

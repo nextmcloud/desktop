@@ -8,6 +8,7 @@
 #include <QtTest>
 #include "syncenginetestutils.h"
 #include <syncengine.h>
+#include <propagatorjobs.h>
 
 using namespace OCC;
 
@@ -148,6 +149,53 @@ private slots:
         fakeFolder.localModifier().remove("A/a1");
         fakeFolder.syncOnce();
         QVERIFY(itemDidCompleteSuccessfully(completeSpy, "A/a1"));
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+    }
+
+    void testLocalDeleteWithReuploadForNewLocalFiles()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+
+        // create folders hierarchy with some nested dirs and files
+        fakeFolder.localModifier().mkdir("A");
+        fakeFolder.localModifier().insert("A/existingfile_A.txt", 100);
+        fakeFolder.localModifier().mkdir("A/B");
+        fakeFolder.localModifier().insert("A/B/existingfile_B.data", 100);
+        fakeFolder.localModifier().mkdir("A/B/C");
+        fakeFolder.localModifier().mkdir("A/B/C/c1");
+        fakeFolder.localModifier().mkdir("A/B/C/c1/c2");
+        fakeFolder.localModifier().insert("A/B/C/c1/c2/existingfile_C2.md", 100);
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        // make sure everything is uploaded
+        QVERIFY(fakeFolder.currentRemoteState().find("A/B/C/c1/c2"));
+        QVERIFY(fakeFolder.currentRemoteState().find("A/existingfile_A.txt"));
+        QVERIFY(fakeFolder.currentRemoteState().find("A/B/existingfile_B.data"));
+        QVERIFY(fakeFolder.currentRemoteState().find("A/B/C/c1/c2/existingfile_C2.md"));
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        // remove a folder "A" on the server
+        fakeFolder.remoteModifier().remove("A");
+
+        // put new files and folders into a local folder "A"
+        fakeFolder.localModifier().insert("A/B/C/c1/c2/newfile.txt", 100);
+        fakeFolder.localModifier().insert("A/B/C/c1/c2/Readme.data", 100);
+        fakeFolder.localModifier().mkdir("A/B/C/c1/c2/newfiles");
+        fakeFolder.localModifier().insert("A/B/C/c1/c2/newfiles/newfile.txt", 100);
+        fakeFolder.localModifier().insert("A/B/C/c1/c2/newfiles/Readme.data", 100);
+
+        QVERIFY(fakeFolder.syncOnce());
+        // make sure new files and folders are uploaded (restored)
+        QVERIFY(fakeFolder.currentLocalState().find("A/B/C/c1/c2"));
+        QVERIFY(fakeFolder.currentLocalState().find("A/B/C/c1/c2/Readme.data"));
+        QVERIFY(fakeFolder.currentLocalState().find("A/B/C/c1/c2/newfiles/newfile.txt"));
+        QVERIFY(fakeFolder.currentLocalState().find("A/B/C/c1/c2/newfiles/Readme.data"));
+        // and the old files are removed
+        QVERIFY(!fakeFolder.currentLocalState().find("A/existingfile_A.txt"));
+        QVERIFY(!fakeFolder.currentLocalState().find("A/B/existingfile_B.data"));
+        QVERIFY(!fakeFolder.currentLocalState().find("A/B/C/c1/c2/existingfile_C2.md"));
+
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
     }
 
@@ -551,16 +599,27 @@ private slots:
         QObject parent;
 
         QByteArray checksumValue;
+        QByteArray checksumValueRecalculated;
         QByteArray contentMd5Value;
+        bool isChecksumRecalculateSupported = false;
 
         fakeFolder.setServerOverride([&](QNetworkAccessManager::Operation op, const QNetworkRequest &request, QIODevice *) -> QNetworkReply * {
             if (op == QNetworkAccessManager::GetOperation) {
                 auto reply = new FakeGetReply(fakeFolder.remoteModifier(), op, request, &parent);
                 if (!checksumValue.isNull())
-                    reply->setRawHeader("OC-Checksum", checksumValue);
+                    reply->setRawHeader(OCC::checkSumHeaderC, checksumValue);
                 if (!contentMd5Value.isNull())
-                    reply->setRawHeader("Content-MD5", contentMd5Value);
+                    reply->setRawHeader(OCC::contentMd5HeaderC, contentMd5Value);
                 return reply;
+            } else if (op == QNetworkAccessManager::CustomOperation) {
+                if (request.hasRawHeader(OCC::checksumRecalculateOnServerHeaderC)) {
+                    if (!isChecksumRecalculateSupported) {
+                        return new FakeErrorReply(op, request, &parent, 402);
+                    }
+                    auto reply = new FakeGetReply(fakeFolder.remoteModifier(), op, request, &parent);
+                    reply->setRawHeader(OCC::checkSumHeaderC, checksumValueRecalculated);
+                    return reply;
+                }
             }
             return nullptr;
         });
@@ -575,8 +634,11 @@ private slots:
         fakeFolder.remoteModifier().create("A/a4", 16, 'A');
         QVERIFY(!fakeFolder.syncOnce());
 
+        const QByteArray matchedSha1Checksum(QByteArrayLiteral("SHA1:19b1928d58a2030d08023f3d7054516dbc186f20"));
+        const QByteArray mismatchedSha1Checksum(matchedSha1Checksum.chopped(1));
+
         // Good OC-Checksum
-        checksumValue = "SHA1:19b1928d58a2030d08023f3d7054516dbc186f20"; // printf 'A%.0s' {1..16} | sha1sum -
+        checksumValue = matchedSha1Checksum; // printf 'A%.0s' {1..16} | sha1sum -
         QVERIFY(fakeFolder.syncOnce());
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
         checksumValue = QByteArray();
@@ -610,6 +672,35 @@ private slots:
         checksumValue =  "Unsupported:XXXX SHA1:19b1928d58a2030d08023f3d7054516dbc186f20 Invalid:XxX";
         QVERIFY(fakeFolder.syncOnce()); // The supported SHA1 checksum is valid now, so the file are downloaded
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        // Begin Test mismatch recalculation---------------------------------------------------------------------------------
+
+        const auto prevServerVersion = fakeFolder.account()->serverVersion();
+        fakeFolder.account()->setServerVersion(QString("%1.0.0").arg(fakeFolder.account()->checksumRecalculateServerVersionMinSupportedMajor()));
+
+        // Mismatched OC-Checksum and X-Recalculate-Hash is not supported -> sync must fail
+        isChecksumRecalculateSupported = false;
+        checksumValue = mismatchedSha1Checksum;
+        checksumValueRecalculated = matchedSha1Checksum;
+        fakeFolder.remoteModifier().create("A/a9", 16, 'A');
+        QVERIFY(!fakeFolder.syncOnce());
+
+        // Mismatched OC-Checksum and X-Recalculate-Hash is supported, but, recalculated checksum is again mismatched -> sync must fail
+        isChecksumRecalculateSupported = true;
+        checksumValue = mismatchedSha1Checksum;
+        checksumValueRecalculated = mismatchedSha1Checksum;
+        QVERIFY(!fakeFolder.syncOnce());
+
+        // Mismatched OC-Checksum and X-Recalculate-Hash is supported, and, recalculated checksum is a match -> sync must succeed
+        isChecksumRecalculateSupported = true;
+        checksumValue = mismatchedSha1Checksum;
+        checksumValueRecalculated = matchedSha1Checksum;
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+        checksumValue = QByteArray();
+
+        fakeFolder.account()->setServerVersion(prevServerVersion);
+        // End Test mismatch recalculation-----------------------------------------------------------------------------------
     }
 
     // Tests the behavior of invalid filename detection
@@ -886,6 +977,315 @@ private slots:
         QVERIFY(!fakeFolder.syncOnce());
         QCOMPARE(nPUT, 6);
         QCOMPARE(nPOST, 0);
+    }
+
+    /**
+     * Checks whether subsequent large uploads are skipped after a 507 error
+     */
+    void testNetworkErrorsWithBulkUpload()
+    {
+        FakeFolder fakeFolder{ FileInfo::A12_B12_C12_S12() };
+        fakeFolder.syncEngine().account()->setCapabilities({ { "dav", QVariantMap{ {"bulkupload", "1.0"} } } });
+
+        // Disable parallel uploads
+        SyncOptions syncOptions;
+        syncOptions._parallelNetworkJobs = 0;
+        fakeFolder.syncEngine().setSyncOptions(syncOptions);
+
+        int nPUT = 0;
+        int nPOST = 0;
+        fakeFolder.setServerOverride([&](QNetworkAccessManager::Operation op, const QNetworkRequest &request, QIODevice *) -> QNetworkReply * {
+            auto contentType = request.header(QNetworkRequest::ContentTypeHeader).toString();
+            if (op == QNetworkAccessManager::PostOperation) {
+                ++nPOST;
+                if (contentType.startsWith(QStringLiteral("multipart/related; boundary="))) {
+                    return new FakeErrorReply(op, request, this, 400);
+                }
+                return  nullptr;
+            } else if (op == QNetworkAccessManager::PutOperation) {
+                ++nPUT;
+            }
+            return  nullptr;
+        });
+
+        fakeFolder.localModifier().insert("A/big1", 1);
+        fakeFolder.localModifier().insert("A/big2", 1);
+        fakeFolder.localModifier().insert("A/big3", 1);
+        fakeFolder.localModifier().insert("A/big4", 1);
+        fakeFolder.localModifier().insert("A/big5", 1);
+        fakeFolder.localModifier().insert("A/big6", 1);
+        fakeFolder.localModifier().insert("A/big7", 1);
+        fakeFolder.localModifier().insert("A/big8", 1);
+        fakeFolder.localModifier().insert("B/big8", 1);
+
+        QVERIFY(!fakeFolder.syncOnce());
+        QCOMPARE(nPUT, 0);
+        QCOMPARE(nPOST, 1);
+        nPUT = 0;
+        nPOST = 0;
+
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(nPUT, 9);
+        QCOMPARE(nPOST, 0);
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+    }
+
+    void testRemoteMoveFailedInsufficientStorageLocalMoveRolledBack()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+
+        // create a big shared folder with some files
+        fakeFolder.remoteModifier().mkdir("big_shared_folder");
+        fakeFolder.remoteModifier().mkdir("big_shared_folder/shared_files");
+        fakeFolder.remoteModifier().insert("big_shared_folder/shared_files/big_shared_file_A.data", 1000);
+        fakeFolder.remoteModifier().insert("big_shared_folder/shared_files/big_shared_file_B.data", 1000);
+
+        // make sure big shared folder is synced
+        QVERIFY(fakeFolder.syncOnce());
+        QVERIFY(fakeFolder.currentLocalState().find("big_shared_folder/shared_files/big_shared_file_A.data"));
+        QVERIFY(fakeFolder.currentLocalState().find("big_shared_folder/shared_files/big_shared_file_B.data"));
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        // try to move from a big shared folder to your own folder
+        fakeFolder.localModifier().mkdir("own_folder");
+        fakeFolder.localModifier().rename(
+            "big_shared_folder/shared_files/big_shared_file_A.data", "own_folder/big_shared_file_A.data");
+        fakeFolder.localModifier().rename(
+            "big_shared_folder/shared_files/big_shared_file_B.data", "own_folder/big_shared_file_B.data");
+
+        // emulate server MOVE 507 error
+        QObject parent;
+        fakeFolder.setServerOverride([&](QNetworkAccessManager::Operation op, const QNetworkRequest &request,
+                                         QIODevice *outgoingData) -> QNetworkReply * {
+            Q_UNUSED(outgoingData)
+
+            if (op == QNetworkAccessManager::CustomOperation
+                && request.attribute(QNetworkRequest::CustomVerbAttribute).toString() == QStringLiteral("MOVE")) {
+                return new FakeErrorReply(op, request, &parent, 507);
+            }
+            return nullptr;
+        });
+
+        // make sure the first sync failes and files get restored to original folder
+        QVERIFY(!fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.currentLocalState().find("big_shared_folder/shared_files/big_shared_file_A.data"));
+        QVERIFY(fakeFolder.currentLocalState().find("big_shared_folder/shared_files/big_shared_file_B.data"));
+        QVERIFY(!fakeFolder.currentLocalState().find("own_folder/big_shared_file_A.data"));
+        QVERIFY(!fakeFolder.currentLocalState().find("own_folder/big_shared_file_B.data"));
+
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+    }
+
+    void testRemoteMoveFailedForbiddenLocalMoveRolledBack()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+
+        // create a big shared folder with some files
+        fakeFolder.remoteModifier().mkdir("big_shared_folder");
+        fakeFolder.remoteModifier().mkdir("big_shared_folder/shared_files");
+        fakeFolder.remoteModifier().insert("big_shared_folder/shared_files/big_shared_file_A.data", 1000);
+        fakeFolder.remoteModifier().insert("big_shared_folder/shared_files/big_shared_file_B.data", 1000);
+
+        // make sure big shared folder is synced
+        QVERIFY(fakeFolder.syncOnce());
+        QVERIFY(fakeFolder.currentLocalState().find("big_shared_folder/shared_files/big_shared_file_A.data"));
+        QVERIFY(fakeFolder.currentLocalState().find("big_shared_folder/shared_files/big_shared_file_B.data"));
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        // try to move from a big shared folder to your own folder
+        fakeFolder.localModifier().mkdir("own_folder");
+        fakeFolder.localModifier().rename(
+            "big_shared_folder/shared_files/big_shared_file_A.data", "own_folder/big_shared_file_A.data");
+        fakeFolder.localModifier().rename(
+            "big_shared_folder/shared_files/big_shared_file_B.data", "own_folder/big_shared_file_B.data");
+
+        // emulate server MOVE 507 error
+        QObject parent;
+        fakeFolder.setServerOverride([&](QNetworkAccessManager::Operation op, const QNetworkRequest &request,
+                                         QIODevice *outgoingData) -> QNetworkReply * {
+            Q_UNUSED(outgoingData)
+
+            auto attributeCustomVerb = request.attribute(QNetworkRequest::CustomVerbAttribute).toString();
+
+            if (op == QNetworkAccessManager::CustomOperation
+                && request.attribute(QNetworkRequest::CustomVerbAttribute).toString() == QStringLiteral("MOVE")) {
+                return new FakeErrorReply(op, request, &parent, 403);
+            }
+            return nullptr;
+        });
+
+        // make sure the first sync failes and files get restored to original folder
+        QVERIFY(!fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.currentLocalState().find("big_shared_folder/shared_files/big_shared_file_A.data"));
+        QVERIFY(fakeFolder.currentLocalState().find("big_shared_folder/shared_files/big_shared_file_B.data"));
+        QVERIFY(!fakeFolder.currentLocalState().find("own_folder/big_shared_file_A.data"));
+        QVERIFY(!fakeFolder.currentLocalState().find("own_folder/big_shared_file_B.data"));
+
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+    }
+
+    void testFolderWithFilesInError()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+
+        fakeFolder.setServerOverride([&](QNetworkAccessManager::Operation op, const QNetworkRequest &request, QIODevice *outgoingData) -> QNetworkReply * {
+            Q_UNUSED(outgoingData)
+
+            if (op == QNetworkAccessManager::GetOperation) {
+                const auto fileName = getFilePathFromUrl(request.url());
+                if (fileName == QStringLiteral("aaa/subfolder/foo")) {
+                    return new FakeErrorReply(op, request, &fakeFolder.syncEngine(), 403);
+                }
+            }
+            return nullptr;
+        });
+
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa"));
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa/subfolder"));
+        fakeFolder.remoteModifier().insert(QStringLiteral("aaa/subfolder/bar"));
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().insert(QStringLiteral("aaa/subfolder/foo"));
+        QVERIFY(!fakeFolder.syncOnce());
+
+        QVERIFY(!fakeFolder.syncOnce());
+    }
+
+    void testInvalidMtimeRecoveryAtStart()
+    {
+        constexpr auto INVALID_MTIME = 0;
+        constexpr auto CURRENT_MTIME = 1646057277;
+
+        FakeFolder fakeFolder{FileInfo{}};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        const QString fooFileRootFolder("foo");
+        const QString barFileRootFolder("bar");
+        const QString fooFileSubFolder("subfolder/foo");
+        const QString barFileSubFolder("subfolder/bar");
+        const QString fooFileAaaSubFolder("aaa/subfolder/foo");
+        const QString barFileAaaSubFolder("aaa/subfolder/bar");
+
+        fakeFolder.remoteModifier().insert(fooFileRootFolder);
+        fakeFolder.remoteModifier().insert(barFileRootFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileSubFolder);
+        fakeFolder.remoteModifier().insert(barFileSubFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa"));
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa/subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileAaaSubFolder);
+        fakeFolder.remoteModifier().setModTime(fooFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MTIME));
+        fakeFolder.remoteModifier().insert(barFileAaaSubFolder);
+        fakeFolder.remoteModifier().setModTime(barFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MTIME));
+
+        QVERIFY(!fakeFolder.syncOnce());
+
+        QVERIFY(!fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().setModTimeKeepEtag(fooFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.remoteModifier().setModTimeKeepEtag(barFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        auto expectedState = fakeFolder.currentLocalState();
+        QCOMPARE(fakeFolder.currentRemoteState(), expectedState);
+    }
+
+    void testInvalidMtimeRecovery()
+    {
+        constexpr auto INVALID_MTIME = 0;
+        constexpr auto CURRENT_MTIME = 1646057277;
+
+        FakeFolder fakeFolder{FileInfo{}};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        const QString fooFileRootFolder("foo");
+        const QString barFileRootFolder("bar");
+        const QString fooFileSubFolder("subfolder/foo");
+        const QString barFileSubFolder("subfolder/bar");
+        const QString fooFileAaaSubFolder("aaa/subfolder/foo");
+        const QString barFileAaaSubFolder("aaa/subfolder/bar");
+
+        fakeFolder.remoteModifier().insert(fooFileRootFolder);
+        fakeFolder.remoteModifier().insert(barFileRootFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileSubFolder);
+        fakeFolder.remoteModifier().insert(barFileSubFolder);
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa"));
+        fakeFolder.remoteModifier().mkdir(QStringLiteral("aaa/subfolder"));
+        fakeFolder.remoteModifier().insert(fooFileAaaSubFolder);
+        fakeFolder.remoteModifier().insert(barFileAaaSubFolder);
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().setModTime(fooFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MTIME));
+        fakeFolder.remoteModifier().setModTime(barFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(INVALID_MTIME));
+
+        QVERIFY(!fakeFolder.syncOnce());
+
+        QVERIFY(!fakeFolder.syncOnce());
+
+        fakeFolder.remoteModifier().setModTimeKeepEtag(fooFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+        fakeFolder.remoteModifier().setModTimeKeepEtag(barFileAaaSubFolder, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        auto expectedState = fakeFolder.currentLocalState();
+        QCOMPARE(fakeFolder.currentRemoteState(), expectedState);
+    }
+
+    void testServerUpdatingMTimeShouldNotCreateConflicts()
+    {
+        constexpr auto testFile = "test.txt";
+        constexpr auto CURRENT_MTIME = 1646057277;
+
+        FakeFolder fakeFolder{ FileInfo{} };
+
+        fakeFolder.remoteModifier().insert(testFile);
+        fakeFolder.remoteModifier().setModTimeKeepEtag(testFile, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME - 2));
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::DatabaseAndFilesystem);
+        QVERIFY(fakeFolder.syncOnce());
+        auto localState = fakeFolder.currentLocalState();
+        QCOMPARE(localState, fakeFolder.currentRemoteState());
+        QCOMPARE(printDbData(fakeFolder.dbState()), printDbData(fakeFolder.currentRemoteState()));
+        const auto fileFirstSync = localState.find(testFile);
+
+        QVERIFY(fileFirstSync);
+        QCOMPARE(fileFirstSync->lastModified.toSecsSinceEpoch(), CURRENT_MTIME - 2);
+
+        fakeFolder.remoteModifier().setModTimeKeepEtag(testFile, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME - 1));
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::FilesystemOnly);
+        QVERIFY(fakeFolder.syncOnce());
+        localState = fakeFolder.currentLocalState();
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+        QCOMPARE(printDbData(fakeFolder.dbState()), printDbData(fakeFolder.currentRemoteState()));
+        const auto fileSecondSync = localState.find(testFile);
+        QVERIFY(fileSecondSync);
+        QCOMPARE(fileSecondSync->lastModified.toSecsSinceEpoch(), CURRENT_MTIME - 1);
+
+        fakeFolder.remoteModifier().setModTime(testFile, QDateTime::fromSecsSinceEpoch(CURRENT_MTIME));
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::FilesystemOnly);
+        QVERIFY(fakeFolder.syncOnce());
+        localState = fakeFolder.currentLocalState();
+        QCOMPARE(localState, fakeFolder.currentRemoteState());
+        QCOMPARE(printDbData(fakeFolder.dbState()), printDbData(fakeFolder.currentRemoteState()));
+        const auto fileThirdSync = localState.find(testFile);
+        QVERIFY(fileThirdSync);
+        QCOMPARE(fileThirdSync->lastModified.toSecsSinceEpoch(), CURRENT_MTIME);
     }
 };
 

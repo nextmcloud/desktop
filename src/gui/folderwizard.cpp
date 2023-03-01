@@ -46,15 +46,15 @@ namespace OCC {
 QString FormatWarningsWizardPage::formatWarnings(const QStringList &warnings) const
 {
     QString ret;
-    //if (warnings.count() == 1) {
+    if (warnings.count() == 1) {
         ret = tr("<b>Warning:</b> %1").arg(warnings.first());
-    /*} else if (warnings.count() > 1) {
+    } else if (warnings.count() > 1) {
         ret = tr("<b>Warning:</b>") + " <ul>";
         Q_FOREACH (QString warning, warnings) {
             ret += QString::fromLatin1("<li>%1</li>").arg(warning);
         }
         ret += "</ul>";
-    }*/
+    }
 
     return ret;
 }
@@ -72,15 +72,11 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     serverUrl.setUserName(_account->credentials()->user());
     QString defaultPath = QDir::homePath() + QLatin1Char('/') + Theme::instance()->appName();
     defaultPath = FolderMan::instance()->findGoodPathForNewSyncFolder(defaultPath, serverUrl);
-   //_ui.localFolderLineEdit->setText(QDir::toNativeSeparators(defaultPath));
-    _ui.localFolderLineEdit->setText(tr("Please select a folder"));
+    _ui.localFolderLineEdit->setText(QDir::toNativeSeparators(defaultPath));
     _ui.localFolderLineEdit->setToolTip(tr("Enter the path to the local folder."));
 
     _ui.warnLabel->setTextFormat(Qt::RichText);
     _ui.warnLabel->hide();
-    _ui.content->setText(tr("Select a folder on your hard drive, that will be connected to your MangentaCLOUD and permanently connected. All files and sub-folders are automatically uploaded and synchronized."));
-    //_ui.subContent->setText(tr("If you don't make a selection, an empty folder will automatically be created for you.");
-    _ui.subHeader->setText(tr("Step 1 from 2: Local Folder"));
 
     changeStyle();
 }
@@ -169,7 +165,7 @@ void FolderWizardLocalPath::changeStyle()
     const auto warnYellow = Theme::isDarkColor(QGuiApplication::palette().base().color()) ? QColor(63, 63, 0) : QColor(255, 255, 192);
     auto modifiedPalette = _ui.warnLabel->palette();
     modifiedPalette.setColor(QPalette::Window, warnYellow);
-    //_ui.warnLabel->setPalette(modifiedPalette);
+    _ui.warnLabel->setPalette(modifiedPalette);
 }
 
 // =================================================================================
@@ -180,9 +176,7 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
 
 {
     _ui.setupUi(this);
-    //_ui.warnFrame->hide();
-  //  _ui.warnLabel->hide();
-    _ui.folderEntry->hide();
+    _ui.warnFrame->hide();
 
     _ui.folderTreeWidget->setSortingEnabled(true);
     _ui.folderTreeWidget->sortByColumn(0, Qt::AscendingOrder);
@@ -200,9 +194,6 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
     _ui.folderTreeWidget->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     // Make sure that there will be a scrollbar when the contents is too wide
     _ui.folderTreeWidget->header()->setStretchLastSection(false);
-    _ui.subHeader->setText(tr("Step 2 from 2: Directory in your CLOUD"));
-    _ui.content->setText(tr("Both folders are permanently linked, the respective contents are automatically compared and updated."));
-    _ui.subContent->setText(tr("Please select or create a target folder in your MangentaCLOUD, where the content will be uploaded and synchronized."));
 }
 
 void FolderWizardRemotePath::slotAddRemoteFolder()
@@ -217,7 +208,7 @@ void FolderWizardRemotePath::slotAddRemoteFolder()
     auto *dlg = new QInputDialog(this);
 
     dlg->setWindowTitle(tr("Create Remote Folder"));
-    dlg->setLabelText(tr("Enter the name of the new folder to be created below '%1':")
+    dlg->setLabelText(tr("Enter the name of the new folder to be created below \"%1\":")
                           .arg(parent));
     dlg->open(this, SLOT(slotCreateRemoteFolder(QString)));
     dlg->setAttribute(Qt::WA_DeleteOnClose);
@@ -246,7 +237,7 @@ void FolderWizardRemotePath::slotCreateRemoteFolder(const QString &folder)
 void FolderWizardRemotePath::slotCreateRemoteFolderFinished()
 {
     qCDebug(lcWizard) << "webdav mkdir request finished";
-  //  showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
+    showWarn(tr("Folder was successfully created on %1.").arg(Theme::instance()->appNameGUI()));
     slotRefreshFolders();
     _ui.folderEntry->setText(static_cast<MkColJob *>(sender())->path());
     slotLsColFolderEntry();
@@ -256,10 +247,10 @@ void FolderWizardRemotePath::slotHandleMkdirNetworkError(QNetworkReply *reply)
 {
     qCWarning(lcWizard) << "webdav mkdir request failed:" << reply->error();
     if (!_account->credentials()->stillValid(reply)) {
-      //  showWarn(tr("Authentication failed accessing %1").arg(Theme::instance()->appNameGUI()));
+        showWarn(tr("Authentication failed accessing %1").arg(Theme::instance()->appNameGUI()));
     } else {
-       // showWarn(tr("Failed to create the folder on %1. Please check manually.")
-              //       .arg(Theme::instance()->appNameGUI()));
+        showWarn(tr("Failed to create the folder on %1. Please check manually.")
+                     .arg(Theme::instance()->appNameGUI()));
     }
 }
 
@@ -271,13 +262,13 @@ void FolderWizardRemotePath::slotHandleLsColNetworkError(QNetworkReply *reply)
     // is selected in the tree view.
     int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (httpCode == 404) {
-      //  showWarn(QString()); // hides the warning pane
+        showWarn(QString()); // hides the warning pane
         return;
     }
     auto job = qobject_cast<LsColJob *>(sender());
     ASSERT(job);
-   // showWarn(tr("Failed to list a folder. Error: %1")
-               //  .arg(job->errorStringParsingBody()));
+    showWarn(tr("Failed to list a folder. Error: %1")
+                 .arg(job->errorStringParsingBody()));
 }
 
 static QTreeWidgetItem *findFirstChild(QTreeWidgetItem *parent, const QString &text)
@@ -356,10 +347,6 @@ void FolderWizardRemotePath::slotUpdateDirectories(const QStringList &list)
     if (!root) {
         root = new QTreeWidgetItem(_ui.folderTreeWidget);
         root->setText(0, Theme::instance()->appNameGUI());
-        root->setTextColor(0, QColor("grey"));
-        QFont font;
-        font.setBold(true);
-        root->setFont(0, font);
         root->setIcon(0, Theme::instance()->applicationIcon());
         root->setToolTip(0, tr("Choose this to sync the entire account"));
         root->setData(0, Qt::UserRole, "/");
@@ -423,7 +410,7 @@ void FolderWizardRemotePath::slotCurrentItemChanged(QTreeWidgetItem *item)
         if (!dir.startsWith(QLatin1Char('/'))) {
             dir.prepend(QLatin1Char('/'));
         }
-        //_ui.folderEntry->setText(dir);
+        _ui.folderEntry->setText(dir);
     }
 
     emit completeChanged();
@@ -504,49 +491,42 @@ bool FolderWizardRemotePath::isComplete() const
         }
         QString curDir = f->remotePathTrailingSlash();
         if (QDir::cleanPath(dir) == QDir::cleanPath(curDir)) {
-            warnStrings.append(tr("This folder is already synchronized in the MagentaCLOUD."));
-        }
-        else {
-           // _ui.warnLabel->hide();
-        }
-       /* else if (dir.startsWith(curDir)) {
+            warnStrings.append(tr("This folder is already being synced."));
+        } else if (dir.startsWith(curDir)) {
             warnStrings.append(tr("You are already syncing <i>%1</i>, which is a parent folder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
         } else if (curDir.startsWith(dir)) {
             warnStrings.append(tr("You are already syncing <i>%1</i>, which is a subfolder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
-        }*/
+        }
     }
 
-  //  if (!warnStrings.empty())
-  //      showWarn(formatWarnings(warnStrings));
+    showWarn(formatWarnings(warnStrings));
     return true;
 }
 
 void FolderWizardRemotePath::cleanupPage()
 {
-  //  showWarn();
+    showWarn();
 }
 
 void FolderWizardRemotePath::initializePage()
 {
-  //  showWarn();
+    showWarn();
     slotRefreshFolders();
 }
 
-/*void FolderWizardRemotePath::showWarn(const QString &msg) const
+void FolderWizardRemotePath::showWarn(const QString &msg) const
 {
     if (msg.isEmpty()) {
-        //_ui.warnFrame->hide();
-        _ui.warnLabel->hide();
+        _ui.warnFrame->hide();
 
     } else {
-        //_ui.warnFrame->show();
-        _ui.warnLabel->show();
+        _ui.warnFrame->show();
         _ui.warnLabel->setText(msg);
     }
 }
-*/
+
 // ====================================================================================
-/*
+
 FolderWizardSelectiveSync::FolderWizardSelectiveSync(const AccountPtr &account)
 {
     auto *layout = new QVBoxLayout(this);
@@ -642,7 +622,7 @@ void FolderWizardSelectiveSync::virtualFilesCheckboxClicked()
         });
     }
 }
-*/
+
 
 // ====================================================================================
 
@@ -654,38 +634,22 @@ void FolderWizardSelectiveSync::virtualFilesCheckboxClicked()
 FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     : QWizard(parent)
     , _folderWizardSourcePage(new FolderWizardLocalPath(account))
-    , _folderWizardTargetPage(new FolderWizardRemotePath(account))
-    //, _folderWizardTargetPage(nullptr)
-    //, _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
+    , _folderWizardTargetPage(nullptr)
+    , _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
 {
-    setWizardStyle(QWizard::ClassicStyle);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);
     _folderWizardSourcePage->installEventFilter(this);
-    this->setObjectName("wizard");
-    //const QString style = QLatin1String("background-color:#ffffff;");
-    this->setStyleSheet("#wizard { background-color : #ffffff; }");
-
-	/*if (!Theme::instance()->singleSyncFolder())
-    {
+    if (!Theme::instance()->singleSyncFolder()) {
         _folderWizardTargetPage = new FolderWizardRemotePath(account);
         setPage(Page_Target, _folderWizardTargetPage);
         _folderWizardTargetPage->installEventFilter(this);
     }
     setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
-	*/
-
-    setPage(Page_Target, _folderWizardTargetPage);
-    _folderWizardTargetPage->installEventFilter(this);
-    //setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
 
     setWindowTitle(tr("Add Folder Sync Connection"));
-    //setWindowIcon(QIcon(QLatin1String(":/client/theme/magenta/MagentaCLOUD_App-Icon-whitespace.svg")));
     setOptions(QWizard::CancelButtonOnLeft);
-    setOption(QWizard::NoBackButtonOnStartPage);
-    setOption(QWizard::NoBackButtonOnLastPage);
-    button(QWizard::BackButton)->setHidden(true);
-    setButtonText(QWizard::FinishButton, tr("Finish"));
+    setButtonText(QWizard::FinishButton, tr("Add Sync Connection"));
 }
 
 FolderWizard::~FolderWizard() = default;

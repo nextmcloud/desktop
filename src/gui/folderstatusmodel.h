@@ -23,8 +23,6 @@
 #include <QPointer>
 
 class QNetworkReply;
-class TestFolderStatusModel;
-
 namespace OCC {
 
 Q_DECLARE_LOGGING_CATEGORY(lcFolderStatus)
@@ -82,8 +80,6 @@ public:
 
         Qt::CheckState _checked = Qt::Checked;
 
-        bool _isNonDecryptable = false;
-
         // Whether this has a FetchLabel subrow
         bool hasLabel() const;
 
@@ -129,7 +125,6 @@ public slots:
     void slotSyncAllPendingBigFolders();
     void slotSyncNoPendingBigFolders();
     void slotSetProgress(const ProgressInfo &progress);
-    void e2eInitializationFinished(bool isNewMnemonicGenerated);
 
 private slots:
     void slotUpdateDirectories(const QStringList &);
@@ -151,10 +146,8 @@ private:
         const QStringList &oldBlackList) const;
     const AccountState *_accountState = nullptr;
     bool _dirty = false; // If the selective sync checkboxes were changed
-    bool _isSyncRunningForAwhile = false;
 
-    /* for Unit Test */
-    friend class:: TestFolderStatusModel;
+    bool _isSyncRunningForAwhile = false;
 
     /**
      * Keeps track of items that are fetching data from the server.

@@ -31,7 +31,6 @@ class QModelIndex;
 class QNetworkReply;
 class QListWidgetItem;
 class QLabel;
-class TestAccountSettings;
 
 namespace OCC {
 
@@ -103,7 +102,6 @@ protected slots:
     void slotFolderListClicked(const QModelIndex &indx);
     void doExpand();
     void slotLinkActivated(const QString &link);
-    void slotMoreMemory();
 
     // Encryption Related Stuff.
     void slotE2eEncryptionMnemonicReady();
@@ -113,23 +111,18 @@ protected slots:
 
     void slotSelectiveSyncChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight,
                                   const QVector<int> &roles);
-    void slotPossiblyUnblacklistE2EeFoldersAndRestartSync();
 
-private slots:
-    void updateBlackListAndScheduleFolderSync(const QStringList &blackList, OCC::Folder *folder, const QStringList &foldersToRemoveFromBlacklist) const;
-    void folderTerminateSyncAndUpdateBlackList(const QStringList &blackList, OCC::Folder *folder, const QStringList &foldersToRemoveFromBlacklist);
+private:
     void displayMnemonic(const QString &mnemonic);
-    void disableEncryptionForAccount(const AccountPtr &account) const;
-    void showConnectionLabel(const QString &message, QStringList errors = QStringList());
+    void showConnectionLabel(const QString &message,
+        QStringList errors = QStringList());
+    bool event(QEvent *) override;
+    void createAccountToolbox();
     void openIgnoredFilesDialog(const QString & absFolderPath);
     void customizeStyle();
 
     void initializeE2eEncryption();
-    void resetE2eEncryption();
-    void checkClientSideEncryptionState();
     void removeActionFromEncryptionMessage(const QString &actionId);
-private:
-    bool event(QEvent *) override;
     QAction *addActionToEncryptionMessage(const QString &actionTitle, const QString &actionId);
 
     /// Returns the alias of the selected folder, empty string if none
@@ -146,10 +139,6 @@ private:
     QAction *_addAccountAction;
 
     bool _menuShown;
-    QHash<QString, QMetaObject::Connection> _folderConnections;
-
-    /* for Unit Test */
-    friend class:: TestAccountSettings;
 };
 
 } // namespace OCC

@@ -51,6 +51,7 @@ SocketUploadJob::SocketUploadJob(const QSharedPointer<SocketApiJobV2> &job)
     }
 
     _db = new SyncJournalDb(_tmp.fileName(), this);
+
     SyncOptions opt;
     opt.fillFromEnvironmentVariables();
     opt.verifyChunkSizes();

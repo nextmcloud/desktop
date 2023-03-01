@@ -82,7 +82,7 @@ void PropagateUploadEncrypted::slotFolderEncryptedIdReceived(const QStringList &
 
 void PropagateUploadEncrypted::slotTryLock(const QByteArray& fileId)
 {
-  const auto lockJob = new LockEncryptFolderApiJob(_propagator->account(), fileId, _propagator->_journal, _propagator->account()->e2e()->_publicKey, this);
+  auto *lockJob = new LockEncryptFolderApiJob(_propagator->account(), fileId, this);
   connect(lockJob, &LockEncryptFolderApiJob::success, this, &PropagateUploadEncrypted::slotFolderLockedSuccessfully);
   connect(lockJob, &LockEncryptFolderApiJob::error, this, &PropagateUploadEncrypted::slotFolderLockedError);
   lockJob->start();
@@ -122,7 +122,17 @@ void PropagateUploadEncrypted::slotFolderEncryptedMetadataReceived(const QJsonDo
   qCDebug(lcPropagateUploadEncrypted) << "Metadata Received, Preparing it for the new file." << json.toVariant();
 
   // Encrypt File!
-  _metadata = new FolderMetadata(_propagator->account(), json.toJson(QJsonDocument::Compact), statusCode);
+  _metadata.reset(new FolderMetadata(_propagator->account(), json.toJson(QJsonDocument::Compact), statusCode));
+
+  if (!_metadata->isMetadataSetup()) {
+      if (_isFolderLocked) {
+          connect(this, &PropagateUploadEncrypted::folderUnlocked, this, &PropagateUploadEncrypted::error);
+          unlockFolder();
+      } else {
+          emit error();
+      }
+      return;
+  }
 
   QFileInfo info(_propagator->fullLocalPath(_item->_file));
   const QString fileName = info.fileName();
@@ -145,7 +155,6 @@ void PropagateUploadEncrypted::slotFolderEncryptedMetadataReceived(const QJsonDo
   if (!found) {
       encryptedFile.encryptionKey = EncryptionHelper::generateRandom(16);
       encryptedFile.encryptedFilename = EncryptionHelper::generateRandomFilename();
-      encryptedFile.initializationVector = EncryptionHelper::generateRandom(16);
       encryptedFile.fileVersion = 1;
       encryptedFile.metadataKey = 1;
       encryptedFile.originalFilename = fileName;
@@ -159,6 +168,8 @@ void PropagateUploadEncrypted::slotFolderEncryptedMetadataReceived(const QJsonDo
           encryptedFile.mimetype = QByteArrayLiteral("httpd/unix-directory");
       }
   }
+  
+  encryptedFile.initializationVector = EncryptionHelper::generateRandom(16);
 
   _item->_encryptedFileName = _remoteParentPath + QLatin1Char('/') + encryptedFile.encryptedFilename;
   _item->_isEncrypted = true;
@@ -277,7 +288,9 @@ void PropagateUploadEncrypted::unlockFolder()
     _isUnlockRunning = true;
 
     qDebug() << "Calling Unlock";
-    auto *unlockJob = new UnlockEncryptFolderApiJob(_propagator->account(), _folderId, _folderToken, _propagator->_journal, this);
+    auto *unlockJob = new UnlockEncryptFolderApiJob(_propagator->account(),
+        _folderId, _folderToken, this);
+
     connect(unlockJob, &UnlockEncryptFolderApiJob::success, [this](const QByteArray &folderId) {
         qDebug() << "Successfully Unlocked";
         _folderToken = "";

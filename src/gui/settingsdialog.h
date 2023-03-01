@@ -25,7 +25,6 @@ class QAction;
 class QActionGroup;
 class QToolBar;
 class QStandardItemModel;
-class TestSettingsDialog;
 
 namespace OCC {
 
@@ -58,7 +57,6 @@ public slots:
     void showFirstPage();
     void showIssuesList(AccountState *account);
     void slotSwitchPage(QAction *action);
-    //void slotHoverEffect(QAction *action);
     void slotAccountAvatarChanged();
     void slotAccountDisplayNameChanged();
 
@@ -94,9 +92,6 @@ private:
     QToolBar *_toolBar;
 
     ownCloudGui *_gui;
-
-    /* for Unit Test */
-    friend class ::TestSettingsDialog;
 };
 }
 

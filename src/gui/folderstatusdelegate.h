@@ -48,16 +48,9 @@ public:
 
         AddButton, // 1 = enabled; 2 = disabled
         FolderSyncText,
-        FolderOverlayIconRole,
         DataRoleCount
 
     };
-    enum addButtonText
-    {
-        AB_Headline,
-        AB_Textline
-    };
-
     void paint(QPainter *, const QStyleOptionViewItem &, const QModelIndex &) const override;
     QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const override;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
@@ -78,7 +71,7 @@ public slots:
 private:
     void customizeStyle();
 
-    static QString addFolderText(enum addButtonText selection);
+    static QString addFolderText();
     QPersistentModelIndex _pressedIndex;
 
     QIcon _iconMore;

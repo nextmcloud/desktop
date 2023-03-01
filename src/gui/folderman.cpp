@@ -599,14 +599,19 @@ void FolderMan::scheduleAllFolders()
     }
 }
 
-void FolderMan::removeE2eFiles(const AccountPtr &account) const
+void FolderMan::forceSyncForFolder(Folder *folder)
 {
-    Q_ASSERT(account->e2e()->_mnemonic.isEmpty());
-    for (const auto folder : map()) {
-        if(folder->accountState()->account()->id() == account->id()) {
-            folder->removeLocalE2eFiles();
+    // Terminate and reschedule any running sync
+    for (const auto folderInMap : map()) {
+        if (folderInMap->isSyncRunning()) {
+            folderInMap->slotTerminateSync();
+            scheduleFolder(folderInMap);
         }
     }
+
+    folder->slotWipeErrorBlacklist(); // issue #6757
+    // Insert the selected folder at the front of the queue
+    scheduleFolderNext(folder);
 }
 
 void FolderMan::slotScheduleAppRestart()
@@ -1575,9 +1580,6 @@ static QString checkPathValidityRecursive(const QString &path)
 #endif
     const QFileInfo selFile(path);
 
-    if (!selFile.isAbsolute()) {
-        return FolderMan::tr("Please select valid path");
-    }
     if (!selFile.exists()) {
         QString parentPath = selFile.dir().path();
         if (parentPath != path)
@@ -1605,7 +1607,7 @@ static QString canonicalPath(const QString &path)
         const auto parentPath = selFile.dir().path();
 
         // It's possible for the parentPath to match the path
-        // (possibly we've arrived at a non-existant drive root on Windows)
+        // (possibly we've arrived at a non-existent drive root on Windows)
         // and recursing would be fatal.
         if (parentPath == path) {
             return path;

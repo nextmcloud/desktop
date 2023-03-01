@@ -538,6 +538,7 @@ public:
     {
         if (_abortRequested)
             return;
+
         _abortRequested = true;
         if (_rootJob) {
             // Connect to abortFinished  which signals that abort has been asynchronously finished

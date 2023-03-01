@@ -47,8 +47,7 @@ namespace EncryptionHelper {
             const QByteArray& key,
             const QByteArray& data
     );
-    OWNCLOUDSYNC_EXPORT QByteArray encryptStringAsymmetric(const QSslKey key, const QByteArray &data);
-    OWNCLOUDSYNC_EXPORT QByteArray decryptStringAsymmetric(const QByteArray &privateKeyPem, const QByteArray &data);
+
     QByteArray privateKeyToPem(const QByteArray key);
 
     //TODO: change those two EVP_PKEY into QSslKey.
@@ -117,55 +116,48 @@ private:
 class OWNCLOUDSYNC_EXPORT ClientSideEncryption : public QObject {
     Q_OBJECT
 public:
-    class PKey;
-
     ClientSideEncryption();
-    QByteArray _privateKey;
-    QSslKey _publicKey;
-    QSslCertificate _certificate;
-    QString _mnemonic;
-    bool _newMnemonicGenerated = false;
-
-signals:
-    void initializationFinished(bool isNewMnemonicGenerated = false);
-    void sensitiveDataForgotten();
-    void privateKeyDeleted();
-    void certificateDeleted();
-    void mnemonicDeleted();
-
-public slots:
     void initialize(const AccountPtr &account);
+
+private:
+    void generateKeyPair(const AccountPtr &account);
+    void generateCSR(const AccountPtr &account, EVP_PKEY *keyPair);
+    void encryptPrivateKey(const AccountPtr &account);
+
+public:
     void forgetSensitiveData(const AccountPtr &account);
 
 private slots:
-    void generateKeyPair(const AccountPtr &account);
-    void encryptPrivateKey(const AccountPtr &account);
     void publicKeyFetched(QKeychain::Job *incoming);
     void privateKeyFetched(QKeychain::Job *incoming);
     void mnemonicKeyFetched(QKeychain::Job *incoming);
 
-    void handlePrivateKeyDeleted(const QKeychain::Job* const incoming);
-    void handleCertificateDeleted(const QKeychain::Job* const incoming);
-    void handleMnemonicDeleted(const QKeychain::Job* const incoming);
-    void checkAllSensitiveDataDeleted();
+signals:
+    void initializationFinished(bool isNewMnemonicGenerated = false);
+
+private:
     void getPrivateKeyFromServer(const AccountPtr &account);
     void getPublicKeyFromServer(const AccountPtr &account);
     void fetchAndValidatePublicKeyFromServer(const AccountPtr &account);
     void decryptPrivateKey(const AccountPtr &account, const QByteArray &key);
 
     void fetchFromKeyChain(const AccountPtr &account);
+
+    bool checkPublicKeyValidity(const AccountPtr &account) const;
+    bool checkServerPublicKeyValidity(const QByteArray &serverPublicKeyString) const;
     void writePrivateKey(const AccountPtr &account);
     void writeCertificate(const AccountPtr &account);
     void writeMnemonic(const AccountPtr &account);
 
-private:
-    void generateCSR(const AccountPtr &account, PKey keyPair);
-    void sendSignRequestCSR(const AccountPtr &account, PKey keyPair, const QByteArray &csrContent);
-
-    bool checkPublicKeyValidity(const AccountPtr &account) const;
-    bool checkServerPublicKeyValidity(const QByteArray &serverPublicKeyString) const;
-
     bool isInitialized = false;
+
+public:
+    //QSslKey _privateKey;
+    QByteArray _privateKey;
+    QSslKey _publicKey;
+    QSslCertificate _certificate;
+    QString _mnemonic;
+    bool _newMnemonicGenerated = false;
 };
 
 /* Generates the Metadata for the folder */
@@ -188,6 +180,7 @@ public:
     void removeEncryptedFile(const EncryptedFile& f);
     void removeAllEncryptedFiles();
     QVector<EncryptedFile> files() const;
+    bool isMetadataSetup() const;
 
 
 private:

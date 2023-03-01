@@ -93,11 +93,13 @@ QSize SlideShow::sizeHint() const
         labelSize.setWidth(std::max(labelBoundingRect.width(), labelSize.width()));
         labelSize.setHeight(std::max(labelBoundingRect.height(), labelSize.height()));
     }
+
     QSize pixmapSize;
     for (const auto &pixmap : _pixmaps) {
         pixmapSize.setWidth(std::max(pixmap.width(), pixmapSize.width()));
         pixmapSize.setHeight(std::max(pixmap.height(), pixmapSize.height()));
     }
+
     return {
         std::max(labelSize.width(), pixmapSize.width()),
         labelSize.height() + Spacing + pixmapSize.height()

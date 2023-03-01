@@ -15,34 +15,30 @@ Button {
     property color textColor: Style.ncTextColor
     property color textColorHovered: textColor
 
-    property color bgColor: "transparent"
+    property alias bgColor: bgRectangle.color
 
     property bool bold: false
 
-    property real bgOpacity: 0.3
+    property alias bgNormalOpacity: bgRectangle.normalOpacity
+    property alias bgHoverOpacity: bgRectangle.hoverOpacity
 
     background: Rectangle {
-        color: root.bgColor
-        opacity: parent.hovered ? 1.0 : bgOpacity
+        id: bgRectangle
+
+        property real normalOpacity: 0.3
+        property real hoverOpacity: 1.0
+
+        color: "transparent"
+        opacity: parent.hovered ? hoverOpacity : normalOpacity
         radius: width / 2
     }
 
     leftPadding: root.text === "" ? 5 : 10
     rightPadding: root.text === "" ? 5 : 10
 
-    ToolTip {
-        id: customButtonTooltip
+    NCToolTip {
         text: root.toolTipText
-        delay: Qt.styleHints.mousePressAndHoldInterval
         visible: root.toolTipText !== "" && root.hovered
-        contentItem: Label {
-            text: customButtonTooltip.text
-            color: Style.ncTextColor
-        }
-        background: Rectangle {
-            border.color: Style.menuBorder
-            color: Style.backgroundColor
-        }
     }
 
     contentItem: RowLayout {
@@ -55,7 +51,7 @@ Button {
             fillMode: Image.PreserveAspectFit
         }
 
-        Label {
+        EnforcedPlainTextLabel {
             Layout.maximumWidth: icon.width > 0 ? parent.width - icon.width - parent.spacing : parent.width
             Layout.fillWidth: icon.status !== Image.Ready
 

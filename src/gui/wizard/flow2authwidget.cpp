@@ -42,8 +42,8 @@ Flow2AuthWidget::Flow2AuthWidget(QWidget *parent)
     WizardCommon::initErrorLabel(_ui.errorLabel);
     _ui.errorLabel->setTextFormat(Qt::RichText);
 
-    connect(_ui.openLinkLabel, &QPushButton::clicked, this, &Flow2AuthWidget::slotOpenBrowser);
-    connect(_ui.copyLinkLabel, &QPushButton::clicked, this, &Flow2AuthWidget::slotCopyLinkToClipboard);
+    connect(_ui.openLinkLabel, &LinkLabel::clicked, this, &Flow2AuthWidget::slotOpenBrowser);
+    connect(_ui.copyLinkLabel, &LinkLabel::clicked, this, &Flow2AuthWidget::slotCopyLinkToClipboard);
 
     auto sizePolicy = _progressIndi->sizePolicy();
     sizePolicy.setRetainSizeWhenHidden(true);
@@ -219,20 +219,10 @@ void Flow2AuthWidget::customizeStyle()
     }
 
     _ui.openLinkLabel->setText(tr("Reopen Browser"));
-   // _ui.openLinkLabel->setAlignment(Qt::AlignCenter);
-    _ui.openLinkLabel->setStyleSheet("QPushButton {height : 35 ; width : 150px ; color: #ffffff; border: 0px solid #e20074; "
-                              "border-radius: 10px;border-style: outset; "
-                              "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
-                              " stop: 0 #e20074, stop: 1 #e20074); "
-                              "padding: 5px }");
+    _ui.openLinkLabel->setAlignment(Qt::AlignCenter);
 
     _ui.copyLinkLabel->setText(tr("Copy Link"));
-   // _ui.copyLinkLabel->setAlignment(Qt::AlignCenter);
-    _ui.copyLinkLabel->setStyleSheet("QPushButton {height : 33 ; width : 150px ; color: #191919; border: 1px solid #191919; "
-                              "border-radius: 10px;border-style: outset; "
-                              "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
-                              " stop: 0 #ffffff, stop: 1 #ffffff); "
-                              "padding: 5px }");
+    _ui.copyLinkLabel->setAlignment(Qt::AlignCenter);
 
     WizardCommon::customizeHintLabel(_ui.statusLabel);
 }

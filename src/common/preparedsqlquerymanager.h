@@ -98,10 +98,6 @@ public:
         CountDehydratedFilesQuery,
         SetPinStateQuery,
         WipePinStateQuery,
-        SetE2EeLockedFolderQuery,
-        GetE2EeLockedFolderQuery,
-        GetE2EeLockedFoldersQuery,
-        DeleteE2EeLockedFolderQuery,
 
         PreparedQueryCount
     };

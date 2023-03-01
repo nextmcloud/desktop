@@ -18,8 +18,6 @@
 #include "accountstate.h"
 #include "sharepermissions.h"
 #include "owncloudgui.h"
-#include "sharemanager.h"
-#include "sharee.h"
 #include "common/syncjournalfilerecord.h"
 
 #include <QSharedPointer>
@@ -30,7 +28,6 @@
 
 class QProgressIndicator;
 class QVBoxLayout;
-class TestShareDialog;
 
 namespace OCC {
 
@@ -39,11 +36,11 @@ namespace Ui {
 }
 
 class ShareLinkWidget;
+class InternalLinkWidget;
 class ShareUserGroupWidget;
 class ShareManager;
 class LinkShare;
-class ShareUserGroupPermissionWidget;
-class ShareUserMessageWidget;
+class Share;
 
 class ShareDialog : public QDialog
 {
@@ -73,56 +70,43 @@ private slots:
     void slotCreateLinkShare();
     void slotCreatePasswordForLinkShare(const QString &password);
     void slotCreatePasswordForLinkShareProcessed();
-    void slotLinkShareRequiresPassword();
-    void slotAdjustScrollWidgetSize();
-    void slotAdvancePermissionWidget(Share::ShareType type, const QSharedPointer<Sharee> &sharee, bool createShare);
-    void slotShowMessageBox(const QSharedPointer<Sharee> &sharee, bool);
-    void slotSendMessage(const QSharedPointer<Sharee> &sharee, const QString &note);
-    void slotCancelShare(const QSharedPointer<Sharee> &sharee);
-    void slotUserLinePermissionChanged(const QString&);
-    void slotLinkAdvancePermissionWidget(QSharedPointer<LinkShare> linkSHare, Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare, const QString &permission);
-    void slotUserAdvancePermissionWidget(QSharedPointer<UserGroupShare> share,Share::ShareType type, QSharedPointer<Sharee> sharee, bool createShare, const QString &permission);
-    void slotSendNewMail(QSharedPointer<UserGroupShare> share, bool createShare);
-    void slotadjustScrollArea();
+    void slotLinkShareRequiresPassword(const QString &message);
 
 signals:
     void toggleShareLinkAnimation(bool start);
     void styleChanged();
-    void linkShareDeleted();
 
 protected:
     void changeEvent(QEvent *) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     void showSharingUi();
+    void initShareManager();
     ShareLinkWidget *addLinkShareWidget(const QSharedPointer<LinkShare> &linkShare);
     void initLinkShareWidget();
+    void adjustScrollWidget();
 
     Ui::ShareDialog *_ui;
 
     QPointer<AccountState> _accountState;
     QString _sharePath;
     QString _localPath;
-    QString _userLinePermission;
     SharePermissions _maxSharingPermissions;
     QByteArray _numericFileId;
     SyncJournalFileLockInfo _filelockState;
     QString _privateLinkUrl;
     ShareDialogStartPage _startPage;
     ShareManager *_manager = nullptr;
-    bool m_createShare;
 
     QList<ShareLinkWidget*> _linkWidgetList;
     ShareLinkWidget* _emptyShareLinkWidget = nullptr;
+    InternalLinkWidget* _internalLinkWidget = nullptr;
     ShareUserGroupWidget *_userGroupWidget = nullptr;
     QProgressIndicator *_progressIndicator = nullptr;
-    ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
-    ShareUserMessageWidget *_shareUserMessage = nullptr;
+    
     QWidget *_scrollAreaViewPort = nullptr;
     QVBoxLayout *_scrollAreaLayout = nullptr;
-
-    /* for Unit Test */
-    friend class ::TestShareDialog;
 };
 
 } // namespace OCC

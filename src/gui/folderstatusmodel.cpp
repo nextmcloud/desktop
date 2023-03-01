@@ -60,8 +60,6 @@ static bool sortByFolderHeader(const FolderStatusModel::SubFolderInfo &lhs, cons
 
 void FolderStatusModel::setAccountState(const AccountState *accountState)
 {
-    connect(accountState->account()->e2e(), &OCC::ClientSideEncryption::initializationFinished, this, &FolderStatusModel::e2eInitializationFinished);
-
     beginResetModel();
     _dirty = false;
     _folders.clear();
@@ -155,49 +153,41 @@ QVariant FolderStatusModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     case SubFolder: {
-        const auto &subfolderInfo = static_cast<SubFolderInfo *>(index.internalPointer())->_subs.at(index.row());
-        const auto supportsSelectiveSync = subfolderInfo._folder && subfolderInfo._folder->supportsSelectiveSync();
+        const auto &x = static_cast<SubFolderInfo *>(index.internalPointer())->_subs.at(index.row());
+        const auto supportsSelectiveSync = x._folder && x._folder->supportsSelectiveSync();
 
         switch (role) {
-        case Qt::DisplayRole:{
+        case Qt::DisplayRole:
             //: Example text: "File.txt (23KB)"
-            const auto &xParent = static_cast<SubFolderInfo *>(index.internalPointer());
-            const auto suffix = (subfolderInfo._isNonDecryptable && subfolderInfo._checked && (!xParent || !xParent->_isEncrypted))
-                            ? tr(" - %1").arg("Could not decrypt!")
-                            : QString{};
-            return subfolderInfo._size < 0 ? QString(subfolderInfo._name + suffix) : QString(tr("%1 (%2)").arg(subfolderInfo._name, Utility::octetsToString(subfolderInfo._size)) + suffix);
-        }
+            return x._size < 0 ? x._name : tr("%1 (%2)").arg(x._name, Utility::octetsToString(x._size));
         case Qt::ToolTipRole:
-            return QString(QLatin1String("<qt>") + Utility::escape(subfolderInfo._size < 0 ? subfolderInfo._name : tr("%1 (%2)").arg(subfolderInfo._name, Utility::octetsToString(subfolderInfo._size))) + QLatin1String("</qt>"));
+            return QString(QLatin1String("<qt>") + Utility::escape(x._size < 0 ? x._name : tr("%1 (%2)").arg(x._name, Utility::octetsToString(x._size))) + QLatin1String("</qt>"));
         case Qt::CheckStateRole:
             if (supportsSelectiveSync) {
-                return subfolderInfo._checked;
+                return x._checked;
             } else {
                 return QVariant();
             }
         case Qt::DecorationRole: {
-            if (subfolderInfo._isNonDecryptable && subfolderInfo._checked) {
-                return QIcon(QLatin1String(":/client/theme/lock-broken.svg"));
-            }
-            if (subfolderInfo._isEncrypted) {
+            if (x._isEncrypted) {
                 return QIcon(QLatin1String(":/client/theme/lock-https.svg"));
-            } else if (subfolderInfo._size > 0 && isAnyAncestorEncrypted(index)) {
+            } else if (x._size > 0 && isAnyAncestorEncrypted(index)) {
                 return QIcon(QLatin1String(":/client/theme/lock-broken.svg"));
             }
-            return QFileIconProvider().icon(subfolderInfo._isExternal ? QFileIconProvider::Network : QFileIconProvider::Folder);
+            return QFileIconProvider().icon(x._isExternal ? QFileIconProvider::Network : QFileIconProvider::Folder);
         }
         case Qt::ForegroundRole:
-            if (subfolderInfo._isUndecided || (subfolderInfo._isNonDecryptable && subfolderInfo._checked)) {
+            if (x._isUndecided) {
                 return QColor(Qt::red);
             }
             break;
         case FileIdRole:
-            return subfolderInfo._fileId;
+            return x._fileId;
         case FolderStatusDelegate::FolderPathRole: {
-            auto f = subfolderInfo._folder;
+            auto f = x._folder;
             if (!f)
                 return QVariant();
-            return QVariant(f->path() + subfolderInfo._path);
+            return QVariant(f->path() + x._path);
         }
         }
     }
@@ -272,41 +262,29 @@ QVariant FolderStatusModel::data(const QModelIndex &index, int role) const
     case FolderStatusDelegate::FolderStatusIconRole:
         if (accountConnected) {
             auto theme = Theme::instance();
+            auto status = f->syncResult().status();
             if (f->syncPaused()) {
                 return theme->folderDisabledIcon();
             } else {
-                return theme->folderOkIcon();
-            }
-        } else {
-            return Theme::instance()->folderOfflineIcon();
-        }
-    case FolderStatusDelegate::FolderOverlayIconRole:
-        if (accountConnected) {
-            auto theme = Theme::instance();
-            auto status = f->syncResult().status();
-            bool firstRow = (0 == index.row());
-            if (f->syncPaused()) {
-                 return theme->folderOverlayIcon(SyncResult::Paused);
-            } else {
                 if (status == SyncResult::SyncPrepare || status == SyncResult::Undefined) {
-                    return theme->folderOverlayIcon(SyncResult::SyncRunning);
+                    return theme->syncStateIcon(SyncResult::SyncRunning);
                 } else {
                     // The "Problem" *result* just means some files weren't
                     // synced, so we show "Success" in these cases. But we
                     // do use the "Problem" *icon* for unresolved conflicts.
                     if (status == SyncResult::Success || status == SyncResult::Problem) {
                         if (f->syncResult().hasUnresolvedConflicts()) {
-                            return theme->folderOverlayIcon(SyncResult::Problem);
+                            return theme->syncStateIcon(SyncResult::Problem);
                         } else {
-                            return theme->folderOverlayIcon(SyncResult::Success);
+                            return theme->syncStateIcon(SyncResult::Success);
                         }
                     } else {
-                        return theme->folderOverlayIcon(status);
+                        return theme->syncStateIcon(status);
                     }
                 }
             }
         } else {
-            return QVariant();
+            return Theme::instance()->folderOfflineIcon();
         }
     case FolderStatusDelegate::SyncProgressItemString:
         return progress._progressString;
@@ -764,14 +742,8 @@ void FolderStatusModel::slotUpdateDirectories(const QStringList &list)
         newInfo._isEncrypted = encryptionMap.value(removeTrailingSlash(path)).toString() == QStringLiteral("1");
         newInfo._path = relativePath;
 
-        newInfo._isNonDecryptable = newInfo._isEncrypted
-            && _accountState->account()->e2e() && !_accountState->account()->e2e()->_publicKey.isNull()
-            && _accountState->account()->e2e()->_privateKey.isNull();
-
         SyncJournalFileRecord rec;
-        if (!parentInfo->_folder->journalDb()->getFileRecordByE2eMangledName(removeTrailingSlash(relativePath), &rec)) {
-            qCWarning(lcFolderStatus) << "Could not get file record by E2E Mangled Name from local DB" << removeTrailingSlash(relativePath);
-        }
+        parentInfo->_folder->journalDb()->getFileRecordByE2eMangledName(removeTrailingSlash(relativePath), &rec);
         if (rec.isValid()) {
             newInfo._name = removeTrailingSlash(rec._path).split('/').last();
             if (rec._isE2eEncrypted && !rec._e2eMangledName.isEmpty()) {
@@ -833,7 +805,7 @@ void FolderStatusModel::slotUpdateDirectories(const QStringList &list)
     }
 
     for (int undecidedIndex : qAsConst(undecidedIndexes)) {
-        emit suggestExpand(index(undecidedIndex, 0, idx));
+        suggestExpand(index(undecidedIndex, 0, idx));
     }
     /* Try to remove the the undecided lists the items that are not on the server. */
     auto it = std::remove_if(selectiveSyncUndecidedList.begin(), selectiveSyncUndecidedList.end(),
@@ -990,6 +962,7 @@ void FolderStatusModel::slotSetProgress(const ProgressInfo &progress)
     }
 
     auto *pi = &_folders[folderIndex]._progress;
+
     if (progress.status() == ProgressInfo::Starting) {
         _isSyncRunningForAwhile = false;
     }
@@ -1156,15 +1129,6 @@ void FolderStatusModel::slotSetProgress(const ProgressInfo &progress)
     }
     pi->_overallPercent = qBound(0, overallPercent, 100);
     emit dataChanged(index(folderIndex), index(folderIndex), roles);
-}
-
-void FolderStatusModel::e2eInitializationFinished(bool isNewMnemonicGenerated)
-{
-    Q_UNUSED(isNewMnemonicGenerated);
-
-    for (int i = 0; i < _folders.count(); ++i) {
-        resetAndFetch(index(i));
-    }
 }
 
 void FolderStatusModel::slotFolderSyncStateChange(Folder *f)

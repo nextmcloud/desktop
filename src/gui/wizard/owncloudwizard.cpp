@@ -25,7 +25,6 @@
 #include "wizard/owncloudhttpcredspage.h"
 #include "wizard/owncloudoauthcredspage.h"
 #include "wizard/owncloudadvancedsetuppage.h"
-#include "wizard/owncloudwizardresultpage.h"
 #include "wizard/webviewpage.h"
 #include "wizard/flow2authcredspage.h"
 
@@ -87,16 +86,16 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 #endif // WITH_WEBENGINE
     connect(_advancedSetupPage, &OwncloudAdvancedSetupPage::createLocalAndRemoteFolders,
         this, &OwncloudWizard::createLocalAndRemoteFolders);
-    connect(this, &QWizard::customButtonClicked, this, &OwncloudWizard::skipFolderConfiguration);
+    connect(this, &QWizard::customButtonClicked, this, &OwncloudWizard::slotCustomButtonClicked);
 
 
     Theme *theme = Theme::instance();
     setWindowTitle(tr("Add %1 account").arg(theme->appNameGUI()));
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnStartPage);
-    setOption(QWizard::NoBackButtonOnLastPage);
     setOption(QWizard::NoCancelButton);
-    //setButtonText(QWizard::CustomButton1, tr("Skip folders configuration"));
+    setButtonText(QWizard::CustomButton1, tr("Skip folders configuration"));
+    setButtonText(QWizard::CustomButton2, tr("Cancel"));
 
     // Change the next buttons size policy since we hide it on the
     // welcome page but want it to fill it's space that we don't get
@@ -253,6 +252,17 @@ void OwncloudWizard::successfulStep()
     }
 }
 
+void OwncloudWizard::slotCustomButtonClicked(const int which)
+{
+    if (which == WizardButton::CustomButton1) {
+        // This is the 'Skip folders configuration' button
+        Q_EMIT skipFolderConfiguration();
+    } else if (which == WizardButton::CustomButton2) {
+        // Because QWizard doesn't have a way of directly going to a specific page (!!!)
+        restart();
+    }
+}
+
 void OwncloudWizard::setAuthType(DetermineAuthTypeJob::AuthType type)
 {
     _setupPage->setAuthType(type);
@@ -277,27 +287,11 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
     qCDebug(lcWizard) << "Current Wizard page changed to " << id;
 
     const auto setNextButtonAsDefault = [this]() {
-        auto nextButton = qobject_cast<QPushButton *>(button(QWizard::FinishButton));
+        auto nextButton = qobject_cast<QPushButton *>(button(QWizard::NextButton));
         if (nextButton) {
             nextButton->setDefault(true);
-            //nextButton->setStyleSheet("QPushButton {height : 30 ; width : 150px ; color: #ffffff; background : #e20074}");
-            nextButton->setStyleSheet("QPushButton {height : 30 ; width : 160px ; font: 13px; font-family: Segoe UI; color: #ffffff; border: 0px solid #e20074; "
-                                      "border-radius: 15px; border-style: outset; "
-                                      "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
-                                      " stop: 0 #e20074, stop: 1 #e20074); "
-                                      "padding: 5px }");
         }
     };
-
-    auto backButton = qobject_cast<QPushButton *>(button(QWizard::BackButton));
-    if (backButton) {
-        backButton->setDefault(true);
-        backButton->setStyleSheet("QPushButton {height : 28 ; width : 102px ; font: 13px; font-family: Segoe UI; color: #191919; border: 1px solid #191919; "
-                                      "border-radius: 15px; border-style: outset; "
-                                      "background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,"
-                                      " stop: 0 #ffffff, stop: 1 #ffffff); "
-                                      "padding: 5px }");
-    }
 
     if (id == WizardCommon::Page_Welcome) {
         // Set next button to just hidden so it retains it's layout
@@ -309,13 +303,12 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         id == WizardCommon::Page_WebView ||
 #endif // WITH_WEBENGINE
         id == WizardCommon::Page_Flow2AuthCreds) {
-        setButtonLayout({ QWizard::Stretch, QWizard::BackButton });
-        button(QWizard::BackButton)->setHidden(true);
+        setButtonLayout({ QWizard::BackButton, QWizard::Stretch });
     } else if (id == WizardCommon::Page_AdvancedSetup) {
-        setButtonLayout({ QWizard::Stretch, QWizard::BackButton, QWizard::FinishButton });
+        setButtonLayout({ QWizard::CustomButton2, QWizard::Stretch, QWizard::CustomButton1, QWizard::FinishButton });
         setNextButtonAsDefault();
     } else {
-        setButtonLayout({ QWizard::Stretch, QWizard::BackButton, QWizard::NextButton });
+        setButtonLayout({ QWizard::BackButton, QWizard::Stretch, QWizard::NextButton });
         setNextButtonAsDefault();
     }
 
@@ -395,10 +388,10 @@ void OwncloudWizard::customizeStyle()
 
     // Set background colors
     auto wizardPalette = palette();
-   // const auto backgroundColor = wizardPalette.color(QPalette);
-    wizardPalette.setColor(QPalette::Base, Qt::white);
+    const auto backgroundColor = wizardPalette.color(QPalette::Window);
+    wizardPalette.setColor(QPalette::Base, backgroundColor);
     // Set separator color
-    wizardPalette.setColor(QPalette::Mid, Qt::white);
+    wizardPalette.setColor(QPalette::Mid, backgroundColor);
 
     setPalette(wizardPalette);
 }

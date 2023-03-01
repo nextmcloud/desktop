@@ -23,6 +23,7 @@
 #include "tray/trayimageprovider.h"
 #include "configfile.h"
 #include "accessmanager.h"
+#include "callstatechecker.h"
 
 #include <QCursor>
 #include <QGuiApplication>
@@ -98,10 +99,11 @@ Systray::Systray()
     );
 
     qmlRegisterType<WheelHandler>("com.nextcloud.desktopclient", 1, 0, "WheelHandler");
+    qmlRegisterType<CallStateChecker>("com.nextcloud.desktopclient", 1, 0, "CallStateChecker");
 
-#ifdef Q_OS_MACOS
+#if defined(Q_OS_MACOS) && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
     setUserNotificationCenterDelegate();
-    checkNotificationAuth();
+    checkNotificationAuth(MacNotificationAuthorizationOptions::Default); // No provisional auth, ask user explicitly first time
     registerNotificationCategories(QString(tr("Download")));
 #else
     connect(AccountManager::instance(), &AccountManager::accountAdded,
@@ -111,13 +113,23 @@ Systray::Systray()
     setupContextMenu();
 #endif
 
-    connect(UserModel::instance(), &UserModel::newUserSelected,
-        this, &Systray::slotNewUserSelected);
+    connect(UserModel::instance(), &UserModel::currentUserChanged,
+        this, &Systray::slotCurrentUserChanged);
     connect(UserModel::instance(), &UserModel::addAccount,
             this, &Systray::openAccountWizard);
 
+#if defined(Q_OS_MACOS) || defined(Q_OS_WIN)
     connect(AccountManager::instance(), &AccountManager::accountAdded,
-        this, &Systray::showWindow);
+        this, [this]{ showWindow(); });
+#else
+    // Since the positioning of the QSystemTrayIcon is borked on non-Windows and non-macOS desktop environments,
+    // we hardcode the position of the tray to be in the center when we add a new account from somewhere like
+    // the wizard. Otherwise with the conventional method we end up with the tray appearing wherever the cursor
+    // is placed
+
+    connect(AccountManager::instance(), &AccountManager::accountAdded,
+        this, [this]{ showWindow(WindowPosition::Center); });
+#endif
 }
 
 void Systray::create()
@@ -126,7 +138,14 @@ void Systray::create()
         if (!AccountManager::instance()->accounts().isEmpty()) {
             _trayEngine->rootContext()->setContextProperty("activityModel", UserModel::instance()->currentActivityModel());
         }
-        _trayEngine->load(QStringLiteral("qrc:/qml/src/gui/tray/Window.qml"));
+
+        QQmlComponent trayWindowComponent(_trayEngine, QStringLiteral("qrc:/qml/src/gui/tray/Window.qml"));
+
+        if(trayWindowComponent.isError()) {
+            qCWarning(lcSystray) << trayWindowComponent.errorString();
+        } else {
+            _trayWindow.reset(qobject_cast<QQuickWindow*>(trayWindowComponent.create()));
+        }
     }
     hideWindow();
     emit activated(QSystemTrayIcon::ActivationReason::Unknown);
@@ -140,6 +159,36 @@ void Systray::create()
     }
 }
 
+void Systray::showWindow(WindowPosition position)
+{
+    if(isOpen() || !_trayWindow) {
+        return;
+    }
+
+    if(position == WindowPosition::Center) {
+        positionWindowAtScreenCenter(_trayWindow.data());
+    } else {
+        positionWindowAtTray(_trayWindow.data());
+    }
+    _trayWindow->show();
+    _trayWindow->raise();
+    _trayWindow->requestActivate();
+
+    setIsOpen(true);
+
+    UserModel::instance()->fetchCurrentActivityModel();
+}
+
+void Systray::hideWindow()
+{
+    if(!isOpen() || !_trayWindow) {
+        return;
+    }
+
+    _trayWindow->hide();
+    setIsOpen(false);
+}
+
 void Systray::setupContextMenu()
 {
     const auto oldContextMenu = _contextMenu.data();
@@ -150,11 +199,14 @@ void Systray::setupContextMenu()
     }
 
     _contextMenu = new QMenu();
+    // NOTE: for reasons unclear, setting the the new menu after adding all the actions
+    // will not work on GNOME, as the old menu will not be correctly replaced.
+    setContextMenu(_contextMenu);
 
     if (AccountManager::instance()->accounts().isEmpty()) {
         _contextMenu->addAction(tr("Add account"), this, &Systray::openAccountWizard);
     } else {
-        _contextMenu->addAction(tr("Open main dialog"), this, &Systray::openMainDialog);
+        _contextMenu->addAction(tr("Open main dialog"), this, [this]{ showWindow(); });
     }
 
     auto pauseAction = _contextMenu->addAction(tr("Pause sync"), this, &Systray::slotPauseAllFolders);
@@ -162,7 +214,6 @@ void Systray::setupContextMenu()
     _contextMenu->addAction(tr("Settings"), this, &Systray::openSettings);
     _contextMenu->addAction(tr("Help"), this, &Systray::openHelp);
     _contextMenu->addAction(tr("Exit %1").arg(Theme::instance()->appNameGUI()), this, &Systray::shutdown);
-    setContextMenu(_contextMenu);
 
     connect(_contextMenu, &QMenu::aboutToShow, [=] {
         const auto folders = FolderMan::instance()->map();
@@ -181,7 +232,13 @@ void Systray::setupContextMenu()
     });
 }
 
-void Systray::createCallDialog(const Activity &callNotification)
+void Systray::destroyDialog(QQuickWindow *dialog) const
+{
+    dialog->destroy();
+    dialog->deleteLater();
+}
+
+void Systray::createCallDialog(const Activity &callNotification, const AccountStatePtr accountState)
 {
     qCDebug(lcSystray) << "Starting a new call dialog for notification with id: " << callNotification._id << "with text: " << callNotification._subject;
 
@@ -206,6 +263,7 @@ void Systray::createCallDialog(const Activity &callNotification)
         }
 
         const QVariantMap initialProperties{
+            {"accountState", QVariant::fromValue(accountState.data())},
             {"talkNotificationData", talkNotificationData},
             {"links", links},
             {"subject", callNotification._subject},
@@ -213,8 +271,15 @@ void Systray::createCallDialog(const Activity &callNotification)
         };
 
         const auto callDialog = new QQmlComponent(_trayEngine, QStringLiteral("qrc:/qml/src/gui/tray/CallNotificationDialog.qml"));
-        callDialog->createWithInitialProperties(initialProperties);
 
+        if(callDialog->isError()) {
+            qCWarning(lcSystray) << callDialog->errorString();
+            return;
+        }
+
+        // This call dialog gets deallocated on close conditions
+        // by a call from the QML side to the destroyDialog slot
+        callDialog->createWithInitialProperties(initialProperties);
         _callsAlreadyNotified.insert(callNotification._id);
     }
 }
@@ -247,7 +312,7 @@ void Systray::destroyEditFileLocallyLoadingDialog()
     _editFileLocallyLoadingDialog = nullptr;
 }
 
-void Systray::slotNewUserSelected()
+void Systray::slotCurrentUserChanged()
 {
     if (_trayEngine) {
         // Change ActivityModel
@@ -293,11 +358,6 @@ void Systray::setPauseOnAllFoldersHelper(bool pause)
     }
 }
 
-bool Systray::isOpen()
-{
-    return _isOpen;
-}
-
 QString Systray::windowTitle() const
 {
     return Theme::instance()->appNameGUI();
@@ -313,14 +373,15 @@ bool Systray::useNormalWindow() const
     return cfg.showMainDialogAsNormalWindow();
 }
 
-Q_INVOKABLE void Systray::setOpened()
+bool Systray::isOpen() const
 {
-    _isOpen = true;
+    return _isOpen;
 }
 
-Q_INVOKABLE void Systray::setClosed()
+void Systray::setIsOpen(const bool isOpen)
 {
-    _isOpen = false;
+    _isOpen = isOpen;
+    Q_EMIT isOpenChanged();
 }
 
 void Systray::showMessage(const QString &title, const QString &message, MessageIcon icon)
@@ -335,7 +396,7 @@ void Systray::showMessage(const QString &title, const QString &message, MessageI
         QDBusConnection::sessionBus().asyncCall(method);
     } else
 #endif
-#ifdef Q_OS_OSX
+#if defined(Q_OS_MACOS) && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
         if (canOsXSendUserNotification()) {
         sendOsXUserNotification(title, message);
     } else
@@ -347,7 +408,7 @@ void Systray::showMessage(const QString &title, const QString &message, MessageI
 
 void Systray::showUpdateMessage(const QString &title, const QString &message, const QUrl &webUrl)
 {
-#ifdef Q_OS_MACOS
+#if defined(Q_OS_MACOS) && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
     sendOsXUpdateNotification(title, message, webUrl);
 #else // TODO: Implement custom notifications (i.e. actionable) for other OSes
     Q_UNUSED(webUrl);
@@ -360,19 +421,18 @@ void Systray::setToolTip(const QString &tip)
     QSystemTrayIcon::setToolTip(tr("%1: %2").arg(Theme::instance()->appNameGUI(), tip));
 }
 
-bool Systray::syncIsPaused()
+bool Systray::syncIsPaused() const
 {
     return _syncIsPaused;
 }
 
-void Systray::pauseResumeSync()
+void Systray::setSyncIsPaused(const bool syncIsPaused)
 {
+    _syncIsPaused = syncIsPaused;
     if (_syncIsPaused) {
-        _syncIsPaused = false;
-        slotUnpauseAllFolders();
-    } else {
-        _syncIsPaused = true;
         slotPauseAllFolders();
+    } else {
+        slotUnpauseAllFolders();
     }
 }
 
@@ -380,11 +440,21 @@ void Systray::pauseResumeSync()
 /* Helper functions for cross-platform tray icon position and taskbar orientation detection */
 /********************************************************************************************/
 
-void Systray::positionWindow(QQuickWindow *window) const
+void Systray::positionWindowAtTray(QQuickWindow *window) const
 {
     if (!useNormalWindow()) {
         window->setScreen(currentScreen());
         const auto position = computeWindowPosition(window->width(), window->height());
+        window->setPosition(position);
+    }
+}
+
+void Systray::positionWindowAtScreenCenter(QQuickWindow *window) const
+{
+    if(!useNormalWindow()) {
+        window->setScreen(currentScreen());
+        const QPoint windowAdjustment(window->geometry().width() / 2, window->geometry().height() / 2);
+        const auto position = currentScreen()->virtualGeometry().center() - windowAdjustment;
         window->setPosition(position);
     }
 }
@@ -422,9 +492,7 @@ void Systray::positionNotificationWindow(QQuickWindow *window) const
             window->setPosition(position);
         } else {
             // For other DEs we play it safe and place the notification in the centre of the screen
-            const QPoint windowAdjustment(window->geometry().width() / 2, window->geometry().height() / 2);
-            const auto position = currentScreen()->geometry().center();// - windowAdjustment;
-            window->setPosition(position);
+            positionWindowAtScreenCenter(window);
         }
         // TODO: Get actual notification positions for the DEs
     }
@@ -508,9 +576,8 @@ QRect Systray::taskbarGeometry() const
     }
     return tbRect;
 #elif defined(Q_OS_MACOS)
-    // Finder bar is always 22px height on macOS (when treating as effective pixels)
     const auto screenWidth = currentScreenRect().width();
-    const auto statusBarHeight = static_cast<int>(OCC::statusBarThickness());
+    const auto statusBarHeight = static_cast<int>(OCC::menuBarThickness());
     return {0, 0, screenWidth, statusBarHeight};
 #else
     if (taskbarOrientation() == TaskBarPosition::Bottom || taskbarOrientation() == TaskBarPosition::Top) {

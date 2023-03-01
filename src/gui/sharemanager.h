@@ -133,7 +133,7 @@ public:
      /*
      * Is it a share with a user or group (local or remote)
      */
-    static bool isShareTypeUserGroupEmailRoomOrRemote(const ShareType type);
+    static bool isShareTypeUserGroupEmailRoomRemoteOrCircle(const ShareType type);
 
 signals:
     void permissionsSet();
@@ -214,8 +214,6 @@ public:
     /*
      * Returns the note of the link share.
      */
-
-
     QString getNote() const;
     
     /*
@@ -229,7 +227,6 @@ public:
      * Emits either nameSet() or serverError().
      */
     void setName(const QString &name);
-
 
     /*
      * Set the note of the link share.

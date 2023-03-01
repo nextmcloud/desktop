@@ -9,31 +9,6 @@
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-256.png">theme/colored/256-@APPLICATION_ICON_NAME@-icon.png</file>
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-512.png">theme/colored/512-@APPLICATION_ICON_NAME@-icon.png</file>
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-1024.png">theme/colored/1024-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file>theme/magenta/logomc.svg</file>
-        <file>theme/magenta/status.png</file>
-        <file>theme/magenta/radio_checked.svg</file>
-        <file>theme/magenta/checkedbox_checked.svg</file>
-        <file>theme/magenta/folder.svg</file>
-        <file>theme/magenta/Product-icon.svg</file>
-        <file>theme/magenta/folder_magenta.svg</file>
-        <file>theme/magenta/folder/default@svg.svg</file>
-        <file>theme/magenta/news/default@svg.svg</file>
-        <file>theme/magenta/user/default@svg.svg</file>
-        <file>theme/magenta/user/default-32x32px.svg</file>
-        <file>theme/magenta/user/default-32x32px-magenta.svg</file>
-        <file>theme/magenta/MagentaCLOUD_App-Icon-whitespace.svg</file>
-        <file>theme/magenta/user/default.png</file>
-        <file>theme/magenta/user/default@3x.png</file>
-        <file>theme/magenta/share/default@svg.svg</file>
-        <file>theme/magenta/share/default.png</file>
-        <file>theme/magenta/action/circle-close/default@svg.svg</file>
-        <file>theme/magenta/action/circle-close/default.png</file>
-        <file>theme/magenta/action/logout/default@svg.svg</file>
-        <file>theme/magenta/action/logout/default.png</file>
-        <file>theme/magenta/action/pause/default@svg.svg</file>
-        <file>theme/magenta/action/pause/default.png</file>
-        <file>theme/magenta/action/settings/default@svg.svg</file>
-        <file>theme/magenta/action/settings/default.png</file>
         <file>theme/colored/state-error-32.png</file>
         <file>theme/colored/state-error-64.png</file>
         <file>theme/colored/state-error-128.png</file>
@@ -69,6 +44,10 @@
         <file>theme/white/state-sync-64.png</file>
         <file>theme/white/state-sync-128.png</file>
         <file>theme/white/state-sync-256.png</file>
+        <file>theme/black/change.svg</file>
+        <file>theme/black/clear.svg</file>
+        <file>theme/black/comment.svg</file>
+        <file>theme/black/search.svg</file>
         <file>theme/black/state-error-32.png</file>
         <file>theme/black/state-error-64.png</file>
         <file>theme/black/state-error-128.png</file>
@@ -87,7 +66,6 @@
         <file>theme/black/state-sync-256.png</file>
         <file>theme/colored/state-error.svg</file>
         <file>theme/colored/state-error-16.png</file>
-        <file>theme/colored/icon-offline.svg</file>
         <file>theme/colored/state-offline.svg</file>
         <file>theme/colored/state-offline-16.png</file>
         <file>theme/colored/state-offline-32.png</file>
@@ -95,7 +73,6 @@
         <file>theme/colored/state-offline-128.png</file>
         <file>theme/colored/state-offline-256.png</file>
         <file>theme/colored/state-ok.svg</file>
-        <file>theme/colored/Icon-synch-done.svg</file>
         <file>theme/colored/state-ok-16.png</file>
         <file>theme/colored/state-pause.svg</file>
         <file>theme/colored/state-pause-16.png</file>
@@ -108,16 +85,18 @@
         <file>theme/colored/state-warning-128.png</file>
         <file>theme/colored/state-warning-256.png</file>
         <file>theme/black/folder.png</file>
+        <file>theme/black/folder.svg</file>
         <file>theme/black/folder@2x.png</file>
         <file>theme/white/folder.png</file>
         <file>theme/white/folder@2x.png</file>
         <file>theme/colored/folder.png</file>
         <file>theme/colored/folder@2x.png</file>
+        <file>theme/black/confirm.svg</file>
         <file>theme/black/control-next.svg</file>
         <file>theme/black/control-prev.svg</file>
+        <file>theme/black/settings.svg</file>
         <file>theme/black/state-error.svg</file>
         <file>theme/black/state-error-16.png</file>
-        <file>theme/black/icon-offline.svg</file>
         <file>theme/black/state-offline.svg</file>
         <file>theme/black/state-offline-16.png</file>
         <file>theme/black/state-offline-32.png</file>
@@ -136,10 +115,22 @@
         <file>theme/black/state-warning-64.png</file>
         <file>theme/black/state-warning-128.png</file>
         <file>theme/black/state-warning-256.png</file>
+        <file>theme/white/activity.svg</file>
+        <file>theme/white/bell.svg</file>
+        <file>theme/white/calendar.svg</file>
+        <file>theme/white/change.svg</file>
+        <file>theme/white/close.svg</file>
+        <file>theme/white/confirm.svg</file>
         <file>theme/white/control-next.svg</file>
         <file>theme/white/control-prev.svg</file>
+        <file>theme/white/comment.svg</file>
+        <file>theme/white/deck.svg</file>
+        <file>theme/white/edit.svg</file>
+        <file>theme/white/email.svg</file>
+        <file>theme/white/settings.svg</file>
         <file>theme/white/state-error.svg</file>
         <file>theme/white/state-error-16.png</file>
+        <file>theme/white/state-info.svg</file>
         <file>theme/white/state-offline.svg</file>
         <file>theme/white/state-offline-16.png</file>
         <file>theme/white/state-offline-32.png</file>
@@ -160,6 +151,7 @@
         <file>theme/white/state-warning-256.png</file>
         <file>theme/white/wizard-files.png</file>
         <file>theme/white/wizard-files@2x.png</file>
+        <file>theme/white/wizard-groupware.svg</file>
         <file>theme/white/wizard-groupware.png</file>
         <file>theme/white/wizard-groupware@2x.png</file>
         <file>theme/white/wizard-nextcloud.png</file>
@@ -175,6 +167,7 @@
         <file>theme/black/wizard-talk.png</file>
         <file>theme/black/wizard-talk@2x.png</file>
         <file>theme/black/wizard-files.png</file>
+        <file>theme/black/wizard-groupware.svg</file>
         <file>theme/colored/wizard-files.png</file>
         <file>theme/colored/wizard-files@2x.png</file>
         <file>theme/colored/wizard-groupware.png</file>
@@ -199,64 +192,47 @@
         <file>theme/black/user.svg</file>
         <file>theme/white/add.svg</file>
         <file>theme/black/add.svg</file>
-        <file>theme/black/add-circle.svg</file>
         <file>theme/black/activity.svg</file>
         <file>theme/black/bell.svg</file>
+        <file>theme/black/wizard-talk.svg</file>
+        <file>theme/black/calendar.svg</file>
+        <file>theme/black/deck.svg</file>
         <file>theme/black/state-info.svg</file>
-        <file>theme/lock.svg</file>
-        <file>theme/black/delete.svg</file>
         <file>theme/close.svg</file>
-        <file>theme/refresh.svg</file>
+        <file>theme/black/close.svg</file>
+        <file>theme/white/close.svg</file>
         <file>theme/files.svg</file>
-        <file>theme/clipboard.svg</file>
         <file>theme/public.svg</file>
         <file>theme/settings.svg</file>
-        <file>theme/settings_magenta.svg</file>
-        <file>theme/Combined Shape.svg</file>
         <file>theme/confirm.svg</file>
         <file>theme/copy.svg</file>
         <file>theme/more.svg</file>
         <file>theme/change.svg</file>
+        <file>theme/colored/change-bordered.svg</file>
         <file>theme/lock-http.svg</file>
         <file>theme/lock-https.svg</file>
         <file>theme/lock-broken.svg</file>
         <file>theme/network.svg</file>
-        <file>theme/network_magenta.svg</file>
         <file>theme/account.svg</file>
         <file>theme/colored/add.svg</file>
+        <file>theme/colored/add-bordered.svg</file>
         <file>theme/colored/delete.svg</file>
+        <file>theme/colored/delete-bordered.svg</file>
+        <file>theme/colored/talk-bordered.svg</file>
         <file>theme/colored/@APPLICATION_ICON_NAME@-icon.svg</file>
         <file>theme/add.svg</file>
-        <file>theme/Computer-Icon.svg</file>
         <file>theme/share.svg</file>
-        <file>theme/content-lock.png</file>
-        <file>theme/link.svg</file>
-        <file>theme/upload-cloud.svg</file>
         <file>theme/reply.svg</file>
         <file>theme/magnifying-glass.svg</file>
+        <file>theme/external.svg</file>
         <file>theme/colored/user-status-online.svg</file>
         <file>theme/colored/user-status-invisible.svg</file>
         <file>theme/colored/user-status-away.svg</file>
         <file>theme/colored/user-status-dnd.svg</file>
-        <file>theme/colored/folder-ok.svg</file>
-        <file>theme/colored/folder-ok-16.png</file>
-        <file>theme/colored/folder-ok-32.png</file>
-        <file>theme/colored/folder-ok-64.png</file>
-        <file>theme/colored/folder-ok-128.png</file>
-        <file>theme/colored/folder-ok-256.png</file>
-        <file>theme/colored/circle-add-magenta.svg</file>
-        <file>theme/colored/circle-add-magenta-16.png</file>
-        <file>theme/colored/circle-add-magenta-32.png</file>
-        <file>theme/colored/circle-add-magenta-48.png</file>
-        <file>theme/colored/magentacloud-logo.svg</file>
-        <file>theme/colored/magentacloud-logo-16.png</file>
-        <file>theme/colored/magentacloud-logo-32.png</file>
-        <file>theme/colored/magentacloud-logo-48.png</file>
-        <file>theme/magenta/localFolder_magenta.svg</file>
-        <file>theme/magenta/localFolder32x32.svg</file>
-        <file>theme/magenta/service32x32.svg</file>
-        <file>theme/magenta/service_magenta.svg</file>
-        <file>theme/magenta/network32x32.svg</file>
-        <file>theme/magenta/network_magenta32x32.svg</file>
+        <file>theme/black/email.svg</file>
+        <file>theme/black/edit.svg</file>
+        <file>theme/delete.svg</file>
+        <file>theme/send.svg</file>
+        <file>theme/call-notification.wav</file>
     </qresource>
 </RCC>

@@ -276,7 +276,7 @@ void ownCloudGui::slotComputeOverallSyncStatus()
         foreach (AccountStatePtr a, problemAccounts) {
             accountNames.append(a->account()->displayName());
         }
-        _tray->setToolTip(tr("Disconnected from MagentaCLOUD"));
+        _tray->setToolTip(tr("Disconnected from %1").arg(accountNames.join(QLatin1String(", "))));
 #else
         QStringList messages;
         messages.append(tr("Disconnected from accounts:"));

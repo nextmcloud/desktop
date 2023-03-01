@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) by Klaas Freitag <freitag@owncloud.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #include <QWidget>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <qloggingcategory.h>
 
 #include "account.h"
 #include "accountstate.h"
@@ -47,7 +48,7 @@ ActivityListModel::ActivityListModel(QObject *parent)
 }
 
 ActivityListModel::ActivityListModel(AccountState *accountState,
-                                     QObject *parent)
+    QObject *parent)
     : QAbstractListModel(parent)
     , _accountState(accountState)
 {
@@ -58,14 +59,13 @@ QHash<int, QByteArray> ActivityListModel::roleNames() const
     auto roles = QAbstractListModel::roleNames();
     roles[DisplayPathRole] = "displayPath";
     roles[PathRole] = "path";
+    roles[OpenablePathRole] = "openablePath";
     roles[DisplayLocationRole] = "displayLocation";
-    roles[AbsolutePathRole] = "absolutePath";
     roles[LinkRole] = "link";
     roles[MessageRole] = "message";
     roles[ActionRole] = "type";
     roles[DarkIconRole] = "darkIcon";
     roles[LightIconRole] = "lightIcon";
-    roles[ActionIconRole] = "icon";
     roles[ActionTextRole] = "subject";
     roles[ActionsLinksRole] = "links";
     roles[ActionsLinksContextMenuRole] = "linksContextMenu";
@@ -77,6 +77,7 @@ QHash<int, QByteArray> ActivityListModel::roleNames() const
     roles[PointInTimeRole] = "dateTime";
     roles[DisplayActions] = "displayActions";
     roles[ShareableRole] = "isShareable";
+    roles[IsCurrentUserFileActivityRole] = "isCurrentUserFileActivity";
     roles[IsCurrentUserFileActivityRole] = "isCurrentUserFileActivity";
     roles[ThumbnailRole] = "thumbnail";
     roles[TalkNotificationConversationTokenRole] = "conversationToken";
@@ -165,15 +166,14 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
         return QString();
     };
 
-    switch (role) {
-    case DisplayPathRole:
+    const auto getDisplayPath = [&a, &ast]() {
         if (!a._file.isEmpty()) {
-            auto folder = FolderMan::instance()->folder(a._folder);
-            QString relPath(a._file);
-            if (folder) {
-                relPath.prepend(folder->remotePath());
-            }
+            const auto folder = FolderMan::instance()->folder(a._folder);
+
+            QString relPath = folder ? folder->remotePath() + a._file : a._file;
+
             const auto localFiles = FolderMan::instance()->findFileInLocalFolders(relPath, ast->account());
+
             if (localFiles.count() > 0) {
                 if (relPath.startsWith('/') || relPath.startsWith('\\')) {
                     return relPath.remove(0, 1);
@@ -183,27 +183,93 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
             }
         }
         return QString();
-    case PathRole:
-        return QFileInfo(getFilePath()).path();
-    case AbsolutePathRole: {
-        const auto folder = FolderMan::instance()->folder(a._folder);
-        QString relPath(a._file);
-        if (!a._file.isEmpty()) {
-            if (folder) {
-                relPath.prepend(folder->remotePath());
-            }
-            const auto localFiles = FolderMan::instance()->findFileInLocalFolders(relPath, ast->account());
-            if (!localFiles.empty()) {
-                return localFiles.constFirst();
+    };
+
+    const auto displayLocation = [&]() {
+        const auto displayPath = QFileInfo(getDisplayPath()).path();
+        return displayPath == "." || displayPath == "/" ? QString() : displayPath;
+    };
+
+    const auto generatePreviewMap = [](const PreviewData &preview) {
+        return(QVariantMap {
+            {QStringLiteral("source"), QStringLiteral("image://tray-image-provider/").append(preview._source)},
+               {QStringLiteral("link"), preview._link},
+               {QStringLiteral("mimeType"), preview._mimeType},
+               {QStringLiteral("fileId"), preview._fileId},
+               {QStringLiteral("view"), preview._view},
+               {QStringLiteral("isMimeTypeIcon"), preview._isMimeTypeIcon},
+               {QStringLiteral("filename"), preview._filename},
+               {QStringLiteral("isUserAvatar"), false},
+        });
+    };
+
+    const auto generateAvatarThumbnailMap = [](const QString &avatarThumbnailUrl) {
+        return QVariantMap {
+            {QStringLiteral("source"), avatarThumbnailUrl},
+            {QStringLiteral("isMimeTypeIcon"), false},
+            {QStringLiteral("isUserAvatar"), true},
+        };
+    };
+
+    const auto generateIconPath = [&]() {
+        auto colorIconPath = role == DarkIconRole ? QStringLiteral("qrc:///client/theme/white/") : QStringLiteral("qrc:///client/theme/black/");
+        if (a._type == Activity::NotificationType && !a._talkNotificationData.userAvatar.isEmpty()) {
+            return QStringLiteral("qrc:///client/theme/colored/talk-bordered.svg");
+        } else if (a._type == Activity::SyncResultType) {
+            colorIconPath.append("state-error.svg");
+            return colorIconPath;
+        } else if (a._type == Activity::SyncFileItemType) {
+            if (a._status == SyncFileItem::NormalError
+                || a._status == SyncFileItem::FatalError
+                || a._status == SyncFileItem::DetailError
+                || a._status == SyncFileItem::BlacklistedError) {
+                colorIconPath.append("state-error.svg");
+                return colorIconPath;
+            } else if (a._status == SyncFileItem::SoftError
+                || a._status == SyncFileItem::Conflict
+                || a._status == SyncFileItem::Restoration
+                || a._status == SyncFileItem::FileLocked
+                || a._status == SyncFileItem::FileNameInvalid
+                || a._status == SyncFileItem::FileNameClash) {
+                colorIconPath.append("state-warning.svg");
+                return colorIconPath;
+            } else if (a._status == SyncFileItem::FileIgnored) {
+                colorIconPath.append("state-info.svg");
+                return colorIconPath;
             } else {
-                qWarning("File not local folders while processing absolute path request.");
-                return QString();
+                // File sync successful
+                if (a._fileAction == "file_created") {
+                    return a._previews.empty() ? QStringLiteral("qrc:///client/theme/colored/add.svg")
+                                               : QStringLiteral("qrc:///client/theme/colored/add-bordered.svg");
+                } else if (a._fileAction == "file_deleted") {
+                    return a._previews.empty() ? QStringLiteral("qrc:///client/theme/colored/delete.svg")
+                                               : QStringLiteral("qrc:///client/theme/colored/delete-bordered.svg");
+                } else {
+                    return a._previews.empty() ? colorIconPath % QStringLiteral("change.svg")
+                                               : QStringLiteral("qrc:///client/theme/colored/change-bordered.svg");
+                }
             }
         } else {
-            qWarning("Received an absolute path request for an activity without a file path.");
-            return QString();
+            // We have an activity
+            if (a._icon.isEmpty()) {
+                colorIconPath.append("activity.svg");
+                return colorIconPath;
+            }
+
+            const QString basePath = QStringLiteral("image://tray-image-provider/") % a._icon % QStringLiteral("/");
+            return role == DarkIconRole ? QString(basePath + QStringLiteral("white")) : QString(basePath + QStringLiteral("black"));
         }
-    }
+    };
+
+    switch (role) {
+    case DisplayPathRole:
+        return getDisplayPath();
+    case PathRole:
+        return QFileInfo(getFilePath()).path();
+    case OpenablePathRole:
+        return a._isMultiObjectActivity ? QFileInfo(getFilePath()).canonicalPath() : QFileInfo(getFilePath()).canonicalFilePath();
+    case DisplayLocationRole:
+        return displayLocation();
     case ActionsLinksRole: {
         QList<QVariant> customList;
         foreach (ActivityLink activityLink, a._links) {
@@ -211,45 +277,24 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
         }
         return customList;
     }
-    case ActionIconRole: {
-        if (a._type == Activity::NotificationType) {
-            return "qrc:///client/theme/black/bell.svg";
-        } else if (a._type == Activity::SyncResultType) {
-            return "qrc:///client/theme/black/state-error.svg";
-        } else if (a._type == Activity::SyncFileItemType) {
-            if (a._status == SyncFileItem::NormalError
-                    || a._status == SyncFileItem::FatalError
-                    || a._status == SyncFileItem::DetailError
-                    || a._status == SyncFileItem::BlacklistedError) {
-                return "qrc:///client/theme/black/state-error.svg";
-            } else if (a._status == SyncFileItem::SoftError
-                       || a._status == SyncFileItem::Conflict
-                       || a._status == SyncFileItem::Restoration
-                       || a._status == SyncFileItem::FileLocked
-                       || a._status == SyncFileItem::FileNameInvalid) {
-                return "qrc:///client/theme/black/state-warning.svg";
-            } else if (a._status == SyncFileItem::FileIgnored) {
-                return "qrc:///client/theme/black/state-info.svg";
-            } else {
-                // File sync successful
-                if (a._fileAction == "file_created") {
-                    return "qrc:///client/theme/black/add-circle.svg";
-                } else if (a._fileAction == "file_deleted") {
-                    return "qrc:///client/theme/black/delete.svg";
-                } else {
-                    return "qrc:///client/theme/refresh.svg";
-                }
-            }
-        } else {
-            // We have an activity
-            if (a._icon.isEmpty()) {
-                return "qrc:///client/theme/black/activity.svg";
-            }
-            return a._icon;
-        }
+
+    case ActionsLinksContextMenuRole: {
+        return ActivityListModel::convertLinksToMenuEntries(a);
     }
+    
+    case ActionsLinksForActionButtonsRole: {
+        return ActivityListModel::convertLinksToActionButtons(a);
+    }
+
+    case DarkIconRole:
+    case LightIconRole:
+        return generateIconPath();
     case ObjectTypeRole:
         return a._objectType;
+    case ObjectIdRole:
+        return a._objectId;
+    case ObjectNameRole:
+        return a._objectName;
     case ActionRole: {
         switch (a._type) {
         case Activity::ActivityType:
@@ -265,7 +310,11 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
         }
     }
     case ActionTextRole:
-        return a._subject;
+        if(a._subjectDisplay.isEmpty()) {
+            return a._subject;
+        }
+
+        return a._subjectDisplay;
     case ActionTextColorRole:
         return a._id == -1 ? QLatin1String("#808080") : QLatin1String("#222");   // FIXME: This is a temporary workaround for _showMoreActivitiesAvailableEntry
     case MessageRole:
@@ -274,7 +323,7 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
         if (a._link.isEmpty()) {
             return "";
         } else {
-            return a._link;
+            return a._link.toString();
         }
     }
     case AccountRole:
@@ -284,6 +333,32 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
         return a._id == -1 ? "" : Utility::timeAgoInWords(a._dateTime.toLocalTime());
     case AccountConnectedRole:
         return (ast && ast->isConnected());
+    case DisplayActions:
+        return _displayActions;
+    case ShareableRole:
+        return !data(index, PathRole).toString().isEmpty() && a._objectType == QStringLiteral("files") && _displayActions && a._fileAction != "file_deleted" && a._status != SyncFileItem::FileIgnored;
+    case IsCurrentUserFileActivityRole:
+        return a._isCurrentUserFileActivity;
+    case ThumbnailRole: {
+        if (a._type == Activity::NotificationType && !a._talkNotificationData.userAvatar.isEmpty()) {
+            return generateAvatarThumbnailMap(a._talkNotificationData.userAvatar);
+        }
+
+        if(a._previews.empty()) {
+            return {};
+        }
+
+        const auto preview = a._previews[0];
+        return(generatePreviewMap(preview));
+    }
+    case TalkNotificationConversationTokenRole:
+        return a._talkNotificationData.conversationToken;
+    case TalkNotificationMessageIdRole:
+        return a._talkNotificationData.messageId;
+    case TalkNotificationMessageSentRole:
+        return replyMessageSent(a);
+    case TalkNotificationUserAvatarRole:
+        return a._talkNotificationData.userAvatar;
     default:
         return QVariant();
     }
@@ -296,11 +371,7 @@ int ActivityListModel::rowCount(const QModelIndex &parent) const
         return 0;
     }
 
-    // return _finalList.count();
-    if(_finalList.count()<maxVisibleActivities)
-        return _finalList.count();
-    else
-        return maxVisibleActivities;
+    return _finalList.count();
 }
 
 bool ActivityListModel::canFetchMore(const QModelIndex &) const
@@ -323,7 +394,7 @@ void ActivityListModel::startFetchJob()
     }
     auto *job = new JsonApiJob(_accountState->account(), QLatin1String("ocs/v2.php/apps/activity/api/v2/activity"), this);
     QObject::connect(job, &JsonApiJob::jsonReceived,
-                     this, &ActivityListModel::activitiesReceived);
+        this, &ActivityListModel::activitiesReceived);
 
     QUrlQuery params;
     params.addQueryItem(QLatin1String("previews"), QLatin1String("true"));
@@ -368,7 +439,7 @@ void ActivityListModel::ingestActivities(const QJsonArray &activities)
 
         _totalActivitiesFetched++;
         if (_totalActivitiesFetched == _maxActivities
-                || (_hideOldActivities && a._dateTime < oldestDate)) {
+            || (_hideOldActivities && a._dateTime < oldestDate)) {
             _showMoreActivitiesAvailableEntry = true;
             _doneFetching = true;
             break;
@@ -391,7 +462,7 @@ void ActivityListModel::appendMoreActivitiesAvailableEntry()
 {
     const QString moreActivitiesEntryObjectType = QLatin1String("activity_fetch_more_activities");
     if (_showMoreActivitiesAvailableEntry && !_finalList.isEmpty()
-            && _finalList.last()._objectType != moreActivitiesEntryObjectType) {
+        && _finalList.last()._objectType != moreActivitiesEntryObjectType) {
         Activity a;
         a._type = Activity::ActivityType;
         a._accName = _accountState->account()->displayName();
@@ -419,7 +490,7 @@ void ActivityListModel::insertOrRemoveDummyFetchingActivity()
         a._accName = _accountState->account()->displayName();
         a._id = -2;
         a._objectType = dummyFetchingActivityObjectType;
-        a._subject = tr("Fetching activities…");
+        a._subject = tr("Fetching activities …");
         a._dateTime = QDateTime::currentDateTime();
         a._icon = QLatin1String("qrc:///client/theme/colored/change-bordered.svg");
 
@@ -438,11 +509,11 @@ void ActivityListModel::clearActivities()
     _activityLists.clear();
     if (!_finalList.isEmpty()) {
         const auto firstActivityIt = std::find_if(std::begin(_finalList), std::end(_finalList),
-                                                  [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
+            [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
 
         if (firstActivityIt != std::end(_finalList)) {
             const auto lastActivityItReverse = std::find_if(std::rbegin(_finalList), std::rend(_finalList),
-                                                            [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
+                    [&](const Activity &activity) { return activity._type == Activity::ActivityType; });
 
             const auto lastActivityIt = (lastActivityItReverse + 1).base();
 
@@ -509,28 +580,9 @@ void ActivityListModel::addIgnoredFileToList(Activity newActivity)
 
 void ActivityListModel::addNotificationToActivityList(Activity activity)
 {
-  //  qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
-   // _notificationLists.prepend(activity);
-    //combineActivityLists();
-
-    QDate _notificationDate = activity._dateTime.date();
-    QDate _currentDate = QDateTime::currentDateTime().date();
-    const auto maxNotificationDay = 7;
-    if((_currentDate.month()==_notificationDate.month())){
-        if((_currentDate.day()-maxNotificationDay)<=_notificationDate.day()){
-            qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._dateTime;
-            _notificationLists.append(activity);
-            combineActivityLists();
-        }
-
-    }
-    if((_currentDate.month()==_notificationDate.month()+1)){
-        if((_notificationDate.daysInMonth()-_notificationDate.day()+_currentDate.day())<=maxNotificationDay){
-            qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._dateTime;
-            _notificationLists.append(activity);
-            combineActivityLists();
-        }
-    }
+    qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
+    _notificationLists.prepend(activity);
+    combineActivityLists();
 }
 
 void ActivityListModel::clearNotifications()
@@ -637,7 +689,7 @@ void ActivityListModel::slotTriggerDefaultAction(const int activityIndex)
         auto folder = FolderMan::instance()->folder(activity._folder);
         const auto folderDir = QDir(folder->path());
         _currentInvalidFilenameDialog = new InvalidFilenameDialog(_accountState->account(), folder,
-                                                                  folderDir.filePath(activity._file));
+            folderDir.filePath(activity._file));
         connect(_currentInvalidFilenameDialog, &InvalidFilenameDialog::accepted, folder, [folder]() {
             folder->scheduleThisFolderSoon();
         });
@@ -647,6 +699,22 @@ void ActivityListModel::slotTriggerDefaultAction(const int activityIndex)
         });
         _currentInvalidFilenameDialog->open();
         ownCloudGui::raiseDialog(_currentInvalidFilenameDialog);
+        return;
+    } else if (activity._status == SyncFileItem::FileNameClash) {
+        const auto folder = FolderMan::instance()->folder(activity._folder);
+        const auto relPath = activity._fileAction == QStringLiteral("file_renamed") ? activity._renamedFile : activity._file;
+        SyncJournalFileRecord record;
+
+        if (!folder || !folder->journalDb()->getFileRecord(relPath, &record)) {
+            return;
+        }
+
+        fetchPrivateLinkUrl(folder->accountState()->account(),
+                            relPath,
+                            record.numericFileId(),
+                            this,
+                            [](const QString &link) { Utility::openBrowser(link); }
+        );
         return;
     }
 
@@ -689,27 +757,10 @@ void ActivityListModel::slotTriggerDismiss(const int activityIndex)
         return;
     }
 
-    const auto activityLinks = _finalList[activityIndex]._links;
+    constexpr auto deleteVerb = "DELETE";
+    const auto activity = _finalList[activityIndex];
 
-    const auto foundActivityLinkIt = std::find_if(std::cbegin(activityLinks), std::cend(activityLinks), [](const ActivityLink &link) {
-        return link._verb == QStringLiteral("DELETE");
-    });
-
-    if (foundActivityLinkIt == std::cend(activityLinks)) {
-        qCWarning(lcActivity) << "Couldn't find dismiss action in activity at index" << activityIndex
-                              << " links.size() " << activityLinks.size();
-        return;
-    }
-
-    const auto actionIndex = static_cast<int>(std::distance(activityLinks.begin(), foundActivityLinkIt));
-
-    if (actionIndex < 0 || actionIndex > activityLinks.size()) {
-        qCWarning(lcActivity) << "Couldn't find dismiss action in activity at index" << activityIndex
-                              << " actionIndex found " << actionIndex;
-        return;
-    }
-
-    slotTriggerAction(activityIndex, actionIndex);
+    emit sendNotificationRequest(activity._accName, Utility::concatUrlPath(accountState()->account()->url(), "ocs/v2.php/apps/notifications/api/v2/notifications/" + QString::number(activity._id)).toString(), deleteVerb, activityIndex);
 }
 
 AccountState *ActivityListModel::accountState() const
@@ -731,11 +782,7 @@ QVariantList ActivityListModel::convertLinksToActionButtons(const Activity &acti
     }
 
     for (const auto &activityLink : activity._links) {
-        if (activityLink._primary
-                || activityLink._verb == QStringLiteral("DELETE")
-                || activityLink._verb == QStringLiteral("WEB")) {
-            customList << ActivityListModel::convertLinkToActionButton(activityLink);
-        }
+        customList << ActivityListModel::convertLinkToActionButton(activityLink);
     }
 
     return customList;
@@ -754,10 +801,6 @@ QVariant ActivityListModel::convertLinkToActionButton(const OCC::ActivityLink &a
         activityLinkCopy._imageSourceHovered = QString(replyButtonPath + "/");
     }
 
-    if (activityLink._verb == QStringLiteral("DELETE")) {
-        activityLinkCopy._label = QObject::tr("Mark as read");
-    }
-
     return QVariant::fromValue(activityLinkCopy);
 }
 
@@ -770,7 +813,7 @@ QVariantList ActivityListModel::convertLinksToMenuEntries(const Activity &activi
             const auto &activityLink = activity._links[i];
             if (!activityLink._primary) {
                 customList << QVariantMap{
-                {QStringLiteral("actionIndex"), i}, {QStringLiteral("label"), activityLink._label}};
+                    {QStringLiteral("actionIndex"), i}, {QStringLiteral("label"), activityLink._label}};
             }
         }
     }
@@ -789,10 +832,10 @@ void ActivityListModel::combineActivityLists()
     if (_listOfIgnoredFiles.size() > 0)
         resultList.append(_notificationIgnoredFiles);
 
-    //    if (_notificationLists.count() > 0) {
-    //        std::sort(_notificationLists.begin(), _notificationLists.end());
-    //        resultList.append(_notificationLists);
-    //    }
+    if (_notificationLists.count() > 0) {
+        std::sort(_notificationLists.begin(), _notificationLists.end());
+        resultList.append(_notificationLists);
+    }
 
     if (_syncFileItemLists.count() > 0) {
         std::sort(_syncFileItemLists.begin(), _syncFileItemLists.end());
@@ -802,11 +845,6 @@ void ActivityListModel::combineActivityLists()
     if (_activityLists.count() > 0) {
         std::sort(_activityLists.begin(), _activityLists.end());
         resultList.append(_activityLists);
-    }
-
-    if (_notificationLists.count() > 0) {
-        std::sort(_notificationLists.begin(), _notificationLists.end());
-        resultList.append(_notificationLists);
     }
 
     if (_finalList.isEmpty() && !resultList.isEmpty()) {
@@ -828,7 +866,6 @@ bool ActivityListModel::canFetchActivities() const
 {
     return _accountState->isConnected() && _accountState->account()->capabilities().hasActivities();
 }
-
 
 void ActivityListModel::fetchMore(const QModelIndex &)
 {
@@ -882,5 +919,9 @@ void ActivityListModel::setReplyMessageSent(const int activityIndex, const QStri
 
     emit dataChanged(index(activityIndex, 0), index(activityIndex, 0), {ActivityListModel::TalkNotificationMessageSentRole});
 }
-}
 
+QString ActivityListModel::replyMessageSent(const Activity &activity) const
+{
+    return activity._talkNotificationData.messageSent;
+}
+}

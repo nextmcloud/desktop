@@ -62,7 +62,6 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QGuiApplication>
-#include <QQuickItem>
 #include <QUrlQuery>
 
 class QSocket;
@@ -202,7 +201,6 @@ Application::Application(int &argc, char **argv)
     , _userTriggeredConnect(false)
     , _debugMode(false)
     , _backgroundMode(false)
-    , _showSwipeScreen(false)
 {
     _startedAt.start();
 
@@ -330,12 +328,12 @@ Application::Application(int &argc, char **argv)
 
     connect(this, &SharedTools::QtSingleApplication::messageReceived, this, &Application::slotParseMessage);
 
-    if (!AccountManager::instance()->restore()) {
+    if (!AccountManager::instance()->restore(cfg.overrideServerUrl().isEmpty())) {
         // If there is an error reading the account settings, try again
         // after a couple of seconds, if that fails, give up.
         // (non-existence is not an error)
         Utility::sleep(5);
-        if (!AccountManager::instance()->restore()) {
+        if (!AccountManager::instance()->restore(cfg.overrideServerUrl().isEmpty())) {
             qCCritical(lcApplication) << "Could not read the account settings, quitting";
             QMessageBox::critical(
                 nullptr,
@@ -410,15 +408,8 @@ Application::Application(int &argc, char **argv)
     connect(_gui.data(), &ownCloudGui::isShowingSettingsDialog, this, &Application::slotGuiIsShowingSettings);
 
     _gui->createTray();
-    handleEditLocallyFromOptions();
 
-    /* Setup the swipe screen */
-    view.engine()->addImportPath("qrc:/qml/theme");
-    view.setSource(QStringLiteral("qrc:/qml/src/gui/welcome/welcome.qml"));
-    view.setFlags(view.flags());
-    QObject *rootObj = view.rootObject();
-    connect(rootObj->findChild<QObject*>("cancelButton"), SIGNAL(cancelClicked()),
-            this, SLOT(slotSwipeCancelClicked()));
+    handleEditLocallyFromOptions();
 }
 
 Application::~Application()
@@ -537,27 +528,7 @@ void Application::slotownCloudWizardDone(int res)
         }
 
         Systray::instance()->showWindow();
-        /* Swipe screen works in a slideshow mode  */
-        if(FolderMan::instance()->map().isEmpty())
-        {
-            _showSwipeScreen = true;
-            QObject *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
-            view.show();
-            timerSlideShow->setProperty("running", true);
-        }
     }
-}
-
-void Application::slotSwipeCancelClicked()
-{
-    QObject *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
-    QObject *swipeView = view.rootObject()->findChild<QObject*>("swipeView");
-
-    /* Stop a slideshow and go back to the first page */
-    timerSlideShow->setProperty("running", false);
-    timerSlideShow->setProperty("interval", slideShowDelay);
-    swipeView->setProperty("currentIndex", startPage);
-    view.hide();
 }
 
 void Application::setupLogging()
@@ -631,6 +602,8 @@ void Application::parseOptions(const QStringList &options)
     if (it.hasNext())
         it.next();
 
+    bool shouldExit = false;
+
     //parse options; if help or bad option exit
     while (it.hasNext()) {
         QString option = it.next();
@@ -691,10 +664,33 @@ void Application::parseOptions(const QStringList &options)
                 qCInfo(lcApplication) << errorParsingLocalFileEditingUrl;
                 showHint(errorParsingLocalFileEditingUrl.toStdString());
             }
+        } else if (option == QStringLiteral("--overrideserverurl")) {
+            if (it.hasNext() && !it.peekNext().startsWith(QLatin1String("--"))) {
+                const auto overrideUrl = it.next();
+                const auto isUrlValid = (overrideUrl.startsWith(QStringLiteral("http://")) || overrideUrl.startsWith(QStringLiteral("https://")))
+                    && QUrl::fromUserInput(overrideUrl).isValid();
+                if (!isUrlValid) {
+                    showHint("Invalid URL passed to --overrideserverurl");
+                } else {
+                    ConfigFile().setOverrideServerUrl(overrideUrl);
+                    shouldExit = true;
+                }
+            } else {
+                showHint("Invalid URL passed to --overrideserverurl");
+            }
+        } else if (option == QStringLiteral("--overridelocaldir")) {
+            if (it.hasNext() && !it.peekNext().startsWith(QLatin1String("--"))) {
+                ConfigFile().setOverrideLocalDir(it.next());
+            } else {
+                showHint("Invalid URL passed to --overridelocaldir");
+            }
         }
         else {
             showHint("Unrecognized option '" + option.toStdString() + "'");
         }
+    }
+    if (shouldExit) {
+        std::exit(0);
     }
 }
 

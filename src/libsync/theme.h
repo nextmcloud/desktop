@@ -26,7 +26,6 @@ class QObject;
 class QPixmap;
 class QColor;
 class QPaintDevice;
-class QPalette;
 
 namespace OCC {
 
@@ -136,25 +135,25 @@ public:
      * @return QUrl full path to an icon
      */
     QUrl stateOfflineImageSource() const;
-
+    
     /**
      * @brief Returns full path to an online user status icon
      * @return QUrl full path to an icon
      */
     QUrl statusOnlineImageSource() const;
-
+    
     /**
      * @brief Returns full path to an do not disturb user status icon
      * @return QUrl full path to an icon
      */
     QUrl statusDoNotDisturbImageSource() const;
-
+    
     /**
      * @brief Returns full path to an away user status icon
      * @return QUrl full path to an icon
      */
     QUrl statusAwayImageSource() const;
-
+    
     /**
      * @brief Returns full path to an invisible user status icon
      * @return QUrl full path to an icon
@@ -190,15 +189,10 @@ public:
       * get an sync state icon
       */
     virtual QIcon syncStateIcon(SyncResult::Status, bool sysTray = false) const;
-    virtual QIcon folderOverlayIcon(SyncResult::Status, bool firstRow = false) const;
 
-    virtual QIcon folderOkIcon() const;
     virtual QIcon folderDisabledIcon() const;
     virtual QIcon folderOfflineIcon(bool sysTray = false) const;
-
-    virtual QIcon addButtonIcon() const;
     virtual QIcon applicationIcon() const;
-    virtual QIcon applicationLogo() const;
 #endif
 
     virtual QString statusHeaderText(SyncResult::Status) const;
@@ -251,6 +245,13 @@ public:
      */
     virtual bool forceOverrideServerUrl() const;
 
+    /**
+     * Automatically start login flow
+     *
+     * When true, the browser will get opened automatically
+     */
+    virtual bool startLoginFlowAutomatically() const;
+    
     /**
      * Enable OCSP stapling for SSL handshakes
      *
@@ -403,7 +404,7 @@ public:
     /**
      * @brief How to handle the userID
      *
-     * @value UserIDUserName Wizard asks for user name as ID
+     * @value UserIDUserName Wizard asks for username as ID
      * @value UserIDEmail Wizard asks for an email as ID
      * @value UserIDCustom Specify string in \ref customUserID
      */
@@ -475,14 +476,14 @@ public:
      * important dependency versions.
      */
     virtual QString versionSwitchOutput() const;
-
-    /**
+	
+	/**
     * @brief Request suitable QIcon resource depending on the background colour of the parent widget.
     *
-    * This should be replaced (TODO) by a real theming implementation for the client UI
+    * This should be replaced (TODO) by a real theming implementation for the client UI 
     * (actually 2019/09/13 only systray theming).
     */
-    virtual QIcon uiThemeIcon(const QString &iconName, bool uiHasDarkBg) const;
+	virtual QIcon uiThemeIcon(const QString &iconName, bool uiHasDarkBg) const;
 
     Q_INVOKABLE static double getColorDarkness(const QColor &color);
 
@@ -494,7 +495,7 @@ public:
      * 2019/12/08: Moved here from SettingsDialog.
      */
     Q_INVOKABLE static bool isDarkColor(const QColor &color);
-
+    
     /**
      * @brief Return the colour to be used for HTML links (e.g. used in QLabel), based on the current app palette or given colour (Dark-/Light-Mode switching).
      *
@@ -503,7 +504,7 @@ public:
      * 2019/12/08: Implemented for the Dark Mode on macOS, because the app palette can not account for that (Qt 5.12.5).
      */
     static QColor getBackgroundAwareLinkColor(const QColor &backgroundColor);
-
+    
     /**
      * @brief Return the colour to be used for HTML links (e.g. used in QLabel), based on the current app palette (Dark-/Light-Mode switching).
      *
@@ -603,6 +604,11 @@ public:
     QPalette systemPalette();
     bool darkMode();
 
+public slots:
+    virtual void setOverrideServerUrl(const QString &overrideServerUrl);
+    virtual void setForceOverrideServerUrl(bool forceOverride);
+    virtual void setStartLoginFlowAutomatically(bool startLoginFlowAuto);
+
 protected:
 #ifndef TOKEN_AUTH_ONLY
     QIcon themeIcon(const QString &name, bool sysTray = false) const;
@@ -621,6 +627,9 @@ signals:
     void systrayUseMonoIconsChanged(bool);
     void systemPaletteChanged(const QPalette &palette);
     void darkModeChanged();
+    void overrideServerUrlChanged();
+    void forceOverrideServerUrlChanged();
+    void startLoginFlowAutomaticallyChanged();
 
 private:
     Theme(Theme const &);
@@ -634,6 +643,10 @@ private:
     static Theme *_instance;
     bool _mono = false;
     bool _paletteSignalsConnected = false;
+
+    QString _overrideServerUrl;
+    bool _forceOverrideServerUrl = false;
+    bool _startLoginFlowAutomatically = false;
 
 #ifndef TOKEN_AUTH_ONLY
     mutable QHash<QString, QIcon> _iconCache;

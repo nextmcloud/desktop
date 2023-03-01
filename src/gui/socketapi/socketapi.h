@@ -22,12 +22,7 @@
 
 #include "config.h"
 
-#if defined(Q_OS_MAC)
-#include "socketapisocket_mac.h"
-#else
 #include <QLocalServer>
-using SocketApiServer = QLocalServer;
-#endif
 
 class QUrl;
 class QLocalSocket;
@@ -109,7 +104,6 @@ private:
     // opens share dialog, sends reply
     void processShareRequest(const QString &localFile, SocketListener *listener, ShareDialogStartPage startPage);
     void processFileActivityRequest(const QString &localFile);
-    void processEncryptRequest(const QString &localFile);
 
     Q_INVOKABLE void command_RETRIEVE_FOLDER_STATUS(const QString &argument, SocketListener *listener);
     Q_INVOKABLE void command_RETRIEVE_FILE_STATUS(const QString &argument, SocketListener *listener);
@@ -120,7 +114,6 @@ private:
 
     // The context menu actions
     Q_INVOKABLE void command_ACTIVITY(const QString &localFile, SocketListener *listener);
-    Q_INVOKABLE void command_ENCRYPT(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_SHARE(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_MANAGE_PUBLIC_LINKS(const QString &localFile, SocketListener *listener);
     Q_INVOKABLE void command_COPY_PUBLIC_LINK(const QString &localFile, SocketListener *listener);
@@ -156,11 +149,6 @@ private:
 
     // Sends the context menu options relating to sharing to listener
     void sendSharingContextMenuOptions(const FileData &fileData, SocketListener *listener, bool enabled);
-
-    void sendEncryptFolderCommandMenuEntries(const QFileInfo &fileInfo,
-                                                 const FileData &fileData,
-                                                 const bool isE2eEncryptedPath,
-                                                 const OCC::SocketListener* const listener) const;
 
     void sendLockFileCommandMenuEntries(const QFileInfo &fileInfo,
                                         Folder * const syncFolder,

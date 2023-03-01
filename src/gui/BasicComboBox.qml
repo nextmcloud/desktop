@@ -13,12 +13,12 @@
  */
 
 import QtQuick 2.15
-import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 
 import Style 1.0
+import "./tray"
 
 ComboBox {
     id: clearComboBox
@@ -31,12 +31,11 @@ ComboBox {
         opacity: clearComboBox.hovered ? Style.hoverOpacity : 1.0
     }
 
-    contentItem: Label {
+    contentItem: EnforcedPlainTextLabel {
         leftPadding: 0
         rightPadding: clearComboBox.indicator.width + clearComboBox.spacing
 
         text: clearComboBox.displayText
-        textFormat: Text.PlainText
         color: Style.ncTextColor
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -86,9 +85,8 @@ ComboBox {
     delegate: ItemDelegate {
         id: clearStatusDelegate
         width: clearComboBox.width
-        contentItem: Label {
+        contentItem: EnforcedPlainTextLabel {
             text: modelData.display
-            textFormat: Text.PlainText
             color: Style.ncTextColor
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter

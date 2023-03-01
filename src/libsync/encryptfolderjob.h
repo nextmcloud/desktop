@@ -40,11 +40,11 @@ signals:
 
 private slots:
     void slotEncryptionFlagSuccess(const QByteArray &folderId);
-    void slotEncryptionFlagError(const QByteArray &folderId, const int httpReturnCode, const QString &errorMessage);
+    void slotEncryptionFlagError(const QByteArray &folderId, int httpReturnCode);
     void slotLockForEncryptionSuccess(const QByteArray &folderId, const QByteArray &token);
-    void slotLockForEncryptionError(const QByteArray &folderId, const int httpReturnCode, const QString &errorMessage);
+    void slotLockForEncryptionError(const QByteArray &folderId, int httpReturnCode);
     void slotUnlockFolderSuccess(const QByteArray &folderId);
-    void slotUnlockFolderError(const QByteArray &folderId, const int httpReturnCode, const QString &errorMessage);
+    void slotUnlockFolderError(const QByteArray &folderId, int httpReturnCode);
     void slotUploadMetadataSuccess(const QByteArray &folderId);
     void slotUpdateMetadataError(const QByteArray &folderId, int httpReturnCode);
 

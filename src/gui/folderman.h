@@ -26,11 +26,7 @@
 #include "syncfileitem.h"
 
 class TestFolderMan;
-class TestFolderWizard;
-class TestGeneralSettings;
-class TestShareDialog;
-class TestShareUserGroupWidget;
-class TestSettingsDialog;
+class TestCfApiShellExtensionsIPC;
 
 namespace OCC {
 
@@ -204,6 +200,7 @@ public:
 
     /** Queues a folder for syncing. */
     void scheduleFolder(Folder *);
+
     /** Queues a folder for syncing that starts immediately. */
     void scheduleFolderForImmediateSync(Folder *);
 
@@ -266,7 +263,7 @@ public slots:
     /** Wipe folder */
     void slotWipeFolderForAccount(AccountState *accountState);
 
-    void removeE2eFiles(const AccountPtr &account) const;
+    void forceSyncForFolder(Folder *folder);
 
 private slots:
     void slotFolderSyncPaused(Folder *, bool paused);
@@ -381,11 +378,7 @@ private:
     explicit FolderMan(QObject *parent = nullptr);
     friend class OCC::Application;
     friend class ::TestFolderMan;
-    friend class ::TestFolderWizard;
-    friend class ::TestGeneralSettings;
-    friend class ::TestShareDialog;
-    friend class ::TestShareUserGroupWidget;
-    friend class ::TestSettingsDialog;
+    friend class ::TestCfApiShellExtensionsIPC;
 };
 
 } // namespace OCC

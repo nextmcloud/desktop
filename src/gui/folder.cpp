@@ -816,7 +816,11 @@ bool Folder::reloadExcludes()
 void Folder::startSync(const QStringList &pathList)
 {
     Q_UNUSED(pathList)
-
+    const auto singleItemDiscoveryOptions = _engine->singleItemDiscoveryOptions();
+    Q_ASSERT(!singleItemDiscoveryOptions.discoveryDirItem || singleItemDiscoveryOptions.discoveryDirItem->isDirectory());
+    if (singleItemDiscoveryOptions.discoveryDirItem && !singleItemDiscoveryOptions.discoveryDirItem->isDirectory()) {
+        qCCritical(lcFolder) << "startSync only accepts directory SyncFileItem, not a file.";
+    }
     if (isBusy()) {
         qCCritical(lcFolder) << "ERROR csync is still running and new sync requested.";
         return;
@@ -852,7 +856,13 @@ void Folder::startSync(const QStringList &pathList)
     bool periodicFullLocalDiscoveryNow =
         fullLocalDiscoveryInterval.count() >= 0 // negative means we don't require periodic full runs
         && _timeSinceLastFullLocalDiscovery.hasExpired(fullLocalDiscoveryInterval.count());
-    if (_folderWatcher && _folderWatcher->isReliable()
+
+    if (!singleItemDiscoveryOptions.filePathRelative.isEmpty()
+        && singleItemDiscoveryOptions.discoveryDirItem && !singleItemDiscoveryOptions.discoveryDirItem->isEmpty()) {
+        qCInfo(lcFolder) << "Going to sync just one file";
+        _engine->setLocalDiscoveryOptions(LocalDiscoveryStyle::DatabaseAndFilesystem, {singleItemDiscoveryOptions.discoveryPath});
+        _localDiscoveryTracker->startSyncPartialDiscovery();
+    } else if (_folderWatcher && _folderWatcher->isReliable()
         && hasDoneFullLocalDiscovery
         && !periodicFullLocalDiscoveryNow) {
         qCInfo(lcFolder) << "Allowing local discovery to read from the database";
@@ -1290,81 +1300,6 @@ void Folder::slotAboutToRemoveAllFiles(SyncFileItem::Direction dir, std::functio
     connect(this, &Folder::destroyed, msgBox, &QMessageBox::deleteLater);
     msgBox->open();
 }
-void Folder::removeLocalE2eFiles()
-{
-    qCDebug(lcFolder) << "Removing local E2EE files";
-
-    const QDir folderRootDir(path());
-    QStringList e2eFoldersToBlacklist;
-    const auto couldGetFiles = _journal.getFilesBelowPath("", [this, &e2eFoldersToBlacklist, &folderRootDir](const SyncJournalFileRecord &rec) {
-        // We only want to add the root-most encrypted folder to the blacklist
-        if (rec.isValid() && rec._isE2eEncrypted && rec.isDirectory()) {
-            QDir pathDir(rec._path);
-            bool parentPathEncrypted = false;
-
-            while (pathDir.cdUp() && pathDir != folderRootDir) {
-                SyncJournalFileRecord rec;
-                const auto currentCanonicalPath = pathDir.canonicalPath();
-                const auto ok = _journal.getFileRecord(currentCanonicalPath, &rec);
-                if (!ok) {
-                    qCWarning(lcFolder) << "Failed to get file record for" << currentCanonicalPath;
-                }
-
-                if (rec._isE2eEncrypted) {
-                    parentPathEncrypted = true;
-                    break;
-                }
-            }
-
-            if (!parentPathEncrypted) {
-                const auto pathAdjusted = rec._path.endsWith('/') ? rec._path : QString(rec._path + QStringLiteral("/"));
-                e2eFoldersToBlacklist.append(pathAdjusted);
-            }
-        }
-    });
-
-    if (!couldGetFiles) {
-        qCWarning(lcFolder) << "Could not fetch E2EE folders to blacklist in this folder:" << path();
-        return;
-    } else if (e2eFoldersToBlacklist.isEmpty()) {
-        qCWarning(lcFolder) << "No E2EE folders found at path" << path();
-        return;
-    }
-
-    qCInfo(lcFolder) << "About to blacklist: " << e2eFoldersToBlacklist;
-
-    bool ok = false;
-    const auto existingBlacklist = _journal.getSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, &ok);
-    Q_ASSERT(ok);
-
-    const auto existingBlacklistSet = existingBlacklist.toSet();
-    auto expandedBlacklistSet = existingBlacklist.toSet();
-
-    for (const auto &path : qAsConst(e2eFoldersToBlacklist)) {
-        expandedBlacklistSet.insert(path);
-    }
-
-    // same as in void FolderStatusModel::slotApplySelectiveSync()
-    // only start sync if blackList has changed
-    // database lists will get updated during discovery
-    const auto changes = (existingBlacklistSet - expandedBlacklistSet) + (expandedBlacklistSet - existingBlacklistSet);
-
-    _journal.setSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, expandedBlacklistSet.values());
-    _journal.setSelectiveSyncList(SyncJournalDb::SelectiveSyncE2eFoldersToRemoveFromBlacklist, changes.values());
-
-    if (!changes.isEmpty()) {
-        _journal.setSelectiveSyncList(SyncJournalDb::SelectiveSyncUndecidedList, QStringList());
-        if (isBusy()) {
-            slotTerminateSync();
-        }
-        for (const auto &it : changes) {
-            _journal.schedulePathForRemoteDiscovery(it);
-            schedulePathForLocalDiscovery(it);
-        }
-        FolderMan::instance()->scheduleFolderForImmediateSync(this);
-    }
-}
-
 
 QString Folder::fileFromLocalPath(const QString &localPath) const
 {

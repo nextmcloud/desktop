@@ -20,12 +20,9 @@
 
 #include "creds/flow2auth.h"
 
-#ifndef TEST_FLOW_AUTH
 #include "ui_flow2authwidget.h"
-#endif
 
 class QProgressIndicator;
-class TestFlow2AuthWidget;
 
 namespace OCC {
 
@@ -67,9 +64,6 @@ private:
 
     QProgressIndicator *_progressIndi;
     int _statusUpdateSkipCount = 0;
-
-     /* for Unit Test */
-    friend class ::TestFlow2AuthWidget;
 };
 
 } // namespace OCC

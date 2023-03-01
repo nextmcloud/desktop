@@ -8,25 +8,25 @@ import QtGraphicalEffects 1.0
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
+import com.nextcloud.desktopclient 1.0
 
 Button {
     id: root
 
-    display: AbstractButton.TextUnderIcon
+    display: AbstractButton.IconOnly
     flat: true
-    padding: 0
     hoverEnabled: Style.hoverEffectsEnabled
 
     icon.width: Style.headerButtonIconSize
     icon.height: Style.headerButtonIconSize
-    //icon.color: root.hovered ? Style.magenta : Style.nmcTextColor
-
-    font.family: "Segoe UI"
-    font.pixelSize: 9
-
+    icon.color: Style.ncHeaderTextColor
 
     Layout.alignment: Qt.AlignRight
-    Layout.minimumWidth: 72
-    Layout.preferredWidth:  72
+    Layout.preferredWidth:  Style.trayWindowHeaderHeight
     Layout.preferredHeight: Style.trayWindowHeaderHeight
+
+    background: Rectangle {
+        color: root.hovered || root.visualFocus ? UserModel.currentUser.headerTextColor : "transparent"
+        opacity: 0.2
+    }
 }

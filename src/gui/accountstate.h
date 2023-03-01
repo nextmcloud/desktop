@@ -18,17 +18,15 @@
 
 #include "connectionvalidator.h"
 #include "creds/abstractcredentials.h"
-#include "userstatusselectormodel.h"
-#include "userstatusconnector.h"
 
 #include <QByteArray>
 #include <QElapsedTimer>
 #include <QPointer>
 #include <QTimer>
+
 #include <memory>
 
 class QSettings;
-class FakeAccountState;
 
 namespace OCC {
 
@@ -166,23 +164,6 @@ public:
     ///Asks for user credentials
     void handleInvalidCredentials();
 
-    /** Returns the user status (Online, Dnd, Away, Offline, Invisible)
-     *  https://gist.github.com/georgehrke/55a0412007f13be1551d1f9436a39675
-    */
-    UserStatus::OnlineStatus status() const;
-
-    /** Returns the user status Message (text)
-    */
-    QString statusMessage() const;
-
-    /** Returns the user status icon url
-    */
-    QUrl statusIcon() const;
-    
-    /** Returns the user status emoji
-    */
-    QString statusEmoji() const;
-
     /** Returns the notifications status retrieved by the notificatons endpoint
      *  https://github.com/nextcloud/desktop/issues/2318#issuecomment-680698429
     */
@@ -201,11 +182,12 @@ public:
 public slots:
     /// Triggers a ping to the server to update state and
     /// connection status and errors.
-    virtual void checkConnectivity();
+    void checkConnectivity();
 
 private:
-    virtual void setState(State state);
+    void setState(State state);
     void fetchNavigationApps();
+
     int retryCount() const;
     void increaseRetryCount();
     void resetRetryCount();
@@ -272,17 +254,13 @@ private:
      */
     AccountAppList _apps;
 
-    UserStatus *_userStatus;
     bool _isDesktopNotificationsAllowed;
 
     int _retryCount = 0;
 
     QTimer _checkConnectionTimer;
     QElapsedTimer _lastCheckConnectionTimer;
-    explicit AccountState() = default;
 
-
-    friend class ::FakeAccountState;
 };
 
 class AccountApp : public QObject

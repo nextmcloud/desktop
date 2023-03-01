@@ -19,6 +19,7 @@
 #include "sharemanager.h"
 #include "sharepermissions.h"
 #include "sharee.h"
+#include "profilepagewidget.h"
 #include "QProgressIndicator.h"
 #include <QDialog>
 #include <QWidget>
@@ -26,14 +27,12 @@
 #include <QList>
 #include <QVector>
 #include <QTimer>
+#include <qpushbutton.h>
 #include <qscrollarea.h>
 
 class QAction;
 class QCompleter;
 class QModelIndex;
-class QVBoxLayout;
-class TestShareUserGroupWidget;
-class TestShareDialog;
 
 namespace OCC {
 
@@ -46,7 +45,21 @@ class AbstractCredentials;
 class SyncResult;
 class Share;
 class ShareManager;
-//class ShareUserGroupPermissionWidget;
+
+class AvatarEventFilter : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit AvatarEventFilter(QObject *parent = nullptr);
+
+signals:
+    void clicked();
+    void contextMenu(const QPoint &globalPosition);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+};
 
 /**
  * @brief The ShareDialog (user/group) class
@@ -63,36 +76,22 @@ public:
         SharePermissions maxSharingPermissions,
         const QString &privateLinkUrl,
         QWidget *parent = nullptr);
-    ~ShareUserGroupWidget();
-    void createUserShare(const QSharedPointer<Sharee> &sharee, bool);
-    void hideShareUserUI();
-    void setUserMessage(const QString &note);
+    ~ShareUserGroupWidget() override;
+    
     QVBoxLayout *shareUserGroupLayout();
-    void showNoShare();
-    void showShare();
 
 signals:
     void togglePublicLinkShare(bool);
     void styleChanged();
-    void createLinkShare();
-    void advancePermissionWidget(Share::ShareType, QSharedPointer<Sharee>, bool);
-    void advanceUserPermissionWidget(QSharedPointer<UserGroupShare>share, Share::ShareType, QSharedPointer<Sharee>, bool, const QString &permission);
-    void sendNewMail(QSharedPointer<UserGroupShare>, bool);
-    void permissionsChanged(Share::Permissions permissions);
-    void userLinePermissionChanged(const QString & permission);
-    void setUserNote(const QString &note);
-    void adjustScrollArea();
 
 public slots:
     void getShares();
     void slotShareCreated(const QSharedPointer<Share> &share);
     void slotStyleChanged();
-    void slotPermissionsChanged(Share::Permissions permissions);
-    void slotLinkShareDeleted();
 
 private slots:
     void slotSharesFetched(const QList<QSharedPointer<Share>> &shares);
-    void slotSendNewMail(QSharedPointer<UserGroupShare>share);
+
     void on_shareeLineEdit_textChanged(const QString &text);
     void searchForSharees(ShareeModel::LookupMode lookupMode);
     void slotLineEditTextEdited(const QString &text);
@@ -107,10 +106,6 @@ private slots:
     void slotPrivateLinkOpenBrowser();
     void slotPrivateLinkCopy();
     void slotPrivateLinkEmail();
-    void slotaddLinkSignal();
-    void slotAdvancedPermission(QSharedPointer<UserGroupShare>share, Share::ShareType type, const QString &permission);
-    void slotUserLinePermissionChanged(const QString & permission);
-    void slotAdjustScrollArea();
 
 private:
     void customizeStyle();
@@ -118,6 +113,7 @@ private:
     void activateShareeLineEdit();
 
     Ui::ShareUserGroupWidget *_ui;
+    QScopedPointer<QAction> _searchGloballyAction;
     QScrollArea *_parentScrollArea;
     QVBoxLayout *_shareUserGroup;
     AccountPtr _account;
@@ -133,17 +129,10 @@ private:
     bool _isFile;
     bool _disableCompleterActivated; // in order to avoid that we share the contents twice
     ShareManager *_manager;
-    bool _linkShareDeleted;
 
     QProgressIndicator _pi_sharee;
 
     QString _lastCreatedShareId;
-    QSharedPointer<Sharee> _sharee;
-
-   // ShareUserGroupPermissionWidget *_sharePermissionGroup = nullptr;
-
-    /* for Unit Test */
-    friend class ::TestShareUserGroupWidget;
 };
 
 /**
@@ -159,24 +148,18 @@ public:
         SharePermissions maxSharingPermissions,
         bool isFile,
         QWidget *parent = nullptr);
-    ~ShareUserLine();
+    ~ShareUserLine() override;
 
     QSharedPointer<Share> share() const;
 
 signals:
     void visualDeletionDone();
     void resizeRequested();
-    void advancedPermissionWidget( QSharedPointer<UserGroupShare>share, Share::ShareType, QString);
-    void sendNewMail(QSharedPointer<UserGroupShare>share);
-    void userLinePermissionChanged(const QString &permission);
-    void adjustScrollArea();
 
 public slots:
     void slotStyleChanged();
 
     void focusPasswordLineEdit();
-    void slotPermissionsChangedOutside(Share::Permissions pemission);
-    void onSetUserNote(const QString &note);
 
 private slots:
     void on_deleteShareButton_clicked();
@@ -202,15 +185,17 @@ private slots:
     void slotLineEditPasswordReturnPressed();
 
     void slotConfirmPasswordClicked();
-    void slotAdvancedPermission();
-    void slotSendNewMail();
 
-    void mouseReleaseEvent ( QMouseEvent * permissionsEvent );
+    void onAvatarContextMenu(const QPoint &globalPosition);
 
 private:
     void displayPermissions();
     void loadAvatar();
+    void setDefaultAvatar(int avatarSize);
     void customizeStyle();
+
+    QPixmap pixmapForShareeType(Sharee::Type type, const QColor &backgroundColor = QColor()) const;
+    QColor backgroundColorForShareeType(Sharee::Type type) const;
 
   void showNoteOptions(bool show);
   void toggleNoteOptions(bool enable);
@@ -218,7 +203,7 @@ private:
   void setNote(const QString &note);
 
   void toggleExpireDateOptions(bool enable);
-  void showExpireDateOptions(bool show);
+  void showExpireDateOptions(bool show, const QDate &initialDate = QDate());
   void setExpireDate();
 
   void togglePasswordSetProgressAnimation(bool show);
@@ -226,16 +211,17 @@ private:
   void enableProgessIndicatorAnimation(bool enable);
   void disableProgessIndicatorAnimation();
 
+  QDate maxExpirationDateForShare(const Share::ShareType type, const QDate &fallbackDate) const;
+  bool enforceExpirationDateForShare(const Share::ShareType type) const;
+
   Ui::ShareUserLine *_ui;
   AccountPtr _account;
   QSharedPointer<UserGroupShare> _share;
-  SharePermissions _maxSharingPermissions;
   bool _isFile;
-  QString _permission;
+
+  ProfilePageMenu _profilePageMenu;
 
   // _permissionEdit is a checkbox
-  QAction *_permissionRead;
-  QAction *_permissionUpload;
   QAction *_permissionReshare;
   QAction *_deleteShareButton;
   QAction *_permissionCreate;
@@ -244,12 +230,6 @@ private:
   QAction *_noteLinkAction;
   QAction *_expirationDateLinkAction;
   QAction *_passwordProtectLinkAction;
-  QAction *_advancedPermission;
-  QAction *_sendNewMail;
-
-  /* for Unit Test */
-   friend class ::TestShareUserGroupWidget;
-   friend class ::TestShareDialog;
 };
 }
 

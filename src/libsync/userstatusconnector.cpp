@@ -119,4 +119,3 @@ UserStatusConnector::UserStatusConnector(QObject *parent)
 
 UserStatusConnector::~UserStatusConnector() = default;
 }
-

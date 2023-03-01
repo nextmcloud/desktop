@@ -72,10 +72,11 @@ static const char showCallNotificationsC[] = "showCallNotifications";
 static const char showInExplorerNavigationPaneC[] = "showInExplorerNavigationPane";
 static const char skipUpdateCheckC[] = "skipUpdateCheck";
 static const char autoUpdateCheckC[] = "autoUpdateCheck";
-static const char TransferUsageDataC[] = "TransferUsageData";
 static const char updateCheckIntervalC[] = "updateCheckInterval";
 static const char updateSegmentC[] = "updateSegment";
 static const char updateChannelC[] = "updateChannel";
+static constexpr char overrideServerUrlC[] = "overrideServerUrl";
+static constexpr char overrideLocalDirC[] = "overrideLocalDir";
 static const char geometryC[] = "geometry";
 static const char timeoutC[] = "timeout";
 static const char chunkSizeC[] = "chunkSize";
@@ -188,7 +189,7 @@ bool ConfigFile::setConfDir(const QString &value)
 bool ConfigFile::optionalServerNotifications() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(optionalServerNotificationsC), false).toBool();
+    return settings.value(QLatin1String(optionalServerNotificationsC), true).toBool();
 }
 
 bool ConfigFile::showCallNotifications() const
@@ -652,32 +653,6 @@ void ConfigFile::setAutoUpdateCheck(bool autoCheck, const QString &connection)
     settings.sync();
 }
 
-bool ConfigFile::transferUsageData(const QString &connection) const
-{
-    QString con(connection);
-    if (connection.isEmpty())
-        con = defaultConnection();
-
-    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, false);
-    fallback = getValue(QLatin1String(TransferUsageDataC), QString(), fallback);
-
-    QVariant value = getPolicySetting(QLatin1String(TransferUsageDataC), fallback);
-    return value.toBool();
-}
-
-void ConfigFile::setTransferUsageData(bool usageData, const QString &connection)
-{
-    QString con(connection);
-    if (connection.isEmpty())
-        con = defaultConnection();
-
-    QSettings settings(configFile(), QSettings::IniFormat);
-    settings.beginGroup(con);
-
-    settings.setValue(QLatin1String(TransferUsageDataC), QVariant(usageData));
-    settings.sync();
-}
-
 int ConfigFile::updateSegment() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
@@ -713,6 +688,30 @@ void ConfigFile::setUpdateChannel(const QString &channel)
 {
     QSettings settings(configFile(), QSettings::IniFormat);
     settings.setValue(QLatin1String(updateChannelC), channel);
+}
+
+QString ConfigFile::overrideServerUrl() const
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    return settings.value(QLatin1String(overrideServerUrlC), {}).toString();
+}
+
+void ConfigFile::setOverrideServerUrl(const QString &url)
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.setValue(QLatin1String(overrideServerUrlC), url);
+}
+
+QString ConfigFile::overrideLocalDir() const
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    return settings.value(QLatin1String(overrideLocalDirC), {}).toString();
+}
+
+void ConfigFile::setOverrideLocalDir(const QString &localDir)
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.setValue(QLatin1String(overrideLocalDirC), localDir);
 }
 
 void ConfigFile::setProxyType(int proxyType,
@@ -913,7 +912,7 @@ bool ConfigFile::confirmExternalStorage() const
 
 bool ConfigFile::useNewBigFolderSizeLimit() const
 {
-    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), false);
+    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), true);
     return getPolicySetting(QLatin1String(useNewBigFolderSizeLimitC), fallback).toBool();
 }
 

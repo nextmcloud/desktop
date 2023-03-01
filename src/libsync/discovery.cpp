@@ -12,7 +12,6 @@
  * for more details.
  */
 
-#include "account.h"
 #include "discovery.h"
 #include "common/filesystembase.h"
 #include "common/syncjournaldb.h"
@@ -38,6 +37,39 @@ namespace OCC {
 
 Q_LOGGING_CATEGORY(lcDisco, "sync.discovery", QtInfoMsg)
 
+ProcessDirectoryJob::ProcessDirectoryJob(DiscoveryPhase *data, PinState basePinState, qint64 lastSyncTimestamp, QObject *parent)
+    : QObject(parent)
+    , _lastSyncTimestamp(lastSyncTimestamp)
+    , _discoveryData(data)
+{
+    qCDebug(lcDisco) << data;
+    computePinState(basePinState);
+}
+
+ProcessDirectoryJob::ProcessDirectoryJob(const PathTuple &path, const SyncFileItemPtr &dirItem, QueryMode queryLocal, QueryMode queryServer, qint64 lastSyncTimestamp, ProcessDirectoryJob *parent)
+    : QObject(parent)
+    , _dirItem(dirItem)
+    , _lastSyncTimestamp(lastSyncTimestamp)
+    , _queryServer(queryServer)
+    , _queryLocal(queryLocal)
+    , _discoveryData(parent->_discoveryData)
+    , _currentFolder(path)
+{
+    qCDebug(lcDisco) << path._server << queryServer << path._local << queryLocal << lastSyncTimestamp;
+    computePinState(parent->_pinState);
+}
+
+ProcessDirectoryJob::ProcessDirectoryJob(DiscoveryPhase *data, PinState basePinState, const PathTuple &path, const SyncFileItemPtr &dirItem, QueryMode queryLocal, qint64 lastSyncTimestamp, QObject *parent)
+        : QObject(parent)
+        , _dirItem(dirItem)
+        , _lastSyncTimestamp(lastSyncTimestamp)
+        , _queryLocal(queryLocal)
+        , _discoveryData(data)
+        , _currentFolder(path)
+{
+    computePinState(basePinState);
+}
+
 void ProcessDirectoryJob::start()
 {
     qCInfo(lcDisco) << "STARTING" << _currentFolder._server << _queryServer << _currentFolder._local << _queryLocal;
@@ -53,6 +85,7 @@ void ProcessDirectoryJob::start()
         if (!_discoveryData->_shouldDiscoverLocaly(_currentFolder._local)
             && (_currentFolder._local == _currentFolder._original || !_discoveryData->_shouldDiscoverLocaly(_currentFolder._original))) {
             _queryLocal = ParentNotChanged;
+            qCDebug(lcDisco) << "adjusted discovery policy" << _currentFolder._server << _queryServer << _currentFolder._local << _queryLocal;
         }
     }
 
@@ -140,6 +173,11 @@ void ProcessDirectoryJob::process()
         PathTuple path;
         path = _currentFolder.addName(e.nameOverride.isEmpty() ? f.first : e.nameOverride);
 
+        if (!_discoveryData->_listExclusiveFiles.isEmpty() && !_discoveryData->_listExclusiveFiles.contains(path._server)) {
+            qCInfo(lcDisco) << "Skipping a file:" << path._server << "as it is not listed in the _listExclusiveFiles";
+            continue;
+        }
+
         if (isVfsWithSuffix()) {
             // Without suffix vfs the paths would be good. But since the dbEntry and localEntry
             // can have different names from f.first when suffix vfs is on, make sure the
@@ -178,13 +216,7 @@ void ProcessDirectoryJob::process()
         if (handleExcluded(path._target, e, isHidden))
             continue;
 
-        const auto isEncryptedFolderButE2eIsNotSetup = e.serverEntry.isValid() && e.serverEntry.isE2eEncrypted &&
-                _discoveryData->_account->e2e() && !_discoveryData->_account->e2e()->_publicKey.isNull() && _discoveryData->_account->e2e()->_privateKey.isNull();
-        if (isEncryptedFolderButE2eIsNotSetup) {
-            checkAndUpdateSelectiveSyncListsForE2eeFolders(path._server + "/");
-        }
-
-        if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original) || isEncryptedFolderButE2eIsNotSetup) {
+        if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original)) {
             processBlacklisted(path, e.localEntry, e.dbEntry);
             continue;
         }
@@ -197,6 +229,7 @@ void ProcessDirectoryJob::process()
 
         processFile(std::move(path), e.localEntry, e.serverEntry, e.dbEntry);
     }
+    _discoveryData->_listExclusiveFiles.clear();
     QTimer::singleShot(0, _discoveryData, &DiscoveryPhase::scheduleMoreJobs);
 }
 
@@ -345,26 +378,6 @@ bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &ent
     emit _discoveryData->itemDiscovered(item);
     return true;
 }
-
-void ProcessDirectoryJob::checkAndUpdateSelectiveSyncListsForE2eeFolders(const QString &path)
-{
-    bool ok = false;
-
-    const auto pathWithTrailingSpace = path.endsWith(QLatin1Char('/')) ? path : path + QLatin1Char('/');
-    auto blackListSet = _discoveryData->_statedb->getSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, &ok).toSet();
-    blackListSet.insert(pathWithTrailingSpace);
-    auto blackList = blackListSet.toList();
-    blackList.sort();
-    _discoveryData->_statedb->setSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, blackList);
-
-    auto toRemoveFromBlacklistSet = _discoveryData->_statedb->getSelectiveSyncList(SyncJournalDb::SelectiveSyncE2eFoldersToRemoveFromBlacklist, &ok).toSet();
-    toRemoveFromBlacklistSet.insert(pathWithTrailingSpace);
-    // record it into a separate list to automatically remove from blacklist once the e2EE gets set up
-    auto toRemoveFromBlacklist = toRemoveFromBlacklistSet.toList();
-    toRemoveFromBlacklist.sort();
-    _discoveryData->_statedb->setSelectiveSyncList(SyncJournalDb::SelectiveSyncE2eFoldersToRemoveFromBlacklist, toRemoveFromBlacklist);
-}
-
 
 void ProcessDirectoryJob::processFile(PathTuple path,
     const LocalInfo &localEntry, const RemoteInfo &serverEntry,
@@ -1896,7 +1909,7 @@ bool ProcessDirectoryJob::isVfsWithSuffix() const
 void ProcessDirectoryJob::computePinState(PinState parentState)
 {
     _pinState = parentState;
-    if (_queryLocal != ParentDontExist) {
+    if (_queryLocal != ParentDontExist && QFileInfo::exists(_discoveryData->_localDir + _currentFolder._local)) {
         if (auto state = _discoveryData->_syncOptions._vfs->pinState(_currentFolder._local)) // ouch! pin local or original?
             _pinState = *state;
     }
