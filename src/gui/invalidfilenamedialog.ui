@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>607</width>
+    <width>411</width>
     <height>192</height>
    </rect>
   </property>
@@ -22,9 +22,6 @@
      <property name="text">
       <string>The file could not be synced because it contains characters which are not allowed on this system.</string>
      </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
@@ -38,9 +35,6 @@
      <property name="text">
       <string>Error</string>
      </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
@@ -53,9 +47,6 @@
     <widget class="QLabel" name="label">
      <property name="text">
       <string>Please enter a new name for the file:</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -113,9 +104,6 @@
      </property>
      <property name="text">
       <string/>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
      </property>
     </widget>
    </item>

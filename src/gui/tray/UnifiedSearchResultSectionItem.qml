@@ -5,15 +5,15 @@ import QtQuick.Layouts 1.2
 import Style 1.0
 import com.nextcloud.desktopclient 1.0
 
-EnforcedPlainTextLabel {
+Label {
     required property string section
 
-    topPadding: Style.unifiedSearchResultSectionItemVerticalPadding
-    bottomPadding: Style.unifiedSearchResultSectionItemVerticalPadding
-    leftPadding: Style.unifiedSearchResultSectionItemLeftPadding
+    topPadding: 8
+    bottomPadding: 8
+    leftPadding: 16
 
     text: section
-    font.pixelSize: Style.unifiedSearchResultTitleFontSize
+    font.pixelSize: Style.topLinePixelSize
     color: UserModel.currentUser.accentColor
 
     Accessible.role: Accessible.Separator

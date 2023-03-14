@@ -18,11 +18,7 @@ Q_LOGGING_CATEGORY(lcMacSystray, "nextcloud.gui.macsystray")
     willPresentNotification:(UNNotification *)notification
     withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
 {
-#if __MAC_OS_X_VERSION_MIN_REQUIRED >= 110000
-        completionHandler(UNNotificationPresentationOptionSound + UNNotificationPresentationOptionBanner);
-#else
-        completionHandler(UNNotificationPresentationOptionSound + UNNotificationPresentationOptionAlert);
-#endif
+    completionHandler(UNNotificationPresentationOptionSound + UNNotificationPresentationOptionBanner);
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
@@ -47,23 +43,9 @@ Q_LOGGING_CATEGORY(lcMacSystray, "nextcloud.gui.macsystray")
 
 namespace OCC {
 
-enum MacNotificationAuthorizationOptions {
-    Default = 0,
-    Provisional
-};
-
-double menuBarThickness()
+double statusBarThickness()
 {
-    const NSMenu *mainMenu = [[NSApplication sharedApplication] mainMenu];
-
-    if (mainMenu == nil) {
-        // Return this educated guess if something goes wrong.
-        // As of macOS 12.4 this will always return 22, even on notched Macbooks.
-        qCWarning(lcMacSystray) << "Got nil for main menu. Going with reasonable menu bar height guess.";
-        return [[NSStatusBar systemStatusBar] thickness];
-    }
-
-    return mainMenu.menuBarHeight;
+    return [NSStatusBar systemStatusBar].thickness;
 }
 
 // TODO: Get this to actually check for permissions
@@ -96,16 +78,10 @@ void registerNotificationCategories(const QString &localisedDownloadString) {
     [[UNUserNotificationCenter currentNotificationCenter] setNotificationCategories:[NSSet setWithObjects:generalCategory, updateCategory, nil]];
 }
 
-void checkNotificationAuth(MacNotificationAuthorizationOptions additionalAuthOption = MacNotificationAuthorizationOptions::Provisional)
+void checkNotificationAuth()
 {
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-    UNAuthorizationOptions authOptions = UNAuthorizationOptionAlert + UNAuthorizationOptionSound;
-
-    if(additionalAuthOption == MacNotificationAuthorizationOptions::Provisional) {
-        authOptions += UNAuthorizationOptionProvisional;
-    }
-
-    [center requestAuthorizationWithOptions:(authOptions)
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNAuthorizationOptionProvisional)
         completionHandler:^(BOOL granted, NSError * _Nullable error) {
             // Enable or disable features based on authorization.
             if(granted) {

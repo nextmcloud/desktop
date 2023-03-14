@@ -25,6 +25,8 @@
 #include "wizard/owncloudwizardcommon.h"
 #include "accountfwd.h"
 
+class TestOwncloudWizard;
+
 namespace OCC {
 
 Q_DECLARE_LOGGING_CATEGORY(lcWizard)
@@ -68,6 +70,8 @@ public:
     bool useVirtualFileSync() const;
     bool isConfirmBigFolderChecked() const;
 
+    void enableFinishOnResultWidget(bool enable);
+
     void displayError(const QString &, bool retryHTTPonly);
     AbstractCredentials *getCredentials() const;
 
@@ -95,7 +99,6 @@ public slots:
     void appendToConfigurationLog(const QString &msg, LogType type = LogParagraph);
     void slotCurrentPageChanged(int);
     void successfulStep();
-    void slotCustomButtonClicked(const int which);
 
 signals:
     void clearPendingRequests();
@@ -134,6 +137,9 @@ private:
     bool _registration = false;
 
     friend class OwncloudSetupWizard;
+
+    /* for Unit Test */
+    friend class ::TestOwncloudWizard;
 };
 
 } // namespace OCC

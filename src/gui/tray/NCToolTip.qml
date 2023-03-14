@@ -22,8 +22,9 @@ ToolTip {
     id: toolTip
     clip: true
     delay: Qt.styleHints.mousePressAndHoldInterval
-    contentItem: EnforcedPlainTextLabel {
+    contentItem: Label {
         text: toolTip.text
+        textFormat: Text.PlainText
         color: Style.ncTextColor
         wrapMode: Text.Wrap
     }

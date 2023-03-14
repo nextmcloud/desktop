@@ -13,11 +13,11 @@
  */
 
 import QtQuick 2.15
+import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 
 import Style 1.0
-import "./tray"
 
 AbstractButton {
     id: root
@@ -42,30 +42,33 @@ AbstractButton {
     contentItem: Row {
         spacing: root.internalSpacing
 
-        EnforcedPlainTextLabel {
+        Label {
             width: root.emojiWidth > 0 ? root.emojiWidth : implicitWidth
             text: emoji
+            textFormat: Text.PlainText
             horizontalAlignment: Image.AlignHCenter
             verticalAlignment: Image.AlignVCenter
         }
 
         Row {
             spacing: Style.smallSpacing
-            EnforcedPlainTextLabel {
+            Label {
                 text: root.statusText
+                textFormat: Text.PlainText
                 color: Style.ncTextColor
                 verticalAlignment: Text.AlignVCenter
                 font.bold: true
             }
 
-            EnforcedPlainTextLabel {
+            Label {
                 text: "-"
                 color: Style.ncTextColor
                 verticalAlignment: Text.AlignVCenter
             }
 
-            EnforcedPlainTextLabel {
+            Label {
                 text: root.clearAtText
+                textFormat: Text.PlainText
                 color: Style.ncTextColor
                 verticalAlignment: Text.AlignVCenter
             }

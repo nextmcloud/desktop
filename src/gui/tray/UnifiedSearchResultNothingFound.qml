@@ -9,9 +9,9 @@ ColumnLayout {
 
     required property string text
 
-    spacing: Style.standardSpacing
-    anchors.leftMargin: Style.unifiedSearchResultNothingFoundHorizontalMargin
-    anchors.rightMargin: Style.unifiedSearchResultNothingFoundHorizontalMargin
+    spacing: 8
+    anchors.leftMargin: 10
+    anchors.rightMargin: 10
 
     Image {
         id: unifiedSearchResultsNoResultsLabelIcon
@@ -21,7 +21,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
     }
 
-    EnforcedPlainTextLabel {
+    Label {
         id: unifiedSearchResultsNoResultsLabel
         text: qsTr("No results for")
         color: Style.menuBorder
@@ -32,7 +32,7 @@ ColumnLayout {
         horizontalAlignment: Text.AlignHCenter
     }
 
-    EnforcedPlainTextLabel {
+    Label {
         id: unifiedSearchResultsNoResultsLabelDetails
         text: unifiedSearchResultNothingFoundContainer.text
         color: Style.ncTextColor

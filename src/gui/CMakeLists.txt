@@ -40,6 +40,8 @@ set(client_UI_SRCS
     settingsdialog.ui
     sharedialog.ui
     sharelinkwidget.ui
+    shareusermessagewidget.ui
+    shareusergrouppermissionwidget.ui
     shareusergroupwidget.ui
     shareuserline.ui
     sslerrordialog.ui
@@ -47,14 +49,24 @@ set(client_UI_SRCS
     passwordinputdialog.ui
     proxyauthdialog.ui
     mnemonicdialog.ui
+    tray/ActivityActionButton.qml
+    tray/ActivityItem.qml
+    tray/Window.qml
+    tray/UserLine.qml
     wizard/flow2authwidget.ui
     wizard/owncloudadvancedsetuppage.ui
     wizard/owncloudconnectionmethoddialog.ui
     wizard/owncloudhttpcredspage.ui
     wizard/owncloudoauthcredspage.ui
     wizard/owncloudsetupnocredspage.ui
+    wizard/owncloudwizardresultpage.ui
     wizard/webview.ui
     wizard/welcomepage.ui
+    welcome/welcome.qml
+    welcome/Page1Form.ui.qml
+    welcome/Page2Form.ui.qml
+    welcome/Page3Form.ui.qml
+
 )
 
 if(QUICK_COMPILER)
@@ -142,7 +154,8 @@ set(client_SRCS
     sharedialog.cpp
     sharelinkwidget.h
     sharelinkwidget.cpp
-    sharemanager.h
+    shareusermessagewidget.cpp
+    shareusergrouppermissionwidget.cpp
     sharemanager.cpp
     shareusergroupwidget.h
     shareusergroupwidget.cpp
@@ -185,6 +198,7 @@ set(client_SRCS
     iconutils.h
     iconutils.cpp
     remotewipe.h
+    iconjob.cpp
     remotewipe.cpp
     userstatusselectormodel.h
     userstatusselectormodel.cpp
@@ -210,6 +224,8 @@ set(client_SRCS
     tray/usermodel.cpp
     tray/notificationhandler.h
     tray/notificationhandler.cpp
+    tray/notificationcache.h
+    tray/notificationcache.cpp
     creds/credentialsfactory.h
     tray/talkreply.cpp
     creds/credentialsfactory.cpp
@@ -245,6 +261,7 @@ set(client_SRCS
     wizard/owncloudwizardcommon.cpp
     wizard/owncloudwizard.h
     wizard/owncloudwizard.cpp
+    wizard/owncloudwizardresultpage.cpp
     wizard/slideshow.h
     wizard/slideshow.cpp
     wizard/welcomepage.h
@@ -341,6 +358,7 @@ IF( WIN32 )
 ENDIF()
 
 set( final_src
+    ${MIRALL_RC_SRC}
     ${client_SRCS}
     ${client_UI_SRCS}
     ${guiMoc}

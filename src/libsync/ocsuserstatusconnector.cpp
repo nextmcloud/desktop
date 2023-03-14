@@ -59,7 +59,7 @@ QString onlineStatusToString(OCC::UserStatus::OnlineStatus status)
     case OCC::UserStatus::OnlineStatus::DoNotDisturb:
         return QStringLiteral("dnd");
     case OCC::UserStatus::OnlineStatus::Away:
-        return QStringLiteral("away");
+        return QStringLiteral("offline");
     case OCC::UserStatus::OnlineStatus::Offline:
         return QStringLiteral("offline");
     case OCC::UserStatus::OnlineStatus::Invisible:
@@ -191,15 +191,15 @@ OCC::UserStatus jsonToUserStatus(QJsonObject jsonObject)
     return userStatus;
 }
 
-QVector<OCC::UserStatus> jsonToPredefinedStatuses(QJsonArray jsonDataArray)
+std::vector<OCC::UserStatus> jsonToPredefinedStatuses(QJsonArray jsonDataArray)
 {
-    QVector<OCC::UserStatus> statuses;
+    std::vector<OCC::UserStatus> statuses;
     for (const auto &jsonEntry : jsonDataArray) {
         Q_ASSERT(jsonEntry.isObject());
         if (!jsonEntry.isObject()) {
             continue;
         }
-        statuses.append(jsonToUserStatus(jsonEntry.toObject()));
+        statuses.push_back(jsonToUserStatus(jsonEntry.toObject()));
     }
 
     return statuses;

@@ -21,6 +21,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QNetworkConfigurationManager>
+#include <QQuickView>
 
 #include "qtsingleapplication.h"
 
@@ -78,6 +79,8 @@ public slots:
     // TODO: this should not be public
     void slotownCloudWizardDone(int);
     void slotCrash();
+    void slotSwipeCancelClicked();
+
     /**
      * Will download a virtual file, and open the result.
      * The argument is the filename of the virtual file (including the extension)
@@ -119,6 +122,7 @@ private:
     bool configVersionMigration();
 
     QPointer<ownCloudGui> _gui;
+    QQuickView view;
 
     Theme *_theme;
 
@@ -139,6 +143,7 @@ private:
     bool _debugMode;
     bool _backgroundMode;
     QUrl _editFileLocallyUrl;
+    bool _showSwipeScreen;
 
     ClientProxy _proxy;
 
@@ -152,6 +157,8 @@ private:
 #ifdef Q_OS_WIN
     QScopedPointer<ShellExtensionsServer> _shellExtensionsServer;
 #endif
+    const int slideShowDelay = 3000;
+    const int startPage = 0;
 };
 
 } // namespace OCC

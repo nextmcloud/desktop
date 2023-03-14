@@ -40,19 +40,14 @@ public:
 };
 
 #ifdef Q_OS_MACOS
-enum MacNotificationAuthorizationOptions {
-    Default = 0,
-    Provisional
-};
-
 void setUserNotificationCenterDelegate();
-void checkNotificationAuth(MacNotificationAuthorizationOptions authOptions = MacNotificationAuthorizationOptions::Provisional);
+void checkNotificationAuth();
 void registerNotificationCategories(const QString &localizedDownloadString);
 bool canOsXSendUserNotification();
 void sendOsXUserNotification(const QString &title, const QString &message);
 void sendOsXUpdateNotification(const QString &title, const QString &message, const QUrl &webUrl);
 void setTrayWindowLevelAndVisibleOnAllSpaces(QWindow *window);
-double menuBarThickness();
+double statusBarThickness();
 #endif
 
 /**
@@ -66,8 +61,6 @@ class Systray
 
     Q_PROPERTY(QString windowTitle READ windowTitle CONSTANT)
     Q_PROPERTY(bool useNormalWindow READ useNormalWindow CONSTANT)
-    Q_PROPERTY(bool syncIsPaused READ syncIsPaused WRITE setSyncIsPaused NOTIFY syncIsPausedChanged)
-    Q_PROPERTY(bool isOpen READ isOpen WRITE setIsOpen NOTIFY isOpenChanged)
 
 public:
     static Systray *instance();
@@ -75,60 +68,47 @@ public:
 
     enum class TaskBarPosition { Bottom, Left, Top, Right };
     Q_ENUM(TaskBarPosition);
-
+    
     enum class NotificationPosition { Default, TopLeft, TopRight, BottomLeft, BottomRight };
     Q_ENUM(NotificationPosition);
-
-    enum class WindowPosition { Default, Center };
-    Q_ENUM(WindowPosition);
 
     void setTrayEngine(QQmlApplicationEngine *trayEngine);
     void create();
     void showMessage(const QString &title, const QString &message, MessageIcon icon = Information);
     void showUpdateMessage(const QString &title, const QString &message, const QUrl &webUrl);
     void setToolTip(const QString &tip);
-    void createCallDialog(const Activity &callNotification, const AccountStatePtr accountState);
+    bool isOpen();
+    QString windowTitle() const;
+    bool useNormalWindow() const;
+    void createCallDialog(const Activity &callNotification);
     void createEditFileLocallyLoadingDialog(const QString &fileName);
     void destroyEditFileLocallyLoadingDialog();
 
-    Q_REQUIRED_RESULT QString windowTitle() const;
-    Q_REQUIRED_RESULT bool useNormalWindow() const;
-
-    Q_REQUIRED_RESULT bool syncIsPaused() const;
-    Q_REQUIRED_RESULT bool isOpen() const;
+    Q_INVOKABLE void pauseResumeSync();
+    Q_INVOKABLE bool syncIsPaused();
+    Q_INVOKABLE void setOpened();
+    Q_INVOKABLE void setClosed();
+    Q_INVOKABLE void positionWindow(QQuickWindow *window) const;
+    Q_INVOKABLE void forceWindowInit(QQuickWindow *window) const;
+    Q_INVOKABLE void positionNotificationWindow(QQuickWindow *window) const;
 
 signals:
     void currentUserChanged();
     void openAccountWizard();
+    void openMainDialog();
     void openSettings();
     void openHelp();
     void shutdown();
 
+    void hideWindow();
+    void showWindow();
     void openShareDialog(const QString &sharePath, const QString &localPath);
     void showFileActivityDialog(const QString &objectName, const int objectId);
     void sendChatMessage(const QString &token, const QString &message, const QString &replyTo);
     void showErrorMessageDialog(const QString &error);
 
-    void syncIsPausedChanged();
-    void isOpenChanged();
-
 public slots:
-    void slotCurrentUserChanged();
-
-    void forceWindowInit(QQuickWindow *window) const;
-    void positionWindowAtTray(QQuickWindow *window) const;
-    void positionWindowAtScreenCenter(QQuickWindow *window) const;
-    void positionNotificationWindow(QQuickWindow *window) const;
-
-    // Do not use this for QQuickWindow components managed by the QML engine,
-    // only for those managed by the C++ engine
-    void destroyDialog(QQuickWindow *window) const;
-
-    void showWindow(WindowPosition position = WindowPosition::Default);
-    void hideWindow();
-
-    void setSyncIsPaused(const bool syncIsPaused);
-    void setIsOpen(const bool isOpen);
+    void slotNewUserSelected();
 
 private slots:
     void slotUnpauseAllFolders();
@@ -157,12 +137,10 @@ private:
     bool _syncIsPaused = true;
     QPointer<QQmlApplicationEngine> _trayEngine;
     QPointer<QMenu> _contextMenu;
-    QSharedPointer<QQuickWindow> _trayWindow;
 
     AccessManagerFactory _accessManagerFactory;
 
     QSet<qlonglong> _callsAlreadyNotified;
-
     QPointer<QObject> _editFileLocallyLoadingDialog;
 };
 

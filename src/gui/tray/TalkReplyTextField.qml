@@ -1,57 +1,72 @@
 import QtQuick 2.15
+import Style 1.0
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-
 import com.nextcloud.desktopclient 1.0
-import Style 1.0
 
-TextField {
-    id: replyMessageTextField
+Item {
+    id: root
 
     signal sendReply(string reply)
-    function sendReplyMessage() { if (text !== "") sendReply(text) }
 
-    height: Style.talkReplyTextFieldPreferredHeight
-    visible: model.messageSent === ""
-    color: Style.ncTextColor
-    placeholderText: qsTr("Reply to …")
+    function sendReplyMessage() {
+        if (replyMessageTextField.text === "") {
+            return;
+        }
 
-    onAccepted: sendReplyMessage()
-
-    background: Rectangle {
-        id: replyMessageTextFieldBorder
-        radius: width / 2
-        border.width: Style.normalBorderWidth
-        border.color: replyMessageTextField.activeFocus ? UserModel.currentUser.accentColor : Style.menuBorder
-        color: Style.backgroundColor
+        root.sendReply(replyMessageTextField.text);
     }
 
-    Button {
-        id: sendReplyMessageButton
+    height: 38
+    width: 250
 
-        width: Style.talkReplyTextFieldPreferredWidth * 0.12
-        height: parent.height
+    TextField {
+        id: replyMessageTextField
 
-        opacity: 0.8
-        flat: true
-        enabled: replyMessageTextField.text !== ""
-        onClicked: replyMessageTextField.sendReplyMessage()
-        background: null
+        anchors.fill: parent
+        topPadding: 4
+        rightPadding: sendReplyMessageButton.width
+        visible: model.messageSent === ""
 
-        icon {
-            source: "image://svgimage-custom-color/send.svg" + "/" + Style.menuBorder
-            color: hovered || !sendReplyMessageButton.enabled ? Style.menuBorder : UserModel.currentUser.accentColor
+        color: Style.ncSecondaryTextColor
+        placeholderText: qsTr("Reply to …")
+
+        onAccepted: root.sendReplyMessage()
+
+        background: Rectangle {
+            id: replyMessageTextFieldBorder
+            radius: 24
+            border.width: 1
+            border.color: parent.activeFocus ? UserModel.currentUser.accentColor : Style.menuBorder
+            color: Style.backgroundColor
         }
 
-        anchors {
-            right: replyMessageTextField.right
-            top: replyMessageTextField.top
-        }
+        Button {
+            id: sendReplyMessageButton  
+            width: 32
+            height: parent.height
+            opacity: 0.8
+            flat: true
+            enabled: replyMessageTextField.text !== ""
+            onClicked: root.sendReplyMessage()
 
-        NCToolTip {
-            visible: sendReplyMessageButton.hovered
-            text:  qsTr("Send reply to chat message")
+            icon {
+                source: "image://svgimage-custom-color/send.svg" + "/" + Style.menuBorder
+                width: 38
+                height: 38
+                color: hovered || !sendReplyMessageButton.enabled? Style.menuBorder : UserModel.currentUser.accentColor
+            }
+
+            anchors {
+                right: replyMessageTextField.right
+                top: replyMessageTextField.top
+            }
+
+            ToolTip {
+                visible: sendReplyMessageButton.hovered
+                delay: Qt.styleHints.mousePressAndHoldInterval
+                text:  qsTr("Send reply to chat message")
+            }
         }
     }
 }
-

@@ -1,97 +1,62 @@
 pragma Singleton
 
-import QtQuick 2.15
+// Minimum for this is Qt 5.5
+import QtQuick 2.5
 
 import com.nextcloud.desktopclient 1.0
 
 QtObject {
-    readonly property int pixelSize: fontMetrics.font.pixelSize
-    readonly property bool darkMode: Theme.darkMode
-
     // Colors
-    readonly property color ncBlue:      Theme.wizardHeaderBackgroundColor
-    readonly property color ncTextColor: Theme.systemPalette.windowText
-    readonly property color ncSecondaryTextColor: "#808080"
-    readonly property color ncHeaderTextColor: "white"
-    readonly property color lightHover: Theme.darkMode ? Qt.lighter(backgroundColor, 2) : Qt.darker(backgroundColor, 1.05)
-    readonly property color menuBorder: Theme.darkMode ? Qt.lighter(backgroundColor, 2.5) : Qt.darker(backgroundColor, 1.5)
-    readonly property color backgroundColor: Theme.systemPalette.base
-    readonly property color buttonBackgroundColor: Theme.systemPalette.button
-
-    // ErrorBox colors
-    readonly property color errorBoxTextColor:       Theme.errorBoxTextColor
-    readonly property color errorBoxBackgroundColor: Theme.errorBoxBackgroundColor
-    readonly property color errorBoxBorderColor:     Theme.errorBoxBorderColor
+    property color ncBlue:      Theme.wizardHeaderBackgroundColor
+    property color ncTextColor: Theme.wizardHeaderTitleColor
+    property color nmcTextColor:"#191919"
+    property color magenta:		"#e20074"
+    property color lightHover:  "#f7f7f7"
+    property color menuBorder:  "#bdbdbd"
+    property color nmcTextColorLight: "white"
 
     // Fonts
     // We are using pixel size because this is cross platform comparable, point size isn't
-    readonly property int topLinePixelSize: pixelSize
-    readonly property int subLinePixelSize: topLinePixelSize - 2
+    property int topLinePixelSize: 13
+    property int subLinePixelSize: 10
+    property string swipeFontFamily: "Segoe UI"
 
     // Dimensions and sizes
-    property int trayWindowWidth: variableSize(400)
-    property int trayWindowHeight: variableSize(510)
-    property int trayWindowRadius: 10
-    property int trayWindowBorderWidth: variableSize(1)
-    property int trayWindowHeaderHeight: variableSize(60)
-    property int trayHorizontalMargin: 10
-    property int trayModalWidth: 380
-    property int trayModalHeight: 490
-    property int trayListItemIconSize: accountAvatarSize
-    property int trayDrawerMargin: trayWindowHeaderHeight
-    property real thumbnailImageSizeReduction: 0.2  // We reserve some space within the thumbnail "item", here about 20%.
-                                                    // This is because we need to also add the added/modified icon and we
-                                                    // want them to fit within the general icon size. We also need to know
-                                                    // this amount to properly center the sync status icon to the thumbnail
-                                                    // images, which will work so long as the thumbnails are left aligned
+    property int trayWindowWidth: 380
+    property int trayWindowHeight: 600
+    property int trayWindowRadius: 0 //10
+    property int trayWindowBorderWidth: 0
+    property int trayWindowHeaderHeight: 60
 
-    property int standardSpacing: 10
-    property int smallSpacing: 5
-
-    property int minActivityHeight: variableSize(40)
-
-    property int currentAccountButtonWidth: 220
+    property int currentAccountButtonWidth: 160
     property int currentAccountButtonRadius: 2
     property int currentAccountLabelWidth: 128
-
-    property int normalBorderWidth: 1
-    property int thickBorderWidth: 2
-    property int veryRoundedButtonRadius: 100
-    property int mediumRoundedButtonRadius: 8
-    property int slightlyRoundedButtonRadius: 5
-    property double hoverOpacity: 0.7
 
     property url stateOnlineImageSource: Theme.stateOnlineImageSource
     property url stateOfflineImageSource: Theme.stateOfflineImageSource
 
     property int accountAvatarSize: (trayWindowHeaderHeight - 16)
-    property int accountAvatarStateIndicatorSize: 16
-    property int folderStateIndicatorSize: 16
-    property int accountLabelWidth: 128
+    property int accountAvatarStateIndicatorSize: 12
+    property int accountLabelWidth: 100
 
     property int accountDropDownCaretSize: 20
     property int accountDropDownCaretMargin: 8
 
     property int addAccountButtonHeight: 50
 
-    property int headerButtonIconSize: 32
+    property int accountMenuWidth: 300
+    property int accountMenuTopItemHeight: 48
+    property int accountMenuPadding: 16
+    property int accountMenuHalfPadding: 8
+    property int accountMenuSpacing: 8
+
+    property int headerButtonIconSize: 24
+	property int headerSpacerSize: 16
 
     property int activityLabelBaseWidth: 240
-
-    property int talkReplyTextFieldPreferredHeight: 34
-    property int talkReplyTextFieldPreferredWidth: 250
-
-    property int activityItemActionPrimaryButtonMinWidth: 100
-    property int activityItemActionSecondaryButtonMinWidth: 80
-
-    property int callNotificationPrimaryButtonMinWidth: 100
-    property int callNotificationPrimaryButtonMinHeight: 40
-
-    property int roundButtonBackgroundVerticalMargins: 10
-    property int roundedButtonBackgroundVerticalMargins: 5
-
+    
     property int userStatusEmojiSize: 8
-    property int userStatusSpacing: trayHorizontalMargin
+    property int userStatusSpacing: 6
     property int userStatusAnchorsMargin: 2
     property int accountServerAnchorsMargin: 10
     property int accountLabelsSpacing: 4
@@ -99,27 +64,22 @@ QtObject {
     property int accountLabelsLayoutMargin: 12
     property int accountLabelsLayoutTopMargin: 10
 
-    // Visual behaviour
-    property bool hoverEffectsEnabled: true
+    property int skipButtonWidth: 160
+    property int skipButtonHeight: 32
+    property int skipButtonRadius: 8
 
-    // unified search constants
-    readonly property int unifiedSearchItemHeight: trayWindowHeaderHeight
-    readonly property int unifiedSearchResultTextLeftMargin: 18
-    readonly property int unifiedSearchResultTextRightMargin: 16
-    readonly property int unifiedSearchResultIconWidth: trayListItemIconSize * (1 - thumbnailImageSizeReduction)
-    readonly property int unifiedSearchResultSmallIconWidth: trayListItemIconSize * (1 - thumbnailImageSizeReduction * 2)
-    readonly property int unifiedSearchResultIconLeftMargin: 12
-    readonly property int unifiedSearchResultTitleFontSize: topLinePixelSize
-    readonly property int unifiedSearchResultSublineFontSize: subLinePixelSize
-    readonly property int unifiedSearchResultSectionItemLeftPadding: 16
-    readonly property int unifiedSearchResultSectionItemVerticalPadding: 8
-    readonly property int unifiedSearchResultNothingFoundHorizontalMargin: 10
+    property int syncStatusFontSize: 16
+    property int syncStatusSublineFontSize: 13
+    property int trayHorizontalMargin: 10
+    property int trayListItemIconSize: accountAvatarSize
+    property real thumbnailImageSizeReduction: 0.2  // We reserve some space within the thumbnail "item", here about 20%.
+                                                    // This is because we need to also add the added/modified icon and we
+                                                    // want them to fit within the general icon size. We also need to know
+                                                    // this amount to properly center the sync status icon to the thumbnail
+                                                    // images, which will work so long as the thumbnails are left aligned
 
     readonly property var fontMetrics: FontMetrics {}
 
-    readonly property int activityContentSpace: 4
-
-    function variableSize(size) {
-        return size * (1 + Math.min(pixelSize / 100, 1));
-    }
+    // Visual behaviour
+    property bool hoverEffectsEnabled: true
 }

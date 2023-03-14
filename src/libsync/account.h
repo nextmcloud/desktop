@@ -83,6 +83,7 @@ class OWNCLOUDSYNC_EXPORT Account : public QObject
     Q_PROPERTY(QString id MEMBER _id)
     Q_PROPERTY(QString davUser MEMBER _davUser)
     Q_PROPERTY(QString displayName MEMBER _displayName)
+    Q_PROPERTY(QString prettyName READ prettyName NOTIFY prettyNameChanged)
     Q_PROPERTY(QUrl url MEMBER _url)
     Q_PROPERTY(bool e2eEncryptionKeysGenerationAllowed MEMBER _e2eEncryptionKeysGenerationAllowed)
 
@@ -113,9 +114,10 @@ public:
 
     /// The name of the account as shown in the toolbar
     QString displayName() const;
-
-    /// User id in a form 'user@example.de, optionally port is added (if it is not 80 or 443)
-    QString userIdAtHostWithPort() const;
+    /// The name of the account that is displayed as nicely as possible,
+    /// e.g. the actual name of the user (John Doe). If this cannot be
+    /// provided, defaults to davUser (e.g. johndoe)
+    QString prettyName() const;
 
     QColor accentColor() const;
     QColor headerColor() const;
@@ -326,6 +328,7 @@ signals:
 
     void accountChangedAvatar();
     void accountChangedDisplayName();
+    void prettyNameChanged();
 
     /// Used in RemoteWipe
     void appPasswordRetrieved(QString);
@@ -426,3 +429,4 @@ Q_DECLARE_METATYPE(OCC::AccountPtr)
 Q_DECLARE_METATYPE(OCC::Account *)
 
 #endif //SERVERCONNECTION_H
+

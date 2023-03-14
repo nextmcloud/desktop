@@ -22,10 +22,13 @@
 #include "folder.h"
 #include "accountfwd.h"
 
+#ifndef TEST_FOLD_WIZ
 #include "ui_folderwizardsourcepage.h"
 #include "ui_folderwizardtargetpage.h"
+#endif
 
 class QCheckBox;
+class TestFolderWizard;
 
 namespace OCC {
 
@@ -42,6 +45,8 @@ class FormatWarningsWizardPage : public QWizardPage
     Q_OBJECT
 protected:
     QString formatWarnings(const QStringList &warnings) const;
+    /* for Unit Test */
+    friend class:: TestFolderWizard;
 };
 
 /**
@@ -73,6 +78,8 @@ private:
     Ui_FolderWizardSourcePage _ui;
     Folder::Map _folderMap;
     AccountPtr _account;
+    /* for Unit Test */
+    friend class:: TestFolderWizard;
 };
 
 
@@ -95,7 +102,7 @@ public:
 
 protected slots:
 
-    void showWarn(const QString & = QString()) const;
+//    void showWarn(const QString & = QString()) const;
     void slotAddRemoteFolder();
     void slotCreateRemoteFolder(const QString &);
     void slotCreateRemoteFolderFinished();
@@ -119,13 +126,15 @@ private:
     AccountPtr _account;
     QTimer _lscolTimer;
     QStringList _encryptedPaths;
+    /* for Unit Test */
+    friend class:: TestFolderWizard;
 };
 
 /**
  * @brief The FolderWizardSelectiveSync class
  * @ingroup gui
  */
-class FolderWizardSelectiveSync : public QWizardPage
+/*class FolderWizardSelectiveSync : public QWizardPage
 {
     Q_OBJECT
 public:
@@ -144,7 +153,7 @@ private:
     SelectiveSyncWidget *_selectiveSync;
     QCheckBox *_virtualFilesCheckBox = nullptr;
 };
-
+*/
 /**
  * @brief The FolderWizard class
  * @ingroup gui
@@ -168,7 +177,7 @@ public:
 private:
     FolderWizardLocalPath *_folderWizardSourcePage;
     FolderWizardRemotePath *_folderWizardTargetPage;
-    FolderWizardSelectiveSync *_folderWizardSelectiveSyncPage;
+   // FolderWizardSelectiveSync *_folderWizardSelectiveSyncPage;
 };
 
 

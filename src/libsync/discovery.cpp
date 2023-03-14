@@ -12,6 +12,7 @@
  * for more details.
  */
 
+#include "account.h"
 #include "discovery.h"
 #include "common/filesystembase.h"
 #include "common/syncjournaldb.h"
@@ -216,7 +217,13 @@ void ProcessDirectoryJob::process()
         if (handleExcluded(path._target, e, isHidden))
             continue;
 
-        if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original)) {
+        const auto isEncryptedFolderButE2eIsNotSetup = e.serverEntry.isValid() && e.serverEntry.isE2eEncrypted &&
+                _discoveryData->_account->e2e() && !_discoveryData->_account->e2e()->_publicKey.isNull() && _discoveryData->_account->e2e()->_privateKey.isNull();
+        if (isEncryptedFolderButE2eIsNotSetup) {
+            checkAndUpdateSelectiveSyncListsForE2eeFolders(path._server + "/");
+        }
+
+        if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original) || isEncryptedFolderButE2eIsNotSetup) {
             processBlacklisted(path, e.localEntry, e.dbEntry);
             continue;
         }
@@ -378,6 +385,26 @@ bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &ent
     emit _discoveryData->itemDiscovered(item);
     return true;
 }
+
+void ProcessDirectoryJob::checkAndUpdateSelectiveSyncListsForE2eeFolders(const QString &path)
+{
+    bool ok = false;
+
+    const auto pathWithTrailingSpace = path.endsWith(QLatin1Char('/')) ? path : path + QLatin1Char('/');
+    auto blackListSet = _discoveryData->_statedb->getSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, &ok).toSet();
+    blackListSet.insert(pathWithTrailingSpace);
+    auto blackList = blackListSet.toList();
+    blackList.sort();
+    _discoveryData->_statedb->setSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, blackList);
+
+    auto toRemoveFromBlacklistSet = _discoveryData->_statedb->getSelectiveSyncList(SyncJournalDb::SelectiveSyncE2eFoldersToRemoveFromBlacklist, &ok).toSet();
+    toRemoveFromBlacklistSet.insert(pathWithTrailingSpace);
+    // record it into a separate list to automatically remove from blacklist once the e2EE gets set up
+    auto toRemoveFromBlacklist = toRemoveFromBlacklistSet.toList();
+    toRemoveFromBlacklist.sort();
+    _discoveryData->_statedb->setSelectiveSyncList(SyncJournalDb::SelectiveSyncE2eFoldersToRemoveFromBlacklist, toRemoveFromBlacklist);
+}
+
 
 void ProcessDirectoryJob::processFile(PathTuple path,
     const LocalInfo &localEntry, const RemoteInfo &serverEntry,

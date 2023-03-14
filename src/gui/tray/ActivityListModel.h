@@ -17,9 +17,10 @@
 
 #include <QtCore>
 
-#include "activitydata.h"
+#include "ActivityData.h"
 
 class QJsonDocument;
+class TestActivityListModel;
 
 namespace OCC {
 
@@ -45,7 +46,9 @@ class ActivityListModel : public QAbstractListModel
     Q_PROPERTY(AccountState *accountState READ accountState CONSTANT)
 public:
     enum DataRole {
-        DarkIconRole = Qt::UserRole + 1,
+        ActionIconRole = Qt::UserRole + 1,
+        UserIconRole,
+        DarkIconRole,
         LightIconRole,
         AccountRole,
         ObjectTypeRole,
@@ -60,7 +63,7 @@ public:
         MessageRole,
         DisplayPathRole,
         PathRole,
-        OpenablePathRole,
+        AbsolutePathRole,
         DisplayLocationRole, // Provides the display path to a file's parent folder, relative to Nextcloud root
         LinkRole,
         PointInTimeRole,
@@ -73,9 +76,11 @@ public:
         TalkNotificationMessageIdRole,
         TalkNotificationMessageSentRole,
         TalkNotificationUserAvatarRole,
+        SyncFileStatusRole,
     };
     Q_ENUM(DataRole)
 
+    static const int maxVisibleActivities = 30;
     explicit ActivityListModel(QObject *parent = nullptr);
 
     explicit ActivityListModel(AccountState *accountState,
@@ -180,6 +185,9 @@ private:
     bool _hideOldActivities = true;
 
     static constexpr quint32 MaxActionButtons = 3;
+
+    /* for Unit Test */
+    friend class::TestActivityListModel;
 };
 }
 

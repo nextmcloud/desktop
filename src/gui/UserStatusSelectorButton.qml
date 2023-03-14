@@ -13,12 +13,11 @@
  */
 
 import QtQuick 2.6
+import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
 
 import Style 1.0
-
-import "./tray"
 
 AbstractButton {
     id: root
@@ -60,7 +59,7 @@ AbstractButton {
             visible: root.icon.source !== ""
         }
 
-        EnforcedPlainTextLabel {
+        Label {
             Layout.column: root.icon.source === "" ? 0 : 1
             Layout.columnSpan: root.icon.source === "" ? 2 : 1
             Layout.row: 0
@@ -70,12 +69,13 @@ AbstractButton {
             verticalAlignment: Text.AlignVCenter
 
             text: root.text
+            textFormat: Text.PlainText
             wrapMode: Text.Wrap
             color: root.colored ? Style.ncHeaderTextColor : Style.ncTextColor
             font.bold: root.primary
         }
 
-        EnforcedPlainTextLabel {
+        Label {
             Layout.column: root.icon.source === "" ? 0 : 1
             Layout.columnSpan: root.icon.source === "" ? 2 : 1
             Layout.row: 1
@@ -84,6 +84,7 @@ AbstractButton {
             verticalAlignment: Text.AlignVCenter
 
             text: root.secondaryText
+            textFormat: Text.PlainText
             wrapMode: Text.Wrap
             color: Style.ncSecondaryTextColor
             visible: root.secondaryText !== ""

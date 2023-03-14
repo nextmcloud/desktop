@@ -27,6 +27,11 @@
 
 class TestFolderMan;
 class TestCfApiShellExtensionsIPC;
+class TestFolderWizard;
+class TestGeneralSettings;
+class TestShareDialog;
+class TestShareUserGroupWidget;
+class TestSettingsDialog;
 
 namespace OCC {
 
@@ -262,8 +267,9 @@ public slots:
 
     /** Wipe folder */
     void slotWipeFolderForAccount(AccountState *accountState);
-
     void forceSyncForFolder(Folder *folder);
+
+    void removeE2eFiles(const AccountPtr &account) const;
 
 private slots:
     void slotFolderSyncPaused(Folder *, bool paused);
@@ -379,6 +385,11 @@ private:
     friend class OCC::Application;
     friend class ::TestFolderMan;
     friend class ::TestCfApiShellExtensionsIPC;
+    friend class ::TestFolderWizard;
+    friend class ::TestGeneralSettings;
+    friend class ::TestShareDialog;
+    friend class ::TestShareUserGroupWidget;
+    friend class ::TestSettingsDialog;
 };
 
 } // namespace OCC

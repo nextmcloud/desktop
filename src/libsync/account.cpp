@@ -130,6 +130,7 @@ void Account::setDavUser(const QString &newDavUser)
         return;
     _davUser = newDavUser;
     emit wantsAccountSaved(this);
+    emit prettyNameChanged();
 }
 
 #ifndef TOKEN_AUTH_ONLY
@@ -155,25 +156,6 @@ QString Account::displayName() const
     return dn;
 }
 
-QString Account::userIdAtHostWithPort() const
-{
-    const auto credentialsUserSplit = credentials() ? credentials()->user().split(QLatin1Char('@')) : QStringList{};
-
-    if (credentialsUserSplit.isEmpty()) {
-        return {};
-    }
-
-    const auto userName = credentialsUserSplit.first();
-
-    QString dn = QStringLiteral("%1@%2").arg(userName, _url.host());
-    const auto port = url().port();
-    if (port > 0 && port != 80 && port != 443) {
-        dn.append(QLatin1Char(':'));
-        dn.append(QString::number(port));
-    }
-    return dn;
-}
-
 QString Account::davDisplayName() const
 {
     return _displayName;
@@ -183,6 +165,19 @@ void Account::setDavDisplayName(const QString &newDisplayName)
 {
     _displayName = newDisplayName;
     emit accountChangedDisplayName();
+    emit prettyNameChanged();
+}
+
+QString Account::prettyName() const
+{
+    // If davDisplayName is empty (can be several reasons, simplest is missing login at startup), fall back to username
+    auto name = davDisplayName();
+
+    if (name.isEmpty()) {
+        name = davUser();
+    }
+
+    return name;
 }
 
 QColor Account::headerColor() const

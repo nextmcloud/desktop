@@ -156,12 +156,12 @@ QUrl Theme::statusAwayImageSource() const
 
 QUrl Theme::statusInvisibleImageSource() const
 {
-    return imagePathToUrl(themeImagePath("user-status-invisible", 64));
+    return imagePathToUrl(themeImagePath("user-status-invisible", 16));
 }
 
 QUrl Theme::syncStatusOk() const
 {
-    return imagePathToUrl(themeImagePath("state-ok", 16));
+    return imagePathToUrl(themeImagePath("Icon-synch-done", 16));
 }
 
 QUrl Theme::syncStatusError() const
@@ -186,7 +186,7 @@ QUrl Theme::syncStatusWarning() const
 
 QUrl Theme::folderOffline() const
 {
-    return imagePathToUrl(themeImagePath("state-offline"));
+    return imagePathToUrl(themeImagePath("icon-offline"));
 }
 
 QString Theme::version() const
@@ -196,12 +196,17 @@ QString Theme::version() const
 
 QString Theme::configFileName() const
 {
-    return QStringLiteral(APPLICATION_CONFIG_NAME ".cfg");
+    return QStringLiteral(APPLICATION_EXECUTABLE ".cfg");
 }
 
 #ifndef TOKEN_AUTH_ONLY
 
 QIcon Theme::applicationIcon() const
+{
+    return themeIcon(QStringLiteral(APPLICATION_ICON_NAME "-icon"));
+}
+
+QIcon Theme::applicationLogo() const
 {
     return themeIcon(QStringLiteral(APPLICATION_ICON_NAME "-icon"));
 }
@@ -521,17 +526,12 @@ QString Theme::about() const
 
     QString devString;
     //: Example text: "<p>Nextcloud Desktop Client</p>"   (%1 is the application name)
-    devString = tr("<p>%1 Desktop Client</p>")
-              .arg(APPLICATION_NAME);
+    devString = tr("<p>%1 Desktop Client Version %2.</p>")
+                .arg(APPLICATION_NAME)
+                .arg(QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)));
 
-    devString += tr("<p>Version %1. For more information please click <a href='%2'>here</a>.</p>")
-              .arg(QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)) + QString(" (%1)").arg(osName))
-              .arg(helpUrl());
-
-    devString += tr("<p><small>Using virtual files plugin: %1</small></p>")
-                     .arg(Vfs::modeToString(bestAvailableVfsMode()));
-    devString += QStringLiteral("<br>%1")
-              .arg(QSysInfo::productType() % QLatin1Char('-') % QSysInfo::kernelVersion());
+//    devString += tr("<p><small>Using virtual files plugin: %1</small></p>")// Removed as a part of story 373
+//                     .arg(Vfs::modeToString(bestAvailableVfsMode()));
 
     return devString;
 }
@@ -620,14 +620,76 @@ QIcon Theme::syncStateIcon(SyncResult::Status status, bool sysTray) const
     return themeIcon(statusIcon, sysTray);
 }
 
+QIcon Theme::folderOverlayIcon(SyncResult::Status status, bool firstRow) const
+{
+    // FIXME: Mind the size!
+    QString statusIcon;
+
+    switch (status) {
+    case SyncResult::Undefined:
+        // this can happen if no sync connections are configured.
+        statusIcon = QLatin1String("state-warning");
+        break;
+    case SyncResult::NotYetStarted:
+    case SyncResult::SyncRunning:
+        statusIcon = QLatin1String("state-sync");
+        break;
+    case SyncResult::SyncAbortRequested:
+    case SyncResult::Paused:
+        statusIcon = QLatin1String("state-pause");
+        break;
+    case SyncResult::SyncPrepare:
+    case SyncResult::Success:
+    {
+        //if(firstRow)
+        //{
+            //statusIcon = QLatin1String("magentacloud-logo");
+            //statusIcon = QLatin1String("magentacloud-icon");
+        //}
+       // else
+       // {
+            statusIcon = QLatin1String("state-ok");
+       // }
+        break;
+    }
+    case SyncResult::Problem:
+        statusIcon = QLatin1String("state-warning");
+        break;
+    case SyncResult::Error:
+    case SyncResult::SetupError:
+    // FIXME: Use state-problem once we have an icon.
+    default:
+        statusIcon = QLatin1String("state-error");
+    }
+
+    return themeIcon(statusIcon, false);
+}
+
+QIcon Theme::folderOkIcon() const
+{
+    QString folderIcon = QLatin1String("folder-ok");
+    const auto pixmapName = QString::fromLatin1(":/client/theme/%1/%2-%3.png").arg("colored").arg(folderIcon).arg(64);
+    return QPixmap(pixmapName);
+    //return themeIcon(folderIcon, false);
+}
+
 QIcon Theme::folderDisabledIcon() const
 {
-    return themeIcon(QLatin1String("state-pause"));
+    QString folderIcon = QLatin1String("folder-ok");
+    const auto pixmapName = QString::fromLatin1(":/client/theme/%1/%2-%3.png").arg("colored").arg(folderIcon).arg(64);
+    return QPixmap(pixmapName);
+   // return themeIcon(QLatin1String("state-pause"));
 }
 
 QIcon Theme::folderOfflineIcon(bool sysTray) const
 {
     return themeIcon(QLatin1String("state-offline"), sysTray);
+}
+
+QIcon Theme::addButtonIcon() const
+{
+    QString buttonIcon = QLatin1String("circle-add-magenta");
+    return themeIcon(buttonIcon, false);
 }
 
 QColor Theme::wizardHeaderTitleColor() const

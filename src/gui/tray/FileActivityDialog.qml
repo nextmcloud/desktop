@@ -30,11 +30,8 @@ Window {
     }
 
     Component.onCompleted: {
-        dialog.show();
-        dialog.raise();
-        dialog.requestActivate();
-
-        Systray.forceWindowInit(dialog);
-        Systray.positionWindowAtScreenCenter(dialog);
+        // Set this explicitly, otherwise on macOS it will appear behind the tray
+        x = screen.width / 2 - width / 2
+        y = screen.height / 2 - height / 2
     }
 }

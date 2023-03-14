@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2022 by Camila Ayres <camila@nextcloud.com>
- * Copyright (C) 2022 by Claudio Cambra <claudio.cambra@nextcloud.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
- */
-
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import Style 1.0
@@ -25,7 +10,7 @@ import QtGraphicalEffects 1.15
 Window {
     id: root
     color: "transparent"
-    flags: Qt.Dialog | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
+    flags: Qt.Dialog | Qt.FramelessWindowHint
 
     readonly property int windowSpacing: 10
     readonly property int windowWidth: 240
@@ -35,7 +20,6 @@ Window {
     readonly property string deleteIcon: svgImage.arg("delete")
 
     // We set talkNotificationData, subject, and links properties in C++
-    property var accountState: ({})
     property var talkNotificationData: ({})
     property string subject: ""
     property var links: []
@@ -45,11 +29,8 @@ Window {
     readonly property bool usingUserAvatar: root.talkNotificationData.userAvatar !== ""
 
     function closeNotification() {
-        callStateChecker.checking = false;
         ringSound.stop();
         root.close();
-
-        Systray.destroyDialog(root);
     }
 
     width: root.windowWidth
@@ -64,22 +45,14 @@ Window {
         root.requestActivate();
 
         ringSound.play();
-        callStateChecker.checking = true;
-    }
-
-    CallStateChecker {
-        id: callStateChecker
-        token: root.talkNotificationData.conversationToken
-        accountState: root.accountState
-
-        onStopNotifying: root.closeNotification()
-    }
+     }
 
     Audio {
         id: ringSound
         source: root.ringtonePath
         loops: 9 // about 45 seconds of audio playing
         audioRole: Audio.RingtoneRole
+        onStopped: root.closeNotification()
     }
 
     Rectangle {
@@ -192,7 +165,7 @@ Window {
                 }
             }
 
-            EnforcedPlainTextLabel {
+            Label {
                 id: message
                 text: root.subject
                 color: root.usingUserAvatar ? "white" : Style.ncTextColor
@@ -221,7 +194,7 @@ Window {
                         text: modelData.label
                         bold: true
                         bgColor: Style.ncBlue
-                        bgNormalOpacity: 0.8
+                        bgOpacity: 0.8
 
                         textColor: Style.ncHeaderTextColor
 
@@ -248,7 +221,7 @@ Window {
                     text: qsTr("Decline")
                     bold: true
                     bgColor: Style.errorBoxBackgroundColor
-                    bgNormalOpacity: 0.8
+                    bgOpacity: 0.8
 
                     textColor: Style.ncHeaderTextColor
 

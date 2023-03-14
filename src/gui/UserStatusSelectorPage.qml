@@ -39,6 +39,7 @@ Page {
     contentItem: UserStatusSelector {
         id: userStatusSelector
         userStatusSelectorModel: model
-        spacing: Style.standardSpacing
+        onImplicitHeightChanged: implicitHeight > page.availableHeight ?
+            spacing = Style.standardSpacing : spacing = Style.standardSpacing * 2
     }
 }

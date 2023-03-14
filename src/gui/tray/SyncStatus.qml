@@ -17,7 +17,7 @@ RowLayout {
         id: syncStatus
     }
 
-    NCBusyIndicator {
+    Image {
         id: syncIcon
         property int size: Style.trayListItemIconSize * 0.6
         property int whiteSpace: (Style.trayListItemIconSize - size)
@@ -27,14 +27,24 @@ RowLayout {
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         Layout.topMargin: 16
-        Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
+       // Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
+        //Layout.rightMargin: 8
         Layout.bottomMargin: 16
         Layout.leftMargin: Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
 
-        padding: 0
-
-        imageSource: syncStatus.syncIcon
-        running: syncStatus.syncing
+        source: syncStatus.syncIcon
+        sourceSize.width: 64
+        sourceSize.height: 64
+        rotation: syncStatus.syncing ? 0 : 0
+    }
+ 
+    RotationAnimator {
+        target: syncIcon
+        running:  syncStatus.syncing
+        from: 0
+        to: 360
+        loops: Animation.Infinite
+        duration: 3000
     }
 
     ColumnLayout {
@@ -42,21 +52,24 @@ RowLayout {
 
         Layout.alignment: Qt.AlignVCenter
         Layout.topMargin: 8
-        Layout.rightMargin: Style.trayHorizontalMargin
+        Layout.rightMargin: 16
+        Layout.leftMargin: -2
         Layout.bottomMargin: 8
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-        EnforcedPlainTextLabel {
+        Text {
             id: syncProgressText
             
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusString
+            width: parent.width
+            elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Style.topLinePixelSize
+            font.pixelSize: Style.syncStatusFontSize
             font.bold: true
-            color: Style.ncTextColor
+            color: Style.nmcTextColor
         }
 
         Loader {
@@ -68,34 +81,21 @@ RowLayout {
             sourceComponent: ProgressBar {
                 id: syncProgressBar
 
-                // TODO: Rather than setting all these palette colours manually,
-                // create a custom style and do it for all components globally
-                palette {
-                    text: Style.ncTextColor
-                    windowText: Style.ncTextColor
-                    buttonText: Style.ncTextColor
-                    light: Style.lightHover
-                    midlight: Style.lightHover
-                    mid: Style.ncSecondaryTextColor
-                    dark: Style.menuBorder
-                    button: Style.menuBorder
-                    window: Style.backgroundColor
-                    base: Style.backgroundColor
-                }
-
                 value: syncStatus.syncProgress
             }
         }
 
-        EnforcedPlainTextLabel {
+        Text {
             id: syncProgressDetailText
 
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusDetailString
+            width: parent.width
             visible: syncStatus.syncStatusDetailString !== ""
             color: Style.ncSecondaryTextColor
-            font.pixelSize: Style.subLinePixelSize
+            elide: Text.ElideRight
+            font.pixelSize: Style.syncStatusSublineFontSize
         }
     }
 }

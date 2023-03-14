@@ -17,8 +17,6 @@ RowLayout {
 
     property bool childHovered: shareButton.hovered || dismissActionButton.hovered
 
-    property color adjustedHeaderColor: "transparent"
-
     signal dismissButtonClicked()
     signal shareButtonClicked()
 
@@ -81,21 +79,16 @@ RowLayout {
             width: model.thumbnail !== undefined ? parent.width * 0.4 : thumbnailItem.imageWidth
             height: model.thumbnail !== undefined ? width : width * 0.9
 
-            // Prevent bad access into unloaded item properties
-            readonly property int thumbnailPaintedWidth: thumbnailImageLoader.item ? thumbnailImageLoader.item.paintedWidth : 0
-            readonly property int thumbnailPaintedHeight: thumbnailImageLoader.item ? thumbnailImageLoader.item.paintedHeight : 0
-
             readonly property int negativeLeftMargin: -((width / 2) +
                                                         ((width - paintedWidth) / 2) +
                                                         ((thumbnailImageLoader.width - thumbnailItem.imageWidth) / 2) +
-                                                        ((thumbnailImageLoader.width - thumbnailPaintedWidth) / 2) +
+                                                        ((thumbnailImageLoader.width - thumbnailImageLoader.item.paintedWidth) / 2) +
                                                         (thumbnailItem.thumbnailRadius / 4))
             readonly property int negativeTopMargin: -((height / 2) +
                                                        ((height - paintedHeight) / 2) +
                                                        ((thumbnailImageLoader.height - thumbnailItem.imageHeight) / 4) +
-                                                       ((thumbnailImageLoader.height - thumbnailPaintedHeight) / 4) +
+                                                       ((thumbnailImageLoader.height - thumbnailImageLoader.item.paintedHeight) / 4) +
                                                        (thumbnailItem.thumbnailRadius / 4))
-
             anchors.verticalCenter: if(model.thumbnail === undefined) parent.verticalCenter
             anchors.left: model.thumbnail === undefined ? parent.left : thumbnailImageLoader.right
             anchors.leftMargin: if(model.thumbnail !== undefined) negativeLeftMargin
@@ -107,20 +100,19 @@ RowLayout {
             source: Theme.darkMode ? model.darkIcon : model.lightIcon
             sourceSize.height: 64
             sourceSize.width: 64
-            mipmap: true // Addresses grainy downscale
         }
     }
 
     Column {
         id: activityTextColumn
 
-        Layout.topMargin: Style.activityContentSpace
+        Layout.topMargin: 4
         Layout.fillWidth: true
         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
-        spacing: Style.activityContentSpace
+        spacing: 4
 
-        EnforcedPlainTextLabel {
+        Label {
             id: activityTextTitle
             text: (root.activityData.type === "Activity" || root.activityData.type === "Notification") ? root.activityData.subject : root.activityData.message
             height: (text === "") ? 0 : implicitHeight
@@ -133,7 +125,7 @@ RowLayout {
             visible: text !== ""
         }
 
-        EnforcedPlainTextLabel {
+        Label {
             id: activityTextInfo
             text: (root.activityData.type === "Sync") ? root.activityData.displayPath
                                     : (root.activityData.type === "File") ? root.activityData.subject
@@ -149,7 +141,7 @@ RowLayout {
             visible: text !== ""
         }
 
-        EnforcedPlainTextLabel {
+        Label {
             id: activityTextDateTime
             text: root.activityData.dateTime
             height: (text === "") ? 0 : implicitHeight
@@ -162,7 +154,7 @@ RowLayout {
             visible: text !== ""
         }
 
-        EnforcedPlainTextLabel {
+        Label {
             id: talkReplyMessageSent
             text: root.activityData.messageSent
             height: (text === "") ? 0 : implicitHeight
@@ -176,20 +168,47 @@ RowLayout {
         }
     }
 
-    CustomButton {
+    Button {
         id: dismissActionButton
 
-        Layout.preferredWidth: Style.trayListItemIconSize
-        Layout.preferredHeight: Style.trayListItemIconSize
+        Layout.preferredWidth: Style.trayListItemIconSize * 0.6
+        Layout.preferredHeight: Style.trayListItemIconSize * 0.6
+
+        Layout.alignment: Qt.AlignCenter
+
+        Layout.margins: Style.roundButtonBackgroundVerticalMargins
+
+        ToolTip {
+            id: dismissActionButtonTooltip
+            visible: parent.hovered
+            delay: Qt.styleHints.mousePressAndHoldInterval
+            text: qsTr("Dismiss")
+            contentItem: Label {
+                text: dismissActionButtonTooltip.text
+                color: Style.ncTextColor
+            }
+            background: Rectangle {
+                border.color: Style.menuBorder
+                color: Style.backgroundColor
+            }
+        }
+
+        Accessible.name: qsTr("Dismiss")
 
         visible: root.showDismissButton && !shareButton.visible
 
-        imageSource: "image://svgimage-custom-color/clear.svg" + "/" + Style.ncTextColor
-        imageSourceHover: "image://svgimage-custom-color/clear.svg" + "/" + UserModel.currentUser.headerTextColor
+        background: Rectangle {
+            color: "transparent"
+        }
 
-        toolTipText: qsTr("Dismiss")
-
-        bgColor: Style.menuBorder
+        contentItem: Image {
+            anchors.fill: parent
+            source: parent.hovered ? Theme.darkMode ?
+                "image://svgimage-custom-color/clear.svg/white" : "image://svgimage-custom-color/clear.svg/black" :
+                "image://svgimage-custom-color/clear.svg/grey"
+            sourceSize.width: 24
+            sourceSize.height: 24
+        }
 
         onClicked: root.dismissButtonClicked()
     }
@@ -202,7 +221,7 @@ RowLayout {
 
         visible: root.activityData.isShareable
 
-        imageSource: "image://svgimage-custom-color/share.svg" + "/" + root.adjustedHeaderColor
+        imageSource: "image://svgimage-custom-color/share.svg" + "/" + UserModel.currentUser.headerColor
         imageSourceHover: "image://svgimage-custom-color/share.svg" + "/" + UserModel.currentUser.headerTextColor
 
         toolTipText: qsTr("Open share dialog")

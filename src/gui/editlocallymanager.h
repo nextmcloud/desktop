@@ -28,6 +28,8 @@ class EditLocallyManager : public QObject
 public:
     static EditLocallyManager *instance();
 
+    QHash<QString, QMetaObject::Connection> folderSyncFinishedConnections;
+
 public slots:
     void editLocally(const QUrl &url);
 

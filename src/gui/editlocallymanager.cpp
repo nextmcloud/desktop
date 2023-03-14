@@ -71,9 +71,6 @@ void EditLocallyManager::createJob(const QString &userId,
                                        const QString &relPath,
                                        const QString &token)
 {
-    if (_jobs.contains(token)) {
-        return;
-    }
     const EditLocallyJobPtr job(new EditLocallyJob(userId, relPath, token));
     // We need to make sure the job sticks around until it is finished
     _jobs.insert(token, job);
@@ -83,7 +80,7 @@ void EditLocallyManager::createJob(const QString &userId,
 
     connect(job.data(), &EditLocallyJob::error,
             this, removeJob);
-    connect(job.data(), &EditLocallyJob::finished,
+    connect(job.data(), &EditLocallyJob::fileOpened,
             this, removeJob);
     connect(job.data(), &EditLocallyJob::setupFinished,
             job.data(), setupJob);

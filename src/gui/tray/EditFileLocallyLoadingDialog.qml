@@ -55,7 +55,7 @@ Window {
             color: Style.ncTextColor
             running: true
         }
-        EnforcedPlainTextLabel {
+        Label {
             id: labelFileName
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
@@ -67,7 +67,7 @@ Window {
             horizontalAlignment: Text.AlignHCenter
             visible: root.fileName !== ""
         }
-        EnforcedPlainTextLabel {
+        Label {
             id: labelMessage
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true

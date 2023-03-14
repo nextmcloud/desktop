@@ -16,7 +16,6 @@ RowLayout {
     property bool displayActions: false
 
     property color moreActionsButtonColor: "transparent"
-    property color adjustedHeaderColor: "transparent"
 
     property int maxActionButtons: 0
 
@@ -34,7 +33,7 @@ RowLayout {
             id: activityActionButton
 
             readonly property string verb: model.modelData.verb
-            readonly property bool primary: (model.index === 0 && verb !== "DELETE") || model.modelData.primary
+            readonly property bool primary: model.index === 0 && verb !== "DELETE"
             readonly property bool isTalkReplyButton: verb === "REPLY"
 
             Layout.minimumWidth: primary ? Style.activityItemActionPrimaryButtonMinWidth : Style.activityItemActionSecondaryButtonMinWidth
@@ -42,14 +41,15 @@ RowLayout {
             Layout.preferredWidth: primary ? -1 : parent.height
 
             text: model.modelData.label
+            toolTipText: model.modelData.label
 
-            imageSource: model.modelData.imageSource ? model.modelData.imageSource + root.adjustedHeaderColor : ""
+            imageSource: model.modelData.imageSource ? model.modelData.imageSource + UserModel.currentUser.headerColor : ""
             imageSourceHover: model.modelData.imageSourceHovered ? model.modelData.imageSourceHovered + UserModel.currentUser.headerTextColor : ""
 
-            textColor: primary ? root.adjustedHeaderColor : Style.ncTextColor
-            textColorHovered: primary ? UserModel.currentUser.headerTextColor : Style.ncTextColor
+            textColor: imageSource !== "" ? UserModel.currentUser.headerColor : Style.ncTextColor
+            textColorHovered: imageSource !== "" ? UserModel.currentUser.headerTextColor : Style.ncTextColor
 
-            primaryButton: primary
+            bold: primary
 
             onClicked: !isTalkReplyButton ? root.triggerAction(model.index) : root.showReplyField()
         }
@@ -77,9 +77,19 @@ RowLayout {
                 radius: width / 2
             }
 
-            NCToolTip {
+            ToolTip {
+                id: moreActionsButtonTooltip
                 visible: parent.hovered
+                delay: Qt.styleHints.mousePressAndHoldInterval
                 text: qsTr("Show more actions")
+                contentItem: Label {
+                    text: moreActionsButtonTooltip.text
+                    color: Style.ncTextColor
+                }
+                background: Rectangle {
+                    border.color: Style.menuBorder
+                    color: Style.backgroundColor
+                }
             }
 
             Accessible.name: qsTr("Show more actions")

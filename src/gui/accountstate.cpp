@@ -142,6 +142,26 @@ void AccountState::setState(State state)
     emit stateChanged(_state);
 }
 
+UserStatus::OnlineStatus AccountState::status() const
+{
+    return account()->userStatusConnector()->userStatus().state();
+}
+
+QString AccountState::statusMessage() const
+{
+    return account()->userStatusConnector()->userStatus().message();
+}
+
+QUrl AccountState::statusIcon() const
+{
+    return account()->userStatusConnector()->userStatus().stateIcon();
+}
+
+QString AccountState::statusEmoji() const
+{
+    return account()->userStatusConnector()->userStatus().icon();
+}
+
 QString AccountState::stateString(State state)
 {
     switch (state) {

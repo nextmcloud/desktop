@@ -62,6 +62,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QGuiApplication>
+#include <QQuickItem>
 #include <QUrlQuery>
 
 class QSocket;
@@ -201,6 +202,7 @@ Application::Application(int &argc, char **argv)
     , _userTriggeredConnect(false)
     , _debugMode(false)
     , _backgroundMode(false)
+    , _showSwipeScreen(false)
 {
     _startedAt.start();
 
@@ -408,8 +410,15 @@ Application::Application(int &argc, char **argv)
     connect(_gui.data(), &ownCloudGui::isShowingSettingsDialog, this, &Application::slotGuiIsShowingSettings);
 
     _gui->createTray();
-
     handleEditLocallyFromOptions();
+
+    /* Setup the swipe screen */
+    view.engine()->addImportPath("qrc:/qml/theme");
+    view.setSource(QStringLiteral("qrc:/qml/src/gui/welcome/welcome.qml"));
+    view.setFlags(view.flags());
+    QObject *rootObj = view.rootObject();
+    connect(rootObj->findChild<QObject*>("cancelButton"), SIGNAL(cancelClicked()),
+            this, SLOT(slotSwipeCancelClicked()));
 }
 
 Application::~Application()
@@ -528,7 +537,27 @@ void Application::slotownCloudWizardDone(int res)
         }
 
         Systray::instance()->showWindow();
+        /* Swipe screen works in a slideshow mode  */
+        if(FolderMan::instance()->map().isEmpty())
+        {
+            _showSwipeScreen = true;
+            QObject *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
+            view.show();
+            timerSlideShow->setProperty("running", true);
+        }
     }
+}
+
+void Application::slotSwipeCancelClicked()
+{
+    QObject *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
+    QObject *swipeView = view.rootObject()->findChild<QObject*>("swipeView");
+
+    /* Stop a slideshow and go back to the first page */
+    timerSlideShow->setProperty("running", false);
+    timerSlideShow->setProperty("interval", slideShowDelay);
+    swipeView->setProperty("currentIndex", startPage);
+    view.hide();
 }
 
 void Application::setupLogging()

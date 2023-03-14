@@ -1,9 +1,10 @@
+import QtQml 2.12
+import QtQml.Models 2.1
 import QtQuick 2.15
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
-import Qt.labs.platform 1.1 as NativeDialogs
 import "../"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
@@ -11,39 +12,37 @@ import Style 1.0
 
 import com.nextcloud.desktopclient 1.0
 
-ApplicationWindow {
+
+Window {
     id:         trayWindow
 
-    title:      Systray.windowTitle
-    // If the main dialog is displayed as a regular window we want it to be quadratic
-    width:      Systray.useNormalWindow ? Style.trayWindowHeight : Style.trayWindowWidth
+    width:      Style.trayWindowWidth
     height:     Style.trayWindowHeight
     color:      "transparent"
-    flags:      Systray.useNormalWindow ? Qt.Window : Qt.Dialog | Qt.FramelessWindowHint
+    flags:      Qt.Dialog | Qt.FramelessWindowHint
 
-    property int fileActivityDialogObjectId: -1
 
     readonly property int maxMenuHeight: Style.trayWindowHeight - Style.trayWindowHeaderHeight - 2 * Style.trayWindowBorderWidth
 
-    function openFileActivityDialog(objectName, objectId) {
-        fileActivityDialogLoader.objectName = objectName;
-        fileActivityDialogLoader.objectId = objectId;
-        fileActivityDialogLoader.refresh();
-    }
+    Accessible.role: Accessible.Application
+    Accessible.name: qsTr("Nextcloud desktop main dialog")
 
     Component.onCompleted: Systray.forceWindowInit(trayWindow)
 
     // Close tray window when focus is lost (e.g. click somewhere else on the screen)
     onActiveChanged: {
-        if (!Systray.useNormalWindow && !active) {
-            hide();
-            Systray.isOpen = false;
+        if(!active) {
+            trayWindow.hide();
+            Systray.setClosed();
         }
     }
 
-    onClosing: Systray.isOpen = false
-
     onVisibleChanged: {
+        currentAccountStateIndicator.source = ""
+        currentAccountStateIndicator.source = UserModel.isUserConnected(UserModel.currentUserId)
+                ? Style.stateOnlineImageSource
+                : Style.stateOfflineImageSource
+
         // HACK: reload account Instantiator immediately by restting it - could be done better I guess
         // see also id:accountMenu below
         userLineInstantiator.active = false;
@@ -51,808 +50,773 @@ ApplicationWindow {
         syncStatus.model.load();
     }
 
-    background: Rectangle {
-        radius: Systray.useNormalWindow ? 0.0 : Style.trayWindowRadius
-        border.width: Style.trayWindowBorderWidth
-        border.color: Style.menuBorder
-        color: Style.backgroundColor
-    }
 
     Connections {
         target: UserModel
-        function onCurrentUserChanged() {
+        onRefreshCurrentUserGui: {
+            currentAccountStateIndicator.source = ""
+            currentAccountStateIndicator.source = UserModel.isUserConnected(UserModel.currentUserId)
+                    ? Style.stateOnlineImageSource
+                    : Style.stateOfflineImageSource
+        }
+        onNewUserSelected: {
             accountMenu.close();
             syncStatus.model.load();
         }
     }
 
-    Component {
-        id: errorMessageDialog
-
-        NativeDialogs.MessageDialog {
-            id: dialog
-
-            title: Systray.windowTitle
-
-            onAccepted: destroy()
-            onRejected: destroy()
-        }
-    }
-
     Connections {
         target: Systray
+        onShowWindow: {
+            accountMenu.close();
 
-        function onIsOpenChanged() {
-            userStatusDrawer.close()
+            Systray.positionWindow(trayWindow);
 
-            if(Systray.isOpen) {
-                accountMenu.close();
-                appsMenu.close();
-            }
+            trayWindow.show();
+            trayWindow.raise();
+            trayWindow.requestActivate();
+
+            Systray.setOpened();
+            UserModel.fetchCurrentActivityModel();
         }
-
-        function onShowFileActivityDialog(objectName, objectId) {
-            openFileActivityDialog(objectName, objectId)
-        }
-
-        function onShowErrorMessageDialog(error) {
-            var newErrorDialog = errorMessageDialog.createObject(trayWindow)
-            newErrorDialog.text = error
-            newErrorDialog.open()
+        onHideWindow: {
+            trayWindow.hide();
+            Systray.setClosed();
         }
     }
 
     OpacityMask {
         anchors.fill: parent
         source: ShaderEffectSource {
-            sourceItem: trayWindowMainItem
+            sourceItem: trayWindowBackground
             hideSource: true
         }
         maskSource: Rectangle {
-            width: trayWindow.width
-            height: trayWindow.height
-            radius: Systray.useNormalWindow ? 0.0 : Style.trayWindowRadius
+            width: trayWindowBackground.width
+            height: trayWindowBackground.height
+            radius: trayWindowBackground.radius
         }
     }
 
-    Drawer {
-        id: userStatusDrawer
-        width: parent.width
-        height: parent.height - Style.trayDrawerMargin
-        padding: 0
-        edge: Qt.BottomEdge
-        modal: true
-        visible: false
-
-        background: Rectangle {
-            radius: Systray.useNormalWindow ? 0.0 : Style.trayWindowRadius
-            border.width: Style.trayWindowBorderWidth
-            border.color: Style.menuBorder
-            color: Style.backgroundColor
-        }
-
-        property int userIndex: 0
-
-        function openUserStatusDrawer(index) {
-            console.log(`About to show dialog for user with index ${index}`);
-            userIndex = index;
-            open();
-        }
-
-        Loader {
-            id: userStatusContents
-            anchors.fill: parent
-            active: userStatusDrawer.visible
-            sourceComponent: UserStatusSelectorPage {
-                anchors.fill: parent
-                userIndex: userStatusDrawer.userIndex
-                onFinished: userStatusDrawer.close()
-            }
-        }
-    }
-
-    Item {
-        id: trayWindowMainItem
-
-        property bool isUnifiedSearchActive: unifiedSearchResultsListViewSkeletonLoader.active
-                                             || unifiedSearchResultNothingFound.visible
-                                             || unifiedSearchResultsErrorLabel.visible
-                                             || unifiedSearchResultsListView.visible
+    Rectangle {
+        id: trayWindowBackground
+        objectName: "trayWindowBackground"
 
         anchors.fill:   parent
-        clip: true
+        radius:         Style.trayWindowRadius
+        border.width:   Style.trayWindowBorderWidth
+        border.color:   Style.menuBorder
 
         Accessible.role: Accessible.Grouping
         Accessible.name: qsTr("Nextcloud desktop main dialog")
 
         Rectangle {
-            id: trayWindowHeaderBackground
+            id: trayWindowMagentaBarBackground
+            objectName: "trayWindowMagentaBarBackground"
 
-            anchors.left:   trayWindowMainItem.left
-            anchors.right:  trayWindowMainItem.right
-            anchors.top:    trayWindowMainItem.top
-            height:         Style.trayWindowHeaderHeight
-            color:          UserModel.currentUser.headerColor
+            anchors.left:   trayWindowBackground.left
+            anchors.right:  trayWindowBackground.right
+            anchors.top:    trayWindowBackground.top
+            height:         100
+            color:          Style.magenta
 
-            RowLayout {
-                id: trayWindowHeaderLayout
 
-                spacing:        0
-                anchors.fill:   parent
+            Rectangle {
+                id: trayWindowTLogoBarBackground
+                objectName: "trayWindowTLogoBarBackground"
 
-                Button {
-                    id: currentAccountButton
+                anchors.left:   trayWindowMagentaBarBackground.left
+                anchors.right:  trayWindowMagentaBarBackground.right
+                anchors.top:    trayWindowMagentaBarBackground.top
+                height:         48
+                color:          Style.magenta
 
-                    Layout.preferredWidth:  Style.currentAccountButtonWidth
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
-                    display:                AbstractButton.IconOnly
-                    flat:                   true
-                    palette: Style.systemPalette
+                Rectangle {
+                    id: trayWindowTLogoBarTopSpacer
+                    objectName: "trayWindowTLogoBarTopSpacer"
 
-                    Accessible.role: Accessible.ButtonMenu
-                    Accessible.name: qsTr("Current account")
-                    Accessible.onPressAction: currentAccountButton.clicked()
-
-                    // We call open() instead of popup() because we want to position it
-                    // exactly below the dropdown button, not the mouse
-                    onClicked: {
-                        syncPauseButton.text = Systray.syncIsPaused ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
-                        if (accountMenu.visible) {
-                            accountMenu.close()
-                        } else {
-                            accountMenu.open()
-                        }
-                    }
-
-                    Menu {
-                        id: accountMenu
-
-                        // x coordinate grows towards the right
-                        // y coordinate grows towards the bottom
-                        x: (currentAccountButton.x + 2)
-                        y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 2)
-
-                        width: (Style.currentAccountButtonWidth - 2)
-                        height: Math.min(implicitHeight, maxMenuHeight)
-                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-                        palette: Style.palette
-
-                        background: Rectangle {
-                            border.color: Style.menuBorder
-                            color: Style.backgroundColor
-                            radius: Style.currentAccountButtonRadius
-                        }
-
-                        contentItem: ScrollView {
-                            id: accMenuScrollView
-                            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-
-                            data: WheelHandler {
-                                target: accMenuScrollView.contentItem
-                            }
-                            ListView {
-                                implicitHeight: contentHeight
-                                model: accountMenu.contentModel
-                                interactive: true
-                                clip: true
-                                currentIndex: accountMenu.currentIndex
-                            }
-                        }
-
-                        onClosed: {
-                            // HACK: reload account Instantiator immediately by restting it - could be done better I guess
-                            // see also onVisibleChanged above
-                            userLineInstantiator.active = false;
-                            userLineInstantiator.active = true;
-                        }
-
-                        Instantiator {
-                            id: userLineInstantiator
-                            model: UserModel
-                            delegate: UserLine {
-                                onShowUserStatusSelector: {
-                                    userStatusDrawer.openUserStatusDrawer(model.index);
-                                    accountMenu.close();
-                                }
-                                onClicked: UserModel.currentUserId = model.index;
-                            }
-                            onObjectAdded: accountMenu.insertItem(index, object)
-                            onObjectRemoved: accountMenu.removeItem(object)
-                        }
-
-                        MenuItem {
-                            id: addAccountButton
-                            height: Style.addAccountButtonHeight
-                            hoverEnabled: true
-                            palette: Theme.systemPalette
-
-                            background: Item {
-                                height: parent.height
-                                width: parent.menu.width
-                                Rectangle {
-                                    anchors.fill: parent
-                                    anchors.margins: 1
-                                    color: parent.parent.hovered || parent.parent.visualFocus ? Style.lightHover : "transparent"
-                                }
-                            }
-
-                            RowLayout {
-                                anchors.fill: parent
-                                spacing: 0
-
-                                Image {
-                                    Layout.leftMargin: 12
-                                    verticalAlignment: Qt.AlignCenter
-                                    source: Theme.darkMode ? "qrc:///client/theme/white/add.svg" : "qrc:///client/theme/black/add.svg"
-                                    sourceSize.width: Style.headerButtonIconSize
-                                    sourceSize.height: Style.headerButtonIconSize
-                                }
-                                EnforcedPlainTextLabel {
-                                    Layout.leftMargin: 14
-                                    text: qsTr("Add account")
-                                    color: Style.ncTextColor
-                                    font.pixelSize: Style.topLinePixelSize
-                                }
-                                // Filler on the right
-                                Item {
-                                    Layout.fillWidth: true
-                                    Layout.fillHeight: true
-                                }
-                            }
-                            onClicked: UserModel.addAccount()
-
-                            Accessible.role: Accessible.MenuItem
-                            Accessible.name: qsTr("Add new account")
-                            Accessible.onPressAction: addAccountButton.clicked()
-                        }
-
-                        Rectangle {
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            implicitHeight: 1
-                            color: Style.menuBorder
-                        }
-
-                        MenuItem {
-                            id: syncPauseButton
-                            font.pixelSize: Style.topLinePixelSize
-                            palette.windowText: Style.ncTextColor
-                            hoverEnabled: true
-                            onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
-
-                            background: Item {
-                                height: parent.height
-                                width: parent.menu.width
-                                Rectangle {
-                                    anchors.fill: parent
-                                    anchors.margins: 1
-                                    color: parent.parent.hovered || parent.parent.visualFocus ? Style.lightHover : "transparent"
-                                }
-                            }
-
-                            Accessible.role: Accessible.MenuItem
-                            Accessible.name: Systray.syncIsPaused ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
-                            Accessible.onPressAction: syncPauseButton.clicked()
-                        }
-
-                        MenuItem {
-                            id: settingsButton
-                            text: qsTr("Settings")
-                            font.pixelSize: Style.topLinePixelSize
-                            palette.windowText: Style.ncTextColor
-                            hoverEnabled: true
-                            onClicked: Systray.openSettings()
-
-                            background: Item {
-                                height: parent.height
-                                width: parent.menu.width
-                                Rectangle {
-                                    anchors.fill: parent
-                                    anchors.margins: 1
-                                    color: parent.parent.hovered || parent.parent.visualFocus ? Style.lightHover : "transparent"
-                                }
-                            }
-
-                            Accessible.role: Accessible.MenuItem
-                            Accessible.name: text
-                            Accessible.onPressAction: settingsButton.clicked()
-                        }
-
-                        MenuItem {
-                            id: exitButton
-                            text: qsTr("Exit");
-                            font.pixelSize: Style.topLinePixelSize
-                            palette.windowText: Style.ncTextColor
-                            hoverEnabled: true
-                            onClicked: Systray.shutdown()
-
-                            background: Item {
-                                height: parent.height
-                                width: parent.menu.width
-                                Rectangle {
-                                    anchors.fill: parent
-                                    anchors.margins: 1
-                                    color: parent.parent.hovered || parent.parent.visualFocus ? Style.lightHover : "transparent"
-                                }
-                            }
-
-                            Accessible.role: Accessible.MenuItem
-                            Accessible.name: text
-                            Accessible.onPressAction: exitButton.clicked()
-                        }
-                    }
-
-                    background: Rectangle {
-                        color: parent.hovered || parent.visualFocus ? UserModel.currentUser.headerTextColor : "transparent"
-                        opacity: 0.2
-                    }
-
-                    RowLayout {
-                        id: accountControlRowLayout
-
-                        height: Style.trayWindowHeaderHeight
-                        width:  Style.currentAccountButtonWidth
-                        spacing: 0
-
-                        Image {
-                            id: currentAccountAvatar
-
-                            Layout.leftMargin: Style.trayHorizontalMargin
-                            verticalAlignment: Qt.AlignCenter
-                            cache: false
-                            source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
-                            Layout.preferredHeight: Style.accountAvatarSize
-                            Layout.preferredWidth: Style.accountAvatarSize
-
-                            Accessible.role: Accessible.Graphic
-                            Accessible.name: qsTr("Current account avatar")
-
-                            Rectangle {
-                                id: currentAccountStatusIndicatorBackground
-                                visible: UserModel.currentUser.isConnected
-                                         && UserModel.currentUser.serverHasUserStatus
-                                width: Style.accountAvatarStateIndicatorSize + 2
-                                height: width
-                                anchors.bottom: currentAccountAvatar.bottom
-                                anchors.right: currentAccountAvatar.right
-                                color: UserModel.currentUser.headerColor
-                                radius: width*0.5
-                            }
-
-                            Rectangle {
-                                id: currentAccountStatusIndicatorMouseHover
-                                visible: UserModel.currentUser.isConnected
-                                         && UserModel.currentUser.serverHasUserStatus
-                                width: Style.accountAvatarStateIndicatorSize + 2
-                                height: width
-                                anchors.bottom: currentAccountAvatar.bottom
-                                anchors.right: currentAccountAvatar.right
-                                color: currentAccountButton.hovered ? UserModel.currentUser.headerTextColor : "transparent"
-                                opacity: 0.2
-                                radius: width*0.5
-                            }
-
-                            Image {
-                                id: currentAccountStatusIndicator
-                                visible: UserModel.currentUser.isConnected
-                                         && UserModel.currentUser.serverHasUserStatus
-                                source: UserModel.currentUser.statusIcon
-                                cache: false
-                                x: currentAccountStatusIndicatorBackground.x + 1
-                                y: currentAccountStatusIndicatorBackground.y + 1
-                                sourceSize.width: Style.accountAvatarStateIndicatorSize
-                                sourceSize.height: Style.accountAvatarStateIndicatorSize
-
-                                Accessible.role: Accessible.Indicator
-                                Accessible.name: UserModel.desktopNotificationsAllowed ? qsTr("Current account status is online") : qsTr("Current account status is do not disturb")
-                            }
-                        }
-
-                        Column {
-                            id: accountLabels
-                            spacing: 0
-                            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                            Layout.leftMargin: Style.userStatusSpacing
-                            Layout.fillWidth: true
-                            Layout.maximumWidth: parent.width
-
-                            EnforcedPlainTextLabel {
-                                id: currentAccountUser
-                                Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                                width: Style.currentAccountLabelWidth
-                                text: UserModel.currentUser.name
-                                elide: Text.ElideRight
-                                color: UserModel.currentUser.headerTextColor
-
-                                font.pixelSize: Style.topLinePixelSize
-                                font.bold: true
-                            }
-
-                            RowLayout {
-                                id: currentUserStatus
-                                visible: UserModel.currentUser.isConnected &&
-                                         UserModel.currentUser.serverHasUserStatus
-                                spacing: Style.accountLabelsSpacing
-                                width: parent.width
-
-                                EnforcedPlainTextLabel {
-                                    id: emoji
-                                    visible: UserModel.currentUser.statusEmoji !== ""
-                                    width: Style.userStatusEmojiSize
-                                    text: UserModel.currentUser.statusEmoji
-                                }
-                                EnforcedPlainTextLabel {
-                                    id: message
-                                    Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                                    Layout.fillWidth: true
-                                    visible: UserModel.currentUser.statusMessage !== ""
-                                    width: Style.currentAccountLabelWidth
-                                    text: UserModel.currentUser.statusMessage !== ""
-                                          ? UserModel.currentUser.statusMessage
-                                          : UserModel.currentUser.server
-                                    elide: Text.ElideRight
-                                    color: UserModel.currentUser.headerTextColor
-                                    font.pixelSize: Style.subLinePixelSize
-                                }
-                            }
-                        }
-
-                        ColorOverlay {
-                            cached: true
-                            color: UserModel.currentUser.headerTextColor
-                            width: source.width
-                            height: source.height
-                            source: Image {
-                                Layout.alignment: Qt.AlignRight
-                                verticalAlignment: Qt.AlignCenter
-                                Layout.margins: Style.accountDropDownCaretMargin
-                                source: "qrc:///client/theme/white/caret-down.svg"
-                                sourceSize.width: Style.accountDropDownCaretSize
-                                sourceSize.height: Style.accountDropDownCaretSize
-                                Accessible.role: Accessible.PopupMenu
-                                Accessible.name: qsTr("Account switcher and settings menu")
-                            }
-                        }
-                    }
+                    anchors.left:   trayWindowTLogoBarBackground.left
+                    anchors.right:  trayWindowTLogoBarBackground.right
+                    anchors.top:    trayWindowTLogoBarBackground.top
+                    height:         12
+                    color:          Style.magenta
                 }
+                Rectangle {
+                    id: trayWindowTLogoBarLeftSpacer
+                    objectName: "trayWindowTLogoBarLeftSpacer"
 
-                // Add space between items
-                Item {
-                    Layout.fillWidth: true
+                    anchors.left:   trayWindowTLogoBarBackground.left
+                    anchors.top:    trayWindowTLogoBarTopSpacer.bottom
+                    height:         38
+                    width:          24
+                    color:          Style.magenta
                 }
+                Image {
+                    id: magentaTLogo
+                    objectName: "magentaTLogo"
+
+                    anchors.left:   trayWindowTLogoBarLeftSpacer.right
+                    anchors.top:    trayWindowTLogoBarTopSpacer.bottom
+                    cache: false
+                    source: "qrc:///client/theme/magenta/logomc.svg"
+                }
+            }
+
+
+            Rectangle {
+                id: trayWindowHeaderBackground
+                objectName: "trayWindowHeaderBackground"
+
+                anchors.left:   trayWindowMagentaBarBackground.left
+                anchors.right:  trayWindowMagentaBarBackground.right
+                anchors.top:    trayWindowTLogoBarBackground.bottom
+                height:         Style.trayWindowHeaderHeight
+                radius:         10
+                color:          "white"
 
                 RowLayout {
-                    id: openLocalFolderRowLayout
-                    spacing: 0
-                    Layout.preferredWidth:  Style.trayWindowHeaderHeight
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    id: trayWindowHeaderLayout
+                    objectName: "trayWindowHeaderLayout"
 
-                    Accessible.role: Accessible.Button
-                    Accessible.name: qsTr("Open local folder of current account")
+                    spacing:        0
+                    anchors.fill:   parent
 
-                    HeaderButton {
-                        id: openLocalFolderButton
-                        visible: UserModel.currentUser.hasLocalFolder
-                        icon.source: "qrc:///client/theme/white/folder.svg"
-                        icon.color: UserModel.currentUser.headerTextColor
-                        onClicked: UserModel.openCurrentAccountLocalFolder()
+                    Button {
+                        id: currentAccountButton
+                        objectName: "currentAccountButton"
 
-                        Image {
-                            id: folderStateIndicator
-                            visible: UserModel.currentUser.hasLocalFolder
-                            source: UserModel.currentUser.isConnected
-                                    ? Style.stateOnlineImageSource
-                                    : Style.stateOfflineImageSource
-                            cache: false
+                        Layout.preferredWidth:  Style.currentAccountButtonWidth
+                        Layout.preferredHeight: Style.trayWindowHeaderHeight
+                        display:                AbstractButton.IconOnly
+                        flat:                   true
 
-                            anchors.top: openLocalFolderButton.verticalCenter
-                            anchors.left: openLocalFolderButton.horizontalCenter
-                            sourceSize.width: Style.folderStateIndicatorSize
-                            sourceSize.height: Style.folderStateIndicatorSize
+                        Accessible.role: Accessible.ButtonMenu
+                        Accessible.name: qsTr("Current account")
+                        Accessible.onPressAction: currentAccountButton.clicked()
 
-                            Accessible.role: Accessible.Indicator
-                            Accessible.name: UserModel.currentUser.isConnected ? qsTr("Connected") : qsTr("Disconnected")
-                            z: 1
+                       /* MouseArea {
+                            id: accountBtnMouseArea
+                            objectName: "accountBtnMouseArea"
 
-                            Rectangle {
-                                id: folderStateIndicatorBackground
-                                width: Style.folderStateIndicatorSize + 2
-                                height: width
-                                anchors.centerIn: parent
-                                color: UserModel.currentUser.headerColor
-                                radius: width*0.5
-                                z: -2
+                            anchors.fill:   parent
+                            hoverEnabled:   Style.hoverEffectsEnabled*/
+
+                            // We call open() instead of popup() because we want to position it
+                            // exactly below the dropdown button, not the mouse
+                            onClicked: {
+
+                                syncPauseButton.text = Systray.syncIsPaused() ? qsTr("Resume sync") : qsTr("Pause sync")
+                                if (accountMenu.visible) {
+                                    accountMenu.close()
+                                } else {
+                                    accountMenu.open()
+                                }
                             }
 
-                            Rectangle {
-                                id: folderStateIndicatorBackgroundMouseHover
-                                width: Style.folderStateIndicatorSize + 2
-                                height: width
-                                anchors.centerIn: parent
-                                color: openLocalFolderButton.hovered ? UserModel.currentUser.headerTextColor : "transparent"
-                                opacity: 0.2
-                                radius: width*0.5
-                                z: -1
-                            }
-                        }
-                    }
-                }
+                            Menu {
+                                id: accountMenu
+                                objectName: "accountMenu"
 
-                HeaderButton {
-                    id: trayWindowTalkButton
+                                // x coordinate grows towards the right
+                                // y coordinate grows towards the bottom
+                                x: (currentAccountButton.x + 2)
+                                y: (currentAccountButton.y + Style.trayWindowHeaderHeight - 6)
 
-                    visible: UserModel.currentUser.serverHasTalk
-                    icon.source: "qrc:///client/theme/white/talk-app.svg"
-                    icon.color: UserModel.currentUser.headerTextColor
-                    onClicked: UserModel.openCurrentAccountTalk()
+                                width: 230
+                                height: Math.min(implicitHeight, maxMenuHeight)
+                                closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
-                    Accessible.role: Accessible.Button
-                    Accessible.name: qsTr("Open Nextcloud Talk in browser")
-                    Accessible.onPressAction: trayWindowTalkButton.clicked()
-                }
+                                background: Rectangle {
+                                    border.color: Style.menuBorder
+                                    radius: Style.currentAccountButtonRadius
+                                }
 
-                HeaderButton {
-                    id: trayWindowAppsButton
-                    icon.source: "qrc:///client/theme/white/more-apps.svg"
-                    icon.color: UserModel.currentUser.headerTextColor
+                                contentItem: ScrollView {
+                                    id: accMenuScrollView
+                                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-                    onClicked: {
-                        if(appsMenuListView.count <= 0) {
-                            UserModel.openCurrentAccountServer()
-                        } else if (appsMenu.visible) {
-                            appsMenu.close()
-                        } else {
-                            appsMenu.open()
-                        }
-                    }
+                                    data: WheelHandler {
+                                        target: accMenuScrollView.contentItem
+                                    }
+                                    ListView {
+                                        implicitHeight: contentHeight
+                                        model: accountMenu.contentModel
+                                        interactive: true
+                                        clip: true
+                                        currentIndex: accountMenu.currentIndex
+                                    }
+                                }
 
-                    Accessible.role: Accessible.ButtonMenu
-                    Accessible.name: qsTr("More apps")
-                    Accessible.onPressAction: trayWindowAppsButton.clicked()
+                                Accessible.role: PopupMenu
+                                Accessible.name: qsTr("Account switcher and settings menu")
 
-                    Menu {
-                        id: appsMenu
-                        x: -2
-                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + 2)
-                        width: Style.trayWindowWidth * 0.35
-                        height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
-                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+                                onClosed: {
+                                    // HACK: reload account Instantiator immediately by restting it - could be done better I guess
+                                    // see also onVisibleChanged above
+                                    userLineInstantiator.active = false;
+                                    userLineInstantiator.active = true;
+                                }
 
-                        background: Rectangle {
-                            border.color: Style.menuBorder
-                            color: Style.backgroundColor
-                            radius: 2
-                        }
+                                Loader {
+                                    id: userStatusSelectorDialogLoader
 
-                        contentItem: ScrollView {
-                            id: appsMenuScrollView
-                            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                                    property int userIndex
 
-                            data: WheelHandler {
-                                target: appsMenuScrollView.contentItem
-                            }
-                            ListView {
-                                id: appsMenuListView
-                                implicitHeight: contentHeight
-                                model: UserAppsModel
-                                interactive: true
-                                clip: true
-                                currentIndex: appsMenu.currentIndex
-                                delegate: MenuItem {
-                                    id: appEntry
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
+                                    function openDialog(newUserIndex) {
+                                        console.log(`About to show dialog for user with index ${newUserIndex}`);
+                                        userIndex = newUserIndex;
+                                        active = true;
+                                        item.show();
+                                    }
 
-                                    text: model.appName
-                                    font.pixelSize: Style.topLinePixelSize
-                                    palette.windowText: Style.ncTextColor
-                                    icon.source: model.appIconUrl
-                                    icon.color: Style.ncTextColor
-                                    onTriggered: UserAppsModel.openAppUrl(appUrl)
+                                    active: false
+                                    sourceComponent: UserStatusSelectorDialog {
+                                        userIndex: userStatusSelectorDialogLoader.userIndex
+                                    }
+
+                                    onLoaded: {
+                                        item.model.load(userIndex);
+                                        item.show();
+                                    }
+                                }
+
+                                Instantiator {
+                                    id: userLineInstantiator
+                                    model: UserModel
+                                    delegate: UserLine {
+                                        onShowUserStatusSelectorDialog: {
+                                            userStatusSelectorDialogLoader.openDialog(model.index);
+                                            accountMenu.close();
+                                        }
+                                    }
+                                    onObjectAdded: accountMenu.insertItem(index, object)
+                                    onObjectRemoved: accountMenu.removeItem(object)
+                                }
+
+                                /*MenuItem {
+                                    id: addAccountButton
+                                    height: Style.addAccountButtonHeight
+                                    display: AbstractButton.TextBesideIcon
                                     hoverEnabled: true
+                                    icon.source: "qrc:///client/theme/black/add.svg"
+                                    icon.color: addAccountButton.hovered ? Style.magenta : Style.nmcTextColor
+
+                                    Text {
+                                        objectName: "addAccountButton"
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        //font.wordSpacing:  45
+                                        text:  qsTr("            "+"Add account")
+                                        font.family: "Segoe UI"
+                                        font.pixelSize: Style.topLinePixelSize
+                                        color: parent.hovered ? Style.magenta : Style.nmcTextColor
+                                    }
 
                                     background: Item {
                                         height: parent.height
-                                        width: parent.width
+                                        width: parent.menu.width
                                         Rectangle {
                                             anchors.fill: parent
                                             anchors.margins: 1
                                             color: parent.parent.hovered || parent.parent.visualFocus ? Style.lightHover : "transparent"
                                         }
                                     }
+                                    horizontalPadding: Style.accountMenuPadding
+                                    verticalPadding: Style.accountMenuHalfPadding
+                                    spacing: 4
+                                    onClicked: UserModel.addAccount()
 
                                     Accessible.role: Accessible.MenuItem
-                                    Accessible.name: qsTr("Open %1 in browser").arg(model.appName)
-                                    Accessible.onPressAction: appEntry.triggered()
+                                    Accessible.name: qsTr("Add new account")
+                                    Accessible.onPressAction: addAccountButton.clicked()
+                                }*/
+
+                                MenuSeparator {
+                                    contentItem: Rectangle {
+                                        implicitHeight: 1
+                                        color: Style.menuBorder
+                                    }
+                                }
+
+                                MenuItem {
+                                    id: syncPauseButton
+                                    objectName: "syncPauseButton"
+                                    //display: AbstractButton.TextBesideIcon
+                                    display: AbstractButton.IconOnly
+                                    hoverEnabled: true
+                                    icon.source: "qrc:///client/theme/magenta/action/pause/default.png"
+                                    icon.color: syncPauseButton.hovered ? Style.magenta : Style.nmcTextColor
+                                    Text {
+                                        objectName: "syncPauseButtonText"
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        //font.wordSpacing:  45
+                                        text: "            " + syncPauseButton.text
+                                        font.family: "Segoe UI"
+                                        font.pixelSize: Style.topLinePixelSize
+                                        color: syncPauseButton.hovered ? Style.magenta : Style.nmcTextColor
+                                    }
+
+                                    horizontalPadding: Style.accountMenuPadding
+                                    verticalPadding: Style.accountMenuHalfPadding
+                                    spacing: Style.accountMenuSpacing
+                                    onClicked: Systray.pauseResumeSync()
+
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.menu.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered ? Style.lightHover : "transparent"
+                                        }
+
+                                    }
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: Systray.syncIsPaused() ? qsTr("Resume sync") : qsTr("Pause sync")
+                                    Accessible.onPressAction: syncPauseButton.clicked()
+                                }
+
+                                MenuItem {
+                                    id: settingsButton
+                                    objectName: "settingsButton"
+                                    display: AbstractButton.TextBesideIcon
+                                    hoverEnabled: true
+                                    icon.source: "qrc:///client/theme/magenta/action/settings/default.png"
+                                    icon.color: settingsButton.hovered ? Style.magenta : Style.nmcTextColor
+                                    Text {
+                                        objectName: "settingsButtonText"
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        font.wordSpacing:  45
+                                        text:  qsTr(" "+"Settings")
+                                        font.family: "Segoe UI"
+                                        font.pixelSize: Style.topLinePixelSize
+                                        color: parent.hovered ? Style.magenta : Style.nmcTextColor
+                                    }
+                                    horizontalPadding: Style.accountMenuPadding
+                                    verticalPadding: Style.accountMenuHalfPadding
+                                    spacing: 4
+                                    onClicked: Systray.openSettings()
+
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.menu.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered ? Style.lightHover : "transparent"
+                                        }
+                                    }
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: text
+                                    Accessible.onPressAction: settingsButton.clicked()
+                                }
+
+                                MenuItem {
+                                    id: exitButton
+                                    objectName: "exitButton"
+                                    display: AbstractButton.TextBesideIcon
+                                    hoverEnabled: true
+                                    icon.source: "qrc:///client/theme/magenta/action/circle-close/default.png"
+                                    icon.color: exitButton.hovered ? Style.magenta : Style.nmcTextColor
+
+                                    Text {
+                                        objectName: "exitButtonText"
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        anchors.bottomMargin: Style.accountMenuPadding
+                                        font.wordSpacing:  45
+                                        text:  qsTr(" "+"Exit")
+                                        font.family: "Segoe UI"
+                                        font.pixelSize: Style.topLinePixelSize
+                                        color: parent.hovered ? Style.magenta : Style.nmcTextColor
+                                    }
+                                    horizontalPadding: Style.accountMenuPadding
+                                    topPadding: Style.accountMenuHalfPadding
+                                    //bottomPadding: Style.accountMenuPadding
+                                    bottomPadding: Style.accountMenuHalfPadding
+                                    spacing: 4
+                                   // hoverEnabled: true
+                                    onClicked: Systray.shutdown()
+
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.menu.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered ? Style.lightHover : "transparent"
+                                        }
+                                    }
+
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: text
+                                    Accessible.onPressAction: exitButton.clicked()
+                                }
+                            }
+                       // }
+
+                       /* background: Rectangle {
+                            color: accountBtnMouseArea.containsMouse ? "white" : "transparent"
+                            opacity: 0.2
+                        }*/
+
+                        RowLayout {
+                            id: accountControlRowLayout
+                            objectName: "accountControlRowLayout"
+
+                            height: Style.trayWindowHeaderHeight
+                            spacing: 0
+
+                            Image {
+                                id: currentAccountAvatar
+                                objectName: "currentAccountAvatar"
+
+                                Layout.leftMargin: Style.accountMenuPadding
+                                verticalAlignment: Qt.AlignCenter
+                                cache: false
+                                source: "qrc:///client/theme/magenta/user/default.png"
+                                width: Style.headerButtonIconSize
+                                height: Style.headerButtonIconSize
+
+                                Layout.preferredHeight: Style.headerButtonIconSize
+                                Layout.preferredWidth: Style.headerButtonIconSize
+
+                                Accessible.role: Accessible.Graphic
+                                Accessible.name: qsTr("Current user avatar")
+
+                                Rectangle {
+                                    id: currentAccountStateIndicatorBackground
+                                    objectName: "currentAccountStateIndicatorBackground"
+                                    width: Style.accountAvatarStateIndicatorSize + 2
+                                    height: width
+                                    anchors.bottom: currentAccountAvatar.bottom
+                                    anchors.right: currentAccountAvatar.right
+                                    color: "transparent"
+                                    radius: width*0.5
+                                }
+
+                                Rectangle {
+                                    width: Style.accountAvatarStateIndicatorSize + 2
+                                    height: width
+                                    anchors.bottom: currentAccountAvatar.bottom
+                                    anchors.right: currentAccountAvatar.right
+                                    color: accountBtnMouseArea.containsMouse ? "white" : "transparent"
+                                    opacity: 0.2
+                                    radius: width*0.5
+                                }
+
+                                /*Image {
+                                    id: currentAccountStateIndicator
+                                    objectName: "currentAccountStateIndicator"
+                                    source: UserModel.isUserConnected(UserModel.currentUserId)
+                                            ? Style.stateOnlineImageSource
+                                            : Style.stateOfflineImageSource
+                                    cache: false
+                                    x: currentAccountStateIndicatorBackground.x
+                                    y: currentAccountStateIndicatorBackground.y
+                                    sourceSize.width: Style.accountAvatarStateIndicatorSize
+                                    sourceSize.height: Style.accountAvatarStateIndicatorSize
+
+                                    Accessible.role: Accessible.Indicator
+                                    Accessible.name: UserModel.isUserConnected(UserModel.currentUserId()) ? qsTr("Connected") : qsTr("Disconnected")
+                                }*/
+                            }
+
+                            Label {
+                                id: currentAccountUser
+                                objectName: "currentAccountUser"
+
+                                Layout.leftMargin: 8
+                                verticalAlignment: Qt.AlignCenter
+                                Layout.maximumWidth: Style.accountLabelWidth
+                                text: UserModel.currentUser.name
+                                elide: Text.ElideRight
+                                color: Style.nmcTextColor
+                                font.family: "Segoe UI"
+                                font.pixelSize: Style.topLinePixelSize
+                            }
+
+
+                            ColorOverlay {
+                                cached: true
+                                color: Style.nmcTextColor
+                                width: source.width
+                                height: source.height
+                                source: Image {
+                                    Layout.leftMargin: Style.accountMenuPadding
+                                    Layout.topMargin: Style.accountMenuPadding
+                                    Layout.bottomMargin: Style.accountMenuPadding
+                                    verticalAlignment: Qt.AlignCenter
+                                    Layout.margins: Style.accountDropDownCaretMargin
+                                    source: "qrc:///client/theme/black/caret-down.svg"
+                                    sourceSize.width: Style.accountDropDownCaretSize
+                                    sourceSize.height: Style.accountDropDownCaretSize
                                 }
                             }
                         }
                     }
-                }
-            }
-        }   // Rectangle trayWindowHeaderBackground
 
-        UnifiedSearchInputContainer {
-            id: trayWindowUnifiedSearchInputContainer
-            height: Style.trayWindowHeaderHeight * 0.65
-
-            anchors {
-                top: trayWindowHeaderBackground.bottom
-                left: trayWindowMainItem.left
-                right: trayWindowMainItem.right
-
-                topMargin: Style.trayHorizontalMargin + controlRoot.padding
-                leftMargin: Style.trayHorizontalMargin + controlRoot.padding
-                rightMargin: Style.trayHorizontalMargin + controlRoot.padding
-            }
-
-            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
-            readOnly: !UserModel.currentUser.isConnected || UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
-            isSearchInProgress: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
-            onTextEdited: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = trayWindowUnifiedSearchInputContainer.text }
-            onClearText: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = "" }
-        }
-
-        ErrorBox {
-            id: unifiedSearchResultsErrorLabel
-            visible:  UserModel.currentUser.unifiedSearchResultsListModel.errorString && !unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress && ! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
-            text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.margins: Style.trayHorizontalMargin
-        }
-
-        UnifiedSearchResultNothingFound {
-            id: unifiedSearchResultNothingFound
-            visible: false
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.topMargin: Style.trayHorizontalMargin
-
-            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
-
-            property bool isSearchRunning: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
-            property bool isSearchResultsEmpty: unifiedSearchResultsListView.count === 0
-            property bool nothingFound: text && isSearchResultsEmpty && !UserModel.currentUser.unifiedSearchResultsListModel.errorString
-
-            onIsSearchRunningChanged: {
-                if (unifiedSearchResultNothingFound.isSearchRunning) {
-                    visible = false;
-                } else {
-                    if (nothingFound) {
-                        visible = true;
+                    // Filler between account dropdown and header app buttons
+                    Item {
+                        id: trayWindowHeaderSpacer
+                        Layout.fillWidth: true
                     }
-                }
-            }
+                    // Left fixed filler between header items
+                    Item {
+                        id: trayWindowHeaderLeftSpacer
+                        Layout.preferredWidth: Style.headerSpacerSize
+                    }
 
-            onTextChanged: {
-                visible = false;
-            }
+                    HeaderButton {
+                        id: openAccountServerButton
+                        objectName: "openAccountServerButton"
+                        spacing: 0;
+                        visible: true
+                        icon.source: "qrc:///client/theme/magenta/news/default@svg.svg"
+                        text: qsTr("Open website")
+                        font.family: "Segoe UI"
+                        font.pixelSize: 8
+                        onClicked: UserModel.openCurrentAccountServer()
 
-            onIsSearchResultsEmptyChanged: {
-                if (!unifiedSearchResultNothingFound.isSearchResultsEmpty) {
-                    visible = false;
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Open website of current account")
+                        Accessible.onPressAction: openAccountServerButton.clicked()
+                    }
+
+                    // Fixed filler between header buttons
+                    Item {
+                        id: trayWindowHeaderButtonSpacer
+                        Layout.preferredWidth: Style.headerSpacerSize
+                    }
+
+                    HeaderButton {
+                        id: openLocalFolderButton
+                        objectName: "openLocalFolderButton"
+                        spacing: 0
+                        visible: UserModel.currentUser.hasLocalFolder
+                        icon.source: "qrc:///client/theme/magenta/folder/default@svg.svg"
+                        text: qsTr("Local folder")
+                        font.family: "Segoe UI"
+                        font.pixelSize: 8
+                        onClicked: UserModel.openCurrentAccountLocalFolder()
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Open local folder of current account")
+                        Accessible.onPressAction: openLocalFolderButton.clicked()
+                    }
+
+
+                    // Right fixed filler between header items
+                    Item {
+                        id: trayWindowHeaderRightSpacer
+                        Layout.preferredWidth: Style.headerSpacerSize
+                    }
+
                 }
-            }
+            }   // Rectangle trayWindowHeaderBackground
+
         }
 
-        Loader {
-            id: unifiedSearchResultsListViewSkeletonLoader
+       /* Rectangle {
+            id: trayWindowGradientBarBackground
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.bottom: trayWindowMainItem.bottom
-            anchors.margins: controlRoot.padding
-
-            active: !unifiedSearchResultNothingFound.visible &&
-                    !unifiedSearchResultsListView.visible &&
-                    !UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
-                    UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
-
-            sourceComponent: UnifiedSearchResultItemSkeletonContainer {
-                anchors.fill: parent
-                spacing: unifiedSearchResultsListView.spacing
-                animationRectangleWidth: trayWindow.width
+            anchors.left:   trayWindowBackground.left
+            anchors.right:  trayWindowBackground.right
+            anchors.top:    trayWindowMagentaBarBackground.bottom
+            height:         1
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "gray" }
+                GradientStop { position: 10; color: "#e5e5e5" }
+            }
+            opacity: 1.0
+        }*/
+        MenuSeparator {
+            id: trayWindowGradientBarBackground
+            objectName: "trayWindowGradientBarBackground"
+            padding: 0
+            topPadding: 108
+            bottomPadding: 8
+            contentItem: Rectangle {
+                implicitWidth: 380
+                implicitHeight: 1
+                color: "#e5e5e5"
             }
         }
-
-        ScrollView {
-            id: controlRoot
-            padding: 1
-            contentWidth: availableWidth
-
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-
-            data: WheelHandler {
-                target: controlRoot.contentItem
-            }
-            visible: unifiedSearchResultsListView.count > 0
-
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.bottom: trayWindowMainItem.bottom
-
-            ListView {
-                id: unifiedSearchResultsListView
-                spacing: 4
-                clip: true
-
-                keyNavigationEnabled: true
-
-                reuseItems: true
-
-                Accessible.role: Accessible.List
-                Accessible.name: qsTr("Unified search results list")
-
-                model: UserModel.currentUser.unifiedSearchResultsListModel
-
-                delegate: UnifiedSearchResultListItem {
-                    width: unifiedSearchResultsListView.width
-                    isSearchInProgress:  unifiedSearchResultsListView.model.isSearchInProgress
-                    currentFetchMoreInProgressProviderId: unifiedSearchResultsListView.model.currentFetchMoreInProgressProviderId
-                    fetchMoreTriggerClicked: unifiedSearchResultsListView.model.fetchMoreTriggerClicked
-                    resultClicked: unifiedSearchResultsListView.model.resultClicked
-                    ListView.onPooled: isPooled = true
-                    ListView.onReused: isPooled = false
-                }
-
-                section.property: "providerName"
-                section.criteria: ViewSection.FullString
-                section.delegate: UnifiedSearchResultSectionItem {
-                    width: unifiedSearchResultsListView.width
-                }
-            }
-        }
-
         SyncStatus {
             id: syncStatus
 
-            visible: !trayWindowMainItem.isUnifiedSearchActive
+            visible: !trayWindowBackground.isUnifiedSearchActive
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
+            anchors.top: trayWindowGradientBarBackground.bottom
+            anchors.left: trayWindowBackground.left
+            anchors.right: trayWindowBackground.right
         }
 
-        ActivityList {
-            visible: !trayWindowMainItem.isUnifiedSearchActive
+
+        ListView {
+            id: activityListView
             anchors.top: syncStatus.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.bottom: trayWindowMainItem.bottom
+            anchors.left: trayWindowBackground.left
+            anchors.right: trayWindowBackground.right
+            anchors.bottom: trayWindowBackground.bottom
+            clip: true
+            ScrollBar.vertical: ScrollBar {
+                id: listViewScrollbar
+            }
 
-            activeFocusOnTab: true
+            readonly property int maxActionButtons: 2
+
+            keyNavigationEnabled: true
+
+            Accessible.role: Accessible.List
+            Accessible.name: qsTr("Activity list")
+
             model: activityModel
-            onOpenFile: Qt.openUrlExternally(filePath);
-            onActivityItemClicked: {
-                model.slotTriggerDefaultAction(index)
+
+            delegate: RowLayout {
+                id: activityItem
+
+                readonly property variant links: model.links
+
+                readonly property int itemIndex: model.index
+
+                width: parent.width
+                height: Style.trayWindowHeaderHeight
+                anchors.rightMargin: 16
+                spacing: 8
+
+                Accessible.role: Accessible.ListItem
+                Accessible.name: path !== "" ? qsTr("Open %1 locally").arg(displayPath)
+                                             : message
+                Accessible.onPressAction: activityMouseArea.clicked()
+
+                MouseArea {
+                    id: activityMouseArea
+                    enabled: (path !== "" || link !== "")
+                    anchors.left: activityItem.left
+                    anchors.right: activityItem.right
+                    height: parent.height
+                    anchors.rightMargin: 16
+                    hoverEnabled: true
+                    onClicked: activityModel.triggerDefaultAction(model.index)
+
+                    Rectangle {
+                        id: listItemBackground
+                        anchors.fill: parent
+                        color: ((parent.containsMouse /*|| shareButton.hovered*/) ? Style.lightHover : "transparent")
+                    }
+                }
+
+                Image {
+                    id: activityIcon
+                    anchors.left: activityItem.left
+                    anchors.leftMargin: 16
+                    anchors.rightMargin: 8
+                    Layout.preferredWidth: Style.headerButtonIconSize
+                    Layout.preferredHeight: Style.headerButtonIconSize
+                    verticalAlignment: Qt.AlignCenter
+                    cache: true
+                    source: icon
+                    sourceSize.height: 64
+                    sourceSize.width: 64
+                }
+
+                Column {
+                    id: activityTextColumn
+                    anchors.left: activityIcon.right
+                    anchors.right: activityActionsLayout.left
+                    anchors.leftMargin: 8
+                    spacing: 4
+                    Layout.alignment: Qt.AlignLeft
+                    Text {
+                        id: activityTextTitle
+                        text: (type === "Activity" || type === "Notification") ? subject : message
+                        width: parent.width
+                        elide: Text.ElideRight
+                        font.pixelSize: Style.topLinePixelSize
+                        color: activityTextTitleColor
+                    }
+
+                    Text {
+                        id: activityTextInfo
+                        text: (type === "Sync") ? displayPath
+                            : (type === "File") ? subject
+                            : (type === "Notification") ? message
+                            : ""
+                        height: (text === "") ? 0 : activityTextTitle.height
+                        width: parent.width
+                        elide: Text.ElideRight
+                        font.pixelSize: Style.subLinePixelSize
+                    }
+
+                    Text {
+                        id: activityTextDateTime
+                        text: dateTime
+                        height: (text === "") ? 0 : activityTextTitle.height
+                        width: parent.width
+                        elide: Text.ElideRight
+                        font.pixelSize: Style.subLinePixelSize
+                        color: "#808080"
+                    }
+
+                    ToolTip {
+                        id: toolTip
+                        visible: activityMouseArea.containsMouse
+                        text: activityTextTitle.text + ((activityTextInfo.text !== "") ? "\n\n" + activityTextInfo.text : "")
+                        delay: 250
+                        timeout: 10000
+                        // Can be dropped on more recent Qt, but on 5.12 it doesn't wrap...
+                        contentItem: Text {
+                            text: toolTip.text
+                            font: toolTip.font
+                            wrapMode: Text.Wrap
+                            color: toolTip.palette.toolTipText
+                        }
+                    }
+                }
+                RowLayout {
+                    id: activityActionsLayout
+                    anchors.right: activityItem.right
+                    spacing: 0
+                    Layout.alignment: Qt.AlignRight
+                    width: 16
+                    height: 60
+
+                    Rectangle {
+                        id: activityActionsLayoutSpacer
+                        width: 16
+                        height: 60
+                        visible: (path !== "" && (activityMouseArea.containsMouse /*|| shareButton.hovered*/)) ? false : true
+                        color: activityMouseArea.containsMouse ? Style.lightHover : "transparent"
+                    }
+                    /*Button {
+                        id: shareButton
+
+                        Layout.preferredWidth: (path === "") ? 0 : parent.height
+                        Layout.preferredHeight: parent.height
+                        Layout.alignment: Qt.AlignRight
+                        flat: true
+                        hoverEnabled: true
+                        visible: (path !== "" && (activityMouseArea.containsMouse || shareButton.hovered)) ? true : false
+                        display: AbstractButton.IconOnly
+                        icon.source: "qrc:///client/theme/magenta/share/default.png"
+                        icon.color: shareButton.hovered ? Style.magenta : "transparent"
+                        background: Rectangle {
+                            color: parent.hovered ? Style.lightHover : "transparent"
+                        }
+                        ToolTip.visible: hovered
+                        ToolTip.delay: 1000
+                        ToolTip.text: qsTr("Open share dialog")
+                        onClicked: Systray.openShareDialog(displayPath,absolutePath)
+
+                        Accessible.role: Accessible.Button
+                        Accessible.name: qsTr("Share %1").arg(displayPath)
+                        Accessible.onPressAction: shareButton.clicked()
+                    }*/
+                }
             }
+
         }
 
-        Loader {
-            id: fileActivityDialogLoader
-
-            property string objectName: ""
-            property int objectId: -1
-
-            function refresh() {
-                active = true
-                item.model.load(activityModel.accountState, objectId)
-                item.show()
-            }
-
-            active: false
-            sourceComponent: FileActivityDialog {
-                title: qsTr("%1 - File activity").arg(fileActivityDialogLoader.objectName)
-                onClosing: fileActivityDialogLoader.active = false
-            }
-
-            onLoaded: refresh()
-        }
-    } // Item trayWindowMainItem
+    }       // Rectangle trayWindowBackground
 }
