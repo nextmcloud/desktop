@@ -2559,7 +2559,7 @@ Beachten Sie bitte, dass hierdurch nur ausgewählt wird, aus welchem Pool Upgrad
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="191"/>
         <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Further Informations&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Weitere Informationen&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="361"/>
@@ -4829,7 +4829,7 @@ p, li { white-space: pre-wrap; }
         <source>Could not encrypt the following folder: &quot;%1&quot;. 
 
 Server replied with error: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschlüsselung nicht möglich. Der Ordner ist nicht leer</translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="555"/>
