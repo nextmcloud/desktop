@@ -1410,6 +1410,12 @@ void ClientSideEncryption::getPrivateKeyFromServer(const AccountPtr &account)
             decryptPrivateKey(account, key.toLocal8Bit());
         } else if (retCode == 404) {
             qCInfo(lcCse()) << "No private key on the server: setup is incomplete.";
+            if (!account->e2eEncryptionKeysGenerationAllowed()) {
+                qCInfo(lcCse()) << "User did not allow E2E keys generation.";
+                emit initializationFinished();
+                return;
+            }
+            generateKeyPair(account);
         } else {
             qCInfo(lcCse()) << "Error while requesting public key: " << retCode;
         }
