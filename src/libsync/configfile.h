@@ -182,7 +182,7 @@ public:
     [[nodiscard]] bool autoUpdateCheck(const QString &connection = QString()) const;
     void setAutoUpdateCheck(bool, const QString &);
 
-    bool transferUsageData(const QString &connection = QString()) const;
+    [[nodiscard]] bool transferUsageData(const QString &connection = QString()) const;
     void setTransferUsageData(bool, const QString &);
 
     /** Query-parameter 'updatesegment' for the update check, value between 0 and 99.
