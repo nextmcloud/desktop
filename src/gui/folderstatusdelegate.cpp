@@ -26,6 +26,7 @@
 #include <QPainter>
 #include <QApplication>
 #include <QMouseEvent>
+#include <QPushButton>
 
 inline static QFont makeAliasFont(const QFont &normalFont)
 {
@@ -43,9 +44,16 @@ FolderStatusDelegate::FolderStatusDelegate()
     customizeStyle();
 }
 
-QString FolderStatusDelegate::addFolderText()
+QString FolderStatusDelegate::addFolderText(addButtonText selection)
 {
-    return tr("Add Folder Sync Connection");
+    switch(selection)
+    {
+    case AB_Textline:
+        return tr("Synchronize any other local folder with your MagentaCLOUD.");
+    case AB_Headline:
+    default:
+        return tr("Add Live-Backup");
+    }
 }
 
 // allocate each item size in listview.
@@ -58,17 +66,10 @@ QSize FolderStatusDelegate::sizeHint(const QStyleOptionViewItem &option,
     QFontMetrics fm(font);
     QFontMetrics aliasFm(aliasFont);
 
-    auto classif = dynamic_cast<const FolderStatusModel *>(index.model())->classify(index);
+    auto classif = static_cast<const FolderStatusModel *>(index.model())->classify(index);
     if (classif == FolderStatusModel::AddButton) {
-        const int margins = aliasFm.height(); // same as 2*aliasMargin of paint
-        QFontMetrics fm(qApp->font("QPushButton"));
-        QStyleOptionButton opt;
-        static_cast<QStyleOption &>(opt) = option;
-        opt.text = addFolderText();
-        return QApplication::style()->sizeFromContents(
-                                        QStyle::CT_PushButton, &opt, fm.size(Qt::TextSingleLine, opt.text))
-                   .expandedTo(QApplication::globalStrut())
-            + QSize(0, margins);
+        // quick hack for (fixed) button size
+        return {520, 64};
     }
 
     if (classif != FolderStatusModel::RootFolder) {
@@ -95,8 +96,9 @@ int FolderStatusDelegate::rootFolderHeightWithoutErrors(const QFontMetrics &fm, 
 {
     const int aliasMargin = aliasFm.height() / 2;
     const int margin = fm.height() / 4;
+    const int topMargin = 15;
 
-    int h = aliasMargin; // margin to top
+    int h = aliasMargin + topMargin; // margin to top
     h += aliasFm.height(); // alias
     h += margin; // between alias and local path
     h += fm.height(); // local path
@@ -118,14 +120,21 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     auto textAlign = Qt::AlignLeft;
 
     QFont aliasFont = makeAliasFont(option.font);
-    QFont subFont = option.font;
+    QFont subFont = aliasFont;
+    subFont.setBold(false);
+    subFont.setPointSize(aliasFont.pointSize() - 1);
+
     QFont errorFont = subFont;
     QFont progressFont = subFont;
 
     progressFont.setPointSize(subFont.pointSize() - 2);
+    QFont addButtonFont = subFont;
+    addButtonFont.setPointSize(subFont.pointSize() - 1);
 
     QFontMetrics subFm(subFont);
     QFontMetrics aliasFm(aliasFont);
+    QFontMetrics progressFm(progressFont);
+    QFontMetrics addButtonFm(addButtonFont);
 
     int aliasMargin = aliasFm.height() / 2;
     int margin = subFm.height() / 4;
@@ -133,21 +142,61 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     if (index.data(AddButton).toBool()) {
         QStyleOptionButton opt;
         static_cast<QStyleOption &>(opt) = option;
-        if (opt.state & QStyle::State_Enabled && opt.state & QStyle::State_MouseOver && index == _pressedIndex) {
-            opt.state |= QStyle::State_Sunken;
-        } else {
-            opt.state |= QStyle::State_Raised;
-        }
-        opt.text = addFolderText();
-        opt.rect = addButtonRect(option.rect, option.direction);
+
+        auto theme = Theme::instance();
+        QIcon addIcon = theme->addButtonIcon();
+        int iconSize = 48;
+        int topMargin = 8;
+        int leftMargin = 8;
+
         painter->save();
-        painter->setFont(qApp->font("QPushButton"));
-        QApplication::style()->drawControl(QStyle::CE_PushButton, &opt, painter, option.widget);
+        auto addIconRect = option.rect;
+        auto headRect = option.rect;
+
+        int buttonMargin = (option.rect.height() - topMargin - iconSize)/2;
+
+        addIconRect.setLeft(option.rect.left() + aliasMargin);
+        addIconRect.setTop(addIconRect.top() + buttonMargin);
+        int iconRectHeight = aliasFm.height() + 2 * (margin + subFm.height());
+        addIconRect.setHeight(iconRectHeight);
+        addIconRect.setWidth(iconRectHeight);
+
+        // headline box
+        headRect.setTop(headRect.top() + topMargin + buttonMargin);
+        headRect.setBottom(headRect.top() + aliasFm.height());
+        headRect.setRight(headRect.right() - buttonMargin);
+
+        // two text lines box
+        auto textRect = headRect;
+        textRect.setTop(headRect.bottom() + margin);
+        textRect.setBottom(textRect.top() + 2*addButtonFm.height() + margin);
+
+        int nextToIcon = addIconRect.right() + aliasMargin;
+        headRect.setLeft(nextToIcon);
+        textRect.setLeft(nextToIcon);
+
+        QPixmap pm = addIcon.pixmap(iconSize, iconSize, (opt.state & QStyle::State_Enabled) ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, addIconRect).left() + leftMargin,
+            addIconRect.top() + topMargin + buttonMargin, pm);
+
+        if(!(opt.state & QStyle::State_Enabled))
+        {
+             painter->setPen(QColor(qRgb(0x86, 0x86, 0x86))); // set text color grey if add button is disabled
+        }
+
+        painter->setFont(aliasFont);
+        QString elidedHead = aliasFm.elidedText(addFolderText(AB_Headline), Qt::ElideRight, headRect.width());
+        painter->drawText(QStyle::visualRect(option.direction, headRect, headRect), textAlign, elidedHead);
+
+        painter->setFont(addButtonFont);
+        QString textLine = addFolderText(AB_Textline);
+        painter->drawText(QStyle::visualRect(option.direction, textRect, textRect), textAlign|Qt::TextWordWrap, textLine);
+
         painter->restore();
         return;
     }
 
-    if (dynamic_cast<const FolderStatusModel *>(index.model())->classify(index) != FolderStatusModel::RootFolder) {
+    if (static_cast<const FolderStatusModel *>(index.model())->classify(index) != FolderStatusModel::RootFolder) {
         return;
     }
     painter->save();
@@ -204,6 +253,19 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(),
         iconRect.top(), pm);
 
+    if(index.data(FolderOverlayIconRole).isValid())
+    {
+        auto overlayIcon = qvariant_cast<QIcon>(index.data(FolderOverlayIconRole));
+        int ovlSize = 24;
+        auto ovlRect = iconRect;
+        // the overlay icon position depends on the (variable) status icon size
+        ovlRect.setTop(iconRect.top() + pm.height() - ovlSize - margin);
+        ovlRect.setLeft(iconRect.left() + pm.width() - ovlSize);
+        QPixmap opm = overlayIcon.pixmap(ovlSize, ovlSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, ovlRect).left(),
+            ovlRect.top(), opm);
+    }
+
     // only show the warning icon if the sync is running. Otherwise its
     // encoded in the status icon.
     if (warningCount > 0 && syncOngoing) {
@@ -221,6 +283,15 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     auto palette = option.palette;
 
+    if (qApp->style()->inherits("QWindowsVistaStyle")) {
+        // Hack: Windows Vista's light blue is not contrasting enough for white
+
+        // (code from QWindowsVistaStyle::drawControl for CE_ItemViewItem)
+        palette.setColor(QPalette::All, QPalette::HighlightedText, palette.color(QPalette::Active, QPalette::Text));
+        palette.setColor(QPalette::All, QPalette::Highlight, palette.base().color().darker(108));
+    }
+
+
     QPalette::ColorGroup cg = option.state & QStyle::State_Enabled
         ? QPalette::Normal
         : QPalette::Disabled;
@@ -234,7 +305,17 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     }
     QString elidedAlias = aliasFm.elidedText(aliasText, Qt::ElideRight, aliasRect.width());
     painter->setFont(aliasFont);
-    painter->drawText(QStyle::visualRect(option.direction, option.rect, aliasRect), textAlign, elidedAlias);
+    //if(0 == index.row())
+    //{
+        //QPen currentPen = painter->pen(); // save the pen
+        //painter->setPen(QColor(qRgb(0xe2, 0, 0x74))); // set text color MAGENTA = #e20074
+        //painter->drawText(QStyle::visualRect(option.direction, option.rect, aliasRect), textAlign, elidedAlias);
+        //painter->setPen(currentPen); // restore the pen
+    //}
+    //else
+    //{
+        painter->drawText(QStyle::visualRect(option.direction, option.rect, aliasRect), textAlign, elidedAlias);
+    //}
 
     const bool showProgess = !overallString.isEmpty() || !itemString.isEmpty();
     if (!showProgess) {
@@ -398,12 +479,8 @@ QRect FolderStatusDelegate::optionsButtonRect(QRect within, Qt::LayoutDirection 
 
 QRect FolderStatusDelegate::addButtonRect(QRect within, Qt::LayoutDirection direction)
 {
-    QFontMetrics fm(qApp->font("QPushButton"));
-    QStyleOptionButton opt;
-    opt.text = addFolderText();
-    QSize size = QApplication::style()->sizeFromContents(QStyle::CT_PushButton, &opt, fm.size(Qt::TextSingleLine, opt.text)).expandedTo(QApplication::globalStrut());
-    QRect r(QPoint(within.left(), within.top() + within.height() / 2 - size.height() / 2), size);
-    return QStyle::visualRect(direction, within, r);
+    Q_UNUSED(direction)
+    return within;
 }
 
 QRect FolderStatusDelegate::errorsListRect(QRect within)

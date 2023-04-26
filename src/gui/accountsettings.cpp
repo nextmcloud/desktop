@@ -78,12 +78,13 @@ Q_LOGGING_CATEGORY(lcAccountSettings, "nextcloud.gui.account.settings", QtInfoMs
 
 static const char progressBarStyleC[] =
     "QProgressBar {"
-    "border: 1px solid grey;"
-    "border-radius: 5px;"
+    "border: 0px solid grey;"
+     "border-radius: 5px; height: 4px;"
+    "background-color: #CCCCCC;"
     "text-align: center;"
     "}"
     "QProgressBar::chunk {"
-    "background-color: %1; width: 1px;"
+    "background-color: #e20074; height: 4px;"
     "}";
 
 void showEnableE2eeWithVirtualFilesWarningDialog(std::function<void(void)> onAccept)
@@ -216,7 +217,7 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     connect(_ui->bigFolderApply, &QAbstractButton::clicked, _model, &FolderStatusModel::slotApplySelectiveSync);
     connect(_ui->bigFolderSyncAll, &QAbstractButton::clicked, _model, &FolderStatusModel::slotSyncAllPendingBigFolders);
     connect(_ui->bigFolderSyncNone, &QAbstractButton::clicked, _model, &FolderStatusModel::slotSyncNoPendingBigFolders);
-
+    connect(_ui->moreMemoryButton, &QPushButton::clicked, this, &AccountSettings::slotMoreMemory);
     connect(FolderMan::instance(), &FolderMan::folderListChanged, _model, &FolderStatusModel::resetFolders);
     connect(this, &AccountSettings::folderChanged, _model, &FolderStatusModel::resetFolders);
 
@@ -224,20 +225,19 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     // quotaProgressBar style now set in customizeStyle()
     /*QColor color = palette().highlight().color();
      _ui->quotaProgressBar->setStyleSheet(QString::fromLatin1(progressBarStyleC).arg(color.name()));*/
+    customizeStyle();
 
     // Connect E2E stuff
     initializeE2eEncryption();
     _ui->encryptionMessage->setCloseButtonVisible(false);
 
-    _ui->connectLabel->setText(tr("No account configured."));
+    //_ui->connectLabel->setText(tr("No account configured."));
 
     connect(_accountState, &AccountState::stateChanged, this, &AccountSettings::slotAccountStateChanged);
     slotAccountStateChanged();
 
     connect(&_userInfo, &UserInfo::quotaUpdated,
         this, &AccountSettings::slotUpdateQuota);
-
-    customizeStyle();
 }
 
 void AccountSettings::slotE2eEncryptionMnemonicReady()
@@ -488,7 +488,8 @@ void AccountSettings::openIgnoredFilesDialog(const QString & absFolderPath)
     const auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     layout->addWidget(buttonBox);
 
-    const auto dialog = new QDialog();
+    const auto dialog = new QDialog(nullptr, Qt::WindowTitleHint| Qt::WindowCloseButtonHint);
+    //auto dialog = new QDialog();
     dialog->setLayout(layout);
 
     connect(buttonBox, &QDialogButtonBox::clicked, [=](QAbstractButton * button) {
@@ -640,12 +641,11 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         ac = availabilityMenu->addAction(Utility::vfsFreeSpaceActionText());
         connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::OnlineOnly); });
 
-        ac = menu->addAction(tr("Disable virtual file support …"));
-        connect(ac, &QAction::triggered, this, &AccountSettings::slotDisableVfsCurrentFolder);
-        ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
+        //ac = menu->addAction(tr("Disable virtual file support …"));
+        //connect(ac, &QAction::triggered, this, &AccountSettings::slotDisableVfsCurrentFolder);
     }
 
-    if (Theme::instance()->showVirtualFilesOption() && !folder->virtualFilesEnabled() && Vfs::checkAvailability(folder->path())) {
+   /* if (Theme::instance()->showVirtualFilesOption() && !folder->virtualFilesEnabled() && Vfs::checkAvailability(folder->path())) {
         const auto mode = bestAvailableVfsMode();
         if (mode == Vfs::WindowsCfApi || ConfigFile().showExperimentalOptions()) {
             ac = menu->addAction(tr("Enable virtual file support %1 …").arg(mode == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
@@ -654,7 +654,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
             //
             connect(ac, &QAction::triggered, this, &AccountSettings::slotEnableVfsCurrentFolder);
         }
-    }
+    }*/
 
 
     menu->popup(treeView->mapToGlobal(pos));
@@ -1066,19 +1066,19 @@ void AccountSettings::showConnectionLabel(const QString &message, QStringList er
                                         "border-width: 1px; border-style: solid; border-color: #aaaaaa;"
                                         "border-radius:5px;");
     if (errors.isEmpty()) {
-        auto msg = message;
-        Theme::replaceLinkColorStringBackgroundAware(msg);
-        _ui->connectLabel->setText(msg);
-        _ui->connectLabel->setToolTip({});
-        _ui->connectLabel->setStyleSheet({});
+       // QString msg = message;
+        //Theme::replaceLinkColorStringBackgroundAware(msg);
+       // _ui->connectLabel->setText(msg);
+       // _ui->connectLabel->setToolTip(QString());
+       // _ui->connectLabel->setStyleSheet(QString());
     } else {
-        errors.prepend(message);
-        auto msg = errors.join(QLatin1String("\n"));
-        qCDebug(lcAccountSettings) << msg;
-        Theme::replaceLinkColorString(msg, QColor("#c1c8e6"));
-        _ui->connectLabel->setText(msg);
-        _ui->connectLabel->setToolTip({});
-        _ui->connectLabel->setStyleSheet(errStyle);
+        //errors.prepend(message);
+       // QString msg = errors.join(QLatin1String("\n"));
+       // qCDebug(lcAccountSettings) << msg;
+       // Theme::replaceLinkColorString(msg, QColor("#c1c8e6"));
+       // _ui->connectLabel->setText(msg);
+       // _ui->connectLabel->setToolTip(QString());
+       // _ui->connectLabel->setStyleSheet(errStyle);
     }
     _ui->accountStatus->setVisible(!message.isEmpty());
 }
@@ -1168,20 +1168,25 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
     if (total > 0) {
         _ui->quotaProgressBar->setVisible(true);
         _ui->quotaProgressBar->setEnabled(true);
+        _ui->quotaProgressLabel->setEnabled(true);
         // workaround the label only accepting ints (which may be only 32 bit wide)
-        const auto percent = used / (double)total * 100;
-        const auto percentInt = qMin(qRound(percent), 100);
+        const double percent = (used * 100) / (double)total;
+        const int percentInt = qMin(qRound(percent), 100);
         _ui->quotaProgressBar->setValue(percentInt);
         const auto usedStr = Utility::octetsToString(used);
         const auto totalStr = Utility::octetsToString(total);
         const auto percentStr = Utility::compactFormatDouble(percent, 1);
         const auto toolTip = tr("%1 (%3%) of %2 in use. Some folders, including network mounted or shared folders, might have different limits.").arg(usedStr, totalStr, percentStr);
-        _ui->quotaInfoLabel->setText(tr("%1 of %2 in use").arg(usedStr, totalStr));
+        _ui->quotaInfoLabel->setText(tr("<b> %1 </b> of %2").arg(usedStr, totalStr));
+        _ui->quotaInfoLabel->setStyleSheet("QLabel { background-color :%1 ; font: 18px; color : #191919; }");
         _ui->quotaInfoLabel->setToolTip(toolTip);
         _ui->quotaProgressBar->setToolTip(toolTip);
+        _ui->quotaProgressLabel->setText(tr("Memory Occupied to %1 %").arg(percentStr));
     } else {
         _ui->quotaProgressBar->setVisible(false);
-        _ui->quotaInfoLabel->setToolTip({});
+        _ui->quotaProgressLabel->setVisible(false);
+        _ui->moreMemoryButton->setVisible(false);
+        _ui->quotaInfoLabel->setToolTip(QString());
 
         /* -1 means not computed; -2 means unknown; -3 means unlimited  (#owncloud/client/issues/3940)*/
         if (total == 0 || total == -1) {
@@ -1197,7 +1202,7 @@ void AccountSettings::slotAccountStateChanged()
 {
     const auto state = _accountState ? _accountState->state() : AccountState::Disconnected;
     if (state != AccountState::Disconnected) {
-        _ui->sslButton->updateAccountState(_accountState);
+       // _ui->sslButton->updateAccountState(_accountState);
         const auto account = _accountState->account();
         auto safeUrl = account->url();
         safeUrl.setPassword({}); // Remove the password from the URL to avoid showing it in the UI
@@ -1345,6 +1350,11 @@ void AccountSettings::slotLinkActivated(const QString &link)
             qCWarning(lcAccountSettings) << "Unable to find a valid index for " << myFolder;
         }
     }
+}
+
+void AccountSettings::slotMoreMemory()
+{
+    QDesktopServices::openUrl(QUrl("https://cloud.telekom-dienste.de/tarife"));
 }
 
 AccountSettings::~AccountSettings()
@@ -1546,12 +1556,14 @@ void AccountSettings::slotStyleChanged()
 
 void AccountSettings::customizeStyle()
 {
-    auto msg = _ui->connectLabel->text();
-    Theme::replaceLinkColorStringBackgroundAware(msg);
-    _ui->connectLabel->setText(msg);
+    //QString msg = _ui->connectLabel->text();
+   // Theme::replaceLinkColorStringBackgroundAware(msg);
+   // _ui->connectLabel->setText(msg);
+    _ui->moreMemoryButton->setStyleSheet("QPushButton {height : 24px ; font : 13px; color: #191919; border: 2px solid #CCCCCC; backgroud:#E1E1E1}");
 
-    const auto color = palette().highlight().color();
-    _ui->quotaProgressBar->setStyleSheet(QString::fromLatin1(progressBarStyleC).arg(color.name()));
+    QColor color = palette().highlight().color();
+    QString background(palette().base().color().name());
+    _ui->quotaProgressBar->setStyleSheet(QString::fromLatin1(progressBarStyleC).arg(background,color.name()));
 }
 
 void AccountSettings::initializeE2eEncryption()

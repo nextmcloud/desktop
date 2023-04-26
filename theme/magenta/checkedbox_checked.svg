@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/desktop/checkbox/checked@svg</title>
+    <g id="icon/desktop/checkbox/checked" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#E20074" x="4" y="4.0004" width="16" height="16" rx="3"></rect>
+        <path d="M10.3470779,17 L6.19993122,12.8528533 C5.93057601,12.5747896 5.93378352,12.1321546 6.20714014,11.8580236 C6.48049676,11.5838926 6.92312089,11.579433 7.20194544,11.8480005 L10.3470779,14.993133 L17.1596392,8.18057167 C17.4403416,7.92964896 17.8681451,7.94162154 18.1343743,8.20785077 C18.4006036,8.47408 18.4125762,8.90188356 18.1616534,9.1825859 L10.3470779,17 Z" id="Path" fill="#FFFFFF"></path>
+    </g>
+</svg>

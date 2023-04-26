@@ -31,6 +31,7 @@ class QModelIndex;
 class QNetworkReply;
 class QListWidgetItem;
 class QLabel;
+class TestAccountSettings;
 
 namespace OCC {
 
@@ -101,6 +102,7 @@ protected slots:
     void slotFolderListClicked(const QModelIndex &indx);
     void doExpand();
     void slotLinkActivated(const QString &link);
+    void slotMoreMemory();
 
     // Encryption Related Stuff.
     void slotE2eEncryptionMnemonicReady();
@@ -148,6 +150,8 @@ private:
     bool _menuShown = false;
 
     QHash<QString, QMetaObject::Connection> _folderConnections;
+    /* for Unit Test */
+    friend class:: TestAccountSettings;
 };
 
 } // namespace OCC

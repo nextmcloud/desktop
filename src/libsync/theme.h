@@ -188,10 +188,15 @@ public:
       * get an sync state icon
       */
     [[nodiscard]] QIcon syncStateIcon(SyncResult::Status, bool sysTray = false) const;
+    virtual QIcon folderOverlayIcon(SyncResult::Status, bool firstRow = false) const;
+
+    virtual QIcon folderOkIcon() const;
 
     [[nodiscard]] QIcon folderDisabledIcon() const;
     [[nodiscard]] QIcon folderOfflineIcon(bool sysTray = false) const;
+    [[nodiscard]] QIcon addButtonIcon() const;
     [[nodiscard]] QIcon applicationIcon() const;
+    [[nodiscard]] QIcon applicationLogo() const;
 #endif
 
     [[nodiscard]] QString statusHeaderText(SyncResult::Status) const;
