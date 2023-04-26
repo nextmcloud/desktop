@@ -129,7 +129,7 @@ private slots:
         folderStMod._folders.push_back(subFolder);
         folderStMod._folders.push_back(subFolder);
 
-        QObject *parent = new QObject;
+        auto *parent = new QObject;
         QAbstractItemModel *model = new FolderStatusModel(parent);
         QModelIndex index = model->index(1,1);
         QVERIFY(index.isValid());
