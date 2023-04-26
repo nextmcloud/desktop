@@ -21,7 +21,6 @@
 #include "configfile.h"
 #include "owncloudsetupwizard.h"
 #include "accountmanager.h"
-#include "guiutility.h"
 
 #if defined(BUILD_UPDATER)
 #include "updater/updater.h"
@@ -36,8 +35,7 @@
 #include "common/utility.h"
 #include "logger.h"
 
-#include "legalnotice.h"
-
+#include "config.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QNetworkProxy>
@@ -91,6 +89,8 @@ QVector<ZipEntry> createDebugArchiveFileList()
     const auto logger = OCC::Logger::instance();
 
     if (!logger->logDir().isEmpty()) {
+        list.append({QString(), QStringLiteral("logs")});
+
         QDir dir(logger->logDir());
         const auto infoList = dir.entryInfoList(QDir::Files);
         std::transform(std::cbegin(infoList), std::cend(infoList),
@@ -138,23 +138,16 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     , _ui(new Ui::GeneralSettings)
 {
     _ui->setupUi(this);
+    _ui->autoCheckForUpdatesCheckBox->setVisible(true);
+    _ui->restartButton->setVisible(false);
+    _ui->updateButton->setVisible(false);
+    _ui->debugArchiveButton->setVisible(false);
 
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
     _ui->serverNotificationsCheckBox->setToolTip(tr("Server notifications that require attention."));
 
-    connect(_ui->callNotificationsCheckBox, &QAbstractButton::toggled,
-        this, &GeneralSettings::slotToggleCallNotifications);
-    _ui->callNotificationsCheckBox->setToolTip(tr("Show call notification dialogs."));
-
-    connect(_ui->showInExplorerNavigationPaneCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotShowInExplorerNavigationPane);
-
-    // Rename 'Explorer' appropriately on non-Windows
-#ifdef Q_OS_MAC
-    QString txt = _ui->showInExplorerNavigationPaneCheckBox->text();
-    txt.replace(QString::fromLatin1("Explorer"), QString::fromLatin1("Finder"));
-    _ui->showInExplorerNavigationPaneCheckBox->setText(txt);
-#endif
+    slotShowInExplorerNavigationPane(true);
 
     if(Utility::hasSystemLaunchOnStartup(Theme::instance()->appName())) {
         _ui->autostartCheckBox->setChecked(true);
@@ -168,25 +161,42 @@ GeneralSettings::GeneralSettings(QWidget *parent)
         connect(_ui->autostartCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotToggleLaunchOnStartup);
     }
 
-    // setup about section
+    // setup data privacy section
+    connect(_ui->transferUsageDataCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotTransferUsageData);
+
+    _ui->imprintLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->imprintLabel->setOpenExternalLinks(true);
+    _ui->imprintLabel->setTextFormat(Qt::RichText);
+    _ui->imprintLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL)));
+
+    _ui->privacyPolicyLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->privacyPolicyLabel->setOpenExternalLinks(true);
+    _ui->privacyPolicyLabel->setTextFormat(Qt::RichText);
+    _ui->privacyPolicyLabel->setText(tr("<a href='%1' style=\"color: #e20074;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL)));
+
+    _ui->openSourceSwLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->openSourceSwLabel->setOpenExternalLinks(true);
+    _ui->openSourceSwLabel->setTextFormat(Qt::RichText);
+    _ui->openSourceSwLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL)));
+
     QString about = Theme::instance()->about();
     _ui->aboutLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
-    _ui->aboutLabel->setText(about);
     _ui->aboutLabel->setOpenExternalLinks(true);
+    _ui->aboutLabel->setText(about);
 
-    // About legal notice
-    connect(_ui->legalNoticeButton, &QPushButton::clicked, this, &GeneralSettings::slotShowLegalNotice);
+    QString infoUrl = Theme::instance()->helpUrl();
+    _ui->infoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->infoLabel->setOpenExternalLinks(true);
+    _ui->infoLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Further Information</a>").arg(infoUrl));
 
     loadMiscSettings();
     // updater info now set in: customizeStyle
     //slotUpdateInfo();
 
     // misc
-    connect(_ui->monoIconsCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
     connect(_ui->crashreporterCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
     connect(_ui->newFolderLimitCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
     connect(_ui->newFolderLimitSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &GeneralSettings::saveMiscSettings);
-    connect(_ui->newExternalStorage, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
 
 #ifndef WITH_CRASHREPORTER
     _ui->crashreporterCheckBox->setVisible(false);
@@ -194,17 +204,6 @@ GeneralSettings::GeneralSettings(QWidget *parent)
 
     // Hide on non-Windows, or WindowsVersion < 10.
     // The condition should match the default value of ConfigFile::showInExplorerNavigationPane.
-#ifdef Q_OS_WIN
-    #if QTLEGACY
-        if (QSysInfo::windowsVersion() < QSysInfo::WV_WINDOWS10)
-    #else
-        if (QOperatingSystemVersion::current() < QOperatingSystemVersion::Windows10)
-    #endif
-            _ui->showInExplorerNavigationPaneCheckBox->setVisible(false);
-#else
-    // Hide on non-Windows
-    _ui->showInExplorerNavigationPaneCheckBox->setVisible(false);
-#endif
 
     /* Set the left contents margin of the layout to zero to make the checkboxes
      * align properly vertically , fixes bug #3758
@@ -216,11 +215,6 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     _ui->horizontalLayout_3->getContentsMargins(&m0, &m1, &m2, &m3);
     _ui->horizontalLayout_3->setContentsMargins(0, m1, m2, m3);
 
-    // OEM themes are not obliged to ship mono icons, so there
-    // is no point in offering an option
-    _ui->monoIconsCheckBox->setVisible(Theme::instance()->monoIconsAvailable());
-
-    connect(_ui->ignoredFilesButton, &QAbstractButton::clicked, this, &GeneralSettings::slotIgnoreFilesEditor);
     connect(_ui->debugArchiveButton, &QAbstractButton::clicked, this, &GeneralSettings::slotCreateDebugArchive);
 
     // accountAdded means the wizard was finished and the wizard might change some options.
@@ -246,17 +240,15 @@ void GeneralSettings::loadMiscSettings()
 {
     QScopedValueRollback<bool> scope(_currentlyLoading, true);
     ConfigFile cfgFile;
-    _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
     _ui->serverNotificationsCheckBox->setChecked(cfgFile.optionalServerNotifications());
-    _ui->callNotificationsCheckBox->setEnabled(_ui->serverNotificationsCheckBox->isEnabled());
-    _ui->callNotificationsCheckBox->setChecked(cfgFile.showCallNotifications());
-    _ui->showInExplorerNavigationPaneCheckBox->setChecked(cfgFile.showInExplorerNavigationPane());
     _ui->crashreporterCheckBox->setChecked(cfgFile.crashReporter());
     auto newFolderLimit = cfgFile.newBigFolderSizeLimit();
     _ui->newFolderLimitCheckBox->setChecked(newFolderLimit.first);
     _ui->newFolderLimitSpinBox->setValue(newFolderLimit.second);
-    _ui->newExternalStorage->setChecked(cfgFile.confirmExternalStorage());
-    _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
+    _ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
+    _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
+
+    cfgFile.setConfirmExternalStorage(true);
 }
 
 #if defined(BUILD_UPDATER)
@@ -265,7 +257,9 @@ void GeneralSettings::slotUpdateInfo()
     const auto updater = Updater::instance();
     if (ConfigFile().skipUpdateCheck() || !updater) {
         // updater disabled on compile
-        _ui->updatesGroupBox->setVisible(false);
+        _ui->autoCheckForUpdatesCheckBox->setVisible(true);
+        _ui->restartButton->setVisible(false);
+        _ui->updateButton->setVisible(false);
         return;
     }
 
@@ -284,109 +278,18 @@ void GeneralSettings::slotUpdateInfo()
         connect(_ui->restartButton, &QAbstractButton::clicked, ocupdater, &OCUpdater::slotStartInstaller, Qt::UniqueConnection);
         connect(_ui->restartButton, &QAbstractButton::clicked, qApp, &QApplication::quit, Qt::UniqueConnection);
 
-        QString status = ocupdater->statusString(OCUpdater::UpdateStatusStringFormat::Html);
-        Theme::replaceLinkColorStringBackgroundAware(status);
-
-        _ui->updateStateLabel->setOpenExternalLinks(false);
-        connect(_ui->updateStateLabel, &QLabel::linkActivated, this, [](const QString &link) {
-            Utility::openBrowser(QUrl(link));
-        });
-        _ui->updateStateLabel->setText(status);
-
         _ui->restartButton->setVisible(ocupdater->downloadState() == OCUpdater::DownloadComplete);
 
         _ui->updateButton->setEnabled(ocupdater->downloadState() != OCUpdater::CheckingServer &&
                                       ocupdater->downloadState() != OCUpdater::Downloading &&
                                       ocupdater->downloadState() != OCUpdater::DownloadComplete);
+
     }
 #if defined(Q_OS_MAC) && defined(HAVE_SPARKLE)
     else if (auto sparkleUpdater = qobject_cast<SparkleUpdater *>(updater)) {
-        _ui->updateStateLabel->setText(sparkleUpdater->statusString());
         _ui->restartButton->setVisible(false);
     }
 #endif
-
-    // Channel selection
-    _ui->updateChannel->setCurrentIndex(ConfigFile().updateChannel() == "beta" ? 1 : 0);
-    connect(_ui->updateChannel, &QComboBox::currentTextChanged,
-        this, &GeneralSettings::slotUpdateChannelChanged, Qt::UniqueConnection);
-}
-
-void GeneralSettings::slotUpdateChannelChanged(const QString &translatedChannel)
-{
-    const auto updateChannelToLocalized = [](const QString &channel) {
-        auto decodedTranslatedChannel = QString{};
-
-        if (channel == QStringLiteral("stable")) {
-            decodedTranslatedChannel = tr("stable");
-        } else if (channel == QStringLiteral("beta")) {
-            decodedTranslatedChannel = tr("beta");
-        }
-
-        return decodedTranslatedChannel;
-    };
-
-    const auto updateChannelFromLocalized = [](const int index) {
-        auto channel = QString{};
-
-        switch (index)
-        {
-        case 0:
-            channel = QStringLiteral("stable");
-            break;
-        case 1:
-            channel = QStringLiteral("beta");
-            break;
-        default:
-            channel = QString{};
-        }
-
-        return channel;
-    };
-
-    const auto channel = updateChannelFromLocalized(_ui->updateChannel->currentIndex());
-
-    if (translatedChannel == ConfigFile().updateChannel()) {
-        return;
-    }
-
-    auto msgBox = new QMessageBox(
-        QMessageBox::Warning,
-        tr("Change update channel?"),
-        tr("The update channel determines which client updates will be offered "
-           "for installation. The \"stable\" channel contains only upgrades that "
-           "are considered reliable, while the versions in the \"beta\" channel "
-           "may contain newer features and bugfixes, but have not yet been tested "
-           "thoroughly."
-           "\n\n"
-           "Note that this selects only what pool upgrades are taken from, and that "
-           "there are no downgrades: So going back from the beta channel to "
-           "the stable channel usually cannot be done immediately and means waiting "
-           "for a stable version that is newer than the currently installed beta "
-           "version."),
-        QMessageBox::NoButton,
-        this);
-    auto acceptButton = msgBox->addButton(tr("Change update channel"), QMessageBox::AcceptRole);
-    msgBox->addButton(tr("Cancel"), QMessageBox::RejectRole);
-    connect(msgBox, &QMessageBox::finished, msgBox, [this, channel, msgBox, acceptButton, updateChannelToLocalized] {
-        msgBox->deleteLater();
-        if (msgBox->clickedButton() == acceptButton) {
-            ConfigFile().setUpdateChannel(channel);
-            if (auto updater = qobject_cast<OCUpdater *>(Updater::instance())) {
-                updater->setUpdateUrl(Updater::updateUrl());
-                updater->checkForUpdate();
-            }
-#if defined(Q_OS_MAC) && defined(HAVE_SPARKLE)
-            else if (auto updater = qobject_cast<SparkleUpdater *>(Updater::instance())) {
-                updater->setUpdateUrl(Updater::updateUrl());
-                updater->checkForUpdate();
-            }
-#endif
-        } else {
-            _ui->updateChannel->setCurrentText(updateChannelToLocalized(ConfigFile().updateChannel()));
-        }
-    });
-    msgBox->open();
 }
 
 void GeneralSettings::slotUpdateCheckNow()
@@ -402,7 +305,6 @@ void GeneralSettings::slotUpdateCheckNow()
 
     if (updater) {
         _ui->updateButton->setEnabled(false);
-
         updater->checkForUpdate();
     }
 }
@@ -415,19 +317,22 @@ void GeneralSettings::slotToggleAutoUpdateCheck()
 }
 #endif // defined(BUILD_UPDATER)
 
+void GeneralSettings::slotTransferUsageData()
+{
+    ConfigFile cfgFile;
+    bool isChecked = _ui->transferUsageDataCheckBox->isChecked();
+    cfgFile.setTransferUsageData(isChecked, QString());
+}
+
 void GeneralSettings::saveMiscSettings()
 {
     if (_currentlyLoading)
         return;
     ConfigFile cfgFile;
-    bool isChecked = _ui->monoIconsCheckBox->isChecked();
-    cfgFile.setMonoIcons(isChecked);
-    Theme::instance()->setSystrayUseMonoIcons(isChecked);
     cfgFile.setCrashReporter(_ui->crashreporterCheckBox->isChecked());
 
     cfgFile.setNewBigFolderSizeLimit(_ui->newFolderLimitCheckBox->isChecked(),
         _ui->newFolderLimitSpinBox->value());
-    cfgFile.setConfirmExternalStorage(_ui->newExternalStorage->isChecked());
 }
 
 void GeneralSettings::slotToggleLaunchOnStartup(bool enable)
@@ -440,13 +345,6 @@ void GeneralSettings::slotToggleOptionalServerNotifications(bool enable)
 {
     ConfigFile cfgFile;
     cfgFile.setOptionalServerNotifications(enable);
-    _ui->callNotificationsCheckBox->setEnabled(enable);
-}
-
-void GeneralSettings::slotToggleCallNotifications(bool enable)
-{
-    ConfigFile cfgFile;
-    cfgFile.setShowCallNotifications(enable);
 }
 
 void GeneralSettings::slotShowInExplorerNavigationPane(bool checked)
@@ -455,18 +353,6 @@ void GeneralSettings::slotShowInExplorerNavigationPane(bool checked)
     cfgFile.setShowInExplorerNavigationPane(checked);
     // Now update the registry with the change.
     FolderMan::instance()->navigationPaneHelper().setShowInExplorerNavigationPane(checked);
-}
-
-void GeneralSettings::slotIgnoreFilesEditor()
-{
-    if (_ignoreEditor.isNull()) {
-        ConfigFile cfgFile;
-        _ignoreEditor = new IgnoreListEditor(this);
-        _ignoreEditor->setAttribute(Qt::WA_DeleteOnClose, true);
-        _ignoreEditor->open();
-    } else {
-        ownCloudGui::raiseDialog(_ignoreEditor);
-    }
 }
 
 void GeneralSettings::slotCreateDebugArchive()
@@ -478,13 +364,6 @@ void GeneralSettings::slotCreateDebugArchive()
 
     createDebugArchive(filename);
     QMessageBox::information(this, tr("Debug Archive Created"), tr("Debug archive is created at %1").arg(filename));
-}
-
-void GeneralSettings::slotShowLegalNotice()
-{
-    auto notice = new LegalNotice();
-    notice->exec();
-    delete notice;
 }
 
 void GeneralSettings::slotStyleChanged()
@@ -503,7 +382,9 @@ void GeneralSettings::customizeStyle()
     // updater info
     slotUpdateInfo();
 #else
-    _ui->updatesGroupBox->setVisible(false);
+    _ui->autoCheckForUpdatesCheckBox->setVisible(true);
+    _ui->restartButton->setVisible(false);
+    _ui->updateButton->setVisible(false);
 #endif
 }
 

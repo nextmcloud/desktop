@@ -2373,176 +2373,143 @@ Falls dies ein Missgeschick war und Sie sich zum Behalten der Dateien entscheide
 <context>
     <name>OCC::GeneralSettings</name>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="20"/>
-        <location filename="../src/gui/generalsettings.ui" line="32"/>
+        <location filename="../src/gui/generalsettings.ui" line="112"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="41"/>
-        <source>Legal notice</source>
-        <translation>Impressum</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="66"/>
+        <location filename="../src/gui/generalsettings.ui" line="150"/>
         <source>General Settings</source>
         <translation>Allgemeine Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="72"/>
-        <source>For System Tray</source>
-        <translation>Für das Systembenachrichtungsfeld</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="75"/>
-        <source>Use &amp;Monochrome Icons</source>
-        <translation>&amp;Monochrome Symbole verwenden</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="82"/>
+        <location filename="../src/gui/generalsettings.ui" line="163"/>
         <source>&amp;Launch on System Startup</source>
         <translation>Beim &amp;Systemstart starten</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="89"/>
+        <location filename="../src/gui/generalsettings.ui" line="156"/>
         <source>Show Server &amp;Notifications</source>
         <translation>Server-&amp;Benachrichtigungen anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="96"/>
-        <source>Show Call Notifications</source>
-        <translation>Anrufbenachrichtigungen anzeigen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="106"/>
+        <location filename="../src/gui/generalsettings.ui" line="173"/>
         <source>Updates</source>
         <translation>Aktualisierungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="114"/>
+        <location filename="../src/gui/generalsettings.ui" line="181"/>
         <source>&amp;Automatically check for Updates</source>
         <translation>&amp;Automatisch auf Aktualisierungen prüfen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="134"/>
-        <source>&amp;Channel</source>
-        <translation>&amp;Kanal</translation>
+        <location filename="../src/gui/generalsettings.ui" line="20"/>
+        <source>Data Privacy</source>
+        <translation>Datenschutz</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="151"/>
-        <location filename="../src/gui/generalsettings.cpp" line="321"/>
-        <source>stable</source>
-        <translation>Stabil</translation>
+        <location filename="../src/gui/generalsettings.ui" line="26"/>
+        <source>Transfer usage data</source>
+        <translation>Analyse-Datenerfassung zur bedarfsgerechten Gestaltung</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="156"/>
-        <location filename="../src/gui/generalsettings.cpp" line="323"/>
-        <source>beta</source>
-        <translation>Beta</translation>
+        <location filename="../src/gui/generalsettings.ui" line="50"/>
+        <source>Imprint</source>
+        <translation>Impressum</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="183"/>
+        <location filename="../src/gui/generalsettings.ui" line="60"/>
+        <source>Privacy Policy</source>
+        <translation>Datenschutzbestimmungen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="70"/>
+        <source>Used Open Source Software</source>
+        <translation>Verwendete OpenSource Software</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="125"/>
+        <source>Further Information</source>
+        <translation>Mehr Informationen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="201"/>
         <source>&amp;Restart &amp;&amp; Update</source>
         <translation>&amp;Neustarten &amp;&amp; aktualisieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="198"/>
+        <location filename="../src/gui/generalsettings.ui" line="229"/>
         <source>&amp;Check for Update now</source>
         <translation>&amp;Jetzt auf Aktualisierungen prüfen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="221"/>
+        <location filename="../src/gui/generalsettings.ui" line="239"/>
         <source>Advanced</source>
         <translation>Erweitert</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="229"/>
+        <location filename="../src/gui/generalsettings.ui" line="247"/>
         <source>Ask for confirmation before synchronizing folders larger than</source>
         <translation>Bestätigung erfragen, bevor Ordner synchronisiert werden. Grenze:</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="249"/>
+        <location filename="../src/gui/generalsettings.ui" line="267"/>
         <source>MB</source>
         <extracomment>Trailing part of &quot;Ask confirmation before syncing folder larger than&quot; </extracomment>
         <translation>MB</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="273"/>
-        <source>Ask for confirmation before synchronizing external storages</source>
-        <translation>Bestätigung erfragen, bevor externe Speicher synchronisiert werden</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="284"/>
-        <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
-        <translation>Synchronisierungsordner im Navigationsbereich des &amp;Explorers anzeigen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="301"/>
+        <location filename="../src/gui/generalsettings.ui" line="297"/>
         <source>S&amp;how crash reporter</source>
         <translation>&amp;Crash-Reporter anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="312"/>
-        <source>Edit &amp;Ignored Files</source>
-        <translation>I&amp;gnorierte Dateien bearbeiten</translation>
+        <location filename="../src/gui/generalsettings.ui" line="307"/>
+        <source>Create Debug Archive …</source>
+        <translation>Debug-Archiv erstellen …</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="319"/>
-        <location filename="../src/gui/generalsettings.cpp" line="474"/>
-        <source>Create Debug Archive</source>
-        <translation>Debug-Archiv erstellen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.cpp" line="144"/>
+        <location filename="../src/gui/generalsettings.cpp" line="148"/>
         <source>Server notifications that require attention.</source>
         <translation>Server-Benachrichtigungen, die Aufmerksamkeit erfordern.</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="148"/>
-        <source>Show call notification dialogs.</source>
-        <translation>Dialog zu Anrufbenachrichtigungen anzeigen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.cpp" line="162"/>
+        <location filename="../src/gui/generalsettings.cpp" line="155"/>
         <source>You cannot disable autostart because system-wide autostart is enabled.</source>
         <translation>Sie können den Autostart nicht deaktivieren, da der systemweite Autostart aktiviert ist.</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="355"/>
-        <source>Change update channel?</source>
-        <translation>Update-Kanal ändern?</translation>
+        <location filename="../src/gui/generalsettings.cpp" line="170"/>
+        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Imprint&lt;/a&gt;</source>
+        <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Impressum&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="356"/>
-        <source>The update channel determines which client updates will be offered for installation. The &quot;stable&quot; channel contains only upgrades that are considered reliable, while the versions in the &quot;beta&quot; channel may contain newer features and bugfixes, but have not yet been tested thoroughly.
-
-Note that this selects only what pool upgrades are taken from, and that there are no downgrades: So going back from the beta channel to the stable channel usually cannot be done immediately and means waiting for a stable version that is newer than the currently installed beta version.</source>
-        <translation>Der Update-Kanal bestimmt, welche Client-Updates zur Installation angeboten werden. Der &quot;stabile&quot; Kanal enthält nur Upgrades, die als zuverlässig gelten, während die Versionen im &quot;Beta&quot; -Kanal unter Umständen neuere Funktionen und Bugfixes enthalten, die jedoch noch nicht gründlich getestet wurden.
-
-Beachten Sie bitte, dass hierdurch nur ausgewählt wird, aus welchem Pool Upgrades heruntergeladen werden und dass Downgrades nicht möglich sind. Die Rückkehr vom Beta- zum stabilen Kanal kann daher zumeist nicht sofort erfolgen, sondern es muss auf eine neue stabile Version gewartet werden, die neuer als die aktuell installierte Beta ist.</translation>
+        <location filename="../src/gui/generalsettings.cpp" line="175"/>
+        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;;&gt;Privacy Policy&lt;/a&gt;</source>
+        <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;;&gt;Datenschutz Bestimmungen&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="369"/>
-        <source>Change update channel</source>
-        <translation>Update-Kanal ändern</translation>
+        <location filename="../src/gui/generalsettings.cpp" line="180"/>
+        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Used Open Source Software&lt;/a&gt;</source>
+        <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Verwendete Open Source Software&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="370"/>
-        <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <location filename="../src/gui/generalsettings.cpp" line="190"/>
+        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Further Information&lt;/a&gt;</source>
+        <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Mehr Informationen&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <location filename="../src/gui/generalsettings.cpp" line="360"/>
         <source>Zip Archives</source>
         <translation>Zip-Archive</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="480"/>
+        <location filename="../src/gui/generalsettings.cpp" line="366"/>
         <source>Debug Archive Created</source>
         <translation>Debug-Archiv erstellt</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="480"/>
+        <location filename="../src/gui/generalsettings.cpp" line="366"/>
         <source>Debug archive is created at %1</source>
         <translation>Debug-Archiv erstellt in %1</translation>
     </message>

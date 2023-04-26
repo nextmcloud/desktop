@@ -30,6 +30,7 @@ class TestCfApiShellExtensionsIPC;
 class TestShareModel;
 class ShareTestHelper;
 class EndToEndTestHelper;
+class TestGeneralSettings;
 
 namespace OCC {
 
@@ -394,6 +395,7 @@ private:
     friend class ::TestCfApiShellExtensionsIPC;
     friend class ::ShareTestHelper;
     friend class ::EndToEndTestHelper;
+    friend class ::TestGeneralSettings;
 };
 
 } // namespace OCC
