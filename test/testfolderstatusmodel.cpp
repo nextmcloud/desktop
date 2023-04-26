@@ -121,7 +121,7 @@ private slots:
     {
         FolderStatusModel folderStMod;
         AccountPtr account = Account::create();
-        AccountState *accountSt = new AccountState(account);
+        auto *accountSt = new AccountState(account);
         folderStMod._accountState = accountSt;
 
         FolderStatusModel::SubFolderInfo subFolder;
