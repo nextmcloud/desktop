@@ -161,7 +161,7 @@ private slots:
         QIcon expectedRet = QIcon("test.xpm");
         Theme::instance()->_iconCache[key] = expectedRet;
 
-        QObject *parent = new QObject;
+        auto *parent = new QObject;
         QAbstractItemModel *model = new FolderStatusModel(parent);
         QModelIndex index = model->index(1,1);
         QVERIFY(index.isValid());
