@@ -129,4 +129,10 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+
+
+    //MagentaStyle stylesheet
+
+     readonly property color accountAvatarIcon:      "qrc:///client/theme/magenta/accountAvatarIcon.svg"
+
 }
