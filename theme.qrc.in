@@ -236,5 +236,10 @@
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
         <file>theme/magenta/accountAvatarIcon.svg</file>
+        <file>theme/magenta/accountLogout.png</file>
+        <file>theme/magenta/accountRemove.svg</file>
+        <file>theme/magenta/Pause.svg</file>
+        <file>theme/magenta/Close.svg</file>
+        <file>theme/magenta/Settings.svg</file>
     </qresource>
 </RCC>

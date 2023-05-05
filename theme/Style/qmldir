@@ -1,4 +1,3 @@
 module Style
 singleton Style 1.0 Style.qml
-module MagentaStyle
-singleton MagentaStyle 1.0 MagentaStyle.qml
+

@@ -51,6 +51,5 @@
         <file>src/gui/tray/EnforcedPlainTextLabel.qml</file>
         <file>theme/Style/Style.qml</file>
         <file>theme/Style/qmldir</file>
-        <file>theme/Style/MagentaStyle.qml</file>
     </qresource>
 </RCC>

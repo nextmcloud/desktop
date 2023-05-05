@@ -11,11 +11,12 @@ import "../filedetails/"
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
 
+
 import com.nextcloud.desktopclient 1.0
 
 ApplicationWindow {
     id:         trayWindow
-
+    objectName: "trayWindow"
     title:      Systray.windowTitle
     // If the main dialog is displayed as a regular window we want it to be quadratic
     width:      Systray.useNormalWindow ? Style.trayWindowHeight : Style.trayWindowWidth
@@ -231,13 +232,13 @@ ApplicationWindow {
 
             RowLayout {
                 id: trayWindowHeaderLayout
-
+                objectName: "trayWindowHeaderLayout"
                 spacing:        0
                 anchors.fill:   parent
 
                 Button {
                     id: currentAccountButton
-
+                    objectName: "currentAccountButton"
                     Layout.preferredWidth:  Style.currentAccountButtonWidth
                     Layout.preferredHeight: Style.trayWindowHeaderHeight
                     display:                AbstractButton.IconOnly
@@ -251,7 +252,7 @@ ApplicationWindow {
                     // We call open() instead of popup() because we want to position it
                     // exactly below the dropdown button, not the mouse
                     onClicked: {
-                        syncPauseButton.text = Systray.syncIsPaused ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
+                        syncPauseButton.text = Systray.syncIsPaused ? qsTr("Resume sync") : qsTr("Pause sync")//MagentaCustomizationV25
                         if (accountMenu.visible) {
                             accountMenu.close()
                         } else {
@@ -315,11 +316,13 @@ ApplicationWindow {
                             onObjectRemoved: accountMenu.removeItem(object)
                         }
 
+                        //MagentaCustomizationV25 , height=0and visible:false is to hide add account button
                         MenuItem {
                             id: addAccountButton
-                            height: Style.addAccountButtonHeight
+                            height: 0//Style.addAccountButtonHeight
                             hoverEnabled: true
                             palette: Theme.systemPalette
+                            visible: false
 
                             background: Item {
                                 height: parent.height
@@ -371,7 +374,8 @@ ApplicationWindow {
                         MenuItem {
                             id: syncPauseButton
                             font.pixelSize: Style.topLinePixelSize
-                            palette.windowText: Style.ncTextColor
+                            icon.source: Style.pauseIcon//MagentaCustomizationV25
+                            palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor
                             hoverEnabled: true
                             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
 
@@ -386,7 +390,7 @@ ApplicationWindow {
                             }
 
                             Accessible.role: Accessible.MenuItem
-                            Accessible.name: Systray.syncIsPaused ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
+                            Accessible.name: Systray.syncIsPaused ? qsTr("Resume sync") : qsTr("Pause sync") //MagentaCustomizationV25
                             Accessible.onPressAction: syncPauseButton.clicked()
                         }
 
@@ -394,7 +398,8 @@ ApplicationWindow {
                             id: settingsButton
                             text: qsTr("Settings")
                             font.pixelSize: Style.topLinePixelSize
-                            palette.windowText: Style.ncTextColor
+                            icon.source: Style.settingsIcon//MagentaCustomizationV25
+                            palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor
                             hoverEnabled: true
                             onClicked: Systray.openSettings()
 
@@ -417,7 +422,8 @@ ApplicationWindow {
                             id: exitButton
                             text: qsTr("Exit");
                             font.pixelSize: Style.topLinePixelSize
-                            palette.windowText: Style.ncTextColor
+                            icon.source: Style.closeIcon//MagentaCustomizationV25
+                            palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor//MagentaCustomizationV25
                             hoverEnabled: true
                             onClicked: Systray.shutdown()
 
