@@ -8,6 +8,7 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QtTest>
+#include <QUrl>
 #include "theme.h"
 #include "tray/usermodel.h"
 #include "gui/systray.h"
@@ -21,7 +22,7 @@ class TestUserLine: public QObject
 
 public:
     QQuickView view;
-    QObject *rootObj = NULL;
+    QObject *rootObj = nullptr;
 
 private slots:
 
@@ -44,7 +45,7 @@ private slots:
          );
 
         view.engine()->addImportPath("../../../theme");
-        view.setSource(QStringLiteral("../../../src/gui/tray/UserLine.qml"));
+        view.setSource(QStringLiteral("../../src/gui/tray/UserLine.qml"));
 
         QVERIFY(view.rootObject());
         rootObj = view.rootObject();
@@ -59,7 +60,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("accountUser"));
 
-        QObject *accountUser = rootObj->findChild<QObject*>("accountUser");
+        auto *accountUser = rootObj->findChild<QObject*>("accountUser");
 
         /* verify property */
         QVERIFY(accountUser);
@@ -70,7 +71,7 @@ private slots:
         //=268
        // QCOMPARE(accountUser->property("width"), 268);
         QVariant varFont = accountUser->property("font");
-        QFont font = qvariant_cast<QFont>(varFont);
+        auto font = qvariant_cast<QFont>(varFont);
         QCOMPARE(font.family(), "Segoe UI");                 //Style.qml::property string swipeFontFamily: "Segoe UI"
         QCOMPARE(font.pixelSize(), 10);                      //Style.qml::property int topLinePixelSize: 13
         QCOMPARE(accountUser->property("color"), "#191919"); //Style.qml:property color nmcTextColor:"#191919"
@@ -82,7 +83,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("accountAvatar"));
 
-        QObject *accountAvatar = rootObj->findChild<QObject*>("accountAvatar");
+        auto *accountAvatar = rootObj->findChild<QObject*>("accountAvatar");
 
         /* verify property */
         QVERIFY(accountAvatar);
@@ -98,7 +99,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("userLineLayout"));
 
-        QObject *trayWindow = rootObj->findChild<QObject*>("userLineLayout");
+        auto *trayWindow = rootObj->findChild<QObject*>("userLineLayout");
 
         /* verify property */
         QVERIFY(trayWindow);
