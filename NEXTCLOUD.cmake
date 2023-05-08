@@ -38,7 +38,7 @@ option( WITH_CRASHREPORTER "Build crashreporter" OFF )
 #set( CRASHREPORTER_ICON ":/owncloud-icon.png" )
 
 ## Updater options
-option( BUILD_UPDATER "Build updater" ON )
+option( BUILD_UPDATER "Build updater" OFF )
 
 option( WITH_PROVIDERS "Build with providers list" ON )
 
