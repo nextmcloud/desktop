@@ -97,7 +97,7 @@ if (WIN32)
     )
 
     nextcloud_add_test(SyncCfApi)
-        nextcloud_add_test(CfApiShellExtensionsIPC)
+	nextcloud_add_test(CfApiShellExtensionsIPC)
     target_sources(CfApiShellExtensionsIPCTest PRIVATE "${CMAKE_SOURCE_DIR}/src/libsync/vfs/cfapi/shellext/thumbnailprovideripc.cpp" "${CMAKE_SOURCE_DIR}/src/libsync/vfs/cfapi/shellext/customstateprovideripc.cpp" "${CMAKE_SOURCE_DIR}/src/libsync/vfs/cfapi/shellext/ipccommon.cpp")
 elseif(LINUX) # elseif(LINUX OR APPLE)
     nextcloud_add_test(SyncXAttr)
@@ -109,9 +109,10 @@ nextcloud_add_benchmark(LargeSync)
 nextcloud_add_test(Account)
 nextcloud_add_test(FolderMan)
 nextcloud_add_test(RemoteWipe)
+
 nextcloud_add_test(OAuth)
 
-#New NMC-Test Case's
+#MagentaCustomizationV25
 nextcloud_add_test(GeneralSettings)
 nextcloud_add_test(ConfigFile)
 

@@ -4,6 +4,8 @@
  *    any purpose.
  *
  */
+/* MagentaCustomizationV25 */
+
 #include <QtTest>
 #include "theme.h"
 #include "folderman.h"
@@ -11,7 +13,7 @@
 #define private public
 #include "generalsettings.h"
 #undef private
-#include "gui/nextcloudCore_autogen/include/ui_generalsettings.h"
+#include "gui/nextcloudCore_autogen/include_Release/ui_generalsettings.h"
 
 using namespace OCC;
 

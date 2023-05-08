@@ -550,13 +550,11 @@ QString Theme::about() const
     QString osName = osStringList.at(0);
 
     QString devString;
+    /* MagentaCustomizationV25 */
     //: Example text: "<p>MagentaCLOUD Desktop Client Version</p>"   (%1 is the application name)
     devString = tr("<p>%1 Desktop Client Version %2.</p>")
                 .arg(APPLICATION_NAME)
                 .arg(QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)));
-
-//    devString += tr("<p><small>Using virtual files plugin: %1</small></p>")// Removed as a part of story 373
-//                     .arg(Vfs::modeToString(bestAvailableVfsMode()));
 
     return devString;
 }

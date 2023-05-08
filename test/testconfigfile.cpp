@@ -4,6 +4,8 @@
  *    any purpose.
  *
  */
+/* MagentaCustomizationV25 */
+
 #include <QtTest>
 #include "theme.h"
 #include "folderman.h"

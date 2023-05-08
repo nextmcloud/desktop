@@ -1486,9 +1486,9 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
         <location filename="../src/gui/editlocallyjob.cpp" line="62"/>
         <location filename="../src/gui/editlocallyjob.cpp" line="68"/>
         <location filename="../src/gui/editlocallyjob.cpp" line="76"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="118"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="129"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="555"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="121"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="132"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="578"/>
         <source>Please try again.</source>
         <translation>Bitte erneut versuchen.</translation>
     </message>
@@ -1503,58 +1503,98 @@ Diese Aktion bricht jede derzeit laufende Synchronisierung ab.</translation>
         <translation>Es konnte kein Konto für die lokale Bearbeitung gefunden werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="118"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="129"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="93"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="204"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="260"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="456"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="513"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="522"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="547"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="567"/>
+        <source>Could not start editing locally.</source>
+        <translation>Lokale Bearbeitung konnte nicht gestartet werden.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="94"/>
+        <source>An error occurred trying to verify the request to edit locally.</source>
+        <translation>Es ist ein Fehler beim Versuch, die Anfrage zur lokalen Bearbeitung zu überprüfen, aufgetreten.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="121"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="132"/>
         <source>Could not validate the request to open a file from server.</source>
         <translation>Die Anforderung zum Öffnen einer Datei vom Server konnte nicht validiert werden.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="135"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="148"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="138"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="151"/>
         <source>Could not find a file for local editing. Make sure its path is valid and it is synced locally.</source>
         <translation>Datei zur lokalen Bearbeitung konnte nicht gefunden werden. Stellen Sie sicher, dass der Pfad gültig ist und lokal synchronisiert wird.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="143"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="163"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="171"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="178"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="146"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="166"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="174"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="181"/>
         <source>Could not find a file for local editing. Make sure it is not excluded via selective sync.</source>
         <translation>Datei zur lokalen Bearbeitung konnte nicht gefunden werden. Stellen Sie sicher, dass sie nicht durch die selektive Synchronisierung ausgeschlossen wird.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="486"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="205"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="514"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="523"/>
+        <source>An error occurred during data retrieval.</source>
+        <translation>Es ist ein Fehler beim Datenabruf aufgetreten.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="261"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="548"/>
+        <source>An error occurred trying to synchronise the file to edit locally.</source>
+        <translation>Es ist ein Fehler beim Versuch, die Datei zu synchronisieren, um sie lokal zu bearbeiten, aufgetreten.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="456"/>
+        <source>An error occurred during setup.</source>
+        <translation>Es ist ein Fehler während der Einrichtung aufgetreten.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="502"/>
         <source>Server error: PROPFIND reply is not XML formatted!</source>
         <translation>Serverantwort: PROPFIND-Antwort ist nicht im XML-Format!</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="488"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="504"/>
         <source>Could not find a remote file info for local editing. Make sure its path is valid.</source>
         <translation>Remote-Dateiinformationen für die lokale Bearbeitung konnten nicht gefunden werden. Stellen Sie sicher, dass der Pfad gültig ist.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="555"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="568"/>
+        <source>Invalid local file path.</source>
+        <translation>Ungültiger lokaler Dateipfad.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="578"/>
         <source>Could not open %1</source>
         <translation>%1 konnte nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="638"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="661"/>
         <source>File %1 already locked.</source>
         <translation>Datei %1 bereits gesperrt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="639"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="650"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="662"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="673"/>
         <source>Lock will last for %1 minutes. You can also unlock this file manually once you are finished editing.</source>
         <translation>Die Sperre dauert noch %1 Minuten. Sie können diese Datei auch manuell entsperren, sobald Sie mit der Bearbeitung fertig sind.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="649"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="672"/>
         <source>File %1 now locked.</source>
         <translation>Datei %1 ist jetzt gesperrt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="658"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="681"/>
         <source>File %1 could not be locked.</source>
         <translation>Datei %1 konnte nicht gesperrt werden.</translation>
     </message>
@@ -2373,143 +2413,176 @@ Falls dies ein Missgeschick war und Sie sich zum Behalten der Dateien entscheide
 <context>
     <name>OCC::GeneralSettings</name>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="112"/>
+        <location filename="../src/gui/generalsettings.ui" line="20"/>
+        <location filename="../src/gui/generalsettings.ui" line="32"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="150"/>
+        <location filename="../src/gui/generalsettings.ui" line="41"/>
+        <source>Legal notice</source>
+        <translation>Impressum</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="66"/>
         <source>General Settings</source>
         <translation>Allgemeine Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="163"/>
+        <location filename="../src/gui/generalsettings.ui" line="72"/>
+        <source>For System Tray</source>
+        <translation>Für das Systembenachrichtungsfeld</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="75"/>
+        <source>Use &amp;Monochrome Icons</source>
+        <translation>&amp;Monochrome Symbole verwenden</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="82"/>
         <source>&amp;Launch on System Startup</source>
         <translation>Beim &amp;Systemstart starten</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="156"/>
+        <location filename="../src/gui/generalsettings.ui" line="89"/>
         <source>Show Server &amp;Notifications</source>
         <translation>Server-&amp;Benachrichtigungen anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="173"/>
+        <location filename="../src/gui/generalsettings.ui" line="96"/>
+        <source>Show Call Notifications</source>
+        <translation>Anrufbenachrichtigungen anzeigen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="106"/>
         <source>Updates</source>
         <translation>Aktualisierungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="181"/>
+        <location filename="../src/gui/generalsettings.ui" line="114"/>
         <source>&amp;Automatically check for Updates</source>
         <translation>&amp;Automatisch auf Aktualisierungen prüfen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="20"/>
-        <source>Data Privacy</source>
-        <translation>Datenschutz</translation>
+        <location filename="../src/gui/generalsettings.ui" line="134"/>
+        <source>&amp;Channel</source>
+        <translation>&amp;Kanal</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="26"/>
-        <source>Transfer usage data</source>
-        <translation>Analyse-Datenerfassung zur bedarfsgerechten Gestaltung</translation>
+        <location filename="../src/gui/generalsettings.ui" line="151"/>
+        <location filename="../src/gui/generalsettings.cpp" line="321"/>
+        <source>stable</source>
+        <translation>Stabil</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="50"/>
-        <source>Imprint</source>
-        <translation>Impressum</translation>
+        <location filename="../src/gui/generalsettings.ui" line="156"/>
+        <location filename="../src/gui/generalsettings.cpp" line="323"/>
+        <source>beta</source>
+        <translation>Beta</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="60"/>
-        <source>Privacy Policy</source>
-        <translation>Datenschutzbestimmungen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="70"/>
-        <source>Used Open Source Software</source>
-        <translation>Verwendete OpenSource Software</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="125"/>
-        <source>Further Information</source>
-        <translation>Mehr Informationen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="201"/>
+        <location filename="../src/gui/generalsettings.ui" line="183"/>
         <source>&amp;Restart &amp;&amp; Update</source>
         <translation>&amp;Neustarten &amp;&amp; aktualisieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="229"/>
+        <location filename="../src/gui/generalsettings.ui" line="198"/>
         <source>&amp;Check for Update now</source>
         <translation>&amp;Jetzt auf Aktualisierungen prüfen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="239"/>
+        <location filename="../src/gui/generalsettings.ui" line="221"/>
         <source>Advanced</source>
         <translation>Erweitert</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="247"/>
+        <location filename="../src/gui/generalsettings.ui" line="229"/>
         <source>Ask for confirmation before synchronizing folders larger than</source>
         <translation>Bestätigung erfragen, bevor Ordner synchronisiert werden. Grenze:</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="267"/>
+        <location filename="../src/gui/generalsettings.ui" line="249"/>
         <source>MB</source>
         <extracomment>Trailing part of &quot;Ask confirmation before syncing folder larger than&quot; </extracomment>
         <translation>MB</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="297"/>
+        <location filename="../src/gui/generalsettings.ui" line="273"/>
+        <source>Ask for confirmation before synchronizing external storages</source>
+        <translation>Bestätigung erfragen, bevor externe Speicher synchronisiert werden</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="284"/>
+        <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
+        <translation>Synchronisierungsordner im Navigationsbereich des &amp;Explorers anzeigen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="301"/>
         <source>S&amp;how crash reporter</source>
         <translation>&amp;Crash-Reporter anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="307"/>
-        <source>Create Debug Archive …</source>
-        <translation>Debug-Archiv erstellen …</translation>
+        <location filename="../src/gui/generalsettings.ui" line="312"/>
+        <source>Edit &amp;Ignored Files</source>
+        <translation>I&amp;gnorierte Dateien bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="148"/>
+        <location filename="../src/gui/generalsettings.ui" line="319"/>
+        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <source>Create Debug Archive</source>
+        <translation>Debug-Archiv erstellen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="144"/>
         <source>Server notifications that require attention.</source>
         <translation>Server-Benachrichtigungen, die Aufmerksamkeit erfordern.</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="155"/>
+        <location filename="../src/gui/generalsettings.cpp" line="148"/>
+        <source>Show call notification dialogs.</source>
+        <translation>Dialog zu Anrufbenachrichtigungen anzeigen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="162"/>
         <source>You cannot disable autostart because system-wide autostart is enabled.</source>
         <translation>Sie können den Autostart nicht deaktivieren, da der systemweite Autostart aktiviert ist.</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="170"/>
-        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Imprint&lt;/a&gt;</source>
-        <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Impressum&lt;/a&gt;</translation>
+        <location filename="../src/gui/generalsettings.cpp" line="355"/>
+        <source>Change update channel?</source>
+        <translation>Update-Kanal ändern?</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="175"/>
-        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;;&gt;Privacy Policy&lt;/a&gt;</source>
-        <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;;&gt;Datenschutz Bestimmungen&lt;/a&gt;</translation>
+        <location filename="../src/gui/generalsettings.cpp" line="356"/>
+        <source>The update channel determines which client updates will be offered for installation. The &quot;stable&quot; channel contains only upgrades that are considered reliable, while the versions in the &quot;beta&quot; channel may contain newer features and bugfixes, but have not yet been tested thoroughly.
+
+Note that this selects only what pool upgrades are taken from, and that there are no downgrades: So going back from the beta channel to the stable channel usually cannot be done immediately and means waiting for a stable version that is newer than the currently installed beta version.</source>
+        <translation>Der Update-Kanal bestimmt, welche Client-Updates zur Installation angeboten werden. Der &quot;stabile&quot; Kanal enthält nur Upgrades, die als zuverlässig gelten, während die Versionen im &quot;Beta&quot; -Kanal unter Umständen neuere Funktionen und Bugfixes enthalten, die jedoch noch nicht gründlich getestet wurden.
+
+Beachten Sie bitte, dass hierdurch nur ausgewählt wird, aus welchem Pool Upgrades heruntergeladen werden und dass Downgrades nicht möglich sind. Die Rückkehr vom Beta- zum stabilen Kanal kann daher zumeist nicht sofort erfolgen, sondern es muss auf eine neue stabile Version gewartet werden, die neuer als die aktuell installierte Beta ist.</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="180"/>
-        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Used Open Source Software&lt;/a&gt;</source>
-        <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Verwendete Open Source Software&lt;/a&gt;</translation>
+        <location filename="../src/gui/generalsettings.cpp" line="369"/>
+        <source>Change update channel</source>
+        <translation>Update-Kanal ändern</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="190"/>
-        <source>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Further Information&lt;/a&gt;</source>
-        <translation>&lt;a href=&apos;%1&apos; style=&quot;color: #e20074;&quot;&gt;Mehr Informationen&lt;/a&gt;</translation>
+        <location filename="../src/gui/generalsettings.cpp" line="370"/>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="360"/>
+        <location filename="../src/gui/generalsettings.cpp" line="474"/>
         <source>Zip Archives</source>
         <translation>Zip-Archive</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="366"/>
+        <location filename="../src/gui/generalsettings.cpp" line="480"/>
         <source>Debug Archive Created</source>
         <translation>Debug-Archiv erstellt</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="366"/>
+        <location filename="../src/gui/generalsettings.cpp" line="480"/>
         <source>Debug archive is created at %1</source>
         <translation>Debug-Archiv erstellt in %1</translation>
     </message>
@@ -2823,12 +2896,12 @@ Beachten Sie, dass die Verwendung von Befehlszeilenoptionen für die Protokollie
 <context>
     <name>OCC::Logger</name>
     <message>
-        <location filename="../src/libsync/logger.cpp" line="183"/>
+        <location filename="../src/libsync/logger.cpp" line="352"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../src/libsync/logger.cpp" line="184"/>
+        <location filename="../src/libsync/logger.cpp" line="353"/>
         <source>&lt;nobr&gt;File &quot;%1&quot;&lt;br/&gt;cannot be opened for writing.&lt;br/&gt;&lt;br/&gt;The log output &lt;b&gt;cannot&lt;/b&gt; be saved!&lt;/nobr&gt;</source>
         <translation>&lt;nobr&gt;Datei &quot;%1&quot;&lt;br/&gt;kann nicht zum Schreiben geöffnet werden.&lt;br/&gt;&lt;br/&gt;Die Protokolldatei kann &lt;b&gt;nicht&lt;/b&gt; gespeichert werden!&lt;/nobr&gt;</translation>
     </message>
@@ -4184,37 +4257,37 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
 <context>
     <name>OCC::ShareModel</name>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Secure file drop link</source>
         <translation>Sicherer Link zur Dateiablage</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Share link</source>
         <translation>Freigabe-Link</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="595"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="646"/>
         <source>Link share</source>
         <translation>Link teilen</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="597"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="648"/>
         <source>Internal link</source>
         <translation>Interner Link</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Secure filedrop link</source>
         <translation>Sicherer Link zur Dateiablage</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="599"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="650"/>
         <source>Secure file drop</source>
         <translation>Sichere Dateiablage</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="856"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="939"/>
         <source>Enter a note for the recipient</source>
         <translation>Geben Sie eine Notiz für den Empfänger ein</translation>
     </message>
@@ -5593,17 +5666,17 @@ Server antwortete mit Fehler: %2</translation>
 <context>
     <name>ShareDelegate</name>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="160"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="162"/>
         <source>Create a new share link</source>
         <translation>Neuen Freigabe-Link erstellen</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="180"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="182"/>
         <source>Copy share link location</source>
         <translation>Standort des Freigabelinks kopieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="209"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="211"/>
         <source>Share options</source>
         <translation>Freigabeoptionen</translation>
     </message>
@@ -5611,57 +5684,78 @@ Server antwortete mit Fehler: %2</translation>
 <context>
     <name>ShareDetailsPage</name>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="88"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="95"/>
         <source>An error occurred setting the share password.</source>
         <translation>Es ist ein Fehler beim Festlegen des Freigabekennworts aufgetreten.</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="221"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="219"/>
         <source>Edit share</source>
         <translation>Freigabe bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="238"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="236"/>
         <source>Dismiss</source>
         <translation>Verwerfen</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="297"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="295"/>
         <source>Share label</source>
         <translation>Freigabe-Label</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="330"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="326"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="373"/>
+        <source>Allow upload and editing</source>
+        <translation>Hochladen und Bearbeiten erlauben</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="329"/>
         <source>Allow editing</source>
         <translation>Bearbeitung erlauben</translation>
     </message>
     <message>
         <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="359"/>
+        <source>View only</source>
+        <translation>Nur anzeigen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="394"/>
+        <source>File drop (upload only)</source>
+        <translation>Dateien ablegen (nur Hochladen)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="421"/>
+        <source>Hide download</source>
+        <translation>Download verbergen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="447"/>
         <source>Password protect</source>
         <translation>Passwortschutz</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="464"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="552"/>
         <source>Set expiration date</source>
         <translation>Ablaufdatum setzen</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="655"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="743"/>
         <source>Note to recipient</source>
         <translation>Notiz an Empfänger</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="723"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="811"/>
         <source>Unshare</source>
         <translation>Freigabe aufheben</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="740"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="828"/>
         <source>Add another link</source>
         <translation>Weiteren Link hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="771"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="859"/>
         <source>Copy share link</source>
         <translation>Freigabe-Link kopieren</translation>
     </message>
@@ -5679,17 +5773,17 @@ Server antwortete mit Fehler: %2</translation>
         <translation>Freigabe-Passwort</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="292"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="294"/>
         <source>Sharing is disabled</source>
         <translation>Teilen ist deaktiviert</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="300"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="302"/>
         <source>This item cannot be shared.</source>
         <translation>Dieses Element kann nicht geteilt werden</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="309"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="311"/>
         <source>Sharing is disabled.</source>
         <translation>Teilen ist deaktiviert.</translation>
     </message>
@@ -5705,7 +5799,7 @@ Server antwortete mit Fehler: %2</translation>
 <context>
     <name>SyncJournalDb</name>
     <message>
-        <location filename="../src/common/syncjournaldb.cpp" line="926"/>
+        <location filename="../src/common/syncjournaldb.cpp" line="931"/>
         <source>Failed to connect database.</source>
         <translation>Fehler beim Verbinden mit der Datenbank.</translation>
     </message>

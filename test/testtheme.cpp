@@ -108,6 +108,7 @@ private slots:
         QCOMPARE(OCC::Theme::isHidpi(&paintDevice), false);
     }
 
+    /* MagentaCustomizationV25 */
     void testAbout()
     {
         OCC::Theme *themeObj = OCC::Theme::instance();
