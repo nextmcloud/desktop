@@ -68,7 +68,7 @@ private slots:
         }
         );
 
-        view.addImportPath("../../../theme");
+        view.addImportPath("../../../theme/Style/Style.qml");
         view.load(QStringLiteral("../../src/gui/tray/Window.qml"));
 
         QList<QObject*> obj= view.rootObjects();

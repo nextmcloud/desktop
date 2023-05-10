@@ -46,7 +46,7 @@ private slots:
 
 
 
-        view.engine()->addImportPath("../../../theme");
+        view.engine()->addImportPath("../../../theme/Style/Style.qml");
         view.setSource(QStringLiteral("../../src/gui/tray/UserLine.qml"));
 
         QVERIFY(view.rootObject());
