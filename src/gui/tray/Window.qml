@@ -193,15 +193,15 @@ ApplicationWindow {
             sourceComponent: FileDetailsView {
                 id: fileDetails
 
-                width: parent.width
-                height: parent.height
+//                width: parent.width
+//                height: parent.height
 
-                backgroundsVisible: false
-                accountState: fileDetailsDrawer.folderAccountState
-                localPath: fileDetailsDrawer.fileLocalPath
-                showCloseButton: true
+//                backgroundsVisible: false
+//                accountState: fileDetailsDrawer.folderAccountState
+//                localPath: fileDetailsDrawer.fileLocalPath
+//                showCloseButton: true
 
-                onCloseButtonClicked: fileDetailsDrawer.close()
+//                onCloseButtonClicked: fileDetailsDrawer.close()
             }
         }
     }
@@ -262,6 +262,7 @@ ApplicationWindow {
 
                     Menu {
                         id: accountMenu
+                        objectName: "accountMenu"
 
                         // x coordinate grows towards the right
                         // y coordinate grows towards the bottom
@@ -373,6 +374,8 @@ ApplicationWindow {
 
                         MenuItem {
                             id: syncPauseButton
+                            objectName: "syncPauseButton"
+                            font.family:  Style.magentaFont
                             font.pixelSize: Style.topLinePixelSize
                             icon.source: Style.pauseIcon//MagentaCustomizationV25
                             palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor
@@ -396,8 +399,10 @@ ApplicationWindow {
 
                         MenuItem {
                             id: settingsButton
+                            objectName: "settingsButton"
                             text: qsTr("Settings")
                             font.pixelSize: Style.topLinePixelSize
+                            font.family:  Style.magentaFont
                             icon.source: Style.settingsIcon//MagentaCustomizationV25
                             palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor
                             hoverEnabled: true
@@ -420,7 +425,9 @@ ApplicationWindow {
 
                         MenuItem {
                             id: exitButton
+                            objectName: "exitButton"
                             text: qsTr("Exit");
+                            font.family:  Style.magentaFont
                             font.pixelSize: Style.topLinePixelSize
                             icon.source: Style.closeIcon//MagentaCustomizationV25
                             palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor//MagentaCustomizationV25
@@ -450,20 +457,23 @@ ApplicationWindow {
 
                     RowLayout {
                         id: accountControlRowLayout
-
+                        objectName: "accountControlRowLayout"
                         height: Style.trayWindowHeaderHeight
                         width:  Style.currentAccountButtonWidth
                         spacing: 0
 
                         Image {
                             id: currentAccountAvatar
-
+                            objectName: "currentAccountAvatar"
                             Layout.leftMargin: Style.trayHorizontalMargin
                             verticalAlignment: Qt.AlignCenter
                             cache: false
-                            source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
-                            Layout.preferredHeight: Style.accountAvatarSize
-                            Layout.preferredWidth: Style.accountAvatarSize
+                            source: Style.accountAvatarIcon//UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
+                            width: Style.headerButtonIconSize
+                            height: Style.headerButtonIconSize
+
+                            Layout.preferredHeight: Style.headerButtonIconSize
+                            Layout.preferredWidth: Style.headerButtonIconSize
 
                             Accessible.role: Accessible.Graphic
                             Accessible.name: qsTr("Current account avatar")
@@ -519,12 +529,12 @@ ApplicationWindow {
 
                             EnforcedPlainTextLabel {
                                 id: currentAccountUser
+                                objectName: "currentAccountUser"
                                 Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.name
                                 elide: Text.ElideRight
-                                color: Style.currentUserHeaderTextColor
-
+                                color: Style.currentUserHeaderTextColo
                                 font.pixelSize: Style.topLinePixelSize
                                 font.bold: true
                             }
@@ -873,18 +883,18 @@ ApplicationWindow {
         }
 
         ActivityList {
-            visible: !trayWindowMainItem.isUnifiedSearchActive
-            anchors.top: syncStatus.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.bottom: trayWindowMainItem.bottom
+//            visible: !trayWindowMainItem.isUnifiedSearchActive
+//            anchors.top: syncStatus.bottom
+//            anchors.left: trayWindowMainItem.left
+//            anchors.right: trayWindowMainItem.right
+//            anchors.bottom: trayWindowMainItem.bottom
 
-            activeFocusOnTab: true
-            model: activityModel
-            onOpenFile: Qt.openUrlExternally(filePath);
-            onActivityItemClicked: {
-                model.slotTriggerDefaultAction(index)
-            }
+//            activeFocusOnTab: true
+//            model: activityModel
+//            onOpenFile: Qt.openUrlExternally(filePath);
+//            onActivityItemClicked: {
+//                model.slotTriggerDefaultAction(index)
+//            }
         }
     } // Item trayWindowMainItem
 }
