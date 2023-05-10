@@ -10,7 +10,7 @@
 #include <QQuickItem>
 #include <QtTest>
 
-#include "tray/UserModel.h"
+#include "tray/usermodel.h"
 #include "systray.h"
 #include "theme.h"
 
@@ -90,7 +90,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("trayWindowHeaderLayout"));
 
-        QObject *trayWindowHeaderLayout = rootObj->findChild<QObject*>("trayWindowHeaderLayout");
+        auto *trayWindowHeaderLayout = rootObj->findChild<QObject*>("trayWindowHeaderLayout");
 
         /* verify property */
         QVERIFY(trayWindowHeaderLayout);
@@ -101,7 +101,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("currentAccountButton"));
 
-        QObject *currentAccountButton = rootObj->findChild<QObject*>("currentAccountButton");
+        auto *currentAccountButton = rootObj->findChild<QObject*>("currentAccountButton");
 
         /* verify property */
         QVERIFY(currentAccountButton);
@@ -115,7 +115,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("accountMenu"));
 
-        QObject *accountMenu = rootObj->findChild<QObject*>("accountMenu");
+        auto *accountMenu = rootObj->findChild<QObject*>("accountMenu");
 
         /* verify property */
         QVERIFY(accountMenu);
@@ -128,7 +128,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("syncPauseButton"));
 
-        QObject *syncPauseButton = rootObj->findChild<QObject*>("syncPauseButton");
+        auto *syncPauseButton = rootObj->findChild<QObject*>("syncPauseButton");
 
         /* verify property */
         QVERIFY(syncPauseButton);
@@ -145,7 +145,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("settingsButton"));
 
-        QObject *settingsButton = rootObj->findChild<QObject*>("settingsButton");
+        auto *settingsButton = rootObj->findChild<QObject*>("settingsButton");
 
         /* verify property */
         QVERIFY(settingsButton);
@@ -163,7 +163,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("exitButton"));
 
-        QObject *exitButton = rootObj->findChild<QObject*>("exitButton");
+        auto *exitButton = rootObj->findChild<QObject*>("exitButton");
 
         /* verify property */
         QVERIFY(exitButton);
@@ -180,7 +180,7 @@ private slots:
     {
         QVERIFY(rootObj->findChild<QObject*>("accountControlRowLayout"));
 
-        QObject *accountControlRowLayout = rootObj->findChild<QObject*>("accountControlRowLayout");
+        auto *accountControlRowLayout = rootObj->findChild<QObject*>("accountControlRowLayout");
 
         /* verify property */
         QVERIFY(accountControlRowLayout);
