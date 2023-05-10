@@ -29,7 +29,7 @@ class TestWindow: public QObject
 
 public:
     QQmlApplicationEngine view;
-    QObject *rootObj = NULL;
+    QObject *rootObj = nullptr;
 
 private slots:
 
@@ -136,7 +136,7 @@ private slots:
        // QCOMPARE(syncPauseButton->property("display"), 0); //qnamespace.h:1452 ToolButtonStyle::ToolButtonIconOnly:0
         QCOMPARE(syncPauseButton->property("hoverEnabled"), true);
         QVariant varFont = syncPauseButton->property("font");
-        QFont font = qvariant_cast<QFont>(varFont);
+        auto font = qvariant_cast<QFont>(varFont);
         QCOMPARE(font.family(), "Segoe UI");
         QCOMPARE(font.pixelSize(), 10); //Style.qml::property int topLinePixelSize: 13
 
@@ -153,7 +153,7 @@ private slots:
         QCOMPARE(settingsButton->property("hoverEnabled"), true);
 
         QVariant varFont = settingsButton->property("font");
-        QFont font = qvariant_cast<QFont>(varFont);
+        auto font = qvariant_cast<QFont>(varFont);
         QCOMPARE(settingsButton->property("text"), "Settings");
         QCOMPARE(font.family(), "Segoe UI");
         QCOMPARE(font.pixelSize(), 10); //Style.qml::property int topLinePixelSize: 13
@@ -171,7 +171,7 @@ private slots:
         QCOMPARE(exitButton->property("display"), 2); //qnamespace.h:1454 ToolButtonStyle::ToolButtonTextBesideIcon:2
         QCOMPARE(exitButton->property("hoverEnabled"), true);
         QVariant varFont = exitButton->property("font");
-        QFont font = qvariant_cast<QFont>(varFont);
+        auto font = qvariant_cast<QFont>(varFont);
         QCOMPARE(exitButton->property("text"), "Exit");
         QCOMPARE(font.family(), "Segoe UI");
         QCOMPARE(font.pixelSize(), 10); //Style.qml::property int topLinePixelSize: 13

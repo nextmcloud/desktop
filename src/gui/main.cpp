@@ -55,6 +55,8 @@ int main(int argc, char **argv)
     qputenv("QTWEBENGINE_CHROMIUM_FLAGS", "--disable-gpu --no-sandbox");
     QCoreApplication::setAttribute(Qt::AA_UseOpenGLES);
 
+    qmlRegisterSingletonType(QUrl("qrc:///theme/Style/Style.qml"), "Style", 1, 0, "Style");
+
 #ifdef Q_OS_WIN
     SetDllDirectory(L"");
 #endif
