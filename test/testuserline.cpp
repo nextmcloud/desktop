@@ -47,7 +47,7 @@ private slots:
         qmlRegisterSingletonType(QUrl("qrc:///theme/Style/Style.qml"), "Style", 1, 0, "Style");
 
         view.engine()->addImportPath("../../../theme");
-        view.setSource(QStringLiteral("../../../src/gui/tray/UserLine.qml"));
+        view.setSource(QStringLiteral("../../src/gui/tray/UserLine.qml"));
 
         QVERIFY(view.rootObject());
         rootObj = view.rootObject();
