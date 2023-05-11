@@ -1550,8 +1550,12 @@ void AccountSettings::customizeStyle()
     Theme::replaceLinkColorStringBackgroundAware(msg);
     _ui->connectLabel->setText(msg);
 
-    const auto color = palette().highlight().color();
-    _ui->quotaProgressBar->setStyleSheet(QString::fromLatin1(progressBarStyleC).arg(color.name()));
+    QFile file(":/qss/style.qss");
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+
+    const auto color =  palette().highlight().color();
+    _ui->quotaProgressBar->setStyleSheet(styleSheet);//QString::fromLatin1(progressBarStyleC).arg("red"));
 }
 
 void AccountSettings::initializeE2eEncryption()

@@ -52,4 +52,7 @@
         <file>theme/Style/Style.qml</file>
         <file>theme/Style/qmldir</file>
     </qresource>
+    <qresource prefix="/qss">
+        <file>style.qss</file>
+    </qresource>
 </RCC>
