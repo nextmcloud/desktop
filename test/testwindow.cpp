@@ -68,6 +68,9 @@ private slots:
         }
         );
 
+         qmlRegisterSingletonType(QStringLiteral("Style.qml"), "Style", 1, 0, "Style");
+
+
         view.addImportPath("../../../theme");
         view.load(QStringLiteral("../../src/gui/tray/Window.qml"));
 

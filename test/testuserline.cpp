@@ -44,6 +44,7 @@ private slots:
          }
          );
 
+        qmlRegisterSingletonType(QStringLiteral("Style.qml"), "Style", 1, 0, "Style");
 
 
         view.engine()->addImportPath("../../../theme");
