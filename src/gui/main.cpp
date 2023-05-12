@@ -69,6 +69,7 @@ int main(int argc, char **argv)
     // Can be removed once the bug in qqc2-desktop-style is gone.
     QQuickStyle::setStyle("Default");
 
+
     // OpenSSL 1.1.0: No explicit initialisation or de-initialisation is necessary.
 
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
