@@ -51,5 +51,9 @@
         <file>src/gui/tray/EnforcedPlainTextLabel.qml</file>
         <file>theme/Style/Style.qml</file>
         <file>theme/Style/qmldir</file>
+        <file>src/gui/filedetails/NCRadioButton.qml</file>
+        <file>src/gui/tray/ListItemLineAndSubline.qml</file>
+        <file>src/gui/tray/TrayFoldersMenuButton.qml</file>
+        <file>src/gui/tray/TrayFolderListItem.qml</file>
     </qresource>
 </RCC>

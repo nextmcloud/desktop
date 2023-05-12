@@ -104,6 +104,8 @@ static constexpr char moveToTrashC[] = "moveToTrash";
 
 static constexpr char certPath[] = "http_certificatePath";
 static constexpr char certPasswd[] = "http_certificatePasswd";
+
+static const QSet validUpdateChannels { QStringLiteral("stable"), QStringLiteral("beta") };
 }
 
 namespace OCC {
@@ -112,8 +114,8 @@ namespace chrono = std::chrono;
 
 Q_LOGGING_CATEGORY(lcConfigFile, "nextcloud.sync.configfile", QtInfoMsg)
 
-QString ConfigFile::_confDir = QString();
-bool ConfigFile::_askedUser = false;
+QString ConfigFile::_confDir = {};
+QString ConfigFile::_discoveredLegacyConfigPath = {};
 
 static chrono::milliseconds millisecondsValue(const QSettings &setting, const char *key,
     chrono::milliseconds defaultValue)
@@ -692,11 +694,27 @@ QString ConfigFile::updateChannel() const
     }
 
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(updateChannelC), defaultUpdateChannel).toString();
+    const auto channel = settings.value(QLatin1String(updateChannelC), defaultUpdateChannel).toString();
+    if (!validUpdateChannels.contains(channel)) {
+        qCWarning(lcConfigFile()) << "Received invalid update channel from confog:"
+                                  << channel
+                                  << "defaulting to:"
+                                  << defaultUpdateChannel;
+        return defaultUpdateChannel;
+    }
+
+    return channel;
 }
 
 void ConfigFile::setUpdateChannel(const QString &channel)
 {
+    if (!validUpdateChannels.contains(channel)) {
+        qCWarning(lcConfigFile()) << "Received invalid update channel:"
+                                  << channel
+                                  << "can only accept 'stable' or 'beta'. Ignoring.";
+        return;
+    }
+
     QSettings settings(configFile(), QSettings::IniFormat);
     settings.setValue(QLatin1String(updateChannelC), channel);
 }
@@ -1138,4 +1156,19 @@ void ConfigFile::setupDefaultExcludeFilePaths(ExcludedFiles &excludedFiles)
         excludedFiles.addExcludeFilePath(userList);
     }
 }
+
+QString ConfigFile::discoveredLegacyConfigPath()
+{
+    return _discoveredLegacyConfigPath;
+}
+
+void ConfigFile::setDiscoveredLegacyConfigPath(const QString &discoveredLegacyConfigPath)
+{
+    if (_discoveredLegacyConfigPath == discoveredLegacyConfigPath) {
+        return;
+    }
+
+    _discoveredLegacyConfigPath = discoveredLegacyConfigPath;
+}
+
 }

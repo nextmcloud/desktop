@@ -33,11 +33,6 @@
         <source>Open file details</source>
         <translation>打开文件的详细信息</translation>
     </message>
-    <message>
-        <location filename="../src/gui/tray/ActivityItemContent.qml" line="208"/>
-        <source>Open share dialog</source>
-        <translation>打开共享对话框</translation>
-    </message>
 </context>
 <context>
     <name>ActivityList</name>
@@ -65,12 +60,12 @@
     <message>
         <location filename="../src/gui/tray/CallNotificationDialog.qml" line="174"/>
         <source>Talk notification caller avatar</source>
-        <translation type="unfinished"/>
+        <translation>通话应用通知呼叫者头像</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/CallNotificationDialog.qml" line="240"/>
         <source>Answer Talk call notification</source>
-        <translation type="unfinished"/>
+        <translation>接听通话通知</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/CallNotificationDialog.qml" line="248"/>
@@ -339,17 +334,17 @@
 <context>
     <name>OCC::Account</name>
     <message>
-        <location filename="../src/libsync/account.cpp" line="915"/>
+        <location filename="../src/libsync/account.cpp" line="927"/>
         <source>File %1 is already locked by %2.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="917"/>
+        <location filename="../src/libsync/account.cpp" line="929"/>
         <source>Lock operation on %1 failed with error %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="919"/>
+        <location filename="../src/libsync/account.cpp" line="931"/>
         <source>Unlock operation on %1 failed with error %2</source>
         <translation type="unfinished"/>
     </message>
@@ -399,16 +394,6 @@
         <translation>应用手工修改</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="92"/>
-        <source>End-to-End Encryption with Virtual Files</source>
-        <translation>虚拟文件端到端加密</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="93"/>
-        <source>You seem to have the Virtual Files feature enabled on this folder. At the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
-        <translation>你似乎在这个文件夹上启用了虚拟文件功能。目前，不可能隐含下载端到端加密的虚拟文件。为了获得虚拟文件和端到端加密的最佳体验，请确保加密的文件夹被标记为 &quot;始终在本地可用&quot;。</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="93"/>
         <source>End-to-end Encryption with Virtual Files</source>
         <translation type="unfinished"/>
@@ -417,11 +402,6 @@
         <location filename="../src/gui/accountsettings.cpp" line="94"/>
         <source>You seem to have the Virtual Files feature enabled on this folder. At the moment, it is not possible to implicitly download virtual files that are end-to-end encrypted. To get the best experience with virtual files and end-to-end encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
         <translation>你似乎在这个文件夹上启用了虚拟文件功能。目前，不可能隐含下载端到端加密的虚拟文件。为了获得虚拟文件和端到端加密的最佳体验，请确保加密的文件夹被标记为 &quot;始终在本地可用&quot;。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="97"/>
-        <source>Don&apos;t encrypt folder</source>
-        <translation>不加密文件夹</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="102"/>
@@ -454,11 +434,6 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1461"/>
-        <source>Enable encryption</source>
-        <translation>启用加密</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="288"/>
         <source>Warning</source>
         <translation>警告</translation>
@@ -476,12 +451,6 @@ Would you like to set up end-to-end encryption?</source>
 Wait for the new sync, then encrypt it.</source>
         <translation>您无法使用内容加密文件夹，请删除文件。
 等待新的同步，然后对其进行加密。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="249"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1458"/>
-        <source>This account supports End-to-End encryption</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="390"/>
@@ -610,11 +579,6 @@ This action will abort any currently running synchronization.</source>
         <location filename="../src/gui/accountsettings.cpp" line="929"/>
         <source>Disable support</source>
         <translation>禁用支持</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="979"/>
-        <source>End-to-End encryption mnemonic</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1014"/>
@@ -747,21 +711,6 @@ This action will abort any currently running synchronization.</source>
         <translation>此账号支持端到端加密</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1398"/>
-        <source>Confirm Account Removal</source>
-        <translation>确认移除账号</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1399"/>
-        <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;您确定要移除与账号&lt;i&gt;%1&lt;/i&gt;的连接吗？&lt;/p&gt;&lt;p&gt;&lt;b&gt;注意：&lt;/b&gt; 这 &lt;b&gt;不会&lt;/b&gt; 删除任何文件。&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1404"/>
-        <source>Remove connection</source>
-        <translation>移除连接</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1569"/>
         <source>Set up encryption</source>
         <translation type="unfinished"/>
@@ -846,11 +795,6 @@ This action will abort any currently running synchronization.</source>
         <translation>有关更多动态，请打开 “动态” 应用。</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="488"/>
-        <source>Fetching activities…</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/tray/activitylistmodel.cpp" line="509"/>
         <source>Fetching activities …</source>
         <translation type="unfinished"/>
@@ -907,21 +851,6 @@ This action will abort any currently running synchronization.</source>
 <context>
     <name>OCC::Application</name>
     <message>
-        <location filename="../src/gui/application.cpp" line="150"/>
-        <source>Continuing will mean &lt;b&gt;deleting these settings&lt;/b&gt;.</source>
-        <translation>继续意味着&lt;b&gt;删除这些设置&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="152"/>
-        <source>Continuing will mean &lt;b&gt;ignoring these settings&lt;/b&gt;.</source>
-        <translation>继续意味着&lt;b&gt;忽略这些设置&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="158"/>
-        <source>Some settings were configured in newer versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;%1&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%2&lt;/i&gt;.</source>
-        <translation>一些设置在此客户端的新版本中被配置，并使用了该版本中没有的功能。&lt;br&gt;&lt;br&gt;%1&lt;br&gt;&lt;br&gt;当前配置文件已经备份到&lt;i&gt;%2&lt;/i&gt;。</translation>
-    </message>
-    <message>
         <location filename="../src/gui/application.cpp" line="176"/>
         <source>Some settings were configured in %1 versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;Continuing will mean &lt;b&gt;%2 these settings&lt;/b&gt;.&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%3&lt;/i&gt;.</source>
         <translation type="unfinished"/>
@@ -964,22 +893,17 @@ This action will abort any currently running synchronization.</source>
         <translation>继续</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="389"/>
+        <location filename="../src/gui/application.cpp" line="393"/>
         <source>Error accessing the configuration file</source>
         <translation>访问配置文件时发生错误</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="335"/>
-        <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your user.</source>
-        <translation>访问配置文件 %1 时发生错误。请检查是否有访问权限。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="390"/>
+        <location filename="../src/gui/application.cpp" line="394"/>
         <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your system account.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="393"/>
+        <location filename="../src/gui/application.cpp" line="397"/>
         <source>Quit %1</source>
         <translation>退出 %1</translation>
     </message>
@@ -1000,11 +924,6 @@ This action will abort any currently running synchronization.</source>
         <location filename="../src/gui/authenticationdialog.cpp" line="37"/>
         <source>&amp;Username:</source>
         <translation>用户名 (&amp;U)</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/authenticationdialog.cpp" line="37"/>
-        <source>&amp;User:</source>
-        <translation>用户名(&amp;U)：</translation>
     </message>
     <message>
         <location filename="../src/gui/authenticationdialog.cpp" line="38"/>
@@ -1079,11 +998,6 @@ This action will abort any currently running synchronization.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/caseclashconflictsolver.cpp" line="78"/>
-        <source>Cannot rename file because a file with the same name does already exist on the server. Please pick another name.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/libsync/caseclashconflictsolver.cpp" line="121"/>
         <source>Could not rename file. Please make sure you are connected to the server.</source>
         <translation type="unfinished"/>
@@ -1142,11 +1056,6 @@ This action will abort any currently running synchronization.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/caseclashfilenamedialog.ui" line="60"/>
-        <source>fileA</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="107"/>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="213"/>
         <source>today</source>
@@ -1172,11 +1081,6 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="172"/>
         <source>file B</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/caseclashfilenamedialog.ui" line="172"/>
-        <source>fileB</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1239,23 +1143,13 @@ This action will abort any currently running synchronization.</source>
 <context>
     <name>OCC::CleanupPollsJob</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1529"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1533"/>
         <source>Error writing metadata to the database</source>
         <translation>向数据库写入元数据错误</translation>
     </message>
 </context>
 <context>
     <name>OCC::ClientSideEncryption</name>
-    <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1228"/>
-        <source>Please enter your End-to-End encryption passphrase:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1241"/>
-        <source>Please enter your end to end encryption passphrase:&lt;br&gt;&lt;br&gt;User: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation>请输入端到端加密短语：&lt;br&gt;&lt;br&gt;用户名：%2&lt;br&gt;账号：%3&lt;br&gt;</translation>
-    </message>
     <message>
         <location filename="../src/libsync/clientsideencryption.cpp" line="1369"/>
         <source>Please enter your end-to-end encryption passphrase:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
@@ -1946,127 +1840,107 @@ If this was an accident and you decide to keep your files, they will be re-synce
 <context>
     <name>OCC::FolderMan</name>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="411"/>
+        <location filename="../src/gui/folderman.cpp" line="414"/>
         <source>Could not reset folder state</source>
         <translation>不能重置文件夹状态</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="412"/>
+        <location filename="../src/gui/folderman.cpp" line="415"/>
         <source>An old sync journal &quot;%1&quot; was found, but could not be removed. Please make sure that no application is currently using it.</source>
         <translation>找到旧的同步日志“%1”，但无法删除。请确保目前没有应用程序正在使用它。</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1339"/>
+        <location filename="../src/gui/folderman.cpp" line="1337"/>
         <source> (backup)</source>
         <translation>（备份）</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1344"/>
+        <location filename="../src/gui/folderman.cpp" line="1342"/>
         <source> (backup %1)</source>
         <translation>（备份 %1）</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1500"/>
-        <source>Undefined State.</source>
-        <translation>未知状态。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1606"/>
+        <location filename="../src/gui/folderman.cpp" line="1604"/>
         <source>Undefined state.</source>
         <translation>未知状态。</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1609"/>
+        <location filename="../src/gui/folderman.cpp" line="1607"/>
         <source>Waiting to start syncing.</source>
         <translation>等待启动同步。</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1612"/>
+        <location filename="../src/gui/folderman.cpp" line="1610"/>
         <source>Preparing for sync.</source>
         <translation>准备同步。</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1615"/>
+        <location filename="../src/gui/folderman.cpp" line="1613"/>
         <source>Sync is running.</source>
         <translation>同步正在运行。</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1620"/>
+        <location filename="../src/gui/folderman.cpp" line="1618"/>
         <source>Sync finished with unresolved conflicts.</source>
         <translation>同步已完成，但有未解决的冲突</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1516"/>
-        <source>Last Sync was successful.</source>
-        <translation>最后一次同步成功。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1522"/>
-        <source>Setup Error.</source>
-        <translation>安装失败</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1525"/>
-        <source>User Abort.</source>
-        <translation>用户撤销。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1622"/>
+        <location filename="../src/gui/folderman.cpp" line="1620"/>
         <source>Last sync was successful.</source>
         <translation>最后一次同步已成功。</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1628"/>
+        <location filename="../src/gui/folderman.cpp" line="1626"/>
         <source>Setup error.</source>
         <translation>安装失败。</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1631"/>
+        <location filename="../src/gui/folderman.cpp" line="1629"/>
         <source>Sync request was cancelled.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1634"/>
+        <location filename="../src/gui/folderman.cpp" line="1632"/>
         <source>Sync is paused.</source>
         <translation>同步已暂停。</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1640"/>
+        <location filename="../src/gui/folderman.cpp" line="1638"/>
         <source>%1 (Sync is paused)</source>
         <translation>%1（同步已暂停）</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1648"/>
+        <location filename="../src/gui/folderman.cpp" line="1646"/>
         <source>No valid folder selected!</source>
         <translation>没有选择有效的文件夹！</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1660"/>
+        <location filename="../src/gui/folderman.cpp" line="1658"/>
         <source>The selected path does not exist!</source>
         <translation>所选路径不存在！</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1664"/>
+        <location filename="../src/gui/folderman.cpp" line="1662"/>
         <source>The selected path is not a folder!</source>
         <translation>选择的路径不是一个文件夹！</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1668"/>
+        <location filename="../src/gui/folderman.cpp" line="1666"/>
         <source>You have no permission to write to the selected folder!</source>
         <translation>您没有写入所选文件夹的权限！</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1720"/>
+        <location filename="../src/gui/folderman.cpp" line="1718"/>
         <source>The local folder %1 already contains a folder used in a folder sync connection. Please pick another one!</source>
         <translation>本地文件夹 %1 包含有正在使用的同步文件夹，请选择另一个！</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1728"/>
+        <location filename="../src/gui/folderman.cpp" line="1726"/>
         <source>The local folder %1 is already contained in a folder used in a folder sync connection. Please pick another one!</source>
         <translation>本地文件夹 %1 是正在使用的同步文件夹，请选择另一个！</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1744"/>
+        <location filename="../src/gui/folderman.cpp" line="1742"/>
         <source>There is already a sync from the server to this local folder. Please pick another local folder!</source>
         <translation>已经有一个从服务器到此文件夹的同步设置。请选择其他本地文件夹！</translation>
     </message>
@@ -2074,12 +1948,12 @@ If this was an accident and you decide to keep your files, they will be re-synce
 <context>
     <name>OCC::FolderStatusDelegate</name>
     <message>
-        <location filename="../src/gui/folderstatusdelegate.cpp" line="48"/>
+        <location filename="../src/gui/folderstatusdelegate.cpp" line="55"/>
         <source>Add Folder Sync Connection</source>
         <translation>添加同步文件夹</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderstatusdelegate.cpp" line="296"/>
+        <location filename="../src/gui/folderstatusdelegate.cpp" line="299"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
@@ -2525,7 +2399,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="319"/>
-        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <location filename="../src/gui/generalsettings.cpp" line="463"/>
         <source>Create Debug Archive</source>
         <translation>创建调试存档</translation>
     </message>
@@ -2545,12 +2419,12 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>你不能禁用自启动，因为系统级的自启动处于启用状态。</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="355"/>
+        <location filename="../src/gui/generalsettings.cpp" line="344"/>
         <source>Change update channel?</source>
         <translation>更改更新频道？</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="356"/>
+        <location filename="../src/gui/generalsettings.cpp" line="345"/>
         <source>The update channel determines which client updates will be offered for installation. The &quot;stable&quot; channel contains only upgrades that are considered reliable, while the versions in the &quot;beta&quot; channel may contain newer features and bugfixes, but have not yet been tested thoroughly.
 
 Note that this selects only what pool upgrades are taken from, and that there are no downgrades: So going back from the beta channel to the stable channel usually cannot be done immediately and means waiting for a stable version that is newer than the currently installed beta version.</source>
@@ -2559,27 +2433,27 @@ Note that this selects only what pool upgrades are taken from, and that there ar
 请注意，这只会选择从何种中池升级，并且没有降级：因此，通常无法立即从测试版通道返回到稳定版通道，这意味着您需要等待比当前安装的测试版更新的稳定版。 </translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="369"/>
+        <location filename="../src/gui/generalsettings.cpp" line="358"/>
         <source>Change update channel</source>
         <translation>更改更新频道</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="370"/>
+        <location filename="../src/gui/generalsettings.cpp" line="359"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <location filename="../src/gui/generalsettings.cpp" line="463"/>
         <source>Zip Archives</source>
         <translation>Zip 归档</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="480"/>
+        <location filename="../src/gui/generalsettings.cpp" line="469"/>
         <source>Debug Archive Created</source>
         <translation>调试存档已创建</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="480"/>
+        <location filename="../src/gui/generalsettings.cpp" line="469"/>
         <source>Debug archive is created at %1</source>
         <translation>调试存档已创建于 %1</translation>
     </message>
@@ -2617,11 +2491,6 @@ Note that this selects only what pool upgrades are taken from, and that there ar
         <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="97"/>
         <source>Please enter %1 password:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="97"/>
-        <source>Please enter %1 password:&lt;br&gt;&lt;br&gt;User: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation>请输入 %1 密码：&lt;br&gt;&lt;br&gt;用户：%2&lt;br&gt;账号：%3&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="111"/>
@@ -2767,11 +2636,6 @@ Items where deletion is allowed will be deleted if they prevent a directory from
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/invalidfilenamedialog.cpp" line="96"/>
-        <source>Checking rename permissions...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="99"/>
         <source>Checking rename permissions …</source>
         <translation type="unfinished"/>
@@ -2846,11 +2710,6 @@ Items where deletion is allowed will be deleted if they prevent a directory from
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/legalnotice.cpp" line="55"/>
-        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
-        <translation>&lt;p&gt;版权所有 2017-2021 Nextcloud GmbH&lt;br /&gt;版权所有 2012-2021 ownCloud GmbH&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/gui/legalnotice.cpp" line="58"/>
         <source>&lt;p&gt;Licensed under the GNU General Public License (GPL) Version 2.0 or any later version.&lt;/p&gt;</source>
         <translation>&lt;p&gt;根据 GNU 通用公共许可证（GPL）2.0 版或任何更高版本授权。&lt;/p&gt;</translation>
@@ -2911,12 +2770,6 @@ Note that using any logging command line options will override this setting.</so
         <location filename="../src/gui/updater/ocupdater.cpp" line="414"/>
         <source>&lt;p&gt;A new version of the %1 Client is available.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; is available for download. The installed version is %3.&lt;/p&gt;</source>
         <translation>&lt;p&gt;新版本的 %1 客户端可用。&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; 已经开放下载。已安装的版本是 %3。&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/updater/ocupdater.cpp" line="426"/>
-        <location filename="../src/gui/updater/ocupdater.cpp" line="476"/>
-        <source>Skip this version</source>
-        <translation>跳过这个版本</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="427"/>
@@ -3093,11 +2946,6 @@ Note that using any logging command line options will override this setting.</so
         <location filename="../src/gui/creds/oauth.cpp" line="140"/>
         <source>&lt;h1&gt;Wrong account&lt;/h1&gt;&lt;p&gt;You logged in with the account &lt;em&gt;%1&lt;/em&gt;, but must log in with the account &lt;em&gt;%2&lt;/em&gt;.&lt;br&gt;Please log out of %3 in another tab, then &lt;a href=&apos;%4&apos;&gt;click here&lt;/a&gt; and log in with %2.&lt;/p&gt;</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/creds/oauth.cpp" line="140"/>
-        <source>&lt;h1&gt;Wrong user&lt;/h1&gt;&lt;p&gt;You logged-in with user &lt;em&gt;%1&lt;/em&gt;, but must login with user &lt;em&gt;%2&lt;/em&gt;.&lt;br&gt;Please log out of %3 in another tab, then &lt;a href=&apos;%4&apos;&gt;click here&lt;/a&gt; and log in as user %2&lt;/p&gt;</source>
-        <translation>&lt;h1&gt;错误的用户&lt;/h1&gt;&lt;p&gt;您必须登录用户&lt;em&gt;%2&lt;/em&gt;，但您登录了用户&lt;em&gt;%1&lt;/em&gt;。&lt;br&gt;请在另一个标签中登出 %3，然后&lt;a href=&apos;%4&apos;&gt;点击这里&lt;/a&gt;登录为用户 %2&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -3302,13 +3150,13 @@ Note that using any logging command line options will override this setting.</so
 <context>
     <name>OCC::OwncloudPropagator</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="658"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="662"/>
         <source>Error with the metadata. Getting unexpected metadata format.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="870"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="947"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="874"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="951"/>
         <source>Impossible to get modification time for file in conflict %1</source>
         <translation>无法获得冲突 %1 文件的修改时间</translation>
     </message>
@@ -3718,22 +3566,22 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateDirectory</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1302"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1306"/>
         <source>could not delete file %1 from local DB</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1316"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1320"/>
         <source>Error updating metadata due to invalid modification time</source>
         <translation>由于修改时间无效，更新元数据时出错</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1332"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1336"/>
         <source>Error updating metadata: %1</source>
         <translation>更新元数据出错：%1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1336"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1340"/>
         <source>File is currently in use</source>
         <translation>文件在使用中</translation>
     </message>
@@ -3761,12 +3609,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/propagatedownload.cpp" line="1293"/>
         <source>Could not delete file record %1 from local DB</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="521"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="626"/>
-        <source>File %1 cannot be downloaded because of a local file name clash!</source>
-        <translation>文件 %1 无法被下载，因为一个本地文件名冲突！</translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="533"/>
@@ -3797,11 +3639,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/propagatedownload.cpp" line="897"/>
         <source>The downloaded file is empty, but the server said it should have been %1.</source>
         <translation>已下载的文件为空，但是服务器说它应该是 %1</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1119"/>
-        <source>File %1 cannot be saved because of a local file name clash!</source>
-        <translation>由于本地文件名冲突，文件 %1 无法保存。</translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="1158"/>
@@ -3846,11 +3683,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>不能删除文件 %1，错误：%2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
-        <source>Attention, possible case sensitivity clash with %1</source>
-        <translation>小心！%1 的文件名可能有大小写冲突</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
         <source>Folder %1 cannot be created because of a local file or folder name clash!</source>
         <translation type="unfinished"/>
@@ -3886,11 +3718,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 </context>
 <context>
     <name>OCC::PropagateLocalRename</name>
-    <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="248"/>
-        <source>File %1 cannot be renamed to %2 because of a local file name clash</source>
-        <translation>文件 %1 无法被重命名至 %2，因为一个本地文件名冲突</translation>
-    </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="254"/>
         <source>File %1 downloaded but it resulted in a local file name clash!</source>
@@ -4207,11 +4034,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <source>Reply</source>
         <translation>回复</translation>
     </message>
-    <message>
-        <location filename="../src/gui/tray/notificationhandler.cpp" line="159"/>
-        <source>Dismiss</source>
-        <translation>忽略</translation>
-    </message>
 </context>
 <context>
     <name>OCC::SettingsDialog</name>
@@ -4245,37 +4067,37 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::ShareModel</name>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Secure file drop link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Share link</source>
         <translation>分享链接</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="595"/>
-        <source>Link share</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="597"/>
-        <source>Internal link</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Secure filedrop link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="599"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="646"/>
+        <source>Link share</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="648"/>
+        <source>Internal link</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="650"/>
         <source>Secure file drop</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="856"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="939"/>
         <source>Enter a note for the recipient</source>
         <translation type="unfinished"/>
     </message>
@@ -4306,46 +4128,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/shareuserline.ui" line="277"/>
         <source>Expires:</source>
         <translation>过期：</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="487"/>
-        <source>Can reshare</source>
-        <translation>允许重新共享</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="498"/>
-        <source>Note to recipient</source>
-        <translation>给收件人的备注</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="514"/>
-        <source>Set expiration date</source>
-        <translation>设置到期日</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="529"/>
-        <source>Unshare</source>
-        <translation>取消共享</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="538"/>
-        <source>Can create</source>
-        <translation>可以创建</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="544"/>
-        <source>Can change</source>
-        <translation>可以修改</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="550"/>
-        <source>Can delete</source>
-        <translation>可以删除</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="559"/>
-        <source>Password protect</source>
-        <translation>密码保护</translation>
     </message>
 </context>
 <context>
@@ -4443,12 +4225,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1137"/>
         <source>Send private link by email …</source>
         <translation>通过电子邮件发送私人链接…</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1105"/>
-        <source>Expire in %1 minutes</source>
-        <comment>remaining time before lock expire</comment>
-        <translation type="unfinished"><numerusform></numerusform></translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1162"/>
@@ -4828,17 +4604,12 @@ Server replied with error: %2</source>
         <translation>无法打开同步日志</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1067"/>
-        <source>Synchronization will resume shortly.</source>
-        <translation>同步将很快恢复。</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1209"/>
+        <location filename="../src/libsync/syncengine.cpp" line="1214"/>
         <source>Disk space is low: Downloads that would reduce free space below %1 were skipped.</source>
         <translation>硬盘剩余容量过低：下载后将会导致剩余容量低于 %1 的文件将会被跳过。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1216"/>
+        <location filename="../src/libsync/syncengine.cpp" line="1221"/>
         <source>There is insufficient space available on the server for some uploads.</source>
         <translation>对于某些上传文件来说，服务器端的可用空间不足。</translation>
     </message>
@@ -4984,11 +4755,6 @@ Server replied with error: %2</source>
         <translation>&lt;p&gt;&lt;small&gt;正使用虚拟文件插件：%1&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="571"/>
-        <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
-        <translation>&lt;p&gt;该版本由 %1 提供&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/theme.cpp" line="576"/>
         <source>&lt;p&gt;This release was supplied by %1.&lt;/p&gt;</source>
         <translation type="unfinished"/>
@@ -5062,34 +4828,9 @@ Server replied with error: %2</source>
         <translation>无法获取预定义状态。确保您已连接到服务器。</translation>
     </message>
     <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="144"/>
-        <source>Could not fetch user status. Make sure you are connected to the server.</source>
-        <translation>无法获取用户状态。确保您已连接到服务器。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="148"/>
-        <source>User status feature is not supported. You will not be able to set your user status.</source>
-        <translation>不支持用户状态特性。您将无法设置您的用户状态。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="152"/>
-        <source>Emojis feature is not supported. Some user status functionality may not work.</source>
-        <translation>不支持表情符号功能。某些用户状态功能可能无法工作。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="156"/>
-        <source>Could not set user status. Make sure you are connected to the server.</source>
-        <translation>无法设置用户状态。确保您已连接到服务器。</translation>
-    </message>
-    <message>
         <location filename="../src/gui/userstatusselectormodel.cpp" line="159"/>
         <source>Could not fetch status. Make sure you are connected to the server.</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="160"/>
-        <source>Could not clear user status message. Make sure you are connected to the server.</source>
-        <translation>无法清除用户状态信息。确保您已连接到服务器。</translation>
     </message>
     <message>
         <location filename="../src/gui/userstatusselectormodel.cpp" line="163"/>
@@ -5223,19 +4964,9 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/creds/webflowcredentials.cpp" line="166"/>
-        <source>You have been logged out of %1 as user %2. Please login again.</source>
-        <translation>你已经以用户 %2 的身份从 %1 中登出。请重新登录</translation>
-    </message>
-    <message>
         <location filename="../src/gui/creds/webflowcredentials.cpp" line="190"/>
         <source>Please login with the account: %1</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/creds/webflowcredentials.cpp" line="190"/>
-        <source>Please login with the user: %1</source>
-        <translation>请以 %1 用户身份登陆</translation>
     </message>
 </context>
 <context>
@@ -5251,20 +4982,9 @@ Server replied with error: %2</source>
         <translation>登录</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/welcomepage.ui" line="143"/>
-        <location filename="../src/gui/wizard/welcomepage.cpp" line="89"/>
-        <source>Log in to your %1</source>
-        <translation>登录到你的 %1</translation>
-    </message>
-    <message>
         <location filename="../src/gui/wizard/welcomepage.ui" line="156"/>
         <source>Sign up with provider</source>
         <translation>使用第三方注册</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/wizard/welcomepage.ui" line="156"/>
-        <source>Create account with Provider</source>
-        <translation>通过供应商创建账户</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/welcomepage.cpp" line="68"/>
@@ -5432,11 +5152,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="116"/>
         <source>Local Folder</source>
         <translation>本地文件夹</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="121"/>
-        <source>User name</source>
-        <translation>用户名</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="135"/>
@@ -5643,26 +5358,21 @@ Server replied with error: %2</source>
         <extracomment>this displays an error string (%2) for a file %1</extracomment>
         <translation>%1：%2</translation>
     </message>
-    <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="805"/>
-        <source>Mark as read</source>
-        <translation>标记为已读</translation>
-    </message>
 </context>
 <context>
     <name>ShareDelegate</name>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="160"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="162"/>
         <source>Create a new share link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="180"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="182"/>
         <source>Copy share link location</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="209"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="211"/>
         <source>Share options</source>
         <translation type="unfinished"/>
     </message>
@@ -5670,57 +5380,73 @@ Server replied with error: %2</source>
 <context>
     <name>ShareDetailsPage</name>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="88"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="95"/>
         <source>An error occurred setting the share password.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="221"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="219"/>
         <source>Edit share</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="238"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="236"/>
         <source>Dismiss</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="297"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="295"/>
         <source>Share label</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="330"/>
-        <source>Allow editing</source>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="326"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="373"/>
+        <source>Allow upload and editing</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="359"/>
+        <source>View only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="394"/>
+        <source>File drop (upload only)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="421"/>
+        <source>Hide download</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="447"/>
         <source>Password protect</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="464"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="552"/>
         <source>Set expiration date</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="655"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="743"/>
         <source>Note to recipient</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="723"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="811"/>
         <source>Unshare</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="740"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="828"/>
         <source>Add another link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="771"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="859"/>
         <source>Copy share link</source>
         <translation type="unfinished"/>
     </message>
@@ -5738,17 +5464,17 @@ Server replied with error: %2</source>
         <translation>分享密码</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="292"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="294"/>
         <source>Sharing is disabled</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="300"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="302"/>
         <source>This item cannot be shared.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="309"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="311"/>
         <source>Sharing is disabled.</source>
         <translation type="unfinished"/>
     </message>
@@ -5772,7 +5498,7 @@ Server replied with error: %2</source>
 <context>
     <name>SyncStatus</name>
     <message>
-        <location filename="../src/gui/tray/SyncStatus.qml" line="116"/>
+        <location filename="../src/gui/tray/SyncStatus.qml" line="118"/>
         <source>Sync now</source>
         <translation>立刻同步</translation>
     </message>
@@ -5788,6 +5514,54 @@ Server replied with error: %2</source>
         <location filename="../src/gui/tray/TalkReplyTextField.qml" line="53"/>
         <source>Send reply to chat message</source>
         <translation>回复聊天消息</translation>
+    </message>
+</context>
+<context>
+    <name>TrayFoldersMenuButton</name>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="56"/>
+        <source>Open local or group folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="56"/>
+        <source>Open local folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="71"/>
+        <source>Connected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="71"/>
+        <source>Disconnected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="110"/>
+        <source>Group folder button</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="185"/>
+        <source>Open local folder &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="185"/>
+        <source>Open group folder &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="197"/>
+        <source>Open %1 in file explorer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="202"/>
+        <source>User group and local folders menu</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5841,11 +5615,6 @@ Server replied with error: %2</source>
 <context>
     <name>UserLine</name>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="15"/>
-        <source>Account entry</source>
-        <translation>账号输入</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="19"/>
         <source>Switch to account</source>
         <translation>切换到账号</translation>
@@ -5859,16 +5628,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/tray/UserLine.qml" line="64"/>
         <source>Current account status is do not disturb</source>
         <translation>当前账号状态为请勿打扰</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="89"/>
-        <source>Current user status is online</source>
-        <translation>当前用户状态为“在线”</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="89"/>
-        <source>Current user status is do not disturb</source>
-        <translation>当前用户状态为“请勿打扰”</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="135"/>
@@ -6067,11 +5826,6 @@ Server replied with error: %2</source>
         <translation>全部暂停同步</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="219"/>
-        <source>Set user status</source>
-        <translation>设定用户状态</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="347"/>
         <source>Add account</source>
         <translation>添加账号</translation>
@@ -6092,21 +5846,6 @@ Server replied with error: %2</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="373"/>
-        <source>Current user avatar</source>
-        <translation>当前用户头像</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="412"/>
-        <source>Current user status is online</source>
-        <translation>当前用户状态为“在线” </translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="412"/>
-        <source>Current user status is do not disturb</source>
-        <translation>当前用户状态为“请勿打扰” </translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="463"/>
         <source>Current account avatar</source>
         <translation>当前账号头像</translation>
@@ -6122,11 +5861,6 @@ Server replied with error: %2</source>
         <translation>当前账号状态为请勿打扰</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="851"/>
-        <source>%1 - File activity</source>
-        <translation>%1 - 文件动态</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="578"/>
         <source>Account switcher and settings menu</source>
         <translation>账号切换器和设置菜单</translation>
@@ -6137,6 +5871,11 @@ Server replied with error: %2</source>
         <translation>打开当前账号的本地文件夹</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/Window.qml" line="656"/>
+        <source>Open Nextcloud Talk in browser</source>
+        <translation>在浏览器中打开Nextcloud通话应用</translation>
+    </message>
+    <message>
         <location filename="../src/gui/tray/Window.qml" line="620"/>
         <source>Connected</source>
         <translation>已连接</translation>
@@ -6145,11 +5884,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/tray/Window.qml" line="620"/>
         <source>Disconnected</source>
         <translation>连接已断开</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="656"/>
-        <source>Open Nextcloud Talk in browser</source>
-        <translation>在浏览器中打开 Nextcloud Talk </translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="676"/>
@@ -6396,228 +6130,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/guiutility.cpp" line="105"/>
         <source>Free up local space</source>
         <translation>释放本地空间</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::AccountManager</name>
-    <message>
-        <location filename="../src/gui/accountmanager.cpp" line="406"/>
-        <source>End to end encryption mnemonic</source>
-        <translation>端到端加密助记词</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountmanager.cpp" line="407"/>
-        <source>To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. Please note these down and keep them safe. They will be needed to add other devices to your account (like your mobile phone or laptop).</source>
-        <translation>为了保护您的加密身份，我们用 12 个助记词对其进行了加密。请将它们抄下来并妥善保管。在您向账号添加其他设备（手机或笔记本电脑）时需要用到。</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::InternalLinkWidget</name>
-    <message>
-        <location filename="../src/gui/internallinkwidget.ui" line="64"/>
-        <source>Internal link</source>
-        <translation>内部链接</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/internallinkwidget.ui" line="83"/>
-        <source>Only works for users with access to this folder</source>
-        <translation>仅适用于有权限访问此文件夹的用户</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareDialog</name>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="69"/>
-        <source>share label</source>
-        <translation>共享标签</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="124"/>
-        <source>Nextcloud Path:</source>
-        <translation>Nextcloud 路径：</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="155"/>
-        <source>Icon</source>
-        <translation>图标</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="96"/>
-        <source>%1</source>
-        <translation>%1</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/sharedialog.cpp" line="105"/>
-        <source>Locked by %1 - Expire in %2 minutes</source>
-        <comment>remaining time before lock expire</comment>
-        <translation type="unfinished"><numerusform></numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/sharedialog.cpp" line="106"/>
-        <source>Locked by %1 - Expires in %2 minutes</source>
-        <comment>remaining time before lock expires</comment>
-        <translation type="unfinished"><numerusform></numerusform></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="127"/>
-        <source>Folder: %2</source>
-        <translation>文件夹：%2</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="130"/>
-        <source>%1 Sharing</source>
-        <translation>%1 共享</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="332"/>
-        <source>The file cannot be shared because it does not have sharing permission.</source>
-        <translation>此文件无法被共享，因它没有共享权限</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="417"/>
-        <source>Please enter a password for your link share:</source>
-        <translation>请输入您的共享链接密码：</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="418"/>
-        <source>Password for share required</source>
-        <translation>需要共享密码</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareLinkWidget</name>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="59"/>
-        <source>Share link</source>
-        <translation>共享链接</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="167"/>
-        <source>Note</source>
-        <translation>备注</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="244"/>
-        <source>Set password</source>
-        <translation>设置密码</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="315"/>
-        <source>Expires</source>
-        <translation>到期</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="184"/>
-        <source>Allow editing</source>
-        <translation>允许编辑</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="190"/>
-        <source>View only</source>
-        <translation>仅查看</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="196"/>
-        <source>Allow upload and editing</source>
-        <translation>允许上传和编辑</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="201"/>
-        <source>File drop (upload only)</source>
-        <translation>文件拖拽（仅上传）</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="219"/>
-        <source>Link name</source>
-        <translation>链接名称</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="251"/>
-        <source>Note to recipient</source>
-        <translation>接收人备注</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="261"/>
-        <source>Password protect</source>
-        <translation>密码保护</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="280"/>
-        <source>Set expiration date</source>
-        <translation>设置过期日期</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="302"/>
-        <source>Delete link</source>
-        <translation>删除链接</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="307"/>
-        <source>Add another link</source>
-        <translation>添加其他链接</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="503"/>
-        <source>Confirm Link Share Deletion</source>
-        <translation>确认删除共享链接</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="504"/>
-        <source>&lt;p&gt;Do you really want to delete the public link share &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;Note: This action cannot be undone.&lt;/p&gt;</source>
-        <translation>您真的想删除公开共享链接 &lt;i&gt;%1&lt;/i&gt;？&lt;p&gt;&lt;p&gt;注意：此操作无法撤销。&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="510"/>
-        <source>Delete</source>
-        <translation>删除</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="511"/>
-        <source>Cancel</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="529"/>
-        <source>Public link</source>
-        <translation>公开链接</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareUserGroupWidget</name>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.ui" line="74"/>
-        <source>Share with users or groups …</source>
-        <translation>与用户或分组共享...</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="123"/>
-        <source>Search globally</source>
-        <translation>全局搜索</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="321"/>
-        <source>Copy link</source>
-        <translation>复制链接</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="333"/>
-        <source>No results for &quot;%1&quot;</source>
-        <translation>没有 &quot;%1&quot;相关结果</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="367"/>
-        <source>Password for share required</source>
-        <translation>需要共享密码 </translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="368"/>
-        <source>Please enter a password for your email share:</source>
-        <translation>请为你的电邮共享输入一个密码：</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="421"/>
-        <source>I shared something with you</source>
-        <translation>我向您共享了一些东西</translation>
     </message>
 </context>
 </TS>

@@ -36,11 +36,13 @@ constexpr auto userC = "user";
 constexpr auto displayNameC = "displayName";
 constexpr auto httpUserC = "http_user";
 constexpr auto davUserC = "dav_user";
+constexpr auto webflowUserC = "webflow_user";
 constexpr auto shibbolethUserC = "shibboleth_shib_user";
 constexpr auto caCertsKeyC = "CaCertificates";
 constexpr auto accountsC = "Accounts";
 constexpr auto versionC = "version";
 constexpr auto serverVersionC = "serverVersion";
+constexpr auto skipE2eeMetadataChecksumValidationC = "skipE2eeMetadataChecksumValidation";
 constexpr auto generalC = "General";
 
 constexpr auto dummyAuthTypeC = "dummy";
@@ -69,7 +71,7 @@ AccountManager *AccountManager::instance()
     return &instance;
 }
 
-bool AccountManager::restore(bool alsoRestoreLegacySettings)
+AccountManager::AccountsRestoreResult AccountManager::restore(const bool alsoRestoreLegacySettings)
 {
     QStringList skipSettingsKeys;
     backwardMigrationSettingsKeys(&skipSettingsKeys, &skipSettingsKeys);
@@ -78,21 +80,22 @@ bool AccountManager::restore(bool alsoRestoreLegacySettings)
     if (settings->status() != QSettings::NoError || !settings->isWritable()) {
         qCWarning(lcAccountManager) << "Could not read settings from" << settings->fileName()
                                     << settings->status();
-        return false;
+        return AccountsRestoreFailure;
     }
 
     if (skipSettingsKeys.contains(settings->group())) {
         // Should not happen: bad container keys should have been deleted
         qCWarning(lcAccountManager) << "Accounts structure is too new, ignoring";
-        return true;
+        return AccountsRestoreSuccessWithSkipped;
     }
 
     // If there are no accounts, check the old format.
     if (settings->childGroups().isEmpty() && !settings->contains(QLatin1String(versionC)) && alsoRestoreLegacySettings) {
         restoreFromLegacySettings();
-        return true;
+        return AccountsRestoreSuccessFromLegacyVersion;
     }
 
+    auto result = AccountsRestoreSuccess;
     const auto settingsChildGroups = settings->childGroups();
     for (const auto &accountId : settingsChildGroups) {
         settings->beginGroup(accountId);
@@ -110,11 +113,12 @@ bool AccountManager::restore(bool alsoRestoreLegacySettings)
         } else {
             qCInfo(lcAccountManager) << "Account" << accountId << "is too new, ignoring";
             _additionalBlockedAccountIds.insert(accountId);
+            result = AccountsRestoreSuccessWithSkipped;
         }
         settings->endGroup();
     }
 
-    return true;
+    return result;
 }
 
 void AccountManager::backwardMigrationSettingsKeys(QStringList *deleteKeys, QStringList *ignoreKeys)
@@ -219,6 +223,7 @@ bool AccountManager::restoreFromLegacySettings()
                     settings = std::move(oCSettings);
                 }
 
+                ConfigFile::setDiscoveredLegacyConfigPath(configFileInfo.canonicalPath());
                 break;
             } else {
                 qCInfo(lcAccountManager) << "Migrate: could not read old config " << configFile;
@@ -286,6 +291,11 @@ void AccountManager::saveAccountHelper(Account *acc, QSettings &settings, bool s
     settings.setValue(QLatin1String(davUserC), acc->_davUser);
     settings.setValue(QLatin1String(displayNameC), acc->_displayName);
     settings.setValue(QLatin1String(serverVersionC), acc->_serverVersion);
+    if (!acc->_skipE2eeMetadataChecksumValidation) {
+        settings.remove(QLatin1String(skipE2eeMetadataChecksumValidationC));
+    } else {
+        settings.setValue(QLatin1String(skipE2eeMetadataChecksumValidationC), acc->_skipE2eeMetadataChecksumValidation);
+    }
 
     if (acc->_credentials) {
         if (saveCredentials) {
@@ -353,6 +363,8 @@ AccountPtr AccountManager::loadAccountHelper(QSettings &settings)
             authType = httpAuthTypeC;
         } else if (settings.contains(QLatin1String(shibbolethUserC))) {
             authType = shibbolethAuthTypeC;
+        } else if (settings.contains(webflowUserC)) {
+            authType = webflowAuthTypeC;
         }
     }
 
@@ -385,6 +397,7 @@ AccountPtr AccountManager::loadAccountHelper(QSettings &settings)
     qCInfo(lcAccountManager) << "Account for" << acc->url() << "using auth type" << authType;
 
     acc->_serverVersion = settings.value(QLatin1String(serverVersionC)).toString();
+    acc->_skipE2eeMetadataChecksumValidation = settings.value(QLatin1String(skipE2eeMetadataChecksumValidationC), {}).toBool();
     acc->_davUser = settings.value(QLatin1String(davUserC), "").toString();
 
     // We want to only restore settings for that auth type and the user value
@@ -529,6 +542,7 @@ void AccountManager::addAccountState(AccountState *accountState)
 
     AccountStatePtr ptr(accountState);
     _accounts << ptr;
+    ptr->trySignIn();
     emit accountAdded(accountState);
 }
 }

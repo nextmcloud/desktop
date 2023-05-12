@@ -33,11 +33,6 @@
         <source>Open file details</source>
         <translation type="unfinished"/>
     </message>
-    <message>
-        <location filename="../src/gui/tray/ActivityItemContent.qml" line="208"/>
-        <source>Open share dialog</source>
-        <translation>Åpne vindu for deling</translation>
-    </message>
 </context>
 <context>
     <name>ActivityList</name>
@@ -339,17 +334,17 @@
 <context>
     <name>OCC::Account</name>
     <message>
-        <location filename="../src/libsync/account.cpp" line="915"/>
+        <location filename="../src/libsync/account.cpp" line="927"/>
         <source>File %1 is already locked by %2.</source>
         <translation>Fil %1 er låst av %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="917"/>
+        <location filename="../src/libsync/account.cpp" line="929"/>
         <source>Lock operation on %1 failed with error %2</source>
         <translation>Låsing av %1 feilet med %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="919"/>
+        <location filename="../src/libsync/account.cpp" line="931"/>
         <source>Unlock operation on %1 failed with error %2</source>
         <translation type="unfinished"/>
     </message>
@@ -399,16 +394,6 @@
         <translation>Bruk manuelle endringer</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="92"/>
-        <source>End-to-End Encryption with Virtual Files</source>
-        <translation>Ende-til-ende-kryptering med virtuelle filer</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="93"/>
-        <source>You seem to have the Virtual Files feature enabled on this folder. At the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
-        <translation>Du ser ut til å ha funksjonen virtuelle filer aktivert på denne mappen. For øyeblikket er det ikke mulig å implisitt laste ned virtuelle filer som er ende-til-ende-kryptert. For å få den beste opplevelsen med virtuelle filer og ende-til-ende-kryptering, sørg for at den krypterte mappen er merket med &quot;Gjør alltid tilgjengelig lokalt&quot;.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="93"/>
         <source>End-to-end Encryption with Virtual Files</source>
         <translation type="unfinished"/>
@@ -417,11 +402,6 @@
         <location filename="../src/gui/accountsettings.cpp" line="94"/>
         <source>You seem to have the Virtual Files feature enabled on this folder. At the moment, it is not possible to implicitly download virtual files that are end-to-end encrypted. To get the best experience with virtual files and end-to-end encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="97"/>
-        <source>Don&apos;t encrypt folder</source>
-        <translation>Ikke krypter mappe</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="102"/>
@@ -454,11 +434,6 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1461"/>
-        <source>Enable encryption</source>
-        <translation>Aktiver kryptering</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="288"/>
         <source>Warning</source>
         <translation>Advarsel</translation>
@@ -475,12 +450,6 @@ Would you like to set up end-to-end encryption?</source>
 Wait for the new sync, then encrypt it.</source>
         <translation>Du kan ikke kryptere en mappe med innhold, vennligst fjern filene.
 Vent på den nye synkroniseringen, og krypter den deretter.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="249"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1458"/>
-        <source>This account supports End-to-End encryption</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="390"/>
@@ -615,11 +584,6 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
         <translation>Deaktiver support</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="979"/>
-        <source>End-to-End encryption mnemonic</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1014"/>
         <source>End-to-end encryption mnemonic</source>
         <translation type="unfinished"/>
@@ -750,21 +714,6 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
         <translation>Denne kontoen støtter ende-til-ende kryptering</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1398"/>
-        <source>Confirm Account Removal</source>
-        <translation>Bekreft fjerning av konto</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1399"/>
-        <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Vil du virkelig fjerne tilkoblingen til kontoen &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Merk:&lt;/b&gt; Dette vil &lt;b&gt;ikke&lt;/b&gt; slette noen filer.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1404"/>
-        <source>Remove connection</source>
-        <translation>Fjern tilkobling</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1569"/>
         <source>Set up encryption</source>
         <translation type="unfinished"/>
@@ -849,11 +798,6 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
         <translation>For flere aktiviteter, åpne Aktivitetsappen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="488"/>
-        <source>Fetching activities…</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/tray/activitylistmodel.cpp" line="509"/>
         <source>Fetching activities …</source>
         <translation>Henter aktiviteter…</translation>
@@ -910,21 +854,6 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
 <context>
     <name>OCC::Application</name>
     <message>
-        <location filename="../src/gui/application.cpp" line="150"/>
-        <source>Continuing will mean &lt;b&gt;deleting these settings&lt;/b&gt;.</source>
-        <translation>Å fortsette betyr &lt;b&gt;slette disse innstillingene&lt;/b&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="152"/>
-        <source>Continuing will mean &lt;b&gt;ignoring these settings&lt;/b&gt;.</source>
-        <translation>Å fortsette betyr &lt;b&gt;ignorere disse innstillingene&lt;/b&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="158"/>
-        <source>Some settings were configured in newer versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;%1&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%2&lt;/i&gt;.</source>
-        <translation>Enkelte innstillinger er konfigurert i nyere versjon av denne klienten og bruker funksjoner som ikke er tilgjengelig i denne versjonen.&lt;br&gt;&lt;br&gt;%1&lt;br&gt;&lt;br&gt;Konfigurasjonsfil er allerede sikkerhetskopiert til &lt;i&gt;%2&lt;/i&gt;.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/application.cpp" line="176"/>
         <source>Some settings were configured in %1 versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;Continuing will mean &lt;b&gt;%2 these settings&lt;/b&gt;.&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%3&lt;/i&gt;.</source>
         <translation type="unfinished"/>
@@ -967,22 +896,17 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
         <translation>Fortsett</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="389"/>
+        <location filename="../src/gui/application.cpp" line="393"/>
         <source>Error accessing the configuration file</source>
         <translation>Feil ved lesing av konfigurasjonsfil</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="335"/>
-        <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your user.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="390"/>
+        <location filename="../src/gui/application.cpp" line="394"/>
         <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your system account.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="393"/>
+        <location filename="../src/gui/application.cpp" line="397"/>
         <source>Quit %1</source>
         <translation>Avslutt %1</translation>
     </message>
@@ -1003,11 +927,6 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
         <location filename="../src/gui/authenticationdialog.cpp" line="37"/>
         <source>&amp;Username:</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/authenticationdialog.cpp" line="37"/>
-        <source>&amp;User:</source>
-        <translation>&amp;Bruker:</translation>
     </message>
     <message>
         <location filename="../src/gui/authenticationdialog.cpp" line="38"/>
@@ -1082,11 +1001,6 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/caseclashconflictsolver.cpp" line="78"/>
-        <source>Cannot rename file because a file with the same name does already exist on the server. Please pick another name.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/libsync/caseclashconflictsolver.cpp" line="121"/>
         <source>Could not rename file. Please make sure you are connected to the server.</source>
         <translation type="unfinished"/>
@@ -1145,11 +1059,6 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/caseclashfilenamedialog.ui" line="60"/>
-        <source>fileA</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="107"/>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="213"/>
         <source>today</source>
@@ -1175,11 +1084,6 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
     <message>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="172"/>
         <source>file B</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/caseclashfilenamedialog.ui" line="172"/>
-        <source>fileB</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1242,23 +1146,13 @@ Denne handlingen vil avbryte enhver synkronisering som kjører.</translation>
 <context>
     <name>OCC::CleanupPollsJob</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1529"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1533"/>
         <source>Error writing metadata to the database</source>
         <translation>Feil ved skriving av metadata til databasen</translation>
     </message>
 </context>
 <context>
     <name>OCC::ClientSideEncryption</name>
-    <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1228"/>
-        <source>Please enter your End-to-End encryption passphrase:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1241"/>
-        <source>Please enter your end to end encryption passphrase:&lt;br&gt;&lt;br&gt;User: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <location filename="../src/libsync/clientsideencryption.cpp" line="1369"/>
         <source>Please enter your end-to-end encryption passphrase:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
@@ -1938,127 +1832,107 @@ If this was an accident and you decide to keep your files, they will be re-synce
 <context>
     <name>OCC::FolderMan</name>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="411"/>
+        <location filename="../src/gui/folderman.cpp" line="414"/>
         <source>Could not reset folder state</source>
         <translation>Klarte ikke å tilbakestille mappetilstand</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="412"/>
+        <location filename="../src/gui/folderman.cpp" line="415"/>
         <source>An old sync journal &quot;%1&quot; was found, but could not be removed. Please make sure that no application is currently using it.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1339"/>
+        <location filename="../src/gui/folderman.cpp" line="1337"/>
         <source> (backup)</source>
         <translation> (sikkerhetskopi)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1344"/>
+        <location filename="../src/gui/folderman.cpp" line="1342"/>
         <source> (backup %1)</source>
         <translation> (sikkerhetskopi %1)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1500"/>
-        <source>Undefined State.</source>
-        <translation>Udefinert tilstand.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1606"/>
+        <location filename="../src/gui/folderman.cpp" line="1604"/>
         <source>Undefined state.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1609"/>
+        <location filename="../src/gui/folderman.cpp" line="1607"/>
         <source>Waiting to start syncing.</source>
         <translation>Venter på å starte synkronisering.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1612"/>
+        <location filename="../src/gui/folderman.cpp" line="1610"/>
         <source>Preparing for sync.</source>
         <translation>Forbereder synkronisering.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1615"/>
+        <location filename="../src/gui/folderman.cpp" line="1613"/>
         <source>Sync is running.</source>
         <translation>Synkronisering kjører.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1620"/>
+        <location filename="../src/gui/folderman.cpp" line="1618"/>
         <source>Sync finished with unresolved conflicts.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1516"/>
-        <source>Last Sync was successful.</source>
-        <translation>Siste synkronisering var vellykket.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1522"/>
-        <source>Setup Error.</source>
-        <translation>Feil med oppsett.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1525"/>
-        <source>User Abort.</source>
-        <translation>Brukeravbrudd.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1622"/>
+        <location filename="../src/gui/folderman.cpp" line="1620"/>
         <source>Last sync was successful.</source>
         <translation>Siste synkronisering var vellykket.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1628"/>
+        <location filename="../src/gui/folderman.cpp" line="1626"/>
         <source>Setup error.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1631"/>
+        <location filename="../src/gui/folderman.cpp" line="1629"/>
         <source>Sync request was cancelled.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1634"/>
+        <location filename="../src/gui/folderman.cpp" line="1632"/>
         <source>Sync is paused.</source>
         <translation>Synkronisering er satt på pause.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1640"/>
+        <location filename="../src/gui/folderman.cpp" line="1638"/>
         <source>%1 (Sync is paused)</source>
         <translation>%1 (Synkronisering er satt på pause)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1648"/>
+        <location filename="../src/gui/folderman.cpp" line="1646"/>
         <source>No valid folder selected!</source>
         <translation>Ingen gyldig mappe valgt!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1660"/>
+        <location filename="../src/gui/folderman.cpp" line="1658"/>
         <source>The selected path does not exist!</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1664"/>
+        <location filename="../src/gui/folderman.cpp" line="1662"/>
         <source>The selected path is not a folder!</source>
         <translation>Den valgte stien er ikke en mappe!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1668"/>
+        <location filename="../src/gui/folderman.cpp" line="1666"/>
         <source>You have no permission to write to the selected folder!</source>
         <translation>Du har ikke skrivetilgang til den valgte mappen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1720"/>
+        <location filename="../src/gui/folderman.cpp" line="1718"/>
         <source>The local folder %1 already contains a folder used in a folder sync connection. Please pick another one!</source>
         <translation>Den lokale mappen %1 inneholder allerede en mappe brukt i en mappe-synkronisering. Velg en annen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1728"/>
+        <location filename="../src/gui/folderman.cpp" line="1726"/>
         <source>The local folder %1 is already contained in a folder used in a folder sync connection. Please pick another one!</source>
         <translation>Den lokale mappen %1 er allerede en undermappe av en mappe brukt i en mappe-synkronisering. Velg en annen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1744"/>
+        <location filename="../src/gui/folderman.cpp" line="1742"/>
         <source>There is already a sync from the server to this local folder. Please pick another local folder!</source>
         <translation>Det er allerede en synkronisering fra serveren til denne lokale mappen. Velg en annen mappe!</translation>
     </message>
@@ -2066,12 +1940,12 @@ If this was an accident and you decide to keep your files, they will be re-synce
 <context>
     <name>OCC::FolderStatusDelegate</name>
     <message>
-        <location filename="../src/gui/folderstatusdelegate.cpp" line="48"/>
+        <location filename="../src/gui/folderstatusdelegate.cpp" line="55"/>
         <source>Add Folder Sync Connection</source>
         <translation>Legg til mappe-synkronisering</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderstatusdelegate.cpp" line="296"/>
+        <location filename="../src/gui/folderstatusdelegate.cpp" line="299"/>
         <source>File</source>
         <translation>Fil</translation>
     </message>
@@ -2517,7 +2391,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="319"/>
-        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <location filename="../src/gui/generalsettings.cpp" line="463"/>
         <source>Create Debug Archive</source>
         <translation>Opprett debugging-fil</translation>
     </message>
@@ -2537,39 +2411,39 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="355"/>
+        <location filename="../src/gui/generalsettings.cpp" line="344"/>
         <source>Change update channel?</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="356"/>
+        <location filename="../src/gui/generalsettings.cpp" line="345"/>
         <source>The update channel determines which client updates will be offered for installation. The &quot;stable&quot; channel contains only upgrades that are considered reliable, while the versions in the &quot;beta&quot; channel may contain newer features and bugfixes, but have not yet been tested thoroughly.
 
 Note that this selects only what pool upgrades are taken from, and that there are no downgrades: So going back from the beta channel to the stable channel usually cannot be done immediately and means waiting for a stable version that is newer than the currently installed beta version.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="369"/>
+        <location filename="../src/gui/generalsettings.cpp" line="358"/>
         <source>Change update channel</source>
         <translation>Endre oppdateringskanal</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="370"/>
+        <location filename="../src/gui/generalsettings.cpp" line="359"/>
         <source>Cancel</source>
         <translation>Avbryt</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <location filename="../src/gui/generalsettings.cpp" line="463"/>
         <source>Zip Archives</source>
         <translation>Zip-arkiv</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="480"/>
+        <location filename="../src/gui/generalsettings.cpp" line="469"/>
         <source>Debug Archive Created</source>
         <translation>Debugging-fil opprettet</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="480"/>
+        <location filename="../src/gui/generalsettings.cpp" line="469"/>
         <source>Debug archive is created at %1</source>
         <translation>Debugging-fil er opprettet under %1</translation>
     </message>
@@ -2607,11 +2481,6 @@ Note that this selects only what pool upgrades are taken from, and that there ar
         <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="97"/>
         <source>Please enter %1 password:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="97"/>
-        <source>Please enter %1 password:&lt;br&gt;&lt;br&gt;User: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation>Legg inn %1-passord:&lt;br&gt;&lt;br&gt;Bruker: %2&lt;br&gt;Konto: %3&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="111"/>
@@ -2755,11 +2624,6 @@ Items where deletion is allowed will be deleted if they prevent a directory from
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/invalidfilenamedialog.cpp" line="96"/>
-        <source>Checking rename permissions...</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="99"/>
         <source>Checking rename permissions …</source>
         <translation type="unfinished"/>
@@ -2834,11 +2698,6 @@ Items where deletion is allowed will be deleted if they prevent a directory from
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/legalnotice.cpp" line="55"/>
-        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/legalnotice.cpp" line="58"/>
         <source>&lt;p&gt;Licensed under the GNU General Public License (GPL) Version 2.0 or any later version.&lt;/p&gt;</source>
         <translation type="unfinished"/>
@@ -2899,12 +2758,6 @@ Note that using any logging command line options will override this setting.</so
         <location filename="../src/gui/updater/ocupdater.cpp" line="414"/>
         <source>&lt;p&gt;A new version of the %1 Client is available.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; is available for download. The installed version is %3.&lt;/p&gt;</source>
         <translation>&lt;p&gt;En ny versjon av %1-klienten er tilgjengelig.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; er tilgjengelig for nedlasting. Installert versjon er %3.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/updater/ocupdater.cpp" line="426"/>
-        <location filename="../src/gui/updater/ocupdater.cpp" line="476"/>
-        <source>Skip this version</source>
-        <translation>Hopp over denne versjonen</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="427"/>
@@ -3080,11 +2933,6 @@ Note that using any logging command line options will override this setting.</so
     <message>
         <location filename="../src/gui/creds/oauth.cpp" line="140"/>
         <source>&lt;h1&gt;Wrong account&lt;/h1&gt;&lt;p&gt;You logged in with the account &lt;em&gt;%1&lt;/em&gt;, but must log in with the account &lt;em&gt;%2&lt;/em&gt;.&lt;br&gt;Please log out of %3 in another tab, then &lt;a href=&apos;%4&apos;&gt;click here&lt;/a&gt; and log in with %2.&lt;/p&gt;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/creds/oauth.cpp" line="140"/>
-        <source>&lt;h1&gt;Wrong user&lt;/h1&gt;&lt;p&gt;You logged-in with user &lt;em&gt;%1&lt;/em&gt;, but must login with user &lt;em&gt;%2&lt;/em&gt;.&lt;br&gt;Please log out of %3 in another tab, then &lt;a href=&apos;%4&apos;&gt;click here&lt;/a&gt; and log in as user %2&lt;/p&gt;</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -3290,13 +3138,13 @@ Note that using any logging command line options will override this setting.</so
 <context>
     <name>OCC::OwncloudPropagator</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="658"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="662"/>
         <source>Error with the metadata. Getting unexpected metadata format.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="870"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="947"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="874"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="951"/>
         <source>Impossible to get modification time for file in conflict %1</source>
         <translation type="unfinished"/>
     </message>
@@ -3706,22 +3554,22 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateDirectory</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1302"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1306"/>
         <source>could not delete file %1 from local DB</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1316"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1320"/>
         <source>Error updating metadata due to invalid modification time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1332"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1336"/>
         <source>Error updating metadata: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1336"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1340"/>
         <source>File is currently in use</source>
         <translation type="unfinished"/>
     </message>
@@ -3748,12 +3596,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/propagatedownload.cpp" line="512"/>
         <location filename="../src/libsync/propagatedownload.cpp" line="1293"/>
         <source>Could not delete file record %1 from local DB</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="521"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="626"/>
-        <source>File %1 cannot be downloaded because of a local file name clash!</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3785,11 +3627,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/propagatedownload.cpp" line="897"/>
         <source>The downloaded file is empty, but the server said it should have been %1.</source>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1119"/>
-        <source>File %1 cannot be saved because of a local file name clash!</source>
-        <translation>Fil %1 kan ikke lagres på grunn av lokal konflikt med filnavn.</translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="1158"/>
@@ -3834,11 +3671,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>klarte ikke å slette fil %1, feil: %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
-        <source>Attention, possible case sensitivity clash with %1</source>
-        <translation>Merk! mulig sammenfall med %1 pga. sensitivitet for store/små bokstaver</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
         <source>Folder %1 cannot be created because of a local file or folder name clash!</source>
         <translation type="unfinished"/>
@@ -3874,11 +3706,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 </context>
 <context>
     <name>OCC::PropagateLocalRename</name>
-    <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="248"/>
-        <source>File %1 cannot be renamed to %2 because of a local file name clash</source>
-        <translation type="unfinished"/>
-    </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="254"/>
         <source>File %1 downloaded but it resulted in a local file name clash!</source>
@@ -4195,11 +4022,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <source>Reply</source>
         <translation>Svar</translation>
     </message>
-    <message>
-        <location filename="../src/gui/tray/notificationhandler.cpp" line="159"/>
-        <source>Dismiss</source>
-        <translation>Forkast</translation>
-    </message>
 </context>
 <context>
     <name>OCC::SettingsDialog</name>
@@ -4233,37 +4055,37 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::ShareModel</name>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Secure file drop link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Share link</source>
         <translation>Del lenke</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="595"/>
-        <source>Link share</source>
-        <translation>Lenkedeling</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="597"/>
-        <source>Internal link</source>
-        <translation>Intern lenke</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Secure filedrop link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="599"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="646"/>
+        <source>Link share</source>
+        <translation>Lenkedeling</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="648"/>
+        <source>Internal link</source>
+        <translation>Intern lenke</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="650"/>
         <source>Secure file drop</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="856"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="939"/>
         <source>Enter a note for the recipient</source>
         <translation>Skriv inn en melding for mottakeren</translation>
     </message>
@@ -4294,46 +4116,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/shareuserline.ui" line="277"/>
         <source>Expires:</source>
         <translation>Utløper:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="487"/>
-        <source>Can reshare</source>
-        <translation>Kan dele videre</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="498"/>
-        <source>Note to recipient</source>
-        <translation>Melding til mottaker</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="514"/>
-        <source>Set expiration date</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="529"/>
-        <source>Unshare</source>
-        <translation>Avslutt deling</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="538"/>
-        <source>Can create</source>
-        <translation>kan opprette</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="544"/>
-        <source>Can change</source>
-        <translation>Kan endre</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="550"/>
-        <source>Can delete</source>
-        <translation>Kan slette</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="559"/>
-        <source>Password protect</source>
-        <translation>Passordbeskytt</translation>
     </message>
 </context>
 <context>
@@ -4431,12 +4213,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1137"/>
         <source>Send private link by email …</source>
         <translation>Send privat lenke på e-post...</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1105"/>
-        <source>Expire in %1 minutes</source>
-        <comment>remaining time before lock expire</comment>
-        <translation><numerusform>Utløper om %1 minutt</numerusform><numerusform>Utløper om %1 minutter</numerusform></translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1162"/>
@@ -4816,17 +4592,12 @@ Server replied with error: %2</source>
         <translation>Kan ikke åpne synkroniseringsjournalen</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1067"/>
-        <source>Synchronization will resume shortly.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1209"/>
+        <location filename="../src/libsync/syncengine.cpp" line="1214"/>
         <source>Disk space is low: Downloads that would reduce free space below %1 were skipped.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1216"/>
+        <location filename="../src/libsync/syncengine.cpp" line="1221"/>
         <source>There is insufficient space available on the server for some uploads.</source>
         <translation type="unfinished"/>
     </message>
@@ -4972,11 +4743,6 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="571"/>
-        <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/libsync/theme.cpp" line="576"/>
         <source>&lt;p&gt;This release was supplied by %1.&lt;/p&gt;</source>
         <translation type="unfinished"/>
@@ -5050,33 +4816,8 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="144"/>
-        <source>Could not fetch user status. Make sure you are connected to the server.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="148"/>
-        <source>User status feature is not supported. You will not be able to set your user status.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="152"/>
-        <source>Emojis feature is not supported. Some user status functionality may not work.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="156"/>
-        <source>Could not set user status. Make sure you are connected to the server.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/userstatusselectormodel.cpp" line="159"/>
         <source>Could not fetch status. Make sure you are connected to the server.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="160"/>
-        <source>Could not clear user status message. Make sure you are connected to the server.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5211,18 +4952,8 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/creds/webflowcredentials.cpp" line="166"/>
-        <source>You have been logged out of %1 as user %2. Please login again.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/creds/webflowcredentials.cpp" line="190"/>
         <source>Please login with the account: %1</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/creds/webflowcredentials.cpp" line="190"/>
-        <source>Please login with the user: %1</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -5239,19 +4970,8 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/welcomepage.ui" line="143"/>
-        <location filename="../src/gui/wizard/welcomepage.cpp" line="89"/>
-        <source>Log in to your %1</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/wizard/welcomepage.ui" line="156"/>
         <source>Sign up with provider</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/wizard/welcomepage.ui" line="156"/>
-        <source>Create account with Provider</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5419,11 +5139,6 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="116"/>
         <source>Local Folder</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="121"/>
-        <source>User name</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -5631,26 +5346,21 @@ Server replied with error: %2</source>
         <extracomment>this displays an error string (%2) for a file %1</extracomment>
         <translation>%1: %2</translation>
     </message>
-    <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="805"/>
-        <source>Mark as read</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>ShareDelegate</name>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="160"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="162"/>
         <source>Create a new share link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="180"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="182"/>
         <source>Copy share link location</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="209"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="211"/>
         <source>Share options</source>
         <translation type="unfinished"/>
     </message>
@@ -5658,57 +5368,73 @@ Server replied with error: %2</source>
 <context>
     <name>ShareDetailsPage</name>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="88"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="95"/>
         <source>An error occurred setting the share password.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="221"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="219"/>
         <source>Edit share</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="238"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="236"/>
         <source>Dismiss</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="297"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="295"/>
         <source>Share label</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="330"/>
-        <source>Allow editing</source>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="326"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="373"/>
+        <source>Allow upload and editing</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="359"/>
+        <source>View only</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="394"/>
+        <source>File drop (upload only)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="421"/>
+        <source>Hide download</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="447"/>
         <source>Password protect</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="464"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="552"/>
         <source>Set expiration date</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="655"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="743"/>
         <source>Note to recipient</source>
         <translation>Melding til mottaker</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="723"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="811"/>
         <source>Unshare</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="740"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="828"/>
         <source>Add another link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="771"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="859"/>
         <source>Copy share link</source>
         <translation type="unfinished"/>
     </message>
@@ -5726,17 +5452,17 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="292"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="294"/>
         <source>Sharing is disabled</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="300"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="302"/>
         <source>This item cannot be shared.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="309"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="311"/>
         <source>Sharing is disabled.</source>
         <translation type="unfinished"/>
     </message>
@@ -5760,7 +5486,7 @@ Server replied with error: %2</source>
 <context>
     <name>SyncStatus</name>
     <message>
-        <location filename="../src/gui/tray/SyncStatus.qml" line="116"/>
+        <location filename="../src/gui/tray/SyncStatus.qml" line="118"/>
         <source>Sync now</source>
         <translation type="unfinished"/>
     </message>
@@ -5775,6 +5501,54 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/TalkReplyTextField.qml" line="53"/>
         <source>Send reply to chat message</source>
+        <translation type="unfinished"/>
+    </message>
+</context>
+<context>
+    <name>TrayFoldersMenuButton</name>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="56"/>
+        <source>Open local or group folders</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="56"/>
+        <source>Open local folder</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="71"/>
+        <source>Connected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="71"/>
+        <source>Disconnected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="110"/>
+        <source>Group folder button</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="185"/>
+        <source>Open local folder &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="185"/>
+        <source>Open group folder &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="197"/>
+        <source>Open %1 in file explorer</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="202"/>
+        <source>User group and local folders menu</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -5829,11 +5603,6 @@ Server replied with error: %2</source>
 <context>
     <name>UserLine</name>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="15"/>
-        <source>Account entry</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="19"/>
         <source>Switch to account</source>
         <translation>Bytt til konto</translation>
@@ -5846,16 +5615,6 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="64"/>
         <source>Current account status is do not disturb</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="89"/>
-        <source>Current user status is online</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="89"/>
-        <source>Current user status is do not disturb</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -6055,11 +5814,6 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="219"/>
-        <source>Set user status</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="347"/>
         <source>Add account</source>
         <translation>Legg til en konto</translation>
@@ -6080,21 +5834,6 @@ Server replied with error: %2</source>
         <translation>Avslutt</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="373"/>
-        <source>Current user avatar</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="412"/>
-        <source>Current user status is online</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="412"/>
-        <source>Current user status is do not disturb</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="463"/>
         <source>Current account avatar</source>
         <translation type="unfinished"/>
@@ -6110,11 +5849,6 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="851"/>
-        <source>%1 - File activity</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="578"/>
         <source>Account switcher and settings menu</source>
         <translation type="unfinished"/>
@@ -6122,6 +5856,11 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="597"/>
         <source>Open local folder of current account</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/Window.qml" line="656"/>
+        <source>Open Nextcloud Talk in browser</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -6133,11 +5872,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/tray/Window.qml" line="620"/>
         <source>Disconnected</source>
         <translation>Frakoblet</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="656"/>
-        <source>Open Nextcloud Talk in browser</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="676"/>
@@ -6384,228 +6118,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/guiutility.cpp" line="105"/>
         <source>Free up local space</source>
         <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>OCC::AccountManager</name>
-    <message>
-        <location filename="../src/gui/accountmanager.cpp" line="406"/>
-        <source>End to end encryption mnemonic</source>
-        <translation>Ende-til-ende -kryptering mnemonic</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountmanager.cpp" line="407"/>
-        <source>To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. Please note these down and keep them safe. They will be needed to add other devices to your account (like your mobile phone or laptop).</source>
-        <translation>For å beskytte din kryptografiske identitet, krypterer vi den med en mnemonic med 12 ordbok ord. Vennligst noter disse ned og oppbevar dem trygt. De vil være nødvendige for å legge til andre enheter på kontoen din (som mobiltelefonen eller den bærbare datamaskinen).</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::InternalLinkWidget</name>
-    <message>
-        <location filename="../src/gui/internallinkwidget.ui" line="64"/>
-        <source>Internal link</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/internallinkwidget.ui" line="83"/>
-        <source>Only works for users with access to this folder</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareDialog</name>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="69"/>
-        <source>share label</source>
-        <translation>Tittel for deling</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="124"/>
-        <source>Nextcloud Path:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="155"/>
-        <source>Icon</source>
-        <translation>Ikon</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="96"/>
-        <source>%1</source>
-        <translation>%1</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/sharedialog.cpp" line="105"/>
-        <source>Locked by %1 - Expire in %2 minutes</source>
-        <comment>remaining time before lock expire</comment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/sharedialog.cpp" line="106"/>
-        <source>Locked by %1 - Expires in %2 minutes</source>
-        <comment>remaining time before lock expires</comment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="127"/>
-        <source>Folder: %2</source>
-        <translation>Mappe: %2</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="130"/>
-        <source>%1 Sharing</source>
-        <translation>%1 deler</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="332"/>
-        <source>The file cannot be shared because it does not have sharing permission.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="417"/>
-        <source>Please enter a password for your link share:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="418"/>
-        <source>Password for share required</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareLinkWidget</name>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="59"/>
-        <source>Share link</source>
-        <translation>Del lenke</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="167"/>
-        <source>Note</source>
-        <translation>Melding</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="244"/>
-        <source>Set password</source>
-        <translation>Sett passord</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="315"/>
-        <source>Expires</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="184"/>
-        <source>Allow editing</source>
-        <translation>Tillat redigering</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="190"/>
-        <source>View only</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="196"/>
-        <source>Allow upload and editing</source>
-        <translation>Tillatt opplasting og redigering</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="201"/>
-        <source>File drop (upload only)</source>
-        <translation>Filkasse (kun opplasting)</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="219"/>
-        <source>Link name</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="251"/>
-        <source>Note to recipient</source>
-        <translation>Melding til mottaker</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="261"/>
-        <source>Password protect</source>
-        <translation>Passordbeskyttelse</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="280"/>
-        <source>Set expiration date</source>
-        <translation>Sett utløpsdato</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="302"/>
-        <source>Delete link</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="307"/>
-        <source>Add another link</source>
-        <translation>Legg til en ny lenke</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="503"/>
-        <source>Confirm Link Share Deletion</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="504"/>
-        <source>&lt;p&gt;Do you really want to delete the public link share &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;Note: This action cannot be undone.&lt;/p&gt;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="510"/>
-        <source>Delete</source>
-        <translation>Slett</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="511"/>
-        <source>Cancel</source>
-        <translation>Avbryt</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="529"/>
-        <source>Public link</source>
-        <translation>Offentlig lenke</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareUserGroupWidget</name>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.ui" line="74"/>
-        <source>Share with users or groups …</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="123"/>
-        <source>Search globally</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="321"/>
-        <source>Copy link</source>
-        <translation>Kopier lenke</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="333"/>
-        <source>No results for &quot;%1&quot;</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="367"/>
-        <source>Password for share required</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="368"/>
-        <source>Please enter a password for your email share:</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="421"/>
-        <source>I shared something with you</source>
-        <translation>Jeg delte noe med deg</translation>
     </message>
 </context>
 </TS>
