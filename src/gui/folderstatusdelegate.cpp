@@ -305,9 +305,9 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         cg = QPalette::Inactive;
 
     if (option.state & QStyle::State_Selected) {
-        painter->setPen(palette.color(colourGroup, QPalette::HighlightedText));
+        painter->setPen(palette.color(cg, QPalette::HighlightedText));
     } else {
-        painter->setPen(palette.color(colourGroup, QPalette::Text));
+        painter->setPen(palette.color(cg, QPalette::Text));
     }
 
     const auto elidedAlias = aliasFm.elidedText(aliasText, Qt::ElideRight, aliasRect.width());
