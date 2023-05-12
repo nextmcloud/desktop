@@ -1,0 +1,45 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"src/cmd/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 46,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "bin",
+			"paths" : 
+			[
+				"bin/RelWithDebInfo/nextcloudcmd.exe"
+			],
+			"targetId" : "nextcloudcmd::@a06a006299655a6d74e5",
+			"targetIndex" : 78,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "src/cmd",
+		"source" : "src/cmd"
+	}
+}

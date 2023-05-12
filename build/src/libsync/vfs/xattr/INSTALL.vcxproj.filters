@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\9cd394b96b39d165971a5d1d840ce4db\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{259E397A-EA72-342F-A0AE-F5E5AD4EFCBA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

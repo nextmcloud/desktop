@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\b27f5e54113238bdbae4e84922510642\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{259E397A-EA72-342F-A0AE-F5E5AD4EFCBA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

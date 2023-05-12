@@ -1,0 +1,4 @@
+#ifndef CONFIG_GUI_H
+#define CONFIG_GUI_H
+#define APPLICATION_FOLDER_ICON_INDEX "1"
+#endif

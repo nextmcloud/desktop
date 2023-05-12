@@ -1,0 +1,46 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"src/gui/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "nextcloudCore::@7675e61a69a6135e3026"
+		},
+		{
+			"id" : "updater::@7675e61a69a6135e3026"
+		},
+		{
+			"id" : "nextcloud::@7675e61a69a6135e3026"
+		},
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "CMakePredefinedTargets"
+	},
+	"id" : "ALL_BUILD::@7675e61a69a6135e3026",
+	"isGeneratorProvided" : true,
+	"name" : "ALL_BUILD",
+	"paths" : 
+	{
+		"build" : "src/gui",
+		"source" : "src/gui"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

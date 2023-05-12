@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ *
+ * Copyright (C) by Michael Schuster <michael@schuster.ms>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
+ *
+-->
+<Include>
+
+    <!-- Changing the Vendor breaks registry (also NSIS) product detection -->
+    <?define AppVendor = "Nextcloud GmbH" ?>
+
+    <!-- App Defines -->
+    <?define AppName = "Nextcloud" ?>
+    <?define AppShortName = "nextcloud" ?>
+
+    <?define AppIcon = "Nextcloud.ico" ?>
+    <?define AppExe = "nextcloud.exe" ?>
+
+    <?define AppHelpLink = "https://nextcloud.com/" ?>
+    <?define AppInfoLink = "$(var.AppHelpLink)" ?>
+	
+	<?define AppCommandOpenUrlScheme = "nc" ?>
+
+    <!-- Custom license: To use it, also remove the "Skip the license page" stuff in the <UI> section
+                         and uncomment <WixVariable Id="WixUILicenseRtf"...
+    <?define AppLicenseRtf = "path\License.rtf" ?>
+    -->
+
+    <!-- App Version -->
+    <?define VerMajor = "3" ?>
+    <?define VerMinor = "8" ?>
+    <?define VerRevision = "50" ?>
+    <?define VerBuild = "20230512" ?>
+    <?define VerStd = "$(var.VerMajor).$(var.VerMinor).$(var.VerRevision)" ?>
+    <?define VerFull = "$(var.VerStd).$(var.VerBuild)" ?>
+
+    <?define VerDesc = "3.8.50daily-Win64 (build 20230512) (Git revision 67f99ef)" ?>
+
+    <!-- MSI upgrade support -->
+    <?define UpgradeCode = "FD2FCCA9-BB8F-4485-8F70-A0621B84A7F4" ?>
+
+    <!-- UI resources -->
+    <?define UIBannerBmp = "banner.bmp" ?>
+    <?define UIDialogBmp = "dialog.bmp" ?>
+
+</Include>

@@ -1,0 +1,61 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"admin/win/tools/NCMsiHelper/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 38,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "msi",
+			"paths" : 
+			[
+				"admin/win/tools/NCMsiHelper/Debug/NCMsiHelper64.dll"
+			],
+			"targetId" : "NCMsiHelper64::@32e5155d92438a1eb57b",
+			"targetIndex" : 36,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "msi",
+			"paths" : 
+			[
+				"admin/win/tools/NCMsiHelper/NCMsiHelper.wxs"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "admin/win/tools/NCMsiHelper",
+		"source" : "admin/win/tools/NCMsiHelper"
+	}
+}

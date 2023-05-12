@@ -9,31 +9,6 @@
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-256.png">theme/colored/256-@APPLICATION_ICON_NAME@-icon.png</file>
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-512.png">theme/colored/512-@APPLICATION_ICON_NAME@-icon.png</file>
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-1024.png">theme/colored/1024-@APPLICATION_ICON_NAME@-icon.png</file>
-        <file>theme/magenta/logomc.svg</file>
-        <file>theme/magenta/status.png</file>
-        <file>theme/magenta/radio_checked.svg</file>
-        <file>theme/magenta/checkedbox_checked.svg</file>
-        <file>theme/magenta/folder.svg</file>
-        <file>theme/magenta/Product-icon.svg</file>
-        <file>theme/magenta/folder_magenta.svg</file>
-        <file>theme/magenta/folder/default@svg.svg</file>
-        <file>theme/magenta/news/default@svg.svg</file>
-        <file>theme/magenta/user/default@svg.svg</file>
-        <file>theme/magenta/user/default-32x32px.svg</file>
-        <file>theme/magenta/user/default-32x32px-magenta.svg</file>
-        <file>theme/magenta/MagentaCLOUD_App-Icon-whitespace.svg</file>
-        <file>theme/magenta/user/default.png</file>
-        <file>theme/magenta/user/default@3x.png</file>
-        <file>theme/magenta/share/default@svg.svg</file>
-        <file>theme/magenta/share/default.png</file>
-        <file>theme/magenta/action/circle-close/default@svg.svg</file>
-        <file>theme/magenta/action/circle-close/default.png</file>
-        <file>theme/magenta/action/logout/default@svg.svg</file>
-        <file>theme/magenta/action/logout/default.png</file>
-        <file>theme/magenta/action/pause/default@svg.svg</file>
-        <file>theme/magenta/action/pause/default.png</file>
-        <file>theme/magenta/action/settings/default@svg.svg</file>
-        <file>theme/magenta/action/settings/default.png</file>
         <file>theme/colored/state-error-32.png</file>
         <file>theme/colored/state-error-64.png</file>
         <file>theme/colored/state-error-128.png</file>
@@ -91,7 +66,6 @@
         <file>theme/black/state-sync-256.png</file>
         <file>theme/colored/state-error.svg</file>
         <file>theme/colored/state-error-16.png</file>
-        <file>theme/colored/icon-offline.svg</file>
         <file>theme/colored/state-offline.svg</file>
         <file>theme/colored/state-offline-16.png</file>
         <file>theme/colored/state-offline-32.png</file>
@@ -220,7 +194,6 @@
         <file>theme/black/user.svg</file>
         <file>theme/white/add.svg</file>
         <file>theme/black/add.svg</file>
-        <file>theme/black/add-circle.svg</file>
         <file>theme/black/activity.svg</file>
         <file>theme/black/bell.svg</file>
         <file>theme/black/wizard-talk.svg</file>
@@ -233,8 +206,6 @@
         <file>theme/files.svg</file>
         <file>theme/public.svg</file>
         <file>theme/settings.svg</file>
-        <file>theme/settings_magenta.svg</file>
-        <file>theme/Combined Shape.svg</file>
         <file>theme/confirm.svg</file>
         <file>theme/copy.svg</file>
         <file>theme/more.svg</file>
@@ -245,7 +216,6 @@
         <file>theme/lock-https.svg</file>
         <file>theme/lock-broken.svg</file>
         <file>theme/network.svg</file>
-        <file>theme/network_magenta.svg</file>
         <file>theme/account.svg</file>
         <file>theme/colored/add.svg</file>
         <file>theme/colored/add-bordered.svg</file>
@@ -262,25 +232,17 @@
         <file>theme/colored/user-status-invisible.svg</file>
         <file>theme/colored/user-status-away.svg</file>
         <file>theme/colored/user-status-dnd.svg</file>
-        <file>theme/colored/folder-ok.svg</file>
-        <file>theme/colored/folder-ok-16.png</file>
-        <file>theme/colored/folder-ok-32.png</file>
-        <file>theme/colored/folder-ok-64.png</file>
-        <file>theme/colored/folder-ok-128.png</file>
-        <file>theme/colored/folder-ok-256.png</file>
-        <file>theme/colored/circle-add-magenta.svg</file>
-        <file>theme/colored/circle-add-magenta-16.png</file>
-        <file>theme/colored/circle-add-magenta-32.png</file>
-        <file>theme/colored/circle-add-magenta-48.png</file>
-        <file>theme/colored/magentacloud-logo.svg</file>
-        <file>theme/colored/magentacloud-logo-16.png</file>
-        <file>theme/colored/magentacloud-logo-32.png</file>
-        <file>theme/colored/magentacloud-logo-48.png</file>
         <file>theme/magenta/localFolder_magenta.svg</file>
         <file>theme/magenta/localFolder32x32.svg</file>
         <file>theme/magenta/service32x32.svg</file>
         <file>theme/magenta/service_magenta.svg</file>
         <file>theme/magenta/network32x32.svg</file>
         <file>theme/magenta/network_magenta32x32.svg</file>
+        <file>theme/black/email.svg</file>
+        <file>theme/black/edit.svg</file>
+        <file>theme/delete.svg</file>
+        <file>theme/send.svg</file>
+        <file>theme/call-notification.wav</file>
+        <file>theme/Style/style.qss</file>
     </qresource>
 </RCC>

@@ -1,0 +1,58 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"src/libsync/vfs/cfapi/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 46,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"src/libsync/vfs/cfapi/Debug/nextcloudsync_vfs_cfapi.lib"
+			],
+			"targetId" : "nextcloudsync_vfs_cfapi::@cf9ceb57c559b5e5cfff",
+			"targetIndex" : 80,
+			"targetIsImportLibrary" : true,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "bin",
+			"paths" : 
+			[
+				"bin/Debug/nextcloudsync_vfs_cfapi.dll"
+			],
+			"targetId" : "nextcloudsync_vfs_cfapi::@cf9ceb57c559b5e5cfff",
+			"targetIndex" : 80,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "src/libsync/vfs/cfapi",
+		"source" : "src/libsync/vfs/cfapi"
+	}
+}

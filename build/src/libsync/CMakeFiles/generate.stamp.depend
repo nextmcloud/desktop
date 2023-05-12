@@ -1,0 +1,14 @@
+# CMake generation dependency list for this directory.
+C:/NextCloud/client-building/desktop/cmake/modules/DefinePlatformDefaults.cmake
+C:/NextCloud/client-building/desktop/src/libsync/CMakeLists.txt
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/exportheader.cmake.in
+C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5/Qt5Config.cmake
+C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5/Qt5ConfigVersion.cmake
+C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5/Qt5ModuleLocation.cmake
+C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5Svg/Qt5SvgConfig.cmake
+C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5Svg/Qt5SvgConfigVersion.cmake
+C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5WebSockets/Qt5WebSocketsConfig.cmake
+C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5WebSockets/Qt5WebSocketsConfigVersion.cmake
+C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake
+C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake
+C:/Qt/Tools/QtCreator/share/qtcreator/package-manager/auto-setup.cmake

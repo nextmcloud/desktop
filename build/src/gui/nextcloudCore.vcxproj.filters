@@ -1,0 +1,1294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\mocs_compilation_Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\accountmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\accountsettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\accountsetupfromcommandlinejob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\accountsetupcommandlinemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\invalidfilenamedialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\caseclashfilenamedialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\callstatechecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\conflictdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\conflictsolver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\connectionvalidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\editlocallyjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\editlocallymanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\folder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\foldercreationdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\folderman.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\folderstatusmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\folderstatusdelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\folderstatusview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\folderwatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\folderwizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\generalsettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\legalnotice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\ignorelisteditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\ignorelisttablewidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\lockwatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\logbrowser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\navigationpanehelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\networksettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\ocsnavigationappsjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\ocsjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\ocssharejob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\ocsshareejob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\openfilemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\owncloudgui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\owncloudsetupwizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\passwordinputdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\selectivesyncdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\settingsdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\sharemanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\profilepagewidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\sharee.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\sslbutton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\sslerrordialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\syncrunfilelog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\systray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\thumbnailjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\userinfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\accountstate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\addcertificatedialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\authenticationdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\proxyauthhandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\proxyauthdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tooltipupdater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\notificationconfirmjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\guiutility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\elidedlabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\iconutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\remotewipe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\userstatusselectormodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\emojimodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\fileactivitylistmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\filedetails\filedetails.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\filedetails\sharemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\filedetails\shareemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\filedetails\sortedsharemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\svgimageprovider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\syncstatussummary.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\activitydata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\activitylistmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\asyncimageresponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\unifiedsearchresult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\trayimageprovider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\unifiedsearchresultslistmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\usermodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\notificationhandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\sortedactivitylistmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\tray\talkreply.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\creds\credentialsfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\creds\httpcredentialsgui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\creds\oauth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\creds\flow2auth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\creds\webflowcredentials.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\creds\webflowcredentialsdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\postfixlineedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\abstractcredswizardpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudadvancedsetuppage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudconnectionmethoddialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudhttpcredspage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudoauthcredspage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\flow2authcredspage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\flow2authwidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudsetuppage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudwizardcommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudwizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\slideshow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\welcomepage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\linklabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\webviewpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\wizard\webview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\folderwatcher_win.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\shellextensionsserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\common\shellextensionutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\gui\qrc_resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\gui\qrc_theme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator\QProgressIndicator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile\qtlockedfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication\qtlocalpeer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication\qtsingleapplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication\qtsinglecoreapplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget\kmessagewidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\3rdparty\kirigami\wheelhandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile\qtlockedfile_win.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\socketapi\socketapi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\gui\socketapi\socketuploadjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\mocs_compilation_Release.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\mocs_compilation_MinSizeRel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\accountmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\accountsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\accountsetupfromcommandlinejob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\accountsetupcommandlinemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\application.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\invalidfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\caseclashfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\callstatechecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\conflictdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\conflictsolver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\connectionvalidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\editlocallyjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\editlocallymanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\folder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\foldercreationdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\folderman.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\folderstatusmodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\folderstatusdelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\folderstatusview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\folderwatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\folderwizard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\generalsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\legalnotice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\ignorelisteditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\ignorelisttablewidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\lockwatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\logbrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\navigationpanehelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\networksettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\ocsnavigationappsjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\ocsjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\ocssharejob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\ocsshareejob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\openfilemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\owncloudgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\owncloudsetupwizard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\passwordinputdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\selectivesyncdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\settingsdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\sharemanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\profilepagewidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\sharee.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\sslbutton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\sslerrordialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\syncrunfilelog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\systray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\thumbnailjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\userinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\accountstate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\addcertificatedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\authenticationdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\proxyauthhandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\proxyauthdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tooltipupdater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\notificationconfirmjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\guiutility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\elidedlabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\iconutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\remotewipe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\userstatusselectormodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\emojimodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\fileactivitylistmodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\filedetails\filedetails.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\filedetails\sharemodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\filedetails\shareemodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\filedetails\sortedsharemodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tray\svgimageprovider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tray\syncstatussummary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tray\activitydata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tray\activitylistmodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tray\unifiedsearchresult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tray\unifiedsearchresultslistmodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tray\usermodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tray\notificationhandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\tray\sortedactivitylistmodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\creds\credentialsfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\creds\httpcredentialsgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\creds\oauth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\creds\flow2auth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\creds\webflowcredentials.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\creds\webflowcredentialsdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\postfixlineedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\abstractcredswizardpage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudadvancedsetuppage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudconnectionmethoddialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudhttpcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudoauthcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\flow2authcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\flow2authwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudsetuppage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudwizardcommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudwizard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\slideshow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\welcomepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\linklabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\webviewpage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\wizard\webview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator\QProgressIndicator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile\qtlockedfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication\qtlocalpeer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication\qtsingleapplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication\qtsinglecoreapplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget\kmessagewidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\3rdparty\kirigami\wheelhandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\socketapi\socketapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\gui\socketapi\socketuploadjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_accountsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_conflictdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_invalidfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_caseclashfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_foldercreationdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_folderwizardsourcepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_folderwizardtargetpage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_generalsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_legalnotice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_ignorelisteditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_ignorelisttablewidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_networksettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_settingsdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_shareuserline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_sslerrordialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_addcertificatedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_passwordinputdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_proxyauthdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\ui_mnemonicdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\wizard\ui_flow2authwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\wizard\ui_owncloudadvancedsetuppage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\wizard\ui_owncloudconnectionmethoddialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\wizard\ui_owncloudhttpcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\wizard\ui_owncloudoauthcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\wizard\ui_owncloudsetupnocredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\wizard\ui_webview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Debug\wizard\ui_welcomepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_accountsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_conflictdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_invalidfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_caseclashfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_foldercreationdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_folderwizardsourcepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_folderwizardtargetpage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_generalsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_legalnotice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_ignorelisteditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_ignorelisttablewidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_networksettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_settingsdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_shareuserline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_sslerrordialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_addcertificatedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_passwordinputdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_proxyauthdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\ui_mnemonicdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\wizard\ui_flow2authwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\wizard\ui_owncloudadvancedsetuppage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\wizard\ui_owncloudconnectionmethoddialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\wizard\ui_owncloudhttpcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\wizard\ui_owncloudoauthcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\wizard\ui_owncloudsetupnocredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\wizard\ui_webview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_Release\wizard\ui_welcomepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_accountsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_conflictdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_invalidfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_caseclashfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_foldercreationdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_folderwizardsourcepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_folderwizardtargetpage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_generalsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_legalnotice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_ignorelisteditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_ignorelisttablewidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_networksettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_settingsdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_shareuserline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_sslerrordialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_addcertificatedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_passwordinputdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_proxyauthdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\ui_mnemonicdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\wizard\ui_flow2authwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\wizard\ui_owncloudadvancedsetuppage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\wizard\ui_owncloudconnectionmethoddialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\wizard\ui_owncloudhttpcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\wizard\ui_owncloudoauthcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\wizard\ui_owncloudsetupnocredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\wizard\ui_webview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_MinSizeRel\wizard\ui_welcomepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_accountsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_conflictdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_invalidfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_caseclashfilenamedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_foldercreationdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_folderwizardsourcepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_folderwizardtargetpage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_generalsettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_legalnotice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_ignorelisteditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_ignorelisttablewidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_networksettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_settingsdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_shareuserline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_sslerrordialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_addcertificatedialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_passwordinputdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_proxyauthdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\ui_mnemonicdialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\wizard\ui_flow2authwidget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\wizard\ui_owncloudadvancedsetuppage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\wizard\ui_owncloudconnectionmethoddialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\wizard\ui_owncloudhttpcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\wizard\ui_owncloudoauthcredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\wizard\ui_owncloudsetupnocredspage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\wizard\ui_webview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\include_RelWithDebInfo\wizard\ui_welcomepage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\resources.qrc" />
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\theme.qrc" />
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_TW.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_af.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_bg.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_br.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_ca.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_cs.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_da.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_de.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_el.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_en.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_en_GB.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_eo.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_AR.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_CL.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_CO.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_CR.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_DO.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_EC.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_GT.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_HN.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_MX.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_es_SV.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_et.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_eu.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_fa.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_fi.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_fr.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_gl.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_he.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_hr.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_hu.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_id.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_is.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_it.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_ja.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_ko.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_lt_LT.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_lv.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_mk.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_nb_NO.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_nl.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_oc.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_pl.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_pt.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_pt_BR.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_ro.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_ru.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_sc.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_sk.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_sl.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_sr.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_sv.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_th.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_tr.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_uk.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_zh_CN.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_zh_HK.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\6837e20e9410a597eb3f0697879c0f61\client_zh_TW.qm.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\c30c0aafdb91e863c9713f0de339809a\autouic_(CONFIG).stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\src\gui\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\accountsettings.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\conflictdialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\invalidfilenamedialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\caseclashfilenamedialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\foldercreationdialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\folderwizardsourcepage.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\folderwizardtargetpage.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\generalsettings.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\legalnotice.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\ignorelisteditor.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\ignorelisttablewidget.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\networksettings.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\settingsdialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\shareuserline.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\sslerrordialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\addcertificatedialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\passwordinputdialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\proxyauthdialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\mnemonicdialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\wizard\flow2authwidget.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudadvancedsetuppage.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudconnectionmethoddialog.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudhttpcredspage.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudoauthcredspage.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\wizard\owncloudsetupnocredspage.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\wizard\webview.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\src\gui\wizard\welcomepage.ui" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_TW.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_af.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_bg.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_br.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_ca.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_cs.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_da.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_de.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_el.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_en.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_en_GB.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_eo.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_AR.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_CL.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_CO.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_CR.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_DO.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_EC.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_GT.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_HN.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_MX.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_es_SV.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_et.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_eu.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_fa.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_fi.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_fr.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_gl.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_he.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_hr.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_hu.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_id.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_is.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_it.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_ja.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_ko.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_lt_LT.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_lv.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_mk.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_nb_NO.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_nl.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_oc.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_pl.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_pt.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_pt_BR.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_ro.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_ru.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_sc.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_sk.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_sl.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_sr.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_sv.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_th.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_tr.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_uk.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_zh_CN.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_zh_HK.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\client_zh_TW.qm" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\autouic_Debug.stamp" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\autouic_Release.stamp" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\autouic_MinSizeRel.stamp" />
+    <None Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore_autogen\autouic_RelWithDebInfo.stamp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{259E397A-EA72-342F-A0AE-F5E5AD4EFCBA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4535B202-5F11-3168-8753-4D1ED2F1D806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{875B9EED-CC15-3311-93C3-89281B1CB72C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

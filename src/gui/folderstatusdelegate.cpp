@@ -255,8 +255,9 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     auto optionsButtonVisualRect = optionsButtonRect(option.rect, option.direction);
 
-    const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
-    painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), statusPixmap);
+    const auto pm = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+    painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(),
+        iconRect.top(), pm);
 
     if(index.data(FolderOverlayIconRole).isValid())
     {
@@ -281,9 +282,9 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         warnRect.setHeight(16);
 
         QIcon warnIcon(":/client/theme/warning");
-        const auto warnPixmap = warnIcon.pixmap(16, 16, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        cost auto pm = warnIcon.pixmap(16, 16, syncEnabled ? QIcon::Normal : QIcon::Disabled);
         warnRect = QStyle::visualRect(option.direction, option.rect, warnRect);
-        painter->drawPixmap(QPoint(warnRect.left(), warnRect.top()), warnPixmap);
+        painter->drawPixmap(QPoint(warnRect.left(), warnRect.top()), pm);
     }
 
     auto palette = option.palette;

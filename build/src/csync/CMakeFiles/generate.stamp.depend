@@ -1,0 +1,24 @@
+# CMake generation dependency list for this directory.
+C:/NextCloud/client-building/desktop/cmake/modules/CheckCCompilerFlagSSP.cmake
+C:/NextCloud/client-building/desktop/cmake/modules/DefineCMakeDefaults.cmake
+C:/NextCloud/client-building/desktop/cmake/modules/DefineCompilerFlags.cmake
+C:/NextCloud/client-building/desktop/cmake/modules/DefineInstallationPaths.cmake
+C:/NextCloud/client-building/desktop/cmake/modules/DefinePlatformDefaults.cmake
+C:/NextCloud/client-building/desktop/src/common/common.cmake
+C:/NextCloud/client-building/desktop/src/common/vfspluginmetadata.json.in
+C:/NextCloud/client-building/desktop/src/csync/CMakeLists.txt
+C:/NextCloud/client-building/desktop/src/csync/ConfigureChecks.cmake
+C:/NextCloud/client-building/desktop/src/csync/DefineOptions.cmake
+C:/NextCloud/client-building/desktop/src/csync/config_csync.h.cmake
+C:/NextCloud/client-building/desktop/src/csync/csync_version.h.in
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/CheckCCompilerFlag.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/CheckCSourceCompiles.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/CheckCXXSourceCompiles.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/CheckFunctionExists.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/CheckIncludeFile.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/CheckIncludeFileCXX.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/CheckLibraryExists.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/CheckSymbolExists.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/CheckTypeSize.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/exportheader.cmake.in
+C:/Qt/Tools/QtCreator/share/qtcreator/package-manager/auto-setup.cmake

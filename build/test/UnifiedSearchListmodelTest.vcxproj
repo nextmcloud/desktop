@@ -1,0 +1,449 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6A736CE3-A4B1-37E4-AC53-89C64486871E}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>UnifiedSearchListmodelTest</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\NextCloud\client-building\desktop\build\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UnifiedSearchListmodelTest.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UnifiedSearchListmodelTest</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\NextCloud\client-building\desktop\build\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UnifiedSearchListmodelTest.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UnifiedSearchListmodelTest</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\NextCloud\client-building\desktop\build\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">UnifiedSearchListmodelTest.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">UnifiedSearchListmodelTest</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\NextCloud\client-building\desktop\build\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">UnifiedSearchListmodelTest.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">UnifiedSearchListmodelTest</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_Debug;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;OWNCLOUD_TEST;OWNCLOUD_BIN_PATH="C:/NextCloud/client-building/desktop/build/bin";QT_CORE_LIB;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/NextCloud/client-building/desktop/build";QT_XML_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QMLMODELS_LIB;QT_QUICKCONTROLS2_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WEBENGINECORE_LIB;QT_WEBCHANNEL_LIB;QT_POSITIONING_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;OWNCLOUD_TEST;OWNCLOUD_BIN_PATH=\"C:/NextCloud/client-building/desktop/build/bin\";QT_CORE_LIB;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/NextCloud/client-building/desktop/build\";QT_XML_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QMLMODELS_LIB;QT_QUICKCONTROLS2_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WEBENGINECORE_LIB;QT_WEBCHANNEL_LIB;QT_POSITIONING_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_Debug;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_Debug;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target UnifiedSearchListmodelTest</Message>
+      <Command>setlocal
+cd C:\NextCloud\client-building\desktop\build\test
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\cmake\bin\cmake.exe -E cmake_autogen C:/NextCloud/client-building/desktop/build/test/CMakeFiles/UnifiedSearchListmodelTest_autogen.dir/AutogenInfo.json Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>Debug\testutils.lib;..\src\gui\Debug\nextcloudCore.lib;..\src\cmd\Debug\cmdCore.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Testd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Quickd.lib;..\src\libsync\vfs\cfapi\Debug\nextcloudsync_vfs_cfapi.lib;..\src\gui\Debug\updater.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svgd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Xmld.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QuickControls2d.lib;C:\kderoot\lib\KF5Archive.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebEngineWidgetsd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebEngineCored.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Quickd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QmlModelsd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebChanneld.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Qmld.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Positioningd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5PrintSupportd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QmlModelsd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Qmld.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Networkd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Guid.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Cored.lib;..\src\libsync\Debug\nextcloudsync.lib;..\src\csync\Debug\nextcloud_csync.lib;..\src\csync\Debug\sqlite3.lib;psapi.lib;kernel32.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Concurrentd.lib;c:\Nextcloud\client-building\zlib\build\Release\zlibstatic.lib;C:\OpenSSL\Win64\lib\VC\libssl64MDd.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MDd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebSocketsd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Networkd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svgd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Widgetsd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Guid.lib;C:\NextCloud\client-building\QtKeychain\lib\qt5keychain.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Cored.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/NextCloud/client-building/desktop/build/test/Debug/UnifiedSearchListmodelTest.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/NextCloud/client-building/desktop/build/bin/Debug/UnifiedSearchListmodelTest.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_Release;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;OWNCLOUD_TEST;OWNCLOUD_BIN_PATH="C:/NextCloud/client-building/desktop/build/bin";QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/NextCloud/client-building/desktop/build";QT_XML_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QMLMODELS_LIB;QT_QUICKCONTROLS2_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WEBENGINECORE_LIB;QT_WEBCHANNEL_LIB;QT_POSITIONING_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;OWNCLOUD_TEST;OWNCLOUD_BIN_PATH=\"C:/NextCloud/client-building/desktop/build/bin\";QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/NextCloud/client-building/desktop/build\";QT_XML_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QMLMODELS_LIB;QT_QUICKCONTROLS2_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WEBENGINECORE_LIB;QT_WEBCHANNEL_LIB;QT_POSITIONING_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_Release;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_Release;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target UnifiedSearchListmodelTest</Message>
+      <Command>setlocal
+cd C:\NextCloud\client-building\desktop\build\test
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\cmake\bin\cmake.exe -E cmake_autogen C:/NextCloud/client-building/desktop/build/test/CMakeFiles/UnifiedSearchListmodelTest_autogen.dir/AutogenInfo.json Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>Release\testutils.lib;..\src\gui\Release\nextcloudCore.lib;..\src\cmd\Release\cmdCore.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Test.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Quick.lib;..\src\libsync\vfs\cfapi\Release\nextcloudsync_vfs_cfapi.lib;..\src\gui\Release\updater.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svg.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Xml.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QuickControls2.lib;C:\kderoot\lib\KF5Archive.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebEngineWidgets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebEngineCore.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Quick.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QmlModels.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebChannel.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Qml.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Positioning.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5PrintSupport.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QmlModels.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Qml.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Network.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Gui.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Core.lib;..\src\libsync\Release\nextcloudsync.lib;..\src\csync\Release\nextcloud_csync.lib;..\src\csync\Release\sqlite3.lib;psapi.lib;kernel32.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Concurrent.lib;c:\Nextcloud\client-building\zlib\build\Release\zlibstatic.lib;C:\OpenSSL\Win64\lib\VC\libssl64MD.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MD.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebSockets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Network.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svg.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Widgets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Gui.lib;C:\NextCloud\client-building\QtKeychain\lib\qt5keychain.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/NextCloud/client-building/desktop/build/test/Release/UnifiedSearchListmodelTest.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/NextCloud/client-building/desktop/build/bin/Release/UnifiedSearchListmodelTest.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_MinSizeRel;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;OWNCLOUD_TEST;OWNCLOUD_BIN_PATH="C:/NextCloud/client-building/desktop/build/bin";QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/NextCloud/client-building/desktop/build";QT_XML_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QMLMODELS_LIB;QT_QUICKCONTROLS2_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WEBENGINECORE_LIB;QT_WEBCHANNEL_LIB;QT_POSITIONING_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;OWNCLOUD_TEST;OWNCLOUD_BIN_PATH=\"C:/NextCloud/client-building/desktop/build/bin\";QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/NextCloud/client-building/desktop/build\";QT_XML_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QMLMODELS_LIB;QT_QUICKCONTROLS2_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WEBENGINECORE_LIB;QT_WEBCHANNEL_LIB;QT_POSITIONING_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_MinSizeRel;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_MinSizeRel;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target UnifiedSearchListmodelTest</Message>
+      <Command>setlocal
+cd C:\NextCloud\client-building\desktop\build\test
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\cmake\bin\cmake.exe -E cmake_autogen C:/NextCloud/client-building/desktop/build/test/CMakeFiles/UnifiedSearchListmodelTest_autogen.dir/AutogenInfo.json MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>MinSizeRel\testutils.lib;..\src\gui\MinSizeRel\nextcloudCore.lib;..\src\cmd\MinSizeRel\cmdCore.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Test.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Quick.lib;..\src\libsync\vfs\cfapi\MinSizeRel\nextcloudsync_vfs_cfapi.lib;..\src\gui\MinSizeRel\updater.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svg.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Xml.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QuickControls2.lib;C:\kderoot\lib\KF5Archive.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebEngineWidgets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebEngineCore.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Quick.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QmlModels.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebChannel.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Qml.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Positioning.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5PrintSupport.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QmlModels.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Qml.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Network.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Gui.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Core.lib;..\src\libsync\MinSizeRel\nextcloudsync.lib;..\src\csync\MinSizeRel\nextcloud_csync.lib;..\src\csync\MinSizeRel\sqlite3.lib;psapi.lib;kernel32.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Concurrent.lib;c:\Nextcloud\client-building\zlib\build\Release\zlibstatic.lib;C:\OpenSSL\Win64\lib\VC\libssl64MD.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MD.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebSockets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Network.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svg.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Widgets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Gui.lib;C:\NextCloud\client-building\QtKeychain\lib\qt5keychain.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/NextCloud/client-building/desktop/build/test/MinSizeRel/UnifiedSearchListmodelTest.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/NextCloud/client-building/desktop/build/bin/MinSizeRel/UnifiedSearchListmodelTest.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_RelWithDebInfo;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;OWNCLOUD_TEST;OWNCLOUD_BIN_PATH="C:/NextCloud/client-building/desktop/build/bin";QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR="C:/NextCloud/client-building/desktop/build";QT_XML_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QMLMODELS_LIB;QT_QUICKCONTROLS2_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WEBENGINECORE_LIB;QT_WEBCHANNEL_LIB;QT_POSITIONING_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;OWNCLOUD_TEST;OWNCLOUD_BIN_PATH=\"C:/NextCloud/client-building/desktop/build/bin\";QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;QT_TESTLIB_LIB;QT_TESTCASE_BUILDDIR=\"C:/NextCloud/client-building/desktop/build\";QT_XML_LIB;QT_QML_LIB;QT_QUICK_LIB;QT_QMLMODELS_LIB;QT_QUICKCONTROLS2_LIB;QT_WEBENGINEWIDGETS_LIB;QT_WEBENGINECORE_LIB;QT_WEBCHANNEL_LIB;QT_POSITIONING_LIB;QT_PRINTSUPPORT_LIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_RelWithDebInfo;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\include_RelWithDebInfo;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\test;C:\NextCloud\client-building\desktop\src\3rdparty\qtokenizer;C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\NextCloud\client-building\desktop\src\3rdparty\QProgressIndicator;C:\NextCloud\client-building\desktop\src\3rdparty\qtlockedfile;C:\NextCloud\client-building\desktop\src\3rdparty\kirigami;C:\NextCloud\client-building\desktop\src\3rdparty\qtsingleapplication;C:\NextCloud\client-building\desktop\src\3rdparty\kmessagewidget;C:\NextCloud\client-building\desktop\build\src\gui;C:\NextCloud\client-building\desktop\src\gui;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;C:\Qt\5.15.8\msvc2019_64\include\QtTest;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtGui\5.15.8\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8;C:\Qt\5.15.8\msvc2019_64\include\QtCore\5.15.8\QtCore;C:\Qt\5.15.8\msvc2019_64\include\QtXml;C:\Qt\5.15.8\msvc2019_64\include\QtQml;C:\Qt\5.15.8\msvc2019_64\include\QtQuick;C:\Qt\5.15.8\msvc2019_64\include\QtQmlModels;C:\Qt\5.15.8\msvc2019_64\include\QtQuickControls2;C:\kderoot\include\KF5\KArchive;C:\kderoot\include\KF5;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtWebEngineCore;C:\Qt\5.15.8\msvc2019_64\include\QtWebChannel;C:\Qt\5.15.8\msvc2019_64\include\QtPositioning;C:\Qt\5.15.8\msvc2019_64\include\QtPrintSupport;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target UnifiedSearchListmodelTest</Message>
+      <Command>setlocal
+cd C:\NextCloud\client-building\desktop\build\test
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\cmake\bin\cmake.exe -E cmake_autogen C:/NextCloud/client-building/desktop/build/test/CMakeFiles/UnifiedSearchListmodelTest_autogen.dir/AutogenInfo.json RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>RelWithDebInfo\testutils.lib;..\src\gui\RelWithDebInfo\nextcloudCore.lib;..\src\cmd\RelWithDebInfo\cmdCore.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Test.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Quick.lib;..\src\libsync\vfs\cfapi\RelWithDebInfo\nextcloudsync_vfs_cfapi.lib;..\src\gui\RelWithDebInfo\updater.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svg.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Xml.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QuickControls2.lib;C:\kderoot\lib\KF5Archive.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebEngineWidgets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebEngineCore.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Quick.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QmlModels.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebChannel.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Qml.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Positioning.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5PrintSupport.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5QmlModels.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Qml.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Network.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Gui.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Core.lib;..\src\libsync\RelWithDebInfo\nextcloudsync.lib;..\src\csync\RelWithDebInfo\nextcloud_csync.lib;..\src\csync\RelWithDebInfo\sqlite3.lib;psapi.lib;kernel32.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Concurrent.lib;c:\Nextcloud\client-building\zlib\build\Release\zlibstatic.lib;C:\OpenSSL\Win64\lib\VC\libssl64MD.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MD.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebSockets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Network.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svg.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Widgets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Gui.lib;C:\NextCloud\client-building\QtKeychain\lib\qt5keychain.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/NextCloud/client-building/desktop/build/test/RelWithDebInfo/UnifiedSearchListmodelTest.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/NextCloud/client-building/desktop/build/bin/RelWithDebInfo/UnifiedSearchListmodelTest.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\test\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/NextCloud/client-building/desktop/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\NextCloud\client-building\desktop\cmake\modules\DefinePlatformDefaults.cmake;C:\NextCloud\client-building\desktop\cmake\modules\FindCMocka.cmake;C:\NextCloud\client-building\desktop\test\e2etestsfakecert.pem;C:\NextCloud\client-building\desktop\test\e2etestsfakecertprivatekey.pem;C:\NextCloud\client-building\desktop\test\e2etestsfakecertpublickey.pem;C:\NextCloud\client-building\desktop\test\fake2eelocksucceeded.json;C:\NextCloud\client-building\desktop\test\fakefiledrope2eefoldermetadata.json;C:\NextCloud\client-building\desktop\test\nextcloud_add_test.cmake;C:\NextCloud\client-building\desktop\test\test_journal.db;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\CMakeParseArguments.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\FindPackageHandleStandardArgs.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\FindPackageMessage.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QPdfPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QSvgIconPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QSvgPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QVirtualKeyboardPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWebGLIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QXdgDesktopPortalThemePlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QDebugMessageServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QLocalClientConnectionFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlDebugServerFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlDebuggerServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlInspectorServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlNativeDebugConnectorFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlNativeDebugServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlPreviewServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlProfilerServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQuickProfilerAdapterFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QTcpServerConnectionFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5QmlModels\Qt5QmlModelsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5QmlModels\Qt5QmlModelsConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5QuickConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5QuickConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5Quick_QSGD3D12Adaptation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Xml\Qt5XmlConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Xml\Qt5XmlConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\NextCloud\client-building\desktop\build\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/NextCloud/client-building/desktop/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\NextCloud\client-building\desktop\cmake\modules\DefinePlatformDefaults.cmake;C:\NextCloud\client-building\desktop\cmake\modules\FindCMocka.cmake;C:\NextCloud\client-building\desktop\test\e2etestsfakecert.pem;C:\NextCloud\client-building\desktop\test\e2etestsfakecertprivatekey.pem;C:\NextCloud\client-building\desktop\test\e2etestsfakecertpublickey.pem;C:\NextCloud\client-building\desktop\test\fake2eelocksucceeded.json;C:\NextCloud\client-building\desktop\test\fakefiledrope2eefoldermetadata.json;C:\NextCloud\client-building\desktop\test\nextcloud_add_test.cmake;C:\NextCloud\client-building\desktop\test\test_journal.db;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\CMakeParseArguments.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\FindPackageHandleStandardArgs.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\FindPackageMessage.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QPdfPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QSvgIconPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QSvgPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QVirtualKeyboardPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWebGLIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QXdgDesktopPortalThemePlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QDebugMessageServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QLocalClientConnectionFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlDebugServerFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlDebuggerServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlInspectorServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlNativeDebugConnectorFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlNativeDebugServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlPreviewServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlProfilerServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQuickProfilerAdapterFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QTcpServerConnectionFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5QmlModels\Qt5QmlModelsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5QmlModels\Qt5QmlModelsConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5QuickConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5QuickConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5Quick_QSGD3D12Adaptation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Xml\Qt5XmlConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Xml\Qt5XmlConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\NextCloud\client-building\desktop\build\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/NextCloud/client-building/desktop/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\NextCloud\client-building\desktop\cmake\modules\DefinePlatformDefaults.cmake;C:\NextCloud\client-building\desktop\cmake\modules\FindCMocka.cmake;C:\NextCloud\client-building\desktop\test\e2etestsfakecert.pem;C:\NextCloud\client-building\desktop\test\e2etestsfakecertprivatekey.pem;C:\NextCloud\client-building\desktop\test\e2etestsfakecertpublickey.pem;C:\NextCloud\client-building\desktop\test\fake2eelocksucceeded.json;C:\NextCloud\client-building\desktop\test\fakefiledrope2eefoldermetadata.json;C:\NextCloud\client-building\desktop\test\nextcloud_add_test.cmake;C:\NextCloud\client-building\desktop\test\test_journal.db;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\CMakeParseArguments.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\FindPackageHandleStandardArgs.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\FindPackageMessage.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QPdfPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QSvgIconPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QSvgPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QVirtualKeyboardPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWebGLIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QXdgDesktopPortalThemePlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QDebugMessageServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QLocalClientConnectionFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlDebugServerFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlDebuggerServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlInspectorServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlNativeDebugConnectorFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlNativeDebugServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlPreviewServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlProfilerServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQuickProfilerAdapterFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QTcpServerConnectionFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5QmlModels\Qt5QmlModelsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5QmlModels\Qt5QmlModelsConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5QuickConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5QuickConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5Quick_QSGD3D12Adaptation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Xml\Qt5XmlConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Xml\Qt5XmlConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\NextCloud\client-building\desktop\build\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/NextCloud/client-building/desktop/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\NextCloud\client-building\desktop\cmake\modules\DefinePlatformDefaults.cmake;C:\NextCloud\client-building\desktop\cmake\modules\FindCMocka.cmake;C:\NextCloud\client-building\desktop\test\e2etestsfakecert.pem;C:\NextCloud\client-building\desktop\test\e2etestsfakecertprivatekey.pem;C:\NextCloud\client-building\desktop\test\e2etestsfakecertpublickey.pem;C:\NextCloud\client-building\desktop\test\fake2eelocksucceeded.json;C:\NextCloud\client-building\desktop\test\fakefiledrope2eefoldermetadata.json;C:\NextCloud\client-building\desktop\test\nextcloud_add_test.cmake;C:\NextCloud\client-building\desktop\test\test_journal.db;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\CMakeParseArguments.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\FindPackageHandleStandardArgs.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\FindPackageMessage.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigExtrasMkspecDir.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Core\Qt5CoreMacros.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5GuiConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QGifPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QICNSPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QICOPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QJpegPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QMinimalIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QOffscreenIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QPdfPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QSvgIconPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QSvgPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTgaPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTiffPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QTuioTouchPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QVirtualKeyboardPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWbmpPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWebGLIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWebpPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsDirect2DIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QWindowsIntegrationPlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Gui\Qt5Gui_QXdgDesktopPortalThemePlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5NetworkConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5NetworkConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Network\Qt5Network_QGenericEnginePlugin.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5QmlConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QDebugMessageServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QLocalClientConnectionFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlDebugServerFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlDebuggerServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlInspectorServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlNativeDebugConnectorFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlNativeDebugServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlPreviewServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQmlProfilerServiceFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QQuickProfilerAdapterFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Qml\Qt5Qml_QTcpServerConnectionFactory.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5QmlModels\Qt5QmlModelsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5QmlModels\Qt5QmlModelsConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5QuickConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5QuickConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Quick\Qt5Quick_QSGD3D12Adaptation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfigExtras.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Test\Qt5TestConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Xml\Qt5XmlConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Xml\Qt5XmlConfigVersion.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\NextCloud\client-building\desktop\build\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\mocs_compilation_Debug.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\test\testunifiedsearchlistmodel.cpp" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\mocs_compilation_Release.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\mocs_compilation_MinSizeRel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\test\UnifiedSearchListmodelTest_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\ZERO_CHECK.vcxproj">
+      <Project>{C2907E26-7866-3068-9E46-CBD981C851D8}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\src\cmd\cmdCore.vcxproj">
+      <Project>{6A31F8C1-8D2D-3136-AB66-54718A4E628D}</Project>
+      <Name>cmdCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\src\gui\nextcloudCore.vcxproj">
+      <Project>{CDFA4CD1-03D0-30D2-A91C-AE557FF32939}</Project>
+      <Name>nextcloudCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\src\csync\nextcloud_csync.vcxproj">
+      <Project>{1A1F26B1-B5DD-3196-ABC2-36A6FAD79008}</Project>
+      <Name>nextcloud_csync</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync.vcxproj">
+      <Project>{EE8BFF3E-ED37-30C9-B170-6E4CC3DAB893}</Project>
+      <Name>nextcloudsync</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi\nextcloudsync_vfs_cfapi.vcxproj">
+      <Project>{1145EA38-3432-38AB-B094-ECC3E1B08941}</Project>
+      <Name>nextcloudsync_vfs_cfapi</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\src\csync\sqlite3.vcxproj">
+      <Project>{8AE2B9BC-5F8C-3EF5-B65F-0D31DF94BBD4}</Project>
+      <Name>sqlite3</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\test\testutils.vcxproj">
+      <Project>{DE45EB28-2E2D-3E7B-AEB4-172F48362815}</Project>
+      <Name>testutils</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\src\gui\updater.vcxproj">
+      <Project>{1B9D4EEE-620C-3F0E-8897-988C736233D7}</Project>
+      <Name>updater</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

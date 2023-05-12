@@ -1,0 +1,10 @@
+^C:\NEXTCLOUD\CLIENT-BUILDING\DESKTOP\SHELL_INTEGRATION\WINDOWS\NCCONTEXTMENU\CMAKELISTS.TXT
+setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/shell_integration/windows/NCContextMenu/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

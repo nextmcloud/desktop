@@ -1,0 +1,6 @@
+# CMake generation dependency list for this directory.
+C:/NextCloud/client-building/desktop/doc/dev/CMakeLists.txt
+C:/NextCloud/client-building/desktop/doc/dev/Doxyfile.in
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/FindDoxygen.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake
+C:/NextCloud/tools/cmake/share/cmake-3.21/Modules/FindPackageMessage.cmake

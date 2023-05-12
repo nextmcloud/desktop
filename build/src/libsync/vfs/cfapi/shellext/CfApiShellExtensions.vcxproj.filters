@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi\shellext\CfApiShellExtensions_autogen\mocs_compilation_Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext\dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext\cfapishellintegrationclassfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext\customstateprovideripc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext\ipccommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext\thumbnailprovider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext\thumbnailprovideripc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\common\shellextensionutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext\customstateprovider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi\shellext\CfApiShellExtensions_autogen\mocs_compilation_Release.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi\shellext\CfApiShellExtensions_autogen\mocs_compilation_MinSizeRel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi\shellext\CfApiShellExtensions_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\e4045b85dbc2c946e6bc90918eb084f9\0-locked.ico.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\e4045b85dbc2c946e6bc90918eb084f9\1-shared.ico.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\build\CMakeFiles\e4045b85dbc2c946e6bc90918eb084f9\CfApiShellExtensions.rc.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext\CfApiShellIntegration.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi\shellext\CfApiShellExtensions.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{259E397A-EA72-342F-A0AE-F5E5AD4EFCBA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{875B9EED-CC15-3311-93C3-89281B1CB72C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\mocs_compilation_Debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\account.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\pushnotifications.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\wordlist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\bandwidthmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\capabilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\clientproxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\cookiejar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\discovery.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\discoveryphase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\encryptfolderjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\filesystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\helpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\httplogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\accessmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\configfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\abstractnetworkjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\networkjobs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\iconjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\owncloudpropagator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\nextcloudtheme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\abstractpropagateremotedeleteencrypted.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\deletejob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\progressdispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagatorjobs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagatedownload.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateupload.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateuploadv1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateuploadng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\bulkpropagatorjob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\putmultifilejob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedelete.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedeleteencrypted.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedeleteencryptedrootfolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotemove.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotemkdir.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateuploadencrypted.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagatedownloadencrypted.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncengine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncfileitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncfilestatustracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\localdiscoverytracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncresult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncoptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\theme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\updatefiledropmetadata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\clientsideencryption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\clientsideencryptionjobs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\datetimeprovider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\ocsuserstatusconnector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\userstatusconnector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\ocsprofileconnector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\lockfilejobs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\dummycredentials.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\abstractcredentials.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\credentialscommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\keychainchunk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\caseclashconflictsolver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\httpcredentials.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\mocs_compilation_Release.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\mocs_compilation_MinSizeRel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\account.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\pushnotifications.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\wordlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\bandwidthmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\capabilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\clientproxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\cookiejar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\discovery.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\discoveryphase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\encryptfolderjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\filesystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\httplogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\accessmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\configfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\abstractnetworkjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\networkjobs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\iconjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\owncloudpropagator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\nextcloudtheme.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\abstractpropagateremotedeleteencrypted.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\deletejob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\progressdispatcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagatorjobs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagatedownload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateupload.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\bulkpropagatorjob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\putmultifilejob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedelete.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedeleteencrypted.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedeleteencryptedrootfolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotemove.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotemkdir.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateuploadencrypted.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagatedownloadencrypted.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncengine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncfileitem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncfilestatustracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\localdiscoverytracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncresult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncoptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\theme.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\updatefiledropmetadata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\clientsideencryption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\clientsideencryptionjobs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\datetimeprovider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\ocsuserstatusconnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\userstatusconnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\ocsprofileconnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\lockfilejobs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\dummycredentials.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\abstractcredentials.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\credentialscommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\keychainchunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\caseclashconflictsolver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\httpcredentials.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\src\libsync\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4535B202-5F11-3168-8753-4D1ED2F1D806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{875B9EED-CC15-3311-93C3-89281B1CB72C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

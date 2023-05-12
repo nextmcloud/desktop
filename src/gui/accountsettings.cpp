@@ -1170,8 +1170,8 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
         _ui->quotaProgressBar->setEnabled(true);
         _ui->quotaProgressLabel->setEnabled(true);
         // workaround the label only accepting ints (which may be only 32 bit wide)
-        const double percent = (used * 100) / (double)total;
-        const int percentInt = qMin(qRound(percent), 100);
+        const auto percent = (used * 100) / (double)total;
+        const auto percentInt = qMin(qRound(percent), 100);
         _ui->quotaProgressBar->setValue(percentInt);
         const auto usedStr = Utility::octetsToString(used);
         const auto totalStr = Utility::octetsToString(total);
@@ -1563,7 +1563,10 @@ void AccountSettings::customizeStyle()
 
     QColor color = palette().highlight().color();
     QString background(palette().base().color().name());
-    _ui->quotaProgressBar->setStyleSheet(QString::fromLatin1(progressBarStyleC).arg(background,color.name()));
+    QFile file(":/client/theme/Style/style.qss");
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+    _ui->quotaProgressBar->setStyleSheet(styleSheet/*QString::fromLatin1(progressBarStyleC).arg(background,color.name())*/);
 }
 
 void AccountSettings::initializeE2eEncryption()

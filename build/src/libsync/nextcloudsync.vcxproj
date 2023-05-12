@@ -1,0 +1,539 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EE8BFF3E-ED37-30C9-B170-6E4CC3DAB893}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>nextcloudsync</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\NextCloud\client-building\desktop\build\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">nextcloudsync.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">nextcloudsync</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\NextCloud\client-building\desktop\build\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">nextcloudsync.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">nextcloudsync</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\NextCloud\client-building\desktop\build\bin\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">nextcloudsync.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">nextcloudsync</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\NextCloud\client-building\desktop\build\bin\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">nextcloudsync.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">nextcloudsync</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_Debug;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;WITH_WEBENGINE=1;UMDF_USING_NTSTATUS;QT_CORE_LIB;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;CMAKE_INTDIR="Debug";nextcloudsync_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;WITH_WEBENGINE=1;UMDF_USING_NTSTATUS;QT_CORE_LIB;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;CMAKE_INTDIR=\"Debug\";nextcloudsync_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_Debug;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_Debug;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target nextcloudsync</Message>
+      <Command>setlocal
+cd C:\NextCloud\client-building\desktop\build\src\libsync
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\cmake\bin\cmake.exe -E cmake_autogen C:/NextCloud/client-building/desktop/build/src/libsync/CMakeFiles/nextcloudsync_autogen.dir/AutogenInfo.json Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\csync\Debug\nextcloud_csync.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MDd.lib;C:\OpenSSL\Win64\lib\VC\libssl64MDd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebSocketsd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svgd.lib;C:\NextCloud\client-building\QtKeychain\lib\qt5keychain.lib;..\csync\Debug\sqlite3.lib;psapi.lib;kernel32.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Concurrentd.lib;c:\Nextcloud\client-building\zlib\build\Release\zlibstatic.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MDd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Networkd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Widgetsd.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Guid.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Cored.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64 /nxcompat /dynamicbase /guard:cf</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/NextCloud/client-building/desktop/build/src/libsync/Debug/nextcloudsync.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/NextCloud/client-building/desktop/build/bin/Debug/nextcloudsync.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_Release;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;WITH_WEBENGINE=1;UMDF_USING_NTSTATUS;QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;CMAKE_INTDIR="Release";nextcloudsync_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;WITH_WEBENGINE=1;UMDF_USING_NTSTATUS;QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;CMAKE_INTDIR=\"Release\";nextcloudsync_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_Release;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_Release;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target nextcloudsync</Message>
+      <Command>setlocal
+cd C:\NextCloud\client-building\desktop\build\src\libsync
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\cmake\bin\cmake.exe -E cmake_autogen C:/NextCloud/client-building/desktop/build/src/libsync/CMakeFiles/nextcloudsync_autogen.dir/AutogenInfo.json Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\csync\Release\nextcloud_csync.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MD.lib;C:\OpenSSL\Win64\lib\VC\libssl64MD.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebSockets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svg.lib;C:\NextCloud\client-building\QtKeychain\lib\qt5keychain.lib;..\csync\Release\sqlite3.lib;psapi.lib;kernel32.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Concurrent.lib;c:\Nextcloud\client-building\zlib\build\Release\zlibstatic.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MD.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Network.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Widgets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Gui.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64 /nxcompat /dynamicbase /guard:cf</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/NextCloud/client-building/desktop/build/src/libsync/Release/nextcloudsync.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/NextCloud/client-building/desktop/build/bin/Release/nextcloudsync.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_MinSizeRel;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;WITH_WEBENGINE=1;UMDF_USING_NTSTATUS;QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;CMAKE_INTDIR="MinSizeRel";nextcloudsync_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;WITH_WEBENGINE=1;UMDF_USING_NTSTATUS;QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;CMAKE_INTDIR=\"MinSizeRel\";nextcloudsync_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_MinSizeRel;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_MinSizeRel;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target nextcloudsync</Message>
+      <Command>setlocal
+cd C:\NextCloud\client-building\desktop\build\src\libsync
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\cmake\bin\cmake.exe -E cmake_autogen C:/NextCloud/client-building/desktop/build/src/libsync/CMakeFiles/nextcloudsync_autogen.dir/AutogenInfo.json MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\csync\MinSizeRel\nextcloud_csync.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MD.lib;C:\OpenSSL\Win64\lib\VC\libssl64MD.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebSockets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svg.lib;C:\NextCloud\client-building\QtKeychain\lib\qt5keychain.lib;..\csync\MinSizeRel\sqlite3.lib;psapi.lib;kernel32.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Concurrent.lib;c:\Nextcloud\client-building\zlib\build\Release\zlibstatic.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MD.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Network.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Widgets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Gui.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64 /nxcompat /dynamicbase /guard:cf</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/NextCloud/client-building/desktop/build/src/libsync/MinSizeRel/nextcloudsync.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/NextCloud/client-building/desktop/build/bin/MinSizeRel/nextcloudsync.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_RelWithDebInfo;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;WITH_WEBENGINE=1;UMDF_USING_NTSTATUS;QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;CMAKE_INTDIR="RelWithDebInfo";nextcloudsync_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;QT_DISABLE_DEPRECATED_BEFORE=0x000000;QT_USE_QSTRINGBUILDER;QT_MESSAGELOGCONTEXT;UNICODE;_UNICODE;__USE_MINGW_ANSI_STDIO=1;NOMINMAX;_WIN32_WINNT=0x0601;WINVER=0x0601;NTDDI_VERSION=0x0A000004;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;WITH_WEBENGINE=1;UMDF_USING_NTSTATUS;QT_CORE_LIB;QT_NO_DEBUG;QT_CONCURRENT_LIB;QT_NETWORK_LIB;QT_WEBSOCKETS_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;QT_SVG_LIB;CMAKE_INTDIR=\"RelWithDebInfo\";nextcloudsync_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_RelWithDebInfo;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\include_RelWithDebInfo;C:\NextCloud\client-building\desktop\build;C:\NextCloud\client-building\desktop\src;C:\NextCloud\client-building\desktop\build\src;C:\NextCloud\client-building\desktop\src\libsync;C:\NextCloud\client-building\desktop\build\src\libsync;C:\NextCloud\client-building\desktop\build\src\csync;C:\NextCloud\client-building\desktop\src\csync;C:\NextCloud\client-building\desktop\src\csync\std;C:\NextCloud\client-building\desktop\src\3rdparty\sqlite3;C:\Qt\5.15.8\msvc2019_64\include;C:\Qt\5.15.8\msvc2019_64\include\QtCore;C:\Qt\5.15.8\msvc2019_64\.\mkspecs\win32-msvc;C:\Qt\5.15.8\msvc2019_64\include\QtConcurrent;C:\NextCloud\client-building\zlib;C:\OpenSSL\Win64\include;C:\Qt\5.15.8\msvc2019_64\include\QtNetwork;C:\Qt\5.15.8\msvc2019_64\include\QtWebSockets;C:\Qt\5.15.8\msvc2019_64\include\QtWidgets;C:\Qt\5.15.8\msvc2019_64\include\QtGui;C:\Qt\5.15.8\msvc2019_64\include\QtANGLE;C:\Qt\5.15.8\msvc2019_64\include\QtSvg;C:\NextCloud\client-building\QtKeychain\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message>Automatic MOC for target nextcloudsync</Message>
+      <Command>setlocal
+cd C:\NextCloud\client-building\desktop\build\src\libsync
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\cmake\bin\cmake.exe -E cmake_autogen C:/NextCloud/client-building/desktop/build/src/libsync/CMakeFiles/nextcloudsync_autogen.dir/AutogenInfo.json RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\csync\RelWithDebInfo\nextcloud_csync.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MD.lib;C:\OpenSSL\Win64\lib\VC\libssl64MD.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5WebSockets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Svg.lib;C:\NextCloud\client-building\QtKeychain\lib\qt5keychain.lib;..\csync\RelWithDebInfo\sqlite3.lib;psapi.lib;kernel32.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Concurrent.lib;c:\Nextcloud\client-building\zlib\build\Release\zlibstatic.lib;C:\OpenSSL\Win64\lib\VC\libcrypto64MD.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Network.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Widgets.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Gui.lib;C:\Qt\5.15.8\msvc2019_64\lib\Qt5Core.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64 /nxcompat /dynamicbase /guard:cf</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/NextCloud/client-building/desktop/build/src/libsync/RelWithDebInfo/nextcloudsync.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/NextCloud/client-building/desktop/build/bin/RelWithDebInfo/nextcloudsync.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\src\libsync\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/NextCloud/client-building/desktop/src/libsync/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/src/libsync/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\NextCloud\client-building\desktop\cmake\modules\DefinePlatformDefaults.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\exportheader.cmake.in;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Svg\Qt5SvgConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Svg\Qt5SvgConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5WebSockets\Qt5WebSocketsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5WebSockets\Qt5WebSocketsConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\Qt\Tools\QtCreator\share\qtcreator\package-manager\auto-setup.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\NextCloud\client-building\desktop\build\src\libsync\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/NextCloud/client-building/desktop/src/libsync/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/src/libsync/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\NextCloud\client-building\desktop\cmake\modules\DefinePlatformDefaults.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\exportheader.cmake.in;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Svg\Qt5SvgConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Svg\Qt5SvgConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5WebSockets\Qt5WebSocketsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5WebSockets\Qt5WebSocketsConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\Qt\Tools\QtCreator\share\qtcreator\package-manager\auto-setup.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\NextCloud\client-building\desktop\build\src\libsync\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/NextCloud/client-building/desktop/src/libsync/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/src/libsync/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\NextCloud\client-building\desktop\cmake\modules\DefinePlatformDefaults.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\exportheader.cmake.in;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Svg\Qt5SvgConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Svg\Qt5SvgConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5WebSockets\Qt5WebSocketsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5WebSockets\Qt5WebSocketsConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\Qt\Tools\QtCreator\share\qtcreator\package-manager\auto-setup.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\NextCloud\client-building\desktop\build\src\libsync\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/NextCloud/client-building/desktop/src/libsync/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/src/libsync/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\NextCloud\client-building\desktop\cmake\modules\DefinePlatformDefaults.cmake;C:\NextCloud\tools\cmake\share\cmake-3.21\Modules\exportheader.cmake.in;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5Config.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5\Qt5ModuleLocation.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Svg\Qt5SvgConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Svg\Qt5SvgConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5WebSockets\Qt5WebSocketsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5WebSockets\Qt5WebSocketsConfigVersion.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfig.cmake;C:\Qt\5.15.8\msvc2019_64\lib\cmake\Qt5Widgets\Qt5WidgetsConfigVersion.cmake;C:\Qt\Tools\QtCreator\share\qtcreator\package-manager\auto-setup.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\NextCloud\client-building\desktop\build\src\libsync\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\mocs_compilation_Debug.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\account.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\account.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\pushnotifications.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\pushnotifications.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\wordlist.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\wordlist.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\bandwidthmanager.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\bandwidthmanager.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\capabilities.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\capabilities.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\clientproxy.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\clientproxy.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\cookiejar.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\cookiejar.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\discovery.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\discovery.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\discoveryphase.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\discoveryphase.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\encryptfolderjob.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\encryptfolderjob.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\filesystem.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\filesystem.cpp" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\helpers.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\httplogger.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\httplogger.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\logger.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\logger.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\accessmanager.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\accessmanager.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\configfile.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\configfile.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\abstractnetworkjob.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\abstractnetworkjob.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\networkjobs.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\networkjobs.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\iconjob.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\iconjob.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\owncloudpropagator.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\owncloudpropagator.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\nextcloudtheme.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\nextcloudtheme.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\abstractpropagateremotedeleteencrypted.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\abstractpropagateremotedeleteencrypted.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\deletejob.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\deletejob.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\progressdispatcher.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\progressdispatcher.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagatorjobs.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagatorjobs.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagatedownload.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagatedownload.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateupload.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateupload.cpp" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateuploadv1.cpp" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateuploadng.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\bulkpropagatorjob.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\bulkpropagatorjob.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\putmultifilejob.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\putmultifilejob.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedelete.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedelete.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedeleteencrypted.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedeleteencrypted.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedeleteencryptedrootfolder.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotedeleteencryptedrootfolder.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotemove.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotemove.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotemkdir.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateremotemkdir.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagateuploadencrypted.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagateuploadencrypted.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\propagatedownloadencrypted.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\propagatedownloadencrypted.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncengine.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncengine.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncfileitem.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncfileitem.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncfilestatustracker.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncfilestatustracker.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\localdiscoverytracker.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\localdiscoverytracker.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncresult.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncresult.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\syncoptions.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\syncoptions.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\theme.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\theme.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\updatefiledropmetadata.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\updatefiledropmetadata.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\clientsideencryption.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\clientsideencryption.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\clientsideencryptionjobs.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\clientsideencryptionjobs.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\datetimeprovider.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\datetimeprovider.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\ocsuserstatusconnector.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\ocsuserstatusconnector.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\userstatusconnector.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\userstatusconnector.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\ocsprofileconnector.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\ocsprofileconnector.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\lockfilejobs.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\lockfilejobs.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\dummycredentials.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\dummycredentials.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\abstractcredentials.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\abstractcredentials.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\credentialscommon.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\credentialscommon.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\keychainchunk.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\keychainchunk.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\caseclashconflictsolver.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\caseclashconflictsolver.cpp" />
+    <ClInclude Include="C:\NextCloud\client-building\desktop\src\libsync\creds\httpcredentials.h" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\src\libsync\creds\httpcredentials.cpp" />
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\mocs_compilation_Release.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\mocs_compilation_MinSizeRel.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\build\src\libsync\nextcloudsync_autogen\mocs_compilation_RelWithDebInfo.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\ZERO_CHECK.vcxproj">
+      <Project>{C2907E26-7866-3068-9E46-CBD981C851D8}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\src\csync\nextcloud_csync.vcxproj">
+      <Project>{1A1F26B1-B5DD-3196-ABC2-36A6FAD79008}</Project>
+      <Name>nextcloud_csync</Name>
+    </ProjectReference>
+    <ProjectReference Include="C:\NextCloud\client-building\desktop\build\src\csync\sqlite3.vcxproj">
+      <Project>{8AE2B9BC-5F8C-3EF5-B65F-0D31DF94BBD4}</Project>
+      <Name>sqlite3</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

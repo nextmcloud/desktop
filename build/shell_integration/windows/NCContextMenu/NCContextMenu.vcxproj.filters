@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\shell_integration\windows\NCContextMenu\dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\shell_integration\windows\NCContextMenu\NCClientInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\shell_integration\windows\NCContextMenu\NCContextMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\shell_integration\windows\NCContextMenu\NCContextMenuFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\NextCloud\client-building\desktop\shell_integration\windows\NCContextMenu\NCContextMenuRegHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\NextCloud\client-building\desktop\shell_integration\windows\NCContextMenu\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\NextCloud\client-building\desktop\shell_integration\windows\NCContextMenu\NCContextMenu.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="C:\NextCloud\client-building\desktop\shell_integration\windows\NCContextMenu\NCContextMenu.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{875B9EED-CC15-3311-93C3-89281B1CB72C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

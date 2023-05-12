@@ -1,0 +1,5236 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						13,
+						14,
+						15,
+						16,
+						22,
+						28
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-73e2ead30116f6df7680.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1,
+						18,
+						26,
+						42,
+						43,
+						72
+					]
+				},
+				{
+					"build" : "src",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						9,
+						10
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src-Debug-c94b7c2814d5a21df52c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src"
+				},
+				{
+					"build" : "src/csync",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.csync-Debug-9e9ad4c64d4db585995d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "src/csync",
+					"targetIndexes" : 
+					[
+						2,
+						77,
+						82
+					]
+				},
+				{
+					"build" : "src/libsync",
+					"childIndexes" : 
+					[
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync-Debug-a178fb260b0a284850d1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "src/libsync",
+					"targetIndexes" : 
+					[
+						4,
+						79
+					]
+				},
+				{
+					"build" : "src/libsync/vfs",
+					"childIndexes" : 
+					[
+						5,
+						6,
+						8
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs-Debug-a5a95c61d7c100c5d242.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs"
+				},
+				{
+					"build" : "src/libsync/vfs/suffix",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.suffix-Debug-7d4d5d723ac9c765db2f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/suffix",
+					"targetIndexes" : 
+					[
+						81
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/cfapi",
+					"childIndexes" : 
+					[
+						7
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.cfapi-Debug-c289bb401c78017fb6a3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/cfapi",
+					"targetIndexes" : 
+					[
+						80
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/cfapi/shellext",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.cfapi.shellext-Debug-c2feda13c943eb901822.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/cfapi/shellext",
+					"targetIndexes" : 
+					[
+						12,
+						20
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/xattr",
+					"jsonFile" : "directory-src.libsync.vfs.xattr-Debug-1ecbbc34b02f927eaded.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/xattr"
+				},
+				{
+					"build" : "src/cmd",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.cmd-Debug-dcea5ab5d97632b7e7a7.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 3,
+					"source" : "src/cmd",
+					"targetIndexes" : 
+					[
+						3,
+						73,
+						78
+					]
+				},
+				{
+					"build" : "src/gui",
+					"childIndexes" : 
+					[
+						11,
+						12
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.gui-Debug-70679a188e16e803a6c2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 4,
+					"source" : "src/gui",
+					"targetIndexes" : 
+					[
+						0,
+						75,
+						76,
+						84
+					]
+				},
+				{
+					"build" : "src/gui/updater",
+					"jsonFile" : "directory-src.gui.updater-Debug-92733953f20453e6a157.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 4,
+					"source" : "src/gui/updater"
+				},
+				{
+					"build" : "src/gui/socketapi",
+					"jsonFile" : "directory-src.gui.socketapi-Debug-5361c269ca78c5cedd4e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 4,
+					"source" : "src/gui/socketapi"
+				},
+				{
+					"build" : "man",
+					"jsonFile" : "directory-man-Debug-fad066eaf8562c55a931.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "man"
+				},
+				{
+					"build" : "doc",
+					"jsonFile" : "directory-doc-Debug-6029fece2c59a9c3a315.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "doc"
+				},
+				{
+					"build" : "doc/dev",
+					"jsonFile" : "directory-doc.dev-Debug-b8abe2e32b41eb47d93e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "doc/dev",
+					"targetIndexes" : 
+					[
+						74
+					]
+				},
+				{
+					"build" : "admin",
+					"childIndexes" : 
+					[
+						17
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin-Debug-45177077119159e1f0e1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "admin"
+				},
+				{
+					"build" : "admin/win",
+					"childIndexes" : 
+					[
+						18,
+						19
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win-Debug-a39adbee2a26d9994c09.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 0,
+					"source" : "admin/win"
+				},
+				{
+					"build" : "admin/win/msi",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.msi-Debug-ad977664ac9f0bb71ed2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 17,
+					"projectIndex" : 0,
+					"source" : "admin/win/msi"
+				},
+				{
+					"build" : "admin/win/tools",
+					"childIndexes" : 
+					[
+						20,
+						21
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.tools-Debug-a275df015a224d5843da.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 17,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools"
+				},
+				{
+					"build" : "admin/win/tools/NCToolsShared",
+					"jsonFile" : "directory-admin.win.tools.NCToolsShared-Debug-751eb975853c4d102ccf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 19,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools/NCToolsShared",
+					"targetIndexes" : 
+					[
+						38
+					]
+				},
+				{
+					"build" : "admin/win/tools/NCMsiHelper",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.tools.NCMsiHelper-Debug-b077a215641096038f3c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 19,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools/NCMsiHelper",
+					"targetIndexes" : 
+					[
+						36
+					]
+				},
+				{
+					"build" : "shell_integration",
+					"childIndexes" : 
+					[
+						23,
+						24
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration-Debug-52cfe5ed0099bf867234.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "shell_integration"
+				},
+				{
+					"build" : "shell_integration/icons",
+					"jsonFile" : "directory-shell_integration.icons-Debug-c1214d1cef89162185db.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 22,
+					"projectIndex" : 0,
+					"source" : "shell_integration/icons"
+				},
+				{
+					"build" : "shell_integration/windows",
+					"childIndexes" : 
+					[
+						25,
+						26,
+						27
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows-Debug-712928a1d417bb9d3318.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 22,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows"
+				},
+				{
+					"build" : "shell_integration/windows/NCContextMenu",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows.NCContextMenu-Debug-724dd0571a28acf8e91e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCContextMenu",
+					"targetIndexes" : 
+					[
+						35
+					]
+				},
+				{
+					"build" : "shell_integration/windows/NCOverlays",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows.NCOverlays-Debug-affbe247c4ed347f4c7c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCOverlays",
+					"targetIndexes" : 
+					[
+						37
+					]
+				},
+				{
+					"build" : "shell_integration/windows/NCUtil",
+					"jsonFile" : "directory-shell_integration.windows.NCUtil-Debug-6ee8dc2f07effde247b0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCUtil",
+					"targetIndexes" : 
+					[
+						39
+					]
+				},
+				{
+					"build" : "test",
+					"jsonFile" : "directory-test-Debug-f18be1977b403cfd1a50.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "test",
+					"targetIndexes" : 
+					[
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						13,
+						14,
+						15,
+						16,
+						17,
+						19,
+						21,
+						22,
+						23,
+						24,
+						25,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						40,
+						41,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						83
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28
+					],
+					"name" : "client",
+					"targetIndexes" : 
+					[
+						1,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						35,
+						36,
+						37,
+						38,
+						39,
+						40,
+						41,
+						42,
+						43,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						72,
+						74,
+						83
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "libcsync",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						77,
+						82
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					],
+					"name" : "libsync",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						4,
+						12,
+						20,
+						79,
+						80,
+						81
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						9
+					],
+					"name" : "cmd",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3,
+						73,
+						78
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						10,
+						11,
+						12
+					],
+					"name" : "gui",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						75,
+						76,
+						84
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 10,
+					"id" : "ALL_BUILD::@7675e61a69a6135e3026",
+					"jsonFile" : "target-ALL_BUILD-Debug-440ed8bf9c7fb4468b61.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Debug-2a20434b0dac1b2aa664.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "ALL_BUILD::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-ALL_BUILD-Debug-f650cdab8ef27e4206a5.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "ALL_BUILD::@a06a006299655a6d74e5",
+					"jsonFile" : "target-ALL_BUILD-Debug-77ecd8d0dbaab04f998b.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@6348b78ac14359a235f2",
+					"jsonFile" : "target-ALL_BUILD-Debug-912ac967b4a99c0be92c.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AccountTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AccountTest-Debug-f0d539c6d07614ca8c1c.json",
+					"name" : "AccountTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ActivityDataTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ActivityDataTest-Debug-0ea64dbe6f77e2609be4.json",
+					"name" : "ActivityDataTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ActivityListModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ActivityListModelTest-Debug-8a5d03b94bb4f56b722a.json",
+					"name" : "ActivityListModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AllFilesDeletedTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AllFilesDeletedTest-Debug-c3ea20a8e802cd6b5cd9.json",
+					"name" : "AllFilesDeletedTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AsyncOpTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AsyncOpTest-Debug-b4726c803b737b43d056.json",
+					"name" : "AsyncOpTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "BlacklistTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-BlacklistTest-Debug-46b69a7315e2088eff8a.json",
+					"name" : "BlacklistTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CapabilitiesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CapabilitiesTest-Debug-c53f6cdba27345ba7564.json",
+					"name" : "CapabilitiesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "CfApiShellExtensions::@3d991c3732ab22178f25",
+					"jsonFile" : "target-CfApiShellExtensions-Debug-9290fa6479aea971a8b9.json",
+					"name" : "CfApiShellExtensions",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CfApiShellExtensionsIPCTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CfApiShellExtensionsIPCTest-Debug-9a4d959a1651317b5d52.json",
+					"name" : "CfApiShellExtensionsIPCTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ChecksumValidatorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ChecksumValidatorTest-Debug-d2bf9d754d7fd619d0f7.json",
+					"name" : "ChecksumValidatorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ChunkingNgTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ChunkingNgTest-Debug-63172c3f945fb81f2f34.json",
+					"name" : "ChunkingNgTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ClientSideEncryptionTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ClientSideEncryptionTest-Debug-95791024ca6706d85da5.json",
+					"name" : "ClientSideEncryptionTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ConcatUrlTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ConcatUrlTest-Debug-7d705835f34edefa61c2.json",
+					"name" : "ConcatUrlTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Continuous::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Continuous-Debug-e5056fdd83b456da3851.json",
+					"name" : "Continuous",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CookiesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CookiesTest-Debug-015155bfd2f753a23dd9.json",
+					"name" : "CookiesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "CustomStateProviderImpl::@3d991c3732ab22178f25",
+					"jsonFile" : "target-CustomStateProviderImpl-Debug-1907301192ec48e3cd82.json",
+					"name" : "CustomStateProviderImpl",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "DatabaseErrorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-DatabaseErrorTest-Debug-24261c65b22ec3ee1b52.json",
+					"name" : "DatabaseErrorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "DownloadTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-DownloadTest-Debug-3a363f51eb052eb4bcec.json",
+					"name" : "DownloadTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "E2eFileTransferTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-E2eFileTransferTest-Debug-3d69bc8a066115027447.json",
+					"name" : "E2eFileTransferTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "E2eServerSetupTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-E2eServerSetupTest-Debug-fc6178465eeafbe6e132.json",
+					"name" : "E2eServerSetupTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ExcludedFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ExcludedFilesTest-Debug-b3dee848087e2ced73c7.json",
+					"name" : "ExcludedFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Experimental::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Experimental-Debug-c5c6f0779e39a1287a92.json",
+					"name" : "Experimental",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "FolderManTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-FolderManTest-Debug-d98fdc9e3a79a263622f.json",
+					"name" : "FolderManTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "FolderWatcherTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-FolderWatcherTest-Debug-1881a762bb929c1bb466.json",
+					"name" : "FolderWatcherTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "IconUtilsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-IconUtilsTest-Debug-545d4cfb9cde4e9ee0bd.json",
+					"name" : "IconUtilsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LargeSyncBench::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LargeSyncBench-Debug-4adc8009fac7bbb4c0ae.json",
+					"name" : "LargeSyncBench",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LocalDiscoveryTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LocalDiscoveryTest-Debug-a82d21cf873b1f0ab4a3.json",
+					"name" : "LocalDiscoveryTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LockFileTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LockFileTest-Debug-e318a6f465e4ba0cd498.json",
+					"name" : "LockFileTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LockedFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LockedFilesTest-Debug-53fc0bb5c604a9a7eb5e.json",
+					"name" : "LockedFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LongPathTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LongPathTest-Debug-dcdc48cc37ab444b9e3c.json",
+					"name" : "LongPathTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 25,
+					"id" : "NCContextMenu::@05687a7f05c165cf7f4d",
+					"jsonFile" : "target-NCContextMenu-Debug-8092be3406d1ce923acc.json",
+					"name" : "NCContextMenu",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "NCMsiHelper64::@32e5155d92438a1eb57b",
+					"jsonFile" : "target-NCMsiHelper64-Debug-3f2430381fade885ab44.json",
+					"name" : "NCMsiHelper64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 26,
+					"id" : "NCOverlays::@112f5f152eb467ce584f",
+					"jsonFile" : "target-NCOverlays-Debug-948967e76500969bf776.json",
+					"name" : "NCOverlays",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 20,
+					"id" : "NCToolsShared::@914eb079d54cf53ff0f9",
+					"jsonFile" : "target-NCToolsShared-Debug-d42c55c7155c7a62f07d.json",
+					"name" : "NCToolsShared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 27,
+					"id" : "NCUtil::@e4cb46a82ff469a810ec",
+					"jsonFile" : "target-NCUtil-Debug-e62e5985904d92dbf56d.json",
+					"name" : "NCUtil",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "NetrcParserTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-NetrcParserTest-Debug-0e67340db6f5c595c6eb.json",
+					"name" : "NetrcParserTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "NextcloudPropagatorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-NextcloudPropagatorTest-Debug-a584666f11872afd9324.json",
+					"name" : "NextcloudPropagatorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Nightly::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Nightly-Debug-b24ebd90cc1d0bb52e57.json",
+					"name" : "Nightly",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "NightlyMemoryCheck::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NightlyMemoryCheck-Debug-e4e81f468c55bdae9162.json",
+					"name" : "NightlyMemoryCheck",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "OAuthTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-OAuthTest-Debug-2cab331a30e47c5c23c2.json",
+					"name" : "OAuthTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "OwnSqlTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-OwnSqlTest-Debug-bd12b8a6bd317d9901a6.json",
+					"name" : "OwnSqlTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "PermissionsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-PermissionsTest-Debug-3359e13ec7d781534478.json",
+					"name" : "PermissionsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "PushNotificationsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-PushNotificationsTest-Debug-696d663f19c109c322c1.json",
+					"name" : "PushNotificationsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "RemoteDiscoveryTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-RemoteDiscoveryTest-Debug-56eb75f3de71545ed6a5.json",
+					"name" : "RemoteDiscoveryTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "RemoteWipeTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-RemoteWipeTest-Debug-6fcc9fe64bb832054728.json",
+					"name" : "RemoteWipeTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SecureFileDropTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SecureFileDropTest-Debug-ca28d175316dd35739e4.json",
+					"name" : "SecureFileDropTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SelectiveSyncTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SelectiveSyncTest-Debug-78a5eebd5f8f46705c41.json",
+					"name" : "SelectiveSyncTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SetUserStatusDialogTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SetUserStatusDialogTest-Debug-ed9dadc8e7a05007cbd0.json",
+					"name" : "SetUserStatusDialogTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ShareModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ShareModelTest-Debug-9a7448f83acc3eb3efac.json",
+					"name" : "ShareModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ShareeModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ShareeModelTest-Debug-1a9328e8fe3e25bafde3.json",
+					"name" : "ShareeModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SortedShareModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SortedShareModelTest-Debug-b792e9f915609ae674e7.json",
+					"name" : "SortedShareModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncCfApiTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncCfApiTest-Debug-6c760bb1738f634eb5d6.json",
+					"name" : "SyncCfApiTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncConflictTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncConflictTest-Debug-3bb473ff4d9b6cd42787.json",
+					"name" : "SyncConflictTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncDeleteTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncDeleteTest-Debug-d4cc70aa0f5c4b93a2ea.json",
+					"name" : "SyncDeleteTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncEngineTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncEngineTest-Debug-b4d7462fe1c650183426.json",
+					"name" : "SyncEngineTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncFileItemTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncFileItemTest-Debug-1713204b71f911536445.json",
+					"name" : "SyncFileItemTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncFileStatusTrackerTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncFileStatusTrackerTest-Debug-75db0f2c67858af67eca.json",
+					"name" : "SyncFileStatusTrackerTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncJournalDBTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncJournalDBTest-Debug-2ea9e878521c24ff6663.json",
+					"name" : "SyncJournalDBTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncMoveTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncMoveTest-Debug-758b914d8e8ce93546eb.json",
+					"name" : "SyncMoveTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncVirtualFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncVirtualFilesTest-Debug-2aa3e2d7a9cb95a54b99.json",
+					"name" : "SyncVirtualFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "TalkReplyTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-TalkReplyTest-Debug-f70b6caa86696d6c08f0.json",
+					"name" : "TalkReplyTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ThemeTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ThemeTest-Debug-30900408e638be649a44.json",
+					"name" : "ThemeTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UnifiedSearchListmodelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UnifiedSearchListmodelTest-Debug-3e275ce322fffcc4f3b4.json",
+					"name" : "UnifiedSearchListmodelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UpdaterTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UpdaterTest-Debug-95b87f86476c8ad80e65.json",
+					"name" : "UpdaterTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UploadResetTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UploadResetTest-Debug-c87a55e153cfcf996ead.json",
+					"name" : "UploadResetTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UtilityTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UtilityTest-Debug-5811187f644951705374.json",
+					"name" : "UtilityTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "XmlParseTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-XmlParseTest-Debug-9cec3ab1955f0e5eb1e4.json",
+					"name" : "XmlParseTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Debug-89a126d1fb0a4eeb48c8.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "cmdCore::@a06a006299655a6d74e5",
+					"jsonFile" : "target-cmdCore-Debug-8bc103b7ebddd1f2f6a6.json",
+					"name" : "cmdCore",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "doc-dev::@0663953e0082465139a0",
+					"jsonFile" : "target-doc-dev-Debug-1137a0dd24f347ab411b.json",
+					"name" : "doc-dev",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "nextcloud::@7675e61a69a6135e3026",
+					"jsonFile" : "target-nextcloud-Debug-798ffcb5863f764d8f36.json",
+					"name" : "nextcloud",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "nextcloudCore::@7675e61a69a6135e3026",
+					"jsonFile" : "target-nextcloudCore-Debug-d272a5c8f4c98648b4f3.json",
+					"name" : "nextcloudCore",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "nextcloud_csync::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-nextcloud_csync-Debug-9bac13c597bba427aca4.json",
+					"name" : "nextcloud_csync",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "nextcloudcmd::@a06a006299655a6d74e5",
+					"jsonFile" : "target-nextcloudcmd-Debug-06a4e69aac4ab18eaf54.json",
+					"name" : "nextcloudcmd",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "nextcloudsync::@6348b78ac14359a235f2",
+					"jsonFile" : "target-nextcloudsync-Debug-55dc5d3f8c7d8fa7196e.json",
+					"name" : "nextcloudsync",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "nextcloudsync_vfs_cfapi::@cf9ceb57c559b5e5cfff",
+					"jsonFile" : "target-nextcloudsync_vfs_cfapi-Debug-80370a7f33ed32feb92f.json",
+					"name" : "nextcloudsync_vfs_cfapi",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "nextcloudsync_vfs_suffix::@0d85a9babc12d32e6648",
+					"jsonFile" : "target-nextcloudsync_vfs_suffix-Debug-e954eb613eeca18e1686.json",
+					"name" : "nextcloudsync_vfs_suffix",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "sqlite3::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-sqlite3-Debug-1304bac1b97cbf7ea90c.json",
+					"name" : "sqlite3",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "testutils::@36f028580bb02cc8272a",
+					"jsonFile" : "target-testutils-Debug-f945a3770296b225681b.json",
+					"name" : "testutils",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "updater::@7675e61a69a6135e3026",
+					"jsonFile" : "target-updater-Debug-70b75744f3164fde2625.json",
+					"name" : "updater",
+					"projectIndex" : 4
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						13,
+						14,
+						15,
+						16,
+						22,
+						28
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-73e2ead30116f6df7680.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1,
+						18,
+						26,
+						42,
+						43,
+						72
+					]
+				},
+				{
+					"build" : "src",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						9,
+						10
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src-Release-c94b7c2814d5a21df52c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src"
+				},
+				{
+					"build" : "src/csync",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.csync-Release-329e964b4000c9afb643.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "src/csync",
+					"targetIndexes" : 
+					[
+						2,
+						77,
+						82
+					]
+				},
+				{
+					"build" : "src/libsync",
+					"childIndexes" : 
+					[
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync-Release-186dafc263eba21c762f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "src/libsync",
+					"targetIndexes" : 
+					[
+						4,
+						79
+					]
+				},
+				{
+					"build" : "src/libsync/vfs",
+					"childIndexes" : 
+					[
+						5,
+						6,
+						8
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs-Release-a5a95c61d7c100c5d242.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs"
+				},
+				{
+					"build" : "src/libsync/vfs/suffix",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.suffix-Release-d661ba0a60e93b66085a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/suffix",
+					"targetIndexes" : 
+					[
+						81
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/cfapi",
+					"childIndexes" : 
+					[
+						7
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.cfapi-Release-1b80fd9f4e36256eeb86.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/cfapi",
+					"targetIndexes" : 
+					[
+						80
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/cfapi/shellext",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.cfapi.shellext-Release-4f44cf46a4711bc002ec.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/cfapi/shellext",
+					"targetIndexes" : 
+					[
+						12,
+						20
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/xattr",
+					"jsonFile" : "directory-src.libsync.vfs.xattr-Release-1ecbbc34b02f927eaded.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/xattr"
+				},
+				{
+					"build" : "src/cmd",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.cmd-Release-28c9e8df39e04ed4bcb4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 3,
+					"source" : "src/cmd",
+					"targetIndexes" : 
+					[
+						3,
+						73,
+						78
+					]
+				},
+				{
+					"build" : "src/gui",
+					"childIndexes" : 
+					[
+						11,
+						12
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.gui-Release-9891d8ee3b2e3838667a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 4,
+					"source" : "src/gui",
+					"targetIndexes" : 
+					[
+						0,
+						75,
+						76,
+						84
+					]
+				},
+				{
+					"build" : "src/gui/updater",
+					"jsonFile" : "directory-src.gui.updater-Release-92733953f20453e6a157.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 4,
+					"source" : "src/gui/updater"
+				},
+				{
+					"build" : "src/gui/socketapi",
+					"jsonFile" : "directory-src.gui.socketapi-Release-5361c269ca78c5cedd4e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 4,
+					"source" : "src/gui/socketapi"
+				},
+				{
+					"build" : "man",
+					"jsonFile" : "directory-man-Release-fad066eaf8562c55a931.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "man"
+				},
+				{
+					"build" : "doc",
+					"jsonFile" : "directory-doc-Release-6029fece2c59a9c3a315.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "doc"
+				},
+				{
+					"build" : "doc/dev",
+					"jsonFile" : "directory-doc.dev-Release-b8abe2e32b41eb47d93e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "doc/dev",
+					"targetIndexes" : 
+					[
+						74
+					]
+				},
+				{
+					"build" : "admin",
+					"childIndexes" : 
+					[
+						17
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin-Release-45177077119159e1f0e1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "admin"
+				},
+				{
+					"build" : "admin/win",
+					"childIndexes" : 
+					[
+						18,
+						19
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win-Release-a39adbee2a26d9994c09.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 0,
+					"source" : "admin/win"
+				},
+				{
+					"build" : "admin/win/msi",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.msi-Release-ad977664ac9f0bb71ed2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 17,
+					"projectIndex" : 0,
+					"source" : "admin/win/msi"
+				},
+				{
+					"build" : "admin/win/tools",
+					"childIndexes" : 
+					[
+						20,
+						21
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.tools-Release-a275df015a224d5843da.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 17,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools"
+				},
+				{
+					"build" : "admin/win/tools/NCToolsShared",
+					"jsonFile" : "directory-admin.win.tools.NCToolsShared-Release-751eb975853c4d102ccf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 19,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools/NCToolsShared",
+					"targetIndexes" : 
+					[
+						38
+					]
+				},
+				{
+					"build" : "admin/win/tools/NCMsiHelper",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.tools.NCMsiHelper-Release-9f928dd022ec259d23d3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 19,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools/NCMsiHelper",
+					"targetIndexes" : 
+					[
+						36
+					]
+				},
+				{
+					"build" : "shell_integration",
+					"childIndexes" : 
+					[
+						23,
+						24
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration-Release-52cfe5ed0099bf867234.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "shell_integration"
+				},
+				{
+					"build" : "shell_integration/icons",
+					"jsonFile" : "directory-shell_integration.icons-Release-c1214d1cef89162185db.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 22,
+					"projectIndex" : 0,
+					"source" : "shell_integration/icons"
+				},
+				{
+					"build" : "shell_integration/windows",
+					"childIndexes" : 
+					[
+						25,
+						26,
+						27
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows-Release-712928a1d417bb9d3318.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 22,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows"
+				},
+				{
+					"build" : "shell_integration/windows/NCContextMenu",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows.NCContextMenu-Release-2acce214e76f5fa66f84.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCContextMenu",
+					"targetIndexes" : 
+					[
+						35
+					]
+				},
+				{
+					"build" : "shell_integration/windows/NCOverlays",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows.NCOverlays-Release-3fbfdc75a0e63a1cf3a4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCOverlays",
+					"targetIndexes" : 
+					[
+						37
+					]
+				},
+				{
+					"build" : "shell_integration/windows/NCUtil",
+					"jsonFile" : "directory-shell_integration.windows.NCUtil-Release-6ee8dc2f07effde247b0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCUtil",
+					"targetIndexes" : 
+					[
+						39
+					]
+				},
+				{
+					"build" : "test",
+					"jsonFile" : "directory-test-Release-f18be1977b403cfd1a50.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "test",
+					"targetIndexes" : 
+					[
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						13,
+						14,
+						15,
+						16,
+						17,
+						19,
+						21,
+						22,
+						23,
+						24,
+						25,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						40,
+						41,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						83
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28
+					],
+					"name" : "client",
+					"targetIndexes" : 
+					[
+						1,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						35,
+						36,
+						37,
+						38,
+						39,
+						40,
+						41,
+						42,
+						43,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						72,
+						74,
+						83
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "libcsync",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						77,
+						82
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					],
+					"name" : "libsync",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						4,
+						12,
+						20,
+						79,
+						80,
+						81
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						9
+					],
+					"name" : "cmd",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3,
+						73,
+						78
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						10,
+						11,
+						12
+					],
+					"name" : "gui",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						75,
+						76,
+						84
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 10,
+					"id" : "ALL_BUILD::@7675e61a69a6135e3026",
+					"jsonFile" : "target-ALL_BUILD-Release-440ed8bf9c7fb4468b61.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Release-2a20434b0dac1b2aa664.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "ALL_BUILD::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-ALL_BUILD-Release-f650cdab8ef27e4206a5.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "ALL_BUILD::@a06a006299655a6d74e5",
+					"jsonFile" : "target-ALL_BUILD-Release-77ecd8d0dbaab04f998b.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@6348b78ac14359a235f2",
+					"jsonFile" : "target-ALL_BUILD-Release-912ac967b4a99c0be92c.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AccountTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AccountTest-Release-1d2b75198c9b8f507c54.json",
+					"name" : "AccountTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ActivityDataTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ActivityDataTest-Release-ea19e2f9eaa430f0172d.json",
+					"name" : "ActivityDataTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ActivityListModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ActivityListModelTest-Release-0aad8b217605384cd236.json",
+					"name" : "ActivityListModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AllFilesDeletedTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AllFilesDeletedTest-Release-d4e36fa81d73bd9b3a87.json",
+					"name" : "AllFilesDeletedTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AsyncOpTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AsyncOpTest-Release-51d16c22c1646ef79282.json",
+					"name" : "AsyncOpTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "BlacklistTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-BlacklistTest-Release-7c3b37d16091845242ce.json",
+					"name" : "BlacklistTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CapabilitiesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CapabilitiesTest-Release-1dcb04e208f0d651e3d4.json",
+					"name" : "CapabilitiesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "CfApiShellExtensions::@3d991c3732ab22178f25",
+					"jsonFile" : "target-CfApiShellExtensions-Release-afc4fea4f0b3b815c65a.json",
+					"name" : "CfApiShellExtensions",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CfApiShellExtensionsIPCTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CfApiShellExtensionsIPCTest-Release-05bf12ee7c449cd0cc26.json",
+					"name" : "CfApiShellExtensionsIPCTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ChecksumValidatorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ChecksumValidatorTest-Release-d732a39c812b63db2b0c.json",
+					"name" : "ChecksumValidatorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ChunkingNgTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ChunkingNgTest-Release-c0d33bff61f4358c33e4.json",
+					"name" : "ChunkingNgTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ClientSideEncryptionTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ClientSideEncryptionTest-Release-adc05b5c6949cb0ad03a.json",
+					"name" : "ClientSideEncryptionTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ConcatUrlTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ConcatUrlTest-Release-3b15a141018f908c9d01.json",
+					"name" : "ConcatUrlTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Continuous::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Continuous-Release-e5056fdd83b456da3851.json",
+					"name" : "Continuous",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CookiesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CookiesTest-Release-63d01c583b351ee26a75.json",
+					"name" : "CookiesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "CustomStateProviderImpl::@3d991c3732ab22178f25",
+					"jsonFile" : "target-CustomStateProviderImpl-Release-1907301192ec48e3cd82.json",
+					"name" : "CustomStateProviderImpl",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "DatabaseErrorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-DatabaseErrorTest-Release-8c6e6b230e801fec28b0.json",
+					"name" : "DatabaseErrorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "DownloadTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-DownloadTest-Release-50b1553711a61f6d3dba.json",
+					"name" : "DownloadTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "E2eFileTransferTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-E2eFileTransferTest-Release-f8e99f4708fda9c9ce5f.json",
+					"name" : "E2eFileTransferTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "E2eServerSetupTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-E2eServerSetupTest-Release-cff2e0da0d16278acdd2.json",
+					"name" : "E2eServerSetupTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ExcludedFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ExcludedFilesTest-Release-0510eec27a025c06ab88.json",
+					"name" : "ExcludedFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Experimental::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Experimental-Release-c5c6f0779e39a1287a92.json",
+					"name" : "Experimental",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "FolderManTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-FolderManTest-Release-534c786146574097d82b.json",
+					"name" : "FolderManTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "FolderWatcherTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-FolderWatcherTest-Release-f4c46a25c782e2d8f66b.json",
+					"name" : "FolderWatcherTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "IconUtilsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-IconUtilsTest-Release-f281afac1bc1869902fd.json",
+					"name" : "IconUtilsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LargeSyncBench::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LargeSyncBench-Release-733e15e5dd40c10733ab.json",
+					"name" : "LargeSyncBench",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LocalDiscoveryTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LocalDiscoveryTest-Release-6f6388fc6987a4ee6329.json",
+					"name" : "LocalDiscoveryTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LockFileTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LockFileTest-Release-86f181381dc069ac3cbb.json",
+					"name" : "LockFileTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LockedFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LockedFilesTest-Release-098d880757dac45f3a7d.json",
+					"name" : "LockedFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LongPathTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LongPathTest-Release-9540494b56b12cf1a8cb.json",
+					"name" : "LongPathTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 25,
+					"id" : "NCContextMenu::@05687a7f05c165cf7f4d",
+					"jsonFile" : "target-NCContextMenu-Release-9736ded1a39928f88936.json",
+					"name" : "NCContextMenu",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "NCMsiHelper64::@32e5155d92438a1eb57b",
+					"jsonFile" : "target-NCMsiHelper64-Release-3e5c311d2d87126a5fc9.json",
+					"name" : "NCMsiHelper64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 26,
+					"id" : "NCOverlays::@112f5f152eb467ce584f",
+					"jsonFile" : "target-NCOverlays-Release-e847434ed4c6a73b2d5f.json",
+					"name" : "NCOverlays",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 20,
+					"id" : "NCToolsShared::@914eb079d54cf53ff0f9",
+					"jsonFile" : "target-NCToolsShared-Release-99300d2b6644d2807dea.json",
+					"name" : "NCToolsShared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 27,
+					"id" : "NCUtil::@e4cb46a82ff469a810ec",
+					"jsonFile" : "target-NCUtil-Release-96ee07743beebdb0347f.json",
+					"name" : "NCUtil",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "NetrcParserTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-NetrcParserTest-Release-1e1fd270aaab5e09c35c.json",
+					"name" : "NetrcParserTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "NextcloudPropagatorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-NextcloudPropagatorTest-Release-ac6a9e625237f70cfc2c.json",
+					"name" : "NextcloudPropagatorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Nightly::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Nightly-Release-b24ebd90cc1d0bb52e57.json",
+					"name" : "Nightly",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "NightlyMemoryCheck::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NightlyMemoryCheck-Release-e4e81f468c55bdae9162.json",
+					"name" : "NightlyMemoryCheck",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "OAuthTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-OAuthTest-Release-fe89d1b29d7e349d2288.json",
+					"name" : "OAuthTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "OwnSqlTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-OwnSqlTest-Release-43b074b3cf616b38da8b.json",
+					"name" : "OwnSqlTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "PermissionsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-PermissionsTest-Release-bbb570925b2bf6a6f02b.json",
+					"name" : "PermissionsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "PushNotificationsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-PushNotificationsTest-Release-8648f1626da401568abf.json",
+					"name" : "PushNotificationsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "RemoteDiscoveryTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-RemoteDiscoveryTest-Release-a7253057245975f33e38.json",
+					"name" : "RemoteDiscoveryTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "RemoteWipeTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-RemoteWipeTest-Release-99060ce135bc5621b7f0.json",
+					"name" : "RemoteWipeTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SecureFileDropTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SecureFileDropTest-Release-5a3b0a9c42a23d1a42b0.json",
+					"name" : "SecureFileDropTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SelectiveSyncTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SelectiveSyncTest-Release-f5805a2ddd48278829be.json",
+					"name" : "SelectiveSyncTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SetUserStatusDialogTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SetUserStatusDialogTest-Release-c193cf65b47ec80ccc9d.json",
+					"name" : "SetUserStatusDialogTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ShareModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ShareModelTest-Release-989482ccbacca2a1bd50.json",
+					"name" : "ShareModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ShareeModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ShareeModelTest-Release-290b7a66fbd629e57040.json",
+					"name" : "ShareeModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SortedShareModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SortedShareModelTest-Release-f80243ef7a5e32a68873.json",
+					"name" : "SortedShareModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncCfApiTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncCfApiTest-Release-0072505ce27963622990.json",
+					"name" : "SyncCfApiTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncConflictTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncConflictTest-Release-ba4f82e6308190a208ad.json",
+					"name" : "SyncConflictTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncDeleteTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncDeleteTest-Release-cdb20ba82a483e5d726b.json",
+					"name" : "SyncDeleteTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncEngineTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncEngineTest-Release-8eb1cd183dae08e56371.json",
+					"name" : "SyncEngineTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncFileItemTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncFileItemTest-Release-a94b5898cd513f97a4ce.json",
+					"name" : "SyncFileItemTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncFileStatusTrackerTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncFileStatusTrackerTest-Release-afa6f060e7234d23b599.json",
+					"name" : "SyncFileStatusTrackerTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncJournalDBTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncJournalDBTest-Release-c7ca7680b35c068900b6.json",
+					"name" : "SyncJournalDBTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncMoveTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncMoveTest-Release-6d162c2719afded9ddd2.json",
+					"name" : "SyncMoveTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncVirtualFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncVirtualFilesTest-Release-ec145d8f465a5fff3583.json",
+					"name" : "SyncVirtualFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "TalkReplyTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-TalkReplyTest-Release-e57dc5242c3caf116e5a.json",
+					"name" : "TalkReplyTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ThemeTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ThemeTest-Release-1c1b8c5f675a0d2e15b1.json",
+					"name" : "ThemeTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UnifiedSearchListmodelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UnifiedSearchListmodelTest-Release-1d18e30daae6a4ba82f9.json",
+					"name" : "UnifiedSearchListmodelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UpdaterTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UpdaterTest-Release-bbce712d1e5f150d1381.json",
+					"name" : "UpdaterTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UploadResetTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UploadResetTest-Release-ab3f46cfa5826c26e740.json",
+					"name" : "UploadResetTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UtilityTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UtilityTest-Release-56bdf9208ecc5f9e1f32.json",
+					"name" : "UtilityTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "XmlParseTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-XmlParseTest-Release-b9b42bd923817c375e2d.json",
+					"name" : "XmlParseTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Release-89a126d1fb0a4eeb48c8.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "cmdCore::@a06a006299655a6d74e5",
+					"jsonFile" : "target-cmdCore-Release-e212d625c2ccab6ef481.json",
+					"name" : "cmdCore",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "doc-dev::@0663953e0082465139a0",
+					"jsonFile" : "target-doc-dev-Release-1137a0dd24f347ab411b.json",
+					"name" : "doc-dev",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "nextcloud::@7675e61a69a6135e3026",
+					"jsonFile" : "target-nextcloud-Release-1ba83a9a580fa0fbae29.json",
+					"name" : "nextcloud",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "nextcloudCore::@7675e61a69a6135e3026",
+					"jsonFile" : "target-nextcloudCore-Release-6c2929cd71c8bd0dd6a0.json",
+					"name" : "nextcloudCore",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "nextcloud_csync::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-nextcloud_csync-Release-602289f2c7279c9aa854.json",
+					"name" : "nextcloud_csync",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "nextcloudcmd::@a06a006299655a6d74e5",
+					"jsonFile" : "target-nextcloudcmd-Release-09c863c9291a649ae741.json",
+					"name" : "nextcloudcmd",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "nextcloudsync::@6348b78ac14359a235f2",
+					"jsonFile" : "target-nextcloudsync-Release-3e365a8ddc11fb76e0da.json",
+					"name" : "nextcloudsync",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "nextcloudsync_vfs_cfapi::@cf9ceb57c559b5e5cfff",
+					"jsonFile" : "target-nextcloudsync_vfs_cfapi-Release-e89306284fb2bf82de72.json",
+					"name" : "nextcloudsync_vfs_cfapi",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "nextcloudsync_vfs_suffix::@0d85a9babc12d32e6648",
+					"jsonFile" : "target-nextcloudsync_vfs_suffix-Release-a3f5db77c1fccdbf1f6b.json",
+					"name" : "nextcloudsync_vfs_suffix",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "sqlite3::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-sqlite3-Release-7eb4417e9c7c1105f71b.json",
+					"name" : "sqlite3",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "testutils::@36f028580bb02cc8272a",
+					"jsonFile" : "target-testutils-Release-18310223165d634c2462.json",
+					"name" : "testutils",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "updater::@7675e61a69a6135e3026",
+					"jsonFile" : "target-updater-Release-123d2b8778829a642391.json",
+					"name" : "updater",
+					"projectIndex" : 4
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						13,
+						14,
+						15,
+						16,
+						22,
+						28
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-MinSizeRel-73e2ead30116f6df7680.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1,
+						18,
+						26,
+						42,
+						43,
+						72
+					]
+				},
+				{
+					"build" : "src",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						9,
+						10
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src-MinSizeRel-c94b7c2814d5a21df52c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src"
+				},
+				{
+					"build" : "src/csync",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.csync-MinSizeRel-468c3411f73462e1a891.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "src/csync",
+					"targetIndexes" : 
+					[
+						2,
+						77,
+						82
+					]
+				},
+				{
+					"build" : "src/libsync",
+					"childIndexes" : 
+					[
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync-MinSizeRel-34e2e757ef0e84439c7d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "src/libsync",
+					"targetIndexes" : 
+					[
+						4,
+						79
+					]
+				},
+				{
+					"build" : "src/libsync/vfs",
+					"childIndexes" : 
+					[
+						5,
+						6,
+						8
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs-MinSizeRel-a5a95c61d7c100c5d242.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs"
+				},
+				{
+					"build" : "src/libsync/vfs/suffix",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.suffix-MinSizeRel-9818029e035b8a636416.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/suffix",
+					"targetIndexes" : 
+					[
+						81
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/cfapi",
+					"childIndexes" : 
+					[
+						7
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.cfapi-MinSizeRel-0c29a1364c465084ae66.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/cfapi",
+					"targetIndexes" : 
+					[
+						80
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/cfapi/shellext",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.cfapi.shellext-MinSizeRel-dc0e8ca969cc6ba466b2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/cfapi/shellext",
+					"targetIndexes" : 
+					[
+						12,
+						20
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/xattr",
+					"jsonFile" : "directory-src.libsync.vfs.xattr-MinSizeRel-1ecbbc34b02f927eaded.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/xattr"
+				},
+				{
+					"build" : "src/cmd",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.cmd-MinSizeRel-041df8d9f6bda5a37d04.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 3,
+					"source" : "src/cmd",
+					"targetIndexes" : 
+					[
+						3,
+						73,
+						78
+					]
+				},
+				{
+					"build" : "src/gui",
+					"childIndexes" : 
+					[
+						11,
+						12
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.gui-MinSizeRel-2baa43d750795d76e87f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 4,
+					"source" : "src/gui",
+					"targetIndexes" : 
+					[
+						0,
+						75,
+						76,
+						84
+					]
+				},
+				{
+					"build" : "src/gui/updater",
+					"jsonFile" : "directory-src.gui.updater-MinSizeRel-92733953f20453e6a157.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 4,
+					"source" : "src/gui/updater"
+				},
+				{
+					"build" : "src/gui/socketapi",
+					"jsonFile" : "directory-src.gui.socketapi-MinSizeRel-5361c269ca78c5cedd4e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 4,
+					"source" : "src/gui/socketapi"
+				},
+				{
+					"build" : "man",
+					"jsonFile" : "directory-man-MinSizeRel-fad066eaf8562c55a931.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "man"
+				},
+				{
+					"build" : "doc",
+					"jsonFile" : "directory-doc-MinSizeRel-6029fece2c59a9c3a315.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "doc"
+				},
+				{
+					"build" : "doc/dev",
+					"jsonFile" : "directory-doc.dev-MinSizeRel-b8abe2e32b41eb47d93e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "doc/dev",
+					"targetIndexes" : 
+					[
+						74
+					]
+				},
+				{
+					"build" : "admin",
+					"childIndexes" : 
+					[
+						17
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin-MinSizeRel-45177077119159e1f0e1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "admin"
+				},
+				{
+					"build" : "admin/win",
+					"childIndexes" : 
+					[
+						18,
+						19
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win-MinSizeRel-a39adbee2a26d9994c09.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 0,
+					"source" : "admin/win"
+				},
+				{
+					"build" : "admin/win/msi",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.msi-MinSizeRel-ad977664ac9f0bb71ed2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 17,
+					"projectIndex" : 0,
+					"source" : "admin/win/msi"
+				},
+				{
+					"build" : "admin/win/tools",
+					"childIndexes" : 
+					[
+						20,
+						21
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.tools-MinSizeRel-a275df015a224d5843da.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 17,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools"
+				},
+				{
+					"build" : "admin/win/tools/NCToolsShared",
+					"jsonFile" : "directory-admin.win.tools.NCToolsShared-MinSizeRel-751eb975853c4d102ccf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 19,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools/NCToolsShared",
+					"targetIndexes" : 
+					[
+						38
+					]
+				},
+				{
+					"build" : "admin/win/tools/NCMsiHelper",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.tools.NCMsiHelper-MinSizeRel-48ce132e855667ace567.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 19,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools/NCMsiHelper",
+					"targetIndexes" : 
+					[
+						36
+					]
+				},
+				{
+					"build" : "shell_integration",
+					"childIndexes" : 
+					[
+						23,
+						24
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration-MinSizeRel-52cfe5ed0099bf867234.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "shell_integration"
+				},
+				{
+					"build" : "shell_integration/icons",
+					"jsonFile" : "directory-shell_integration.icons-MinSizeRel-c1214d1cef89162185db.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 22,
+					"projectIndex" : 0,
+					"source" : "shell_integration/icons"
+				},
+				{
+					"build" : "shell_integration/windows",
+					"childIndexes" : 
+					[
+						25,
+						26,
+						27
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows-MinSizeRel-712928a1d417bb9d3318.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 22,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows"
+				},
+				{
+					"build" : "shell_integration/windows/NCContextMenu",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows.NCContextMenu-MinSizeRel-dbacbd2ed5bac35339dc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCContextMenu",
+					"targetIndexes" : 
+					[
+						35
+					]
+				},
+				{
+					"build" : "shell_integration/windows/NCOverlays",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows.NCOverlays-MinSizeRel-16420b5f5f3a0ad15efb.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCOverlays",
+					"targetIndexes" : 
+					[
+						37
+					]
+				},
+				{
+					"build" : "shell_integration/windows/NCUtil",
+					"jsonFile" : "directory-shell_integration.windows.NCUtil-MinSizeRel-6ee8dc2f07effde247b0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCUtil",
+					"targetIndexes" : 
+					[
+						39
+					]
+				},
+				{
+					"build" : "test",
+					"jsonFile" : "directory-test-MinSizeRel-f18be1977b403cfd1a50.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "test",
+					"targetIndexes" : 
+					[
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						13,
+						14,
+						15,
+						16,
+						17,
+						19,
+						21,
+						22,
+						23,
+						24,
+						25,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						40,
+						41,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						83
+					]
+				}
+			],
+			"name" : "MinSizeRel",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28
+					],
+					"name" : "client",
+					"targetIndexes" : 
+					[
+						1,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						35,
+						36,
+						37,
+						38,
+						39,
+						40,
+						41,
+						42,
+						43,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						72,
+						74,
+						83
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "libcsync",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						77,
+						82
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					],
+					"name" : "libsync",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						4,
+						12,
+						20,
+						79,
+						80,
+						81
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						9
+					],
+					"name" : "cmd",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3,
+						73,
+						78
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						10,
+						11,
+						12
+					],
+					"name" : "gui",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						75,
+						76,
+						84
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 10,
+					"id" : "ALL_BUILD::@7675e61a69a6135e3026",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-440ed8bf9c7fb4468b61.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-2a20434b0dac1b2aa664.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "ALL_BUILD::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-f650cdab8ef27e4206a5.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "ALL_BUILD::@a06a006299655a6d74e5",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-77ecd8d0dbaab04f998b.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@6348b78ac14359a235f2",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-912ac967b4a99c0be92c.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AccountTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AccountTest-MinSizeRel-cbe160da988e9c08c2ee.json",
+					"name" : "AccountTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ActivityDataTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ActivityDataTest-MinSizeRel-e410fbcbff3a18ba1cf0.json",
+					"name" : "ActivityDataTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ActivityListModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ActivityListModelTest-MinSizeRel-440dfa5aa12fd1db58ce.json",
+					"name" : "ActivityListModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AllFilesDeletedTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AllFilesDeletedTest-MinSizeRel-590efaffb7438b90775b.json",
+					"name" : "AllFilesDeletedTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AsyncOpTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AsyncOpTest-MinSizeRel-f8d988c3cd1aa3634c88.json",
+					"name" : "AsyncOpTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "BlacklistTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-BlacklistTest-MinSizeRel-fc4515b9e10fd3b172a4.json",
+					"name" : "BlacklistTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CapabilitiesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CapabilitiesTest-MinSizeRel-04bed6e861fd832c82e8.json",
+					"name" : "CapabilitiesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "CfApiShellExtensions::@3d991c3732ab22178f25",
+					"jsonFile" : "target-CfApiShellExtensions-MinSizeRel-fb6da8f0844e4c065576.json",
+					"name" : "CfApiShellExtensions",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CfApiShellExtensionsIPCTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CfApiShellExtensionsIPCTest-MinSizeRel-5aa0f5df37a9db6b1fbc.json",
+					"name" : "CfApiShellExtensionsIPCTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ChecksumValidatorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ChecksumValidatorTest-MinSizeRel-796db13fbf5116792872.json",
+					"name" : "ChecksumValidatorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ChunkingNgTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ChunkingNgTest-MinSizeRel-6d1706f4304fb7492815.json",
+					"name" : "ChunkingNgTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ClientSideEncryptionTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ClientSideEncryptionTest-MinSizeRel-c7ea75a7b71380f1e7cb.json",
+					"name" : "ClientSideEncryptionTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ConcatUrlTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ConcatUrlTest-MinSizeRel-8c5fb61699c6a56be303.json",
+					"name" : "ConcatUrlTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Continuous::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Continuous-MinSizeRel-e5056fdd83b456da3851.json",
+					"name" : "Continuous",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CookiesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CookiesTest-MinSizeRel-87b79ce58452c13e034b.json",
+					"name" : "CookiesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "CustomStateProviderImpl::@3d991c3732ab22178f25",
+					"jsonFile" : "target-CustomStateProviderImpl-MinSizeRel-1907301192ec48e3cd82.json",
+					"name" : "CustomStateProviderImpl",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "DatabaseErrorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-DatabaseErrorTest-MinSizeRel-9db7afa9e7bab204d8e1.json",
+					"name" : "DatabaseErrorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "DownloadTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-DownloadTest-MinSizeRel-a7ec01122d427c204e45.json",
+					"name" : "DownloadTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "E2eFileTransferTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-E2eFileTransferTest-MinSizeRel-f01621dd8f081247555e.json",
+					"name" : "E2eFileTransferTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "E2eServerSetupTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-E2eServerSetupTest-MinSizeRel-2656a87e66b7625783a9.json",
+					"name" : "E2eServerSetupTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ExcludedFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ExcludedFilesTest-MinSizeRel-62ceb628277ef6d00a14.json",
+					"name" : "ExcludedFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Experimental::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Experimental-MinSizeRel-c5c6f0779e39a1287a92.json",
+					"name" : "Experimental",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "FolderManTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-FolderManTest-MinSizeRel-348a0a8afa5f6f0034ec.json",
+					"name" : "FolderManTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "FolderWatcherTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-FolderWatcherTest-MinSizeRel-18bd2e2392e8ec40e689.json",
+					"name" : "FolderWatcherTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "IconUtilsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-IconUtilsTest-MinSizeRel-20cc1464a3c9577d53a2.json",
+					"name" : "IconUtilsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LargeSyncBench::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LargeSyncBench-MinSizeRel-465f48cbb5c8b51bed26.json",
+					"name" : "LargeSyncBench",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LocalDiscoveryTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LocalDiscoveryTest-MinSizeRel-6326558b4876a3801972.json",
+					"name" : "LocalDiscoveryTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LockFileTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LockFileTest-MinSizeRel-94f471db270be928e36c.json",
+					"name" : "LockFileTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LockedFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LockedFilesTest-MinSizeRel-e0f00ec1cf41a4701aef.json",
+					"name" : "LockedFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LongPathTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LongPathTest-MinSizeRel-fddfc121e2682f45f24b.json",
+					"name" : "LongPathTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 25,
+					"id" : "NCContextMenu::@05687a7f05c165cf7f4d",
+					"jsonFile" : "target-NCContextMenu-MinSizeRel-ace452c11fd21a2b3493.json",
+					"name" : "NCContextMenu",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "NCMsiHelper64::@32e5155d92438a1eb57b",
+					"jsonFile" : "target-NCMsiHelper64-MinSizeRel-35fb8c3e3a6c1b29e90e.json",
+					"name" : "NCMsiHelper64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 26,
+					"id" : "NCOverlays::@112f5f152eb467ce584f",
+					"jsonFile" : "target-NCOverlays-MinSizeRel-1fca369c1c52b0a7ff79.json",
+					"name" : "NCOverlays",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 20,
+					"id" : "NCToolsShared::@914eb079d54cf53ff0f9",
+					"jsonFile" : "target-NCToolsShared-MinSizeRel-6651fcc9177f33ff2ab1.json",
+					"name" : "NCToolsShared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 27,
+					"id" : "NCUtil::@e4cb46a82ff469a810ec",
+					"jsonFile" : "target-NCUtil-MinSizeRel-28268124b4e2be124135.json",
+					"name" : "NCUtil",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "NetrcParserTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-NetrcParserTest-MinSizeRel-68d258dfc89d3c391153.json",
+					"name" : "NetrcParserTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "NextcloudPropagatorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-NextcloudPropagatorTest-MinSizeRel-8de97bc149a06d80f6bd.json",
+					"name" : "NextcloudPropagatorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Nightly::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Nightly-MinSizeRel-b24ebd90cc1d0bb52e57.json",
+					"name" : "Nightly",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "NightlyMemoryCheck::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NightlyMemoryCheck-MinSizeRel-e4e81f468c55bdae9162.json",
+					"name" : "NightlyMemoryCheck",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "OAuthTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-OAuthTest-MinSizeRel-b35cf1755863607a8bf3.json",
+					"name" : "OAuthTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "OwnSqlTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-OwnSqlTest-MinSizeRel-2b4c4e0da7ed44194b64.json",
+					"name" : "OwnSqlTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "PermissionsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-PermissionsTest-MinSizeRel-4bbd86f9d4260aa3b596.json",
+					"name" : "PermissionsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "PushNotificationsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-PushNotificationsTest-MinSizeRel-5545d5de35585e88b7a5.json",
+					"name" : "PushNotificationsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "RemoteDiscoveryTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-RemoteDiscoveryTest-MinSizeRel-6f6b71d3dbba9351b8af.json",
+					"name" : "RemoteDiscoveryTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "RemoteWipeTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-RemoteWipeTest-MinSizeRel-90a9b1a37922e08aa85c.json",
+					"name" : "RemoteWipeTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SecureFileDropTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SecureFileDropTest-MinSizeRel-7c4fd3ca4b42374c9936.json",
+					"name" : "SecureFileDropTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SelectiveSyncTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SelectiveSyncTest-MinSizeRel-0029950037aa12e37e84.json",
+					"name" : "SelectiveSyncTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SetUserStatusDialogTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SetUserStatusDialogTest-MinSizeRel-5ff9697b843a0e6082b5.json",
+					"name" : "SetUserStatusDialogTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ShareModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ShareModelTest-MinSizeRel-81d74bc440bb9a98ebe2.json",
+					"name" : "ShareModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ShareeModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ShareeModelTest-MinSizeRel-8a38ebb227c2d37504c2.json",
+					"name" : "ShareeModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SortedShareModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SortedShareModelTest-MinSizeRel-c4e6c02acd7cd72a8373.json",
+					"name" : "SortedShareModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncCfApiTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncCfApiTest-MinSizeRel-161416af1357db32504f.json",
+					"name" : "SyncCfApiTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncConflictTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncConflictTest-MinSizeRel-45485ec326d8c770feb4.json",
+					"name" : "SyncConflictTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncDeleteTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncDeleteTest-MinSizeRel-ba42ab1f9078a9901c66.json",
+					"name" : "SyncDeleteTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncEngineTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncEngineTest-MinSizeRel-6f1da9ed1fe9074361e9.json",
+					"name" : "SyncEngineTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncFileItemTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncFileItemTest-MinSizeRel-7d8817269382110eb58e.json",
+					"name" : "SyncFileItemTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncFileStatusTrackerTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncFileStatusTrackerTest-MinSizeRel-ede83a6de6c28f086b93.json",
+					"name" : "SyncFileStatusTrackerTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncJournalDBTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncJournalDBTest-MinSizeRel-9120220f2a65a1739977.json",
+					"name" : "SyncJournalDBTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncMoveTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncMoveTest-MinSizeRel-2f561b88f658835792a9.json",
+					"name" : "SyncMoveTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncVirtualFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncVirtualFilesTest-MinSizeRel-b45aa59f411c682c45d3.json",
+					"name" : "SyncVirtualFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "TalkReplyTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-TalkReplyTest-MinSizeRel-00957f272df73495e0aa.json",
+					"name" : "TalkReplyTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ThemeTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ThemeTest-MinSizeRel-d22b32a303340c87cc0d.json",
+					"name" : "ThemeTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UnifiedSearchListmodelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UnifiedSearchListmodelTest-MinSizeRel-21b895d21b8bb4976f26.json",
+					"name" : "UnifiedSearchListmodelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UpdaterTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UpdaterTest-MinSizeRel-38799f36b8fd12b21115.json",
+					"name" : "UpdaterTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UploadResetTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UploadResetTest-MinSizeRel-9d0fef6bd9a364c66721.json",
+					"name" : "UploadResetTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UtilityTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UtilityTest-MinSizeRel-d47129ef187591f12579.json",
+					"name" : "UtilityTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "XmlParseTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-XmlParseTest-MinSizeRel-1cf4fb880313182f5b1f.json",
+					"name" : "XmlParseTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-MinSizeRel-89a126d1fb0a4eeb48c8.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "cmdCore::@a06a006299655a6d74e5",
+					"jsonFile" : "target-cmdCore-MinSizeRel-47db0ad42c27ec6c4a60.json",
+					"name" : "cmdCore",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "doc-dev::@0663953e0082465139a0",
+					"jsonFile" : "target-doc-dev-MinSizeRel-1137a0dd24f347ab411b.json",
+					"name" : "doc-dev",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "nextcloud::@7675e61a69a6135e3026",
+					"jsonFile" : "target-nextcloud-MinSizeRel-1c4df7f5fbc24c7cc604.json",
+					"name" : "nextcloud",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "nextcloudCore::@7675e61a69a6135e3026",
+					"jsonFile" : "target-nextcloudCore-MinSizeRel-98ac546909f3b3891137.json",
+					"name" : "nextcloudCore",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "nextcloud_csync::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-nextcloud_csync-MinSizeRel-eb2f93af8d7268e2615b.json",
+					"name" : "nextcloud_csync",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "nextcloudcmd::@a06a006299655a6d74e5",
+					"jsonFile" : "target-nextcloudcmd-MinSizeRel-84ac9dac8d77a48ead2a.json",
+					"name" : "nextcloudcmd",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "nextcloudsync::@6348b78ac14359a235f2",
+					"jsonFile" : "target-nextcloudsync-MinSizeRel-12c9df5ec1978bc15fa4.json",
+					"name" : "nextcloudsync",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "nextcloudsync_vfs_cfapi::@cf9ceb57c559b5e5cfff",
+					"jsonFile" : "target-nextcloudsync_vfs_cfapi-MinSizeRel-61f7ab5997060d5f1aad.json",
+					"name" : "nextcloudsync_vfs_cfapi",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "nextcloudsync_vfs_suffix::@0d85a9babc12d32e6648",
+					"jsonFile" : "target-nextcloudsync_vfs_suffix-MinSizeRel-9670c3d26a3af7bd76bf.json",
+					"name" : "nextcloudsync_vfs_suffix",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "sqlite3::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-sqlite3-MinSizeRel-1ae2c7a02014fea08d9e.json",
+					"name" : "sqlite3",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "testutils::@36f028580bb02cc8272a",
+					"jsonFile" : "target-testutils-MinSizeRel-c4dd4ce0b968a6a06dc4.json",
+					"name" : "testutils",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "updater::@7675e61a69a6135e3026",
+					"jsonFile" : "target-updater-MinSizeRel-4ef514447a13e35191bc.json",
+					"name" : "updater",
+					"projectIndex" : 4
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						13,
+						14,
+						15,
+						16,
+						22,
+						28
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-RelWithDebInfo-73e2ead30116f6df7680.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						1,
+						18,
+						26,
+						42,
+						43,
+						72
+					]
+				},
+				{
+					"build" : "src",
+					"childIndexes" : 
+					[
+						2,
+						3,
+						9,
+						10
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src-RelWithDebInfo-c94b7c2814d5a21df52c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src"
+				},
+				{
+					"build" : "src/csync",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.csync-RelWithDebInfo-68fc01b8dc62f91567fd.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "src/csync",
+					"targetIndexes" : 
+					[
+						2,
+						77,
+						82
+					]
+				},
+				{
+					"build" : "src/libsync",
+					"childIndexes" : 
+					[
+						4
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync-RelWithDebInfo-29b0137fae6db900ee72.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 2,
+					"source" : "src/libsync",
+					"targetIndexes" : 
+					[
+						4,
+						79
+					]
+				},
+				{
+					"build" : "src/libsync/vfs",
+					"childIndexes" : 
+					[
+						5,
+						6,
+						8
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs-RelWithDebInfo-a5a95c61d7c100c5d242.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 3,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs"
+				},
+				{
+					"build" : "src/libsync/vfs/suffix",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.suffix-RelWithDebInfo-64118a8a0bd90f65f581.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/suffix",
+					"targetIndexes" : 
+					[
+						81
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/cfapi",
+					"childIndexes" : 
+					[
+						7
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.cfapi-RelWithDebInfo-83a62d9a3d415c4da236.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/cfapi",
+					"targetIndexes" : 
+					[
+						80
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/cfapi/shellext",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.libsync.vfs.cfapi.shellext-RelWithDebInfo-f93af7de563095f75c22.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/cfapi/shellext",
+					"targetIndexes" : 
+					[
+						12,
+						20
+					]
+				},
+				{
+					"build" : "src/libsync/vfs/xattr",
+					"jsonFile" : "directory-src.libsync.vfs.xattr-RelWithDebInfo-1ecbbc34b02f927eaded.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 4,
+					"projectIndex" : 2,
+					"source" : "src/libsync/vfs/xattr"
+				},
+				{
+					"build" : "src/cmd",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.cmd-RelWithDebInfo-d172138fb2194b2e439f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 3,
+					"source" : "src/cmd",
+					"targetIndexes" : 
+					[
+						3,
+						73,
+						78
+					]
+				},
+				{
+					"build" : "src/gui",
+					"childIndexes" : 
+					[
+						11,
+						12
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-src.gui-RelWithDebInfo-46a15e1966b8a9c7e417.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 4,
+					"source" : "src/gui",
+					"targetIndexes" : 
+					[
+						0,
+						75,
+						76,
+						84
+					]
+				},
+				{
+					"build" : "src/gui/updater",
+					"jsonFile" : "directory-src.gui.updater-RelWithDebInfo-92733953f20453e6a157.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 4,
+					"source" : "src/gui/updater"
+				},
+				{
+					"build" : "src/gui/socketapi",
+					"jsonFile" : "directory-src.gui.socketapi-RelWithDebInfo-5361c269ca78c5cedd4e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 4,
+					"source" : "src/gui/socketapi"
+				},
+				{
+					"build" : "man",
+					"jsonFile" : "directory-man-RelWithDebInfo-fad066eaf8562c55a931.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "man"
+				},
+				{
+					"build" : "doc",
+					"jsonFile" : "directory-doc-RelWithDebInfo-6029fece2c59a9c3a315.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "doc"
+				},
+				{
+					"build" : "doc/dev",
+					"jsonFile" : "directory-doc.dev-RelWithDebInfo-b8abe2e32b41eb47d93e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "doc/dev",
+					"targetIndexes" : 
+					[
+						74
+					]
+				},
+				{
+					"build" : "admin",
+					"childIndexes" : 
+					[
+						17
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin-RelWithDebInfo-45177077119159e1f0e1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "admin"
+				},
+				{
+					"build" : "admin/win",
+					"childIndexes" : 
+					[
+						18,
+						19
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win-RelWithDebInfo-a39adbee2a26d9994c09.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 16,
+					"projectIndex" : 0,
+					"source" : "admin/win"
+				},
+				{
+					"build" : "admin/win/msi",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.msi-RelWithDebInfo-ad977664ac9f0bb71ed2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 17,
+					"projectIndex" : 0,
+					"source" : "admin/win/msi"
+				},
+				{
+					"build" : "admin/win/tools",
+					"childIndexes" : 
+					[
+						20,
+						21
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.tools-RelWithDebInfo-a275df015a224d5843da.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 17,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools"
+				},
+				{
+					"build" : "admin/win/tools/NCToolsShared",
+					"jsonFile" : "directory-admin.win.tools.NCToolsShared-RelWithDebInfo-751eb975853c4d102ccf.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 19,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools/NCToolsShared",
+					"targetIndexes" : 
+					[
+						38
+					]
+				},
+				{
+					"build" : "admin/win/tools/NCMsiHelper",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-admin.win.tools.NCMsiHelper-RelWithDebInfo-8c0c5156f3e9096cfa5e.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 19,
+					"projectIndex" : 0,
+					"source" : "admin/win/tools/NCMsiHelper",
+					"targetIndexes" : 
+					[
+						36
+					]
+				},
+				{
+					"build" : "shell_integration",
+					"childIndexes" : 
+					[
+						23,
+						24
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration-RelWithDebInfo-52cfe5ed0099bf867234.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "shell_integration"
+				},
+				{
+					"build" : "shell_integration/icons",
+					"jsonFile" : "directory-shell_integration.icons-RelWithDebInfo-c1214d1cef89162185db.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 22,
+					"projectIndex" : 0,
+					"source" : "shell_integration/icons"
+				},
+				{
+					"build" : "shell_integration/windows",
+					"childIndexes" : 
+					[
+						25,
+						26,
+						27
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows-RelWithDebInfo-712928a1d417bb9d3318.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 22,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows"
+				},
+				{
+					"build" : "shell_integration/windows/NCContextMenu",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows.NCContextMenu-RelWithDebInfo-0358a376bee7bf9104c4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCContextMenu",
+					"targetIndexes" : 
+					[
+						35
+					]
+				},
+				{
+					"build" : "shell_integration/windows/NCOverlays",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-shell_integration.windows.NCOverlays-RelWithDebInfo-04c187b37800a3ddf73f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCOverlays",
+					"targetIndexes" : 
+					[
+						37
+					]
+				},
+				{
+					"build" : "shell_integration/windows/NCUtil",
+					"jsonFile" : "directory-shell_integration.windows.NCUtil-RelWithDebInfo-6ee8dc2f07effde247b0.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 24,
+					"projectIndex" : 0,
+					"source" : "shell_integration/windows/NCUtil",
+					"targetIndexes" : 
+					[
+						39
+					]
+				},
+				{
+					"build" : "test",
+					"jsonFile" : "directory-test-RelWithDebInfo-f18be1977b403cfd1a50.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "test",
+					"targetIndexes" : 
+					[
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						13,
+						14,
+						15,
+						16,
+						17,
+						19,
+						21,
+						22,
+						23,
+						24,
+						25,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						40,
+						41,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						83
+					]
+				}
+			],
+			"name" : "RelWithDebInfo",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28
+					],
+					"name" : "client",
+					"targetIndexes" : 
+					[
+						1,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						35,
+						36,
+						37,
+						38,
+						39,
+						40,
+						41,
+						42,
+						43,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						72,
+						74,
+						83
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "libcsync",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						77,
+						82
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					],
+					"name" : "libsync",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						4,
+						12,
+						20,
+						79,
+						80,
+						81
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						9
+					],
+					"name" : "cmd",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3,
+						73,
+						78
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						10,
+						11,
+						12
+					],
+					"name" : "gui",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						75,
+						76,
+						84
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 10,
+					"id" : "ALL_BUILD::@7675e61a69a6135e3026",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-440ed8bf9c7fb4468b61.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-2a20434b0dac1b2aa664.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "ALL_BUILD::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-f650cdab8ef27e4206a5.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "ALL_BUILD::@a06a006299655a6d74e5",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-77ecd8d0dbaab04f998b.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@6348b78ac14359a235f2",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-912ac967b4a99c0be92c.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AccountTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AccountTest-RelWithDebInfo-eef6ebbc73e22ceb4eb1.json",
+					"name" : "AccountTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ActivityDataTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ActivityDataTest-RelWithDebInfo-45ca853ce2cbd701262c.json",
+					"name" : "ActivityDataTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ActivityListModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ActivityListModelTest-RelWithDebInfo-ea324d78f867dbf85dd5.json",
+					"name" : "ActivityListModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AllFilesDeletedTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AllFilesDeletedTest-RelWithDebInfo-952aff043d2cff49841a.json",
+					"name" : "AllFilesDeletedTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "AsyncOpTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-AsyncOpTest-RelWithDebInfo-e822e5b62fee8e818a01.json",
+					"name" : "AsyncOpTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "BlacklistTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-BlacklistTest-RelWithDebInfo-1c6ccb4db21dd535aa21.json",
+					"name" : "BlacklistTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CapabilitiesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CapabilitiesTest-RelWithDebInfo-7e97994e714e033117cd.json",
+					"name" : "CapabilitiesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "CfApiShellExtensions::@3d991c3732ab22178f25",
+					"jsonFile" : "target-CfApiShellExtensions-RelWithDebInfo-3003db84688c5c3530ba.json",
+					"name" : "CfApiShellExtensions",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CfApiShellExtensionsIPCTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CfApiShellExtensionsIPCTest-RelWithDebInfo-6da6deb0f3a2b2a5c18b.json",
+					"name" : "CfApiShellExtensionsIPCTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ChecksumValidatorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ChecksumValidatorTest-RelWithDebInfo-f81e71cf904de1d9d3e8.json",
+					"name" : "ChecksumValidatorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ChunkingNgTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ChunkingNgTest-RelWithDebInfo-da6a683c33e5ab5811cc.json",
+					"name" : "ChunkingNgTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ClientSideEncryptionTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ClientSideEncryptionTest-RelWithDebInfo-94c942620f0018dc0a49.json",
+					"name" : "ClientSideEncryptionTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ConcatUrlTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ConcatUrlTest-RelWithDebInfo-fa2a286bbb9f29006a8b.json",
+					"name" : "ConcatUrlTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Continuous::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Continuous-RelWithDebInfo-e5056fdd83b456da3851.json",
+					"name" : "Continuous",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "CookiesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-CookiesTest-RelWithDebInfo-60c1c3df5057246a7739.json",
+					"name" : "CookiesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "CustomStateProviderImpl::@3d991c3732ab22178f25",
+					"jsonFile" : "target-CustomStateProviderImpl-RelWithDebInfo-1907301192ec48e3cd82.json",
+					"name" : "CustomStateProviderImpl",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "DatabaseErrorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-DatabaseErrorTest-RelWithDebInfo-e0ef06ff7f53a1849eb6.json",
+					"name" : "DatabaseErrorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "DownloadTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-DownloadTest-RelWithDebInfo-cd62570d604d022a5736.json",
+					"name" : "DownloadTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "E2eFileTransferTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-E2eFileTransferTest-RelWithDebInfo-6bd3d54639a3e3f233e7.json",
+					"name" : "E2eFileTransferTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "E2eServerSetupTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-E2eServerSetupTest-RelWithDebInfo-aad151cabb3ec0e10f14.json",
+					"name" : "E2eServerSetupTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ExcludedFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ExcludedFilesTest-RelWithDebInfo-e3156e529df4fe975438.json",
+					"name" : "ExcludedFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Experimental::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Experimental-RelWithDebInfo-c5c6f0779e39a1287a92.json",
+					"name" : "Experimental",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "FolderManTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-FolderManTest-RelWithDebInfo-fed1850333939b205d05.json",
+					"name" : "FolderManTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "FolderWatcherTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-FolderWatcherTest-RelWithDebInfo-ac6166fafabfd40eb766.json",
+					"name" : "FolderWatcherTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "IconUtilsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-IconUtilsTest-RelWithDebInfo-0d7c04a5a19a4c1d9df5.json",
+					"name" : "IconUtilsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LargeSyncBench::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LargeSyncBench-RelWithDebInfo-e9cb8906095bbdb6fca3.json",
+					"name" : "LargeSyncBench",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LocalDiscoveryTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LocalDiscoveryTest-RelWithDebInfo-4a9567ec6be65b2f2bb8.json",
+					"name" : "LocalDiscoveryTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LockFileTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LockFileTest-RelWithDebInfo-4e8a8f369be88ecfa941.json",
+					"name" : "LockFileTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LockedFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LockedFilesTest-RelWithDebInfo-2f63f9a023c31f21215b.json",
+					"name" : "LockedFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "LongPathTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-LongPathTest-RelWithDebInfo-cb2de92415a8d639e4ed.json",
+					"name" : "LongPathTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 25,
+					"id" : "NCContextMenu::@05687a7f05c165cf7f4d",
+					"jsonFile" : "target-NCContextMenu-RelWithDebInfo-2a2c4bd5fc94b2d7db81.json",
+					"name" : "NCContextMenu",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "NCMsiHelper64::@32e5155d92438a1eb57b",
+					"jsonFile" : "target-NCMsiHelper64-RelWithDebInfo-cf6c3e0c3f64bd6e351a.json",
+					"name" : "NCMsiHelper64",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 26,
+					"id" : "NCOverlays::@112f5f152eb467ce584f",
+					"jsonFile" : "target-NCOverlays-RelWithDebInfo-0a174f252226f89b7a7f.json",
+					"name" : "NCOverlays",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 20,
+					"id" : "NCToolsShared::@914eb079d54cf53ff0f9",
+					"jsonFile" : "target-NCToolsShared-RelWithDebInfo-2425a85fee440b3c0de4.json",
+					"name" : "NCToolsShared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 27,
+					"id" : "NCUtil::@e4cb46a82ff469a810ec",
+					"jsonFile" : "target-NCUtil-RelWithDebInfo-a567331f4270912555a9.json",
+					"name" : "NCUtil",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "NetrcParserTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-NetrcParserTest-RelWithDebInfo-f2fd5de6d279cbf2a69b.json",
+					"name" : "NetrcParserTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "NextcloudPropagatorTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-NextcloudPropagatorTest-RelWithDebInfo-bd4a0342419a2ea36db7.json",
+					"name" : "NextcloudPropagatorTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Nightly::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Nightly-RelWithDebInfo-b24ebd90cc1d0bb52e57.json",
+					"name" : "Nightly",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "NightlyMemoryCheck::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NightlyMemoryCheck-RelWithDebInfo-e4e81f468c55bdae9162.json",
+					"name" : "NightlyMemoryCheck",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "OAuthTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-OAuthTest-RelWithDebInfo-839b0da10a393f531ce7.json",
+					"name" : "OAuthTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "OwnSqlTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-OwnSqlTest-RelWithDebInfo-1d449a2939ba0c0c9866.json",
+					"name" : "OwnSqlTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "PermissionsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-PermissionsTest-RelWithDebInfo-c0ab2d418386a25a2571.json",
+					"name" : "PermissionsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "PushNotificationsTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-PushNotificationsTest-RelWithDebInfo-99deede160896bfaf0bb.json",
+					"name" : "PushNotificationsTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "RemoteDiscoveryTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-RemoteDiscoveryTest-RelWithDebInfo-d3cc0960b90b983aa3c3.json",
+					"name" : "RemoteDiscoveryTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "RemoteWipeTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-RemoteWipeTest-RelWithDebInfo-1e9997969ac62f52b4a8.json",
+					"name" : "RemoteWipeTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SecureFileDropTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SecureFileDropTest-RelWithDebInfo-061b100324127a2e0a01.json",
+					"name" : "SecureFileDropTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SelectiveSyncTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SelectiveSyncTest-RelWithDebInfo-6494cd54896a6a7267c7.json",
+					"name" : "SelectiveSyncTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SetUserStatusDialogTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SetUserStatusDialogTest-RelWithDebInfo-c95ac4c7622e58887bcf.json",
+					"name" : "SetUserStatusDialogTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ShareModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ShareModelTest-RelWithDebInfo-b5b96596ad9ea0de6d6c.json",
+					"name" : "ShareModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ShareeModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ShareeModelTest-RelWithDebInfo-d62211759c05c96f501b.json",
+					"name" : "ShareeModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SortedShareModelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SortedShareModelTest-RelWithDebInfo-23aaa038a9343053233f.json",
+					"name" : "SortedShareModelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncCfApiTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncCfApiTest-RelWithDebInfo-45661535c365a50678a3.json",
+					"name" : "SyncCfApiTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncConflictTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncConflictTest-RelWithDebInfo-c69d73e7f6b97154dab8.json",
+					"name" : "SyncConflictTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncDeleteTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncDeleteTest-RelWithDebInfo-7354485d35852a716dd2.json",
+					"name" : "SyncDeleteTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncEngineTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncEngineTest-RelWithDebInfo-0379438f700aef169be9.json",
+					"name" : "SyncEngineTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncFileItemTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncFileItemTest-RelWithDebInfo-4a529767175b17aa8d27.json",
+					"name" : "SyncFileItemTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncFileStatusTrackerTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncFileStatusTrackerTest-RelWithDebInfo-5d030949b726d1ee5339.json",
+					"name" : "SyncFileStatusTrackerTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncJournalDBTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncJournalDBTest-RelWithDebInfo-d5e5a05135f41ce93831.json",
+					"name" : "SyncJournalDBTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncMoveTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncMoveTest-RelWithDebInfo-2400aac9d824ef5bfb88.json",
+					"name" : "SyncMoveTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "SyncVirtualFilesTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-SyncVirtualFilesTest-RelWithDebInfo-55ee7bcfa794507d1876.json",
+					"name" : "SyncVirtualFilesTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "TalkReplyTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-TalkReplyTest-RelWithDebInfo-fa3c69ee322d0a9e4763.json",
+					"name" : "TalkReplyTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "ThemeTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-ThemeTest-RelWithDebInfo-78cf9b0881a46ac9381e.json",
+					"name" : "ThemeTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UnifiedSearchListmodelTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UnifiedSearchListmodelTest-RelWithDebInfo-065f8e21d46e79623894.json",
+					"name" : "UnifiedSearchListmodelTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UpdaterTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UpdaterTest-RelWithDebInfo-275139533b84bcdbdd78.json",
+					"name" : "UpdaterTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UploadResetTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UploadResetTest-RelWithDebInfo-7bcf6adc48ec5a50bcb5.json",
+					"name" : "UploadResetTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "UtilityTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-UtilityTest-RelWithDebInfo-20f17c2da68e73ad473c.json",
+					"name" : "UtilityTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "XmlParseTest::@36f028580bb02cc8272a",
+					"jsonFile" : "target-XmlParseTest-RelWithDebInfo-9378487aa5992e060048.json",
+					"name" : "XmlParseTest",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-RelWithDebInfo-89a126d1fb0a4eeb48c8.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "cmdCore::@a06a006299655a6d74e5",
+					"jsonFile" : "target-cmdCore-RelWithDebInfo-ec0946704f2c88fdcff8.json",
+					"name" : "cmdCore",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "doc-dev::@0663953e0082465139a0",
+					"jsonFile" : "target-doc-dev-RelWithDebInfo-1137a0dd24f347ab411b.json",
+					"name" : "doc-dev",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "nextcloud::@7675e61a69a6135e3026",
+					"jsonFile" : "target-nextcloud-RelWithDebInfo-3672eccf72fdc990ff09.json",
+					"name" : "nextcloud",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "nextcloudCore::@7675e61a69a6135e3026",
+					"jsonFile" : "target-nextcloudCore-RelWithDebInfo-6a18feec0d10428e411c.json",
+					"name" : "nextcloudCore",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "nextcloud_csync::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-nextcloud_csync-RelWithDebInfo-80e43b07d775140d3d3a.json",
+					"name" : "nextcloud_csync",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "nextcloudcmd::@a06a006299655a6d74e5",
+					"jsonFile" : "target-nextcloudcmd-RelWithDebInfo-62934b3c62f5b5f7d82c.json",
+					"name" : "nextcloudcmd",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "nextcloudsync::@6348b78ac14359a235f2",
+					"jsonFile" : "target-nextcloudsync-RelWithDebInfo-22aa7187c9f0978be36c.json",
+					"name" : "nextcloudsync",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "nextcloudsync_vfs_cfapi::@cf9ceb57c559b5e5cfff",
+					"jsonFile" : "target-nextcloudsync_vfs_cfapi-RelWithDebInfo-1d718e9e38790e914596.json",
+					"name" : "nextcloudsync_vfs_cfapi",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "nextcloudsync_vfs_suffix::@0d85a9babc12d32e6648",
+					"jsonFile" : "target-nextcloudsync_vfs_suffix-RelWithDebInfo-3c3eec491d06d28317a0.json",
+					"name" : "nextcloudsync_vfs_suffix",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "sqlite3::@00221ffde65d462d5a0f",
+					"jsonFile" : "target-sqlite3-RelWithDebInfo-0711d1fd575241ac1b0e.json",
+					"name" : "sqlite3",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 28,
+					"id" : "testutils::@36f028580bb02cc8272a",
+					"jsonFile" : "target-testutils-RelWithDebInfo-13efaf6ae783b73cef8f.json",
+					"name" : "testutils",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "updater::@7675e61a69a6135e3026",
+					"jsonFile" : "target-updater-RelWithDebInfo-51b82652b858fccf5ec8.json",
+					"name" : "updater",
+					"projectIndex" : 4
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/NextCloud/client-building/desktop/build",
+		"source" : "C:/NextCloud/client-building/desktop"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

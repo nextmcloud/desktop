@@ -1,0 +1,45 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"shell_integration/windows/NCContextMenu/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 22,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "bin",
+			"paths" : 
+			[
+				"bin/MinSizeRel/NCContextMenu.dll"
+			],
+			"targetId" : "NCContextMenu::@05687a7f05c165cf7f4d",
+			"targetIndex" : 35,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "shell_integration/windows/NCContextMenu",
+		"source" : "shell_integration/windows/NCContextMenu"
+	}
+}

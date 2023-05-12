@@ -1,0 +1,52 @@
+^C:\NEXTCLOUD\CLIENT-BUILDING\DESKTOP\BUILD\CMAKEFILES\E4045B85DBC2C946E6BC90918EB084F9\0-LOCKED.ICO.RULE
+setlocal
+cd C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\png2ico.exe C:/NextCloud/client-building/desktop/build/src/libsync/vfs/cfapi/shellext/0-locked.ico C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/24-0-locked.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/32-0-locked.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/40-0-locked.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/48-0-locked.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/64-0-locked.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/128-0-locked.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/256-0-locked.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/512-0-locked.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/1024-0-locked.png
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\NEXTCLOUD\CLIENT-BUILDING\DESKTOP\BUILD\CMAKEFILES\E4045B85DBC2C946E6BC90918EB084F9\1-SHARED.ICO.RULE
+setlocal
+cd C:\NextCloud\client-building\desktop\src\libsync\vfs\cfapi\shellext
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\png2ico.exe C:/NextCloud/client-building/desktop/build/src/libsync/vfs/cfapi/shellext/1-shared.ico C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/24-1-shared.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/32-1-shared.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/40-1-shared.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/48-1-shared.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/64-1-shared.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/128-1-shared.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/256-1-shared.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/512-1-shared.png C:/NextCloud/client-building/desktop/theme/cfapishellext_custom_states/1024-1-shared.png
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\NEXTCLOUD\CLIENT-BUILDING\DESKTOP\BUILD\CMAKEFILES\E4045B85DBC2C946E6BC90918EB084F9\CFAPISHELLEXTENSIONS.RC.RULE
+setlocal
+cd C:\NextCloud\client-building\desktop\build\src\libsync\vfs\cfapi\shellext
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+C:\NextCloud\tools\cmake\bin\cmake.exe -E copy C:/NextCloud/client-building/desktop/build/src/libsync/vfs/cfapi/shellext/CfApiShellExtensions.rc.in C:/NextCloud/client-building/desktop/build/src/libsync/vfs/cfapi/shellext/CfApiShellExtensions.rc
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\NEXTCLOUD\CLIENT-BUILDING\DESKTOP\SRC\LIBSYNC\VFS\CFAPI\SHELLEXT\CMAKELISTS.TXT
+setlocal
+C:\NextCloud\tools\cmake\bin\cmake.exe -SC:/NextCloud/client-building/desktop -BC:/NextCloud/client-building/desktop/build --check-stamp-file C:/NextCloud/client-building/desktop/build/src/libsync/vfs/cfapi/shellext/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

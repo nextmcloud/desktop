@@ -1,0 +1,256 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "nextcloud_csync::@00221ffde65d462d5a0f"
+		},
+		{
+			"id" : "nextcloudsync::@6348b78ac14359a235f2"
+		},
+		{
+			"id" : "sqlite3::@00221ffde65d462d5a0f"
+		},
+		{
+			"id" : "nextcloudCore::@7675e61a69a6135e3026"
+		},
+		{
+			"id" : "nextcloudsync_vfs_cfapi::@cf9ceb57c559b5e5cfff"
+		},
+		{
+			"id" : "updater::@7675e61a69a6135e3026"
+		},
+		{
+			"id" : "nextcloudsync_vfs_suffix::@0d85a9babc12d32e6648"
+		},
+		{
+			"id" : "cmdCore::@a06a006299655a6d74e5"
+		},
+		{
+			"id" : "CfApiShellExtensions::@3d991c3732ab22178f25"
+		},
+		{
+			"id" : "nextcloudcmd::@a06a006299655a6d74e5"
+		},
+		{
+			"id" : "nextcloud::@7675e61a69a6135e3026"
+		},
+		{
+			"id" : "NCMsiHelper64::@32e5155d92438a1eb57b"
+		},
+		{
+			"id" : "NCToolsShared::@914eb079d54cf53ff0f9"
+		},
+		{
+			"id" : "NCUtil::@e4cb46a82ff469a810ec"
+		},
+		{
+			"id" : "ConcatUrlTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "NCContextMenu::@05687a7f05c165cf7f4d"
+		},
+		{
+			"id" : "NCOverlays::@112f5f152eb467ce584f"
+		},
+		{
+			"id" : "SyncFileStatusTrackerTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "UpdaterTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "DownloadTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SyncFileItemTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "E2eServerSetupTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "NetrcParserTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "OwnSqlTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "NextcloudPropagatorTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "UploadResetTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ShareeModelTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "CookiesTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "XmlParseTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "RemoteWipeTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "testutils::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SyncJournalDBTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "TalkReplyTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SyncConflictTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ChecksumValidatorTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ClientSideEncryptionTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "RemoteDiscoveryTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SyncEngineTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SyncMoveTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "BlacklistTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "CfApiShellExtensionsIPCTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "AllFilesDeletedTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SelectiveSyncTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SyncVirtualFilesTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "IconUtilsTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ChunkingNgTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "OAuthTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ActivityDataTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "E2eFileTransferTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ExcludedFilesTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ShareModelTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "LocalDiscoveryTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "LockedFilesTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "CapabilitiesTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "DatabaseErrorTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "FolderManTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "UtilityTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SyncDeleteTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "FolderWatcherTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "AsyncOpTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "PushNotificationsTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ThemeTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SetUserStatusDialogTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "PermissionsTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "LargeSyncBench::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ActivityListModelTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SortedShareModelTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "UnifiedSearchListmodelTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "LongPathTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "AccountTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "LockFileTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		},
+		{
+			"id" : "SyncCfApiTest::@36f028580bb02cc8272a"
+		},
+		{
+			"id" : "SecureFileDropTest::@36f028580bb02cc8272a"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "CMakePredefinedTargets"
+	},
+	"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+	"isGeneratorProvided" : true,
+	"name" : "ALL_BUILD",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}
