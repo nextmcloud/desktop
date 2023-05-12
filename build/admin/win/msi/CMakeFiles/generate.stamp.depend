@@ -1,6 +1,0 @@
-# CMake generation dependency list for this directory.
-C:/NextCloud/client-building/desktop/admin/win/msi/CMakeLists.txt
-C:/NextCloud/client-building/desktop/admin/win/msi/OEM.wxi.in
-C:/NextCloud/client-building/desktop/admin/win/msi/RegistryCleanup.vbs.in
-C:/NextCloud/client-building/desktop/admin/win/msi/collect-transform.xsl.in
-C:/NextCloud/client-building/desktop/admin/win/msi/make-msi.bat.in
