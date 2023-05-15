@@ -28,21 +28,21 @@ private slots:
 
     void initTestCase()
     {
-         qmlRegisterSingletonType<Theme>("com.nextcloud.desktopclient", 1, 0, "Theme",
-                                        [](QQmlEngine *, QJSEngine *) -> QObject * {
-            return Theme::instance();
-        }
-        );
-         qmlRegisterSingletonType<UserModel>("com.nextcloud.desktopclient", 1, 0, "UserModel",
-                                             [](QQmlEngine *, QJSEngine *) -> QObject * {
-             return UserModel::instance();
-         }
-         );
-         qmlRegisterSingletonType<Systray>("com.nextcloud.desktopclient", 1, 0, "Systray",
-                                           [](QQmlEngine *, QJSEngine *) -> QObject * {
-             return Systray::instance();
-         }
-         );
+//         qmlRegisterSingletonType<Theme>("com.nextcloud.desktopclient", 1, 0, "Theme",
+//                                        [](QQmlEngine *, QJSEngine *) -> QObject * {
+//            return Theme::instance();
+//        }
+//        );
+//         qmlRegisterSingletonType<UserModel>("com.nextcloud.desktopclient", 1, 0, "UserModel",
+//                                             [](QQmlEngine *, QJSEngine *) -> QObject * {
+//             return UserModel::instance();
+//         }
+//         );
+//         qmlRegisterSingletonType<Systray>("com.nextcloud.desktopclient", 1, 0, "Systray",
+//                                           [](QQmlEngine *, QJSEngine *) -> QObject * {
+//             return Systray::instance();
+//         }
+//         );
 
          // Second, register the QML singleton type by calling this function in an initialization function.
         qmlRegisterSingletonType(QUrl("qrc:/qml/theme/Style/Style.qml"), "Style", 1, 0, "Style");
