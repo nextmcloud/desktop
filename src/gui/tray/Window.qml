@@ -15,6 +15,7 @@ import com.nextcloud.desktopclient 1.0
 
 ApplicationWindow {
     id:         trayWindow
+    objectName: "trayWindow"
 
     title:      Systray.windowTitle
     // If the main dialog is displayed as a regular window we want it to be quadratic
