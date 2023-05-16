@@ -9,10 +9,9 @@ import "../"
 import "../filedetails/"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
-import Style 1.0
-
 
 import com.nextcloud.desktopclient 1.0
+import Style 1.0
 
 ApplicationWindow {
     id:         trayWindow
