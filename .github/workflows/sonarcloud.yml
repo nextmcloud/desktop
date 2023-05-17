@@ -2,7 +2,7 @@ name: SonarCloud analysis
 on:
   push:
     branches:
-      - master
+      - master-windows
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
