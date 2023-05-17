@@ -57,7 +57,7 @@ private slots:
     void slotTransferUsageData(); //MagentaCustomizationV25
 #if defined(BUILD_UPDATER)
     void slotUpdateInfo();
-    void slotUpdateChannelChanged(const QString &translatedChannel);
+    void slotUpdateChannelChanged();
     void slotUpdateCheckNow();
     void slotToggleAutoUpdateCheck();
 #endif
