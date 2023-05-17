@@ -187,21 +187,22 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     /* MagentaCustomizationV25 */
     // setup data privacy section
     connect(_ui->transferUsageDataCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotTransferUsageData);
+    auto fontColor = Theme::defaultColor();
 
     _ui->imprintLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->imprintLabel->setOpenExternalLinks(true);
     _ui->imprintLabel->setTextFormat(Qt::RichText);
-    _ui->imprintLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL)));
+    _ui->imprintLabel->setText(tr("<a href='%1' style=\"color: %2;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL),fontColor.name(QColor::HexArgb)));
 
     _ui->privacyPolicyLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->privacyPolicyLabel->setOpenExternalLinks(true);
     _ui->privacyPolicyLabel->setTextFormat(Qt::RichText);
-    _ui->privacyPolicyLabel->setText(tr("<a href='%1' style=\"color: #e20074;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL)));
+    _ui->privacyPolicyLabel->setText(tr("<a href='%1' style=\"color: %2;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL), fontColor.name(QColor::HexArgb)));
 
     _ui->openSourceSwLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->openSourceSwLabel->setOpenExternalLinks(true);
     _ui->openSourceSwLabel->setTextFormat(Qt::RichText);
-    _ui->openSourceSwLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL)));
+    _ui->openSourceSwLabel->setText(tr("<a href='%1' style=\"color: %2;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL), fontColor.name(QColor::HexArgb)));
 
     // setup about section
     QString about = Theme::instance()->about();
@@ -212,7 +213,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     QString infoUrl = Theme::instance()->helpUrl();
     _ui->infoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->infoLabel->setOpenExternalLinks(true);
-    _ui->infoLabel->setText(tr("<a href='%1' style=\"color: #e20074;\">Further Information</a>").arg(infoUrl));
+    _ui->infoLabel->setText(tr("<a href='%1' style=\"color: %2;\">Further Information</a>").arg(infoUrl,fontColor.name(QColor::HexArgb)));
 
     // About legal notice
     connect(_ui->legalNoticeButton, &QPushButton::clicked, this, &GeneralSettings::slotShowLegalNotice);

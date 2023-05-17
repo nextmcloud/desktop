@@ -112,9 +112,7 @@ private slots:
     void testAbout()
     {
         OCC::Theme *themeObj = OCC::Theme::instance();
-        QString expectedDevString = tr("<p>%1 Desktop Client Version %2.</p>")
-                                    .arg(APPLICATION_NAME)
-                                    .arg(QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)));
+        QString expectedDevString = tr("<p>%1 Desktop Client Version %2.</p>").arg(APPLICATION_NAME, QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)));
 
         QString devString = themeObj->about();
 

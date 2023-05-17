@@ -48,10 +48,11 @@ private slots:
 
     void testGeneralSettings()
     {
-        QString expectedImprintLabel = tr("<a href='%1' style=\"color: #e20074;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL));
-        QString expectedPrivacyPolicyLabel = tr("<a href='%1' style=\"color: #e20074;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL));
-        QString expectedOpenSourceSwLabel = tr("<a href='%1' style=\"color: #e20074;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL));
-        QString expectedInfoLabel = tr("<a href='%1' style=\"color: #e20074;\">Further Information</a>").arg(Theme::instance()->helpUrl());
+        auto fontColor = Theme::defaultColor();
+        QString expectedImprintLabel = tr("<a href='%1' style=\"color: %2;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL), fontColor.name(QColor::HexArgb));
+        QString expectedPrivacyPolicyLabel = tr("<a href='%1' style=\"color: %2;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL), fontColor.name(QColor::HexArgb));
+        QString expectedOpenSourceSwLabel = tr("<a href='%1' style=\"color: %2;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL), fontColor.name(QColor::HexArgb));
+        QString expectedInfoLabel = tr("<a href='%1' style=\"color: %2;\">Further Information</a>").arg(Theme::instance()->helpUrl(), fontColor.name(QColor::HexArgb));
 
         ConfigFile cfgFile;
         FolderMan folderMan(new QObject());
