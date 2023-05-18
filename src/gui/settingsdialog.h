@@ -25,6 +25,7 @@ class QAction;
 class QActionGroup;
 class QToolBar;
 class QStandardItemModel;
+class TestSettingsDialog;
 
 namespace OCC {
 
@@ -93,6 +94,9 @@ private:
     QToolBar *_toolBar;
 
     ownCloudGui *_gui;
+
+    /* for Unit Test */
+    friend class ::TestSettingsDialog;
 };
 }
 
