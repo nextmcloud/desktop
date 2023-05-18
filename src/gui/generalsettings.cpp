@@ -139,19 +139,11 @@ GeneralSettings::GeneralSettings(QWidget *parent)
 {
     _ui->setupUi(this);
     /* MagentaCustomizationV25 */
-    _ui->autoCheckForUpdatesCheckBox->setVisible(true);
-    _ui->restartButton->setVisible(false);
-    _ui->updateButton->setVisible(false);
-    _ui->debugArchiveButton->setVisible(false);
     _ui->callNotificationsCheckBox->setVisible(false);
-    _ui->ignoredFilesButton->setVisible(false);
+    _ui->newExternalStorage->setVisible(false);
     _ui->showInExplorerNavigationPaneCheckBox->setVisible(false);
-    _ui->legalNoticeButton->setVisible(false);
-    _ui->newExternalStorage->setVisible(false);
-    _ui->updateStateLabel->setVisible(false);
-    _ui->updateChannel->setVisible(false);
-    _ui->updateChannelLabel->setVisible(false);
-    _ui->newExternalStorage->setVisible(false);
+    _ui->ignoredFilesButton->setVisible(false);
+    _ui->debugArchiveButton->setVisible(false);
 
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
@@ -184,36 +176,11 @@ GeneralSettings::GeneralSettings(QWidget *parent)
         connect(_ui->autostartCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotToggleLaunchOnStartup);
     }
 
-    /* MagentaCustomizationV25 */
-    // setup data privacy section
-    connect(_ui->transferUsageDataCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotTransferUsageData);
-    auto fontColor = Theme::defaultColor();
-
-    _ui->imprintLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
-    _ui->imprintLabel->setOpenExternalLinks(true);
-    _ui->imprintLabel->setTextFormat(Qt::RichText);
-    _ui->imprintLabel->setText(tr("<a href='%1' style=\"color: %2;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL),fontColor.name(QColor::HexArgb)));
-
-    _ui->privacyPolicyLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
-    _ui->privacyPolicyLabel->setOpenExternalLinks(true);
-    _ui->privacyPolicyLabel->setTextFormat(Qt::RichText);
-    _ui->privacyPolicyLabel->setText(tr("<a href='%1' style=\"color: %2;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL), fontColor.name(QColor::HexArgb)));
-
-    _ui->openSourceSwLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
-    _ui->openSourceSwLabel->setOpenExternalLinks(true);
-    _ui->openSourceSwLabel->setTextFormat(Qt::RichText);
-    _ui->openSourceSwLabel->setText(tr("<a href='%1' style=\"color: %2;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL), fontColor.name(QColor::HexArgb)));
-
     // setup about section
     QString about = Theme::instance()->about();
     _ui->aboutLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
     _ui->aboutLabel->setText(about);
     _ui->aboutLabel->setOpenExternalLinks(true);
-
-    QString infoUrl = Theme::instance()->helpUrl();
-    _ui->infoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
-    _ui->infoLabel->setOpenExternalLinks(true);
-    _ui->infoLabel->setText(tr("<a href='%1' style=\"color: %2;\">Further Information</a>").arg(infoUrl,fontColor.name(QColor::HexArgb)));
 
     // About legal notice
     connect(_ui->legalNoticeButton, &QPushButton::clicked, this, &GeneralSettings::slotShowLegalNotice);
@@ -287,6 +254,9 @@ void GeneralSettings::loadMiscSettings()
 {
     QScopedValueRollback<bool> scope(_currentlyLoading, true);
     ConfigFile cfgFile;
+    /* MagentaCustomizationV25 */
+    cfgFile.setConfirmExternalStorage(true);
+
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
     _ui->serverNotificationsCheckBox->setChecked(cfgFile.optionalServerNotifications());
     _ui->callNotificationsCheckBox->setEnabled(_ui->serverNotificationsCheckBox->isEnabled());
@@ -298,12 +268,6 @@ void GeneralSettings::loadMiscSettings()
     _ui->newFolderLimitSpinBox->setValue(newFolderLimit.second);
     _ui->newExternalStorage->setChecked(cfgFile.confirmExternalStorage());
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
-
-    /* MagentaCustomizationV25 */
-    _ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
-    _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
-
-    cfgFile.setConfirmExternalStorage(true);
 }
 
 #if defined(BUILD_UPDATER)
@@ -313,11 +277,6 @@ void GeneralSettings::slotUpdateInfo()
     if (ConfigFile().skipUpdateCheck() || !updater) {
         // updater disabled on compile
         _ui->updatesGroupBox->setVisible(false);
-
-        /* MagentaCustomizationV25 */
-        _ui->autoCheckForUpdatesCheckBox->setVisible(true);
-        _ui->restartButton->setVisible(false);
-        _ui->updateButton->setVisible(false);
         return;
     }
 
@@ -364,7 +323,7 @@ void GeneralSettings::slotUpdateInfo()
         this, &GeneralSettings::slotUpdateChannelChanged, Qt::UniqueConnection);
 }
 
-void GeneralSettings::slotUpdateChannelChanged(const QString &translatedChannel)
+void GeneralSettings::slotUpdateChannelChanged()
 {
     const auto updateChannelToLocalized = [](const QString &channel) {
         auto decodedTranslatedChannel = QString{};
@@ -379,26 +338,15 @@ void GeneralSettings::slotUpdateChannelChanged(const QString &translatedChannel)
     };
 
     const auto updateChannelFromLocalized = [](const int index) {
-        auto channel = QString{};
-
-        switch (index)
-        {
-        case 0:
-            channel = QStringLiteral("stable");
-            break;
-        case 1:
-            channel = QStringLiteral("beta");
-            break;
-        default:
-            channel = QString{};
+        if (index == 1) {
+            return QStringLiteral("beta");
         }
 
-        return channel;
+        return QStringLiteral("stable");
     };
 
     const auto channel = updateChannelFromLocalized(_ui->updateChannel->currentIndex());
-
-    if (translatedChannel == ConfigFile().updateChannel()) {
+    if (channel == ConfigFile().updateChannel()) {
         return;
     }
 
@@ -466,15 +414,6 @@ void GeneralSettings::slotToggleAutoUpdateCheck()
     cfgFile.setAutoUpdateCheck(isChecked, QString());
 }
 #endif // defined(BUILD_UPDATER)
-
-
-/* MagentaCustomizationV25 */
-void GeneralSettings::slotTransferUsageData()
-{
-    ConfigFile cfgFile;
-    bool isChecked = _ui->transferUsageDataCheckBox->isChecked();
-    cfgFile.setTransferUsageData(isChecked, QString());
-}
 
 void GeneralSettings::saveMiscSettings()
 {
@@ -565,11 +504,6 @@ void GeneralSettings::customizeStyle()
     slotUpdateInfo();
 #else
     _ui->updatesGroupBox->setVisible(false);
-
-    /* MagentaCustomizationV25 */
-    _ui->autoCheckForUpdatesCheckBox->setVisible(true);
-    _ui->restartButton->setVisible(false);
-    _ui->updateButton->setVisible(false);
 #endif
 }
 

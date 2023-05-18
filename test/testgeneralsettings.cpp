@@ -48,37 +48,18 @@ private slots:
 
     void testGeneralSettings()
     {
-        auto fontColor = Theme::defaultColor();
-        QString expectedImprintLabel = tr("<a href='%1' style=\"color: %2;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL), fontColor.name(QColor::HexArgb));
-        QString expectedPrivacyPolicyLabel = tr("<a href='%1' style=\"color: %2;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL), fontColor.name(QColor::HexArgb));
-        QString expectedOpenSourceSwLabel = tr("<a href='%1' style=\"color: %2;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL), fontColor.name(QColor::HexArgb));
-        QString expectedInfoLabel = tr("<a href='%1' style=\"color: %2;\">Further Information</a>").arg(Theme::instance()->helpUrl(), fontColor.name(QColor::HexArgb));
-
         ConfigFile cfgFile;
         FolderMan folderMan(new QObject());
 
         GeneralSettings genSetting(new QWidget());
 
-        QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isHidden(), false);
-        QCOMPARE(genSetting._ui->restartButton->isHidden(), true);
-        QCOMPARE(genSetting._ui->updateButton->isHidden(), true);
+        QCOMPARE(genSetting._ui->monoIconsCheckBox->isHidden(), true);
+        QCOMPARE(genSetting._ui->callNotificationsCheckBox->isHidden(), true);
+        QCOMPARE(genSetting._ui->newExternalStorage->isHidden(), true);
+        QCOMPARE(genSetting._ui->showInExplorerNavigationPaneCheckBox->isHidden(), true);
+        QCOMPARE(genSetting._ui->ignoredFilesButton->isHidden(), true);
         QCOMPARE(genSetting._ui->debugArchiveButton->isHidden(), true);
         QCOMPARE(cfgFile.showInExplorerNavigationPane(), true);
-
-        QCOMPARE(genSetting._ui->imprintLabel->openExternalLinks(), true);
-        QCOMPARE(genSetting._ui->imprintLabel->text(), expectedImprintLabel);
-
-        QCOMPARE(genSetting._ui->privacyPolicyLabel->openExternalLinks(), true);
-        QCOMPARE(genSetting._ui->privacyPolicyLabel->text(), expectedPrivacyPolicyLabel);
-
-        QCOMPARE(genSetting._ui->openSourceSwLabel->openExternalLinks(), true);
-        QCOMPARE(genSetting._ui->openSourceSwLabel->text(), expectedOpenSourceSwLabel);
-
-        QCOMPARE(genSetting._ui->aboutLabel->openExternalLinks(), true);
-        QCOMPARE(genSetting._ui->aboutLabel->text(), Theme::instance()->about());
-
-        QCOMPARE(genSetting._ui->infoLabel->openExternalLinks(), true);
-        QCOMPARE(genSetting._ui->infoLabel->text(), expectedInfoLabel);
 
         QCOMPARE(cfgFile.confirmExternalStorage(), true);
     }
@@ -88,13 +69,14 @@ private slots:
         ConfigFile cfgFile;
         FolderMan folderMan(new QObject());
         GeneralSettings genSetting(new QWidget());
-        cfgFile.setAutoUpdateCheck(true, QString());
-        cfgFile.setTransferUsageData(true, QString());
+        cfgFile.setOptionalServerNotifications(true);
+        cfgFile.setShowInExplorerNavigationPane(true);
 
         QMetaObject::invokeMethod( &genSetting, "loadMiscSettings");
 
-        QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isChecked(), true);
-        QCOMPARE(genSetting._ui->transferUsageDataCheckBox->isChecked(), true);
+        QCOMPARE(genSetting._ui->serverNotificationsCheckBox->isChecked(), true);
+        QCOMPARE(genSetting._ui->showInExplorerNavigationPaneCheckBox->isChecked(), true);
+        QCOMPARE(genSetting._ui->newExternalStorage->isChecked(), true);
         QCOMPARE(cfgFile.confirmExternalStorage(), true);
     }
 
@@ -103,30 +85,16 @@ private slots:
         ConfigFile cfgFile;
         FolderMan folderMan(new QObject());
         GeneralSettings genSetting(new QWidget());
-        cfgFile.setAutoUpdateCheck(false, QString());
-        cfgFile.setTransferUsageData(false, QString());
+        cfgFile.setOptionalServerNotifications(false);
+        cfgFile.setShowInExplorerNavigationPane(false);
 
         QMetaObject::invokeMethod( &genSetting, "loadMiscSettings");
 
-        QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isChecked(), false);
-        QCOMPARE(genSetting._ui->transferUsageDataCheckBox->isChecked(), false);
+        QCOMPARE(genSetting._ui->serverNotificationsCheckBox->isChecked(), false);
+        QCOMPARE(genSetting._ui->showInExplorerNavigationPaneCheckBox->isChecked(), false);
+        QCOMPARE(genSetting._ui->newExternalStorage->isChecked(), true);
         QCOMPARE(cfgFile.confirmExternalStorage(), true);
     }
-
-#if defined(BUILD_UPDATER)
-    void testslotUpdateInfo()
-    {
-        ConfigFile cfgFile;
-        FolderMan folderMan(new QObject());
-        GeneralSettings genSetting(new QWidget());
-
-        QMetaObject::invokeMethod( &genSetting, "slotUpdateInfo");
-
-        QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isHidden(), false);
-        QCOMPARE(genSetting._ui->restartButton->isHidden(), true);
-        QCOMPARE(genSetting._ui->updateButton->isHidden(), true);
-    }
-#endif // defined(BUILD_UPDATER)
 
     /* UI based (event driven) test cases */
 #if defined(BUILD_UPDATER)
@@ -179,54 +147,6 @@ private slots:
     }
 #endif // defined(BUILD_UPDATER)
 
-    void test_transferUsageDataCheckBox_Checked()
-    {
-        ConfigFile cfgFile;
-        FolderMan folderMan(new QObject());
-        GeneralSettings genSetting(new QWidget());
-
-        /* Initial set un-checked */
-        genSetting._ui->transferUsageDataCheckBox->setChecked(false);
-        QVERIFY( genSetting._ui->transferUsageDataCheckBox->checkState() == Qt::Unchecked );
-
-        /*to track the SIGNAL emit or not */
-        QSignalSpy spy(genSetting._ui->transferUsageDataCheckBox, SIGNAL(toggled(bool)));
-
-        /* generate event/emit signal */
-        genSetting._ui->transferUsageDataCheckBox->toggle();
-
-        /* verify SIGNAL emit */
-        QCOMPARE(spy.count(), 1);
-
-        /* verify SLOT data */
-        QCOMPARE(cfgFile.transferUsageData(), true);
-        QVERIFY( genSetting._ui->transferUsageDataCheckBox->checkState() == Qt::Checked );
-    }
-
-    void test_transferUsageDataCheckBox_UnChecked()
-    {
-        ConfigFile cfgFile;
-        FolderMan folderMan(new QObject());
-        GeneralSettings genSetting(new QWidget());
-
-        /* Initial set checked */
-        genSetting._ui->transferUsageDataCheckBox->setChecked(true);
-        QVERIFY( genSetting._ui->transferUsageDataCheckBox->checkState() == Qt::Checked );
-
-        /*to track the SIGNAL emit or not */
-        QSignalSpy spy(genSetting._ui->transferUsageDataCheckBox, SIGNAL(toggled(bool)));
-
-        /* generate event/emit signal */
-        genSetting._ui->transferUsageDataCheckBox->toggle();
-
-        /* verify SIGNAL emit */
-        QCOMPARE(spy.count(), 1);
-
-        /* verify SLOT data */
-        QCOMPARE(cfgFile.transferUsageData(), false);
-        QVERIFY( genSetting._ui->transferUsageDataCheckBox->checkState() == Qt::Unchecked );
-    }
-
     void test_serverNotificationsCheckBox_Checked()
     {
         ConfigFile cfgFile;
@@ -275,21 +195,6 @@ private slots:
         QVERIFY( genSetting._ui->serverNotificationsCheckBox->checkState() == Qt::Unchecked );
     }
 
-#ifndef BUILD_UPDATER
-    void testcustomizeStyle()
-    {
-        FolderMan folderMan(new QObject());
-        GeneralSettings genSetting(new QWidget());
-
-        QMetaObject::invokeMethod( &genSetting, "customizeStyle");
-
-        QCOMPARE(genSetting._ui->aboutLabel->text(), Theme::instance()->about());
-        QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isHidden(), false);
-        QCOMPARE(genSetting._ui->restartButton->isHidden(), true);
-        QCOMPARE(genSetting._ui->updateButton->isHidden(), true);
-    }
-#endif // ifndef(BUILD_UPDATER)
-
     void test_Screen_text()
     {
         FolderMan folderMan(new QObject());
@@ -305,12 +210,6 @@ private slots:
         QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->text(), "&Automatically check for Updates");
         QCOMPARE(genSetting._ui->restartButton->text(), "&Restart && Update");
         QCOMPARE(genSetting._ui->updateButton->text(), "&Check for Update now");
-        QCOMPARE(genSetting._ui->dataPrivacyGroupBox->title(), "Data Privacy");
-        QCOMPARE(genSetting._ui->transferUsageDataCheckBox->text(), "Transfer usage data");
-
-        QCOMPARE(genSetting._ui->imprintLabel->styleSheet(), "font: 10pt \"Segoe UI\";");
-        QCOMPARE(genSetting._ui->privacyPolicyLabel->styleSheet(), "font: 10pt \"Segoe UI\";");
-        QCOMPARE(genSetting._ui->openSourceSwLabel->styleSheet(), "font: 10pt \"Segoe UI\";");
     }
 };
 

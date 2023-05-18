@@ -182,10 +182,6 @@ public:
     [[nodiscard]] bool autoUpdateCheck(const QString &connection = QString()) const;
     void setAutoUpdateCheck(bool, const QString &);
 
-    /* MagentaCustomizationV25 */
-    [[nodiscard]] bool transferUsageData(const QString &connection = QString()) const;
-    void setTransferUsageData(bool, const QString &);
-
     /** Query-parameter 'updatesegment' for the update check, value between 0 and 99.
         Used to throttle down desktop release rollout in order to keep the update servers alive at peak times.
         See: https://github.com/nextcloud/client_updater_server/pull/36 */

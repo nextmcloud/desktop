@@ -114,7 +114,6 @@ nextcloud_add_test(OAuth)
 
 #MagentaCustomizationV25
 nextcloud_add_test(GeneralSettings)
-nextcloud_add_test(ConfigFile)
 
 configure_file(test_journal.db "${PROJECT_BINARY_DIR}/bin/test_journal.db" COPYONLY)
 

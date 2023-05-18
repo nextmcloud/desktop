@@ -65,7 +65,6 @@ static constexpr char showCallNotificationsC[] = "showCallNotifications";
 static constexpr char showInExplorerNavigationPaneC[] = "showInExplorerNavigationPane";
 static constexpr char skipUpdateCheckC[] = "skipUpdateCheck";
 static constexpr char autoUpdateCheckC[] = "autoUpdateCheck";
-static const char TransferUsageDataC[] = "TransferUsageData"; //MagentaCustomizationV25
 static constexpr char updateCheckIntervalC[] = "updateCheckInterval";
 static constexpr char updateSegmentC[] = "updateSegment";
 static constexpr char updateChannelC[] = "updateChannel";
@@ -662,34 +661,6 @@ void ConfigFile::setAutoUpdateCheck(bool autoCheck, const QString &connection)
     settings.beginGroup(con);
 
     settings.setValue(QLatin1String(autoUpdateCheckC), QVariant(autoCheck));
-    settings.sync();
-}
-
-/* MagentaCustomizationV25 */
-bool ConfigFile::transferUsageData(const QString &connection) const
-{
-    QString con(connection);
-    if (connection.isEmpty())
-        con = defaultConnection();
-
-    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, false);
-    fallback = getValue(QLatin1String(TransferUsageDataC), QString(), fallback);
-
-    QVariant value = getPolicySetting(QLatin1String(TransferUsageDataC), fallback);
-    return value.toBool();
-}
-
-/* MagentaCustomizationV25 */
-void ConfigFile::setTransferUsageData(bool usageData, const QString &connection)
-{
-    QString con(connection);
-    if (connection.isEmpty())
-        con = defaultConnection();
-
-    QSettings settings(configFile(), QSettings::IniFormat);
-    settings.beginGroup(con);
-
-    settings.setValue(QLatin1String(TransferUsageDataC), QVariant(usageData));
     settings.sync();
 }
 
