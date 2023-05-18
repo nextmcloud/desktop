@@ -33,11 +33,6 @@
         <source>Open file details</source>
         <translation>Відкрити деталі файлу</translation>
     </message>
-    <message>
-        <location filename="../src/gui/tray/ActivityItemContent.qml" line="208"/>
-        <source>Open share dialog</source>
-        <translation>Відкрити меню надання спільного доступу</translation>
-    </message>
 </context>
 <context>
     <name>ActivityList</name>
@@ -339,19 +334,45 @@
 <context>
     <name>OCC::Account</name>
     <message>
-        <location filename="../src/libsync/account.cpp" line="915"/>
+        <location filename="../src/libsync/account.cpp" line="927"/>
         <source>File %1 is already locked by %2.</source>
         <translation>Файл %1 вже заблоковано %2.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="917"/>
+        <location filename="../src/libsync/account.cpp" line="929"/>
         <source>Lock operation on %1 failed with error %2</source>
         <translation>Під час блокування файлу %1 виявлено помилку %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="919"/>
+        <location filename="../src/libsync/account.cpp" line="931"/>
         <source>Unlock operation on %1 failed with error %2</source>
         <translation>Під час розблокування файлу %1 виявлено помилку %2</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::AccountManager</name>
+    <message>
+        <location filename="../src/gui/accountmanager.cpp" line="182"/>
+        <source>An existing configuration from a legacy desktop client was detected.
+Should an account import be attempted?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountmanager.cpp" line="184"/>
+        <location filename="../src/gui/accountmanager.cpp" line="252"/>
+        <location filename="../src/gui/accountmanager.cpp" line="260"/>
+        <source>Legacy import</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountmanager.cpp" line="253"/>
+        <source>Successfully imported account from legacy client: %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/accountmanager.cpp" line="261"/>
+        <source>Could not import accounts from legacy client configuration.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -399,16 +420,6 @@
         <translation>Застосувати ручні зміни</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="92"/>
-        <source>End-to-End Encryption with Virtual Files</source>
-        <translation>Наскрізне шифрування віртуальних файлів</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="93"/>
-        <source>You seem to have the Virtual Files feature enabled on this folder. At the moment, it is not possible to implicitly download virtual files that are End-to-End encrypted. To get the best experience with Virtual Files and End-to-End Encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
-        <translation>Схоже, що у вас увімкнено підтримку віртуальних файлів для цього каталогу. Наразі, неможливо явно звантажувати віртуальні файли, які було наскрізно шифровано. Для коректної підтримки наскрізного шифрування та віртуальних файлів, будь ласка, переконайтеся, що зашифрований каталог позначено &quot;Зберігати на пристрої&quot;.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="93"/>
         <source>End-to-end Encryption with Virtual Files</source>
         <translation>Наскрізне шифрування для віртуальних файлів</translation>
@@ -417,11 +428,6 @@
         <location filename="../src/gui/accountsettings.cpp" line="94"/>
         <source>You seem to have the Virtual Files feature enabled on this folder. At the moment, it is not possible to implicitly download virtual files that are end-to-end encrypted. To get the best experience with virtual files and end-to-end encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
         <translation>Схоже, що у вас увімкнено підтримку віртуальних файлів для цього каталогу. Наразі, неможливо явно звантажувати віртуальні файли, які було наскрізно шифровано. Для коректної підтримки наскрізного шифрування та віртуальних файлів, будь ласка, переконайтеся, що зашифрований каталог позначено &quot;Зберігати на пристрої&quot;.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="97"/>
-        <source>Don&apos;t encrypt folder</source>
-        <translation>Не шифрувати каталог</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="102"/>
@@ -454,11 +460,6 @@
         <translation>Наскрізне шифрування увімкнено для цього облікового запису</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1461"/>
-        <source>Enable encryption</source>
-        <translation>Увімкнути шифрування</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="288"/>
         <source>Warning</source>
         <translation>Увага</translation>
@@ -476,12 +477,6 @@ Would you like to set up end-to-end encryption?</source>
 Wait for the new sync, then encrypt it.</source>
         <translation>Ви не можете зашифрувати каталог із вмістом, будь ласка, вилучіть файли.
 Дочекайтеся нової синхронізації, а потім зашифруйте її.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="249"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1458"/>
-        <source>This account supports End-to-End encryption</source>
-        <translation>Цей обліковий запис підтримує наскрізне шифрування</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="390"/>
@@ -616,11 +611,6 @@ This action will abort any currently running synchronization.</source>
         <translation>Вимкнути підтримку</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="979"/>
-        <source>End-to-End encryption mnemonic</source>
-        <translation>Парольна фраза для наскрізного шифрування</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1014"/>
         <source>End-to-end encryption mnemonic</source>
         <translation>Парольна фраза для наскрізного шифрування</translation>
@@ -751,21 +741,6 @@ This action will abort any currently running synchronization.</source>
         <translation>Цей обліковий запис підтримує шифрування end-to-end</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1398"/>
-        <source>Confirm Account Removal</source>
-        <translation>Підтвердіть вилучення облікового запису</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1399"/>
-        <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Дійсно вилучити з&apos;єднання з обліковим записом &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Примітка:&lt;/b&gt; Це &lt;b&gt;не &lt;/b&gt; призведе до вилучення файлів.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1404"/>
-        <source>Remove connection</source>
-        <translation>Вилучити з&apos;єднання</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1569"/>
         <source>Set up encryption</source>
         <translation>Налаштуватия шифрування</translation>
@@ -850,11 +825,6 @@ This action will abort any currently running synchronization.</source>
         <translation>Для докладного перегляду змін, будь ласка, відкрийте застосунок Події.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="488"/>
-        <source>Fetching activities…</source>
-        <translation>Отримую діяльності...</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/activitylistmodel.cpp" line="509"/>
         <source>Fetching activities …</source>
         <translation>Отримую діяльності...</translation>
@@ -911,29 +881,14 @@ This action will abort any currently running synchronization.</source>
 <context>
     <name>OCC::Application</name>
     <message>
-        <location filename="../src/gui/application.cpp" line="150"/>
-        <source>Continuing will mean &lt;b&gt;deleting these settings&lt;/b&gt;.</source>
-        <translation>Продовження означатиме &lt;b&gt;вилучення цих налаштувань&lt;/b&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="152"/>
-        <source>Continuing will mean &lt;b&gt;ignoring these settings&lt;/b&gt;.</source>
-        <translation>Продовження означатиме &lt;b&gt;вилучення цих налаштувань&lt;/b&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="158"/>
-        <source>Some settings were configured in newer versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;%1&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%2&lt;/i&gt;.</source>
-        <translation>Окремі параметри, які стосуються користувацьких функцій, було сконфігуровано у новішій версії клієнта не доступні для поточної версії.&lt;br&gt;&lt;br&gt;%1&lt;br&gt;&lt;br&gt;Створено резервну копію поточного файлу конфігурації у &lt;i&gt;%2&lt;/i&gt;.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="176"/>
-        <source>Some settings were configured in %1 versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;Continuing will mean &lt;b&gt;%2 these settings&lt;/b&gt;.&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%3&lt;/i&gt;.</source>
-        <translation>Окремі налаштування було сконфігуровано для версії клієнта %1, які не доступні для поточної версії.&lt;br&gt;&lt;br&gt;Якщо ви продовжите, то це означатиме&lt;b&gt;, що ці налаштування %2&lt;/b&gt;.&lt;br&gt;&lt;br&gt; Резервну копію поточного файлу налаштувань збережено до &lt;i&gt;%3&lt;/i&gt;.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/application.cpp" line="176"/>
         <source>Some settings were configured in %1 versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;Continuing will mean &lt;b&gt;%2 these settings&lt;/b&gt;&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%3&lt;/i&gt;.</source>
         <translation>Окремі налаштування було здійснено для версії клієнта %1 та використовують функції, які не доступні у чинній версії.&lt;br&gt;&lt;br&gt;Якщо ви продовжите, то це означатиме &lt;b&gt;%2 ці налаштування&lt;/b&gt;&lt;br&gt;&lt;br&gt;Резервну копію поточного файлу конфігурації було збережено до &lt;i&gt;%3&lt;/i&gt;.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/application.cpp" line="179"/>
+        <source>Some settings were configured in %1 versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;Continuing will mean &lt;b&gt;%2 these settings&lt;/b&gt;.&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%3&lt;/i&gt;.</source>
+        <translation>Окремі налаштування було сконфігуровано для версії клієнта %1, які не доступні для поточної версії.&lt;br&gt;&lt;br&gt;Якщо ви продовжите, то це означатиме&lt;b&gt;, що ці налаштування %2&lt;/b&gt;.&lt;br&gt;&lt;br&gt; Резервну копію поточного файлу налаштувань збережено до &lt;i&gt;%3&lt;/i&gt;.</translation>
     </message>
     <message>
         <location filename="../src/gui/application.cpp" line="182"/>
@@ -968,22 +923,17 @@ This action will abort any currently running synchronization.</source>
         <translation>Продовжити</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="389"/>
+        <location filename="../src/gui/application.cpp" line="393"/>
         <source>Error accessing the configuration file</source>
         <translation>Помилка доступу до файлу конфігурації</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="335"/>
-        <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your user.</source>
-        <translation>Помилка з доступом до файлу налаштувань %1. Будь ласка, перевірте чи файл буде доступний для вашого користувача.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/application.cpp" line="390"/>
+        <location filename="../src/gui/application.cpp" line="394"/>
         <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your system account.</source>
         <translation>Виявлено помилку під час отримання доступу до файлу конфігурації у %1. Будь ласка, пересвідчитеся, що присутній доступ до файлу у системного облікового запису.</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="393"/>
+        <location filename="../src/gui/application.cpp" line="397"/>
         <source>Quit %1</source>
         <translation>Вийти %1</translation>
     </message>
@@ -1006,11 +956,6 @@ This action will abort any currently running synchronization.</source>
         <translation>та ім&apos;я користувача:</translation>
     </message>
     <message>
-        <location filename="../src/gui/authenticationdialog.cpp" line="37"/>
-        <source>&amp;User:</source>
-        <translation>&amp;Користувач:</translation>
-    </message>
-    <message>
         <location filename="../src/gui/authenticationdialog.cpp" line="38"/>
         <source>&amp;Password:</source>
         <translation>&amp;Пароль:</translation>
@@ -1019,58 +964,58 @@ This action will abort any currently running synchronization.</source>
 <context>
     <name>OCC::BulkPropagatorJob</name>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="122"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="123"/>
         <source>File %1 cannot be uploaded because another file with the same name, differing only in case, exists</source>
         <translation>Неможливо завантажити файл %1, оскільки інший файл з таким ім&apos;ям, але в іншом регістрі, вже існує.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="169"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="175"/>
         <source>File %1 has invalid modified time. Do not upload to the server.</source>
         <translation>Файл %1 має некоректний час модифікації. Не завантажуйте його на сервер.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="290"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="296"/>
         <source>File Removed (start upload) %1</source>
         <translation>Файл вилучено (почато завантаження) %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="301"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="308"/>
         <source>File %1 has invalid modification time. Do not upload to the server.</source>
         <translation>Файл %1 має некоректний час модифікації. Не завантажуйте його на сервер.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="309"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="320"/>
         <source>Local file changed during syncing. It will be resumed.</source>
         <translation>Файл на комп&apos;ютері змінено під час синхронізації. Його буде відновлено.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="323"/>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="646"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="334"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="665"/>
         <source>Local file changed during sync.</source>
         <translation>Файл на комп&apos;ютері змінено під час синхронізації.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="420"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="431"/>
         <source>Network error: %1</source>
         <translation>Помилка мережі: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="465"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="476"/>
         <source>Error updating metadata: %1</source>
         <translation>Помилка під час оновлення метаданих: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="468"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="479"/>
         <source>The file %1 is currently in use</source>
         <translation>Файл %1 зараз у використанні</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="629"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="647"/>
         <source>The local file was removed during sync.</source>
         <translation>Файл на комп&apos;ютері вилучено під час синхронізації.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="676"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="695"/>
         <source>Restoration failed: %1</source>
         <translation>Відновлення не вдалося: %1</translation>
     </message>
@@ -1081,11 +1026,6 @@ This action will abort any currently running synchronization.</source>
         <location filename="../src/libsync/caseclashconflictsolver.cpp" line="78"/>
         <source>Cannot rename file because a file with the same name already exists on the server. Please pick another name.</source>
         <translation>Неможливо перейменувати файл, оскільки файл з таким же ім&apos;ям присутній на сервері. Будь ласка, оберіть інше ім&apos;я.</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/caseclashconflictsolver.cpp" line="78"/>
-        <source>Cannot rename file because a file with the same name does already exist on the server. Please pick another name.</source>
-        <translation>Неможливо перейменувати файл, оскільки файл з таким саме ім&apos;ям вже присутній на сервері. Будь ласка, виберіть інше ім&apos;я.</translation>
     </message>
     <message>
         <location filename="../src/libsync/caseclashconflictsolver.cpp" line="121"/>
@@ -1146,11 +1086,6 @@ This action will abort any currently running synchronization.</source>
         <translation>файл А</translation>
     </message>
     <message>
-        <location filename="../src/gui/caseclashfilenamedialog.ui" line="60"/>
-        <source>fileA</source>
-        <translation>файлА</translation>
-    </message>
-    <message>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="107"/>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="213"/>
         <source>today</source>
@@ -1177,11 +1112,6 @@ This action will abort any currently running synchronization.</source>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="172"/>
         <source>file B</source>
         <translation>файл Б</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/caseclashfilenamedialog.ui" line="172"/>
-        <source>fileB</source>
-        <translation>файлБ</translation>
     </message>
     <message>
         <location filename="../src/gui/caseclashfilenamedialog.ui" line="227"/>
@@ -1243,23 +1173,13 @@ This action will abort any currently running synchronization.</source>
 <context>
     <name>OCC::CleanupPollsJob</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1529"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1533"/>
         <source>Error writing metadata to the database</source>
         <translation>Помилка із записом метаданих до бази даних</translation>
     </message>
 </context>
 <context>
     <name>OCC::ClientSideEncryption</name>
-    <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1228"/>
-        <source>Please enter your End-to-End encryption passphrase:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation>Зазначте фразу для наскрізного шифрування:&lt;br&gt;&lt;br&gt;ім&apos;я користувача: %2&lt;br&gt;обліковий запис: %3&lt;br&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1241"/>
-        <source>Please enter your end to end encryption passphrase:&lt;br&gt;&lt;br&gt;User: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation>Будь ласка, зазначте пароль для наскрізного шифрування:&lt;br&gt;&lt;br&gt;Користувач: %2&lt;br&gt;Обліковий запис: %3&lt;br&gt;</translation>
-    </message>
     <message>
         <location filename="../src/libsync/clientsideencryption.cpp" line="1369"/>
         <source>Please enter your end-to-end encryption passphrase:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
@@ -1487,9 +1407,9 @@ This action will abort any currently running synchronization.</source>
         <location filename="../src/gui/editlocallyjob.cpp" line="62"/>
         <location filename="../src/gui/editlocallyjob.cpp" line="68"/>
         <location filename="../src/gui/editlocallyjob.cpp" line="76"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="118"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="129"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="555"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="121"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="132"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="588"/>
         <source>Please try again.</source>
         <translation>Будь ласка, спробуйте ще раз.</translation>
     </message>
@@ -1504,58 +1424,98 @@ This action will abort any currently running synchronization.</source>
         <translation>Неможливо знайти ообліковий запис для редагування на пристрої.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="118"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="129"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="93"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="204"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="260"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="466"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="523"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="532"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="557"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="577"/>
+        <source>Could not start editing locally.</source>
+        <translation>Не вдалося розпочати редагування локально.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="94"/>
+        <source>An error occurred trying to verify the request to edit locally.</source>
+        <translation>Виникла помилка при спробі підтвердити запит на локальне редагування.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="121"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="132"/>
         <source>Could not validate the request to open a file from server.</source>
         <translation>Не вдалося перевірити запит на відкриття файлу з сервера.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="135"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="148"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="138"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="151"/>
         <source>Could not find a file for local editing. Make sure its path is valid and it is synced locally.</source>
         <translation>Неможливо знайти файл для редагування файлу на пристрої. Перевірте, будь ласка, що шлях правильний та синхронізовано з пристроєм.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="143"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="163"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="171"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="178"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="146"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="166"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="174"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="181"/>
         <source>Could not find a file for local editing. Make sure it is not excluded via selective sync.</source>
         <translation>Не вдалося знайти файл для редагування на пристрої. Будь ласка, переконайтеся, що його не виключено фільтром вибіркової синхронізації.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="486"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="205"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="524"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="533"/>
+        <source>An error occurred during data retrieval.</source>
+        <translation>Під час отримання даних сталася помилка.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="261"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="558"/>
+        <source>An error occurred trying to synchronise the file to edit locally.</source>
+        <translation>Виникла помилка при спробі синхронізувати файл для локального редагування.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="466"/>
+        <source>An error occurred during setup.</source>
+        <translation>Під час налаштування сталася помилка.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="512"/>
         <source>Server error: PROPFIND reply is not XML formatted!</source>
         <translation>Помилка на сервері: PROPFIND reply is not XML formatted!</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="488"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="514"/>
         <source>Could not find a remote file info for local editing. Make sure its path is valid.</source>
         <translation>Не вдалося знайти віддлений файл для редагування на пристрої. Перевірте, чи шлях є правильним.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="555"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="578"/>
+        <source>Invalid local file path.</source>
+        <translation>Неправильний шлях до локального файлу.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="588"/>
         <source>Could not open %1</source>
         <translation>Не вдалося відкрити %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="638"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="669"/>
         <source>File %1 already locked.</source>
         <translation>Файл %1 заблоковано.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="639"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="650"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="670"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="681"/>
         <source>Lock will last for %1 minutes. You can also unlock this file manually once you are finished editing.</source>
         <translation>Блокування триватиме % хв. Ви також можете розблокувати файл вручну одразу після завершення редагування.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="649"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="680"/>
         <source>File %1 now locked.</source>
         <translation>Файл %1 заблоковано.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="658"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="689"/>
         <source>File %1 could not be locked.</source>
         <translation>Неможливо заблокувати файл %1.</translation>
     </message>
@@ -1802,36 +1762,36 @@ This can be an issue with your OpenSSL libraries.</source>
         <translation>Неможливо прочитати виключений системний файл</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1142"/>
+        <location filename="../src/gui/folder.cpp" line="1141"/>
         <source>A new folder larger than %1 MB has been added: %2.
 </source>
         <translation>Додано новий каталог, обсяг якого більше %1 МБ: %2.
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1145"/>
+        <location filename="../src/gui/folder.cpp" line="1144"/>
         <source>A folder from an external storage has been added.
 </source>
         <translation>Додано каталог із зовнішнього сховища
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1146"/>
+        <location filename="../src/gui/folder.cpp" line="1145"/>
         <source>Please go in the settings to select it if you wish to download it.</source>
         <translation>Будь ласка, перейдіть у налаштуваннях, щоб вибрати її для подальшого звантаження.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1211"/>
+        <location filename="../src/gui/folder.cpp" line="1210"/>
         <source>The folder %1 was created but was excluded from synchronization previously. Data inside it will not be synchronized.</source>
         <translation>Каталог %1 створено, але його раніше було виключено з синхронізації. Дані всередині цього каталогу не буде синхронізовано.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1214"/>
+        <location filename="../src/gui/folder.cpp" line="1213"/>
         <source>The file %1 was created but was excluded from synchronization previously. It will not be synchronized.</source>
         <translation>Файл %1 було створено, але раніше виключено з синхронізації. Цей файл не буде синхронізовано.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1225"/>
+        <location filename="../src/gui/folder.cpp" line="1224"/>
         <source>Changes in synchronized folders could not be tracked reliably.
 
 This means that the synchronization client might not upload local changes immediately and will instead only scan for local changes and upload them occasionally (every two hours by default).
@@ -1844,7 +1804,7 @@ This means that the synchronization client might not upload local changes immedi
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1317"/>
+        <location filename="../src/gui/folder.cpp" line="1316"/>
         <source>All files in the sync folder &quot;%1&quot; folder were deleted on the server.
 These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
 If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
@@ -1855,7 +1815,7 @@ If you decide to delete the files, they will be unavailable to you, unless you a
 Якщо ви вирішите вилучити ці файли, вони будуть недоступні вам, якщо ви не є їхнім власником.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1322"/>
+        <location filename="../src/gui/folder.cpp" line="1321"/>
         <source>All the files in your local sync folder &quot;%1&quot; were deleted. These deletes will be synchronized with your server, making such files unavailable unless restored.
 Are you sure you want to sync those actions with the server?
 If this was an accident and you decide to keep your files, they will be re-synced from the server.</source>
@@ -1864,17 +1824,17 @@ If this was an accident and you decide to keep your files, they will be re-synce
 Якщо ви це зробили помилково та бажаєте зберегти ваші файли, їх буде повторно синхронізовано з хмари.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1326"/>
+        <location filename="../src/gui/folder.cpp" line="1325"/>
         <source>Remove All Files?</source>
         <translation>Вилучити усі файли?</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1330"/>
+        <location filename="../src/gui/folder.cpp" line="1329"/>
         <source>Remove all files</source>
         <translation>Вилучити усі файли</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1331"/>
+        <location filename="../src/gui/folder.cpp" line="1330"/>
         <source>Keep files</source>
         <translation>Зберегти файли</translation>
     </message>
@@ -1910,127 +1870,107 @@ If this was an accident and you decide to keep your files, they will be re-synce
 <context>
     <name>OCC::FolderMan</name>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="411"/>
+        <location filename="../src/gui/folderman.cpp" line="414"/>
         <source>Could not reset folder state</source>
         <translation>Не вдалося скинути стан каталогу</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="412"/>
+        <location filename="../src/gui/folderman.cpp" line="415"/>
         <source>An old sync journal &quot;%1&quot; was found, but could not be removed. Please make sure that no application is currently using it.</source>
         <translation>Знайдено застарійлий журнал синхронізації &quot;%1&quot;, проте неможливо його вилучити. Пересвідчитеся, що жодний із застосунків його не використовує зараз.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1339"/>
+        <location filename="../src/gui/folderman.cpp" line="1337"/>
         <source> (backup)</source>
         <translation>(Резервна копія)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1344"/>
+        <location filename="../src/gui/folderman.cpp" line="1342"/>
         <source> (backup %1)</source>
         <translation>(Резервна копія %1)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1500"/>
-        <source>Undefined State.</source>
-        <translation>Невизначений стан.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1606"/>
+        <location filename="../src/gui/folderman.cpp" line="1604"/>
         <source>Undefined state.</source>
         <translation>Невизначений стан.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1609"/>
+        <location filename="../src/gui/folderman.cpp" line="1607"/>
         <source>Waiting to start syncing.</source>
         <translation>Очікування початку синхронізації.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1612"/>
+        <location filename="../src/gui/folderman.cpp" line="1610"/>
         <source>Preparing for sync.</source>
         <translation>Підготовка до синхронізації</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1615"/>
+        <location filename="../src/gui/folderman.cpp" line="1613"/>
         <source>Sync is running.</source>
         <translation>Синхронізація запущена.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1620"/>
+        <location filename="../src/gui/folderman.cpp" line="1618"/>
         <source>Sync finished with unresolved conflicts.</source>
         <translation>Синхронізацію завершено з нерозв&apos;язаними конфліктами.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1516"/>
-        <source>Last Sync was successful.</source>
-        <translation>Остання синхронізація виявилася успішною.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1522"/>
-        <source>Setup Error.</source>
-        <translation>Помилка встановлення.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1525"/>
-        <source>User Abort.</source>
-        <translation>Скасовано користувачем.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folderman.cpp" line="1622"/>
+        <location filename="../src/gui/folderman.cpp" line="1620"/>
         <source>Last sync was successful.</source>
         <translation>Остання синхронізація завершилась успішно.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1628"/>
+        <location filename="../src/gui/folderman.cpp" line="1626"/>
         <source>Setup error.</source>
         <translation>Помилка установлення.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1631"/>
+        <location filename="../src/gui/folderman.cpp" line="1629"/>
         <source>Sync request was cancelled.</source>
         <translation>Запит на синхронізацію скасовано.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1634"/>
+        <location filename="../src/gui/folderman.cpp" line="1632"/>
         <source>Sync is paused.</source>
         <translation>Синхронізація призупинена.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1640"/>
+        <location filename="../src/gui/folderman.cpp" line="1638"/>
         <source>%1 (Sync is paused)</source>
         <translation>%1 (Синхронізація призупинена)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1648"/>
+        <location filename="../src/gui/folderman.cpp" line="1646"/>
         <source>No valid folder selected!</source>
         <translation>Не вибрано прийнятного каталогу!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1660"/>
+        <location filename="../src/gui/folderman.cpp" line="1658"/>
         <source>The selected path does not exist!</source>
         <translation>Вибраний шлях не існує!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1664"/>
+        <location filename="../src/gui/folderman.cpp" line="1662"/>
         <source>The selected path is not a folder!</source>
         <translation>Вибраний шлях не є каталогом!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1668"/>
+        <location filename="../src/gui/folderman.cpp" line="1666"/>
         <source>You have no permission to write to the selected folder!</source>
         <translation>У вас немає прав на запис до цього каталогу!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1720"/>
+        <location filename="../src/gui/folderman.cpp" line="1718"/>
         <source>The local folder %1 already contains a folder used in a folder sync connection. Please pick another one!</source>
         <translation>Каталог %1 на пристрої вже містить каталог, який використовується для синхронізації каталогів. Будь ласка, виберіть інший каталог!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1728"/>
+        <location filename="../src/gui/folderman.cpp" line="1726"/>
         <source>The local folder %1 is already contained in a folder used in a folder sync connection. Please pick another one!</source>
         <translation>Каталог %1 на пристрої вже присутній у каталозі, який використовується для синхронізації каталогів. Будь ласка, виберіть інший каталог!</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1744"/>
+        <location filename="../src/gui/folderman.cpp" line="1742"/>
         <source>There is already a sync from the server to this local folder. Please pick another local folder!</source>
         <translation>Синхронізацію між хмарою та каталогом на пристрої вже встановлено. Будь ласка, виберіть інший каталог!</translation>
     </message>
@@ -2038,12 +1978,12 @@ If this was an accident and you decide to keep your files, they will be re-synce
 <context>
     <name>OCC::FolderStatusDelegate</name>
     <message>
-        <location filename="../src/gui/folderstatusdelegate.cpp" line="48"/>
+        <location filename="../src/gui/folderstatusdelegate.cpp" line="55"/>
         <source>Add Folder Sync Connection</source>
         <translation>Додати з&apos;єднання для синхронізації каталогу</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderstatusdelegate.cpp" line="296"/>
+        <location filename="../src/gui/folderstatusdelegate.cpp" line="299"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
@@ -2489,7 +2429,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="319"/>
-        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <location filename="../src/gui/generalsettings.cpp" line="463"/>
         <source>Create Debug Archive</source>
         <translation>Створити архів зневадження</translation>
     </message>
@@ -2509,12 +2449,12 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>Неможливо вимкнути автостарт, оскільки увімкнено автоматичний запуск на рівні системи.</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="355"/>
+        <location filename="../src/gui/generalsettings.cpp" line="344"/>
         <source>Change update channel?</source>
         <translation>Чи змінити канал оновлень?</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="356"/>
+        <location filename="../src/gui/generalsettings.cpp" line="345"/>
         <source>The update channel determines which client updates will be offered for installation. The &quot;stable&quot; channel contains only upgrades that are considered reliable, while the versions in the &quot;beta&quot; channel may contain newer features and bugfixes, but have not yet been tested thoroughly.
 
 Note that this selects only what pool upgrades are taken from, and that there are no downgrades: So going back from the beta channel to the stable channel usually cannot be done immediately and means waiting for a stable version that is newer than the currently installed beta version.</source>
@@ -2523,27 +2463,27 @@ Note that this selects only what pool upgrades are taken from, and that there ar
 Зауважте, що таким чином ви виберете набір оновлень, які буде застосовувано, і що неможливо буде повернутися до попередніх версій. Відтак повернення з &quot;бета&quot; до &quot;стабільного&quot; каналу зазвичай неможливо буде виконати одразу, натомість ви матимете зачекати на нову стабільну версію порівняно зі встановленою бета-версією.</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="369"/>
+        <location filename="../src/gui/generalsettings.cpp" line="358"/>
         <source>Change update channel</source>
         <translation>Змінити оновлення каналу</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="370"/>
+        <location filename="../src/gui/generalsettings.cpp" line="359"/>
         <source>Cancel</source>
         <translation>Скасувати</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <location filename="../src/gui/generalsettings.cpp" line="463"/>
         <source>Zip Archives</source>
         <translation>Zip-архіви</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="480"/>
+        <location filename="../src/gui/generalsettings.cpp" line="469"/>
         <source>Debug Archive Created</source>
         <translation>Архів зневадження створено</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="480"/>
+        <location filename="../src/gui/generalsettings.cpp" line="469"/>
         <source>Debug archive is created at %1</source>
         <translation>Архів зневадження створено у %1</translation>
     </message>
@@ -2581,11 +2521,6 @@ Note that this selects only what pool upgrades are taken from, and that there ar
         <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="97"/>
         <source>Please enter %1 password:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
         <translation>Будь ласка, введіть %1 пароль: &lt;br&gt;&lt;br&gt;ім&apos;я користувача: %2&lt;br&gt;обліковий запис: %3&lt;br&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="97"/>
-        <source>Please enter %1 password:&lt;br&gt;&lt;br&gt;User: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
-        <translation>Будь ласка, зазначте %1 пароль:&lt;br&gt;&lt;br&gt;Користувач: %2&lt;br&gt;Обліковий запис: %3&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="111"/>
@@ -2731,11 +2666,6 @@ Items where deletion is allowed will be deleted if they prevent a directory from
         <translation>Такі символи не дозволені на рівні системи: * &quot; | &amp; ? , ; : \ / ~ &lt; &gt; пробіли на початку та наприкінці</translation>
     </message>
     <message>
-        <location filename="../src/gui/invalidfilenamedialog.cpp" line="96"/>
-        <source>Checking rename permissions...</source>
-        <translation>Перевірка дозволів для перейменування...</translation>
-    </message>
-    <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="99"/>
         <source>Checking rename permissions …</source>
         <translation>Перевірка дозволів для перейменування...</translation>
@@ -2810,11 +2740,6 @@ Items where deletion is allowed will be deleted if they prevent a directory from
         <translation>&lt;p&gt;Усі права застережено Nextcloud GmbH 2017-2023&lt;br /&gt;Усі права застережено OwnCloud GmbH 2012-2023&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/legalnotice.cpp" line="55"/>
-        <source>&lt;p&gt;Copyright 2017-2021 Nextcloud GmbH&lt;br /&gt;Copyright 2012-2021 ownCloud GmbH&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Всі права застережено 2017-2021 Nextcloud GmbH&lt;br /&gt;Всі права застережено 2012-2021 ownCloud GmbH&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/gui/legalnotice.cpp" line="58"/>
         <source>&lt;p&gt;Licensed under the GNU General Public License (GPL) Version 2.0 or any later version.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Ліцензовано GNU General Public License (GPL) Версія 2.0 або пізнішею.&lt;/p&gt;</translation>
@@ -2857,12 +2782,12 @@ Note that using any logging command line options will override this setting.</so
 <context>
     <name>OCC::Logger</name>
     <message>
-        <location filename="../src/libsync/logger.cpp" line="183"/>
+        <location filename="../src/libsync/logger.cpp" line="352"/>
         <source>Error</source>
         <translation>Помилка</translation>
     </message>
     <message>
-        <location filename="../src/libsync/logger.cpp" line="184"/>
+        <location filename="../src/libsync/logger.cpp" line="353"/>
         <source>&lt;nobr&gt;File &quot;%1&quot;&lt;br/&gt;cannot be opened for writing.&lt;br/&gt;&lt;br/&gt;The log output &lt;b&gt;cannot&lt;/b&gt; be saved!&lt;/nobr&gt;</source>
         <translation>&lt;nobr&gt;Файл &quot;%1&quot;&lt;br/&gt;неможливо відкрити на запис.&lt;br/&gt;&lt;br/&gt;Журнал&lt;b&gt;неможливо&lt;/b&gt; зберегти!&lt;/nobr&gt;</translation>
     </message>
@@ -2878,12 +2803,6 @@ Note that using any logging command line options will override this setting.</so
         <location filename="../src/gui/updater/ocupdater.cpp" line="414"/>
         <source>&lt;p&gt;A new version of the %1 Client is available.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; is available for download. The installed version is %3.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Доступна нова версія системи %1.&lt;/p&gt;&lt;p&gt;&lt;b&gt;%2&lt;/b&gt; доступна для завантаження. Встановлена версія: %3.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/updater/ocupdater.cpp" line="426"/>
-        <location filename="../src/gui/updater/ocupdater.cpp" line="476"/>
-        <source>Skip this version</source>
-        <translation>Пропустити цю версію</translation>
     </message>
     <message>
         <location filename="../src/gui/updater/ocupdater.cpp" line="427"/>
@@ -3060,11 +2979,6 @@ Note that using any logging command line options will override this setting.</so
         <location filename="../src/gui/creds/oauth.cpp" line="140"/>
         <source>&lt;h1&gt;Wrong account&lt;/h1&gt;&lt;p&gt;You logged in with the account &lt;em&gt;%1&lt;/em&gt;, but must log in with the account &lt;em&gt;%2&lt;/em&gt;.&lt;br&gt;Please log out of %3 in another tab, then &lt;a href=&apos;%4&apos;&gt;click here&lt;/a&gt; and log in with %2.&lt;/p&gt;</source>
         <translation>&lt;h1&gt;Неправильна обліковка&lt;/h1&gt;&lt;p&gt;Ви увійшли під обліковим записом&lt;em&gt;&lt;/em&gt;, але маєте бути &lt;em&gt;&lt;/em&gt;.&lt;br&gt;Будь ласка, вийдіть з %3 у іншій вкладці, далі&lt;a href=&apos;%4&apos;&gt;клацніть тут&lt;/a&gt; та увійдіть під %2.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/creds/oauth.cpp" line="140"/>
-        <source>&lt;h1&gt;Wrong user&lt;/h1&gt;&lt;p&gt;You logged-in with user &lt;em&gt;%1&lt;/em&gt;, but must login with user &lt;em&gt;%2&lt;/em&gt;.&lt;br&gt;Please log out of %3 in another tab, then &lt;a href=&apos;%4&apos;&gt;click here&lt;/a&gt; and log in as user %2&lt;/p&gt;</source>
-        <translation>&lt;h1&gt;Неправильний користувач&lt;/h1&gt;&lt;p&gt;Ви увійшли з користувачем &lt;em&gt;%1&lt;/em&gt;, але потрібно входити з користувачем &lt;em&gt;%2&lt;/em&gt;.&lt;br&gt;Будь ласка, вийдіть з %3 у іншій вкладці, після цього &lt;a href=&apos;%4&apos;&gt;клацніть тут&lt;/a&gt; та увійдіть з користувачем %2&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -3269,13 +3183,13 @@ Note that using any logging command line options will override this setting.</so
 <context>
     <name>OCC::OwncloudPropagator</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="658"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="662"/>
         <source>Error with the metadata. Getting unexpected metadata format.</source>
         <translation>Помилка у метаданих. Отримано метадані у неочікуваному форматі.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="870"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="947"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="874"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="951"/>
         <source>Impossible to get modification time for file in conflict %1</source>
         <translation>Неможливо отримати час зміни конфліктуючого файлу %1</translation>
     </message>
@@ -3691,22 +3605,22 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateDirectory</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1302"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1306"/>
         <source>could not delete file %1 from local DB</source>
         <translation>неможливо вилучити файл %1 з локальною БД</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1316"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1320"/>
         <source>Error updating metadata due to invalid modification time</source>
         <translation>Помилка при завантаженні метаданих через неправильні зміни часу</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1332"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1336"/>
         <source>Error updating metadata: %1</source>
         <translation>Помилка під час оновлення метаданих: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1336"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1340"/>
         <source>File is currently in use</source>
         <translation>Файл зараз використовується</translation>
     </message>
@@ -3736,15 +3650,9 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Неможливо вилучити запис файлу %1 з локальної БД</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="521"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="626"/>
-        <source>File %1 cannot be downloaded because of a local file name clash!</source>
-        <translation>Неможливо звантажити файл %1 через конфлікт з назвою файлу на вашому пристрої</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="533"/>
         <source>File %1 can not be downloaded because of a local file name clash!</source>
-        <translation>Файл %1 не може бути завантажено через конфлікт назви файлу на пристрої! </translation>
+        <translation>Файл %1 не може бути звантажено через конфлікт назви файлу на пристрої! </translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="692"/>
@@ -3770,11 +3678,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/propagatedownload.cpp" line="897"/>
         <source>The downloaded file is empty, but the server said it should have been %1.</source>
         <translation>Файл, що завантажується, порожній, але сервер говорить, що він має бути %1.</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1119"/>
-        <source>File %1 cannot be saved because of a local file name clash!</source>
-        <translation>Файл %1 не збережено через конфлікт назви файлу на пристрої! </translation>
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="1158"/>
@@ -3819,11 +3722,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>неможливо вилучити файл %1, помилка: %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="175"/>
-        <source>Attention, possible case sensitivity clash with %1</source>
-        <translation>Увага, можливий конфлікт чутливості до реєстру з %1</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="181"/>
         <source>Folder %1 cannot be created because of a local file or folder name clash!</source>
         <translation>Неможливо створити файл %1, оскільки на пристрої присутній файл або каталог з таким саме ім&apos;ям!</translation>
@@ -3859,11 +3757,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 </context>
 <context>
     <name>OCC::PropagateLocalRename</name>
-    <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="248"/>
-        <source>File %1 cannot be renamed to %2 because of a local file name clash</source>
-        <translation>Файл %1 неможливо перейменувати у %2 через конфлікт з назвою файлу на пристрої</translation>
-    </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="254"/>
         <source>File %1 downloaded but it resulted in a local file name clash!</source>
@@ -4181,7 +4074,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Відповідь</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/notificationhandler.cpp" line="159"/>
+        <location filename="../src/gui/tray/notificationhandler.cpp" line="151"/>
         <source>Dismiss</source>
         <translation>Відхилити</translation>
     </message>
@@ -4218,37 +4111,37 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::ShareModel</name>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Secure file drop link</source>
         <translation>Безпечне копіювання файлів через посилання</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Share link</source>
         <translation>Спільне посилання</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="595"/>
-        <source>Link share</source>
-        <translation>Спільне посилання</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="597"/>
-        <source>Internal link</source>
-        <translation>Внутрішнє посилання</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="587"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="638"/>
         <source>Secure filedrop link</source>
         <translation>Безпечне копіювання файлів через посилання</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="599"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="646"/>
+        <source>Link share</source>
+        <translation>Спільне посилання</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="648"/>
+        <source>Internal link</source>
+        <translation>Внутрішнє посилання</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="650"/>
         <source>Secure file drop</source>
         <translation>Безпечне копіювання файлів</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="856"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="939"/>
         <source>Enter a note for the recipient</source>
         <translation>Додайте примітку для отримувача</translation>
     </message>
@@ -4279,46 +4172,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/gui/shareuserline.ui" line="277"/>
         <source>Expires:</source>
         <translation>Термін дії:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="487"/>
-        <source>Can reshare</source>
-        <translation>Може ділитися з іншими</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="498"/>
-        <source>Note to recipient</source>
-        <translation>Примітка для отримувача</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="514"/>
-        <source>Set expiration date</source>
-        <translation>Встановити дату завершення терміну дії</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="529"/>
-        <source>Unshare</source>
-        <translation>Закрити спільний доступ</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="538"/>
-        <source>Can create</source>
-        <translation>Може створювати</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="544"/>
-        <source>Can change</source>
-        <translation>Може змінювати</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="550"/>
-        <source>Can delete</source>
-        <translation>Може вилучати</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="559"/>
-        <source>Password protect</source>
-        <translation>Захищено паролем</translation>
     </message>
 </context>
 <context>
@@ -4418,12 +4271,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1137"/>
         <source>Send private link by email …</source>
         <translation>Надіслати приватне посилання електронною поштою</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/socketapi/socketapi.cpp" line="1105"/>
-        <source>Expire in %1 minutes</source>
-        <comment>remaining time before lock expire</comment>
-        <translation><numerusform>Термін дії спливає за %1 хвилину</numerusform><numerusform>Термін дії спливає за %1 хвилини</numerusform><numerusform>Термін дії спливає за %1 хвилин</numerusform><numerusform>Термін дії спливає за %1 хвилин</numerusform></translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1162"/>
@@ -4742,78 +4589,73 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::SyncEngine</name>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="191"/>
+        <location filename="../src/libsync/syncengine.cpp" line="197"/>
         <source>%1 (skipped due to earlier error, trying again in %2)</source>
         <translation>%1 (пропущено через попередню помилку, повторна спроба через %2)</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="375"/>
+        <location filename="../src/libsync/syncengine.cpp" line="381"/>
         <source>Could not update file: %1</source>
         <translation>Неможливо оновити файл: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="387"/>
+        <location filename="../src/libsync/syncengine.cpp" line="393"/>
         <source>Could not update virtual file metadata: %1</source>
         <translation>Неможливо оновити метадані віртуального файлу: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="394"/>
+        <location filename="../src/libsync/syncengine.cpp" line="400"/>
         <source>Could not update file metadata: %1</source>
         <translation>Не вдалося оновити метадані: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="404"/>
+        <location filename="../src/libsync/syncengine.cpp" line="410"/>
         <source>Could not set file record to local DB: %1</source>
         <translation>Неможливо встановити запис файлу до локальної БД: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="434"/>
+        <location filename="../src/libsync/syncengine.cpp" line="440"/>
         <source>Unresolved conflict.</source>
         <translation>Конфлікт, який неможна вирішити</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="526"/>
+        <location filename="../src/libsync/syncengine.cpp" line="532"/>
         <source>Only %1 are available, need at least %2 to start</source>
         <comment>Placeholders are postfixed with file sizes using Utility::octetsToString()</comment>
         <translation>Доступно лише %1, для початку необхідно хоча б %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="559"/>
+        <location filename="../src/libsync/syncengine.cpp" line="565"/>
         <source>Unable to open or create the local sync database. Make sure you have write access in the sync folder.</source>
         <translation>Неможливо відкрити або створити локальну синхронізовану базу даних. Перевірте, що ви маєте доступ на запис у каталозі синхронізації.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="575"/>
+        <location filename="../src/libsync/syncengine.cpp" line="581"/>
         <source>Using virtual files with suffix, but suffix is not set</source>
         <translation>Використання віртуальних файлів з суфіксом, але суфікс не встановлено</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="587"/>
+        <location filename="../src/libsync/syncengine.cpp" line="593"/>
         <source>Unable to read the blacklist from the local database</source>
         <translation>Неможливо прочитати чорний список з локальної бази даних</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="628"/>
+        <location filename="../src/libsync/syncengine.cpp" line="634"/>
         <source>Unable to read from the sync journal.</source>
         <translation>Неможливо прочитати з журналу синхронізації.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="757"/>
+        <location filename="../src/libsync/syncengine.cpp" line="763"/>
         <source>Cannot open the sync journal</source>
         <translation>Не вдається відкрити протокол синхронізації</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1067"/>
-        <source>Synchronization will resume shortly.</source>
-        <translation>Синхронізацію буде невдовзі відновлено.</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1209"/>
+        <location filename="../src/libsync/syncengine.cpp" line="1220"/>
         <source>Disk space is low: Downloads that would reduce free space below %1 were skipped.</source>
         <translation>Закінчується місце на диску. Звантаження, які можуть зменшити вільне місце до 1% буде пропущено.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1216"/>
+        <location filename="../src/libsync/syncengine.cpp" line="1227"/>
         <source>There is insufficient space available on the server for some uploads.</source>
         <translation>Недостатньо місця на сервері для окремих завантажень.</translation>
     </message>
@@ -4959,11 +4801,6 @@ Server replied with error: %2</source>
         <translation>&lt;p&gt;&lt;small&gt;Використання плаґіну віртуальних файлів: %1&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="571"/>
-        <source>&lt;p&gt;This release was supplied by %1&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Цю збірку поставлено %1&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/theme.cpp" line="576"/>
         <source>&lt;p&gt;This release was supplied by %1.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Цей випуск надано %1.&lt;/p&gt;</translation>
@@ -5037,34 +4874,9 @@ Server replied with error: %2</source>
         <translation>Не вдалося отримати попередньо встановлені статуси. Пересвідчитеся, що ви маєте з&apos;єднання із сервером.</translation>
     </message>
     <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="144"/>
-        <source>Could not fetch user status. Make sure you are connected to the server.</source>
-        <translation>Не вдалося отримати статус користувача. Пересвідчитеся, що ви маєте з&apos;єднання із сервером.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="148"/>
-        <source>User status feature is not supported. You will not be able to set your user status.</source>
-        <translation>Функціонал показу статусу користувача не підтримується. Ви не матимете можливости встановити ваш статус користувача.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="152"/>
-        <source>Emojis feature is not supported. Some user status functionality may not work.</source>
-        <translation>Функція емоджі не підтримується. Окремі функції користувацьких статусів можуть не працювати.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="156"/>
-        <source>Could not set user status. Make sure you are connected to the server.</source>
-        <translation>Неможливо встановити статус користувача. Пересвідчитеся, що ви маєте з&apos;єднання із сервером.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/userstatusselectormodel.cpp" line="159"/>
         <source>Could not fetch status. Make sure you are connected to the server.</source>
         <translation>Неможливо отримати статус. Пересвідчитеся, що ви маєте з&apos;єднання із сервером.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/userstatusselectormodel.cpp" line="160"/>
-        <source>Could not clear user status message. Make sure you are connected to the server.</source>
-        <translation>Неможливо очистити статусне повідомлення користувача. Пересвідчитеся, що ви маєте з&apos;єднання із сервером.</translation>
     </message>
     <message>
         <location filename="../src/gui/userstatusselectormodel.cpp" line="163"/>
@@ -5198,19 +5010,9 @@ Server replied with error: %2</source>
         <translation>Ви вийшли з вашого облікового запису %1 о %2, Будь ласка, увійдійть повторно.</translation>
     </message>
     <message>
-        <location filename="../src/gui/creds/webflowcredentials.cpp" line="166"/>
-        <source>You have been logged out of %1 as user %2. Please login again.</source>
-        <translation>Ви вийшли з %1 як користувач %2. Будь ласка, увійдіть повторно.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/creds/webflowcredentials.cpp" line="190"/>
         <source>Please login with the account: %1</source>
         <translation>Будь ласка, увійдіть з обліковим записом: %1</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/creds/webflowcredentials.cpp" line="190"/>
-        <source>Please login with the user: %1</source>
-        <translation>Будь ласка, увійдіть під користувачем: %1</translation>
     </message>
 </context>
 <context>
@@ -5226,20 +5028,9 @@ Server replied with error: %2</source>
         <translation>Увійти</translation>
     </message>
     <message>
-        <location filename="../src/gui/wizard/welcomepage.ui" line="143"/>
-        <location filename="../src/gui/wizard/welcomepage.cpp" line="89"/>
-        <source>Log in to your %1</source>
-        <translation>Увійти до вашого %1</translation>
-    </message>
-    <message>
         <location filename="../src/gui/wizard/welcomepage.ui" line="156"/>
         <source>Sign up with provider</source>
         <translation>Зареєструватися з провайдером</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/wizard/welcomepage.ui" line="156"/>
-        <source>Create account with Provider</source>
-        <translation>Створити обліковий запис з провайдером</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/welcomepage.cpp" line="68"/>
@@ -5407,11 +5198,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="116"/>
         <source>Local Folder</source>
         <translation>Каталог на пристрої</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="121"/>
-        <source>User name</source>
-        <translation>Ім&apos;я користувача</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="135"/>
@@ -5618,26 +5404,26 @@ Server replied with error: %2</source>
         <extracomment>this displays an error string (%2) for a file %1</extracomment>
         <translation>%1: %2</translation>
     </message>
-    <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="805"/>
-        <source>Mark as read</source>
-        <translation>Позначити як прочитане</translation>
-    </message>
 </context>
 <context>
     <name>ShareDelegate</name>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="160"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="162"/>
         <source>Create a new share link</source>
         <translation>Створити нове посилання на спільний доступ</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="180"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="182"/>
         <source>Copy share link location</source>
         <translation>Копіювати посилання спільного доступу</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="209"/>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="196"/>
+        <source>Copied!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDelegate.qml" line="211"/>
         <source>Share options</source>
         <translation>Параметри спільного доступу</translation>
     </message>
@@ -5645,57 +5431,78 @@ Server replied with error: %2</source>
 <context>
     <name>ShareDetailsPage</name>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="88"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="95"/>
         <source>An error occurred setting the share password.</source>
         <translation>Помилка під час встановоення паролю на спільний доступ</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="221"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="219"/>
         <source>Edit share</source>
         <translation>Редагувати спільний доступ</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="238"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="236"/>
         <source>Dismiss</source>
         <translation>Відхилити</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="297"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="295"/>
         <source>Share label</source>
         <translation>Ярлик спільного ресурсу</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="330"/>
-        <source>Allow editing</source>
-        <translation>Дозволити редагування</translation>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="326"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="373"/>
+        <source>Allow upload and editing</source>
+        <translation>Дозволити завантаження та редагування</translation>
     </message>
     <message>
         <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="359"/>
+        <source>View only</source>
+        <translation>Лише перегляд</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="394"/>
+        <source>File drop (upload only)</source>
+        <translation>Сховище (тільки завантажування)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="421"/>
+        <source>Hide download</source>
+        <translation>Приховати завантаження</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="447"/>
         <source>Password protect</source>
         <translation>Захистити паролем</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="464"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="552"/>
         <source>Set expiration date</source>
         <translation>Встановити термін</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="655"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="743"/>
         <source>Note to recipient</source>
         <translation>Примітка отримувачу</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="723"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="811"/>
         <source>Unshare</source>
         <translation>Скасувати доступ</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="740"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="828"/>
         <source>Add another link</source>
         <translation>Додати ще одне посилання</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="771"/>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="871"/>
+        <source>Share link copied!</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="859"/>
         <source>Copy share link</source>
         <translation>Копіювати спільне посилання</translation>
     </message>
@@ -5713,17 +5520,17 @@ Server replied with error: %2</source>
         <translation>Пароль на спільний доступ</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="292"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="294"/>
         <source>Sharing is disabled</source>
         <translation>Спільний доступ вимкнено</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="300"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="302"/>
         <source>This item cannot be shared.</source>
         <translation>Неможливо поділитися цим ресурсом.</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/ShareView.qml" line="309"/>
+        <location filename="../src/gui/filedetails/ShareView.qml" line="311"/>
         <source>Sharing is disabled.</source>
         <translation>Спільний доступ вимкнено.</translation>
     </message>
@@ -5739,7 +5546,7 @@ Server replied with error: %2</source>
 <context>
     <name>SyncJournalDb</name>
     <message>
-        <location filename="../src/common/syncjournaldb.cpp" line="926"/>
+        <location filename="../src/common/syncjournaldb.cpp" line="931"/>
         <source>Failed to connect database.</source>
         <translation>Не вдалося приєднатися до бази даних</translation>
     </message>
@@ -5747,7 +5554,7 @@ Server replied with error: %2</source>
 <context>
     <name>SyncStatus</name>
     <message>
-        <location filename="../src/gui/tray/SyncStatus.qml" line="116"/>
+        <location filename="../src/gui/tray/SyncStatus.qml" line="118"/>
         <source>Sync now</source>
         <translation>Синхронізувати</translation>
     </message>
@@ -5763,6 +5570,54 @@ Server replied with error: %2</source>
         <location filename="../src/gui/tray/TalkReplyTextField.qml" line="53"/>
         <source>Send reply to chat message</source>
         <translation>Відповісти на повідомлення у чаті</translation>
+    </message>
+</context>
+<context>
+    <name>TrayFoldersMenuButton</name>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="56"/>
+        <source>Open local or group folders</source>
+        <translation>Відкрити локальні або групові каталоги</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="56"/>
+        <source>Open local folder</source>
+        <translation>Відкрити каталог на пристрої</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="71"/>
+        <source>Connected</source>
+        <translation>З&apos;єднано</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="71"/>
+        <source>Disconnected</source>
+        <translation>Від&apos;єднано</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="110"/>
+        <source>Group folder button</source>
+        <translation>Кнопка групового каталогу</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="185"/>
+        <source>Open local folder &quot;%1&quot;</source>
+        <translation>Відкрити локальний каталог &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="185"/>
+        <source>Open group folder &quot;%1&quot;</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="197"/>
+        <source>Open %1 in file explorer</source>
+        <translation>Відкрити %1 у файловому провіднику</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="202"/>
+        <source>User group and local folders menu</source>
+        <translation>Меню груп користувачів та локальних каталогів</translation>
     </message>
 </context>
 <context>
@@ -5816,11 +5671,6 @@ Server replied with error: %2</source>
 <context>
     <name>UserLine</name>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="15"/>
-        <source>Account entry</source>
-        <translation>Запис обліковки</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/UserLine.qml" line="19"/>
         <source>Switch to account</source>
         <translation>Перейти до облікового запису</translation>
@@ -5834,16 +5684,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/tray/UserLine.qml" line="64"/>
         <source>Current account status is do not disturb</source>
         <translation>Поточний статус облікового запису: не турбувати</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="89"/>
-        <source>Current user status is online</source>
-        <translation>Поточний статус користувача: у мережі</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="89"/>
-        <source>Current user status is do not disturb</source>
-        <translation>Поточний статус користувача: не турбувати</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="135"/>
@@ -6042,11 +5882,6 @@ Server replied with error: %2</source>
         <translation>Призупинити синхронізацію для всіх</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="219"/>
-        <source>Set user status</source>
-        <translation>Встановити статус користувача</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="347"/>
         <source>Add account</source>
         <translation>Додати обліковий запис</translation>
@@ -6067,21 +5902,6 @@ Server replied with error: %2</source>
         <translation>Вийти</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="373"/>
-        <source>Current user avatar</source>
-        <translation>Поточна аватарка користувача</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="412"/>
-        <source>Current user status is online</source>
-        <translation>Поточний статус користувача: у мережі</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="412"/>
-        <source>Current user status is do not disturb</source>
-        <translation>Поточний статус користувача: не турбувати</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="463"/>
         <source>Current account avatar</source>
         <translation>Поточна аватарка облікового запису</translation>
@@ -6097,11 +5917,6 @@ Server replied with error: %2</source>
         <translation>Поточний статус облікового запису: не турбувати</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="851"/>
-        <source>%1 - File activity</source>
-        <translation>%1 - дії з файлом</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/Window.qml" line="578"/>
         <source>Account switcher and settings menu</source>
         <translation>Перемикання обліковок та меню налаштування</translation>
@@ -6112,6 +5927,11 @@ Server replied with error: %2</source>
         <translation>Відкрити каталог на пристрої для поточного облікового запису</translation>
     </message>
     <message>
+        <location filename="../src/gui/tray/Window.qml" line="656"/>
+        <source>Open Nextcloud Talk in browser</source>
+        <translation>Відкрити Nextcloud Talk у бравзері</translation>
+    </message>
+    <message>
         <location filename="../src/gui/tray/Window.qml" line="620"/>
         <source>Connected</source>
         <translation>З&apos;єднаний</translation>
@@ -6120,11 +5940,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/tray/Window.qml" line="620"/>
         <source>Disconnected</source>
         <translation>Від&apos;єднаний</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/Window.qml" line="656"/>
-        <source>Open Nextcloud Talk in browser</source>
-        <translation>Відкрити Nextcloud Talk у бравзері</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="676"/>
@@ -6178,7 +5993,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="37"/>
         <source>Downloaded</source>
-        <translation>Завантажено</translation>
+        <translation>Звантажено</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="40"/>
@@ -6371,228 +6186,6 @@ Server replied with error: %2</source>
         <location filename="../src/gui/guiutility.cpp" line="105"/>
         <source>Free up local space</source>
         <translation>Звільнити місце на пристрої</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::AccountManager</name>
-    <message>
-        <location filename="../src/gui/accountmanager.cpp" line="406"/>
-        <source>End to end encryption mnemonic</source>
-        <translation>Словникове шифрування end-to-end</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountmanager.cpp" line="407"/>
-        <source>To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. Please note these down and keep them safe. They will be needed to add other devices to your account (like your mobile phone or laptop).</source>
-        <translation>Для захисту вашої криптографічної ідентичності ми зашифруємо її парольною фразою із 12 словникових слів. Будь ласка, занотуйте ці фрази та збережіть у безпечному місці. Вони будуть потрібні для додавання інших пристроїв до вашого облікового запису (наприклад, смартфону або ноутбуку).</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::InternalLinkWidget</name>
-    <message>
-        <location filename="../src/gui/internallinkwidget.ui" line="64"/>
-        <source>Internal link</source>
-        <translation>Внутрішнє посилання</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/internallinkwidget.ui" line="83"/>
-        <source>Only works for users with access to this folder</source>
-        <translation>Стосується лише користувачів, які мають доступ до цього каталогу.</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareDialog</name>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="69"/>
-        <source>share label</source>
-        <translation>поділитися міткою</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="124"/>
-        <source>Nextcloud Path:</source>
-        <translation>Шлях до Nextcloud:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.ui" line="155"/>
-        <source>Icon</source>
-        <translation>Значок</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="96"/>
-        <source>%1</source>
-        <translation>%1</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/sharedialog.cpp" line="105"/>
-        <source>Locked by %1 - Expire in %2 minutes</source>
-        <comment>remaining time before lock expire</comment>
-        <translation><numerusform>Заблоковано %1 - закінчується за %2 хвилину</numerusform><numerusform>Заблоковано %1 - закінчується за %2 хвилини</numerusform><numerusform>Заблоковано %1 - закінчується за %2 хвилин</numerusform><numerusform>Заблоковано %1 - закінчується за %2 хвилин</numerusform></translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/sharedialog.cpp" line="106"/>
-        <source>Locked by %1 - Expires in %2 minutes</source>
-        <comment>remaining time before lock expires</comment>
-        <translation><numerusform>Заблоковано %1 - закінчується за %2 хвилину</numerusform><numerusform>Заблоковано %1 - закінчується за %2 хвилини</numerusform><numerusform>Заблоковано %1 - закінчується за %2 хвилин</numerusform><numerusform>Заблоковано %1 - закінчується за %2 хвилин</numerusform></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="127"/>
-        <source>Folder: %2</source>
-        <translation>Каталог: %2</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="130"/>
-        <source>%1 Sharing</source>
-        <translation>Ви поділилися %1</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="332"/>
-        <source>The file cannot be shared because it does not have sharing permission.</source>
-        <translation>Неможливо надати цей файл у спільний доступ, оскільки він не має відповідних дозволів.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="417"/>
-        <source>Please enter a password for your link share:</source>
-        <translation>Будь ласка, зазначте пароль на спільний ресурс:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharedialog.cpp" line="418"/>
-        <source>Password for share required</source>
-        <translation>Потрібний пароль на спільний ресурс</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareLinkWidget</name>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="59"/>
-        <source>Share link</source>
-        <translation>Спільний ресурс</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="167"/>
-        <source>Note</source>
-        <translation>Примітка</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="244"/>
-        <source>Set password</source>
-        <translation>Встановіть пароль</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.ui" line="315"/>
-        <source>Expires</source>
-        <translation>Термін дії</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="184"/>
-        <source>Allow editing</source>
-        <translation>Може редагувати</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="190"/>
-        <source>View only</source>
-        <translation>Лише перегляд</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="196"/>
-        <source>Allow upload and editing</source>
-        <translation>Може завантажувати та редагувати</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="201"/>
-        <source>File drop (upload only)</source>
-        <translation>Сховище (тільки завантажування)</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="219"/>
-        <source>Link name</source>
-        <translation>Ім&apos;я посилання</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="251"/>
-        <source>Note to recipient</source>
-        <translation>Примітка для одержувача</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="261"/>
-        <source>Password protect</source>
-        <translation>Захистити паролем</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="280"/>
-        <source>Set expiration date</source>
-        <translation>Встановити термін дії</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="302"/>
-        <source>Delete link</source>
-        <translation>Вилучити посилання</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="307"/>
-        <source>Add another link</source>
-        <translation>Додати ще одне посилання</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="503"/>
-        <source>Confirm Link Share Deletion</source>
-        <translation>Підтвердіть вилучення спільного ресурсу з посиланням</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="504"/>
-        <source>&lt;p&gt;Do you really want to delete the public link share &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;Note: This action cannot be undone.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Дійсно вилучити спільний ресурс із публічним посиланням &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;Примітка: цю дію неможливо буде повернути.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="510"/>
-        <source>Delete</source>
-        <translation>Вилучити</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="511"/>
-        <source>Cancel</source>
-        <translation>Скасувати</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/sharelinkwidget.cpp" line="529"/>
-        <source>Public link</source>
-        <translation>Публічне посилання</translation>
-    </message>
-</context>
-<context>
-    <name>OCC::ShareUserGroupWidget</name>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.ui" line="74"/>
-        <source>Share with users or groups …</source>
-        <translation>Поділитися з користувачами або групами...</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="123"/>
-        <source>Search globally</source>
-        <translation>Шукати всюди</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="321"/>
-        <source>Copy link</source>
-        <translation>Копіювати посилання</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="333"/>
-        <source>No results for &quot;%1&quot;</source>
-        <translation>Відсутні результати для &quot;%1&quot;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="367"/>
-        <source>Password for share required</source>
-        <translation>Потрібний пароль для доступу до спільного ресурсу</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="368"/>
-        <source>Please enter a password for your email share:</source>
-        <translation>Зазначте пароль для доступу до спільного ресурсу через ел.пошту:</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/shareusergroupwidget.cpp" line="421"/>
-        <source>I shared something with you</source>
-        <translation>Я поділився з вами документами</translation>
     </message>
 </context>
 </TS>

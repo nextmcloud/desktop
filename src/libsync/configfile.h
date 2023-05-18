@@ -219,6 +219,13 @@ public:
     /// Add the system and user exclude file path to the ExcludedFiles instance.
     static void setupDefaultExcludeFilePaths(ExcludedFiles &excludedFiles);
 
+    /// Set during first time migration of legacy accounts in AccountManager
+    [[nodiscard]] static QString discoveredLegacyConfigPath();
+    static void setDiscoveredLegacyConfigPath(const QString &discoveredLegacyConfigPath);
+
+    [[nodiscard]] bool macFileProviderModuleEnabled() const;
+    void setMacFileProviderModuleEnabled(const bool moduleEnabled);
+
 protected:
     [[nodiscard]] QVariant getPolicySetting(const QString &policy, const QVariant &defaultValue = QVariant()) const;
     void storeData(const QString &group, const QString &key, const QVariant &value);
@@ -233,12 +240,10 @@ private:
 
     [[nodiscard]] QString keychainProxyPasswordKey() const;
 
-private:
     using SharedCreds = QSharedPointer<AbstractCredentials>;
 
-    static bool _askedUser;
-    static QString _oCVersion;
     static QString _confDir;
+    static QString _discoveredLegacyConfigPath;
 };
 }
 #endif // CONFIGFILE_H

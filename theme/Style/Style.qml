@@ -17,6 +17,7 @@ QtObject {
     readonly property color menuBorder: Theme.darkMode ? Qt.lighter(backgroundColor, 2.5) : Qt.darker(backgroundColor, 1.5)
     readonly property color backgroundColor: Theme.systemPalette.base
     readonly property color buttonBackgroundColor: Theme.systemPalette.button
+    readonly property color positiveColor: Qt.rgba(0.38, 0.74, 0.38, 1)
 
     readonly property color currentUserHeaderColor: UserModel.currentUser ? UserModel.currentUser.headerColor : ncBlue
     readonly property color currentUserHeaderTextColor: UserModel.currentUser ? UserModel.currentUser.headerTextColor : ncHeaderTextColor
@@ -51,6 +52,7 @@ QtObject {
 
     property int standardSpacing: 10
     property int smallSpacing: 5
+    property int extraSmallSpacing: 2
 
     property int iconButtonWidth: 36
     property int standardPrimaryButtonHeight: 40
@@ -122,9 +124,32 @@ QtObject {
     readonly property int unifiedSearchResultSectionItemVerticalPadding: 8
     readonly property int unifiedSearchResultNothingFoundHorizontalMargin: 10
 
+    readonly property int radioButtonCustomMarginLeftInner: 4
+    readonly property int radioButtonCustomMarginLeftOuter: 5
+    readonly property int radioButtonCustomRadius: 9
+    readonly property int radioButtonIndicatorSize: 16
+
     readonly property var fontMetrics: FontMetrics {}
 
     readonly property int activityContentSpace: 4
+
+    readonly property double smallIconScaleFactor: 0.6
+
+    readonly property double trayFolderListButtonWidthScaleFactor: 1.75
+    readonly property int trayFolderStatusIndicatorSizeOffset: 2
+    readonly property double trayFolderStatusIndicatorRadiusFactor: 0.5
+    readonly property double trayFolderStatusIndicatorMouseHoverOpacityFactor: 0.2
+
+    readonly property double trayWindowMenuWidthFactor: 0.35
+
+    readonly property int trayWindowMenuOffsetX: -2
+    readonly property int trayWindowMenuOffsetY: 2
+
+    readonly property int trayWindowMenuEntriesMargin: 6
+
+    // animation durations
+    readonly property int shortAnimationDuration: 200
+    readonly property int veryLongAnimationDuration: 3000
 
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
