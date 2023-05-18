@@ -43,10 +43,10 @@
 namespace {
 const QString TOOLBAR_CSS()
 {
-    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0; border: none; border-bottom: 1px solid %2; spacing: 0; } "
-                          "QToolBar QToolButton { background: %1; border: none; border-bottom: 1px solid %2; margin: 0; padding: 5px; } "
+    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 8px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 8px; } "
+                          "QToolBar QToolButton { background: %1;font: 14px; border: none; border-bottom: 1px solid %2; margin: 0; padding: 13px; } "
                           "QToolBar QToolBarExtension { padding:0; } "
-                          "QToolBar QToolButton:checked { background: %3; color: %4; }");
+                          "QToolBar QToolButton:checked { background: %1; color: %4; }");
 }
 
 const float buttonSizeRatio = 1.618f; // golden ratio
@@ -117,7 +117,8 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
     _toolBar->addWidget(spacer);
 
-    QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/settings.svg"), tr("General"));
+    QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/service32x32.svg"), tr("General"));
+    generalAction->setToolTip(QString());
     _actionGroup->addAction(generalAction);
     _toolBar->addAction(generalAction);
     auto *generalSettings = new GeneralSettings;
@@ -126,7 +127,8 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
     connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettings::slotStyleChanged);
 
-    QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
+    QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/network32x32.svg"), tr("Network"));
+    networkAction->setToolTip(QString());
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
     auto *networkSettings = new NetworkSettings;
@@ -211,6 +213,22 @@ void SettingsDialog::changeEvent(QEvent *e)
 void SettingsDialog::slotSwitchPage(QAction *action)
 {
     _ui->stack->setCurrentWidget(_actionGroupWidgets.value(action));
+    customizeStyle();
+    if((action->text() == "Allgemein") || (action->text() == "General"))
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+    else if((action->text() == "Netzwerk") || (action->text() == "Network"))
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
+        action->setIcon(openIcon);
+    }
+    else
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/user_magenta.svg"));
+        action->setIcon(openIcon);
+    }
 }
 
 void SettingsDialog::showFirstPage()
@@ -232,20 +250,18 @@ void SettingsDialog::showIssuesList(AccountState *account)
 void SettingsDialog::accountAdded(AccountState *s)
 {
     auto height = _toolBar->sizeHint().height();
-    bool brandingSingleAccount = !Theme::instance()->multiAccount();
 
-    const auto actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
-    const auto accountAction = createColorAwareAction(QLatin1String(":/client/theme/account.svg"), actionText);
+    const auto actionText = s->account()->prettyName();
+    const auto accountAction = createColorAwareAction(QLatin1String(":/client/theme/magenta/user32x32.svg"), actionText);
 
-    if (!brandingSingleAccount) {
-        accountAction->setToolTip(s->account()->displayName());
-        accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
-    }
+    //accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
 
+
+    accountAction->setToolTip(QString());    
     _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
     auto accountSettings = new AccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
-    objectName += s->account()->displayName();
+    objectName += s->account()->prettyName();
     accountSettings->setObjectName(objectName);
     _ui->stack->insertWidget(0 , accountSettings);
 
@@ -258,7 +274,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     connect(accountSettings, &AccountSettings::openFolderAlias,
         _gui, &ownCloudGui::slotFolderOpenAction);
     connect(accountSettings, &AccountSettings::showIssuesList, this, &SettingsDialog::showIssuesList);
-    connect(s->account().data(), &Account::accountChangedAvatar, this, &SettingsDialog::slotAccountAvatarChanged);
+   // connect(s->account().data(), &Account::accountChangedAvatar, this, &SettingsDialog::slotAccountAvatarChanged);
     connect(s->account().data(), &Account::accountChangedDisplayName, this, &SettingsDialog::slotAccountDisplayNameChanged);
 
     // Connect styleChanged event, to adapt (Dark-/Light-Mode switching)
@@ -294,10 +310,8 @@ void SettingsDialog::slotAccountDisplayNameChanged()
     if (account && _actionForAccount.contains(account)) {
         QAction *action = _actionForAccount[account];
         if (action) {
-            QString displayName = account->displayName();
+            QString displayName = account->prettyName();
             action->setText(displayName);
-            auto height = _toolBar->sizeHint().height();
-            action->setIconText(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
         }
     }
 }
@@ -338,7 +352,7 @@ void SettingsDialog::accountRemoved(AccountState *s)
 void SettingsDialog::customizeStyle()
 {
     QString highlightColor(palette().highlight().color().name());
-    QString highlightTextColor(palette().highlightedText().color().name());
+    const auto highlightTextColor = Theme::defaultColor().name();
     QString dark(palette().dark().color().name());
     QString background(palette().base().color().name());
     _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, dark, highlightColor, highlightTextColor));

@@ -236,5 +236,11 @@
         <file>theme/delete.svg</file>
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
+        <file>theme/magenta/user_magenta.svg</file>
+        <file>theme/magenta/user32x32.svg</file>
+        <file>theme/magenta/service32x32.svg</file>
+        <file>theme/magenta/service_magenta.svg</file>
+        <file>theme/magenta/network32x32.svg</file>
+        <file>theme/magenta/network_magenta32x32.svg</file>
     </qresource>
 </RCC>
