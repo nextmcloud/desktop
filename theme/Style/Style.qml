@@ -84,6 +84,8 @@ QtObject {
     property int addAccountButtonHeight: 50
 
     property int headerButtonIconSize: 32
+    property int dismissButtonSize: 16
+    property int minimumActivityItemHeight: 24
 
     property int activityLabelBaseWidth: 240
 
@@ -130,6 +132,11 @@ QtObject {
     readonly property int radioButtonIndicatorSize: 16
 
     readonly property var fontMetrics: FontMetrics {}
+
+    readonly property int bigFontPixelSizeResolveConflictsDialog: 20
+    readonly property int fontPixelSizeResolveConflictsDialog: 15
+    readonly property int minimumWidthResolveConflictsDialog: 600
+    readonly property int minimumHeightResolveConflictsDialog: 800
 
     readonly property int activityContentSpace: 4
 
