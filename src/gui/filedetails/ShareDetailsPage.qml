@@ -230,7 +230,7 @@ Page {
                 Layout.preferredHeight: width
                 Layout.rightMargin: root.padding
 
-                imageSource: "image://svgimage-custom-color/clear.svg" + "/" + Style.ncTextColor
+                icon.source: "image://svgimage-custom-color/clear.svg" + "/" + Style.ncTextColor
                 bgColor: Style.lightHover
                 bgNormalOpacity: 0
                 toolTipText: qsTr("Dismiss")
@@ -806,7 +806,7 @@ Page {
             CustomButton {
                 height: Style.standardPrimaryButtonHeight
 
-                imageSource: "image://svgimage-custom-color/close.svg/" + Style.errorBoxBackgroundColor
+                icon.source: "image://svgimage-custom-color/close.svg/" + Style.errorBoxBackgroundColor
                 imageSourceHover: "image://svgimage-custom-color/close.svg/" + Style.ncHeaderTextColor
                 text: qsTr("Unshare")
                 textColor: Style.errorBoxBackgroundColor
@@ -823,7 +823,7 @@ Page {
             CustomButton {
                 height: Style.standardPrimaryButtonHeight
 
-                imageSource: "image://svgimage-custom-color/add.svg/" + Style.ncBlue
+                icon.source: "image://svgimage-custom-color/add.svg/" + Style.ncBlue
                 imageSourceHover: "image://svgimage-custom-color/add.svg/" + Style.ncHeaderTextColor
                 text: qsTr("Add another link")
                 textColor: Style.ncBlue
@@ -853,27 +853,51 @@ Page {
         CustomButton {
             id: copyShareLinkButton
 
-            height: Style.standardPrimaryButtonHeight
-
-            imageSource: "image://svgimage-custom-color/copy.svg/" + Style.ncHeaderTextColor
-            text: qsTr("Copy share link")
-            textColor: Style.ncHeaderTextColor
-            contentsFont.bold: true
-            bgColor: Style.ncBlue
-            bgNormalOpacity: 1.0
-            bgHoverOpacity: Style.hoverOpacity
-
-            visible: root.isLinkShare
-            enabled: visible
-
-            onClicked: {
+            function copyShareLink() {
                 clipboardHelper.text = root.link;
                 clipboardHelper.selectAll();
                 clipboardHelper.copy();
                 clipboardHelper.clear();
+
+                shareLinkCopied = true;
+                shareLinkCopyTimer.start();
             }
 
-            TextEdit { id: clipboardHelper; visible: false }
+            property bool shareLinkCopied: false
+
+            height: Style.standardPrimaryButtonHeight
+
+            icon.source: "image://svgimage-custom-color/copy.svg/" + Style.ncHeaderTextColor
+            text: shareLinkCopied ? qsTr("Share link copied!") : qsTr("Copy share link")
+            textColor: Style.ncHeaderTextColor
+            contentsFont.bold: true
+            bgColor: shareLinkCopied ? Style.positiveColor : Style.ncBlue
+            bgNormalOpacity: 1.0
+            bgHoverOpacity: shareLinkCopied ? 1.0 : Style.hoverOpacity
+
+            visible: root.isLinkShare
+            enabled: visible
+
+            onClicked: copyShareLink()
+
+            Behavior on bgColor {
+                ColorAnimation { duration: Style.shortAnimationDuration }
+            }
+
+            Behavior on bgHoverOpacity {
+                NumberAnimation { duration: Style.shortAnimationDuration }
+            }
+
+            TextEdit {
+                id: clipboardHelper
+                visible: false
+            }
+
+            Timer {
+                id: shareLinkCopyTimer
+                interval: Style.veryLongAnimationDuration
+                onTriggered: copyShareLinkButton.shareLinkCopied = false
+            }
         }
     }
 }

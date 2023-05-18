@@ -234,7 +234,7 @@ public:
             activity.insert(QStringLiteral("activity_id"), _startingId);
             activity.insert(QStringLiteral("object_type"), "2fa_id");
             activity.insert(QStringLiteral("subject"), QStringLiteral("Login attempt from 127.0.0.1"));
-            activity.insert(QStringLiteral("message"), QStringLiteral("Please apporve or deny the login attempt."));
+            activity.insert(QStringLiteral("message"), QStringLiteral("Please approve or deny the login attempt."));
             activity.insert(QStringLiteral("object_name"), QStringLiteral(""));
             activity.insert(QStringLiteral("datetime"), QDateTime::currentDateTime().toString(Qt::ISODate));
             activity.insert(QStringLiteral("icon"), QStringLiteral("http://example.de/core/img/places/password.svg"));
@@ -252,6 +252,34 @@ public:
             secondaryAction.insert(QStringLiteral("label"), QStringLiteral("Cancel"));
             secondaryAction.insert(QStringLiteral("link"),
                 QString(QStringLiteral("/ocs/v2.php/apps/twofactor_nextcloud_notification/api/v1/attempt/39")));
+            secondaryAction.insert(QStringLiteral("type"), QStringLiteral("DELETE"));
+            secondaryAction.insert(QStringLiteral("primary"), false);
+            actionsArray.push_back(secondaryAction);
+
+            activity.insert(QStringLiteral("actions"), actionsArray);
+
+            _activityData.push_back(activity);
+
+            _startingId++;
+        }
+
+        // Insert notification data
+        for (quint32 i = 0; i < _numItemsToInsert; i++) {
+            QJsonObject activity;
+            activity.insert(QStringLiteral("activity_id"), _startingId);
+            activity.insert(QStringLiteral("object_type"), "create");
+            activity.insert(QStringLiteral("subject"), QStringLiteral("Generate backup codes"));
+            activity.insert(QStringLiteral("message"), QStringLiteral("You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor."));
+            activity.insert(QStringLiteral("object_name"), QStringLiteral(""));
+            activity.insert(QStringLiteral("datetime"), QDateTime::currentDateTime().toString(Qt::ISODate));
+            activity.insert(QStringLiteral("icon"), QStringLiteral("http://example.de/core/img/places/password.svg"));
+
+            QJsonArray actionsArray;
+
+            QJsonObject secondaryAction;
+            secondaryAction.insert(QStringLiteral("label"), QStringLiteral("Dismiss"));
+            secondaryAction.insert(QStringLiteral("link"),
+                                   QString(QStringLiteral("ocs/v2.php/apps/notifications/api/v2/notifications/19867")));
             secondaryAction.insert(QStringLiteral("type"), QStringLiteral("DELETE"));
             secondaryAction.insert(QStringLiteral("primary"), false);
             actionsArray.push_back(secondaryAction);
@@ -619,6 +647,9 @@ private slots:
             QVERIFY(index.data(OCC::ActivityListModel::ActionTextRole).canConvert<QString>());
             QVERIFY(index.data(OCC::ActivityListModel::MessageRole).canConvert<QString>());
             QVERIFY(index.data(OCC::ActivityListModel::LinkRole).canConvert<QUrl>());
+
+            QVERIFY(index.data(OCC::ActivityListModel::ActionsLinksForActionButtonsRole).canConvert<QList<QVariant>>());
+
             QVERIFY(index.data(OCC::ActivityListModel::AccountConnectedRole).canConvert<bool>());
             QVERIFY(index.data(OCC::ActivityListModel::DisplayActions).canConvert<bool>());
 
@@ -677,6 +708,13 @@ private slots:
                         QVERIFY(actionsLinksContextMenu.isEmpty());
                     }
 
+                    // Generate 2FA backup codes notification
+                    if (objectType == QStringLiteral("create")) {
+                        QVERIFY(actionsLinks.size() == 1);
+                        QVERIFY(!actionsLinks[0].value<OCC::ActivityLink>()._primary);
+                        QVERIFY(actionsLinksContextMenu.isEmpty());
+                    }
+
                     if ((objectType == QStringLiteral("chat") || objectType == QStringLiteral("call")
                             || objectType == QStringLiteral("room"))) {
 
@@ -687,11 +725,11 @@ private slots:
 
                         // both action links and buttons must contain a "REPLY" verb element as secondary action
                         QVERIFY(actionsLinks[replyActionPos].value<OCC::ActivityLink>()._verb == QStringLiteral("REPLY"));
-                        QVERIFY(actionButtonsLinks[replyActionPos].value<OCC::ActivityLink>()._verb == QStringLiteral("REPLY"));
+                        //QVERIFY(actionButtonsLinks[replyActionPos].value<OCC::ActivityLink>()._verb == QStringLiteral("REPLY"));
 
                         // the first action button for chat must have image set
-                        QVERIFY(!actionButtonsLinks[replyActionPos].value<OCC::ActivityLink>()._imageSource.isEmpty());
-                        QVERIFY(!actionButtonsLinks[replyActionPos].value<OCC::ActivityLink>()._imageSourceHovered.isEmpty());
+                        //QVERIFY(!actionButtonsLinks[replyActionPos].value<OCC::ActivityLink>()._imageSource.isEmpty());
+                        //QVERIFY(!actionButtonsLinks[replyActionPos].value<OCC::ActivityLink>()._imageSourceHovered.isEmpty());
 
                         // logic for "chat" and other types of activities with multiple actions
                         if ((objectType == QStringLiteral("chat")

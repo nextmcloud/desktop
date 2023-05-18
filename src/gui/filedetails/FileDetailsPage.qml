@@ -81,7 +81,19 @@ Page {
             Layout.topMargin: root.topPadding
 
             columns: root.showCloseButton ? 3 : 2
-            rows: showFileLockedString ? 3 : 2
+            rows: {
+                let rows = 2;
+
+                if (showFileLockedString) {
+                    rows++;
+                }
+
+                if (root.fileDetails.fileTagModel.totalTags > 0) {
+                    rows++;
+                }
+
+                return rows;
+            }
 
             rowSpacing: Style.standardSpacing / 2
             columnSpacing: Style.standardSpacing
@@ -122,7 +134,7 @@ Page {
                 Layout.preferredHeight: width
                 Layout.rightMargin: headerGridLayout.textRightMargin
 
-                imageSource: "image://svgimage-custom-color/clear.svg" + "/" + Style.ncTextColor
+                icon.source: "image://svgimage-custom-color/clear.svg" + "/" + Style.ncTextColor
                 bgColor: Style.lightHover
                 bgNormalOpacity: 0
                 toolTipText: qsTr("Dismiss")
@@ -153,6 +165,50 @@ Page {
                 color: Style.ncSecondaryTextColor
                 wrapMode: Text.Wrap
                 visible: headerGridLayout.showFileLockedString
+            }
+
+            Row {
+                id: tagRow
+
+                Layout.fillWidth: true
+                Layout.rightMargin: headerGridLayout.textRightMargin
+
+                Repeater {
+                    id: tagRepeater
+
+                    readonly property var fileTagModel: root.fileDetails.fileTagModel
+                    readonly property int maxTags: 3
+
+                    model: fileTagModel
+                    delegate: FileTag {
+                        readonly property int availableLayoutSpace: tagRow.width - tagRow.spacing - overflowTag.width
+                        readonly property int maxWidth: (availableLayoutSpace / tagRepeater.maxTags) - tagRow.spacing
+
+                        width: Math.min(maxWidth, implicitWidth)
+                        text: model.display
+                    }
+
+                    Component.onCompleted: fileTagModel.maxTags = 3
+                }
+
+                FileTag {
+                    id: overflowTag
+
+                    readonly property int totalFileTags: tagRepeater.fileTagModel.totalTags
+                    readonly property int maxFileTags: tagRepeater.fileTagModel.maxTags
+
+                    visible: totalFileTags > maxFileTags
+                    text: "+" + String(totalFileTags - maxFileTags)
+
+                    HoverHandler {
+                        id: hoverHandler
+                    }
+
+                    NCToolTip {
+                        visible: hoverHandler.hovered
+                        text: tagRepeater.fileTagModel.overflowTagsString
+                    }
+                }
             }
         }
 
