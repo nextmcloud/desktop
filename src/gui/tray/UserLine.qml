@@ -42,16 +42,16 @@ AbstractButton {
 
     contentItem: RowLayout {
         id: userLineLayout
+  objectName: "userLineLayout"
         spacing: Style.userStatusSpacing
 
         Image {
             id: accountAvatar
+            objectName: "accountAvatar"
             Layout.leftMargin: 7
             verticalAlignment: Qt.AlignCenter
             cache: false
-            source: model.avatar !== "" ? model.avatar : Theme.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
-            Layout.preferredHeight: Style.accountAvatarSize
-            Layout.preferredWidth: Style.accountAvatarSize
+            source: Style.accountAvatarIcon
 
             Rectangle {
                 id: accountStatusIndicatorBackground
@@ -87,12 +87,13 @@ AbstractButton {
 
             EnforcedPlainTextLabel {
                 id: accountUser
+                objectName: "accountUser"
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                 verticalAlignment: Text.AlignBottom
                 text: name
                 elide: Text.ElideRight
-                color: Style.ncTextColor
+                palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor
                 font.pixelSize: Style.topLinePixelSize
                 font.bold: true
             }
@@ -133,6 +134,7 @@ AbstractButton {
                 elide: Text.ElideRight
                 color: Style.ncTextColor
                 font.pixelSize: Style.subLinePixelSize
+                visible: false
             }
         }
 
@@ -189,7 +191,8 @@ AbstractButton {
                 MenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
                     font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
+                    icon.source: Style.accountLogoutIcon //MagentaCustomizationV25
+                    palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor
                     hoverEnabled: true
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
@@ -223,7 +226,8 @@ AbstractButton {
                     id: removeAccountButton
                     text: qsTr("Remove account")
                     font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
+                    icon.source: Style.accountRemoveIcon //MagentaCustomizationV25
+                    palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor//MagentaCustomizationV25
                     hoverEnabled: true
                     onClicked: {
                         UserModel.removeAccount(index)

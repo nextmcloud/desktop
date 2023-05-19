@@ -246,13 +246,13 @@ ApplicationWindow {
 
             RowLayout {
                 id: trayWindowHeaderLayout
-
+                objectName: "trayWindowHeaderLayout"
                 spacing:        0
                 anchors.fill:   parent
 
                 Button {
                     id: currentAccountButton
-
+                    objectName: "currentAccountButton"
                     Layout.preferredWidth:  Style.currentAccountButtonWidth
                     Layout.preferredHeight: Style.trayWindowHeaderHeight
                     display:                AbstractButton.IconOnly
@@ -266,7 +266,7 @@ ApplicationWindow {
                     // We call open() instead of popup() because we want to position it
                     // exactly below the dropdown button, not the mouse
                     onClicked: {
-                        syncPauseButton.text = Systray.syncIsPaused ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
+                        syncPauseButton.text = Systray.syncIsPaused ? qsTr("Resume sync") : qsTr("Pause sync")//MagentaCustomizationV25
                         if (accountMenu.visible) {
                             accountMenu.close()
                         } else {
@@ -276,6 +276,7 @@ ApplicationWindow {
 
                     Menu {
                         id: accountMenu
+                        objectName: "accountMenu"
 
                         // x coordinate grows towards the right
                         // y coordinate grows towards the bottom
@@ -330,11 +331,13 @@ ApplicationWindow {
                             onObjectRemoved: accountMenu.removeItem(object)
                         }
 
+                        //MagentaCustomizationV25 , height=0and visible:false is to hide add account button
                         MenuItem {
                             id: addAccountButton
-                            height: Style.addAccountButtonHeight
+                            height: 0//Style.addAccountButtonHeight
                             hoverEnabled: true
                             palette: Theme.systemPalette
+                            visible: false
 
                             background: Item {
                                 height: parent.height
@@ -385,8 +388,10 @@ ApplicationWindow {
 
                         MenuItem {
                             id: syncPauseButton
+                            objectName: "syncPauseButton"
                             font.pixelSize: Style.topLinePixelSize
-                            palette.windowText: Style.ncTextColor
+                            icon.source: Style.pauseIcon//MagentaCustomizationV25
+                            palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor
                             hoverEnabled: true
                             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
 
@@ -401,15 +406,17 @@ ApplicationWindow {
                             }
 
                             Accessible.role: Accessible.MenuItem
-                            Accessible.name: Systray.syncIsPaused ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
+                            Accessible.name: Systray.syncIsPaused ? qsTr("Resume sync") : qsTr("Pause sync") //MagentaCustomizationV25
                             Accessible.onPressAction: syncPauseButton.clicked()
                         }
 
                         MenuItem {
                             id: settingsButton
+                            objectName: "settingsButton"
                             text: qsTr("Settings")
                             font.pixelSize: Style.topLinePixelSize
-                            palette.windowText: Style.ncTextColor
+                            icon.source: Style.settingsIcon//MagentaCustomizationV25
+                            palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor
                             hoverEnabled: true
                             onClicked: Systray.openSettings()
 
@@ -430,9 +437,11 @@ ApplicationWindow {
 
                         MenuItem {
                             id: exitButton
+                            objectName: "exitButton"
                             text: qsTr("Exit");
                             font.pixelSize: Style.topLinePixelSize
-                            palette.windowText: Style.ncTextColor
+                            icon.source: Style.closeIcon//MagentaCustomizationV25
+                            palette.windowText :hovered ? Style.magentaColor : Style.nmcTextColor//MagentaCustomizationV25
                             hoverEnabled: true
                             onClicked: Systray.shutdown()
 
@@ -459,20 +468,23 @@ ApplicationWindow {
 
                     RowLayout {
                         id: accountControlRowLayout
-
+                        objectName: "accountControlRowLayout"
                         height: Style.trayWindowHeaderHeight
                         width:  Style.currentAccountButtonWidth
                         spacing: 0
 
                         Image {
                             id: currentAccountAvatar
-
+                            objectName: "currentAccountAvatar"
                             Layout.leftMargin: Style.trayHorizontalMargin
                             verticalAlignment: Qt.AlignCenter
                             cache: false
-                            source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
-                            Layout.preferredHeight: Style.accountAvatarSize
-                            Layout.preferredWidth: Style.accountAvatarSize
+                            source: Style.accountAvatarIcon//UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
+                            width: Style.headerButtonIconSize
+                            height: Style.headerButtonIconSize
+
+                            Layout.preferredHeight: Style.headerButtonIconSize
+                            Layout.preferredWidth: Style.headerButtonIconSize
 
                             Accessible.role: Accessible.Graphic
                             Accessible.name: qsTr("Current account avatar")
@@ -528,6 +540,7 @@ ApplicationWindow {
 
                             EnforcedPlainTextLabel {
                                 id: currentAccountUser
+                                objectName: "currentAccountUser"
                                 Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.name
@@ -649,9 +662,9 @@ ApplicationWindow {
 
                     Menu {
                         id: appsMenu
-                        x: Style.trayWindowMenuOffsetX
-                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + Style.trayWindowMenuOffsetY)
-                        width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
+                        x: -2
+                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + 2)
+                        width: Style.trayWindowWidth * 0.35
                         height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
                         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
@@ -838,18 +851,18 @@ ApplicationWindow {
         }
 
         ActivityList {
-            visible: !trayWindowMainItem.isUnifiedSearchActive
-            anchors.top: syncStatus.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.bottom: trayWindowMainItem.bottom
+//            visible: !trayWindowMainItem.isUnifiedSearchActive
+//            anchors.top: syncStatus.bottom
+//            anchors.left: trayWindowMainItem.left
+//            anchors.right: trayWindowMainItem.right
+//            anchors.bottom: trayWindowMainItem.bottom
 
-            activeFocusOnTab: true
-            model: activityModel
-            onOpenFile: Qt.openUrlExternally(filePath);
-            onActivityItemClicked: {
-                model.slotTriggerDefaultAction(index)
-            }
+//            activeFocusOnTab: true
+//            model: activityModel
+//            onOpenFile: Qt.openUrlExternally(filePath);
+//            onActivityItemClicked: {
+//                model.slotTriggerDefaultAction(index)
+//            }
         }
     } // Item trayWindowMainItem
 }

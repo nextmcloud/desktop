@@ -161,4 +161,20 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+
+    //MagentaCustomizationV25
+    //Magenta brand specific resources
+    readonly property string accountAvatarIcon: "qrc:///client/theme/magenta/accountAvatarIcon.svg";
+    readonly property string accountLogoutIcon: "qrc:///client/theme/magenta/accountLogout.png";
+    readonly property string accountRemoveIcon: "qrc:///client/theme/magenta/accountRemove.svg";
+    readonly property string settingsIcon:      "qrc:///client/theme/magenta/Settings.svg";
+    readonly property string closeIcon:         "qrc:///client/theme/magenta/Close.svg";
+    readonly property string pauseIcon:         "qrc:///client/theme/magenta/Pause.svg";
+
+    ////Magenta brand specific fonts
+    readonly property string  magentaFont       :"Segoe UI"
+
+    //Magenta color
+    readonly property color magentaColor        :"#e20074"
+    readonly property color nmcTextColor        :"#191919"
 }
