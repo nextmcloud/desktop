@@ -33,7 +33,7 @@ private slots:
     void testcustomizeStyle()
     {
         auto *gui = new ownCloudGui();
-        SettingsDialog *setDialog = new SettingsDialog(gui);
+        auto *setDialog = new SettingsDialog(gui);
 
         setDialog->customizeStyle();
 
@@ -41,7 +41,7 @@ private slots:
                                      "QToolBar QToolButton { background: %1;font: 14px; border: none; border-bottom: 1px solid %2; margin: 0; padding: 13px; } "
                                      "QToolBar QToolBarExtension { padding:0; } "
                                      "QToolBar QToolButton:checked { background: %1; color: %4; }");
-        QToolBar *toolBar = new QToolBar();
+        auto *toolBar = new QToolBar();
         QString highlightColor(palette().highlight().color().name());
         const auto highlightTextColor = Theme::defaultColor().name();
         QString dark(palette().dark().color().name());
@@ -56,8 +56,8 @@ private slots:
     void testslotSwitchPage_Sync()
     {
         auto *gui = new ownCloudGui();
-        SettingsDialog *setDialog = new SettingsDialog(gui);
-        QAction *action = new QAction(QIcon(), "text", this);
+        auto *setDialog = new SettingsDialog(gui);
+        auto *action = new QAction(QIcon(), "text", this);
         action->setText("Synchronization");
         QIcon expectedOpenIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder_magenta.svg"));
 
@@ -72,8 +72,8 @@ private slots:
     void testslotSwitchPage_General()
     {
         auto *gui = new ownCloudGui();
-        SettingsDialog *setDialog = new SettingsDialog(gui);
-        QAction *action = new QAction(QIcon(), "text", this);
+        auto *setDialog = new SettingsDialog(gui);
+        auto *action = new QAction(QIcon(), "text", this);
         action->setText("General");
         QIcon expectedOpenIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
 
@@ -87,8 +87,8 @@ private slots:
     void testslotSwitchPage_Network()
     {
         auto *gui = new ownCloudGui();
-        SettingsDialog *setDialog = new SettingsDialog(gui);
-        QAction *action = new QAction(QIcon(), "text", this);
+        auto *setDialog = new SettingsDialog(gui);
+        auto *action = new QAction(QIcon(), "text", this);
         action->setText("Network");
         QIcon expectedOpenIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
 
@@ -103,10 +103,10 @@ private slots:
     {
         FolderMan folderMan(new QObject());
         AccountPtr account = Account::create();
-        AccountState *accountSt = new AccountState(account);
+        auto *accountSt = new AccountState(account);
 
         auto *gui = new ownCloudGui();
-        SettingsDialog *setDialog = new SettingsDialog(gui);
+        auto *setDialog = new SettingsDialog(gui);
         QString expectedText = account->prettyName();
 
         setDialog->accountAdded(accountSt);
@@ -119,46 +119,6 @@ private slots:
         delete accountSt;
     }
 
-    /* if hover added then remove below commented code else remove below code
-    void testslotHoverEffect_Sync()
-    {
-        SettingsDialog *setDialog = new SettingsDialog();
-        QAction *action = new QAction(QIcon(), "text", this);
-        action->setText("Synchronization");
-        QIcon expectedOpenIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder_magenta.svg"));
-
-        setDialog->slotHoverEffect(action);
-
-        QCOMPARE(action->icon().Active, expectedOpenIcon.Active);
-        delete action;
-    }
-
-    void testslotHoverEffect_General()
-    {
-        SettingsDialog *setDialog = new SettingsDialog();
-        QAction *action = new QAction(QIcon(), "text", this);
-        action->setText("General");
-        QIcon expectedOpenIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
-
-        setDialog->slotHoverEffect(action);
-
-        QCOMPARE(action->icon().Active, expectedOpenIcon.Active);
-        delete action;
-    }
-
-    void testslotHoverEffect_Network()
-    {
-        SettingsDialog *setDialog = new SettingsDialog();
-        QAction *action = new QAction(QIcon(), "text", this);
-        action->setText("Network");
-        QIcon expectedOpenIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
-
-        setDialog->slotHoverEffect(action);
-
-        QCOMPARE(action->icon().Active, expectedOpenIcon.Active);
-        delete action;
-    }
-    */
 };
 
 QTEST_MAIN(TestSettingsDialog)
