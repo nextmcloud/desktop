@@ -31,6 +31,7 @@ class TestShareModel;
 class ShareTestHelper;
 class EndToEndTestHelper;
 class TestSyncConflictsModel;
+class TestGeneralSettings; //MagentaCustomizationV25
 
 namespace OCC {
 
@@ -396,6 +397,7 @@ private:
     friend class ::TestCfApiShellExtensionsIPC;
     friend class ::ShareTestHelper;
     friend class ::EndToEndTestHelper;
+    friend class ::TestGeneralSettings; //MagentaCustomizationV25
 };
 
 } // namespace OCC

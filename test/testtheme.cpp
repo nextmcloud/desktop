@@ -14,6 +14,8 @@
 
 #include <QTest>
 
+#include "config.h"
+#include "version.h"
 #include "theme.h"
 #include "themeutils.h"
 #include "iconutils.h"
@@ -105,6 +107,17 @@ private slots:
         paintDevice.setHidpi(false);
 
         QCOMPARE(OCC::Theme::isHidpi(&paintDevice), false);
+    }
+
+    /* MagentaCustomizationV25 */
+    void testAbout()
+    {
+        OCC::Theme *themeObj = OCC::Theme::instance();
+        QString expectedDevString = tr("<p>%1 Desktop Client Version %2.</p>").arg(APPLICATION_NAME, QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)));
+
+        QString devString = themeObj->about();
+
+        QCOMPARE(devString, expectedDevString);
     }
 };
 
