@@ -45,7 +45,7 @@ private slots:
          );
 
          // Second, register the QML singleton type by calling this function in an initialization function.
-        qmlRegisterSingletonType(QUrl("qrc:/qml/theme/Style/Style.qml"), "Style", 1, 0, "Style");
+    //    qmlRegisterSingletonType(QUrl("qrc:/qml/theme/Style/Style.qml"), "Style", 1, 0, "Style");
 
         view.engine()->addImportPath("../../../theme");
         view.setSource(QStringLiteral("../../src/gui/tray/UserLine.qml"));
