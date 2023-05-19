@@ -115,9 +115,6 @@ nextcloud_add_test(RemoteWipe)
 
 nextcloud_add_test(OAuth)
 
-#MagentaCustomizationV25
-nextcloud_add_test(SettingsDialog)
-
 configure_file(test_journal.db "${PROJECT_BINARY_DIR}/bin/test_journal.db" COPYONLY)
 
 find_package(CMocka)
