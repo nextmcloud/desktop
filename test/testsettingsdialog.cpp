@@ -8,16 +8,15 @@
 #include <QtTest>
 #include "theme.h"
 
-#include "gui/nextcloudCore_autogen/include/ui_settingsdialog.h"
-#define SettingsDialog(a, b) SettingsDialog()
+#include "gui/nextcloudCore_autogen/include_Release/ui_settingsdialog.h"
+#define SettingsDialog(a, b) SettingsDialog(a)
 #include "settingsdialog.h"
 #undef SettingsDialog
 
 using namespace OCC;
 
-SettingsDialog::SettingsDialog() : _ui(new Ui::SettingsDialog)
+SettingsDialog::SettingsDialog(ownCloudGui *gui) : _gui(gui),_ui(new Ui::SettingsDialog)
 {
-    _gui = new ownCloudGui();
     _ui->stack= new QStackedWidget();
     _actionGroup = new QActionGroup(this);
     _toolBar = new QToolBar;
@@ -33,7 +32,8 @@ private slots:
 
     void testcustomizeStyle()
     {
-        SettingsDialog *setDialog = new SettingsDialog();
+        auto *gui = new ownCloudGui();
+        SettingsDialog *setDialog = new SettingsDialog(gui);
 
         setDialog->customizeStyle();
 
@@ -49,11 +49,14 @@ private slots:
         toolBar->setStyleSheet(expToolbarStyleSheet.arg(background, dark, highlightColor, highlightTextColor));
 
         QCOMPARE(setDialog->_toolBar->styleSheet(), toolBar->styleSheet());
+
+        delete gui;
     }
 
     void testslotSwitchPage_Sync()
     {
-        SettingsDialog *setDialog = new SettingsDialog();
+        auto *gui = new ownCloudGui();
+        SettingsDialog *setDialog = new SettingsDialog(gui);
         QAction *action = new QAction(QIcon(), "text", this);
         action->setText("Synchronization");
         QIcon expectedOpenIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/localFolder_magenta.svg"));
@@ -63,11 +66,13 @@ private slots:
         QCOMPARE(action->icon().Active, expectedOpenIcon.Active);
 
         delete action;
+        delete gui;
     }
 
     void testslotSwitchPage_General()
     {
-        SettingsDialog *setDialog = new SettingsDialog();
+        auto *gui = new ownCloudGui();
+        SettingsDialog *setDialog = new SettingsDialog(gui);
         QAction *action = new QAction(QIcon(), "text", this);
         action->setText("General");
         QIcon expectedOpenIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/service_magenta.svg"));
@@ -76,11 +81,13 @@ private slots:
 
         QCOMPARE(action->icon().Active, expectedOpenIcon.Active);
         delete action;
+        delete gui;
     }
 
     void testslotSwitchPage_Network()
     {
-        SettingsDialog *setDialog = new SettingsDialog();
+        auto *gui = new ownCloudGui();
+        SettingsDialog *setDialog = new SettingsDialog(gui);
         QAction *action = new QAction(QIcon(), "text", this);
         action->setText("Network");
         QIcon expectedOpenIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta32x32.svg"));
@@ -89,6 +96,7 @@ private slots:
 
         QCOMPARE(action->icon().Active, expectedOpenIcon.Active);
         delete action;
+        delete gui;
     }
 
     void testaccountAdded()
@@ -97,7 +105,8 @@ private slots:
         AccountPtr account = Account::create();
         AccountState *accountSt = new AccountState(account);
 
-        SettingsDialog *setDialog = new SettingsDialog();
+        auto *gui = new ownCloudGui();
+        SettingsDialog *setDialog = new SettingsDialog(gui);
         QString expectedText = account->prettyName();
 
         setDialog->accountAdded(accountSt);
@@ -105,6 +114,9 @@ private slots:
         QList<QAction*> accountAction = setDialog->_toolBar->actions();
         QCOMPARE(accountAction.empty(), false);
         QCOMPARE(accountAction.at(0)->text(), expectedText);
+
+        delete gui;
+        delete accountSt;
     }
 
     /* if hover added then remove below commented code else remove below code
