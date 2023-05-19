@@ -8,7 +8,7 @@
 #include <QtTest>
 #include "theme.h"
 
-#include "gui/nextcloudCore_autogen/include_Release/ui_settingsdialog.h"
+#include "gui/nextcloudCore_autogen/include/ui_settingsdialog.h"
 #define SettingsDialog(a, b) SettingsDialog(a)
 #include "settingsdialog.h"
 #undef SettingsDialog
