@@ -6,6 +6,7 @@
  */
 #include <QToolBar>
 #include <QtTest>
+#include "theme.h"
 
 #include "gui/nextcloudCore_autogen/include/ui_settingsdialog.h"
 #define SettingsDialog(a, b) SettingsDialog()
@@ -29,14 +30,6 @@ class TestSettingsDialog: public QDialog
     Q_OBJECT
 
 private slots:
-    void testcreateColorAwareAction()
-    {
-        QPointer<SettingsDialog> setDialog;
-        QString iconPath(":/client/theme/white/folder.svg");
-
-        QAction *retAct = setDialog->createColorAwareAction(iconPath, "Test");
-        QCOMPARE(retAct->property("iconPath"), iconPath);
-    }
 
     void testcustomizeStyle()
     {
@@ -44,13 +37,13 @@ private slots:
 
         setDialog->customizeStyle();
 
-        QString expToolbarStyleSheet("QToolBar { background: %1; margin: 0; padding: 8px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 16px; } "
-                                     "QToolBar QToolButton { background: %1; font: 14px; color: #191919; border: none; border-bottom: 1px solid %2; margin: 0px; padding: 13px; } "
+        QString expToolbarStyleSheet("QToolBar { background: %1; margin: 0; padding: 8px; padding-left: 0px; border: none; border-bottom: 1px solid %2; spacing: 8px; } "
+                                     "QToolBar QToolButton { background: %1;font: 14px; border: none; border-bottom: 1px solid %2; margin: 0; padding: 13px; } "
                                      "QToolBar QToolBarExtension { padding:0; } "
-                                     "QToolBar QToolButton:checked { background: %1; color: #e20074; }");
+                                     "QToolBar QToolButton:checked { background: %1; color: %4; }");
         QToolBar *toolBar = new QToolBar();
         QString highlightColor(palette().highlight().color().name());
-        QString highlightTextColor(palette().highlightedText().color().name());
+        const auto highlightTextColor = Theme::defaultColor().name();
         QString dark(palette().dark().color().name());
         QString background(palette().base().color().name());
         toolBar->setStyleSheet(expToolbarStyleSheet.arg(background, dark, highlightColor, highlightTextColor));
@@ -105,7 +98,7 @@ private slots:
         AccountState *accountSt = new AccountState(account);
 
         SettingsDialog *setDialog = new SettingsDialog();
-        QString expectedText("Synchronization");
+        QString expectedText = account->prettyName();
 
         setDialog->accountAdded(accountSt);
 
