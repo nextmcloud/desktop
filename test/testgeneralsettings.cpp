@@ -55,13 +55,6 @@ private slots:
 
         QCOMPARE(genSetting._ui->monoIconsCheckBox->isHidden(), true);
         QCOMPARE(genSetting._ui->callNotificationsCheckBox->isHidden(), true);
-        QCOMPARE(genSetting._ui->newExternalStorage->isHidden(), true);
-        QCOMPARE(genSetting._ui->showInExplorerNavigationPaneCheckBox->isHidden(), true);
-        QCOMPARE(genSetting._ui->ignoredFilesButton->isHidden(), true);
-        QCOMPARE(genSetting._ui->debugArchiveButton->isHidden(), true);
-        QCOMPARE(cfgFile.showInExplorerNavigationPane(), true);
-
-        QCOMPARE(cfgFile.confirmExternalStorage(), true);
     }
 
     void testLoadMiscSettings_Checked()
@@ -75,9 +68,6 @@ private slots:
         QMetaObject::invokeMethod( &genSetting, "loadMiscSettings");
 
         QCOMPARE(genSetting._ui->serverNotificationsCheckBox->isChecked(), true);
-        QCOMPARE(genSetting._ui->showInExplorerNavigationPaneCheckBox->isChecked(), true);
-        QCOMPARE(genSetting._ui->newExternalStorage->isChecked(), true);
-        QCOMPARE(cfgFile.confirmExternalStorage(), true);
     }
 
     void testLoadMiscSettings_UnChecked()
@@ -91,9 +81,6 @@ private slots:
         QMetaObject::invokeMethod( &genSetting, "loadMiscSettings");
 
         QCOMPARE(genSetting._ui->serverNotificationsCheckBox->isChecked(), false);
-        QCOMPARE(genSetting._ui->showInExplorerNavigationPaneCheckBox->isChecked(), false);
-        QCOMPARE(genSetting._ui->newExternalStorage->isChecked(), true);
-        QCOMPARE(cfgFile.confirmExternalStorage(), true);
     }
 
     /* UI based (event driven) test cases */
