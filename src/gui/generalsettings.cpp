@@ -38,6 +38,7 @@
 
 #include "legalnotice.h"
 
+#include "config.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QNetworkProxy>
@@ -138,6 +139,11 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     , _ui(new Ui::GeneralSettings)
 {
     _ui->setupUi(this);
+    /* MagentaCustomizationV25 */
+    _ui->newExternalStorage->setVisible(false);
+    _ui->showInExplorerNavigationPaneCheckBox->setVisible(false);
+    _ui->ignoredFilesButton->setVisible(false);
+    _ui->debugArchiveButton->setVisible(false);
 
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
@@ -155,6 +161,8 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     txt.replace(QString::fromLatin1("Explorer"), QString::fromLatin1("Finder"));
     _ui->showInExplorerNavigationPaneCheckBox->setText(txt);
 #endif
+
+    slotShowInExplorerNavigationPane(true); //MagentaCustomizationV25
 
     if(Utility::hasSystemLaunchOnStartup(Theme::instance()->appName())) {
         _ui->autostartCheckBox->setChecked(true);
@@ -246,6 +254,8 @@ void GeneralSettings::loadMiscSettings()
 {
     QScopedValueRollback<bool> scope(_currentlyLoading, true);
     ConfigFile cfgFile;
+    /* MagentaCustomizationV25 */
+    cfgFile.setConfirmExternalStorage(true);
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
     _ui->serverNotificationsCheckBox->setChecked(cfgFile.optionalServerNotifications());
     _ui->callNotificationsCheckBox->setEnabled(_ui->serverNotificationsCheckBox->isEnabled());
