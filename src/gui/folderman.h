@@ -30,8 +30,8 @@ class TestCfApiShellExtensionsIPC;
 class TestShareModel;
 class ShareTestHelper;
 class EndToEndTestHelper;
-class TestGeneralSettings; //MagentaCustomizationV25
 class TestSyncConflictsModel;
+class TestGeneralSettings; //MagentaCustomizationV25
 
 namespace OCC {
 
