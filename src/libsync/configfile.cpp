@@ -108,6 +108,7 @@ static constexpr char certPasswd[] = "http_certificatePasswd";
 static const QSet validUpdateChannels { QStringLiteral("stable"), QStringLiteral("beta") };
 
 static constexpr auto macFileProviderModuleEnabledC = "macFileProviderModuleEnabled";
+static constexpr char TransferUsageDataC[] = "TransferUsageData"; //MagentaCustomizationV25
 }
 
 namespace OCC {
@@ -195,7 +196,7 @@ bool ConfigFile::setConfDir(const QString &value)
 bool ConfigFile::optionalServerNotifications() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(optionalServerNotificationsC), true).toBool();
+    return settings.value(QLatin1String(optionalServerNotificationsC), false).toBool();
 }
 
 bool ConfigFile::showCallNotifications() const
@@ -955,7 +956,7 @@ bool ConfigFile::confirmExternalStorage() const
 
 bool ConfigFile::useNewBigFolderSizeLimit() const
 {
-    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), true);
+    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), false);
     return getPolicySetting(QLatin1String(useNewBigFolderSizeLimitC), fallback).toBool();
 }
 
@@ -1183,6 +1184,34 @@ void ConfigFile::setMacFileProviderModuleEnabled(const bool moduleEnabled)
 {
     QSettings settings(configFile(), QSettings::IniFormat);
     settings.setValue(QLatin1String(macFileProviderModuleEnabledC), moduleEnabled);
+}
+
+/* MagentaCustomizationV25 */
+bool ConfigFile::transferUsageData(const QString &connection) const
+{
+    QString con(connection);
+    if (connection.isEmpty())
+        con = defaultConnection();
+
+    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, false);
+    fallback = getValue(QLatin1String(TransferUsageDataC), QString(), fallback);
+
+    QVariant value = getPolicySetting(QLatin1String(TransferUsageDataC), fallback);
+    return value.toBool();
+}
+
+/* MagentaCustomizationV25 */
+void ConfigFile::setTransferUsageData(bool usageData, const QString &connection)
+{
+    QString con(connection);
+    if (connection.isEmpty())
+        con = defaultConnection();
+
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.beginGroup(con);
+
+    settings.setValue(QLatin1String(TransferUsageDataC), QVariant(usageData));
+    settings.sync();
 }
 
 }
