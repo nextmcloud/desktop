@@ -230,6 +230,9 @@ public:
     [[nodiscard]] bool macFileProviderModuleEnabled() const;
     void setMacFileProviderModuleEnabled(const bool moduleEnabled);
 
+    /* MagentaCustomizationV25 */
+    [[nodiscard]] bool transferUsageData(const QString &connection = QString()) const;
+    void setTransferUsageData(bool, const QString &);
 protected:
     [[nodiscard]] QVariant getPolicySetting(const QString &policy, const QVariant &defaultValue = QVariant()) const;
     void storeData(const QString &group, const QString &key, const QVariant &value);
