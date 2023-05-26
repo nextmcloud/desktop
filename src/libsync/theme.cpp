@@ -550,18 +550,11 @@ QString Theme::about() const
     QString osName = osStringList.at(0);
 
     QString devString;
-    //: Example text: "<p>Nextcloud Desktop Client</p>"   (%1 is the application name)
-    devString = tr("<p>%1 Desktop Client</p>")
-              .arg(APPLICATION_NAME);
-
-    devString += tr("<p>Version %1. For more information please click <a href='%2'>here</a>.</p>")
-              .arg(QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)) + QString(" (%1)").arg(osName))
-              .arg(helpUrl());
-
-    devString += tr("<p><small>Using virtual files plugin: %1</small></p>")
-                     .arg(Vfs::modeToString(bestAvailableVfsMode()));
-    devString += QStringLiteral("<br>%1")
-              .arg(QSysInfo::productType() % QLatin1Char('-') % QSysInfo::kernelVersion());
+    /* MagentaCustomizationV25 */
+    //: Example text: "<p>MagentaCLOUD Desktop Client Version</p>"   (%1 is the application name)
+    devString = tr("<p>%1 Desktop Client Version %2.</p>")
+                .arg(APPLICATION_NAME)
+                .arg(QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)));
 
     return devString;
 }
