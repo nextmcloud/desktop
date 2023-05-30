@@ -38,7 +38,6 @@
 
 #include "legalnotice.h"
 
-#include "config.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QNetworkProxy>
