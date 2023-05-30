@@ -158,12 +158,12 @@
     <message>
         <location filename="../src/gui/ConflictDelegate.qml" line="62"/>
         <source>Local version</source>
-        <translation type="unfinished"/>
+        <translation>Místní verze</translation>
     </message>
     <message>
         <location filename="../src/gui/ConflictDelegate.qml" line="77"/>
         <source>Server version</source>
-        <translation type="unfinished"/>
+        <translation>Verze na serveru</translation>
     </message>
 </context>
 <context>
@@ -359,7 +359,8 @@
         <location filename="../src/gui/accountmanager.cpp" line="182"/>
         <source>An existing configuration from a legacy desktop client was detected.
 Should an account import be attempted?</source>
-        <translation type="unfinished"/>
+        <translation>Byla zjištěna nastavení z původního desktopového klienta.
+Má se být pokoušeno o jejich naimportování?</translation>
     </message>
     <message>
         <location filename="../src/gui/accountmanager.cpp" line="184"/>
@@ -1432,12 +1433,12 @@ Současně tato akce zruší jakoukoli právě probíhající synchronizaci.</tr
         <location filename="../src/gui/editlocallyjob.cpp" line="557"/>
         <location filename="../src/gui/editlocallyjob.cpp" line="577"/>
         <source>Could not start editing locally.</source>
-        <translation type="unfinished"/>
+        <translation>Nepodařilo se spustit lokální upravování.</translation>
     </message>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="94"/>
         <source>An error occurred trying to verify the request to edit locally.</source>
-        <translation type="unfinished"/>
+        <translation>Při pokusu o ověření požadavku na lokální upravování došlo k chybě.</translation>
     </message>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="121"/>
@@ -1464,18 +1465,18 @@ Současně tato akce zruší jakoukoli právě probíhající synchronizaci.</tr
         <location filename="../src/gui/editlocallyjob.cpp" line="524"/>
         <location filename="../src/gui/editlocallyjob.cpp" line="533"/>
         <source>An error occurred during data retrieval.</source>
-        <translation type="unfinished"/>
+        <translation>Došlo k chybě při získávání dat.</translation>
     </message>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="261"/>
         <location filename="../src/gui/editlocallyjob.cpp" line="558"/>
         <source>An error occurred trying to synchronise the file to edit locally.</source>
-        <translation type="unfinished"/>
+        <translation>Došlo k chybě při pokusu o synchronizaci souboru pro lokální upravování.</translation>
     </message>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="466"/>
         <source>An error occurred during setup.</source>
-        <translation type="unfinished"/>
+        <translation>Došlo k chybě při nastavování.</translation>
     </message>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="512"/>
@@ -1490,7 +1491,7 @@ Současně tato akce zruší jakoukoli právě probíhající synchronizaci.</tr
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="578"/>
         <source>Invalid local file path.</source>
-        <translation type="unfinished"/>
+        <translation>Neplatný popis umístění lokálního souboru.</translation>
     </message>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="588"/>
@@ -2146,7 +2147,7 @@ Pokud to byla pouze chyba a chcete si tyto soubory ponechat, budou ze serveru zn
 <context>
     <name>OCC::FolderWatcher</name>
     <message>
-        <location filename="../src/gui/folderwatcher.cpp" line="139"/>
+        <location filename="../src/gui/folderwatcher.cpp" line="140"/>
         <source>The watcher did not receive a test notification.</source>
         <translation>Sledování změn neobdrželo zkušební upozornění.</translation>
     </message>
@@ -5344,7 +5345,7 @@ Server odpověděl chybou: %2</translation>
         <location filename="../src/common/utility.cpp" line="482"/>
         <source>%nd</source>
         <comment>delay in days after an activity</comment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%nd</numerusform><numerusform>%nd</numerusform><numerusform>%nd</numerusform><numerusform>%nd</numerusform></translation>
     </message>
     <message>
         <location filename="../src/common/utility.cpp" line="486"/>
@@ -5355,7 +5356,7 @@ Server odpověděl chybou: %2</translation>
         <location filename="../src/common/utility.cpp" line="491"/>
         <source>%nh</source>
         <comment>delay in hours after an activity</comment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%nh</numerusform><numerusform>%nh</numerusform><numerusform>%nh</numerusform><numerusform>%nh</numerusform></translation>
     </message>
     <message>
         <location filename="../src/common/utility.cpp" line="497"/>
@@ -5366,13 +5367,13 @@ Server odpověděl chybou: %2</translation>
         <location filename="../src/common/utility.cpp" line="499"/>
         <source>1m</source>
         <comment>one minute after activity date and time</comment>
-        <translation type="unfinished"/>
+        <translation>1m</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="502"/>
         <source>%nm</source>
         <comment>delay in minutes after an activity</comment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%nm</numerusform><numerusform>%nm</numerusform><numerusform>%nm</numerusform><numerusform>%nm</numerusform></translation>
     </message>
     <message>
         <location filename="../src/common/utility.cpp" line="506"/>
@@ -5391,38 +5392,38 @@ Server odpověděl chybou: %2</translation>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="37"/>
         <source>Solve sync conflicts</source>
-        <translation type="unfinished"/>
+        <translation>Vyřešit konflikty synchronizace</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="54"/>
         <source>%1 files in conflict</source>
         <comment>indicate the number of conflicts to resolve</comment>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%1 soubor v konfliktu</numerusform><numerusform>%1 soubory v konfliktu</numerusform><numerusform>%1 souborů v konfliktu</numerusform><numerusform>%1 soubory v konfliktu</numerusform></translation>
     </message>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="61"/>
         <source>Choose if you want to keep the local version, server version, or both. If you choose both, the local file will have a number added to its name.</source>
-        <translation type="unfinished"/>
+        <translation>Zvolte zda chcete ponechat místní verzi, verzi ze serveru nebo obojí. Pokud zvolíte obojí, k názvu místního souboru bude přidáno číslo.</translation>
     </message>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="77"/>
         <source>All local versions</source>
-        <translation type="unfinished"/>
+        <translation>Všechny místní verze</translation>
     </message>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="95"/>
         <source>All server versions</source>
-        <translation type="unfinished"/>
+        <translation>Všechny verze na serveru</translation>
     </message>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="150"/>
         <source>Resolve conflicts</source>
-        <translation type="unfinished"/>
+        <translation>Vyřešit konflikty</translation>
     </message>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="154"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Storno</translation>
     </message>
 </context>
 <context>
@@ -5484,7 +5485,7 @@ Server odpověděl chybou: %2</translation>
     <message>
         <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="394"/>
         <source>File drop (upload only)</source>
-        <translation type="unfinished"/>
+        <translation>Předání souboru (pouze nahrání)</translation>
     </message>
     <message>
         <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="421"/>
@@ -5581,7 +5582,7 @@ Server odpověděl chybou: %2</translation>
     <message>
         <location filename="../src/gui/tray/SyncStatus.qml" line="141"/>
         <source>Resolve conflicts</source>
-        <translation type="unfinished"/>
+        <translation>Vyřešit konflikty</translation>
     </message>
 </context>
 <context>
