@@ -19,6 +19,9 @@ import QtQuick.Layouts 1.15
 import QtGraphicalEffects 1.15
 import Qt.labs.platform 1.1 as NativeDialogs
 
+
+
+
 import "../"
 import "../filedetails/"
 
@@ -266,13 +269,13 @@ ApplicationWindow {
 
             RowLayout {
                 id: trayWindowHeaderLayout
-
+                objectName: "trayWindowHeaderLayout"
                 spacing:        0
                 anchors.fill:   parent
 
                 Button {
                     id: currentAccountButton
-
+                    objectName: "currentAccountButton"
                     Layout.preferredWidth:  Style.currentAccountButtonWidth
                     Layout.preferredHeight: Style.trayWindowHeaderHeight
                     display:                AbstractButton.IconOnly
@@ -295,7 +298,7 @@ ApplicationWindow {
 
                     Menu {
                         id: accountMenu
-
+                        objectName: "accountMenu"
                         // x coordinate grows towards the right
                         // y coordinate grows towards the bottom
                         x: (currentAccountButton.x + 2)
@@ -352,6 +355,7 @@ ApplicationWindow {
                             id: addAccountButton
                             height: Style.addAccountButtonHeight
                             hoverEnabled: true
+                            visible: false
 
                             background: Item {
                                 height: parent.height
@@ -401,7 +405,20 @@ ApplicationWindow {
 
                         MenuItem {
                             id: syncPauseButton
+                            objectName: "syncPauseButton"
                             font.pixelSize: Style.topLinePixelSize
+                            display: AbstractButton.IconOnly
+                            icon.source: Style.pauseIcon//MagentaCustomizationV25
+                            icon.color: syncPauseButton.hovered ? Style.ncBlue : Style.ncTextColor
+
+                            Text {
+                                objectName: "syncPauseButtonText"
+                                anchors.verticalCenter: parent.verticalCenter
+                                //font.wordSpacing:  45
+                                text: "            " + syncPauseButton.text
+                                font.pixelSize: Style.topLinePixelSize
+                                color: syncPauseButton.hovered ? Style.ncBlue : Style.ncTextColor
+                            }
                             hoverEnabled: true
                             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
 
@@ -414,18 +431,28 @@ ApplicationWindow {
                                     color: parent.parent.hovered || parent.parent.visualFocus ? palette.highlight : "transparent"
                                 }
                             }
-
                             Accessible.role: Accessible.MenuItem
-                            Accessible.name: Systray.syncIsPaused ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
+                            Accessible.name: Systray.syncIsPaused ? qsTr("Resume sync") : qsTr("Pause sync")
                             Accessible.onPressAction: syncPauseButton.clicked()
                         }
 
                         MenuItem {
                             id: settingsButton
-                            text: qsTr("Settings")
+                            objectName: "settingsButton"
                             font.pixelSize: Style.topLinePixelSize
+                            display: AbstractButton.TextBesideIcon
+                            icon.source: Style.settingsIcon//MagentaCustomizationV25
+                            icon.color: settingsButton.hovered ? Style.ncBlue : Style.ncTextColor
                             hoverEnabled: true
                             onClicked: Systray.openSettings()
+                            Text {
+                                objectName: "settingsButtonText"
+                                anchors.verticalCenter: parent.verticalCenter
+                                font.wordSpacing:  45
+                                text:  qsTr(" "+"Settings")
+                                font.pixelSize: Style.topLinePixelSize
+                                color: parent.hovered ? Style.ncBlue : Style.ncTextColor
+                            }
 
                             background: Item {
                                 height: parent.height
@@ -444,10 +471,23 @@ ApplicationWindow {
 
                         MenuItem {
                             id: exitButton
-                            text: qsTr("Exit");
+                            objectName: "exitButton"
                             font.pixelSize: Style.topLinePixelSize
+                            display: AbstractButton.TextBesideIcon
+                            icon.source: Style.closeIcon//MagentaCustomizationV25
+                            icon.color: exitButton.hovered ? Style.ncBlue : Style.ncTextColor
                             hoverEnabled: true
                             onClicked: Systray.shutdown()
+
+                            Text {
+                                objectName: "exitButtonText"
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.bottomMargin: Style.accountMenuPadding
+                                font.wordSpacing:  45
+                                text:  qsTr(" "+"Exit")
+                                font.pixelSize: Style.topLinePixelSize
+                                color: parent.hovered ? Style.ncBlue : Style.ncTextColor
+                            }
 
                             background: Item {
                                 height: parent.height
@@ -472,7 +512,7 @@ ApplicationWindow {
 
                     RowLayout {
                         id: accountControlRowLayout
-
+                        objectName: "accountControlRowLayout"
                         height: Style.trayWindowHeaderHeight
                         width:  Style.currentAccountButtonWidth
                         spacing: 0

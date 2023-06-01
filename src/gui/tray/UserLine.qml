@@ -16,6 +16,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtGraphicalEffects 1.0
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
@@ -44,14 +45,18 @@ AbstractButton {
 
     contentItem: RowLayout {
         id: userLineLayout
+        objectName: "userLineLayout"
         spacing: Style.userStatusSpacing
 
         Image {
             id: accountAvatar
+            objectName: "accountAvatar"
             Layout.leftMargin: 7
             verticalAlignment: Qt.AlignCenter
             cache: false
-            source: model.avatar !== "" ? model.avatar : Theme.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
+            visible:false
+            source: Style.accountAvatarIcon//source: model.avatar !== "" ? model.avatar : Theme.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
+
             Layout.preferredHeight: Style.accountAvatarSize
             Layout.preferredWidth: Style.accountAvatarSize
 
@@ -80,6 +85,18 @@ AbstractButton {
                 Accessible.name: model.desktopNotificationsAllowed ? qsTr("Current account status is online") : qsTr("Current account status is do not disturb")
             }
         }
+        //this  section is added to add hover effect on account avtar image
+        //MagentaCustomizationV25
+        ColorOverlay {
+            cached: true
+            color: hovered ? Style.ncBlue : Style.ncTextColor
+            width: source.width
+            height: source.height
+            source: accountAvatar
+            anchors.leftMargin: 16
+            Layout.leftMargin: 16
+        }
+
 
         ColumnLayout {
             id: accountLabels
@@ -89,6 +106,7 @@ AbstractButton {
 
             EnforcedPlainTextLabel {
                 id: accountUser
+                objectName: "accountUser"
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                 verticalAlignment: Text.AlignBottom
@@ -96,6 +114,7 @@ AbstractButton {
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
                 font.bold: true
+                palette.windowText :hovered ? Style.ncBlue : Style.ncTextColor
             }
 
             RowLayout {
@@ -132,6 +151,7 @@ AbstractButton {
                 text: server
                 elide: Text.ElideRight
                 font.pixelSize: Style.subLinePixelSize
+                visible: false
             }
         }
 
@@ -142,7 +162,7 @@ AbstractButton {
             flat: true
 
             icon.source: "qrc:///client/theme/more.svg"
-            icon.color: palette.buttonText
+            icon.color: hovered ? Style.ncBlue : Style.ncTextColor
 
             Accessible.role: Accessible.ButtonMenu
             Accessible.name: qsTr("Account actions")
