@@ -170,6 +170,8 @@ ConfigFile::ConfigFile()
 
     QSettings settings(config, QSettings::IniFormat);
     settings.beginGroup(defaultConnection());
+
+    visible = true;
 }
 
 bool ConfigFile::setConfDir(const QString &value)
@@ -1185,4 +1187,8 @@ void ConfigFile::setMacFileProviderModuleEnabled(const bool moduleEnabled)
     settings.setValue(QLatin1String(macFileProviderModuleEnabledC), moduleEnabled);
 }
 
+bool ConfigFile::isVisible()
+{
+    return visible;
+}
 }

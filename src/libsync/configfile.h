@@ -42,6 +42,7 @@ public:
 
     enum Scope { UserScope,
         SystemScope };
+    bool visible;
 
     [[nodiscard]] QString configPath() const;
     [[nodiscard]] QString configFile() const;
@@ -60,6 +61,7 @@ public:
     [[nodiscard]] bool showConfigBackupWarning() const;
 
     bool exists();
+    bool isVisible();
 
     [[nodiscard]] QString defaultConnection() const;
 

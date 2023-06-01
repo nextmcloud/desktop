@@ -38,7 +38,6 @@
 
 #include "legalnotice.h"
 
-#include "config.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QNetworkProxy>
@@ -139,8 +138,19 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     , _ui(new Ui::GeneralSettings)
 {
     _ui->setupUi(this);
-    /* MagentaCustomizationV25 */
-    _ui->callNotificationsCheckBox->setVisible(false);
+
+    ConfigFile cfgFile;
+    _ui->callNotificationsCheckBox->setVisible(cfgFile.isVisible());
+    _ui->newExternalStorage->setVisible(cfgFile.isVisible());
+    _ui->showInExplorerNavigationPaneCheckBox->setVisible(cfgFile.isVisible());
+    _ui->ignoredFilesButton->setVisible(cfgFile.isVisible());
+    _ui->debugArchiveButton->setVisible(cfgFile.isVisible());
+    _ui->aboutGroupBox->setVisible(cfgFile.isVisible());
+    _ui->updateChannelLabel->setVisible(cfgFile.isVisible());
+    _ui->updateChannel->setVisible(cfgFile.isVisible());
+    _ui->updateStateLabel->setVisible(cfgFile.isVisible());
+    _ui->restartButton->setVisible(cfgFile.isVisible());
+    _ui->updateButton->setVisible(cfgFile.isVisible());
 
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
@@ -221,7 +231,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
 
     // OEM themes are not obliged to ship mono icons, so there
     // is no point in offering an option
-    _ui->monoIconsCheckBox->setVisible(false);
+    _ui->monoIconsCheckBox->setVisible(cfgFile.isVisible());
 
     connect(_ui->ignoredFilesButton, &QAbstractButton::clicked, this, &GeneralSettings::slotIgnoreFilesEditor);
     connect(_ui->debugArchiveButton, &QAbstractButton::clicked, this, &GeneralSettings::slotCreateDebugArchive);
@@ -269,6 +279,8 @@ void GeneralSettings::slotUpdateInfo()
     if (ConfigFile().skipUpdateCheck() || !updater) {
         // updater disabled on compile
         _ui->updatesGroupBox->setVisible(false);
+        _ui->restartButton->setVisible(ConfigFile().isVisible());
+        _ui->updateButton->setVisible(ConfigFile().isVisible());
         return;
     }
 
@@ -496,6 +508,8 @@ void GeneralSettings::customizeStyle()
     slotUpdateInfo();
 #else
     _ui->updatesGroupBox->setVisible(false);
+    _ui->restartButton->setVisible(ConfigFile().isVisible());
+    _ui->updateButton->setVisible(ConfigFile().isVisible());
 #endif
 }
 
