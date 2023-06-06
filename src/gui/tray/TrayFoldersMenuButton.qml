@@ -44,7 +44,6 @@ HeaderButton {
     visible: currentUser.hasLocalFolder
     display: AbstractButton.IconOnly
     flat: true
-    palette: Style.systemPalette
 
     Accessible.role: root.userHasGroupFolders ? Accessible.ButtonMenu : Accessible.Button
     Accessible.name: tooltip.text
@@ -102,7 +101,7 @@ HeaderButton {
         Image {
             id: openLocalFolderButtonIcon
             cache: false
-            source: "qrc:///client/theme/white/folder.svg"
+            source: "image://svgimage-custom-color/folder.svg/" + Style.currentUserHeaderTextColor
 
             verticalAlignment: Qt.AlignCenter
 
@@ -123,7 +122,7 @@ HeaderButton {
                 cached: true
                 color: Style.currentUserHeaderTextColor
                 source: Image {
-                    source: "qrc:///client/theme/white/caret-down.svg"
+                    source: "image://svgimage-custom-color/caret-down.svg/" + Style.currentUserHeaderTextColor
                     sourceSize.width: Style.accountDropDownCaretSize
                     sourceSize.height: Style.accountDropDownCaretSize
 
@@ -186,7 +185,9 @@ HeaderButton {
                         subline: model.modelData.parentPath
                         width: foldersMenuListView.width
                         height: Style.standardPrimaryButtonHeight
-                        iconSource: !isGroupFolder ? "image://svgimage-custom-color/folder.svg/" + Style.ncTextColor : "image://svgimage-custom-color/folder-group.svg/" + Style.ncTextColor
+                        iconSource: !isGroupFolder ?
+                                        "image://svgimage-custom-color/folder.svg/" + palette.buttonText :
+                                        "image://svgimage-custom-color/folder-group.svg/" + palette.buttonText
 
                         onTriggered: {
                             foldersMenu.close();

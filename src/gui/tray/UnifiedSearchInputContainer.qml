@@ -25,7 +25,7 @@ TextField {
 
     property bool isSearchInProgress: false
 
-    readonly property color textFieldIconsColor: Style.menuBorder
+    readonly property color textFieldIconsColor: palette.dark
 
     readonly property int textFieldIconsOffset: Style.trayHorizontalMargin
 
@@ -42,13 +42,11 @@ TextField {
 
     selectByMouse: true
 
-    palette.text: Style.ncSecondaryTextColor
-
     background: Rectangle {
-        radius: 5
-        border.color: parent.activeFocus ? UserModel.currentUser.accentColor : Style.menuBorder
-        border.width: 1
-        color: Style.backgroundColor
+        radius: Style.slightlyRoundedButtonRadius
+        border.color: parent.activeFocus ? UserModel.currentUser.accentColor : palette.dark
+        border.width: Style.normalBorderWidth
+        color: palette.window
     }
 
     Image {
@@ -79,8 +77,8 @@ TextField {
             left: trayWindowUnifiedSearchTextField.left
             bottom: trayWindowUnifiedSearchTextField.bottom
             leftMargin: trayWindowUnifiedSearchTextField.textFieldIconsOffset - 4
-            topMargin: 4
-            bottomMargin: 4
+            topMargin: Style.smallSpacing
+            bottomMargin: Style.smallSpacing
             verticalCenter: trayWindowUnifiedSearchTextField.verticalCenter
         }
 

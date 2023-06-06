@@ -30,13 +30,14 @@ ItemDelegate {
     }
 
     contentItem: ColumnLayout {
-        spacing: Style.activityContentSpace
+        spacing: Style.smallSpacing
 
         ActivityItemContent {
             id: activityContent
 
             Layout.fillWidth: true
             Layout.minimumHeight: Style.minActivityHeight
+            Layout.preferredWidth: parent.width
 
             showDismissButton: model.isDismissable
 
