@@ -20,7 +20,7 @@ QtObject {
     readonly property color buttonBackgroundColor: Theme.systemPalette.button
     readonly property color positiveColor: Qt.rgba(0.38, 0.74, 0.38, 1)
 
-    readonly property color currentUserHeaderColor: UserModel.currentUser ? UserModel.currentUser.headerColor : ncBlue
+    readonly property color currentUserHeaderColor:ncBlue
     readonly property color currentUserHeaderTextColor: UserModel.currentUser ? UserModel.currentUser.headerTextColor : ncHeaderTextColor
     readonly property color adjustedCurrentUserHeaderColor: Theme.darkMode ? Qt.lighter(currentUserHeaderColor, 2)
                                                                            : Qt.darker(currentUserHeaderColor, 1.5)
@@ -35,9 +35,9 @@ QtObject {
     readonly property int subLinePixelSize: topLinePixelSize - 2
 
     // Dimensions and sizes
-    property int trayWindowWidth: variableSize(400)
-    property int trayWindowHeight: variableSize(510)
-    property int trayWindowRadius: 10
+    property int trayWindowWidth:380// variableSize(400)
+    property int trayWindowHeight:600// variableSize(510)
+    property int trayWindowRadius: 0//10
     property int trayWindowBorderWidth: variableSize(1)
     property int trayWindowHeaderHeight: variableSize(60)
     property int trayHorizontalMargin: 10
@@ -75,7 +75,7 @@ QtObject {
     property url stateOnlineImageSource: Theme.stateOnlineImageSource
     property url stateOfflineImageSource: Theme.stateOfflineImageSource
 
-    property int accountAvatarSize: (trayWindowHeaderHeight - 16)
+    property int accountAvatarSize: (trayWindowHeaderHeight - 36)
     property int accountAvatarStateIndicatorSize: 16
     property int folderStateIndicatorSize: 16
     property int accountLabelWidth: 128
@@ -161,4 +161,8 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+
+    readonly property bool isSearchFieldVisible: false
+
+    readonly property string accountAvatarIcon: "qrc:///client/theme/magenta/accountAvatarIcon.svg";
 }

@@ -236,5 +236,7 @@
         <file>theme/delete.svg</file>
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
+        <file>theme/magenta/LogoMagenta.svg</file>
+        <file>theme/magenta/accountAvatarIcon.svg</file>
     </qresource>
 </RCC>

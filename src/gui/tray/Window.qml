@@ -262,7 +262,7 @@ ApplicationWindow {
             anchors.right:  trayWindowMainItem.right
             anchors.top:    trayWindowMainItem.top
             height:         Style.trayWindowHeaderHeight
-            color:          Style.currentUserHeaderColor
+           // color:          Style.currentUserHeaderColor
 
             RowLayout {
                 id: trayWindowHeaderLayout
@@ -724,7 +724,8 @@ ApplicationWindow {
 
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
-            height: Style.trayWindowHeaderHeight * 0.65
+            height:Style.trayWindowHeaderHeight * 0//0.65
+            visible: Style.isSearchFieldVisible
 
             anchors {
                 top: trayWindowHeaderBackground.bottom
@@ -745,7 +746,7 @@ ApplicationWindow {
 
         ErrorBox {
             id: unifiedSearchResultsErrorLabel
-            visible:  UserModel.currentUser.unifiedSearchResultsListModel.errorString && !unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress && ! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
+            visible: Style.isSearchFieldVisible//visible:  UserModel.currentUser.unifiedSearchResultsListModel.errorString && !unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress && ! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
             text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
             anchors.top: trayWindowUnifiedSearchInputContainer.bottom
             anchors.left: trayWindowMainItem.left
@@ -768,7 +769,7 @@ ApplicationWindow {
             property bool isSearchResultsEmpty: unifiedSearchResultsListView.count === 0
             property bool nothingFound: text && isSearchResultsEmpty && !UserModel.currentUser.unifiedSearchResultsListModel.errorString
 
-            visible: !isSearchRunning && !waitingForSearchTermEditEnd && nothingFound
+            visible: Style.isSearchFieldVisible//visible: !isSearchRunning && !waitingForSearchTermEditEnd && nothingFound
         }
 
         Loader {
