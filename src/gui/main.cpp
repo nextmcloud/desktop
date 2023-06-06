@@ -78,11 +78,6 @@ int main(int argc, char **argv)
 
     OCC::Application app(argc, argv);
 
-    QFile file(":/qss/theme/Style/style.qss");
-    file.open(QFile::ReadOnly);
-    QString styleSheet = QLatin1String(file.readAll());
-    app.setStyleSheet(styleSheet);
-
 #ifdef Q_OS_WIN
     // The Windows style still has pixelated elements with Qt 5.6,
     // it's recommended to use the Fusion style in this case, even
@@ -92,6 +87,16 @@ int main(int argc, char **argv)
     if (app.devicePixelRatio() > 1)
         QApplication::setStyle(QStringLiteral("fusion"));
 #endif // Q_OS_WIN
+
+    app.setProperty("highlightColor", palette().highlight().color().name());
+    app.setProperty("highlightTextColor", palette().highlightedText().color().name());
+    app.setProperty("dark", palette().dark().color().name());
+    app.setProperty("backgroundColor", palette().base().color().name());
+
+    QFile file(":/qss/theme/Style/style.qss");
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+    app.setStyleSheet(styleSheet);
 
 #ifndef Q_OS_WIN
     signal(SIGPIPE, SIG_IGN);
