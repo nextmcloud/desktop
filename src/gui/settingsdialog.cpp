@@ -211,6 +211,22 @@ void SettingsDialog::changeEvent(QEvent *e)
 void SettingsDialog::slotSwitchPage(QAction *action)
 {
     _ui->stack->setCurrentWidget(_actionGroupWidgets.value(action));
+    customizeStyle();
+    if((action->text() == "Allgemein") || (action->text() == "General"))
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/settings_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+    else if((action->text() == "Netzwerk") || (action->text() == "Network"))
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/network_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+    else
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/magenta/account_magenta.svg"));
+        action->setIcon(openIcon);
+    }
 }
 
 void SettingsDialog::showFirstPage()
