@@ -88,16 +88,6 @@ int main(int argc, char **argv)
         QApplication::setStyle(QStringLiteral("fusion"));
 #endif // Q_OS_WIN
 
-    app.setProperty("highlightColor", palette().highlight().color().name());
-    app.setProperty("highlightTextColor", palette().highlightedText().color().name());
-    app.setProperty("dark", palette().dark().color().name());
-    app.setProperty("backgroundColor", palette().base().color().name());
-
-    QFile file(":/qss/theme/Style/style.qss");
-    file.open(QFile::ReadOnly);
-    QString styleSheet = QLatin1String(file.readAll());
-    app.setStyleSheet(styleSheet);
-
 #ifndef Q_OS_WIN
     signal(SIGPIPE, SIG_IGN);
 #endif
