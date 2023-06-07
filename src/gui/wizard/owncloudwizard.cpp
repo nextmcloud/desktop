@@ -302,9 +302,16 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
     const auto setNextButtonAsDefault = [this]() {
         auto nextButton = qobject_cast<QPushButton *>(button(QWizard::NextButton));
         if (nextButton) {
+            nextButton->setObjectName("nextButton");
             nextButton->setDefault(true);
         }
     };
+
+    auto backButton = qobject_cast<QPushButton *>(button(QWizard::BackButton));
+    if (backButton) {
+        backButton->setObjectName("backButton");
+        backButton->setDefault(true);
+    }
 
     if (id == WizardCommon::Page_Welcome) {
         // Set next button to just hidden so it retains it's layout
