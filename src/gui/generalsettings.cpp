@@ -138,11 +138,6 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     , _ui(new Ui::GeneralSettings)
 {
     _ui->setupUi(this);
-    /* MagentaCustomizationV25 */
-    _ui->newExternalStorage->setVisible(false);
-    _ui->showInExplorerNavigationPaneCheckBox->setVisible(false);
-    _ui->ignoredFilesButton->setVisible(false);
-    _ui->debugArchiveButton->setVisible(false);
 
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
