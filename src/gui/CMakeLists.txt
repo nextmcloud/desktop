@@ -53,6 +53,7 @@ set(client_UI_SRCS
     wizard/owncloudsetupnocredspage.ui
     wizard/webview.ui
     wizard/welcomepage.ui
+    wizard/owncloudadvancedsetuppagewindows.ui
 )
 
 if(QUICK_COMPILER)
@@ -259,6 +260,8 @@ set(client_SRCS
     wizard/welcomepage.cpp
     wizard/linklabel.h
     wizard/linklabel.cpp
+    wizard/owncloudadvancedsetuppagewindows.h
+    wizard/owncloudadvancedsetuppagewindows.cpp
     )
 
 if (Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
