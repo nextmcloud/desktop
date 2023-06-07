@@ -124,6 +124,8 @@ private:
      */
     bool configVersionMigration();
 
+    void setCustomStyleSheet();
+
     QPointer<ownCloudGui> _gui;
 
     Theme *_theme;

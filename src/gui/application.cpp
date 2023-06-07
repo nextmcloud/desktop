@@ -245,15 +245,7 @@ Application::Application(int &argc, char **argv)
     setApplicationName(_theme->appName());
     setWindowIcon(_theme->applicationIcon());
 
-    QString highlightColor(palette().highlight().color().name());
-    QString highlightTextColor(palette().highlightedText().color().name());
-    QString dark(palette().dark().color().name());
-    QString background(palette().base().color().name());
-
-    QFile file(":/qss/theme/Style/style.qss");
-    file.open(QFile::ReadOnly);
-    QString styleSheet = QLatin1String(file.readAll());
-    app.setStyleSheet(styleSheet.arg(background, dark, highlightColor, highlightTextColor));
+    setCustomStyleSheet();
 
     if (!ConfigFile().exists()) {
         // Migrate from version <= 2.4
@@ -1021,6 +1013,19 @@ bool Application::event(QEvent *event)
         }
     }
     return SharedTools::QtSingleApplication::event(event);
+}
+
+void Application::setCustomStyleSheet()
+{
+    QString highlightColor(palette().highlight().color().name());
+    QString highlightTextColor(palette().highlightedText().color().name());
+    QString dark(palette().dark().color().name());
+    QString background(palette().base().color().name());
+
+    QFile file(":/qss/theme/Style/style.qss");
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+    this->setStyleSheet(styleSheet.arg(background, dark, highlightColor, highlightTextColor));
 }
 
 } // namespace OCC
