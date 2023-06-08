@@ -1604,7 +1604,7 @@ void UserAppsModel::openAppUrl(const QUrl &url)
 int UserAppsModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return _apps.count();
+    return 0;//_apps.count();
 }
 
 QVariant UserAppsModel::data(const QModelIndex &index, int role) const

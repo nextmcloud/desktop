@@ -255,20 +255,70 @@ ApplicationWindow {
         Accessible.role: Accessible.Grouping
         Accessible.name: qsTr("Nextcloud desktop main dialog")
 
-        Rectangle {
-            id: trayWindowHeaderBackground
-
+        Rectangle{
+            id: trayWindowMagentaBarBackground
             anchors.left:   trayWindowMainItem.left
             anchors.right:  trayWindowMainItem.right
-            anchors.top:    trayWindowMainItem.top
-            height:         Style.trayWindowHeaderHeight
-           // color:          Style.currentUserHeaderColor
+            height:         40//Style.trayWindowHeaderHeight
+            color:          Style.ncBlue
+            Rectangle {
+                id: trayWindowTLogoBarBackground
+                objectName: "trayWindowTLogoBarBackground"
+
+                anchors.left:   trayWindowMagentaBarBackground.left
+                anchors.right:  trayWindowMagentaBarBackground.right
+                anchors.top:    trayWindowMagentaBarBackground.top
+                height:         48
+                color:          Style.ncBlue
+
+                Rectangle {
+                    id: trayWindowTLogoBarTopSpacer
+                    objectName: "trayWindowTLogoBarTopSpacer"
+
+                    anchors.left:   trayWindowTLogoBarBackground.left
+                    anchors.right:  trayWindowTLogoBarBackground.right
+                    anchors.top:    trayWindowTLogoBarBackground.top
+                    height:         12
+                    color:          Style.ncBlue
+                }
+                Rectangle {
+                    id: trayWindowTLogoBarLeftSpacer
+                    objectName: "trayWindowTLogoBarLeftSpacer"
+
+                    anchors.left:   trayWindowTLogoBarBackground.left
+                    anchors.top:    trayWindowTLogoBarTopSpacer.bottom
+                    height:         38
+                    width:          24
+                    color:          Style.ncBlue
+                }
+                Image {
+                    id: magentaTLogo
+                    objectName: "magentaTLogo"
+
+                    anchors.left:   trayWindowTLogoBarLeftSpacer.right
+                    anchors.top:    trayWindowTLogoBarTopSpacer.bottom
+                    cache: false
+                    source: "qrc:///client/theme/magenta/LogoMagenta.svg"
+                }
+            }
+        }
+
+        Rectangle {
+            id: trayWindowHeaderBackground
+            anchors.top: trayWindowMagentaBarBackground.bottom
+            anchors.left: trayWindowMainItem.left
+            anchors.right: trayWindowMainItem.right
+            height:         50//Style.trayWindowHeaderHeight
+            radius: 10
+
 
             RowLayout {
                 id: trayWindowHeaderLayout
 
                 spacing:        0
                 anchors.fill:   parent
+                anchors.bottom:     trayWindowHeaderBackground.bottom
+
 
                 Button {
                     id: currentAccountButton
@@ -484,7 +534,7 @@ ApplicationWindow {
                             Layout.leftMargin: Style.trayHorizontalMargin
                             verticalAlignment: Qt.AlignCenter
                             cache: false
-                            source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
+                            source: Style.accountAvatarIcon//UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
                             Layout.preferredHeight: Style.accountAvatarSize
                             Layout.preferredWidth: Style.accountAvatarSize
 
@@ -546,7 +596,7 @@ ApplicationWindow {
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.name
                                 elide: Text.ElideRight
-                                color: Style.currentUserHeaderTextColor
+                                color: Style.ncTextColor
 
                                 font.pixelSize: Style.topLinePixelSize
                                 font.bold: true
@@ -558,7 +608,7 @@ ApplicationWindow {
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.server
                                 elide: Text.ElideRight
-                                color: Style.currentUserHeaderTextColor
+                                color: Style.ncTextColor
                                 visible: UserModel.numUsers() > 1
                             }
 
@@ -585,7 +635,7 @@ ApplicationWindow {
                                           ? UserModel.currentUser.statusMessage
                                           : UserModel.currentUser.server
                                     elide: Text.ElideRight
-                                    color: Style.currentUserHeaderTextColor
+                                    color: Style.ncTextColor
                                     font.pixelSize: Style.subLinePixelSize
                                 }
                             }
@@ -632,11 +682,10 @@ ApplicationWindow {
                 HeaderButton {
                     id: trayWindowTalkButton
 
-                    visible: UserModel.currentUser.serverHasTalk
+                    visible: false//UserModel.currentUser.serverHasTalk
                     icon.source: "qrc:///client/theme/white/talk-app.svg"
                     icon.color: Style.currentUserHeaderTextColor
                     onClicked: UserModel.openCurrentAccountTalk()
-
                     Accessible.role: Accessible.Button
                     Accessible.name: qsTr("Open Nextcloud Talk in browser")
                     Accessible.onPressAction: trayWindowTalkButton.clicked()
@@ -647,7 +696,9 @@ ApplicationWindow {
                     icon.source: "qrc:///client/theme/white/more-apps.svg"
                     icon.color: Style.currentUserHeaderTextColor
 
+
                     onClicked: {
+                        UserModel.openCurrentAccountServer()
                         if(appsMenuListView.count <= 0) {
                             UserModel.openCurrentAccountServer()
                         } else if (appsMenu.visible) {
@@ -668,7 +719,7 @@ ApplicationWindow {
                         width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
                         height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
                         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-
+                        visible: false
                         background: Rectangle {
                             border.color: palette.dark
                             color: palette.base
@@ -726,6 +777,7 @@ ApplicationWindow {
             id: trayWindowUnifiedSearchInputContainer
             height:Style.trayWindowHeaderHeight * 0//0.65
             visible: Style.isSearchFieldVisible
+
 
             anchors {
                 top: trayWindowHeaderBackground.bottom
@@ -867,3 +919,4 @@ ApplicationWindow {
         }
     } // Item trayWindowMainItem
 }
+
