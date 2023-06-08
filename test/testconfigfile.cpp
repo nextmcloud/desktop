@@ -18,6 +18,22 @@ class TestConfigFile: public QObject
     Q_OBJECT
 
 private slots:
+    void testOptionalServerNotifications()
+    {
+        ConfigFile cfgFile;
+        bool retValue = cfgFile.optionalServerNotifications();
+
+        QCOMPARE(retValue, false);
+    }
+
+    void testUseNewBigFolderSizeLimit()
+    {
+        ConfigFile cfgFile;
+        bool retValue = cfgFile.useNewBigFolderSizeLimit();
+
+        QCOMPARE(retValue, false);
+    }
+
     void testTransferUsageData_False()
     {
         ConfigFile cfgFile;
