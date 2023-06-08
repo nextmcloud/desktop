@@ -138,14 +138,6 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     , _ui(new Ui::GeneralSettings)
 {
     _ui->setupUi(this);
-    /* MagentaCustomizationV25 */
-    _ui->legalNoticeButton->setVisible(false);
-    _ui->autoCheckForUpdatesCheckBox->setVisible(true);
-    _ui->updateStateLabel->setVisible(false);
-    _ui->updateChannel->setVisible(false);
-    _ui->updateChannelLabel->setVisible(false);
-    _ui->restartButton->setVisible(false);
-    _ui->updateButton->setVisible(false);
 
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
@@ -176,6 +168,12 @@ GeneralSettings::GeneralSettings(QWidget *parent)
         connect(_ui->autostartCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotToggleLaunchOnStartup);
     }
 
+    // setup about section
+    QString about = Theme::instance()->about();
+    _ui->aboutLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->aboutLabel->setText(about);
+    _ui->aboutLabel->setOpenExternalLinks(true);
+
     /* MagentaCustomizationV25 */
     // setup data privacy section
     connect(_ui->transferUsageDataCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotTransferUsageData);
@@ -196,11 +194,9 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     _ui->openSourceSwLabel->setTextFormat(Qt::RichText);
     _ui->openSourceSwLabel->setText(tr("<a href='%1' style=\"color: %2;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL), fontColor.name(QColor::HexArgb)));
 
-    // setup about section
-    QString about = Theme::instance()->about();
-    _ui->aboutLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
-    _ui->aboutLabel->setText(about);
-    _ui->aboutLabel->setOpenExternalLinks(true);
+    _ui->aboutLabelMagenta->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->aboutLabelMagenta->setText(about);
+    _ui->aboutLabelMagenta->setOpenExternalLinks(true);
 
     QString infoUrl = Theme::instance()->helpUrl();
     _ui->infoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
@@ -303,11 +299,6 @@ void GeneralSettings::slotUpdateInfo()
     if (ConfigFile().skipUpdateCheck() || !updater) {
         // updater disabled on compile
         _ui->updatesGroupBox->setVisible(false);
-
-        /* MagentaCustomizationV25 */
-        _ui->autoCheckForUpdatesCheckBox->setVisible(true);
-        _ui->restartButton->setVisible(false);
-        _ui->updateButton->setVisible(false);
         return;
     }
 
@@ -535,11 +526,6 @@ void GeneralSettings::customizeStyle()
     slotUpdateInfo();
 #else
     _ui->updatesGroupBox->setVisible(false);
-
-    /* MagentaCustomizationV25 */
-    _ui->autoCheckForUpdatesCheckBox->setVisible(true);
-    _ui->restartButton->setVisible(false);
-    _ui->updateButton->setVisible(false);
 #endif
 }
 

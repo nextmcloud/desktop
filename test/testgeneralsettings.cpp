@@ -61,7 +61,7 @@ private slots:
 
         QCOMPARE(genSetting._ui->legalNoticeButton->isHidden(), true);
         QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isHidden(), false);
-	QCOMPARE(genSetting._ui->updateStateLabel->isHidden(), true);
+        QCOMPARE(genSetting._ui->updateStateLabel->isHidden(), true);
         QCOMPARE(genSetting._ui->updateChannel->isHidden(), true);
         QCOMPARE(genSetting._ui->updateChannelLabel->isHidden(), true);
         QCOMPARE(genSetting._ui->restartButton->isHidden(), true);
@@ -76,8 +76,8 @@ private slots:
         QCOMPARE(genSetting._ui->openSourceSwLabel->openExternalLinks(), true);
         QCOMPARE(genSetting._ui->openSourceSwLabel->text(), expectedOpenSourceSwLabel);
 
-        QCOMPARE(genSetting._ui->aboutLabel->openExternalLinks(), true);
-        QCOMPARE(genSetting._ui->aboutLabel->text(), Theme::instance()->about());
+        QCOMPARE(genSetting._ui->aboutLabelMagenta->openExternalLinks(), true);
+        QCOMPARE(genSetting._ui->aboutLabelMagenta->text(), Theme::instance()->about());
 
         QCOMPARE(genSetting._ui->infoLabel->openExternalLinks(), true);
         QCOMPARE(genSetting._ui->infoLabel->text(), expectedInfoLabel);
@@ -289,7 +289,7 @@ private slots:
 
         QMetaObject::invokeMethod( &genSetting, "customizeStyle");
 
-        QCOMPARE(genSetting._ui->aboutLabel->text(), Theme::instance()->about());
+        QCOMPARE(genSetting._ui->aboutLabelMagenta->text(), Theme::instance()->about());
         QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isHidden(), false);
         QCOMPARE(genSetting._ui->restartButton->isHidden(), true);
         QCOMPARE(genSetting._ui->updateButton->isHidden(), true);
