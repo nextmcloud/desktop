@@ -7,8 +7,6 @@
 /* MagentaCustomizationV25 */
 
 #include <QtTest>
-#include "theme.h"
-#include "folderman.h"
 #include "configfile.h"
 
 using namespace OCC;
