@@ -17,6 +17,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
 import com.nextcloud.desktopclient 1.0
@@ -172,7 +173,8 @@ AbstractButton {
                 MenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
                     font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
+                    icon.source: Style.accountLogoutIcon //MagentaCustomizationV25
+                    palette.windowText: hovered ? Style.ncBlue : Style.ncTextColor
                     hoverEnabled: true
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
@@ -206,7 +208,8 @@ AbstractButton {
                     id: removeAccountButton
                     text: qsTr("Remove account")
                     font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
+                    icon.source: Style.accountRemoveIcon //MagentaCustomizationV25
+                    palette.windowText: hovered ? Style.ncBlue : Style.ncTextColor
                     hoverEnabled: true
                     onClicked: {
                         UserModel.removeAccount(index)

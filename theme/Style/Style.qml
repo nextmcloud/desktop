@@ -161,4 +161,6 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+    readonly property string accountLogoutIcon: "qrc:///client/theme/magenta/accountLogout.svg";
+    readonly property string accountRemoveIcon: "qrc:///client/theme/magenta/accountRemove.svg";
 }
