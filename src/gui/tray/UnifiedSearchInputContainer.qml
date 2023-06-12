@@ -27,6 +27,8 @@ TextField {
 
     readonly property color textFieldIconsColor: palette.dark
 
+    readonly property color placeholderColor: palette.dark
+
     readonly property int textFieldIconsOffset: Style.trayHorizontalMargin
 
     readonly property double textFieldIconsScaleFactor: 0.6
@@ -39,15 +41,14 @@ TextField {
     rightPadding: trayWindowUnifiedSearchTextFieldClearTextButton.width + trayWindowUnifiedSearchTextFieldClearTextButton.anchors.rightMargin + textFieldHorizontalPaddingOffset
 
     placeholderText: qsTr("Search files, messages, events …")
+    placeholderTextColor: placeholderColor
 
     selectByMouse: true
 
-    palette.text: palette.midlight
-
     background: Rectangle {
-        radius: 5
+        radius: Style.slightlyRoundedButtonRadius
         border.color: parent.activeFocus ? UserModel.currentUser.accentColor : palette.dark
-        border.width: 1
+        border.width: Style.normalBorderWidth
         color: palette.window
     }
 
@@ -79,8 +80,8 @@ TextField {
             left: trayWindowUnifiedSearchTextField.left
             bottom: trayWindowUnifiedSearchTextField.bottom
             leftMargin: trayWindowUnifiedSearchTextField.textFieldIconsOffset - 4
-            topMargin: 4
-            bottomMargin: 4
+            topMargin: Style.smallSpacing
+            bottomMargin: Style.smallSpacing
             verticalCenter: trayWindowUnifiedSearchTextField.verticalCenter
         }
 

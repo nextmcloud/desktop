@@ -221,7 +221,7 @@ RowLayout {
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignTop | Qt.AlignLeft
 
-                text: (root.activityData.type === "Sync") ? root.activityData.displayPath
+                text: (root.activityData.type === "Sync") ? root.activityData.subject
                                                           : (root.activityData.type === "File") ? root.activityData.subject
                                                                                                 : (root.activityData.type === "Notification") ? root.activityData.message
                                                                                                                                               : ""
@@ -256,7 +256,7 @@ RowLayout {
             ActivityItemActions {
                 id: activityActions
 
-                visible: !isFileActivityList && activityData.linksForActionButtons.length > 0 && !isTalkReplyOptionVisible
+                visible: !isFileActivityList && activityData.linksForActionButtons.length > 0
 
                 Layout.fillWidth: true
                 Layout.leftMargin: Style.trayListItemIconSize + Style.trayHorizontalMargin
@@ -270,9 +270,10 @@ RowLayout {
 
                 maxActionButtons: activityModel.maxActionButtons
 
-                onTriggerAction: activityModel.slotTriggerAction(model.activityIndex, actionIndex)
+                onTriggerAction: activityModel.slotTriggerAction(activityData.activityIndex, actionIndex)
 
                 onShowReplyField: isTalkReplyOptionVisible = true
+                talkReplyButtonVisible: root.activityData.messageSent === "" && !isTalkReplyOptionVisible
             }
         }
     }
