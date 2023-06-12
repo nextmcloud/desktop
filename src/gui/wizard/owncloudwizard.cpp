@@ -300,15 +300,13 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
     qCDebug(lcWizard) << "Current Wizard page changed to " << id;
 
     const auto setNextButtonAsDefault = [this]() {
-        auto nextButton = qobject_cast<QPushButton *>(button(QWizard::NextButton));
-        if (nextButton) {
+        if (auto nextButton = qobject_cast<QPushButton *>(button(QWizard::NextButton))) {
             nextButton->setObjectName("nextButton");
             nextButton->setDefault(true);
         }
     };
 
-    auto backButton = qobject_cast<QPushButton *>(button(QWizard::BackButton));
-    if (backButton) {
+    if (auto backButton = qobject_cast<QPushButton *>(button(QWizard::BackButton))) {
         backButton->setObjectName("backButton");
         backButton->setDefault(true);
     }

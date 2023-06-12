@@ -80,10 +80,6 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar = new QToolBar;
     _toolBar->setIconSize(QSize(32, 32));
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    //_toolBar->setProperty(highlightColor, palette().highlight().color().name());
-    //_toolBar->setProperty(highlightTextColor, Theme::defaultColor().name());
-    //_toolBar->setProperty(dark, palette().dark().color().name());
-    //_toolBar->setProperty(background, palette().base().color().name());
     layout()->setMenuBar(_toolBar);
 
     // People perceive this as a Window, so also make Ctrl+W work
