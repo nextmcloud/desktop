@@ -1185,4 +1185,8 @@ void ConfigFile::setMacFileProviderModuleEnabled(const bool moduleEnabled)
     settings.setValue(QLatin1String(macFileProviderModuleEnabledC), moduleEnabled);
 }
 
+bool ConfigFile::isWidgetVisible() const
+{
+    return _isWidgetVisible;
+}
 }
