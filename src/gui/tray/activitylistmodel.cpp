@@ -229,16 +229,19 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
         auto colorIconPath = role == DarkIconRole ? QStringLiteral("qrc:///client/theme/white/") : QStringLiteral("qrc:///client/theme/black/");
         if (a._type == Activity::NotificationType && !a._talkNotificationData.userAvatar.isEmpty()) {
             return QStringLiteral("qrc:///client/theme/colored/talk-bordered.svg");
-        } else if (a._type == Activity::SyncResultType) {
+        }else if(a._type == Activity::NotificationType){
+            return QStringLiteral("qrc:///client/theme/black/bell.svg");//MagentaCustomizationV25
+        }
+        else if (a._type == Activity::SyncResultType) {
             colorIconPath.append("state-error.svg");
-            return colorIconPath;
+            return QStringLiteral("qrc:///client/theme/black/state-error.svg");//MagentaCustomizationV25
         } else if (a._type == Activity::SyncFileItemType) {
             if (a._syncFileItemStatus == SyncFileItem::NormalError
                 || a._syncFileItemStatus == SyncFileItem::FatalError
                 || a._syncFileItemStatus == SyncFileItem::DetailError
                 || a._syncFileItemStatus == SyncFileItem::BlacklistedError) {
                 colorIconPath.append("state-error.svg");
-                return colorIconPath;
+                return QStringLiteral("qrc:///client/theme/black/state-error.svg");//MagentaCustomizationV25
             } else if (a._syncFileItemStatus == SyncFileItem::SoftError
                 || a._syncFileItemStatus == SyncFileItem::Conflict
                 || a._syncFileItemStatus == SyncFileItem::Restoration
@@ -247,21 +250,23 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
                 || a._syncFileItemStatus == SyncFileItem::FileNameInvalidOnServer
                 || a._syncFileItemStatus == SyncFileItem::FileNameClash) {
                 colorIconPath.append("state-warning.svg");
-                return colorIconPath;
+                return QStringLiteral("qrc:///client/theme/black/state-warning.svg");//MagentaCustomizationV25
             } else if (a._syncFileItemStatus == SyncFileItem::FileIgnored) {
                 colorIconPath.append("state-info.svg");
-                return colorIconPath;
+                return QStringLiteral("qrc:///client/theme/black/state-info.svg");//MagentaCustomizationV25
             } else {
                 // File sync successful
                 if (a._fileAction == "file_created") {
-                    return a._previews.empty() ? QStringLiteral("qrc:///client/theme/colored/add.svg")
-                                               : QStringLiteral("qrc:///client/theme/colored/add-bordered.svg");
+                    return QStringLiteral("qrc:///client/theme/black/add-circle.svg");//MagentaCustomizationV25/*a._previews.empty() ? QStringLiteral("qrc:///client/theme/colored/add.svg")
+                                            //   : QStringLiteral("qrc:///client/theme/colored/add-bordered.svg");*/
                 } else if (a._fileAction == "file_deleted") {
-                    return a._previews.empty() ? QStringLiteral("qrc:///client/theme/colored/delete.svg")
-                                               : QStringLiteral("qrc:///client/theme/colored/delete-bordered.svg");
+            return QStringLiteral("qrc:///client/theme/black/delete.svg");//MagentaCustomizationV25
+                    /*return a._previews.empty() ? QStringLiteral("qrc:///client/theme/colored/delete.svg")
+                                               : QStringLiteral("qrc:///client/theme/colored/delete-bordered.svg");*/
                 } else {
-                    return a._previews.empty() ? colorIconPath % QStringLiteral("change.svg")
-                                               : QStringLiteral("qrc:///client/theme/colored/change-bordered.svg");
+            return QStringLiteral("qrc:///client/theme/refresh.svg");//MagentaCustomizationV25
+                   /* return a._previews.empty() ? colorIconPath % QStringLiteral("change.svg")
+                                               : QStringLiteral("qrc:///client/theme/colored/change-bordered.svg");*/
                 }
             }
         } else {
@@ -401,8 +406,11 @@ int ActivityListModel::rowCount(const QModelIndex &parent) const
     if(parent.isValid()) {
         return 0;
     }
-
-    return _finalList.count();
+    //MagentaCustomizationV25
+    if(_finalList.count()<maxVisibleActivities)
+            return _finalList.count();
+        else
+            return maxVisibleActivities;
 }
 
 bool ActivityListModel::canFetchMore(const QModelIndex &) const
@@ -647,7 +655,8 @@ void ActivityListModel::addNotificationToActivityList(const Activity &activity)
 {
     qCDebug(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
     addEntriesToActivityList({activity});
-    _notificationLists.prepend(activity);
+    _notificationLists.prepend(activity);//MagentaCustomizationV25
+
 }
 
 void ActivityListModel::addSyncFileItemToActivityList(const Activity &activity)

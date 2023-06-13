@@ -82,6 +82,8 @@ public:
     };
     Q_ENUM(DataRole)
 
+    static const int maxVisibleActivities = 30;
+
     enum class ErrorType {
         SyncError,
         NetworkError,
