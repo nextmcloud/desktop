@@ -556,11 +556,15 @@ void ActivityListModel::addEntriesToActivityList(const ActivityList &activityLis
     setHasSyncConflicts(conflictsFound);
 }
 
-void ActivityListModel::addErrorToActivityList(const Activity &activity)
+void ActivityListModel::addErrorToActivityList(const Activity &activity, const ErrorType type)
 {
-    qCInfo(lcActivity) << "Error successfully added to the notification list: " << activity._message << activity._subject << activity._syncResultStatus << activity._syncFileItemStatus;
-    addEntriesToActivityList({activity});
-    _notificationErrorsLists.prepend(activity);
+    qCDebug(lcActivity) << "Error successfully added to the notification list: " << type << activity._message << activity._subject << activity._syncResultStatus << activity._syncFileItemStatus;
+    auto modifiedActivity = activity;
+    if (type == ErrorType::NetworkError) {
+        modifiedActivity._subject = tr("Network error occurred: client will retry syncing.");
+    }
+    addEntriesToActivityList({modifiedActivity});
+    _notificationErrorsLists.prepend(modifiedActivity);
 }
 
 void ActivityListModel::addIgnoredFileToList(const Activity &newActivity)
@@ -590,14 +594,14 @@ void ActivityListModel::addIgnoredFileToList(const Activity &newActivity)
 
 void ActivityListModel::addNotificationToActivityList(const Activity &activity)
 {
-    qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
+    qCDebug(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
     addEntriesToActivityList({activity});
     _notificationLists.prepend(activity);
 }
 
 void ActivityListModel::addSyncFileItemToActivityList(const Activity &activity)
 {
-    qCInfo(lcActivity) << "Successfully added to the activity list: " << activity._subject;
+    qCDebug(lcActivity) << "Successfully added to the activity list: " << activity._subject;
     addEntriesToActivityList({activity});
     _syncFileItemLists.prepend(activity);
 }
