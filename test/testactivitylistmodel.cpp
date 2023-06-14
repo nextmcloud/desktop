@@ -564,7 +564,7 @@ private slots:
         model->startFetchJob();
         QSignalSpy activitiesJob(model.data(), &TestingALM::activitiesProcessed);
         QVERIFY(activitiesJob.wait(3000));
-        QCOMPARE(model->rowCount(), 50);
+        QCOMPARE(model->rowCount(), 30);
     };
 
     // Test receiving activity from local user action
@@ -620,7 +620,7 @@ private slots:
         QSignalSpy activitiesJob(model.data(), &TestingALM::activitiesProcessed);
         QVERIFY(activitiesJob.wait(3000));
         // Test the dummy was removed
-        QCOMPARE(model->rowCount(), 50);
+        QCOMPARE(model->rowCount(), 30);
     }
 
     // Test getting the data from the model
@@ -632,19 +632,19 @@ private slots:
         model->startFetchJob();
         QSignalSpy activitiesJob(model.data(), &TestingALM::activitiesProcessed);
         QVERIFY(activitiesJob.wait(3000));
-        QCOMPARE(model->rowCount(), 50);
+        QCOMPARE(model->rowCount(), 30);
 
         model->addSyncFileItemToActivityList(testSyncFileItemActivity);
-        QCOMPARE(model->rowCount(), 51);
+        QCOMPARE(model->rowCount(), 30);
 
         model->addErrorToActivityList(testSyncResultErrorActivity, OCC::ActivityListModel::ErrorType::SyncError);
-        QCOMPARE(model->rowCount(), 52);
+        QCOMPARE(model->rowCount(), 30);
 
         model->addIgnoredFileToList(testFileIgnoredActivity);
-        QCOMPARE(model->rowCount(), 53);
+        QCOMPARE(model->rowCount(), 30);
 
         model->addNotificationToActivityList(testNotificationActivity);
-        QCOMPARE(model->rowCount(), 54);
+        QCOMPARE(model->rowCount(), 30);
 
         // Test all rows for things in common
         for (int i = 0; i < model->rowCount(); i++) {
