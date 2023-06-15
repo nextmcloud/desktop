@@ -236,5 +236,10 @@
         <file>theme/delete.svg</file>
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
+        <file>theme/magenta/Combined Shape.svg</file>
+	<file>theme/magenta/Computer-Icon.svg</file>
+        <file>theme/magenta/Computer-Icon_white.svg</file>
+	<file>theme/magenta/status.png</file>
+	<file>theme/magenta/Product-icon.svg</file>
     </qresource>
 </RCC>

@@ -13,19 +13,16 @@
  * for more details.
  */
 
-#ifndef MIRALL_OWNCLOUD_ADVANCED_SETUP_PAGE_H
-#define MIRALL_OWNCLOUD_ADVANCED_SETUP_PAGE_H
+#ifndef MIRALL_OWNCLOUD_ADVANCED_SETUP_PAGE_MAC_H
+#define MIRALL_OWNCLOUD_ADVANCED_SETUP_PAGE_MAC_H
 
 #include <QWizard>
 
 #include "wizard/owncloudwizardcommon.h"
 
-#ifndef TEST_OWNCL_ADVANCE
-#include "ui_owncloudadvancedsetuppage.h"
-#endif
+#include "ui_owncloudadvancedsetuppagemac.h"
 
 class QProgressIndicator;
-class TestOwncloudAdvancedSetupPage;
 
 namespace OCC {
 
@@ -35,11 +32,11 @@ class OwncloudWizard;
  * @brief The OwncloudAdvancedSetupPage class
  * @ingroup gui
  */
-class OwncloudAdvancedSetupPage : public QWizardPage
+class OwncloudAdvancedSetupPageMac : public QWizardPage
 {
     Q_OBJECT
 public:
-    OwncloudAdvancedSetupPage(OwncloudWizard *wizard);
+    OwncloudAdvancedSetupPageMac(OwncloudWizard *wizard);
 
     bool isComplete() const override;
     void initializePage() override;
@@ -47,7 +44,6 @@ public:
     bool validatePage() override;
     QString localFolder() const;
     QStringList selectiveSyncBlacklist() const;
-    bool useVirtualFileSync() const;
     bool isConfirmBigFolderChecked() const;
     void setRemoteFolder(const QString &remoteFolder);
     void setMultipleFoldersExist(bool exist);
@@ -64,15 +60,12 @@ private slots:
     void slotSelectFolder();
     void slotSyncEverythingClicked();
     void slotSelectiveSyncClicked();
-    void slotVirtualFileSyncClicked();
     void slotQuotaRetrieved(const QVariantMap &result);
 
 private:
     void setRadioChecked(QRadioButton *radio);
-    void setVirtualFilesInfo();
     void setupCustomization();
     void updateStatus();
-    bool dataChanged();
     void startSpinner();
     void stopSpinner();
     QUrl serverUrl() const;
@@ -84,14 +77,13 @@ private:
     void styleSyncLogo();
     void styleLocalFolderLabel();
     void setResolutionGuiVisible(bool value);
-    void setupResoultionWidget();
     void fetchUserAvatar();
     void setUserInformation();
 
     // TODO: remove when UX decision is made
     void refreshVirtualFilesAvailibility(const QString &path);
 
-    Ui_OwncloudAdvancedSetupPage _ui;
+    Ui_OwncloudAdvancedSetupPageMac _ui;
     bool _checking = false;
     bool _created = false;
     bool _localFolderValid = false;
@@ -101,9 +93,6 @@ private:
     qint64 _rSize = -1;
     qint64 _rSelectedSize = -1;
     OwncloudWizard *_ocWizard;
-
-    /* for Unit Test */
-    friend class ::TestOwncloudAdvancedSetupPage;
 };
 
 } // namespace OCC
