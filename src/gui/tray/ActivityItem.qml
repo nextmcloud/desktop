@@ -21,7 +21,7 @@ ItemDelegate {
     padding: Style.standardSpacing
 
     Accessible.role: Accessible.ListItem
-    Accessible.name: (model.path !== "" && model.displayPath !== "") ? qsTr("Open %1 locally").arg(model.displayPath) : model.message
+    Accessible.name: (model.path !== "" && model.displayPath !== "") ? qsTr("Open %1 locally ").arg(model.displayPath) : model.message
     Accessible.onPressAction: root.clicked()
 
     NCToolTip {
