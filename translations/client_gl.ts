@@ -755,11 +755,6 @@ Esta acción interromperá calquera sincronización que estea a executarse actua
         <source>Set up encryption</source>
         <translation>Estabelecer o cifrado</translation>
     </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1574"/>
-        <source>End-to-end encryption has been enabled on this account with another device.&lt;br&gt;It can be enabled on this device by entering your mnemonic.&lt;br&gt;This will enable synchronisation of existing encrypted folders.</source>
-        <translation>Activouse o cifrado de extremo a extremo nesta conta con outro dispositivo.&lt;br&gt; Pódese activar neste dispositivo introducindo o seu mnemotécnico.&lt;br&gt; Isto activará a sincronización dos cartafoles cifrados existentes.</translation>
-    </message>
 </context>
 <context>
     <name>OCC::AccountSetupFromCommandLineJob</name>
@@ -1294,12 +1289,12 @@ Esta acción interromperá calquera sincronización que estea a executarse actua
     <message>
         <location filename="../src/gui/conflictsolver.cpp" line="88"/>
         <source>Do you want to delete the directory &lt;i&gt;%1&lt;/i&gt; and all its contents permanently?</source>
-        <translation>Confirma que quere eliminar definitivamente o directorio &lt;i&gt;%1&lt;/i&gt; e todo o seu contido?</translation>
+        <translation>Confirma que quere eliminar permanentemente o directorio &lt;i&gt;%1&lt;/i&gt; e todo o seu contido?</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictsolver.cpp" line="89"/>
         <source>Do you want to delete the file &lt;i&gt;%1&lt;/i&gt; permanently?</source>
-        <translation>Confirma que quere eliminar definitivamente o ficheiro &lt;i&gt;%1&lt;/i&gt; ?</translation>
+        <translation>Confirma que quere eliminar permanentemente o ficheiro &lt;i&gt;%1&lt;/i&gt; ?</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictsolver.cpp" line="90"/>
@@ -1590,7 +1585,7 @@ Isto pode ser un problema coas súas bibliotecas OpenSSL.</translation>
     <message>
         <location filename="../src/gui/creds/flow2auth.cpp" line="102"/>
         <source>The polling URL does not start with HTTPS despite the login URL started with HTTPS. Login will not be possible because this might be a security issue. Please contact your administrator.</source>
-        <translation>O URL solicitado non comeza con HTTPS aínda que o URL de acceso indicado comeza por HTTPS. Non é posíbel acceder porque isto podería implicar un fallo de seguranza. Consulte coa administración desta instancia.</translation>
+        <translation>O URL solicitado non comeza con HTTPS aínda que o URL de acceso indicado comeza por HTTPS. Non é posíbel acceder porque isto podería implicar un fallo de seguranza. Consulte coa administración do sito.</translation>
     </message>
     <message>
         <location filename="../src/gui/creds/flow2auth.cpp" line="113"/>
@@ -1619,7 +1614,7 @@ Isto pode ser un problema coas súas bibliotecas OpenSSL.</translation>
     <message>
         <location filename="../src/gui/creds/flow2auth.cpp" line="219"/>
         <source>The returned server URL does not start with HTTPS despite the login URL started with HTTPS. Login will not be possible because this might be a security issue. Please contact your administrator.</source>
-        <translation>O URL do servidor devolto non comeza con HTTPS a pesar de que o URL de inicio de sesión comezou con HTTPS. Non será posíbel acceder porque isto pode ser un problema de seguranza. Póñase en contacto coa administración desta instancia.</translation>
+        <translation>O URL do servidor devolto non comeza con HTTPS a pesar de que o URL de inicio de sesión comezou con HTTPS. Non será posíbel acceder porque isto pode ser un problema de seguranza. Póñase en contacto co seu administrador.</translation>
     </message>
 </context>
 <context>
@@ -4017,7 +4012,7 @@ Este é un novo modo experimental. Se decide usalo, agradecémoslle que informe 
     <message>
         <location filename="../src/gui/proxyauthdialog.ui" line="20"/>
         <source>Proxy authentication required</source>
-        <translation>O proxy necesita autenticación</translation>
+        <translation>O proxy require autenticación</translation>
     </message>
     <message>
         <location filename="../src/gui/proxyauthdialog.ui" line="26"/>
