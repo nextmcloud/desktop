@@ -1011,11 +1011,12 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
     QDialog widget;
     Ui_Dialog ui{};
     ui.setupUi(&widget);
-    widget.setWindowTitle(tr("End-to-end encryption mnemonic"));
-    ui.label->setText(
-        tr("To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. "
-           "Please note these down and keep them safe. "
-           "They will be needed to add other devices to your account (like your mobile phone or laptop)."));
+    widget.setWindowTitle(tr("End-to-End encryption mnemonic"));
+    widget.setWindowFlags(widget.windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    ui.label->setText(tr("For the encryption, a randomly generated word sequence"
+                         "(passphrase) of 12 words is created. We recommend that you write down the passphrase and keep it safe.\n"
+                         "\n"
+                         "The passphrase is your personal password with which you can access encrypted data in your MagentaCLOUD or enable access to these files on other devices such as your smartphones."));
     QFont monoFont(QStringLiteral("Monospace"));
     monoFont.setStyleHint(QFont::TypeWriter);
     ui.lineEdit->setFont(monoFont);
@@ -1026,7 +1027,7 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
 
     ui.lineEdit->focusWidget();
     ui.lineEdit->selectAll();
-    ui.lineEdit->setAlignment(Qt::AlignCenter);
+    ui.lineEdit->setAlignment(Qt::AlignTop);
 
     const QFont font(QStringLiteral(""), 0);
     QFontMetrics fm(font);
