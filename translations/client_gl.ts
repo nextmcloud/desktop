@@ -755,6 +755,11 @@ Esta acción interromperá calquera sincronización que estea a executarse actua
         <source>Set up encryption</source>
         <translation>Estabelecer o cifrado</translation>
     </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1574"/>
+        <source>End-to-end encryption has been enabled on this account with another device.&lt;br&gt;It can be enabled on this device by entering your mnemonic.&lt;br&gt;This will enable synchronisation of existing encrypted folders.</source>
+        <translation>Activouse o cifrado de extremo a extremo nesta conta con outro dispositivo.&lt;br&gt; Pódese activar neste dispositivo introducindo o seu mnemotécnico.&lt;br&gt; Isto activará a sincronización dos cartafoles cifrados existentes.</translation>
+    </message>
 </context>
 <context>
     <name>OCC::AccountSetupFromCommandLineJob</name>
