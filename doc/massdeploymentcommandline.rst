@@ -3,6 +3,7 @@ This will allow desktop client to generate a config (.cfg) file that will be use
 A config file will have a corresponding account written into it similar to if you have added it manually via the desktop client's UI.
 The desktop client will exit with code 0 if account has been added successfully, or 1 in case of failure.
 The desktop client will exit with code 0 if account has been added successfuly, or 1 in case of failure.
+Detailed failure message is printed to the desktop client logs.
 
 
 The following parameters are supported:
