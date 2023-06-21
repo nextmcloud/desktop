@@ -24,9 +24,14 @@
 #include "wizard/owncloudsetuppage.h"
 #include "wizard/owncloudhttpcredspage.h"
 #include "wizard/owncloudoauthcredspage.h"
-#include "wizard/owncloudadvancedsetuppage.h"
 #include "wizard/webviewpage.h"
 #include "wizard/flow2authcredspage.h"
+
+#if defined(Q_OS_WIN)
+#include "wizard/owncloudadvancedsetuppagewindows.h"
+#elif defined(Q_OS_MACOS)
+#include "wizard/owncloudadvancedsetuppagemac.h"
+#endif
 
 #include "common/vfs.h"
 
@@ -51,7 +56,11 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     , _httpCredsPage(new OwncloudHttpCredsPage(this))
     , _browserCredsPage(new OwncloudOAuthCredsPage)
     , _flow2CredsPage(new Flow2AuthCredsPage)
-    , _advancedSetupPage(new OwncloudAdvancedSetupPage(this))
+    #if defined(Q_OS_WIN)
+    , _advancedSetupPage(new OwncloudAdvancedSetupPageWindows(this))
+    #elif defined(Q_OS_MACOS)
+    , _advancedSetupPage(new OwncloudAdvancedSetupPageMac(this))
+    #endif
 #ifdef WITH_WEBENGINE
     , _webViewPage(new WebViewPage(this))
 #else // WITH_WEBENGINE
@@ -84,8 +93,14 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 #ifdef WITH_WEBENGINE
     connect(_webViewPage, &WebViewPage::connectToOCUrl, this, &OwncloudWizard::connectToOCUrl);
 #endif // WITH_WEBENGINE
-    connect(_advancedSetupPage, &OwncloudAdvancedSetupPage::createLocalAndRemoteFolders,
+
+#if defined(Q_OS_WIN)
+    connect(_advancedSetupPage, &OwncloudAdvancedSetupPageWindows::createLocalAndRemoteFolders,
         this, &OwncloudWizard::createLocalAndRemoteFolders);
+#elif defined(Q_OS_MACOS)
+        connect(_advancedSetupPage, &OwncloudAdvancedSetupPageMac::createLocalAndRemoteFolders,
+    this, &OwncloudWizard::createLocalAndRemoteFolders);
+#endif
     connect(this, &QWizard::customButtonClicked, this, &OwncloudWizard::slotCustomButtonClicked);
 
 
@@ -106,7 +121,11 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
     connect(this, &OwncloudWizard::styleChanged, _setupPage, &OwncloudSetupPage::slotStyleChanged);
-    connect(this, &OwncloudWizard::styleChanged, _advancedSetupPage, &OwncloudAdvancedSetupPage::slotStyleChanged);
+#if defined(Q_OS_WIN)
+    connect(this, &OwncloudWizard::styleChanged, _advancedSetupPage, &OwncloudAdvancedSetupPageWindows::slotStyleChanged);
+#elif defined(Q_OS_MACOS)
+    connect(this, &OwncloudWizard::styleChanged, _advancedSetupPage, &OwncloudAdvancedSetupPageMac::slotStyleChanged);
+#endif
     connect(this, &OwncloudWizard::styleChanged, _flow2CredsPage, &Flow2AuthCredsPage::slotStyleChanged);
 
     customizeStyle();
