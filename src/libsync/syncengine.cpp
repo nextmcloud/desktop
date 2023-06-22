@@ -379,7 +379,7 @@ void OCC::SyncEngine::slotItemDiscovered(const OCC::SyncFileItemPtr &item)
                     item->_status = SyncFileItem::Status::NormalError;
                     item->_instruction = CSYNC_INSTRUCTION_ERROR;
                     item->_errorString = tr("Could not update file: %1").arg(result.error());
-                    emit itemCompleted(item);
+                    emit itemCompleted(item, ErrorCategory::GenericError);
                     return;
                 }
             }
@@ -391,14 +391,14 @@ void OCC::SyncEngine::slotItemDiscovered(const OCC::SyncFileItemPtr &item)
                     item->_status = SyncFileItem::Status::NormalError;
                     item->_instruction = CSYNC_INSTRUCTION_ERROR;
                     item->_errorString = tr("Could not update virtual file metadata: %1").arg(r.error());
-                    emit itemCompleted(item);
+                    emit itemCompleted(item, ErrorCategory::GenericError);
                     return;
                 }
             } else {
                 if (!FileSystem::setModTime(filePath, item->_modtime)) {
                     item->_instruction = CSYNC_INSTRUCTION_ERROR;
                     item->_errorString = tr("Could not update file metadata: %1").arg(filePath);
-                    emit itemCompleted(item);
+                    emit itemCompleted(item, ErrorCategory::GenericError);
                     return;
                 }
             }
@@ -412,7 +412,7 @@ void OCC::SyncEngine::slotItemDiscovered(const OCC::SyncFileItemPtr &item)
             }
 
             // This might have changed the shared flag, so we must notify SyncFileStatusTracker for example
-            emit itemCompleted(item);
+            emit itemCompleted(item, ErrorCategory::NoError);
         } else {
             // Update only outdated data from the disk.
 
@@ -516,7 +516,7 @@ void SyncEngine::startSync()
     if (!QDir(_localPath).exists()) {
         _anotherSyncNeeded = DelayedFollowUp;
         // No _tr, it should only occur in non-mirall
-        Q_EMIT syncError(QStringLiteral("Unable to find local sync folder."));
+        Q_EMIT syncError(QStringLiteral("Unable to find local sync folder."), ErrorCategory::GenericError);
         finalize(false);
         return;
     }
@@ -533,7 +533,7 @@ void SyncEngine::startSync()
                 "Placeholders are postfixed with file sizes using Utility::octetsToString()")
                                  .arg(
                                      Utility::octetsToString(freeBytes),
-                                     Utility::octetsToString(minFree)));
+                                     Utility::octetsToString(minFree)), ErrorCategory::GenericError);
             finalize(false);
             return;
         } else {
@@ -562,7 +562,7 @@ void SyncEngine::startSync()
     // This creates the DB if it does not exist yet.
     if (!_journal->open()) {
         qCWarning(lcEngine) << "No way to create a sync journal!";
-        Q_EMIT syncError(tr("Unable to open or create the local sync database. Make sure you have write access in the sync folder."));
+        Q_EMIT syncError(tr("Unable to open or create the local sync database. Make sure you have write access in the sync folder."), ErrorCategory::GenericError);
         finalize(false);
         return;
         // database creation error!
@@ -578,7 +578,7 @@ void SyncEngine::startSync()
     _lastLocalDiscoveryStyle = _localDiscoveryStyle;
 
     if (_syncOptions._vfs->mode() == Vfs::WithSuffix && _syncOptions._vfs->fileSuffix().isEmpty()) {
-        Q_EMIT syncError(tr("Using virtual files with suffix, but suffix is not set"));
+        Q_EMIT syncError(tr("Using virtual files with suffix, but suffix is not set"), ErrorCategory::GenericError);
         finalize(false);
         return;
     }
@@ -590,10 +590,12 @@ void SyncEngine::startSync()
         qCInfo(lcEngine) << (usingSelectiveSync ? "Using Selective Sync" : "NOT Using Selective Sync");
     } else {
         qCWarning(lcEngine) << "Could not retrieve selective sync list from DB";
-        Q_EMIT syncError(tr("Unable to read the blacklist from the local database"));
+        Q_EMIT syncError(tr("Unable to read the blacklist from the local database"), ErrorCategory::GenericError);
         finalize(false);
         return;
     }
+
+    processCaseClashConflictsBeforeDiscovery();
 
     _stopWatch.start();
     _progressInfo->_status = ProgressInfo::Starting;
@@ -624,14 +626,14 @@ void SyncEngine::startSync()
     _discoveryPhase->_syncOptions = _syncOptions;
     _discoveryPhase->_shouldDiscoverLocaly = [this](const QString &path) {
         const auto result = shouldDiscoverLocally(path);
-        qCInfo(lcEngine) << "shouldDiscoverLocaly" << path << (result ? "true" : "false");
+        qCDebug(lcEngine) << "shouldDiscoverLocaly" << path << (result ? "true" : "false");
         return result;
     };
     _discoveryPhase->setSelectiveSyncBlackList(selectiveSyncBlackList);
     _discoveryPhase->setSelectiveSyncWhiteList(_journal->getSelectiveSyncList(SyncJournalDb::SelectiveSyncWhiteList, &ok));
     if (!ok) {
         qCWarning(lcEngine) << "Unable to read selective sync list, aborting.";
-        Q_EMIT syncError(tr("Unable to read from the sync journal."));
+        Q_EMIT syncError(tr("Unable to read from the sync journal."), ErrorCategory::GenericError);
         finalize(false);
         return;
     }
@@ -654,8 +656,8 @@ void SyncEngine::startSync()
 
     connect(_discoveryPhase.data(), &DiscoveryPhase::itemDiscovered, this, &SyncEngine::slotItemDiscovered);
     connect(_discoveryPhase.data(), &DiscoveryPhase::newBigFolder, this, &SyncEngine::newBigFolder);
-    connect(_discoveryPhase.data(), &DiscoveryPhase::fatalError, this, [this](const QString &errorString) {
-        Q_EMIT syncError(errorString);
+    connect(_discoveryPhase.data(), &DiscoveryPhase::fatalError, this, [this](const QString &errorString, ErrorCategory errorCategory) {
+        Q_EMIT syncError(errorString, errorCategory);
         finalize(false);
     });
     connect(_discoveryPhase.data(), &DiscoveryPhase::finished, this, &SyncEngine::slotDiscoveryFinished);
@@ -760,7 +762,7 @@ void SyncEngine::slotDiscoveryFinished()
     // Sanity check
     if (!_journal->open()) {
         qCWarning(lcEngine) << "Bailing out, DB failure";
-        Q_EMIT syncError(tr("Cannot open the sync journal"));
+        Q_EMIT syncError(tr("Cannot open the sync journal"), ErrorCategory::GenericError);
         finalize(false);
         return;
     } else {
@@ -892,9 +894,9 @@ void SyncEngine::slotDiscoveryFinished()
     finish();
 }
 
-void SyncEngine::slotCleanPollsJobAborted(const QString &error)
+void SyncEngine::slotCleanPollsJobAborted(const QString &error, const ErrorCategory errorCategory)
 {
-    syncError(error);
+    syncError(error, errorCategory);
     finalize(false);
 }
 
@@ -914,12 +916,12 @@ void SyncEngine::setNetworkLimits(int upload, int download)
     }
 }
 
-void SyncEngine::slotItemCompleted(const SyncFileItemPtr &item)
+void SyncEngine::slotItemCompleted(const SyncFileItemPtr &item, const ErrorCategory category)
 {
     _progressInfo->setProgressComplete(*item);
 
     emit transmissionProgress(*_progressInfo);
-    emit itemCompleted(item);
+    emit itemCompleted(item, category);
 }
 
 void SyncEngine::slotPropagationFinished(bool success)
@@ -976,6 +978,23 @@ void SyncEngine::finalize(bool success)
 
     _clearTouchedFilesTimer.start();
     _leadingAndTrailingSpacesFilesAllowed.clear();
+}
+
+void SyncEngine::processCaseClashConflictsBeforeDiscovery()
+{
+    QSet<QByteArray> pathsToAppend;
+    const auto caseClashConflictPaths = _journal->caseClashConflictRecordPaths();
+    for (const auto &caseClashConflictPath : caseClashConflictPaths) {
+        auto caseClashPathSplit = caseClashConflictPath.split('/');
+        if (caseClashPathSplit.size() > 1) {
+            caseClashPathSplit.removeLast();
+            pathsToAppend.insert(caseClashPathSplit.join('/'));
+        }
+    }
+
+    for (const auto &pathToAppend : pathsToAppend) {
+        _journal->schedulePathForRemoteDiscovery(pathToAppend);
+    }
 }
 
 void SyncEngine::slotProgress(const SyncFileItem &item, qint64 current)
@@ -1211,7 +1230,7 @@ void SyncEngine::slotSummaryError(const QString &message)
         return;
 
     _uniqueErrors.insert(message);
-    emit syncError(message, ErrorCategory::Normal);
+    emit syncError(message, ErrorCategory::GenericError);
 }
 
 void SyncEngine::slotInsufficientLocalStorage()

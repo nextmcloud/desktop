@@ -64,6 +64,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QGuiApplication>
+#include <QQuickItem>
 #include <QUrlQuery>
 #include <QVersionNumber>
 
@@ -476,6 +477,15 @@ Application::Application(int &argc, char **argv)
         AccountSetupCommandLineManager::instance()->setupAccountFromCommandLine();
     }
     AccountSetupCommandLineManager::destroy();
+
+    /* MagentaCustomizationV25 */
+    /* Setup the swipe screen */
+    view.engine()->addImportPath("qrc:/qml/theme");
+    view.setSource(QStringLiteral("qrc:/qml/src/gui/welcome/welcome.qml"));
+    view.setFlags(view.flags());
+    QObject *rootObj = view.rootObject();
+    connect(rootObj->findChild<QObject*>("cancelButton"), SIGNAL(cancelClicked()),
+            this, SLOT(slotSwipeCancelClicked()));
 }
 
 Application::~Application()
@@ -594,7 +604,29 @@ void Application::slotownCloudWizardDone(int res)
         }
 
         Systray::instance()->showWindow();
+
+        /* MagentaCustomizationV25 */
+        /* Swipe screen works in a slideshow mode for first user */
+        if(UserModel::instance()->numUsers()==1)
+        {
+            auto *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
+            view.show();
+            timerSlideShow->setProperty("running", true);
+        }
     }
+}
+
+/* MagentaCustomizationV25 */
+void Application::slotSwipeCancelClicked()
+{
+    auto *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
+    auto *swipeView = view.rootObject()->findChild<QObject*>("swipeView");
+
+    /* Stop a slideshow and go back to the first page */
+    timerSlideShow->setProperty("running", false);
+    timerSlideShow->setProperty("interval", slideShowDelay);
+    swipeView->setProperty("currentIndex", startPage);
+    view.hide();
 }
 
 void Application::setupLogging()

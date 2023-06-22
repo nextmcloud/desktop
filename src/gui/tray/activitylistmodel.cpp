@@ -230,6 +230,7 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
                 || a._syncFileItemStatus == SyncFileItem::Restoration
                 || a._syncFileItemStatus == SyncFileItem::FileLocked
                 || a._syncFileItemStatus == SyncFileItem::FileNameInvalid
+                || a._syncFileItemStatus == SyncFileItem::FileNameInvalidOnServer
                 || a._syncFileItemStatus == SyncFileItem::FileNameClash) {
                 colorIconPath.append("state-warning.svg");
                 return colorIconPath;
@@ -348,7 +349,8 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
         return !a._links.isEmpty() &&
                 a._syncFileItemStatus != SyncFileItem::FileNameClash &&
                 a._syncFileItemStatus != SyncFileItem::Conflict &&
-                a._syncFileItemStatus != SyncFileItem::FileNameInvalid;
+                a._syncFileItemStatus != SyncFileItem::FileNameInvalid &&
+                a._syncFileItemStatus != SyncFileItem::FileNameInvalidOnServer;
     case IsCurrentUserFileActivityRole:
         return a._isCurrentUserFileActivity;
     case ThumbnailRole: {
@@ -556,11 +558,15 @@ void ActivityListModel::addEntriesToActivityList(const ActivityList &activityLis
     setHasSyncConflicts(conflictsFound);
 }
 
-void ActivityListModel::addErrorToActivityList(const Activity &activity)
+void ActivityListModel::addErrorToActivityList(const Activity &activity, const ErrorType type)
 {
-    qCInfo(lcActivity) << "Error successfully added to the notification list: " << activity._message << activity._subject << activity._syncResultStatus << activity._syncFileItemStatus;
-    addEntriesToActivityList({activity});
-    _notificationErrorsLists.prepend(activity);
+    qCDebug(lcActivity) << "Error successfully added to the notification list: " << type << activity._message << activity._subject << activity._syncResultStatus << activity._syncFileItemStatus;
+    auto modifiedActivity = activity;
+    if (type == ErrorType::NetworkError) {
+        modifiedActivity._subject = tr("Network error occurred: client will retry syncing.");
+    }
+    addEntriesToActivityList({modifiedActivity});
+    _notificationErrorsLists.prepend(modifiedActivity);
 }
 
 void ActivityListModel::addIgnoredFileToList(const Activity &newActivity)
@@ -590,14 +596,14 @@ void ActivityListModel::addIgnoredFileToList(const Activity &newActivity)
 
 void ActivityListModel::addNotificationToActivityList(const Activity &activity)
 {
-    qCInfo(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
+    qCDebug(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
     addEntriesToActivityList({activity});
     _notificationLists.prepend(activity);
 }
 
 void ActivityListModel::addSyncFileItemToActivityList(const Activity &activity)
 {
-    qCInfo(lcActivity) << "Successfully added to the activity list: " << activity._subject;
+    qCDebug(lcActivity) << "Successfully added to the activity list: " << activity._subject;
     addEntriesToActivityList({activity});
     _syncFileItemLists.prepend(activity);
 }
@@ -652,15 +658,20 @@ void ActivityListModel::slotTriggerDefaultAction(const int activityIndex)
     } else if (activity._syncFileItemStatus == SyncFileItem::FileNameClash) {
         triggerCaseClashAction(activity);
         return;
-    } else if (activity._syncFileItemStatus == SyncFileItem::FileNameInvalid) {
+    } else if (activity._syncFileItemStatus == SyncFileItem::FileNameInvalid
+               || activity._syncFileItemStatus == SyncFileItem::FileNameInvalidOnServer) {
         if (!_currentInvalidFilenameDialog.isNull()) {
             _currentInvalidFilenameDialog->close();
         }
 
         auto folder = FolderMan::instance()->folder(activity._folder);
         const auto folderDir = QDir(folder->path());
+        const auto fileLocation = activity._syncFileItemStatus == SyncFileItem::FileNameInvalidOnServer
+            ? InvalidFilenameDialog::FileLocation::NewLocalFile
+            : InvalidFilenameDialog::FileLocation::Default;
+
         _currentInvalidFilenameDialog = new InvalidFilenameDialog(_accountState->account(), folder,
-            folderDir.filePath(activity._file));
+            folderDir.filePath(activity._file), fileLocation);
         connect(_currentInvalidFilenameDialog, &InvalidFilenameDialog::accepted, folder, [folder]() {
             folder->scheduleThisFolderSoon();
         });
