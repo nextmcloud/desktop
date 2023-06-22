@@ -352,7 +352,7 @@ ApplicationWindow {
                             id: addAccountButton
                             height: Systray.enableAddAccount ? Style.addAccountButtonHeight : 0
                             hoverEnabled: true
-                            visible: Systray.enableAddAccount
+                            visible: false//Systray.enableAddAccount
 
                             background: Item {
                                 height: parent.height
@@ -402,7 +402,20 @@ ApplicationWindow {
 
                         MenuItem {
                             id: syncPauseButton
+                            objectName: "syncPauseButton"
                             font.pixelSize: Style.topLinePixelSize
+                            display: AbstractButton.IconOnly
+                            icon.source: Style.pauseIcon//MagentaCustomizationV25
+                            icon.color: syncPauseButton.hovered ? Style.ncBlue : Style.ncTextColor
+
+                            Text {
+                                objectName: "syncPauseButtonText"
+                                anchors.verticalCenter: parent.verticalCenter
+                                //font.wordSpacing:  45
+                                text: "            " + syncPauseButton.text
+                                font.pixelSize: Style.topLinePixelSize
+                                color: syncPauseButton.hovered ? Style.ncBlue : Style.ncTextColor
+                            }
                             hoverEnabled: true
                             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
 
@@ -423,10 +436,21 @@ ApplicationWindow {
 
                         MenuItem {
                             id: settingsButton
-                            text: qsTr("Settings")
+                            objectName: "settingsButton"
                             font.pixelSize: Style.topLinePixelSize
+                            display: AbstractButton.TextBesideIcon
+                            icon.source: Style.settingsIcon//MagentaCustomizationV25
+                            icon.color: settingsButton.hovered ? Style.ncBlue : Style.ncTextColor
                             hoverEnabled: true
                             onClicked: Systray.openSettings()
+                            Text {
+                                objectName: "settingsButtonText"
+                                anchors.verticalCenter: parent.verticalCenter
+                                font.wordSpacing:  45
+                                text:  qsTr(" "+"Settings")
+                                font.pixelSize: Style.topLinePixelSize
+                                color: parent.hovered ? Style.ncBlue : Style.ncTextColor
+                            }
 
                             background: Item {
                                 height: parent.height
@@ -445,11 +469,24 @@ ApplicationWindow {
 
                         MenuItem {
                             id: exitButton
-                            text: qsTr("Exit");
+
+                            objectName: "exitButton"
                             font.pixelSize: Style.topLinePixelSize
+                            display: AbstractButton.TextBesideIcon
+                            icon.source: Style.closeIcon//MagentaCustomizationV25
+                            icon.color: exitButton.hovered ? Style.ncBlue : Style.ncTextColor
                             hoverEnabled: true
                             onClicked: Systray.shutdown()
 
+                            Text {
+                                objectName: "exitButtonText"
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.bottomMargin: Style.accountMenuPadding
+                                font.wordSpacing:  45
+                                text:  qsTr(" "+"Exit")
+                                font.pixelSize: Style.topLinePixelSize
+                                color: parent.hovered ? Style.ncBlue : Style.ncTextColor
+                            }
                             background: Item {
                                 height: parent.height
                                 width: parent.menu.width

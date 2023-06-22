@@ -83,7 +83,7 @@ QtObject {
     property int accountDropDownCaretSize: 20
     property int accountDropDownCaretMargin: 8
 
-    property int addAccountButtonHeight: 50
+    property int addAccountButtonHeight: 0
 
     property int headerButtonIconSize: 32
     property int dismissButtonSize: 26
@@ -161,4 +161,11 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+
+    //MagentaCustomizationV25
+        //Magenta brand specific resources
+        readonly property string accountAvatarIcon: "qrc:///client/theme/magenta/accountAvatarIcon.svg";
+        readonly property string settingsIcon:      "qrc:///client/theme/magenta/Settings.svg";
+        readonly property string closeIcon:         "qrc:///client/theme/magenta/Close.svg";
+        readonly property string pauseIcon:         "qrc:///client/theme/magenta/Pause.svg";
 }
