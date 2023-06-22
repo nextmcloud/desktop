@@ -274,6 +274,7 @@ void PropagateItemJob::done(const SyncFileItem::Status statusArg, const QString 
     case SyncFileItem::BlacklistedError:
     case SyncFileItem::FileLocked:
     case SyncFileItem::FileNameInvalid:
+    case SyncFileItem::FileNameInvalidOnServer:
     case SyncFileItem::FileNameClash:
         // nothing
         break;
@@ -424,7 +425,7 @@ void OwncloudPropagator::adjustDeletedFoldersWithNewChildren(SyncFileItemVector 
     /* 
        process each item that is new and is a directory and make sure every parent in its tree has the instruction CSYNC_INSTRUCTION_NEW
        instead of CSYNC_INSTRUCTION_REMOVE
-       NOTE: We are iterating backwords to take advantage of optimization later, when searching for the parent of current it
+       NOTE: We are iterating backwards to take advantage of optimization later, when searching for the parent of current it
     */
     for (auto it = std::crbegin(items); it != std::crend(items); ++it) {
         if ((*it)->_instruction != CSYNC_INSTRUCTION_NEW || (*it)->_direction != SyncFileItem::Up || !(*it)->isDirectory() || (*it)->_file == QStringLiteral("/")) {
@@ -440,7 +441,7 @@ void OwncloudPropagator::adjustDeletedFoldersWithNewChildren(SyncFileItemVector 
         if (itemRootFolderName.isEmpty()) {
             continue;
         }
-        // #2 iterate backwords (for optimization) and find the root folder by name
+        // #2 iterate backwards (for optimization) and find the root folder by name
         const auto itemRootFolderReverseIt = std::find_if(it, std::crend(items), [&itemRootFolderName](const auto &currentItem) {
             return currentItem->_file == itemRootFolderName;
         });
@@ -1507,6 +1508,7 @@ void PropagateRootDirectory::slotSubJobsFinished(SyncFileItem::Status status)
         case SyncFileItem::FileLocked:
         case SyncFileItem::Restoration:
         case SyncFileItem::FileNameInvalid:
+        case SyncFileItem::FileNameInvalidOnServer:
         case SyncFileItem::DetailError:
         case SyncFileItem::Success:
             break;

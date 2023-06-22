@@ -296,7 +296,7 @@ void SyncEngine::conflictRecordMaintenance()
     // If so, add them now.
     //
     // This happens when the conflicts table is new or when conflict files
-    // are downlaoded but the server doesn't send conflict headers.
+    // are downloaded but the server doesn't send conflict headers.
     for (const auto &path : qAsConst(_seenConflictFiles)) {
         ASSERT(Utility::isConflictFile(path));
 
@@ -595,6 +595,8 @@ void SyncEngine::startSync()
         return;
     }
 
+    processCaseClashConflictsBeforeDiscovery();
+
     _stopWatch.start();
     _progressInfo->_status = ProgressInfo::Starting;
     emit transmissionProgress(*_progressInfo);
@@ -624,7 +626,7 @@ void SyncEngine::startSync()
     _discoveryPhase->_syncOptions = _syncOptions;
     _discoveryPhase->_shouldDiscoverLocaly = [this](const QString &path) {
         const auto result = shouldDiscoverLocally(path);
-        qCInfo(lcEngine) << "shouldDiscoverLocaly" << path << (result ? "true" : "false");
+        qCDebug(lcEngine) << "shouldDiscoverLocaly" << path << (result ? "true" : "false");
         return result;
     };
     _discoveryPhase->setSelectiveSyncBlackList(selectiveSyncBlackList);
@@ -978,6 +980,23 @@ void SyncEngine::finalize(bool success)
     _leadingAndTrailingSpacesFilesAllowed.clear();
 }
 
+void SyncEngine::processCaseClashConflictsBeforeDiscovery()
+{
+    QSet<QByteArray> pathsToAppend;
+    const auto caseClashConflictPaths = _journal->caseClashConflictRecordPaths();
+    for (const auto &caseClashConflictPath : caseClashConflictPaths) {
+        auto caseClashPathSplit = caseClashConflictPath.split('/');
+        if (caseClashPathSplit.size() > 1) {
+            caseClashPathSplit.removeLast();
+            pathsToAppend.insert(caseClashPathSplit.join('/'));
+        }
+    }
+
+    for (const auto &pathToAppend : pathsToAppend) {
+        _journal->schedulePathForRemoteDiscovery(pathToAppend);
+    }
+}
+
 void SyncEngine::slotProgress(const SyncFileItem &item, qint64 current)
 {
     _progressInfo->setProgressItem(item, current);
@@ -1158,7 +1177,7 @@ void SyncEngine::wipeVirtualFiles(const QString &localPath, SyncJournalDb &journ
     });
 
     if (!resGetFilesBelowPath) {
-        qCWarning(lcEngine) << "Faied to get files below path" << localPath;
+        qCWarning(lcEngine) << "Failed to get files below path" << localPath;
     }
 
     journal.forceRemoteDiscoveryNextSync();
@@ -1185,7 +1204,7 @@ void SyncEngine::switchToVirtualFiles(const QString &localPath, SyncJournalDb &j
     });
 
     if (!res) {
-        qCWarning(lcEngine) << "Faied to get files below path" << localPath;
+        qCWarning(lcEngine) << "Failed to get files below path" << localPath;
     }
 }
 
