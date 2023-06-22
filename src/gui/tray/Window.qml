@@ -694,8 +694,7 @@ ApplicationWindow {
                 HeaderButton {
                     id: trayWindowAppsButton
                     icon.source: "qrc:///client/theme/white/more-apps.svg"
-                    icon.color: Style.currentUserHeaderTextColor
-
+                    icon.color: Style.ncSecondaryTextColor
 
                     onClicked: {
                         UserModel.openCurrentAccountServer()
@@ -772,6 +771,17 @@ ApplicationWindow {
                 }
             }
         }   // Rectangle trayWindowHeaderBackground
+
+        Rectangle{
+            width: Style.trayWindowWidth
+            height: 1
+            color: Style.ncSecondaryTextColor
+            anchors {
+                top: trayWindowHeaderBackground.bottom
+                left: trayWindowMainItem.left
+                right: trayWindowMainItem.right
+            }
+        }
 
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
