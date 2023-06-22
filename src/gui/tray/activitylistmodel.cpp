@@ -646,8 +646,11 @@ void ActivityListModel::addIgnoredFileToList(const Activity &newActivity)
 void ActivityListModel::addNotificationToActivityList(const Activity &activity)
 {
     qCDebug(lcActivity) << "Notification successfully added to the notification list: " << activity._subject;
-    addEntriesToActivityList({activity});
-    _notificationLists.prepend(activity);
+    QDate currentDate = QDate::currentDate().addDays(-7);
+    if(currentDate <=activity._dateTime.date()){
+        addEntriesToActivityList({activity});
+        _notificationLists.prepend(activity);
+    }
 }
 
 void ActivityListModel::addSyncFileItemToActivityList(const Activity &activity)

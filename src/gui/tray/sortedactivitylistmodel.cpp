@@ -21,7 +21,7 @@ namespace OCC {
 SortedActivityListModel::SortedActivityListModel(QObject *parent)
     : QSortFilterProxyModel(parent)
 {
-    sort(0, Qt::AscendingOrder);
+    sort(0, Qt::DescendingOrder);
 }
 
 bool SortedActivityListModel::lessThan(const QModelIndex &sourceLeft, const QModelIndex &sourceRight) const
