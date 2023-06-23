@@ -59,6 +59,9 @@ private slots:
 
         GeneralSettings genSetting(new QWidget());
 
+
+
+        //Data Privacy and Updates
         QCOMPARE(genSetting._ui->legalNoticeButton->isHidden(), true);
         QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isHidden(), false);
         QCOMPARE(genSetting._ui->updateStateLabel->isHidden(), true);
@@ -66,21 +69,17 @@ private slots:
         QCOMPARE(genSetting._ui->updateChannelLabel->isHidden(), true);
         QCOMPARE(genSetting._ui->restartButton->isHidden(), true);
         QCOMPARE(genSetting._ui->updateButton->isHidden(), true);
-
         QCOMPARE(genSetting._ui->imprintLabel->openExternalLinks(), true);
         QCOMPARE(genSetting._ui->imprintLabel->text(), expectedImprintLabel);
-
         QCOMPARE(genSetting._ui->privacyPolicyLabel->openExternalLinks(), true);
         QCOMPARE(genSetting._ui->privacyPolicyLabel->text(), expectedPrivacyPolicyLabel);
-
         QCOMPARE(genSetting._ui->openSourceSwLabel->openExternalLinks(), true);
         QCOMPARE(genSetting._ui->openSourceSwLabel->text(), expectedOpenSourceSwLabel);
-
         QCOMPARE(genSetting._ui->aboutLabelMagenta->openExternalLinks(), true);
         QCOMPARE(genSetting._ui->aboutLabelMagenta->text(), Theme::instance()->about());
-
         QCOMPARE(genSetting._ui->infoLabel->openExternalLinks(), true);
         QCOMPARE(genSetting._ui->infoLabel->text(), expectedInfoLabel);
+
     }
 
     void testLoadMiscSettings_Checked()
@@ -96,9 +95,11 @@ private slots:
         QMetaObject::invokeMethod( &genSetting, "loadMiscSettings");
 
         QCOMPARE(genSetting._ui->serverNotificationsCheckBox->isChecked(), true);
-        QCOMPARE(genSetting._ui->showInExplorerNavigationPaneCheckBox->isChecked(), true);
+
+        //Data Privacy and Updates
         QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isChecked(), true);
         QCOMPARE(genSetting._ui->transferUsageDataCheckBox->isChecked(), true);
+
     }
 
     void testLoadMiscSettings_UnChecked()
@@ -114,9 +115,12 @@ private slots:
         QMetaObject::invokeMethod( &genSetting, "loadMiscSettings");
 
         QCOMPARE(genSetting._ui->serverNotificationsCheckBox->isChecked(), false);
-        QCOMPARE(genSetting._ui->showInExplorerNavigationPaneCheckBox->isChecked(), false);
+
+
+        //Data Privacy and Updates
         QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->isChecked(), false);
         QCOMPARE(genSetting._ui->transferUsageDataCheckBox->isChecked(), false);
+
     }
 
 #if defined(BUILD_UPDATER)
@@ -133,6 +137,28 @@ private slots:
         QCOMPARE(genSetting._ui->updateButton->isHidden(), true);
     }
 #endif // defined(BUILD_UPDATER)
+
+    void test_Screen_text()
+    {
+        FolderMan folderMan(new QObject());
+        GeneralSettings genSetting(new QWidget());
+
+        QCOMPARE(genSetting._ui->generalGroupBox->title(), "General Settings");
+        QCOMPARE( genSetting._ui->serverNotificationsCheckBox->text(), "Show Server &Notifications" );
+
+        QCOMPARE(genSetting._ui->groupBox->title(), "Advanced");
+        QCOMPARE(genSetting._ui->newFolderLimitCheckBox->text(), "Ask for confirmation before synchronizing folders larger than");
+        QCOMPARE(genSetting._ui->updatesGroupBox->title(), "Updates");
+        QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->text(), "&Automatically check for Updates");
+        QCOMPARE(genSetting._ui->restartButton->text(), "&Restart && Update");
+        QCOMPARE(genSetting._ui->updateButton->text(), "&Check for Update now");
+        QCOMPARE(genSetting._ui->dataPrivacyGroupBox->title(), "Data Privacy");
+        QCOMPARE(genSetting._ui->transferUsageDataCheckBox->text(), "Transfer usage data");
+
+        QCOMPARE(genSetting._ui->imprintLabel->styleSheet(), "font: 10pt \"Segoe UI\";");
+        QCOMPARE(genSetting._ui->privacyPolicyLabel->styleSheet(), "font: 10pt \"Segoe UI\";");
+        QCOMPARE(genSetting._ui->openSourceSwLabel->styleSheet(), "font: 10pt \"Segoe UI\";");
+    }
 
     /* UI based (event driven) test cases */
 #if defined(BUILD_UPDATER)
@@ -295,29 +321,6 @@ private slots:
         QCOMPARE(genSetting._ui->updateButton->isHidden(), true);
     }
 #endif // ifndef(BUILD_UPDATER)
-
-    void test_Screen_text()
-    {
-        FolderMan folderMan(new QObject());
-        GeneralSettings genSetting(new QWidget());
-
-        QCOMPARE(genSetting._ui->generalGroupBox->title(), "General Settings");
-        QCOMPARE( genSetting._ui->serverNotificationsCheckBox->text(), "Show Server &Notifications" );
-
-        QCOMPARE(genSetting._ui->groupBox->title(), "Advanced");
-        QCOMPARE(genSetting._ui->newFolderLimitCheckBox->text(), "Ask for confirmation before synchronizing folders larger than");
-        QCOMPARE(genSetting._ui->crashreporterCheckBox->text(), "S&how crash reporter");
-        QCOMPARE(genSetting._ui->updatesGroupBox->title(), "Updates");
-        QCOMPARE(genSetting._ui->autoCheckForUpdatesCheckBox->text(), "&Automatically check for Updates");
-        QCOMPARE(genSetting._ui->restartButton->text(), "&Restart && Update");
-        QCOMPARE(genSetting._ui->updateButton->text(), "&Check for Update now");
-        QCOMPARE(genSetting._ui->dataPrivacyGroupBox->title(), "Data Privacy");
-        QCOMPARE(genSetting._ui->transferUsageDataCheckBox->text(), "Transfer usage data");
-
-        QCOMPARE(genSetting._ui->imprintLabel->styleSheet(), "font: 10pt \"Segoe UI\";");
-        QCOMPARE(genSetting._ui->privacyPolicyLabel->styleSheet(), "font: 10pt \"Segoe UI\";");
-        QCOMPARE(genSetting._ui->openSourceSwLabel->styleSheet(), "font: 10pt \"Segoe UI\";");
-    }
 };
 
 QTEST_MAIN(TestGeneralSettings)

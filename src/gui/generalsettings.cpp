@@ -275,10 +275,6 @@ void GeneralSettings::loadMiscSettings()
 {
     QScopedValueRollback<bool> scope(_currentlyLoading, true);
     ConfigFile cfgFile;
-    /* MagentaCustomizationV25 */
-    _ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
-    _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
-
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
     _ui->serverNotificationsCheckBox->setChecked(cfgFile.optionalServerNotifications());
     _ui->callNotificationsCheckBox->setEnabled(_ui->serverNotificationsCheckBox->isEnabled());
@@ -290,6 +286,10 @@ void GeneralSettings::loadMiscSettings()
     _ui->newFolderLimitSpinBox->setValue(newFolderLimit.second);
     _ui->newExternalStorage->setChecked(cfgFile.confirmExternalStorage());
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
+
+    /* MagentaCustomizationV25 */
+    _ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
+    _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
 }
 
 #if defined(BUILD_UPDATER)
