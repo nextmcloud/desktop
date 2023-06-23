@@ -1215,32 +1215,4 @@ void ConfigFile::setMacFileProviderModuleEnabled(const bool moduleEnabled)
     settings.setValue(QLatin1String(macFileProviderModuleEnabledC), moduleEnabled);
 }
 
-/* MagentaCustomizationV25 */
-bool ConfigFile::transferUsageData(const QString &connection) const
-{
-    QString con(connection);
-    if (connection.isEmpty())
-        con = defaultConnection();
-
-    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, false);
-    fallback = getValue(QLatin1String(TransferUsageDataC), QString(), fallback);
-
-    QVariant value = getPolicySetting(QLatin1String(TransferUsageDataC), fallback);
-    return value.toBool();
-}
-
-/* MagentaCustomizationV25 */
-void ConfigFile::setTransferUsageData(bool usageData, const QString &connection)
-{
-    QString con(connection);
-    if (connection.isEmpty())
-        con = defaultConnection();
-
-    QSettings settings(configFile(), QSettings::IniFormat);
-    settings.beginGroup(con);
-
-    settings.setValue(QLatin1String(TransferUsageDataC), QVariant(usageData));
-    settings.sync();
-}
-
 }
