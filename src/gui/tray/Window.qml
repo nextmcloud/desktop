@@ -407,11 +407,11 @@ ApplicationWindow {
                             display: AbstractButton.IconOnly
                             icon.source: Style.pauseIcon//MagentaCustomizationV25
                             icon.color: syncPauseButton.hovered ? Style.ncBlue : Style.ncTextColor
+                            leftPadding: Style.accountMenuItemLeftPadding
 
                             Text {
                                 objectName: "syncPauseButtonText"
                                 anchors.verticalCenter: parent.verticalCenter
-                                //font.wordSpacing:  45
                                 text: "            " + syncPauseButton.text
                                 font.pixelSize: Style.topLinePixelSize
                                 color: syncPauseButton.hovered ? Style.ncBlue : Style.ncTextColor
@@ -443,6 +443,7 @@ ApplicationWindow {
                             icon.color: settingsButton.hovered ? Style.ncBlue : Style.ncTextColor
                             hoverEnabled: true
                             onClicked: Systray.openSettings()
+                            leftPadding: Style.accountMenuItemLeftPadding
                             Text {
                                 objectName: "settingsButtonText"
                                 anchors.verticalCenter: parent.verticalCenter
@@ -453,7 +454,7 @@ ApplicationWindow {
                             }
 
                             background: Item {
-                                height: parent.height
+                                 implicitHeight:40
                                 width: parent.menu.width
                                 Rectangle {
                                     anchors.fill: parent
@@ -477,6 +478,7 @@ ApplicationWindow {
                             icon.color: exitButton.hovered ? Style.ncBlue : Style.ncTextColor
                             hoverEnabled: true
                             onClicked: Systray.shutdown()
+                            leftPadding: Style.accountMenuItemLeftPadding
 
                             Text {
                                 objectName: "exitButtonText"

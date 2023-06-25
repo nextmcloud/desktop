@@ -60,6 +60,7 @@ QtObject {
     readonly property int smallIconSize: 16
 
     property int minActivityHeight: variableSize(32)
+    property int  accountMenuItemLeftPadding: 20
 
     property int currentAccountButtonWidth: 220
     property int currentAccountButtonRadius: 2
@@ -142,6 +143,13 @@ QtObject {
 
     readonly property double smallIconScaleFactor: 0.6
 
+    //MagentaCustomizationV25
+    //Magenta brand specific resources
+    readonly property string accountAvatarIcon: "qrc:///client/theme/magenta/accountAvatarIcon.svg";
+    readonly property string settingsIcon:      "qrc:///client/theme/magenta/Settings.svg";
+    readonly property string closeIcon:         "qrc:///client/theme/magenta/Close.svg";
+    readonly property string pauseIcon:         "qrc:///client/theme/magenta/Pause.svg";
+
     readonly property double trayFolderListButtonWidthScaleFactor: 1.75
     readonly property int trayFolderStatusIndicatorSizeOffset: 2
     readonly property double trayFolderStatusIndicatorRadiusFactor: 0.5
@@ -162,10 +170,5 @@ QtObject {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
 
-    //MagentaCustomizationV25
-        //Magenta brand specific resources
-        readonly property string accountAvatarIcon: "qrc:///client/theme/magenta/accountAvatarIcon.svg";
-        readonly property string settingsIcon:      "qrc:///client/theme/magenta/Settings.svg";
-        readonly property string closeIcon:         "qrc:///client/theme/magenta/Close.svg";
-        readonly property string pauseIcon:         "qrc:///client/theme/magenta/Pause.svg";
+
 }
