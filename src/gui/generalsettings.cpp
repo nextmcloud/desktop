@@ -509,6 +509,14 @@ void GeneralSettings::slotShowLegalNotice()
     delete notice;
 }
 
+/* MagentaCustomizationV25 */
+void GeneralSettings::slotTransferUsageData()
+{
+    ConfigFile cfgFile;
+    bool isChecked = _ui->transferUsageDataCheckBox->isChecked();
+    cfgFile.setTransferUsageData(isChecked, QString());
+}
+
 void GeneralSettings::slotStyleChanged()
 {
     customizeStyle();
@@ -527,14 +535,6 @@ void GeneralSettings::customizeStyle()
 #else
     _ui->updatesGroupBox->setVisible(false);
 #endif
-}
-
-/* MagentaCustomizationV25 */
-void GeneralSettings::slotTransferUsageData()
-{
-    ConfigFile cfgFile;
-    bool isChecked = _ui->transferUsageDataCheckBox->isChecked();
-    cfgFile.setTransferUsageData(isChecked, QString());
 }
 
 } // namespace OCC
