@@ -109,7 +109,6 @@ static constexpr char certPasswd[] = "http_certificatePasswd";
 static const QSet validUpdateChannels { QStringLiteral("stable"), QStringLiteral("beta") };
 
 static constexpr auto macFileProviderModuleEnabledC = "macFileProviderModuleEnabled";
-static constexpr char TransferUsageDataC[] = "TransferUsageData"; //MagentaCustomizationV25
 }
 
 namespace OCC {
