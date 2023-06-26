@@ -402,7 +402,7 @@ ApplicationWindow {
                             id: addAccountButton
                             height: Systray.enableAddAccount ? Style.addAccountButtonHeight : 0
                             hoverEnabled: true
-                            visible: Systray.enableAddAccount
+                            visible: false//Systray.enableAddAccount
 
                             background: Item {
                                 height: parent.height
@@ -643,7 +643,7 @@ ApplicationWindow {
 
                         ColorOverlay {
                             cached: true
-                            color: Style.currentUserHeaderTextColor
+                            color: Style.ncSecondaryTextColor
                             width: source.width
                             height: source.height
                             source: Image {
@@ -670,8 +670,7 @@ ApplicationWindow {
 
                     visible: currentUser.hasLocalFolder
                     currentUser: UserModel.currentUser
-                    icon.color: Style.ncSecondaryTextColor
-
+                    icon.color: Style.currentUserHeaderTextColor
 
                     Layout.preferredWidth:  Style.iconButtonWidth * Style.trayFolderListButtonWidthScaleFactor
                     Layout.alignment: Qt.AlignHCenter

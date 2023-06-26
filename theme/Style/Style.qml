@@ -83,7 +83,7 @@ QtObject {
     property int accountDropDownCaretSize: 20
     property int accountDropDownCaretMargin: 8
 
-    property int addAccountButtonHeight: 50
+    property int addAccountButtonHeight: 0
 
     property int headerButtonIconSize: 32
     property int dismissButtonSize: 26
