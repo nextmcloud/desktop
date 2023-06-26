@@ -349,7 +349,7 @@ ApplicationWindow {
                         // x coordinate grows towards the right
                         // y coordinate grows towards the bottom
                         x: (currentAccountButton.x + 2)
-                        y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 2)
+                        y: trayWindowHeaderBackground.height+8//(currentAccountButton.y + Style.trayWindowHeaderHeight)
 
                         width: (Style.currentAccountButtonWidth - 2)
                         height: Math.min(implicitHeight, maxMenuHeight)
@@ -670,6 +670,8 @@ ApplicationWindow {
 
                     visible: currentUser.hasLocalFolder
                     currentUser: UserModel.currentUser
+                    icon.color: Style.ncSecondaryTextColor
+
 
                     Layout.preferredWidth:  Style.iconButtonWidth * Style.trayFolderListButtonWidthScaleFactor
                     Layout.alignment: Qt.AlignHCenter
@@ -695,6 +697,7 @@ ApplicationWindow {
                     id: trayWindowAppsButton
                     icon.source: "qrc:///client/theme/white/more-apps.svg"
                     icon.color: Style.ncSecondaryTextColor
+
 
                     onClicked: {
                         UserModel.openCurrentAccountServer()
@@ -777,7 +780,7 @@ ApplicationWindow {
             height: 1
             color: Style.ncSecondaryTextColor
             anchors {
-                top: trayWindowHeaderBackground.bottom
+                top: trayWindowUnifiedSearchInputContainer.top
                 left: trayWindowMainItem.left
                 right: trayWindowMainItem.right
             }
