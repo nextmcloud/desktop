@@ -231,16 +231,9 @@ void SettingsDialog::showIssuesList(AccountState *account)
 
 void SettingsDialog::accountAdded(AccountState *s)
 {
-    auto height = _toolBar->sizeHint().height();
-    bool brandingSingleAccount = !Theme::instance()->multiAccount();
-
-    const auto actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
+    const auto actionText = s->account()->prettyName();
     const auto accountAction = createColorAwareAction(QLatin1String(":/client/theme/account.svg"), actionText);
 
-    if (!brandingSingleAccount) {
-        accountAction->setToolTip(s->account()->displayName());
-        accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
-    }
 
     _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
     auto accountSettings = new AccountSettings(s, this);
@@ -258,7 +251,6 @@ void SettingsDialog::accountAdded(AccountState *s)
     connect(accountSettings, &AccountSettings::openFolderAlias,
         _gui, &ownCloudGui::slotFolderOpenAction);
     connect(accountSettings, &AccountSettings::showIssuesList, this, &SettingsDialog::showIssuesList);
-    connect(s->account().data(), &Account::accountChangedAvatar, this, &SettingsDialog::slotAccountAvatarChanged);
     connect(s->account().data(), &Account::accountChangedDisplayName, this, &SettingsDialog::slotAccountDisplayNameChanged);
 
     // Connect styleChanged event, to adapt (Dark-/Light-Mode switching)
@@ -294,10 +286,8 @@ void SettingsDialog::slotAccountDisplayNameChanged()
     if (account && _actionForAccount.contains(account)) {
         QAction *action = _actionForAccount[account];
         if (action) {
-            QString displayName = account->displayName();
+            QString displayName = account->prettyName();
             action->setText(displayName);
-            auto height = _toolBar->sizeHint().height();
-            action->setIconText(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
         }
     }
 }
