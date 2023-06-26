@@ -647,7 +647,7 @@ ApplicationWindow {
                             width: source.width
                             height: source.height
                             source: Image {
-                                Layout.alignment: Qt.AlignRight
+                                Layout.alignment: Qt.AlignLeft
                                 verticalAlignment: Qt.AlignCenter
                                 Layout.margins: Style.accountDropDownCaretMargin
                                 source: "qrc:///client/theme/white/caret-down.svg"
