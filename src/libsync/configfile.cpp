@@ -65,6 +65,7 @@ static constexpr char showCallNotificationsC[] = "showCallNotifications";
 static constexpr char showInExplorerNavigationPaneC[] = "showInExplorerNavigationPane";
 static constexpr char skipUpdateCheckC[] = "skipUpdateCheck";
 static constexpr char autoUpdateCheckC[] = "autoUpdateCheck";
+static constexpr char TransferUsageDataC[] = "TransferUsageData"; //MagentaCustomizationV25
 static constexpr char updateCheckIntervalC[] = "updateCheckInterval";
 static constexpr char updateSegmentC[] = "updateSegment";
 static constexpr char updateChannelC[] = "updateChannel";
@@ -108,7 +109,6 @@ static constexpr char certPasswd[] = "http_certificatePasswd";
 static const QSet validUpdateChannels { QStringLiteral("stable"), QStringLiteral("beta") };
 
 static constexpr auto macFileProviderModuleEnabledC = "macFileProviderModuleEnabled";
-static constexpr char TransferUsageDataC[] = "TransferUsageData"; //MagentaCustomizationV25
 }
 
 namespace OCC {
