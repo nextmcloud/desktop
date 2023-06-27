@@ -31,6 +31,8 @@
 #include "wizard/owncloudadvancedsetuppagewindows.h"
 #elif defined(Q_OS_MACOS)
 #include "wizard/owncloudadvancedsetuppagemac.h"
+else
+#include "wizard/owncloudadvancedsetuppage.h"
 #endif
 
 #include "common/vfs.h"
@@ -60,6 +62,8 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     , _advancedSetupPage(new OwncloudAdvancedSetupPageWindows(this))
     #elif defined(Q_OS_MACOS)
     , _advancedSetupPage(new OwncloudAdvancedSetupPageMac(this))
+    #else
+    ,_advancedSetupPage(new OwncloudAdvancedSetupPage(this))
     #endif
 #ifdef WITH_WEBENGINE
     , _webViewPage(new WebViewPage(this))

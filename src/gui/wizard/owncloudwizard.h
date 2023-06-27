@@ -43,6 +43,8 @@ class Flow2AuthCredsPage;
 class OwncloudAdvancedSetupPageWindows;
 #elif defined(Q_OS_MACOS)
 class OwncloudAdvancedSetupPageMac;
+#else
+class OwncloudAdvancedSetupPage;
 #endif
 
 /**
@@ -133,6 +135,8 @@ private:
     OwncloudAdvancedSetupPageWindows *_advancedSetupPage;
 #elif defined(Q_OS_MACOS)
     OwncloudAdvancedSetupPageMac *_advancedSetupPage;
+#else
+    OwncloudAdvancedSetupPage *_advancedSetupPage;
 #endif
     OwncloudWizardResultPage *_resultPage = nullptr;
     AbstractCredentialsWizardPage *_credentialsPage = nullptr;
