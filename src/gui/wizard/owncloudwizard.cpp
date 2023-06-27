@@ -31,7 +31,7 @@
 #include "wizard/owncloudadvancedsetuppagewindows.h"
 #elif defined(Q_OS_MACOS)
 #include "wizard/owncloudadvancedsetuppagemac.h"
-else
+#else
 #include "wizard/owncloudadvancedsetuppage.h"
 #endif
 
