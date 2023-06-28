@@ -227,7 +227,6 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     connect(AccountManager::instance(), &AccountManager::accountAdded, this, &GeneralSettings::loadMiscSettings);
 
     customizeStyle();
-    _ui->monoIconsCheckBox->setVisible(false);
 }
 
 GeneralSettings::~GeneralSettings()
