@@ -218,7 +218,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
 
     // OEM themes are not obliged to ship mono icons, so there
     // is no point in offering an option
-    _ui->monoIconsCheckBox->setVisible(Theme::instance()->monoIconsAvailable());
+    _ui->monoIconsCheckBox->setVisible(false);/* MagentaCustomizationV25 */
 
     connect(_ui->ignoredFilesButton, &QAbstractButton::clicked, this, &GeneralSettings::slotIgnoreFilesEditor);
     connect(_ui->debugArchiveButton, &QAbstractButton::clicked, this, &GeneralSettings::slotCreateDebugArchive);
@@ -227,7 +227,6 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     connect(AccountManager::instance(), &AccountManager::accountAdded, this, &GeneralSettings::loadMiscSettings);
 
     customizeStyle();
-    _ui->monoIconsCheckBox->setVisible(false);
 }
 
 GeneralSettings::~GeneralSettings()
