@@ -1025,7 +1025,7 @@ void Application::addCustomStyleSheet()
 
     QFile file(QStringLiteral(":/qss/theme/Style/style.qss"));
     if (file.open(QFile::ReadOnly)) {
-        QString styleSheet = QLatin1String(file.readAll());
+        const auto &styleSheet = QString::fromLatin1(file.readAll());
         setStyleSheet(styleSheet.arg(background, dark, highlightColor, highlightTextColor));
     }
 }
