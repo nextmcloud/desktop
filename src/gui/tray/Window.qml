@@ -310,6 +310,7 @@ ApplicationWindow {
             anchors.right: trayWindowMainItem.right
             height:         50//Style.trayWindowHeaderHeight
             radius: 10
+            color: Style.currentUserHeaderTextColor
 
 
             RowLayout {
@@ -596,7 +597,7 @@ ApplicationWindow {
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.name
                                 elide: Text.ElideRight
-                                color: Style.ncTextColor
+                                color: Style.currentUserHeaderColor
 
                                 font.pixelSize: Style.topLinePixelSize
                                 font.bold: true
@@ -608,7 +609,7 @@ ApplicationWindow {
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.server
                                 elide: Text.ElideRight
-                                color: Style.ncTextColor
+                                color: Style.currentUserHeaderColor
                                 visible: UserModel.numUsers() > 1
                             }
 
@@ -635,7 +636,7 @@ ApplicationWindow {
                                           ? UserModel.currentUser.statusMessage
                                           : UserModel.currentUser.server
                                     elide: Text.ElideRight
-                                    color: Style.ncTextColor
+                                    color: Style.currentUserHeaderColor
                                     font.pixelSize: Style.subLinePixelSize
                                 }
                             }
@@ -705,7 +706,7 @@ ApplicationWindow {
                         } else if (appsMenu.visible) {
                             appsMenu.close()
                         } else {
-                            appsMenu.open()
+                           // appsMenu.open()
                         }
                     }
 

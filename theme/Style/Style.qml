@@ -112,6 +112,8 @@ QtObject {
     property int accountLabelsLayoutMargin: 12
     property int accountLabelsLayoutTopMargin: 10
 
+    readonly property string accountAvatarIcon: "qrc:///client/theme/magenta/accountAvatarIcon.svg";
+
     // Visual behaviour
     property bool hoverEffectsEnabled: true
 
@@ -164,5 +166,5 @@ QtObject {
 
     readonly property bool isSearchFieldVisible: false
 
-    readonly property string accountAvatarIcon: "qrc:///client/theme/magenta/accountAvatarIcon.svg";
+
 }
