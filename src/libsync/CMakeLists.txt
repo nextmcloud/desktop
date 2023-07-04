@@ -1,5 +1,6 @@
 project(libsync)
 include(DefinePlatformDefaults)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Svg Qml Quick QuickControls2 Xml Network)
 
 set(CMAKE_AUTOMOC TRUE)
 

@@ -1,8 +1,8 @@
 #ifndef WORDLIST_H
 #define WORDLIST_H
 
-#include <QString>
 #include <QList>
+#include <QString>
 
 #include "owncloudlib.h"
 
