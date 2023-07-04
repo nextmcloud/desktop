@@ -1,4 +1,5 @@
 project(gui)
+find_package(Qt5 REQUIRED COMPONENTS Widgets Svg Qml Quick QuickControls2 Xml Network)
 find_package(KF5Archive REQUIRED)
 
 if(QUICK_COMPILER)
