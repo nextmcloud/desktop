@@ -91,6 +91,7 @@
         <file>theme/white/folder.png</file>
         <file>theme/white/folder@2x.png</file>
         <file>theme/colored/folder.png</file>
+        <file>theme/colored/folder.svg</file>
         <file>theme/colored/folder@2x.png</file>
         <file>theme/black/confirm.svg</file>
         <file>theme/black/control-next.svg</file>
