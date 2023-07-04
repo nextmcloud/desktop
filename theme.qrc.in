@@ -209,6 +209,10 @@
         <file>theme/copy.svg</file>
         <file>theme/more.svg</file>
         <file>theme/change.svg</file>
+        <file>theme/magenta/accountAvatarIcon.svg</file>
+        <file>theme/magenta/Close.svg</file>
+        <file>theme/magenta/Pause.svg</file>
+        <file>theme/magenta/Settings.svg</file>
         <file>theme/colored/change-bordered.svg</file>
         <file>theme/lock.svg</file>
         <file>theme/lock-http.svg</file>
@@ -236,9 +240,5 @@
         <file>theme/delete.svg</file>
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
-        <file>theme/magenta/accountAvatarIcon.svg</file>
-        <file>theme/magenta/Close.svg</file>
-        <file>theme/magenta/Pause.svg</file>
-        <file>theme/magenta/Settings.svg</file>
     </qresource>
 </RCC>
