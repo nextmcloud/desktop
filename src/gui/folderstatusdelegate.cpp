@@ -50,9 +50,17 @@ FolderStatusDelegate::FolderStatusDelegate()
     customizeStyle();
 }
 
-QString FolderStatusDelegate::addFolderText()
+QString FolderStatusDelegate::addFolderText(addButtonText selection)
 {
-    return tr("Add Folder Sync Connection");
+    //magentacustomizationV25
+    switch(selection)
+    {
+    case AB_Textline:
+        return tr("Synchronize any other local folder with your MagentaCLOUD.");
+    case AB_Headline:
+    default:
+        return tr("Add Live-Backup");
+    }
 }
 
 // allocate each item size in listview.
@@ -67,15 +75,8 @@ QSize FolderStatusDelegate::sizeHint(const QStyleOptionViewItem &option,
 
     auto classif = dynamic_cast<const FolderStatusModel *>(index.model())->classify(index);
     if (classif == FolderStatusModel::AddButton) {
-        const int margins = aliasFm.height(); // same as 2*aliasMargin of paint
-        QFontMetrics fm(qApp->font("QPushButton"));
-        QStyleOptionButton opt;
-        static_cast<QStyleOption &>(opt) = option;
-        opt.text = addFolderText();
-        return QApplication::style()->sizeFromContents(
-                                        QStyle::CT_PushButton, &opt, fm.size(Qt::TextSingleLine, opt.text))
-                   .expandedTo(QApplication::globalStrut())
-            + QSize(0, margins);
+       // quick hack for (fixed) button size
+        return {520, 64}; //magentacustomizationV25
     }
 
     if (classif != FolderStatusModel::RootFolder) {
@@ -130,8 +131,13 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     progressFont.setPointSize(subFont.pointSize() - 2);
 
+    QFont addButtonFont = subFont;
+    addButtonFont.setPointSize(subFont.pointSize() - 1);
+
     QFontMetrics subFm(subFont);
     QFontMetrics aliasFm(aliasFont);
+    QFontMetrics progressFm(progressFont);
+    QFontMetrics addButtonFm(addButtonFont);
 
     const auto aliasMargin = aliasFm.height() / 2;
     const auto margin = subFm.height() / 4;
@@ -139,16 +145,52 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     if (index.data(AddButton).toBool()) {
         QStyleOptionButton opt;
         static_cast<QStyleOption &>(opt) = option;
-        if (opt.state & QStyle::State_Enabled && opt.state & QStyle::State_MouseOver && index == _pressedIndex) {
-            opt.state |= QStyle::State_Sunken;
-        } else {
-            opt.state |= QStyle::State_Raised;
-        }
-        opt.text = addFolderText();
-        opt.rect = addButtonRect(option.rect, option.direction);
+        auto theme = Theme::instance();
+        const auto addIcon = theme->addButtonIcon();
+        const auto iconSize = 48;
+        const auto topMargin = 8;
+        const auto leftMargin = 8;
+
         painter->save();
-        painter->setFont(qApp->font("QPushButton"));
-        QApplication::style()->drawControl(QStyle::CE_PushButton, &opt, painter, option.widget);
+        auto addIconRect = opt.rect;
+        auto headRect = opt.rect;
+
+        const auto buttonMargin = (opt.rect.height() - topMargin - iconSize)/2;
+
+        addIconRect.setLeft(opt.rect.left() + aliasMargin);
+        addIconRect.setTop(addIconRect.top() + buttonMargin);
+        auto iconRectHeight = aliasFm.height() + 2 * (margin + subFm.height());
+        addIconRect.setHeight(iconRectHeight);
+        addIconRect.setWidth(iconRectHeight);
+        // headline box
+        headRect.setTop(headRect.top() + topMargin + buttonMargin);
+        headRect.setBottom(headRect.top() + aliasFm.height());
+        headRect.setRight(headRect.right() - buttonMargin);
+
+        // two text lines box
+        auto textRect = headRect;
+        textRect.setTop(headRect.bottom() + margin);
+        textRect.setBottom(textRect.top() + 2*addButtonFm.height() + margin);
+
+        auto nextToIcon = addIconRect.right() + aliasMargin;
+        headRect.setLeft(nextToIcon);
+        textRect.setLeft(nextToIcon);
+
+        QPixmap pm = addIcon.pixmap(iconSize, iconSize, (opt.state & QStyle::State_Enabled) ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, addIconRect).left() + leftMargin,
+            addIconRect.top() + topMargin + buttonMargin, pm);
+
+        if(!(opt.state & QStyle::State_Enabled))
+        {
+             painter->setPen(QColor(qRgb(0x86, 0x86, 0x86))); // set text color grey if add button is disabled
+        }
+        painter->setFont(aliasFont);
+        const auto elidedHead = aliasFm.elidedText(addFolderText(AB_Headline), Qt::ElideRight, headRect.width());
+        painter->drawText(QStyle::visualRect(option.direction, headRect, headRect), textAlign, elidedHead);
+        painter->setFont(addButtonFont);
+        const auto textLine = addFolderText(AB_Textline);
+        painter->drawText(QStyle::visualRect(option.direction, textRect, textRect), textAlign|Qt::TextWordWrap, textLine);
+
         painter->restore();
         return;
     }
@@ -401,12 +443,8 @@ QRect FolderStatusDelegate::optionsButtonRect(QRect within, Qt::LayoutDirection 
 
 QRect FolderStatusDelegate::addButtonRect(QRect within, Qt::LayoutDirection direction)
 {
-    QFontMetrics fm(qApp->font("QPushButton"));
-    QStyleOptionButton opt;
-    opt.text = addFolderText();
-    QSize size = QApplication::style()->sizeFromContents(QStyle::CT_PushButton, &opt, fm.size(Qt::TextSingleLine, opt.text)).expandedTo(QApplication::globalStrut());
-    QRect r(QPoint(within.left(), within.top() + within.height() / 2 - size.height() / 2), size);
-    return QStyle::visualRect(direction, within, r);
+    Q_UNUSED(direction)
+    return within;
 }
 
 QRect FolderStatusDelegate::errorsListRect(QRect within)
