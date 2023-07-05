@@ -174,7 +174,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     _ui->aboutLabel->setText(about);
     _ui->aboutLabel->setOpenExternalLinks(true);
 
-    /* MagentaCustomizationV25 */
+    //MagentaCustomizationV25
     // setup data privacy section
     connect(_ui->transferUsageDataCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotTransferUsageData);
     auto fontColor = Theme::defaultColor();
@@ -287,7 +287,7 @@ void GeneralSettings::loadMiscSettings()
     _ui->newExternalStorage->setChecked(cfgFile.confirmExternalStorage());
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
 
-    /* MagentaCustomizationV25 */
+    //MagentaCustomizationV25
     _ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
     _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
 }
@@ -509,7 +509,7 @@ void GeneralSettings::slotShowLegalNotice()
     delete notice;
 }
 
-/* MagentaCustomizationV25 */
+//MagentaCustomizationV25
 void GeneralSettings::slotTransferUsageData()
 {
     ConfigFile cfgFile;
