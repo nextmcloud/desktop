@@ -223,6 +223,8 @@
         <file>theme/colored/talk-bordered.svg</file>
         <file>theme/colored/@APPLICATION_ICON_NAME@-icon.svg</file>
         <file>theme/add.svg</file>
+        <file>theme/magenta/LogoMagenta.svg</file>
+        <file>theme/magenta/accountAvatarIcon.svg</file>
         <file>theme/share.svg</file>
         <file>theme/reply.svg</file>
         <file>theme/magnifying-glass.svg</file>
@@ -236,7 +238,5 @@
         <file>theme/delete.svg</file>
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
-        <file>theme/magenta/LogoMagenta.svg</file>
-        <file>theme/magenta/accountAvatarIcon.svg</file>
     </qresource>
 </RCC>

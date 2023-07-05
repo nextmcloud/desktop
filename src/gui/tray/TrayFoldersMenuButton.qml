@@ -42,7 +42,7 @@ HeaderButton {
     }
 
     visible: currentUser.hasLocalFolder
-    display: AbstractButton.IconOnly
+    display: AbstractButton.TextUnderIcon
     flat: true
 
     Accessible.role: root.userHasGroupFolders ? Accessible.ButtonMenu : Accessible.Button

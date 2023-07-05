@@ -668,6 +668,7 @@ ApplicationWindow {
 
                 TrayFoldersMenuButton {
                     id: openLocalFolderButton
+//                    text: qsTr("Local folder")
 
                     visible: currentUser.hasLocalFolder
                     currentUser: UserModel.currentUser
@@ -697,7 +698,7 @@ ApplicationWindow {
                     id: trayWindowAppsButton
                     icon.source: "qrc:///client/theme/white/more-apps.svg"
                     icon.color: Style.ncSecondaryTextColor
-
+                    text: qsTr("Open website")
 
                     onClicked: {
                         UserModel.openCurrentAccountServer()
