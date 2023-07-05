@@ -196,7 +196,7 @@ bool ConfigFile::setConfDir(const QString &value)
 bool ConfigFile::optionalServerNotifications() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(optionalServerNotificationsC), false).toBool();
+    return settings.value(QLatin1String(optionalServerNotificationsC), false).toBool();//MagentaCustomizationV25
 }
 
 bool ConfigFile::showCallNotifications() const
@@ -984,7 +984,7 @@ bool ConfigFile::confirmExternalStorage() const
 
 bool ConfigFile::useNewBigFolderSizeLimit() const
 {
-    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), false);
+    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), false);//MagentaCustomizationV25
     return getPolicySetting(QLatin1String(useNewBigFolderSizeLimitC), fallback).toBool();
 }
 
