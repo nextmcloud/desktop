@@ -248,8 +248,7 @@ void GeneralSettings::loadMiscSettings()
 {
     QScopedValueRollback<bool> scope(_currentlyLoading, true);
     ConfigFile cfgFile;
-    /* MagentaCustomizationV25 */
-    cfgFile.setConfirmExternalStorage(true);
+    cfgFile.setConfirmExternalStorage(true);// MagentaCustomizationV25
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
     _ui->serverNotificationsCheckBox->setChecked(cfgFile.optionalServerNotifications());
     _ui->callNotificationsCheckBox->setEnabled(_ui->serverNotificationsCheckBox->isEnabled());
