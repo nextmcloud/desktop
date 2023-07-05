@@ -159,6 +159,8 @@ AbstractButton {
             AutoSizingMenu {
                 id: userMoreButtonMenu
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+                width: 170
+                height: Math.min(implicitHeight, maxMenuHeight)
 
                 MenuItem {
                     visible: model.isConnected && model.serverHasUserStatus
@@ -171,15 +173,18 @@ AbstractButton {
                 }
 
                 MenuItem {
+                    id: logInOutButton
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
                     font.pixelSize: Style.topLinePixelSize
-                    icon.source: Style.accountLogoutIcon //MagentaCustomizationV25
-                    palette.windowText: hovered ? Style.ncBlue : Style.ncTextColor
+                    icon.source: "qrc:///client/theme/Logout.svg"; //MagentaCustomizationV25
                     hoverEnabled: true
+                    palette.windowText: hovered ? Style.ncBlue : Style.ncTextColor
+                    icon.color:logInOutButton.hovered ? Style.ncBlue : Style.ncTextColor
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
                     }
+
 
                     background: Item {
                         height: parent.height
@@ -208,9 +213,11 @@ AbstractButton {
                     id: removeAccountButton
                     text: qsTr("Remove account")
                     font.pixelSize: Style.topLinePixelSize
-                    icon.source: Style.accountRemoveIcon //MagentaCustomizationV25
-                    palette.windowText: hovered ? Style.ncBlue : Style.ncTextColor
+                    icon.source: "qrc:///client/theme/Remove.svg" //MagentaCustomizationV25
+                    icon.color:hovered ? Style.ncBlue : Style.ncTextColor
                     hoverEnabled: true
+                    palette.windowText: removeAccountButton.hovered ? Style.ncBlue : Style.ncTextColor
+
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()
