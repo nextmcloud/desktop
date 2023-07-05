@@ -245,7 +245,7 @@ private:
 
     static QString _confDir;
     static QString _discoveredLegacyConfigPath;
-    bool _isWidgetVisible = true;
+    bool _isWidgetVisible = false;
 };
 }
 #endif // CONFIGFILE_H
