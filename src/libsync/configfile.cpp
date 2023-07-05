@@ -669,7 +669,7 @@ void ConfigFile::setAutoUpdateCheck(bool autoCheck, const QString &connection)
     settings.sync();
 }
 
-/* MagentaCustomizationV25 */
+// MagentaCustomizationV25
 bool ConfigFile::transferUsageData(const QString &connection) const
 {
     QString con(connection);
@@ -683,7 +683,7 @@ bool ConfigFile::transferUsageData(const QString &connection) const
     return value.toBool();
 }
 
-/* MagentaCustomizationV25 */
+// MagentaCustomizationV25
 void ConfigFile::setTransferUsageData(bool usageData, const QString &connection)
 {
     QString con(connection);

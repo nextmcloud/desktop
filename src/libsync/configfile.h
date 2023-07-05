@@ -182,7 +182,7 @@ public:
     [[nodiscard]] bool autoUpdateCheck(const QString &connection = QString()) const;
     void setAutoUpdateCheck(bool, const QString &);
 
-    /* MagentaCustomizationV25 */
+    // MagentaCustomizationV25
     [[nodiscard]] bool transferUsageData(const QString &connection = QString()) const;
     void setTransferUsageData(bool, const QString &);
 
