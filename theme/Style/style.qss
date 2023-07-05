@@ -7,3 +7,5 @@ QToolBar QToolButton:checked { background: %1; color: #e20074; }
 
 QProgressBar { border: 0px solid grey; border-radius: 5px; height: 4px; background-color: #CCCCCC; text-align: center; }
 QProgressBar::chunk { background-color: #e20074; height: 4px; }
+
+QWizard#wizard { background-color : #ffffff; }
