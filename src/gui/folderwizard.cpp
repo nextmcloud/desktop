@@ -72,7 +72,7 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     serverUrl.setUserName(_account->credentials()->user());
     QString defaultPath = QDir::homePath() + QLatin1Char('/') + Theme::instance()->appName();
     defaultPath = FolderMan::instance()->findGoodPathForNewSyncFolder(defaultPath, serverUrl, FolderMan::GoodPathStrategy::AllowOnlyNewPath);
-    _ui.localFolderLineEdit->setText(QDir::toNativeSeparators(defaultPath));
+    _ui.localFolderLineEdit->setText(tr("Please select a folder"));
     _ui.localFolderLineEdit->setToolTip(tr("Enter the path to the local folder."));
 
     _ui.warnLabel->setTextFormat(Qt::RichText);
@@ -179,6 +179,7 @@ FolderWizardRemotePath::FolderWizardRemotePath(const AccountPtr &account)
 {
     _ui.setupUi(this);
     _ui.warnFrame->hide();
+    _ui.folderEntry->hide();
 
     _ui.folderTreeWidget->setSortingEnabled(true);
     _ui.folderTreeWidget->sortByColumn(0, Qt::AscendingOrder);
@@ -498,7 +499,7 @@ bool FolderWizardRemotePath::isComplete() const
         }
         QString curDir = f->remotePathTrailingSlash();
         if (QDir::cleanPath(dir) == QDir::cleanPath(curDir)) {
-            warnStrings.append(tr("This folder is already being synced."));
+            warnStrings.append(tr("This folder is already synchronized in the %1.").arg(Theme::instance()->appNameGUI()));
         } else if (dir.startsWith(curDir)) {
             warnStrings.append(tr("You are already syncing <i>%1</i>, which is a parent folder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
         } else if (curDir.startsWith(dir)) {
@@ -641,22 +642,21 @@ void FolderWizardSelectiveSync::virtualFilesCheckboxClicked()
 FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     : QWizard(parent)
     , _folderWizardSourcePage(new FolderWizardLocalPath(account))
-    , _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
+    , _folderWizardTargetPage(new FolderWizardRemotePath(account))
 {
     setWizardStyle(QWizard::ClassicStyle);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);
     _folderWizardSourcePage->installEventFilter(this);
-    if (!Theme::instance()->singleSyncFolder()) {
-        _folderWizardTargetPage = new FolderWizardRemotePath(account);
-        setPage(Page_Target, _folderWizardTargetPage);
-        _folderWizardTargetPage->installEventFilter(this);
-    }
-    setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
+    this->setObjectName("wizard");
+    setPage(Page_Target, _folderWizardTargetPage);
+    _folderWizardTargetPage->installEventFilter(this);
 
     setWindowTitle(tr("Add Folder Sync Connection"));
     setOptions(QWizard::CancelButtonOnLeft);
-    setButtonText(QWizard::FinishButton, tr("Add Sync Connection"));
+    setOption(QWizard::NoBackButtonOnStartPage);
+    setOption(QWizard::NoBackButtonOnLastPage);
+    setButtonText(QWizard::FinishButton, tr("Finish"));
 }
 
 FolderWizard::~FolderWizard() = default;
