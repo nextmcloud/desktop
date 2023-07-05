@@ -82,7 +82,7 @@ public:
     };
     Q_ENUM(DataRole)
 
-    static const int maxVisibleActivities = 30;
+    int maxVisibleActivities = 30;
 
     enum class ErrorType {
         SyncError,
@@ -199,7 +199,7 @@ private:
     bool _displayActions = true;
 
     int _currentItem = 0;
-    int _maxActivities = 100;
+    int _maxActivities = 30;
     int _maxActivitiesDays = 30;
     bool _showMoreActivitiesAvailableEntry = false;
 
