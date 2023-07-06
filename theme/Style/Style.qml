@@ -162,4 +162,5 @@ QtObject {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
 
+
 }
