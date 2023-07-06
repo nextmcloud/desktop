@@ -478,7 +478,7 @@ Application::Application(int &argc, char **argv)
     }
     AccountSetupCommandLineManager::destroy();
 
-    /* MagentaCustomizationV25 */
+    // MagentaCustomizationV25
     /* Setup the swipe screen */
     view.engine()->addImportPath("qrc:/qml/theme");
     view.setSource(QStringLiteral("qrc:/qml/src/gui/welcome/welcome.qml"));
@@ -605,7 +605,7 @@ void Application::slotownCloudWizardDone(int res)
 
         Systray::instance()->showWindow();
 
-        /* MagentaCustomizationV25 */
+        // MagentaCustomizationV25
         /* Swipe screen works in a slideshow mode for first user */
         if(UserModel::instance()->numUsers()==1)
         {
@@ -616,7 +616,7 @@ void Application::slotownCloudWizardDone(int res)
     }
 }
 
-/* MagentaCustomizationV25 */
+// MagentaCustomizationV25
 void Application::slotSwipeCancelClicked()
 {
     auto *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
