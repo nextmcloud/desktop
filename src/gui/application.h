@@ -85,7 +85,7 @@ public slots:
     // TODO: this should not be public
     void slotownCloudWizardDone(int);
     void slotCrash();
-    void slotSwipeCancelClicked();/* MagentaCustomizationV25 */
+    void slotSwipeCancelClicked();// MagentaCustomizationV25
 
     /**
      * Will download a virtual file, and open the result.
@@ -128,7 +128,7 @@ private:
     bool configVersionMigration();
 
     QPointer<ownCloudGui> _gui;
-    QQuickView view;/* MagentaCustomizationV25 */
+    QQuickView view;// MagentaCustomizationV25
 
     Theme *_theme;
 
@@ -168,7 +168,7 @@ private:
     QScopedPointer<Mac::FileProvider> _fileProvider;
 #endif
 
-    /* MagentaCustomizationV25 */
+    // MagentaCustomizationV25
     const int slideShowDelay = 3000;
     const int startPage = 0;
 };
