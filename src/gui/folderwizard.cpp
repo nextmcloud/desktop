@@ -644,10 +644,10 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     , _folderWizardSourcePage(new FolderWizardLocalPath(account))
     , _folderWizardTargetPage(new FolderWizardRemotePath(account))
 {
-    setWizardStyle(QWizard::ClassicStyle);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);
     _folderWizardSourcePage->installEventFilter(this);
+    setWizardStyle(QWizard::ClassicStyle);
     setPage(Page_Target, _folderWizardTargetPage);
     _folderWizardTargetPage->installEventFilter(this);
 
