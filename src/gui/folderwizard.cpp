@@ -648,7 +648,6 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);
     _folderWizardSourcePage->installEventFilter(this);
-    this->setObjectName("wizard");
     setPage(Page_Target, _folderWizardTargetPage);
     _folderWizardTargetPage->installEventFilter(this);
 
