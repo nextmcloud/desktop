@@ -136,6 +136,7 @@ QtObject {
     readonly property int radioButtonIndicatorSize: 16
 
     readonly property var fontMetrics: FontMetrics {}
+    readonly property bool isSearchFieldVisible: false
 
     readonly property int bigFontPixelSizeResolveConflictsDialog: 20
     readonly property int fontPixelSizeResolveConflictsDialog: 15
@@ -163,8 +164,6 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
-
-    readonly property bool isSearchFieldVisible: false
 
 
 }
