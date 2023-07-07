@@ -151,6 +151,8 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     , _userInfo(accountState, false, true)
 {
     _ui->setupUi(this);
+    _ui->moreMemoryButton->setVisible(true);//MagentaCustomizationV25
+    _ui->quotaProgressLabel->setVisible(true);//MagentaCustomizationV25
 
     _model = new FolderStatusModel;
     _model->setAccountState(_accountState);
@@ -217,6 +219,7 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     connect(_ui->bigFolderSyncAll, &QAbstractButton::clicked, _model, &FolderStatusModel::slotSyncAllPendingBigFolders);
     connect(_ui->bigFolderSyncNone, &QAbstractButton::clicked, _model, &FolderStatusModel::slotSyncNoPendingBigFolders);
 
+    connect(_ui->moreMemoryButton, &QPushButton::clicked, this, &AccountSettings::slotMoreMemory);//MagentaCustomizationV25
     connect(FolderMan::instance(), &FolderMan::folderListChanged, _model, &FolderStatusModel::resetFolders);
     connect(this, &AccountSettings::folderChanged, _model, &FolderStatusModel::resetFolders);
 
@@ -1168,6 +1171,7 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
     if (total > 0) {
         _ui->quotaProgressBar->setVisible(true);
         _ui->quotaProgressBar->setEnabled(true);
+        _ui->quotaProgressLabel->setEnabled(true);//MagentaCustomizationV25
         // workaround the label only accepting ints (which may be only 32 bit wide)
         const auto percent = used / (double)total * 100;
         const auto percentInt = qMin(qRound(percent), 100);
@@ -1175,12 +1179,15 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
         const auto usedStr = Utility::octetsToString(used);
         const auto totalStr = Utility::octetsToString(total);
         const auto percentStr = Utility::compactFormatDouble(percent, 1);
-        const auto toolTip = tr("%1 (%3%) of %2 in use. Some folders, including network mounted or shared folders, might have different limits.").arg(usedStr, totalStr, percentStr);
-        _ui->quotaInfoLabel->setText(tr("%1 of %2 in use").arg(usedStr, totalStr));
+        const auto toolTip = tr("%1 (%3%) of %2. Some folders, including network mounted or shared folders, might have different limits.").arg(usedStr, totalStr, percentStr);//MagentaCustomizationV25
+        _ui->quotaInfoLabel->setText(tr("<b> %1 </b> of %2").arg(usedStr, totalStr));//MagentaCustomizationV25
         _ui->quotaInfoLabel->setToolTip(toolTip);
         _ui->quotaProgressBar->setToolTip(toolTip);
+        _ui->quotaProgressLabel->setText(tr("Memory Occupied to %1 %").arg(percentStr));//MagentaCustomizationV25
     } else {
         _ui->quotaProgressBar->setVisible(false);
+        _ui->quotaProgressLabel->setVisible(false);//MagentaCustomizationV25
+        _ui->moreMemoryButton->setVisible(false);//MagentaCustomizationV25
         _ui->quotaInfoLabel->setToolTip({});
 
         /* -1 means not computed; -2 means unknown; -3 means unlimited  (#owncloud/client/issues/3940)*/
@@ -1188,7 +1195,7 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
             _ui->quotaInfoLabel->setText(tr("Currently there is no storage usage information available."));
         } else {
             const auto usedStr = Utility::octetsToString(used);
-            _ui->quotaInfoLabel->setText(tr("%1 in use").arg(usedStr));
+            _ui->quotaInfoLabel->setText(tr("%1").arg(usedStr));//MagentaCustomizationV25
         }
     }
 }
@@ -1345,6 +1352,12 @@ void AccountSettings::slotLinkActivated(const QString &link)
             qCWarning(lcAccountSettings) << "Unable to find a valid index for " << myFolder;
         }
     }
+}
+
+//MagentaCustomizationV25
+void AccountSettings::slotMoreMemory()
+{
+    QDesktopServices::openUrl(QUrl("https://cloud.telekom-dienste.de/tarife"));
 }
 
 AccountSettings::~AccountSettings()
