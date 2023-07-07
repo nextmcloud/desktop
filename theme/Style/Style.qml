@@ -13,6 +13,7 @@ QtObject {
     readonly property color ncTextColor: Theme.systemPalette.windowText
     readonly property color ncTextBrightColor: "white"
     readonly property color ncSecondaryTextColor: "#808080"
+    readonly property color browserButtonColor: "#606060"
     readonly property color lightHover: Theme.darkMode ? Qt.lighter(backgroundColor, 2) : Qt.darker(backgroundColor, 1.05)
     readonly property color darkerHover: Theme.darkMode ? Qt.lighter(backgroundColor, 2.35) : Qt.darker(backgroundColor, 1.25)
     readonly property color menuBorder: Theme.darkMode ? Qt.lighter(backgroundColor, 2.5) : Qt.darker(backgroundColor, 1.5)
@@ -112,7 +113,7 @@ QtObject {
     property int accountLabelsLayoutMargin: 12
     property int accountLabelsLayoutTopMargin: 10
 
-    readonly property string accountAvatarIcon: "qrc:///client/theme/magenta/accountAvatarIcon.svg";
+    readonly property string currentAccountAvatar: "qrc:///client/theme/magenta/currentAccountAvatar.svg";
 
     // Visual behaviour
     property bool hoverEffectsEnabled: true

@@ -535,7 +535,7 @@ ApplicationWindow {
                             Layout.leftMargin: Style.trayHorizontalMargin
                             verticalAlignment: Qt.AlignCenter
                             cache: false
-                            source: Style.accountAvatarIcon//UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
+                            source: Style.currentAccountAvatar//UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
                             Layout.preferredHeight: Style.accountAvatarSize
                             Layout.preferredWidth: Style.accountAvatarSize
 
@@ -668,7 +668,6 @@ ApplicationWindow {
 
                 TrayFoldersMenuButton {
                     id: openLocalFolderButton
-//                    text: qsTr("Local folder")
 
                     visible: currentUser.hasLocalFolder
                     currentUser: UserModel.currentUser
@@ -697,8 +696,7 @@ ApplicationWindow {
                 HeaderButton {
                     id: trayWindowAppsButton
                     icon.source: "qrc:///client/theme/white/more-apps.svg"
-                    icon.color: Style.ncSecondaryTextColor
-                    text: qsTr("Open website")
+                    icon.color: Style.browserButtonColor
 
                     onClicked: {
                         UserModel.openCurrentAccountServer()
@@ -709,6 +707,11 @@ ApplicationWindow {
                         } else {
                            // appsMenu.open()
                         }
+                    }
+                    NCToolTip {
+                        id: tooltip
+                        visible: trayWindowAppsButton.hovered
+                        text: qsTr("Open website")
                     }
 
                     Accessible.role: Accessible.ButtonMenu
