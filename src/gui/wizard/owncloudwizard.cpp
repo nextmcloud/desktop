@@ -138,10 +138,10 @@ void OwncloudWizard::adjustWizardSize()
     const auto currentPageIndex = currentId();
 
     // If we can, just use the size of the current page
-    /*if(currentPageIndex > -1 && currentPageIndex < pageSizes.count()) {
+    if(currentPageIndex > -1 && currentPageIndex < pageSizes.count()) {
         resize(pageSizes.at(currentPageIndex));
         return;
-    }*/
+    }
 
     // As a backup, resize to largest page
     resize(calculateLargestSizeOfWizardPages(pageSizes));
