@@ -1195,7 +1195,7 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
             _ui->quotaInfoLabel->setText(tr("Currently there is no storage usage information available."));
         } else {
             const auto usedStr = Utility::octetsToString(used);
-            _ui->quotaInfoLabel->setText(tr("%1").arg(usedStr));//MagentaCustomizationV25
+            _ui->quotaInfoLabel->setText(tr("<b> %1 </b>").arg(usedStr));//MagentaCustomizationV25
         }
     }
 }
