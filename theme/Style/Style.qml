@@ -13,7 +13,7 @@ QtObject {
     readonly property color ncTextColor: Theme.systemPalette.windowText
     readonly property color ncTextBrightColor: "white"
     readonly property color ncSecondaryTextColor: "#808080"
-    readonly property color browserButtonColor: "#606060"
+    readonly property color browserButtonColor: "#484848"
     readonly property color lightHover: Theme.darkMode ? Qt.lighter(backgroundColor, 2) : Qt.darker(backgroundColor, 1.05)
     readonly property color darkerHover: Theme.darkMode ? Qt.lighter(backgroundColor, 2.35) : Qt.darker(backgroundColor, 1.25)
     readonly property color menuBorder: Theme.darkMode ? Qt.lighter(backgroundColor, 2.5) : Qt.darker(backgroundColor, 1.5)
@@ -41,7 +41,7 @@ QtObject {
     property int trayWindowRadius: 0//10
     property int trayWindowBorderWidth: variableSize(1)
     property int trayWindowHeaderHeight: variableSize(60)
-    property int trayHorizontalMargin: 10
+    property int trayHorizontalMargin: 20
     property int trayModalWidth: 380
     property int trayModalHeight: 490
     property int trayListItemIconSize: accountAvatarSize

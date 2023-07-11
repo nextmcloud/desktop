@@ -597,7 +597,7 @@ ApplicationWindow {
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.name
                                 elide: Text.ElideRight
-                                color: Style.currentUserHeaderColor
+                                color: Style.ncTextColor
 
                                 font.pixelSize: Style.topLinePixelSize
                                 font.bold: true
