@@ -220,6 +220,9 @@
         <file>theme/lock-broken.svg</file>
         <file>theme/network.svg</file>
         <file>theme/account.svg</file>
+        <file>theme/magenta/settings_magenta.svg</file>
+        <file>theme/magenta/network_magenta.svg</file>
+        <file>theme/magenta/account_magenta.svg</file>
         <file>theme/colored/add.svg</file>
         <file>theme/colored/add-bordered.svg</file>
         <file>theme/colored/delete.svg</file>
