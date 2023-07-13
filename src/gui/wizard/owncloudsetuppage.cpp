@@ -67,6 +67,11 @@ OwncloudSetupPage::OwncloudSetupPage(QWidget *parent)
 
     setupCustomization();
 
+    _ui.serverAddressLabel->hide();
+    _ui.leUrl->hide();
+    _ui.serverAddressDescriptionLabel->hide();
+    _ui.errorLabel->hide();
+
     slotUrlChanged(QLatin1String("")); // don't jitter UI
     connect(_ui.leUrl, &QLineEdit::textChanged, this, &OwncloudSetupPage::slotUrlChanged);
     connect(_ui.leUrl, &QLineEdit::editingFinished, this, &OwncloudSetupPage::slotUrlEditFinished);

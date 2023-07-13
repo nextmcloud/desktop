@@ -138,13 +138,12 @@ void OwncloudSetupWizard::startWizard()
         Theme::instance()->startLoginFlowAutomatically() && Theme::instance()->forceOverrideServerUrl() && !account->url().isEmpty();
 
 #ifdef WITH_PROVIDERS
-    const auto startPage = isEnforcedServerSetup ? WizardCommon::Page_ServerSetup : WizardCommon::Page_Welcome;
+    const auto startPage = WizardCommon::Page_Welcome;
 #else // WITH_PROVIDERS
     const auto startPage = WizardCommon::Page_ServerSetup;
 #endif // WITH_PROVIDERS
     _ocWizard->setStartId(startPage);
     _ocWizard->restart();
-    _ocWizard->adjustWizardSize();
     _ocWizard->open();
     _ocWizard->raise();
 }

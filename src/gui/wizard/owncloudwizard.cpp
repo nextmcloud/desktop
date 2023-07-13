@@ -112,6 +112,7 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     setWindowTitle(tr("Add %1 account").arg(theme->appNameGUI()));
     setWizardStyle(QWizard::ModernStyle);
     setOption(QWizard::NoBackButtonOnStartPage);
+    setOption(QWizard::NoBackButtonOnLastPage);
     setOption(QWizard::NoCancelButton);
     setButtonText(QWizard::CustomButton1, tr("Skip folders configuration"));
     setButtonText(QWizard::CustomButton2, tr("Cancel"));
@@ -341,7 +342,7 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         id == WizardCommon::Page_Flow2AuthCreds) {
         setButtonLayout({ QWizard::BackButton, QWizard::Stretch });
     } else if (id == WizardCommon::Page_AdvancedSetup) {
-        setButtonLayout({ QWizard::CustomButton2, QWizard::Stretch, QWizard::CustomButton1, QWizard::FinishButton });
+        setButtonLayout({ QWizard::CustomButton2, QWizard::Stretch, QWizard::FinishButton });
         setNextButtonAsDefault();
     } else {
         setButtonLayout({ QWizard::BackButton, QWizard::Stretch, QWizard::NextButton });
