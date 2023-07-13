@@ -190,6 +190,7 @@ public:
     [[nodiscard]] QIcon syncStateIcon(SyncResult::Status, bool sysTray = false) const;
 
     [[nodiscard]] QIcon folderDisabledIcon() const;
+    [[nodiscard]] QIcon folderIcon() const;
     [[nodiscard]] QIcon folderOfflineIcon(bool sysTray = false) const;
     [[nodiscard]] QIcon applicationIcon() const;
 #endif

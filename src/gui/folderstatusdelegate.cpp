@@ -102,8 +102,9 @@ int FolderStatusDelegate::rootFolderHeightWithoutErrors(const QFontMetrics &fm, 
 {
     const int aliasMargin = aliasFm.height() / 2;
     const int margin = fm.height() / 4;
+    const int topMargin = 15; //magentacloud_customization
 
-    int h = aliasMargin; // margin to top
+    int h = aliasMargin + topMargin; // margin to top
     h += aliasFm.height(); // alias
     h += margin; // between alias and local path
     h += fm.height(); // local path
@@ -209,6 +210,19 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
     painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), statusPixmap);
 
+   // magentacloud_customization
+    if(index.data(FolderOverlayIconRole).isValid())
+    {
+        auto overlayIcon = qvariant_cast<QIcon>(index.data(FolderOverlayIconRole));
+        int ovlSize = 24;
+        auto ovlRect = iconRect;
+        // the overlay icon position depends on the (variable) status icon size
+        ovlRect.setTop(iconRect.top() + statusPixmap.height() - ovlSize - margin);
+        ovlRect.setLeft(iconRect.left() + statusPixmap.width() - ovlSize);
+        QPixmap opm = overlayIcon.pixmap(ovlSize, ovlSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, ovlRect).left(),
+            ovlRect.top(), opm);
+    }
     // only show the warning icon if the sync is running. Otherwise its
     // encoded in the status icon.
     if (warningCount > 0 && syncOngoing) {

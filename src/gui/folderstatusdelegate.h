@@ -48,6 +48,7 @@ public:
 
         AddButton, // 1 = enabled; 2 = disabled
         FolderSyncText,
+        FolderOverlayIconRole,
         DataRoleCount
 
     };
