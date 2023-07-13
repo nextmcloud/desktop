@@ -69,4 +69,7 @@
         <file>theme/swipe/page2.png</file>
         <file>theme/swipe/page3.png</file>
     </qresource>
+    <qresource prefix="/qss">
+        <file>theme/Style/style.qss</file>
+    </qresource>
 </RCC>

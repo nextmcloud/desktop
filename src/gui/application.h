@@ -127,6 +127,8 @@ private:
      */
     bool configVersionMigration();
 
+    void addCustomStyleSheet();
+
     QPointer<ownCloudGui> _gui;
     QQuickView view;// MagentaCustomizationV25
 
