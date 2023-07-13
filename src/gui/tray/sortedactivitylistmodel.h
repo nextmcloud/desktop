@@ -26,6 +26,8 @@ class SortedActivityListModel : public QSortFilterProxyModel
 
 public:
     explicit SortedActivityListModel(QObject *parent = nullptr);
+    bool filterAcceptsRow(int sourceRow,const QModelIndex &sourceParent) const override;
+
 
 protected:
     [[nodiscard]] bool lessThan(const QModelIndex &sourceLeft, const QModelIndex &sourceRight) const override;
