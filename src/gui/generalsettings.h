@@ -46,6 +46,7 @@ public slots:
 
 private slots:
     void saveMiscSettings();
+    void slotTransferUsageData(); //MagentaCustomizationV25
     void slotToggleLaunchOnStartup(bool);
     void slotToggleOptionalServerNotifications(bool);
     void slotToggleCallNotifications(bool);
