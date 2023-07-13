@@ -31,6 +31,7 @@ set( APPLICATION_IMPRINT_URL   "https://www.telekom.de/impressum" CACHE string "
 set( APPLICATION_PRIVACY_URL   "https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf" CACHE string "URL for the privacy policy" )
 set( APPLICATION_OPEN_SOURCE_URL   "https://static.magentacloud.de/licences/windowsdesktop.html" CACHE string "URL for the open source software" )
 set( WIN_SETUP_BITMAP_PATH  "${CMAKE_SOURCE_DIR}/admin/win/nsi" )
+
 set( MAC_INSTALLER_BACKGROUND_FILE "${CMAKE_SOURCE_DIR}/admin/osx/installer-background.png" CACHE STRING "The MacOSX installer background image")
 
 # set( THEME_INCLUDE          "${OEM_THEME_DIR}/mytheme.h" )
