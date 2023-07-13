@@ -13,6 +13,7 @@ QtObject {
     readonly property color ncTextColor: Theme.systemPalette.windowText
     readonly property color ncTextBrightColor: "white"
     readonly property color ncSecondaryTextColor: "#808080"
+    readonly property color browserButtonColor: "#484848"
     readonly property color lightHover: Theme.darkMode ? Qt.lighter(backgroundColor, 2) : Qt.darker(backgroundColor, 1.05)
     readonly property color darkerHover: Theme.darkMode ? Qt.lighter(backgroundColor, 2.35) : Qt.darker(backgroundColor, 1.25)
     readonly property color menuBorder: Theme.darkMode ? Qt.lighter(backgroundColor, 2.5) : Qt.darker(backgroundColor, 1.5)
@@ -20,7 +21,7 @@ QtObject {
     readonly property color buttonBackgroundColor: Theme.systemPalette.button
     readonly property color positiveColor: Qt.rgba(0.38, 0.74, 0.38, 1)
 
-    readonly property color currentUserHeaderColor: UserModel.currentUser ? UserModel.currentUser.headerColor : ncBlue
+    readonly property color currentUserHeaderColor:ncBlue
     readonly property color currentUserHeaderTextColor: UserModel.currentUser ? UserModel.currentUser.headerTextColor : ncHeaderTextColor
     readonly property color adjustedCurrentUserHeaderColor: Theme.darkMode ? Qt.lighter(currentUserHeaderColor, 2)
                                                                            : Qt.darker(currentUserHeaderColor, 1.5)
@@ -35,12 +36,12 @@ QtObject {
     readonly property int subLinePixelSize: topLinePixelSize - 2
 
     // Dimensions and sizes
-    property int trayWindowWidth: variableSize(400)
-    property int trayWindowHeight: variableSize(510)
-    property int trayWindowRadius: 10
+    property int trayWindowWidth:380// variableSize(400)
+    property int trayWindowHeight:600// variableSize(510)
+    property int trayWindowRadius: 0//10
     property int trayWindowBorderWidth: variableSize(1)
     property int trayWindowHeaderHeight: variableSize(60)
-    property int trayHorizontalMargin: 10
+    property int trayHorizontalMargin: 20
     property int trayModalWidth: 380
     property int trayModalHeight: 490
     property int trayListItemIconSize: accountAvatarSize
@@ -75,7 +76,7 @@ QtObject {
     property url stateOnlineImageSource: Theme.stateOnlineImageSource
     property url stateOfflineImageSource: Theme.stateOfflineImageSource
 
-    property int accountAvatarSize: (trayWindowHeaderHeight - 16)
+    property int accountAvatarSize: (trayWindowHeaderHeight - 36)
     property int accountAvatarStateIndicatorSize: 16
     property int folderStateIndicatorSize: 16
     property int accountLabelWidth: 128
@@ -83,7 +84,7 @@ QtObject {
     property int accountDropDownCaretSize: 20
     property int accountDropDownCaretMargin: 8
 
-    property int addAccountButtonHeight: 50
+    property int addAccountButtonHeight: 0
 
     property int headerButtonIconSize: 32
     property int dismissButtonSize: 26
@@ -112,6 +113,8 @@ QtObject {
     property int accountLabelsLayoutMargin: 12
     property int accountLabelsLayoutTopMargin: 10
 
+    readonly property string currentAccountAvatar: "qrc:///client/theme/magenta/currentAccountAvatar.svg";
+
     // Visual behaviour
     property bool hoverEffectsEnabled: true
 
@@ -134,6 +137,7 @@ QtObject {
     readonly property int radioButtonIndicatorSize: 16
 
     readonly property var fontMetrics: FontMetrics {}
+    readonly property bool isSearchFieldVisible: false
 
     readonly property int bigFontPixelSizeResolveConflictsDialog: 20
     readonly property int fontPixelSizeResolveConflictsDialog: 15
@@ -161,4 +165,6 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+
+
 }
