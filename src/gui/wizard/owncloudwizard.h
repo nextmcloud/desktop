@@ -33,12 +33,19 @@ class WelcomePage;
 class OwncloudSetupPage;
 class OwncloudHttpCredsPage;
 class OwncloudOAuthCredsPage;
-class OwncloudAdvancedSetupPage;
 class OwncloudWizardResultPage;
 class AbstractCredentials;
 class AbstractCredentialsWizardPage;
 class WebViewPage;
 class Flow2AuthCredsPage;
+
+#if defined(Q_OS_WIN)
+class OwncloudAdvancedSetupPageWindows;
+#elif defined(Q_OS_MACOS)
+class OwncloudAdvancedSetupPageMac;
+#else
+class OwncloudAdvancedSetupPage;
+#endif
 
 /**
  * @brief The OwncloudWizard class
@@ -124,7 +131,13 @@ private:
     OwncloudHttpCredsPage *_httpCredsPage;
     OwncloudOAuthCredsPage *_browserCredsPage;
     Flow2AuthCredsPage *_flow2CredsPage;
+#if defined(Q_OS_WIN)
+    OwncloudAdvancedSetupPageWindows *_advancedSetupPage;
+#elif defined(Q_OS_MACOS)
+    OwncloudAdvancedSetupPageMac *_advancedSetupPage;
+#else
     OwncloudAdvancedSetupPage *_advancedSetupPage;
+#endif
     OwncloudWizardResultPage *_resultPage = nullptr;
     AbstractCredentialsWizardPage *_credentialsPage = nullptr;
     WebViewPage *_webViewPage = nullptr;
