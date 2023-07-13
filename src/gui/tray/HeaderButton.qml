@@ -27,13 +27,14 @@ import com.nextcloud.desktopclient 1.0
 Button {
     id: root
 
-    display: AbstractButton.IconOnly
+    display: AbstractButton.TextUnderIcon
     flat: true
     hoverEnabled: Style.hoverEffectsEnabled
 
     icon.width: Style.headerButtonIconSize
     icon.height: Style.headerButtonIconSize
     icon.color: palette.brightText
+    font.pixelSize: 8
 
     Layout.alignment: Qt.AlignRight
     Layout.preferredWidth:  Style.trayWindowHeaderHeight
