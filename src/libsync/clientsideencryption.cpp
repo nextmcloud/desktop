@@ -1592,16 +1592,15 @@ void ClientSideEncryption::decryptPrivateKey(const AccountPtr &account, const QB
 
     QString msg = tr("Please enter your end-to-end encryption passphrase:<br>"
                      "<br>"
-                     "Username: %2<br>"
-                     "Account: %3<br>")
-                      .arg(Utility::escape(account->credentials()->user()),
-                           Utility::escape(account->displayName()));
+                     "User: %2<br>")
+            .arg(Utility::escape(account->prettyName()));
 
     QInputDialog dialog;
-    dialog.setWindowTitle(tr("Enter E2E passphrase"));
+    dialog.setWindowFlags(dialog.windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    dialog.setWindowTitle(tr("Enter end-to-end encryption"));
     dialog.setLabelText(msg);
     dialog.setTextEchoMode(QLineEdit::Normal);
-
+    dialog.setFixedSize(588,214);
     QString prev;
 
     while(true) {
