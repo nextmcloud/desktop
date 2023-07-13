@@ -65,6 +65,7 @@ static constexpr char showCallNotificationsC[] = "showCallNotifications";
 static constexpr char showInExplorerNavigationPaneC[] = "showInExplorerNavigationPane";
 static constexpr char skipUpdateCheckC[] = "skipUpdateCheck";
 static constexpr char autoUpdateCheckC[] = "autoUpdateCheck";
+static constexpr char TransferUsageDataC[] = "TransferUsageData"; //MagentaCustomizationV25
 static constexpr char updateCheckIntervalC[] = "updateCheckInterval";
 static constexpr char updateSegmentC[] = "updateSegment";
 static constexpr char updateChannelC[] = "updateChannel";
@@ -195,7 +196,7 @@ bool ConfigFile::setConfDir(const QString &value)
 bool ConfigFile::optionalServerNotifications() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(optionalServerNotificationsC), true).toBool();
+    return settings.value(QLatin1String(optionalServerNotificationsC), false).toBool();//MagentaCustomizationV25
 }
 
 bool ConfigFile::showCallNotifications() const
@@ -668,6 +669,34 @@ void ConfigFile::setAutoUpdateCheck(bool autoCheck, const QString &connection)
     settings.sync();
 }
 
+// MagentaCustomizationV25
+bool ConfigFile::transferUsageData(const QString &connection) const
+{
+    QString con(connection);
+    if (connection.isEmpty())
+        con = defaultConnection();
+
+    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, false);
+    fallback = getValue(QLatin1String(TransferUsageDataC), QString(), fallback);
+
+    QVariant value = getPolicySetting(QLatin1String(TransferUsageDataC), fallback);
+    return value.toBool();
+}
+
+// MagentaCustomizationV25
+void ConfigFile::setTransferUsageData(bool usageData, const QString &connection)
+{
+    QString con(connection);
+    if (connection.isEmpty())
+        con = defaultConnection();
+
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.beginGroup(con);
+
+    settings.setValue(QLatin1String(TransferUsageDataC), QVariant(usageData));
+    settings.sync();
+}
+
 int ConfigFile::updateSegment() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
@@ -955,7 +984,7 @@ bool ConfigFile::confirmExternalStorage() const
 
 bool ConfigFile::useNewBigFolderSizeLimit() const
 {
-    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), true);
+    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), false);//MagentaCustomizationV25
     return getPolicySetting(QLatin1String(useNewBigFolderSizeLimitC), fallback).toBool();
 }
 

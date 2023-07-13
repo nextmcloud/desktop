@@ -174,6 +174,35 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     _ui->aboutLabel->setText(about);
     _ui->aboutLabel->setOpenExternalLinks(true);
 
+    //MagentaCustomizationV25
+    // setup data privacy section
+    connect(_ui->transferUsageDataCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotTransferUsageData);
+    auto fontColor = Theme::defaultColor();
+
+    _ui->imprintLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->imprintLabel->setOpenExternalLinks(true);
+    _ui->imprintLabel->setTextFormat(Qt::RichText);
+    _ui->imprintLabel->setText(tr("<a href='%1' style=\"color: %2;\">Imprint</a>").arg(QString::fromLatin1(APPLICATION_IMPRINT_URL),fontColor.name(QColor::HexArgb)));
+
+    _ui->privacyPolicyLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->privacyPolicyLabel->setOpenExternalLinks(true);
+    _ui->privacyPolicyLabel->setTextFormat(Qt::RichText);
+    _ui->privacyPolicyLabel->setText(tr("<a href='%1' style=\"color: %2;\";>Privacy Policy</a>").arg(QString::fromLatin1(APPLICATION_PRIVACY_URL), fontColor.name(QColor::HexArgb)));
+
+    _ui->openSourceSwLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->openSourceSwLabel->setOpenExternalLinks(true);
+    _ui->openSourceSwLabel->setTextFormat(Qt::RichText);
+    _ui->openSourceSwLabel->setText(tr("<a href='%1' style=\"color: %2;\">Used Open Source Software</a>").arg(QString::fromLatin1(APPLICATION_OPEN_SOURCE_URL), fontColor.name(QColor::HexArgb)));
+
+    _ui->aboutLabelMagenta->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->aboutLabelMagenta->setText(about);
+    _ui->aboutLabelMagenta->setOpenExternalLinks(true);
+
+    QString infoUrl = Theme::instance()->helpUrl();
+    _ui->infoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    _ui->infoLabel->setOpenExternalLinks(true);
+    _ui->infoLabel->setText(tr("<a href='%1' style=\"color: %2;\">Further Information</a>").arg(infoUrl,fontColor.name(QColor::HexArgb)));
+
     // About legal notice
     connect(_ui->legalNoticeButton, &QPushButton::clicked, this, &GeneralSettings::slotShowLegalNotice);
 
@@ -257,6 +286,10 @@ void GeneralSettings::loadMiscSettings()
     _ui->newFolderLimitSpinBox->setValue(newFolderLimit.second);
     _ui->newExternalStorage->setChecked(cfgFile.confirmExternalStorage());
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
+
+    //MagentaCustomizationV25
+    _ui->transferUsageDataCheckBox->setChecked(cfgFile.transferUsageData());
+    _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
 }
 
 #if defined(BUILD_UPDATER)
@@ -474,6 +507,14 @@ void GeneralSettings::slotShowLegalNotice()
     auto notice = new LegalNotice();
     notice->exec();
     delete notice;
+}
+
+//MagentaCustomizationV25
+void GeneralSettings::slotTransferUsageData()
+{
+    ConfigFile cfgFile;
+    bool isChecked = _ui->transferUsageDataCheckBox->isChecked();
+    cfgFile.setTransferUsageData(isChecked, QString());
 }
 
 void GeneralSettings::slotStyleChanged()
