@@ -24,6 +24,14 @@ SortedActivityListModel::SortedActivityListModel(QObject *parent)
     sort(0, Qt::AscendingOrder);
 }
 
+bool SortedActivityListModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+{
+    if ( sourceRow <  30)
+       return true;
+
+     return false;
+}
+
 bool SortedActivityListModel::lessThan(const QModelIndex &sourceLeft, const QModelIndex &sourceRight) const
 {
     if (!sourceLeft.isValid() || !sourceRight.isValid()) {
