@@ -32,56 +32,56 @@
         <source>The file %1 is currently in use</source>
         <translation>Die Datei %1 ist aktuell in Benutzung</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%1 and %n other file(s) have been removed.</source>
         <translation>
             <numerusform>%1 und %n andere Datei wurde gelöscht.</numerusform>
             <numerusform>%1 und %n andere Dateien wurden gelöscht.</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%1 and %n other file(s) have been added.</source>
         <translation>
             <numerusform>%1 und %n andere Datei wurden hinzugefügt.</numerusform>
             <numerusform>%1 und %n andere Dateien wurden hinzugefügt.</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%1 and %n other file(s) have been updated.</source>
         <translation>
             <numerusform>%1 und %n andere Datei wurde aktualisiert.</numerusform>
             <numerusform>%1 und %n andere Dateien wurden aktualisiert.</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%1 has been renamed to %2 and %n other file(s) have been renamed.</source>
         <translation>
             <numerusform>%1 wurde in %2 umbenannt und %n andere Datei wurde umbenannt.</numerusform>
             <numerusform>%1 wurde in %2 umbenannt und %n andere Dateien wurden umbenannt.</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%1 has been moved to %2 and %n other file(s) have been moved.</source>
         <translation>
             <numerusform>%1 wurde in %2 verschoben und %n andere Datei wurde verschoben.</numerusform>
             <numerusform>%1 wurde in %2 verschoben und %n andere Dateien wurden verschoben.</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%1 has and %n other file(s) have sync conflicts.</source>
         <translation>
             <numerusform>%1 und %n andere Datei haben Konflikte beim Abgleichen.</numerusform>
             <numerusform>%1 und %n andere Dateien haben Konflikte beim Abgleichen.</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%1 and %n other file(s) could not be synced due to errors. See the log for details.</source>
         <translation>
             <numerusform>%1 und %n weitere Datei konnten aufgrund von Fehlern nicht synchronisiert werden. Schauen Sie in das Protokoll für Details.</numerusform>
             <numerusform>%1 und %n weitere Dateien konnten aufgrund von Fehlern nicht synchronisiert werden. Details finden Sie im Protokoll.</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%1 and %n other file(s) are currently locked.</source>
         <translation>
             <numerusform>%1 und %n andere Datei sind aktuell gesperrt.</numerusform>
@@ -131,7 +131,11 @@
 
 
 
-//Neu erstellt?
+
+
+
+
+
 
     <message>
         <source>The file cannot be shared because it does not have sharing permission.</source>
@@ -289,42 +293,42 @@
         <source>Your entire account is synced to the local folder </source>
         <translation>Ihr gesamtes Konto wird mit dem lokalen Ordner synchronisiert.</translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n day ago</source>
         <translation>
             <numerusform>Vor %n Tag</numerusform>
             <numerusform>Vor %n Tagen</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n days ago</source>
         <translation>
             <numerusform>Vor %n Tag</numerusform>
             <numerusform>Vor %n Tagen</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n hour ago</source>
         <translation>
             <numerusform>Vor %n Stunde</numerusform>
             <numerusform>Vor %n Stunden</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n hours ago</source>
         <translation>
             <numerusform>Vor %n Stunde</numerusform>
             <numerusform>Vor %n Stunden</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n minute ago</source>
         <translation>
             <numerusform>Vor %n Minute</numerusform>
             <numerusform>Vor %n Minuten</numerusform>
         </translation>
     </message>
-    <message>
+    <message numerus="yes">
         <source>%n minutes ago</source>
         <translation>
             <numerusform>Vor %n Minute</numerusform>
