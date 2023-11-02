@@ -991,8 +991,39 @@ void Application::setupTranslations()
                 installTranslator(qtTranslator);
             if (!qtkeychainTranslator->isEmpty())
                 installTranslator(qtkeychainTranslator);
+
+            //Make sure, the current language is the last one, because we want to have our languge files to be the last ones
+            if(uiLanguages.indexOf(lang) == uiLanguages.size() - 1)
+            {
+                bool germanFileLoaded = false;
+                bool englishFileLoaded = false;
+
+                //Now search for german or english locales
+                for (QString lang : qAsConst(uiLanguages))
+                {
+                    if(!germanFileLoaded && lang.startsWith(QLatin1String("de")))
+                    {
+                        if(!translator->load(QLatin1String("client_magenta_de"), trPath)){
+                            qCritical(lcApplication) << "Could not find magenta language file";
+                        }
+                        else{
+                            germanFileLoaded = true;
+                        }
+                    }
+                    else if(!englishFileLoaded && lang.startsWith(QLatin1String("en")))
+                    {
+                        if(!translator->load(QLatin1String("client_magenta_en"), trPath)){
+                            qCritical(lcApplication) << "Could not find magenta language file";
+                        }
+                        else{
+                            englishFileLoaded = true;
+                        }
+                    }
+                }
+            }
             break;
         }
+
         if (property("ui_lang").isNull()) {
             setProperty("ui_lang", "C");
         }
