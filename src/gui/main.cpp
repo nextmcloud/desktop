@@ -27,6 +27,8 @@
 #include "theme.h"
 #include "common/utility.h"
 
+#include "magentastyle.h"
+
 #if defined(BUILD_UPDATER)
 #include "updater/updater.h"
 #endif
@@ -74,7 +76,9 @@ int main(int argc, char **argv)
     QSurfaceFormat::setDefaultFormat(surfaceFormat);
 
     QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
-    QQuickStyle::setStyle(QStringLiteral("Fusion"));
+    //QQuickStyle::setStyle(QStringLiteral("Fusion"));
+
+    QApplication::setStyle(new MagentaStyle(nullptr));
 
     OCC::Application app(argc, argv);
 

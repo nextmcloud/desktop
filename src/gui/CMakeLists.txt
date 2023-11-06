@@ -179,6 +179,8 @@ set(client_SRCS
     guiutility.cpp
     elidedlabel.h
     elidedlabel.cpp
+    magentastyle.h
+    magentastyle.cpp
     iconutils.h
     iconutils.cpp
     remotewipe.h
