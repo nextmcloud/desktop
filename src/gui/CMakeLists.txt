@@ -107,6 +107,8 @@ set(client_SRCS
     folderwizard.cpp
     generalsettings.h
     generalsettings.cpp
+    generalsettingsmagenta.h
+    generalsettingsmagenta.cpp
     legalnotice.h
     legalnotice.cpp
     ignorelisteditor.h

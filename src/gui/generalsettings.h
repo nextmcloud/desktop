@@ -61,7 +61,7 @@ private slots:
     void slotToggleAutoUpdateCheck();
 #endif
 
-private:
+protected:
     void customizeStyle();
 
     Ui::GeneralSettings *_ui;
