@@ -17,7 +17,7 @@
 
 #include "folderman.h"
 #include "theme.h"
-#include "generalsettings.h"
+#include "generalsettingsmagenta.h"
 #include "networksettings.h"
 #include "accountsettings.h"
 #include "configfile.h"
@@ -120,11 +120,11 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/settings.svg"), tr("General"));
     _actionGroup->addAction(generalAction);
     _toolBar->addAction(generalAction);
-    auto *generalSettings = new GeneralSettings;
+    auto *generalSettings = new GeneralSettingsMagenta;
     _ui->stack->addWidget(generalSettings);
 
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
-    connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettings::slotStyleChanged);
+    connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettingsMagenta::slotStyleChanged);
 
     QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
     _actionGroup->addAction(networkAction);
