@@ -14,6 +14,7 @@
 
 #include "magentastyle.h"
 #include <QProxyStyle>
+#include <QWidget>
 
 namespace OCC {
 
@@ -45,56 +46,67 @@ void MagentaStyle::drawItemPixmap(QPainter *painter, const QRect &rect, int alig
 
 void MagentaStyle::drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p, const QWidget *w) const
 {
+    widgetFilter(w);
     return QProxyStyle::drawPrimitive(pe, opt, p, w);
 }
 
 void MagentaStyle::drawControl(ControlElement element, const QStyleOption *opt, QPainter *p, const QWidget *w) const
 {
+    widgetFilter(w);
     return QProxyStyle::drawControl(element, opt, p, w);
 }
 
 QRect MagentaStyle::subElementRect(SubElement subElement, const QStyleOption *option, const QWidget *widget) const
 {
+    widgetFilter(widget);
     return QProxyStyle::subElementRect(subElement, option, widget);
 }
 
 void MagentaStyle::drawComplexControl(ComplexControl cc, const QStyleOptionComplex *opt, QPainter *p, const QWidget *widget) const
 {
+    widgetFilter(widget);
     return QProxyStyle::drawComplexControl(cc, opt, p, widget);
 }
 
 QStyle::SubControl MagentaStyle::hitTestComplexControl(ComplexControl cc, const QStyleOptionComplex *opt, const QPoint &pt, const QWidget *widget) const
 {
+    widgetFilter(widget);
     return QProxyStyle::hitTestComplexControl(cc, opt, pt, widget);
 }
 
 QRect MagentaStyle::subControlRect(ComplexControl cc, const QStyleOptionComplex *opt, SubControl sc, const QWidget *widget) const
 {
+    widgetFilter(widget);
     return QProxyStyle::subControlRect(cc, opt, sc, widget);
 }
 
 int MagentaStyle::pixelMetric(PixelMetric metric, const QStyleOption *option, const QWidget *widget) const
 {
+    widgetFilter(widget);
     return QProxyStyle::pixelMetric(metric, option, widget);
 }
 
 QSize MagentaStyle::sizeFromContents(ContentsType ct, const QStyleOption *opt, const QSize &contentsSize, const QWidget *w) const
 {
+    widgetFilter(w);
     return QProxyStyle::sizeFromContents(ct, opt, contentsSize, w);
 }
 
 int MagentaStyle::styleHint(StyleHint stylehint, const QStyleOption *opt, const QWidget *widget, QStyleHintReturn *returnData) const
 {
+    widgetFilter(widget);
     return QProxyStyle::styleHint(stylehint, opt, widget, returnData);
 }
 
 QPixmap MagentaStyle::standardPixmap(StandardPixmap standardPixmap, const QStyleOption *opt, const QWidget *widget) const
 {
+    widgetFilter(widget);
     return QProxyStyle::standardPixmap(standardPixmap, opt, widget);
 }
 
 QIcon MagentaStyle::standardIcon(StandardPixmap standardIcon, const QStyleOption *option, const QWidget *widget) const
 {
+    widgetFilter(widget);
     return QProxyStyle::standardIcon(standardIcon, option, widget);
 }
 
@@ -105,7 +117,15 @@ QPixmap MagentaStyle::generatedIconPixmap(QIcon::Mode iconMode, const QPixmap &p
 
 int MagentaStyle::layoutSpacing(QSizePolicy::ControlType control1, QSizePolicy::ControlType control2, Qt::Orientation orientation, const QStyleOption *option, const QWidget *widget) const
 {
+    widgetFilter(widget);
     return QProxyStyle::layoutSpacing(control1, control2, orientation, option, widget);
+}
+
+void MagentaStyle::widgetFilter(const QWidget *widget) const
+{
+    if(widget && filterList.contains(widget->objectName())){
+        const_cast<QWidget *>(widget)->setVisible(false);
+    }
 }
 
 }
