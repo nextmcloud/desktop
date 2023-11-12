@@ -62,9 +62,10 @@ private slots:
 #endif
 
 protected:
-    void customizeStyle();
-
     Ui::GeneralSettings *_ui;
+
+private:
+    void customizeStyle();
     QPointer<IgnoreListEditor> _ignoreEditor;
     bool _currentlyLoading = false;
 };
