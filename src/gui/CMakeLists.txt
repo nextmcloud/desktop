@@ -65,6 +65,8 @@ set(client_SRCS
     accountmanager.cpp
     accountsettings.h
     accountsettings.cpp
+    accountsettingsmagenta.h
+    accountsettingsmagenta.cpp
     accountsetupfromcommandlinejob.h
     accountsetupfromcommandlinejob.cpp
     accountsetupcommandlinemanager.h
