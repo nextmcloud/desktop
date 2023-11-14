@@ -123,6 +123,8 @@ set(client_SRCS
     navigationpanehelper.cpp
     networksettings.h
     networksettings.cpp
+    networksettingsmagenta.h
+    networksettingsmagenta.cpp
     ocsnavigationappsjob.h
     ocsnavigationappsjob.cpp
     ocsjob.h
@@ -143,6 +145,8 @@ set(client_SRCS
     selectivesyncdialog.cpp
     settingsdialog.h
     settingsdialog.cpp
+    settingsdialogmagenta.h
+    settingsdialogmagenta.cpp
     sharemanager.h
     sharemanager.cpp
     profilepagewidget.h

@@ -33,7 +33,7 @@ namespace OCC {
 
 class Folder;
 
-class SettingsDialog;
+class SettingsDialogMagenta;
 class ShareDialog;
 class Application;
 class LogBrowser;
@@ -112,7 +112,7 @@ private slots:
 
 private:
     QPointer<Systray> _tray;
-    QPointer<SettingsDialog> _settingsDialog;
+    QPointer<SettingsDialogMagenta> _settingsDialog;
     QPointer<LogBrowser> _logBrowser;
 
 #ifdef WITH_LIBCLOUDPROVIDERS
