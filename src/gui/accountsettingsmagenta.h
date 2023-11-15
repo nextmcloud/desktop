@@ -31,8 +31,6 @@ public:
     explicit AccountSettingsMagenta(AccountState *accountState, QWidget *parent = nullptr);
     ~AccountSettingsMagenta() = default;
 
-private:
-
 };
 
 
