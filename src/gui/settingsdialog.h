@@ -74,13 +74,14 @@ private slots:
     void accountAdded(OCC::AccountState *);
     void accountRemoved(OCC::AccountState *);
 
+protected:
+    Ui::SettingsDialog *const _ui;
+
 private:
     void customizeStyle();
 
     QAction *createColorAwareAction(const QString &iconName, const QString &fileName);
     QAction *createActionWithIcon(const QIcon &icon, const QString &text, const QString &iconPath = QString());
-
-    Ui::SettingsDialog *const _ui;
 
     QActionGroup *_actionGroup;
     // Maps the actions from the action group to the corresponding widgets

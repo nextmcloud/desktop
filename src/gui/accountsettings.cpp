@@ -1111,7 +1111,7 @@ void AccountSettings::showConnectionLabel(const QString &message, QStringList er
         _ui->connectLabel->setToolTip({});
         _ui->connectLabel->setStyleSheet(errStyle);
     }
-    _ui->accountStatus->setVisible(!message.isEmpty());
+    //_ui->accountStatus->setVisible(!message.isEmpty());
 }
 
 void AccountSettings::slotEnableCurrentFolder(bool terminate)
@@ -1572,8 +1572,8 @@ void AccountSettings::refreshSelectiveSyncStatus()
         infoString += tr("There are folders that have grown in size beyond %1MB: %2").arg(folderSizeLimitString, becameBigFoldersString);
     }
 
-    _ui->selectiveSyncNotification->setText(infoString);
-    _ui->bigFolderUi->setVisible(!infoString.isEmpty());
+    //_ui->selectiveSyncNotification->setText(infoString);
+    //_ui->bigFolderUi->setVisible(!infoString.isEmpty());
 }
 
 bool AccountSettings::event(QEvent *e)
