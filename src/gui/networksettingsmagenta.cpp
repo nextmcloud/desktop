@@ -22,6 +22,13 @@ namespace OCC {
 NetworkSettingsMagenta::NetworkSettingsMagenta(QWidget *parent)
     : NetworkSettings(parent)
 {
+    setDefaultSettings();
+    setLayout();
+    setLogic();
+}
+
+void NetworkSettingsMagenta::setDefaultSettings()
+{
     //Set default settings
     _ui->manualSettings->setVisible(true);
     _ui->manualSettings->setEnabled(false);
@@ -43,7 +50,10 @@ NetworkSettingsMagenta::NetworkSettingsMagenta(QWidget *parent)
         _ui->uploadSpinBox->setEnabled(false);
     }
     _ui->uploadSpinBoxLabel->setVisible(true);
+}
 
+void NetworkSettingsMagenta::setLayout()
+{
     //Fix Layouts
     //Proxy settings
     _ui->manualSettings->layout()->removeItem(_ui->horizontalLayout_8);
@@ -52,6 +62,11 @@ NetworkSettingsMagenta::NetworkSettingsMagenta(QWidget *parent)
     spinBoxWidget->setLayout(_ui->horizontalLayout_8);
     _ui->horizontalLayout_8->setContentsMargins(0,0,0,0);
     static_cast<QGridLayout *>(_ui->proxyGroupBox->layout())->addWidget(spinBoxWidget, 2, 1);
+    disconnect(_ui->manualProxyRadioButton, &QAbstractButton::toggled, _ui->manualSettings, &QWidget::setVisible);
+    connect(_ui->manualProxyRadioButton, &QAbstractButton::toggled, this, [this, spinBoxWidget](bool checked){
+        _ui->manualSettings->setEnabled(checked);
+        spinBoxWidget->setEnabled(checked);
+    });
 
     _ui->manualSettings->setContentsMargins(0,0,0,0);
     _ui->manualSettings->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -74,12 +89,6 @@ NetworkSettingsMagenta::NetworkSettingsMagenta(QWidget *parent)
     _ui->horizontalLayout_4->setSpacing(5);
 
     //Fix widgets visibility
-    //Proxy settings
-    disconnect(_ui->manualProxyRadioButton, &QAbstractButton::toggled, _ui->manualSettings, &QWidget::setVisible);
-    connect(_ui->manualProxyRadioButton, &QAbstractButton::toggled, this, [this, spinBoxWidget](bool checked){
-        _ui->manualSettings->setEnabled(checked);
-        spinBoxWidget->setEnabled(checked);
-    });
     //Download settings
     connect(_ui->noDownloadLimitRadioButton, &QAbstractButton::clicked, this, [this](){
         _ui->downloadSpinBox->setVisible(true);
@@ -115,8 +124,14 @@ NetworkSettingsMagenta::NetworkSettingsMagenta(QWidget *parent)
         _ui->uploadSpinBox->setEnabled(true);
     });
 
-    //Fix initial proxy warning
+    //Fix initial proxy warning, it shows a red border at initial state whenever the widget becomes visible
+    //Override the nextcloud stylesheet
     _ui->hostLineEdit->setStyleSheet(QString());
+}
+
+void NetworkSettingsMagenta::setLogic()
+{
+
 }
 
 

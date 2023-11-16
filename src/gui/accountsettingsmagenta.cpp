@@ -23,13 +23,23 @@ namespace OCC {
 AccountSettingsMagenta::AccountSettingsMagenta(AccountState *accountState, QWidget *parent)
     : AccountSettings(accountState, parent)
 {
+    setDefaultSettings();
+    setLayout();
+    setLogic();
+}
+
+void AccountSettingsMagenta::setDefaultSettings()
+{
     //Set default settings
     _ui->encryptionMessage->setCloseButtonVisible(true);
     _ui->selectiveSyncStatus->setVisible(false);
     _ui->selectiveSyncNotification->setVisible(false);
     _ui->accountStatus->setVisible(false);
     _ui->bigFolderUi->setVisible(false);
+}
 
+void AccountSettingsMagenta::setLayout()
+{
     //Fix layout
     _ui->storageGroupBox->removeWidget(_ui->quotaInfoLabel);
     _ui->storageGroupBox->removeWidget(_ui->quotaProgressBar);
@@ -53,9 +63,11 @@ AccountSettingsMagenta::AccountSettingsMagenta(AccountState *accountState, QWidg
     storageLinkButton->setText(tr("Speicher erweitern"));
     magentaHLayout->addWidget(storageLinkButton);
 
-
     _ui->gridLayout->addLayout(magentaHLayout, 0, 0);
+}
 
+void AccountSettingsMagenta::setLogic()
+{
 
 }
 

@@ -12,34 +12,31 @@
  * for more details.
  */
 
-#ifndef MIRALL_ACCOUNTSETTINGSMAGENTA_H
-#define MIRALL_ACCOUNTSETTINGSMAGENTA_H
-
-#include "nmcguiinterface.h"
-#include <accountsettings.h>
+#ifndef MIRALL_NMCGUIINTERFACE_H
+#define MIRALL_NMCGUIINTERFACE_H
 
 namespace OCC {
 
 /**
- * @brief The AccountSettingsMagenta class
+ * @brief The NMCGuiInterface class
  * @ingroup gui
  */
-class AccountSettingsMagenta : public AccountSettings, public NMCGuiInterface
+class NMCGuiInterface
 {
-    Q_OBJECT
 
 public:
-    explicit AccountSettingsMagenta(AccountState *accountState, QWidget *parent = nullptr);
-    ~AccountSettingsMagenta() = default;
+    explicit NMCGuiInterface() = default;
+    ~NMCGuiInterface() = default;
 
-    // NMCGuiInterface interface
 protected:
-    void setDefaultSettings() override final;
-    void setLayout() override final;
-    void setLogic() override final;
+    virtual void setDefaultSettings() = 0;
+    virtual void setLayout() = 0;
+    virtual void setLogic() = 0;
+
+private:
 
 };
 
 
 } // namespace OCC
-#endif // MIRALL_ACCOUNTSETTINGSMAGENTA_H
+#endif // MIRALL_NMCGUIINTERFACE_H

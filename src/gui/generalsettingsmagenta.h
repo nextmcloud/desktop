@@ -15,6 +15,7 @@
 #ifndef MIRALL_GENERALSETTINGSMAGENTA_H
 #define MIRALL_GENERALSETTINGSMAGENTA_H
 
+#include "nmcguiinterface.h"
 #include <GeneralSettings.h>
 
 namespace OCC {
@@ -23,7 +24,7 @@ namespace OCC {
  * @brief The GeneralSettingsMagenta class
  * @ingroup gui
  */
-class GeneralSettingsMagenta : public GeneralSettings
+class GeneralSettingsMagenta : public GeneralSettings, public NMCGuiInterface
 {
     Q_OBJECT
 
@@ -31,8 +32,11 @@ public:
     explicit GeneralSettingsMagenta(QWidget *parent = nullptr);
     ~GeneralSettingsMagenta() = default;
 
-private:
-
+// NMCGuiInterface interface
+protected:
+    void setDefaultSettings() override final;
+    void setLayout() override final;
+    void setLogic() override final;
 };
 
 
