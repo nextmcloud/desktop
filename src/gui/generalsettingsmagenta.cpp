@@ -22,17 +22,23 @@ namespace OCC {
 GeneralSettingsMagenta::GeneralSettingsMagenta(QWidget *parent)
     : GeneralSettings(parent)
 {
+    setDefaultSettings();
+    setLayout();
+    setLogic();
+}
+
+void GeneralSettingsMagenta::setDefaultSettings()
+{
     //Set default settings
     //General settings
     _ui->autostartCheckBox->setCheckState(Qt::Checked);
     _ui->monoIconsCheckBox->setCheckState(Qt::Unchecked);
     _ui->serverNotificationsCheckBox->setCheckState(Qt::Unchecked);
     _ui->callNotificationsCheckBox->setCheckState(Qt::Unchecked);
-    //Advenced settings
+    //Advanced settings
     _ui->newFolderLimitCheckBox->setCheckState(Qt::Unchecked);
     //Info settings
     _ui->aboutAndUpdatesGroupBox->setTitle(tr("Update"));
-
     //Hide unsupported settings
     //General settings
     _ui->monoIconsCheckBox->setVisible(false);
@@ -41,7 +47,10 @@ GeneralSettingsMagenta::GeneralSettingsMagenta(QWidget *parent)
     _ui->groupBox->setVisible(false);
     //Info settings
     _ui->aboutAndUpdatesGroupBox->setVisible(false);
+}
 
+void GeneralSettingsMagenta::setLayout()
+{
     //Fix layout
     //General settings
     _ui->generalGroupBox->layout()->removeWidget(_ui->serverNotificationsCheckBox);
@@ -138,7 +147,10 @@ GeneralSettingsMagenta::GeneralSettingsMagenta(QWidget *parent)
 
     auto *vExpandSpacer = new QSpacerItem(1,1,QSizePolicy::Fixed,QSizePolicy::Expanding);
     _ui->gridLayout_3->layout()->addItem(vExpandSpacer);
+}
 
+void GeneralSettingsMagenta::setLogic()
+{
 
 }
 

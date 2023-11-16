@@ -127,6 +127,7 @@ set(client_SRCS
     networksettings.cpp
     networksettingsmagenta.h
     networksettingsmagenta.cpp
+    nmcguiinterface.h
     ocsnavigationappsjob.h
     ocsnavigationappsjob.cpp
     ocsjob.h

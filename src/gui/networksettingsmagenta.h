@@ -15,6 +15,7 @@
 #ifndef MIRALL_NETWORKSETTINGSMAGENTA_H
 #define MIRALL_NETWORKSETTINGSMAGENTA_H
 
+#include "nmcguiinterface.h"
 #include <NetworkSettings.h>
 
 namespace OCC {
@@ -23,7 +24,7 @@ namespace OCC {
  * @brief The NetworkSettingsMagenta class
  * @ingroup gui
  */
-class NetworkSettingsMagenta : public NetworkSettings
+class NetworkSettingsMagenta : public NetworkSettings, public NMCGuiInterface
 {
     Q_OBJECT
 
@@ -31,8 +32,11 @@ public:
     explicit NetworkSettingsMagenta(QWidget *parent = nullptr);
     ~NetworkSettingsMagenta() = default;
 
-private:
-
+// NMCGuiInterface interface
+protected:
+    void setDefaultSettings() override final;
+    void setLayout() override final;
+    void setLogic() override final;
 };
 
 
