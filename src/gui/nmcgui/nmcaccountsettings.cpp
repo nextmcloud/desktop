@@ -12,7 +12,7 @@
  * for more details.
  */
 
-#include "accountsettingsmagenta.h"
+#include "nmcaccountsettings.h"
 #include "accountsettings.h"
 #include "ui_accountsettings.h"
 #include "qdesktopservices.h"
@@ -20,7 +20,7 @@
 
 namespace OCC {
 
-AccountSettingsMagenta::AccountSettingsMagenta(AccountState *accountState, QWidget *parent)
+NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
     : AccountSettings(accountState, parent)
 {
     setDefaultSettings();
@@ -28,7 +28,7 @@ AccountSettingsMagenta::AccountSettingsMagenta(AccountState *accountState, QWidg
     setLogic();
 }
 
-void AccountSettingsMagenta::setDefaultSettings()
+void NMCAccountSettings::setDefaultSettings()
 {
     //Set default settings
     _ui->encryptionMessage->setCloseButtonVisible(true);
@@ -38,7 +38,7 @@ void AccountSettingsMagenta::setDefaultSettings()
     _ui->bigFolderUi->setVisible(false);
 }
 
-void AccountSettingsMagenta::setLayout()
+void NMCAccountSettings::setLayout()
 {
     //Fix layout
     _ui->storageGroupBox->removeWidget(_ui->quotaInfoLabel);
@@ -66,7 +66,7 @@ void AccountSettingsMagenta::setLayout()
     _ui->gridLayout->addLayout(magentaHLayout, 0, 0);
 }
 
-void AccountSettingsMagenta::setLogic()
+void NMCAccountSettings::setLogic()
 {
 
 }

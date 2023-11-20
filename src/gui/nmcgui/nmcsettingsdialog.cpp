@@ -12,7 +12,7 @@
  * for more details.
  */
 
-#include "settingsdialogmagenta.h"
+#include "nmcsettingsdialog.h"
 #include "QtWidgets/qtoolbar.h"
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
@@ -20,7 +20,7 @@
 
 namespace OCC {
 
-SettingsDialogMagenta::SettingsDialogMagenta(ownCloudGui *gui, QWidget *parent)
+NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
     : SettingsDialog(gui, parent)
 {
 

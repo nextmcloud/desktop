@@ -24,13 +24,13 @@ namespace OCC {
  * @brief The GeneralSettingsMagenta class
  * @ingroup gui
  */
-class GeneralSettingsMagenta : public GeneralSettings, public NMCGuiInterface
+class NMCGeneralSettings : public GeneralSettings, public NMCGuiInterface
 {
     Q_OBJECT
 
 public:
-    explicit GeneralSettingsMagenta(QWidget *parent = nullptr);
-    ~GeneralSettingsMagenta() = default;
+    explicit NMCGeneralSettings(QWidget *parent = nullptr);
+    ~NMCGeneralSettings() = default;
 
 // NMCGuiInterface interface
 protected:

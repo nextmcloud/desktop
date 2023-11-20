@@ -12,14 +12,14 @@
  * for more details.
  */
 
-#include "networksettingsmagenta.h"
+#include "nmcnetworksettings.h"
 #include "NetworkSettings.h"
 #include "ui_networksettings.h"
 
 
 namespace OCC {
 
-NetworkSettingsMagenta::NetworkSettingsMagenta(QWidget *parent)
+NMCNetworkSettings::NMCNetworkSettings(QWidget *parent)
     : NetworkSettings(parent)
 {
     setDefaultSettings();
@@ -27,7 +27,7 @@ NetworkSettingsMagenta::NetworkSettingsMagenta(QWidget *parent)
     setLogic();
 }
 
-void NetworkSettingsMagenta::setDefaultSettings()
+void NMCNetworkSettings::setDefaultSettings()
 {
     //Set default settings
     _ui->manualSettings->setVisible(true);
@@ -52,7 +52,7 @@ void NetworkSettingsMagenta::setDefaultSettings()
     _ui->uploadSpinBoxLabel->setVisible(true);
 }
 
-void NetworkSettingsMagenta::setLayout()
+void NMCNetworkSettings::setLayout()
 {
     //Fix Layouts
     //Proxy settings
@@ -129,7 +129,7 @@ void NetworkSettingsMagenta::setLayout()
     _ui->hostLineEdit->setStyleSheet(QString());
 }
 
-void NetworkSettingsMagenta::setLogic()
+void NMCNetworkSettings::setLogic()
 {
 
 }

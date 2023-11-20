@@ -12,14 +12,14 @@
  * for more details.
  */
 
-#include "generalsettingsmagenta.h"
-#include "generalsettings.h"
+#include "nmcgeneralsettings.h"
+#include "GeneralSettings.h"
 #include "ui_generalsettings.h"
 
 
 namespace OCC {
 
-GeneralSettingsMagenta::GeneralSettingsMagenta(QWidget *parent)
+NMCGeneralSettings::NMCGeneralSettings(QWidget *parent)
     : GeneralSettings(parent)
 {
     setDefaultSettings();
@@ -27,7 +27,7 @@ GeneralSettingsMagenta::GeneralSettingsMagenta(QWidget *parent)
     setLogic();
 }
 
-void GeneralSettingsMagenta::setDefaultSettings()
+void NMCGeneralSettings::setDefaultSettings()
 {
     //Set default settings
     //General settings
@@ -49,7 +49,7 @@ void GeneralSettingsMagenta::setDefaultSettings()
     _ui->aboutAndUpdatesGroupBox->setVisible(false);
 }
 
-void GeneralSettingsMagenta::setLayout()
+void NMCGeneralSettings::setLayout()
 {
     //Fix layout
     //General settings
@@ -149,7 +149,7 @@ void GeneralSettingsMagenta::setLayout()
     _ui->gridLayout_3->layout()->addItem(vExpandSpacer);
 }
 
-void GeneralSettingsMagenta::setLogic()
+void NMCGeneralSettings::setLogic()
 {
 
 }
