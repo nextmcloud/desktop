@@ -2,6 +2,9 @@ project(gui)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Svg Qml Quick QuickControls2 Xml Network)
 find_package(KF5Archive REQUIRED)
 
+#MNC change, its needed to fins the ui file in different location as the header file
+set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
+
 if(QUICK_COMPILER)
         find_package(Qt5QuickCompiler)
         set_package_properties(Qt5QuickCompiler PROPERTIES
@@ -65,8 +68,6 @@ set(client_SRCS
     accountmanager.cpp
     accountsettings.h
     accountsettings.cpp
-    accountsettingsmagenta.h
-    accountsettingsmagenta.cpp
     accountsetupfromcommandlinejob.h
     accountsetupfromcommandlinejob.cpp
     accountsetupcommandlinemanager.h
@@ -109,8 +110,6 @@ set(client_SRCS
     folderwizard.cpp
     generalsettings.h
     generalsettings.cpp
-    generalsettingsmagenta.h
-    generalsettingsmagenta.cpp
     legalnotice.h
     legalnotice.cpp
     ignorelisteditor.h
@@ -125,9 +124,6 @@ set(client_SRCS
     navigationpanehelper.cpp
     networksettings.h
     networksettings.cpp
-    networksettingsmagenta.h
-    networksettingsmagenta.cpp
-    nmcguiinterface.h
     ocsnavigationappsjob.h
     ocsnavigationappsjob.cpp
     ocsjob.h
@@ -148,8 +144,6 @@ set(client_SRCS
     selectivesyncdialog.cpp
     settingsdialog.h
     settingsdialog.cpp
-    settingsdialogmagenta.h
-    settingsdialogmagenta.cpp
     sharemanager.h
     sharemanager.cpp
     profilepagewidget.h
@@ -200,6 +194,15 @@ set(client_SRCS
     syncconflictsmodel.cpp
     fileactivitylistmodel.h
     fileactivitylistmodel.cpp
+    nmcgui/nmcaccountsettings.h
+    nmcgui/nmcaccountsettings.cpp
+    nmcgui/nmcgeneralsettings.h
+    nmcgui/nmcgeneralsettings.cpp
+    nmcgui/nmcguiinterface.h
+    nmcgui/nmcnetworksettings.h
+    nmcgui/nmcnetworksettings.cpp
+    nmcgui/nmcsettingsdialog.h
+    nmcgui/nmcsettingsdialog.cpp
     filedetails/datefieldbackend.h
     filedetails/datefieldbackend.cpp
     filedetails/filedetails.h

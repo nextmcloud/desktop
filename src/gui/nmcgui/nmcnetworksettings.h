@@ -12,29 +12,33 @@
  * for more details.
  */
 
-#ifndef MIRALL_SETTINGSDIALOGMAGENTA_H
-#define MIRALL_SETTINGSDIALOGMAGENTA_H
+#ifndef MIRALL_NETWORKSETTINGSMAGENTA_H
+#define MIRALL_NETWORKSETTINGSMAGENTA_H
 
-#include <settingsdialog.h>
+#include "nmcguiinterface.h"
+#include <NetworkSettings.h>
 
 namespace OCC {
 
 /**
- * @brief The SettingsDialogMagenta class
+ * @brief The NetworkSettingsMagenta class
  * @ingroup gui
  */
-class SettingsDialogMagenta : public SettingsDialog
+class NMCNetworkSettings : public NetworkSettings, public NMCGuiInterface
 {
     Q_OBJECT
 
 public:
-    explicit SettingsDialogMagenta(ownCloudGui *gui, QWidget *parent = nullptr);
-    ~SettingsDialogMagenta() = default;
+    explicit NMCNetworkSettings(QWidget *parent = nullptr);
+    ~NMCNetworkSettings() = default;
 
-private:
-
+// NMCGuiInterface interface
+protected:
+    void setDefaultSettings() override final;
+    void setLayout() override final;
+    void setLogic() override final;
 };
 
 
 } // namespace OCC
-#endif // MIRALL_SETTINGSDIALOGMAGENTA_H
+#endif // MIRALL_NETWORKSETTINGSMAGENTA_H

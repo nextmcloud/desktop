@@ -28,7 +28,7 @@
 #include "openfilemanager.h"
 #include "owncloudsetupwizard.h"
 #include "progressdispatcher.h"
-#include "settingsdialogmagenta.h"
+#include "nmcgui/nmcsettingsdialog.h"
 #include "theme.h"
 #include "wheelhandler.h"
 #include "syncconflictsmodel.h"
@@ -569,7 +569,7 @@ void ownCloudGui::slotShowGuiMessage(const QString &title, const QString &messag
 void ownCloudGui::slotShowSettings()
 {
     if (_settingsDialog.isNull()) {
-        _settingsDialog = new SettingsDialogMagenta(this);
+        _settingsDialog = new NMCSettingsDialog(this);
         _settingsDialog->setAttribute(Qt::WA_DeleteOnClose, true);
         _settingsDialog->show();
     }
