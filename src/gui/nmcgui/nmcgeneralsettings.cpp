@@ -14,7 +14,9 @@
 
 #include "nmcgeneralsettings.h"
 #include "GeneralSettings.h"
+#include "nmcconfigfile.h"
 #include "ui_generalsettings.h"
+#include "theme.h"
 
 
 namespace OCC {
@@ -91,13 +93,18 @@ void NMCGeneralSettings::setLayout()
     dataProtectionBox->layout()->setSpacing(5);
 
     auto *dataAnalysisCheckBox = new QCheckBox(this);
-    //Todo, set key
-    dataAnalysisCheckBox->setText(tr("Analyse Datenerfassung TODO"));
+    dataAnalysisCheckBox->setText(tr("DATA_ANALYSIS"));
     dataProtectionBox->layout()->addWidget(dataAnalysisCheckBox);
     dataProtectionBox->layout()->addItem(new QSpacerItem(1,5,QSizePolicy::Fixed,QSizePolicy::Fixed));
+    connect(dataAnalysisCheckBox, &QAbstractButton::toggled, this, [](bool toggle){
+        NMCConfigFile cfgFile;
+        cfgFile.setTransferUsageData(toggle, QString());
+    });
+    NMCConfigFile cfgFile;
+    dataAnalysisCheckBox->setChecked(cfgFile.transferUsageData());
 
     auto *dataAnalysisImpressum = new QLabel(this);
-    dataAnalysisImpressum->setText("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#ea0a8e\">Impressum</span></a>");
+    dataAnalysisImpressum->setText(QString("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(tr("IMPRESSUM")));
     dataAnalysisImpressum->setTextFormat(Qt::RichText);
     dataAnalysisImpressum->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisImpressum->setOpenExternalLinks(true);
@@ -105,7 +112,7 @@ void NMCGeneralSettings::setLayout()
     dataProtectionBox->layout()->addWidget(dataAnalysisImpressum);
 
     auto *dataAnalysisData = new QLabel(this);
-    dataAnalysisData->setText("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#ea0a8e\">Datenschutz</span></a>");
+    dataAnalysisData->setText(QString("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(tr("DATA_PROTECTION")));
     dataAnalysisData->setTextFormat(Qt::RichText);
     dataAnalysisData->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisData->setOpenExternalLinks(true);
@@ -113,7 +120,7 @@ void NMCGeneralSettings::setLayout()
     dataProtectionBox->layout()->addWidget(dataAnalysisData);
 
     auto *dataAnalysisOpenSource = new QLabel(this);
-    dataAnalysisOpenSource->setText("<a href=\"https://static.magentacloud.de/licences/windowsdesktop.html\"><span style=\"color:#ea0a8e\">Verwendete OpenSource Software</span></a>");
+    dataAnalysisOpenSource->setText(QString("<a href=\"https://static.magentacloud.de/licences/windowsdesktop.html\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(tr("LICENCE")));
     dataAnalysisOpenSource->setTextFormat(Qt::RichText);
     dataAnalysisOpenSource->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisOpenSource->setOpenExternalLinks(true);
@@ -127,13 +134,13 @@ void NMCGeneralSettings::setLayout()
     versionLabel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
 
     auto *currentVersion = new QLabel(this);
-    currentVersion->setText("MagentaCloud 2.34 Version not set.");
+    currentVersion->setText(Theme::instance()->about());
     currentVersion->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     //Todo, set current version
     versionLabelLayout->addWidget(currentVersion);
 
     auto *dataAnalysisFurtherInfo = new QLabel(this);
-    dataAnalysisFurtherInfo->setText("<a href=\"https://cloud.telekom-dienste.de/hilfe\"><span style=\"color:#ea0a8e\">Further Informations</span></a>");
+    dataAnalysisFurtherInfo->setText(QString("<a href=\"https://cloud.telekom-dienste.de/hilfe\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(tr("FURTHER_INFO")));
     dataAnalysisFurtherInfo->setTextFormat(Qt::RichText);
     dataAnalysisFurtherInfo->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisFurtherInfo->setOpenExternalLinks(true);
