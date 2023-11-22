@@ -45,9 +45,8 @@ void NMCAccountSettings::setLayout()
     _ui->storageGroupBox->removeWidget(_ui->quotaProgressBar);
 
     auto *quotaVLayout = new QVBoxLayout(this);
-    //auto *storage = new QLabel("test"); //Todo? Später zusammenbauen?
-    auto *quota = new QLabel("quota");
-    quota->setText(tr("Speicherplatz zu ") + QString::number(_ui->quotaProgressBar->value() > 0 ? _ui->quotaProgressBar->value() : 0) + " %" + tr(" belegt")); //Todo
+    auto *quota = new QLabel();
+    quota->setText(tr("USED_STORAGE_%1").arg(QString::number(_ui->quotaProgressBar->value() > 0 ? _ui->quotaProgressBar->value() : 0)));
     quotaVLayout->addWidget(_ui->quotaInfoLabel);
     quotaVLayout->addWidget(_ui->quotaProgressBar);
     quotaVLayout->addWidget(quota);
@@ -60,7 +59,7 @@ void NMCAccountSettings::setLayout()
     connect(storageLinkButton, &QPushButton::clicked, this, [](){
         QDesktopServices::openUrl(QUrl("https://cloud.telekom-dienste.de/tarife"));
     });
-    storageLinkButton->setText(tr("Speicher erweitern"));
+    storageLinkButton->setText(tr("STORAGE_EXTENSION"));
     magentaHLayout->addWidget(storageLinkButton);
 
     _ui->gridLayout->addLayout(magentaHLayout, 0, 0);
