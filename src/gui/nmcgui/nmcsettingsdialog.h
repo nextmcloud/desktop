@@ -15,6 +15,7 @@
 #ifndef MIRALL_SETTINGSDIALOGMAGENTA_H
 #define MIRALL_SETTINGSDIALOGMAGENTA_H
 
+#include "nmcgui/nmcguiinterface.h"
 #include <settingsdialog.h>
 
 namespace OCC {
@@ -23,7 +24,7 @@ namespace OCC {
  * @brief The SettingsDialogMagenta class
  * @ingroup gui
  */
-class NMCSettingsDialog : public SettingsDialog
+class NMCSettingsDialog : public SettingsDialog, public NMCGuiInterface
 {
     Q_OBJECT
 
@@ -34,8 +35,11 @@ public:
 public slots:
     void slotSwitchPage(QAction *action) override;
 
-private:
-
+// NMCGuiInterface interface
+protected:
+    void setDefaultSettings() override final;
+    void setLayout() override final;
+    void setLogic() override final;
 };
 
 

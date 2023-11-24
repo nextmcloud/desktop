@@ -21,8 +21,9 @@ namespace OCC {
 NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
     : SettingsDialog(gui, parent)
 {
-
-
+    setDefaultSettings();
+    setLayout();
+    setLogic();
 }
 
 void NMCSettingsDialog::slotSwitchPage(QAction *action)
@@ -49,3 +50,22 @@ void NMCSettingsDialog::slotSwitchPage(QAction *action)
 
 
 } // namespace OCC
+
+
+void OCC::NMCSettingsDialog::setDefaultSettings()
+{
+    //Leer
+}
+
+void OCC::NMCSettingsDialog::setLayout()
+{
+    const auto actions = _toolBar->actions();
+    for(auto *action : actions)
+    {
+        _toolBar->widgetForAction(action)->setFixedWidth(142);
+    }
+}
+
+void OCC::NMCSettingsDialog::setLogic()
+{
+}
