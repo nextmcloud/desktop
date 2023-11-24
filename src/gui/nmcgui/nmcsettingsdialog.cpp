@@ -31,12 +31,12 @@ void NMCSettingsDialog::slotSwitchPage(QAction *action)
     SettingsDialog::slotSwitchPage(action);
 
     customizeStyle();
-    if(action->text() == QCoreApplication::translate("OCC::SettingsDialog","General"))
+    if(action->text() == QCoreApplication::translate("OCC::SettingsDialog","General") || action->text() == QCoreApplication::tr("General"))
     {
         const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/settings_magenta.svg"));
         action->setIcon(openIcon);
     }
-    else if(action->text() == QCoreApplication::translate("OCC::SettingsDialog","Network"))
+    else if(action->text() == QCoreApplication::translate("OCC::SettingsDialog","Network") || action->text() == QCoreApplication::tr("Network"))
     {
         const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/network_magenta.svg"));
         action->setIcon(openIcon);
@@ -48,13 +48,19 @@ void NMCSettingsDialog::slotSwitchPage(QAction *action)
     }
 }
 
+void NMCSettingsDialog::slotAccountAvatarChanged()
+{
+    //Intercept the base class slot, so the round avatar is not set.
+    //Empty
+}
+
 
 } // namespace OCC
 
 
 void OCC::NMCSettingsDialog::setDefaultSettings()
 {
-    //Leer
+    //Empty
 }
 
 void OCC::NMCSettingsDialog::setLayout()
@@ -68,4 +74,5 @@ void OCC::NMCSettingsDialog::setLayout()
 
 void OCC::NMCSettingsDialog::setLogic()
 {
+    //Empty
 }

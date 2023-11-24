@@ -33,7 +33,8 @@ public:
     ~NMCSettingsDialog() = default;
 
 public slots:
-    void slotSwitchPage(QAction *action) override;
+    void slotSwitchPage(QAction *action) override final;
+    void slotAccountAvatarChanged() override final;
 
 // NMCGuiInterface interface
 protected:
