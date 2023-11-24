@@ -41,6 +41,9 @@ protected:
     void setDefaultSettings() override final;
     void setLayout() override final;
     void setLogic() override final;
+
+private:
+    void fixAccountButtonSzie();
 };
 
 

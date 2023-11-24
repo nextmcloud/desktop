@@ -50,8 +50,10 @@ void NMCSettingsDialog::slotSwitchPage(QAction *action)
 
 void NMCSettingsDialog::slotAccountAvatarChanged()
 {
-    //Intercept the base class slot, so the round avatar is not set.
-    //Empty
+    //Intercept the base class slot, so the round avatar is not set. (so, dont pass to base class)
+
+    //Fix Account button size, for ech new created account
+    fixAccountButtonSzie();
 }
 
 void OCC::NMCSettingsDialog::setDefaultSettings()
@@ -61,16 +63,41 @@ void OCC::NMCSettingsDialog::setDefaultSettings()
 
 void OCC::NMCSettingsDialog::setLayout()
 {
+    //Fix network and general settings button size
     const auto actions = _toolBar->actions();
     for(auto *action : actions)
     {
-        _toolBar->widgetForAction(action)->setFixedWidth(142);
+        if((action->text() == QCoreApplication::translate("OCC::SettingsDialog","General") || action->text() == QCoreApplication::tr("General")) ||
+            (action->text() == QCoreApplication::translate("OCC::SettingsDialog","Network") || action->text() == QCoreApplication::tr("Network")) ||
+            (action->text() == QCoreApplication::translate("OCC::SettingsDialog","Account") || action->text() == QCoreApplication::tr("Account")))
+        {
+            auto *widget = _toolBar->widgetForAction(action);
+            if(widget)
+            {
+                widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+                widget->setFixedWidth(142);
+            }
+        }
     }
+
+    //Fix initial account btton size
+    fixAccountButtonSzie();
 }
 
 void OCC::NMCSettingsDialog::setLogic()
 {
   //Empty
+}
+
+void NMCSettingsDialog::fixAccountButtonSzie()
+{
+    auto action = _toolBar->actions().at(0);
+    auto *widget = _toolBar->widgetForAction(action);
+    if(widget)
+    {
+        widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        widget->setFixedWidth(142);
+    }
 }
 
 
