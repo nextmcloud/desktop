@@ -56,7 +56,7 @@ public:
 public slots:
     void showFirstPage();
     void showIssuesList(OCC::AccountState *account);
-    void slotSwitchPage(QAction *action);
+    virtual void slotSwitchPage(QAction *action);
     void slotAccountAvatarChanged();
     void slotAccountDisplayNameChanged();
 
@@ -77,10 +77,9 @@ private slots:
 protected:
     Ui::SettingsDialog *const _ui;
     QToolBar *_toolBar;
-
-private:
     void customizeStyle();
 
+private:
     QAction *createColorAwareAction(const QString &iconName, const QString &fileName);
     QAction *createActionWithIcon(const QIcon &icon, const QString &text, const QString &iconPath = QString());
 

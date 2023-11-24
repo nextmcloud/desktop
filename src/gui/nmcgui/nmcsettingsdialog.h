@@ -31,6 +31,9 @@ public:
     explicit NMCSettingsDialog(ownCloudGui *gui, QWidget *parent = nullptr);
     ~NMCSettingsDialog() = default;
 
+public slots:
+    void slotSwitchPage(QAction *action) override;
+
 private:
 
 };

@@ -27,5 +27,28 @@ NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
 
 }
 
+void NMCSettingsDialog::slotSwitchPage(QAction *action)
+{
+    SettingsDialog::slotSwitchPage(action);
+
+    customizeStyle();
+    if(action->text() == tr("General"))
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/settings_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+    else if(action->text() == tr("Network"))
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/network_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+    else
+    {
+        const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/account_magenta.svg"));
+        action->setIcon(openIcon);
+    }
+
+}
+
 
 } // namespace OCC
