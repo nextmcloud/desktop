@@ -15,8 +15,6 @@
 #include "nmcsettingsdialog.h"
 #include "QtWidgets/qtoolbar.h"
 #include "settingsdialog.h"
-#include "ui_settingsdialog.h"
-
 
 namespace OCC {
 
@@ -32,12 +30,12 @@ void NMCSettingsDialog::slotSwitchPage(QAction *action)
     SettingsDialog::slotSwitchPage(action);
 
     customizeStyle();
-    if(action->text() == tr("General"))
+    if(action->text() == QCoreApplication::translate("OCC::SettingsDialog","General"))
     {
         const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/settings_magenta.svg"));
         action->setIcon(openIcon);
     }
-    else if(action->text() == tr("Network"))
+    else if(action->text() == QCoreApplication::translate("OCC::SettingsDialog","Network"))
     {
         const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/network_magenta.svg"));
         action->setIcon(openIcon);
@@ -47,7 +45,6 @@ void NMCSettingsDialog::slotSwitchPage(QAction *action)
         const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/account_magenta.svg"));
         action->setIcon(openIcon);
     }
-
 }
 
 
