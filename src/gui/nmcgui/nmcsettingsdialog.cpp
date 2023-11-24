@@ -54,13 +54,9 @@ void NMCSettingsDialog::slotAccountAvatarChanged()
     //Empty
 }
 
-
-} // namespace OCC
-
-
 void OCC::NMCSettingsDialog::setDefaultSettings()
 {
-    //Empty
+  //Empty
 }
 
 void OCC::NMCSettingsDialog::setLayout()
@@ -74,5 +70,9 @@ void OCC::NMCSettingsDialog::setLayout()
 
 void OCC::NMCSettingsDialog::setLogic()
 {
-    //Empty
+  //Empty
 }
+
+
+
+} // namespace OCC
