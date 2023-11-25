@@ -13,7 +13,7 @@
  */
 
 #include "nmcnetworksettings.h"
-#include "NetworkSettings.h"
+#include "networksettings.h"
 #include "ui_networksettings.h"
 
 

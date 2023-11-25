@@ -13,7 +13,7 @@
  */
 
 #include "nmcgeneralsettings.h"
-#include "GeneralSettings.h"
+#include "generalsettings.h"
 #include "nmcconfigfile.h"
 #include "ui_generalsettings.h"
 #include "theme.h"
