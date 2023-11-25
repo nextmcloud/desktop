@@ -16,6 +16,7 @@
 #include "accountsettings.h"
 #include "common/syncjournaldb.h"
 #include "common/syncjournalfilerecord.h"
+#include "nmcgui/nmcfolderwizard.h"
 #include "qmessagebox.h"
 #include "ui_accountsettings.h"
 
@@ -742,7 +743,7 @@ void AccountSettings::slotAddFolder()
     const auto folderMan = FolderMan::instance();
     folderMan->setSyncEnabled(false); // do not start more syncs.
 
-    const auto folderWizard = new FolderWizard(_accountState->account(), this);
+    const auto folderWizard = new NMCFolderWizard(_accountState->account(), this);
     folderWizard->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(folderWizard, &QDialog::accepted, this, &AccountSettings::slotFolderWizardAccepted);

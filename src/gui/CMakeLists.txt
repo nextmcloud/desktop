@@ -196,6 +196,12 @@ set(client_SRCS
     fileactivitylistmodel.cpp
     nmcgui/nmcaccountsettings.h
     nmcgui/nmcaccountsettings.cpp
+    nmcgui/nmcfolderwizard.h
+    nmcgui/nmcfolderwizard.cpp
+    nmcgui/nmcfolderwizardsourcepage.h
+    nmcgui/nmcfolderwizardsourcepage.cpp
+    nmcgui/nmcfolderwizardtargetpage.h
+    nmcgui/nmcfolderwizardtargetpage.cpp
     nmcgui/nmcgeneralsettings.h
     nmcgui/nmcgeneralsettings.cpp
     nmcgui/nmcguiinterface.h

@@ -679,7 +679,7 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
         setPage(Page_Target, _folderWizardTargetPage);
         _folderWizardTargetPage->installEventFilter(this);
     }
-    setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
+    //setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
 
     setWindowTitle(tr("Add Folder Sync Connection"));
     setOptions(QWizard::CancelButtonOnLeft);
