@@ -16,7 +16,7 @@
 #define MIRALL_GENERALSETTINGSMAGENTA_H
 
 #include "nmcguiinterface.h"
-#include <GeneralSettings.h>
+#include "generalsettings.h"
 
 namespace OCC {
 

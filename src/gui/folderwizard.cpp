@@ -669,7 +669,7 @@ void FolderWizardSelectiveSync::virtualFilesCheckboxClicked()
 FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     : QWizard(parent)
     , _folderWizardSourcePage(new FolderWizardLocalPath(account))
-    , _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
+    //, _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);

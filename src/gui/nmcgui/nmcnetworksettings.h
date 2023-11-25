@@ -16,7 +16,7 @@
 #define MIRALL_NETWORKSETTINGSMAGENTA_H
 
 #include "nmcguiinterface.h"
-#include <NetworkSettings.h>
+#include "networksettings.h"
 
 namespace OCC {
 

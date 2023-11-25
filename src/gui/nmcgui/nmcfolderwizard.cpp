@@ -27,8 +27,17 @@ NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
     setOption(QWizard::NoBackButtonOnLastPage);
     setButtonText(QWizard::FinishButton, tr("Finish"));
 
-    _folderWizardSourcePage->getUi().localFolderLineEdit->clear();
-    _folderWizardSourcePage->getUi().localFolderLineEdit->setPlaceholderText(tr("Please select a folder"));
+    //Source page
+    auto sourceUi = _folderWizardSourcePage->getUi();
+    sourceUi.localFolderLineEdit->clear();
+    sourceUi.localFolderLineEdit->setPlaceholderText(tr("Please select a folder"));
+    sourceUi.setDefaultSettings();
+    sourceUi.setLayout();
+
+    //Target page
+    auto targetUi = _folderWizardTargetPage->getUi();
+    targetUi.setDefaultSettings();
+    targetUi.setLayout();
 }
 
 

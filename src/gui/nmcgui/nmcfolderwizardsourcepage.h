@@ -25,7 +25,7 @@
 
 namespace OCC {
 
-class NMCFolderWizardSourcePage : public Ui_FolderWizardSourcePage, public NMCGuiInterface
+class NMCFolderWizardSourcePage : public ::Ui::FolderWizardSourcePage, public NMCGuiInterface
 {
 
 public:
@@ -33,7 +33,7 @@ public:
     ~NMCFolderWizardSourcePage() = default;
 
     // NMCGuiInterface interface
-protected:
+public:
     void setDefaultSettings() override;
     void setLayout() override;
     void setLogic() override;
