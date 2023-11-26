@@ -1,6 +1,5 @@
 /*
- * Copyright (C) by Klaas Freitag <freitag@kde.org>
- * Copyright (C) by Olivier Goffart <ogoffart@woboq.com>
+ * Copyright (C) by Eugen Fischer
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
