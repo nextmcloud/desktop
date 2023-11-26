@@ -17,7 +17,6 @@
 #include "folderstatusmodel.h"
 #include <theme.h>
 #include <account.h>
-
 #include <QFileIconProvider>
 #include <QPainter>
 #include <QApplication>
@@ -32,20 +31,15 @@ NMCFolderStatusDelegate::NMCFolderStatusDelegate()
 {
 }
 
-inline static QFont makeAliasFont(const QFont &normalFont)
-{
-    QFont aliasFont = normalFont;
-    aliasFont.setBold(true);
-    aliasFont.setPointSize(normalFont.pointSize() + 2);
-    return aliasFont;
-}
-
 void NMCFolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     //Use our logic if the button needs to be paited ->paint an icon instead. If not, then go to base class and paint everything else
     if (index.data(AddButton).toBool()) {
         auto textAlign = Qt::AlignLeft;
-        const auto aliasFont = makeAliasFont(option.font);
+        QFont aliasFont = option.font;
+        aliasFont.setBold(true);
+        aliasFont.setPointSize(option.font.pointSize() + 2);
+
         const auto subFont = option.font;
         auto progressFont = subFont;
 
@@ -86,7 +80,7 @@ void NMCFolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewIte
         headRect.setBottom(headRect.top() + aliasFm.height());
         headRect.setRight(headRect.right() - buttonMargin);
 
-               // two text lines box
+        // two text lines box
         auto textRect = headRect;
         textRect.setTop(headRect.bottom() + margin);
         textRect.setBottom(textRect.top() + 2*addButtonFm.height() + margin);
@@ -111,7 +105,6 @@ void NMCFolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewIte
         painter->drawText(QStyle::visualRect(option.direction, textRect, textRect), textAlign|Qt::TextWordWrap, textLine);
 
         painter->restore();
-        return;
     }
     else{
         FolderStatusDelegate::paint(painter, option, index);
@@ -141,7 +134,5 @@ QString NMCFolderStatusDelegate::addFolderText(AddButtonText selection)
         return tr("Add Live-Backup");
     }
 }
-
-
 
 } // namespace OCC
