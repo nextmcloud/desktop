@@ -53,7 +53,7 @@ void NMCSettingsDialog::slotAccountAvatarChanged()
     //Intercept the base class slot, so the round avatar is not set. (so, dont pass to base class)
 
     //Fix Account button size, for ech new created account
-    fixAccountButtonSzie();
+    fixAccountButton();
 }
 
 void OCC::NMCSettingsDialog::setDefaultSettings()
@@ -76,12 +76,13 @@ void OCC::NMCSettingsDialog::setLayout()
             {
                 widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
                 widget->setFixedWidth(142);
+                widget->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
             }
         }
     }
 
     //Fix initial account btton size
-    fixAccountButtonSzie();
+    fixAccountButton();
 }
 
 void OCC::NMCSettingsDialog::setLogic()
@@ -89,7 +90,7 @@ void OCC::NMCSettingsDialog::setLogic()
   //Empty
 }
 
-void NMCSettingsDialog::fixAccountButtonSzie()
+void NMCSettingsDialog::fixAccountButton()
 {
     auto action = _toolBar->actions().at(0);
     auto *widget = _toolBar->widgetForAction(action);
@@ -97,6 +98,7 @@ void NMCSettingsDialog::fixAccountButtonSzie()
     {
         widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
         widget->setFixedWidth(142);
+        widget->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     }
 }
 

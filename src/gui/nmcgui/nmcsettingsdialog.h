@@ -43,7 +43,7 @@ protected:
     void setLogic() override final;
 
 private:
-    void fixAccountButtonSzie();
+    void fixAccountButton();
 };
 
 
