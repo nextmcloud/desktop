@@ -43,7 +43,9 @@ protected:
     void setLogic() override final;
 
 private:
-    void fixAccountButton();
+    void fixAccountButton(QString styleSheet);
+    QString transparentAndBlack = "background-color: rgba(255, 255, 255, 0)";
+    QString transparentAndMagenta = "background-color: rgba(255, 255, 255, 0); color: #E20074;";
 };
 
 
