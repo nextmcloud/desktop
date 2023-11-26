@@ -16,6 +16,7 @@
 #include "accountsettings.h"
 #include "common/syncjournaldb.h"
 #include "common/syncjournalfilerecord.h"
+#include "nmcgui/nmcfolderstatusdelegate.h"
 #include "qmessagebox.h"
 #include "ui_accountsettings.h"
 
@@ -24,7 +25,6 @@
 #include "folderman.h"
 #include "folderwizard.h"
 #include "folderstatusmodel.h"
-#include "folderstatusdelegate.h"
 #include "common/utility.h"
 #include "guiutility.h"
 #include "application.h"
@@ -177,7 +177,7 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     _model = new FolderStatusModel;
     _model->setAccountState(_accountState);
     _model->setParent(this);
-    const auto delegate = new FolderStatusDelegate;
+    const auto delegate = new NMCFolderStatusDelegate;
     delegate->setParent(this);
 
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
