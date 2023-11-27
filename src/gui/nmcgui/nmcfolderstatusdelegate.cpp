@@ -55,6 +55,8 @@ void NMCFolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewIte
 
     //Use our logic if the button needs to be paited ->paint an icon instead. If not, then go to base class and paint everything else
     if (index.data(AddButton).toBool()) {
+        painter->save();
+
         QStyleOptionButton opt;
         static_cast<QStyleOption &>(opt) = option;
 
@@ -64,7 +66,6 @@ void NMCFolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewIte
         const auto topMargin = 8;
         const auto leftMargin = 8;
 
-        painter->save();
         auto addIconRect = opt.rect;
         auto headRect = opt.rect;
 
@@ -105,31 +106,38 @@ void NMCFolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewIte
         painter->drawText(QStyle::visualRect(option.direction, textRect, textRect), textAlign|Qt::TextWordWrap, textLine);
 
         painter->restore();
+
+        return;
     }
-    //This one is for customized folder icons
-    else if(index.data(FolderOverlayIconRole).isValid())
+    else{
+        FolderStatusDelegate::paint(painter, option, index);
+    }
+    //This one is for customized folder icons, the paint function in base class should be called before we draw the overlay icons,
+    //so the folders are below the overlay icons
+    if(index.data(FolderOverlayIconRole).isValid())
     {
+        painter->save();
+
         auto statusIcon = qvariant_cast<QIcon>(index.data(FolderStatusIconRole));
         auto syncEnabled = qvariant_cast<bool>(index.data(FolderAccountConnected));
 
         auto iconRect = option.rect;
-        const auto iconSize = iconRect.width();
+        //const auto iconSize = iconRect.width();
+        const auto iconSize = 48;
 
         iconRect.setTop(iconRect.top() + aliasMargin); // (iconRect.height()-iconsize.height())/2);
-        const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        //const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
 
         auto overlayIcon = qvariant_cast<QIcon>(index.data(FolderOverlayIconRole));
         int ovlSize = 24;
         auto ovlRect = iconRect;
         // the overlay icon position depends on the (variable) status icon size
-        ovlRect.setTop(iconRect.top() + statusPixmap.height() - ovlSize - margin);
-        ovlRect.setLeft(iconRect.left() + statusPixmap.width() - ovlSize);
+        ovlRect.setTop(iconRect.top() + iconSize - 3*margin);
+        ovlRect.setLeft(iconRect.left() + iconSize - margin);
         QPixmap opm = overlayIcon.pixmap(ovlSize, ovlSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
-        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, ovlRect).left(),
-                            ovlRect.top(), opm);
-    }
-    else{
-        FolderStatusDelegate::paint(painter, option, index);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, ovlRect).left(), ovlRect.top(), opm);
+
+        painter->restore();
     }
 }
 
