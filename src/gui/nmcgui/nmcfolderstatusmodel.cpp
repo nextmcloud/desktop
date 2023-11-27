@@ -26,19 +26,19 @@ NMCFolderStatusModel::NMCFolderStatusModel(QObject *parent)
 
 QVariant NMCFolderStatusModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
-        return QVariant();
-    if (role == Qt::EditRole)
-        return QVariant();
+//    if (!index.isValid())
+//        return QVariant();
+//    if (role == Qt::EditRole)
+//        return QVariant();
 
-    switch (role) {
-    case FolderStatusDelegate::FolderStatusIconRole:{
-        auto theme = Theme::instance();
-        return theme->folderIcon();
-    }
-    default:
-        break;
-    }
+//    switch (role) {
+//    case FolderStatusDelegate::FolderStatusIconRole:{
+//        auto theme = Theme::instance();
+//        return theme->folderIcon();
+//    }
+//    default:
+//        break;
+//    }
 
     return FolderStatusModel::data(index, role);
 }
