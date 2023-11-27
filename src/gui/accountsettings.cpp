@@ -24,7 +24,7 @@
 #include "foldercreationdialog.h"
 #include "folderman.h"
 #include "folderwizard.h"
-#include "folderstatusmodel.h"
+#include "nmcgui/nmcfolderstatusmodel.h"
 #include "common/utility.h"
 #include "guiutility.h"
 #include "application.h"
@@ -174,7 +174,7 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
 {
     _ui->setupUi(this);
 
-    _model = new FolderStatusModel;
+    _model = new NMCFolderStatusModel;
     _model->setAccountState(_accountState);
     _model->setParent(this);
     const auto delegate = new NMCFolderStatusDelegate;

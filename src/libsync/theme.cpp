@@ -672,6 +672,11 @@ QIcon Theme::addButtonIcon() const
     return themeIcon(buttonIcon, false);
 }
 
+QIcon Theme::folderIcon() const
+{
+    return themeIcon(QLatin1String("folder"));
+}
+
 QColor Theme::wizardHeaderTitleColor() const
 {
     return {APPLICATION_WIZARD_HEADER_TITLE_COLOR};
