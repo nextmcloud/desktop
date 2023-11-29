@@ -27,6 +27,8 @@ import Style 1.0
 
 import com.nextcloud.desktopclient 1.0
 
+import "../nmcgui"
+
 ApplicationWindow {
     id:         trayWindow
 
@@ -401,11 +403,11 @@ ApplicationWindow {
                             color: palette.dark
                         }
 
-                        MenuItem {
+                        NMCMenuItem {
                             id: syncPauseButton
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
                             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
+                            icon.source: Style.nmcPauseIcon
+                            leftPadding: Style.nmcAccountMenuItemLeftPadding
 
                             background: Item {
                                 height: parent.height
@@ -422,11 +424,12 @@ ApplicationWindow {
                             Accessible.onPressAction: syncPauseButton.clicked()
                         }
 
-                        MenuItem {
+                        NMCMenuItem {
                             id: settingsButton
                             text: qsTr("Settings")
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
+                            icon.source: Style.nmcSettingsIcon
+                            leftPadding: Style.nmcAccountMenuItemLeftPadding
+
                             onClicked: Systray.openSettings()
 
                             background: Item {
@@ -444,11 +447,12 @@ ApplicationWindow {
                             Accessible.onPressAction: settingsButton.clicked()
                         }
 
-                        MenuItem {
+                        NMCMenuItem {
                             id: exitButton
                             text: qsTr("Exit");
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
+                            icon.source: Style.nmcCloseIcon
+                            leftPadding: Style.nmcAccountMenuItemLeftPadding
+
                             onClicked: Systray.shutdown()
 
                             background: Item {
