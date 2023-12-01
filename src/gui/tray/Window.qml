@@ -117,7 +117,7 @@ ApplicationWindow {
 
             if(Systray.isOpen) {
                 accountMenu.close();
-                appsMenu.close();
+                //appsMenu.close();
                 openLocalFolderButton.closeMenu()
             }
         }
@@ -262,31 +262,41 @@ ApplicationWindow {
             id: trayWindowMagentaBarBackground
         }
 
+        Rectangle{
+            id:separator
+            color: Style.ncBlue
+            anchors.top:    trayWindowMagentaBarBackground.bottom
+            anchors.left:   trayWindowMainItem.left
+            anchors.right:  trayWindowMainItem.right
+            height: 1
+        }
+
 
         Rectangle {
             id: trayWindowHeaderBackground
 
             anchors.left:   trayWindowMainItem.left
             anchors.right:  trayWindowMainItem.right
-            anchors.top:    trayWindowMagentaBarBackground.bottom
+            anchors.top:    separator.bottom
             height:         Style.nmcTrayWindowHeaderHeight
             color:          Style.nmcCurrentUserHeaderColor
-            radius: 10
+            //radius: 10
 
             RowLayout {
                 id: trayWindowHeaderLayout
 
                 spacing:        0
-                anchors.fill:   parent
-                anchors.bottom: trayWindowHeaderBackground.bottom
+                anchors.fill:   trayWindowHeaderBackground
+                //anchors.bottom: trayWindowHeaderBackground.bottom
 
                 Button {
                     id: currentAccountButton
 
                     Layout.preferredWidth:  Style.currentAccountButtonWidth
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
+                    Layout.preferredHeight: Style.nmcTrayWindowHeaderHeight
                     display:                AbstractButton.IconOnly
                     flat:                   true
+                    anchors.verticalCenter: trayWindowHeaderLayout.verticalCenter
 
                     Accessible.role: Accessible.ButtonMenu
                     Accessible.name: qsTr("Current account")
@@ -309,7 +319,7 @@ ApplicationWindow {
                         // x coordinate grows towards the right
                         // y coordinate grows towards the bottom
                         x: (currentAccountButton.x + 2)
-                        y: trayWindowHeaderBackground.height+8 //(currentAccountButton.y + Style.trayWindowHeaderHeight)
+                        y: trayWindowHeaderBackground.height //(currentAccountButton.y + Style.trayWindowHeaderHeight)
 
                         width: (Style.currentAccountButtonWidth - 2)
                         height: Math.min(implicitHeight, maxMenuHeight)
@@ -484,15 +494,17 @@ ApplicationWindow {
                     RowLayout {
                         id: accountControlRowLayout
 
-                        height: Style.trayWindowHeaderHeight
-                        width:  Style.currentAccountButtonWidth
+                        //height: Style.trayWindowHeaderHeight
+                        //width:  Style.currentAccountButtonWidth
+                        anchors.fill: currentAccountButton
                         spacing: 0
 
                         Image {
                             id: currentAccountAvatar
 
-                            Layout.leftMargin: Style.trayHorizontalMargin
-                            verticalAlignment: Qt.AlignCenter
+                            Layout.leftMargin: Style.nmcTrayWindowHeaderLeftMargin
+                            height: Style.accountAvatarSize
+                            width:  Style.accountAvatarSize
                             cache: false
                             source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
                             Layout.preferredHeight: Style.accountAvatarSize
@@ -532,8 +544,8 @@ ApplicationWindow {
                                          && UserModel.currentUser.serverHasUserStatus
                                 source: UserModel.currentUser.statusIcon
                                 cache: false
-                                x: currentAccountStatusIndicatorBackground.x + 1
-                                y: currentAccountStatusIndicatorBackground.y + 1
+                                anchors.verticalCenter:currentAccountAvatar.verticalCenter
+
                                 sourceSize.width: Style.accountAvatarStateIndicatorSize
                                 sourceSize.height: Style.accountAvatarStateIndicatorSize
 
@@ -625,202 +637,202 @@ ApplicationWindow {
                     Layout.fillWidth: true
                 }
 
-                TrayFoldersMenuButton {
-                    id: openLocalFolderButton
-
-                    visible: currentUser.hasLocalFolder
-                    currentUser: UserModel.currentUser
-                    icon.color: Style.currentUserHeaderTextColor
-                    Layout.preferredWidth:  Style.iconButtonWidth * Style.trayFolderListButtonWidthScaleFactor
-                    Layout.alignment: Qt.AlignHCenter
-
-                    onClicked: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder()
-
-                    onFolderEntryTriggered: isGroupFolder ? UserModel.openCurrentAccountFolderFromTrayInfo(fullFolderPath) : UserModel.openCurrentAccountLocalFolder()
-                }
 
                 NMCHeaderButton {
-                    id: trayWindowTalkButton
-
-                    visible: false //UserModel.currentUser.serverHasTalk
-                    icon.source: "qrc:///client/theme/white/talk-app.svg"
-                    icon.color: Style.currentUserHeaderTextColor
-                    onClicked: UserModel.openCurrentAccountTalk()
-
-                    Accessible.role: Accessible.Button
-                    Accessible.name: qsTr("Open Nextcloud Talk in browser")
-                    Accessible.onPressAction: trayWindowTalkButton.clicked()
+                    id: trayWindowLocalButton
+                    Layout.preferredHeight: Style.nmcTrayWindowHeaderHeight
+                    Layout.preferredWidth: Style.nmcTrayWindowHeaderHeight
+                    icon.source: "qrc:///client/theme/white/folder.svg"
+                    onClicked: {
+                        UserModel.openCurrentAccountLocalFolder()
+                    }
+                    NCToolTip {
+                        visible: trayWindowAppsButton.hovered
+                        text: qsTr("Open local folder")
+                    }
                 }
+
+//                TrayFoldersMenuButton {
+//                    id: openLocalFolderButton
+
+//                    visible: currentUser.hasLocalFolder
+//                    currentUser: UserModel.currentUser
+//                    icon.color: Style.currentUserHeaderTextColor
+//                    Layout.preferredWidth:  Style.iconButtonWidth * Style.trayFolderListButtonWidthScaleFactor
+//                    Layout.alignment: Qt.AlignHCenter
+
+//                    onClicked: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder()
+
+//                    onFolderEntryTriggered: isGroupFolder ? UserModel.openCurrentAccountFolderFromTrayInfo(fullFolderPath) : UserModel.openCurrentAccountLocalFolder()
+//                }
+
+//                NMCHeaderButton {
+//                    id: trayWindowTalkButton
+
+//                    visible: UserModel.currentUser.serverHasTalk
+//                    icon.source: "qrc:///client/theme/white/talk-app.svg"
+//                    icon.color: Style.currentUserHeaderTextColor
+//                    onClicked: UserModel.openCurrentAccountTalk()
+//                }
 
                 NMCHeaderButton {
                     id: trayWindowAppsButton
+                    Layout.preferredHeight: Style.nmcTrayWindowHeaderHeight
+                    Layout.preferredWidth: Style.nmcTrayWindowHeaderHeight
                     icon.source: "qrc:///client/theme/white/more-apps.svg"
-                    icon.color: Style.nmcBrowserButtonColor
-
                     onClicked: {
                         UserModel.openCurrentAccountServer()
-                        if(appsMenuListView.count <= 0) {
-                            UserModel.openCurrentAccountServer()
-                        } else if (appsMenu.visible) {
-                            appsMenu.close()
-                        } else {
-                            //appsMenu.open()
-                        }
                     }
                     NCToolTip {
-                        id: tooltip
                         visible: trayWindowAppsButton.hovered
                         text: qsTr("Open website")
                     }
+                    Layout.rightMargin: Style.nmcTrayWindowHeaderLeftMargin
 
-                    Accessible.role: Accessible.ButtonMenu
-                    Accessible.name: qsTr("More apps")
-                    Accessible.onPressAction: trayWindowAppsButton.clicked()
+//                    Menu {
+//                        id: appsMenu
+//                        x: Style.trayWindowMenuOffsetX
+//                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + Style.trayWindowMenuOffsetY)
+//                        width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
+//                        height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
+//                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+//                        visible: false
+//                        background: Rectangle {
+//                            border.color: palette.dark
+//                            color: palette.base
+//                            radius: 2
+//                        }
 
-                    Menu {
-                        id: appsMenu
-                        x: Style.trayWindowMenuOffsetX
-                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + Style.trayWindowMenuOffsetY)
-                        width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
-                        height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
-                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-                        visible: false
-                        background: Rectangle {
-                            border.color: palette.dark
-                            color: palette.base
-                            radius: 2
-                        }
+//                        contentItem: ScrollView {
+//                            id: appsMenuScrollView
+//                            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-                        contentItem: ScrollView {
-                            id: appsMenuScrollView
-                            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+//                            data: WheelHandler {
+//                                target: appsMenuScrollView.contentItem
+//                            }
+//                            ListView {
+//                                id: appsMenuListView
+//                                implicitHeight: contentHeight
+//                                model: UserAppsModel
+//                                interactive: true
+//                                clip: true
+//                                currentIndex: appsMenu.currentIndex
+//                                delegate: MenuItem {
+//                                    id: appEntry
+//                                    anchors.left: parent.left
+//                                    anchors.right: parent.right
 
-                            data: WheelHandler {
-                                target: appsMenuScrollView.contentItem
-                            }
-                            ListView {
-                                id: appsMenuListView
-                                implicitHeight: contentHeight
-                                model: UserAppsModel
-                                interactive: true
-                                clip: true
-                                currentIndex: appsMenu.currentIndex
-                                delegate: MenuItem {
-                                    id: appEntry
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
+//                                    text: model.appName
+//                                    font.pixelSize: Style.topLinePixelSize
+//                                    icon.source: model.appIconUrl
+//                                    icon.color: palette.buttonText
+//                                    onTriggered: UserAppsModel.openAppUrl(appUrl)
+//                                    hoverEnabled: true
 
-                                    text: model.appName
-                                    font.pixelSize: Style.topLinePixelSize
-                                    icon.source: model.appIconUrl
-                                    icon.color: palette.buttonText
-                                    onTriggered: UserAppsModel.openAppUrl(appUrl)
-                                    hoverEnabled: true
+//                                    background: Item {
+//                                        height: parent.height
+//                                        width: parent.width
+//                                        Rectangle {
+//                                            anchors.fill: parent
+//                                            anchors.margins: 1
+//                                            color: parent.parent.hovered || parent.parent.visualFocus ? palette.highlight : "transparent"
+//                                        }
+//                                    }
 
-                                    background: Item {
-                                        height: parent.height
-                                        width: parent.width
-                                        Rectangle {
-                                            anchors.fill: parent
-                                            anchors.margins: 1
-                                            color: parent.parent.hovered || parent.parent.visualFocus ? palette.highlight : "transparent"
-                                        }
-                                    }
-
-                                    Accessible.role: Accessible.MenuItem
-                                    Accessible.name: qsTr("Open %1 in browser").arg(model.appName)
-                                    Accessible.onPressAction: appEntry.triggered()
-                                }
-                            }
-                        }
-                    }
+//                                    Accessible.role: Accessible.MenuItem
+//                                    Accessible.name: qsTr("Open %1 in browser").arg(model.appName)
+//                                    Accessible.onPressAction: appEntry.triggered()
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             }
         }   // Rectangle trayWindowHeaderBackground
 
-        Rectangle{
-            width: Style.trayWindowWidth
-            height: 1
-            color: Style.ncSecondaryTextColor
-            anchors {
-                top: trayWindowUnifiedSearchInputContainer.top
-                left: trayWindowMainItem.left
-                right: trayWindowMainItem.right
-            }
-        }
+//        Rectangle{
+//            width: Style.trayWindowWidth
+//            height: 1
+//            color: Style.ncSecondaryTextColor
+//            anchors {
+//                top: trayWindowUnifiedSearchInputContainer.top
+//                left: trayWindowMainItem.left
+//                right: trayWindowMainItem.right
+//            }
+//        }
 
-        UnifiedSearchInputContainer {
-            id: trayWindowUnifiedSearchInputContainer
-            height: Style.trayWindowHeaderHeight * 0 //0.65
-            visible: Style.isSearchFieldVisible
+//        UnifiedSearchInputContainer {
+//            id: trayWindowUnifiedSearchInputContainer
+//            height: visible ? Style.trayWindowHeaderHeight * 0.65 : 0
+//            visible: Style.isSearchFieldVisible
 
-            anchors {
-                top: trayWindowHeaderBackground.bottom
-                left: trayWindowMainItem.left
-                right: trayWindowMainItem.right
+//            anchors {
+//                top: trayWindowHeaderBackground.bottom
+//                left: trayWindowMainItem.left
+//                right: trayWindowMainItem.right
 
-                topMargin: Style.trayHorizontalMargin + controlRoot.padding
-                leftMargin: Style.trayHorizontalMargin + controlRoot.padding
-                rightMargin: Style.trayHorizontalMargin + controlRoot.padding
-            }
+//                topMargin: Style.trayHorizontalMargin + controlRoot.padding
+//                leftMargin: Style.trayHorizontalMargin + controlRoot.padding
+//                rightMargin: Style.trayHorizontalMargin + controlRoot.padding
+//            }
 
-            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
-            readOnly: !UserModel.currentUser.isConnected || UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
-            isSearchInProgress: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
-            onTextEdited: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = trayWindowUnifiedSearchInputContainer.text }
-            onClearText: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = "" }
-        }
+//            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
+//            readOnly: !UserModel.currentUser.isConnected || UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
+//            isSearchInProgress: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
+//            onTextEdited: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = trayWindowUnifiedSearchInputContainer.text }
+//            onClearText: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = "" }
+//        }
 
-        ErrorBox {
-            id: unifiedSearchResultsErrorLabel
-            visible:  Style.isSearchFieldVisible //UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
-                      //!unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress &&
-                      //! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
-            text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.margins: Style.trayHorizontalMargin
-        }
+//        ErrorBox {
+//            id: unifiedSearchResultsErrorLabel
+//            visible:  Style.isSearchFieldVisible //UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
+//                      //!unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress &&
+//                      //! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
+//            text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
+//            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+//            anchors.left: trayWindowMainItem.left
+//            anchors.right: trayWindowMainItem.right
+//            anchors.margins: Style.trayHorizontalMargin
+//        }
 
-        UnifiedSearchResultNothingFound {
-            id: unifiedSearchResultNothingFound
+//        UnifiedSearchResultNothingFound {
+//            id: unifiedSearchResultNothingFound
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.topMargin: Style.trayHorizontalMargin
+//            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+//            anchors.left: trayWindowMainItem.left
+//            anchors.right: trayWindowMainItem.right
+//            anchors.topMargin: Style.trayHorizontalMargin
 
-            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
+//            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
 
-            property bool isSearchRunning: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
-            property bool waitingForSearchTermEditEnd: UserModel.currentUser.unifiedSearchResultsListModel.waitingForSearchTermEditEnd
-            property bool isSearchResultsEmpty: unifiedSearchResultsListView.count === 0
-            property bool nothingFound: text && isSearchResultsEmpty && !UserModel.currentUser.unifiedSearchResultsListModel.errorString
+//            property bool isSearchRunning: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
+//            property bool waitingForSearchTermEditEnd: UserModel.currentUser.unifiedSearchResultsListModel.waitingForSearchTermEditEnd
+//            property bool isSearchResultsEmpty: unifiedSearchResultsListView.count === 0
+//            property bool nothingFound: text && isSearchResultsEmpty && !UserModel.currentUser.unifiedSearchResultsListModel.errorString
 
-            visible: Style.isSearchFieldVisible //!isSearchRunning && !waitingForSearchTermEditEnd && nothingFound
-        }
+//            visible: Style.isSearchFieldVisible //!isSearchRunning && !waitingForSearchTermEditEnd && nothingFound
+//        }
 
-        Loader {
-            id: unifiedSearchResultsListViewSkeletonLoader
+//        Loader {
+//            id: unifiedSearchResultsListViewSkeletonLoader
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.bottom: trayWindowMainItem.bottom
-            anchors.margins: controlRoot.padding
+//            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+//            anchors.left: trayWindowMainItem.left
+//            anchors.right: trayWindowMainItem.right
+//            anchors.bottom: trayWindowMainItem.bottom
+//            anchors.margins: controlRoot.padding
 
-            active: !unifiedSearchResultNothingFound.visible &&
-                    !unifiedSearchResultsListView.visible &&
-                    !UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
-                    UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
+//            active: !unifiedSearchResultNothingFound.visible &&
+//                    !unifiedSearchResultsListView.visible &&
+//                    !UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
+//                    UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
 
-            sourceComponent: UnifiedSearchResultItemSkeletonContainer {
-                anchors.fill: parent
-                spacing: unifiedSearchResultsListView.spacing
-                animationRectangleWidth: trayWindow.width
-            }
-        }
+//            sourceComponent: UnifiedSearchResultItemSkeletonContainer {
+//                anchors.fill: parent
+//                spacing: unifiedSearchResultsListView.spacing
+//                animationRectangleWidth: trayWindow.width
+//            }
+//        }
 
         ScrollView {
             id: controlRoot
@@ -833,7 +845,7 @@ ApplicationWindow {
             }
             visible: unifiedSearchResultsListView.count > 0
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowHeaderBackground.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -875,7 +887,7 @@ ApplicationWindow {
 
             visible: !trayWindowMainItem.isUnifiedSearchActive
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowHeaderBackground.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
         }

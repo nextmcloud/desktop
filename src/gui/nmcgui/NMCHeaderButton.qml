@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 by Nicolas Fella <nicolas.fella@gmx.de>
+ * Copyright (C) 2020 by Eugen Fischer
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,12 +33,7 @@ Button {
 
     icon.width: Style.headerButtonIconSize
     icon.height: Style.headerButtonIconSize
-    icon.color: palette.brightText
-    font.pixelSize: 8
-
-    Layout.alignment: Qt.AlignRight
-    Layout.preferredWidth:  Style.trayWindowHeaderHeight
-    Layout.preferredHeight: Style.trayWindowHeaderHeight
+    icon.color: Style.nmcBrowserButtonColor
 
     background: Rectangle {
         color: root.hovered || root.visualFocus ? Style.currentUserHeaderTextColor : "transparent"

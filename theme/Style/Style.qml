@@ -190,9 +190,11 @@ QtObject {
     }
 
     //NMCStyle
-    property int nmcTrayWindowHeaderHeight: variableSize(50)
+    property int nmcTrayWindowHeaderHeight: variableSize(36)
+    property int nmcTrayWindowItemListHeight: variableSize(40)
+    property int nmcTrayWindowHeaderLeftMargin: 20
     readonly property color nmcBrowserButtonColor: "#484848"
-    readonly property color nmcCurrentUserHeaderColor: ncBlue
+    readonly property color nmcCurrentUserHeaderColor: currentUserHeaderColor
     readonly property bool isSearchFieldVisible: false
     readonly property string nmcLogoMagenta: "qrc:///client/theme/NMCIcons/LogoMagenta.svg"
 }
