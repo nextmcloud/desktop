@@ -117,7 +117,7 @@ ApplicationWindow {
 
             if(Systray.isOpen) {
                 accountMenu.close();
-                //appsMenu.close();
+                appsMenu.close();
                 openLocalFolderButton.closeMenu()
             }
         }
@@ -271,6 +271,14 @@ ApplicationWindow {
             height: 1
         }
 
+        Rectangle{
+            id:topRadiusCoverUp
+            color: Style.ncBlue
+            anchors.top:    separator.bottom
+            anchors.left:   trayWindowMainItem.left
+            anchors.right:  trayWindowMainItem.right
+            height: 10
+        }
 
         Rectangle {
             id: trayWindowHeaderBackground
@@ -280,7 +288,7 @@ ApplicationWindow {
             anchors.top:    separator.bottom
             height:         Style.nmcTrayWindowHeaderHeight
             color:          Style.nmcCurrentUserHeaderColor
-            //radius: 10
+            radius: 10
 
             RowLayout {
                 id: trayWindowHeaderLayout
@@ -637,7 +645,6 @@ ApplicationWindow {
                     Layout.fillWidth: true
                 }
 
-
                 NMCHeaderButton {
                     id: trayWindowLocalButton
                     Layout.preferredHeight: Style.nmcTrayWindowHeaderHeight
@@ -652,28 +659,28 @@ ApplicationWindow {
                     }
                 }
 
-//                TrayFoldersMenuButton {
-//                    id: openLocalFolderButton
+                TrayFoldersMenuButton {
+                    id: openLocalFolderButton
 
-//                    visible: currentUser.hasLocalFolder
-//                    currentUser: UserModel.currentUser
-//                    icon.color: Style.currentUserHeaderTextColor
-//                    Layout.preferredWidth:  Style.iconButtonWidth * Style.trayFolderListButtonWidthScaleFactor
-//                    Layout.alignment: Qt.AlignHCenter
+                    visible: false
+                    currentUser: UserModel.currentUser
+                    icon.color: Style.currentUserHeaderTextColor
+                    Layout.preferredWidth:  Style.iconButtonWidth * Style.trayFolderListButtonWidthScaleFactor
+                    Layout.alignment: Qt.AlignHCenter
 
-//                    onClicked: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder()
+                    onClicked: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder()
 
-//                    onFolderEntryTriggered: isGroupFolder ? UserModel.openCurrentAccountFolderFromTrayInfo(fullFolderPath) : UserModel.openCurrentAccountLocalFolder()
-//                }
+                    onFolderEntryTriggered: isGroupFolder ? UserModel.openCurrentAccountFolderFromTrayInfo(fullFolderPath) : UserModel.openCurrentAccountLocalFolder()
+                }
 
-//                NMCHeaderButton {
-//                    id: trayWindowTalkButton
+                NMCHeaderButton {
+                    id: trayWindowTalkButton
 
-//                    visible: UserModel.currentUser.serverHasTalk
-//                    icon.source: "qrc:///client/theme/white/talk-app.svg"
-//                    icon.color: Style.currentUserHeaderTextColor
-//                    onClicked: UserModel.openCurrentAccountTalk()
-//                }
+                    visible: UserModel.currentUser.serverHasTalk
+                    icon.source: "qrc:///client/theme/white/talk-app.svg"
+                    icon.color: Style.currentUserHeaderTextColor
+                    onClicked: UserModel.openCurrentAccountTalk()
+                }
 
                 NMCHeaderButton {
                     id: trayWindowAppsButton
@@ -689,150 +696,151 @@ ApplicationWindow {
                     }
                     Layout.rightMargin: Style.nmcTrayWindowHeaderLeftMargin
 
-//                    Menu {
-//                        id: appsMenu
-//                        x: Style.trayWindowMenuOffsetX
-//                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + Style.trayWindowMenuOffsetY)
-//                        width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
-//                        height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
-//                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-//                        visible: false
-//                        background: Rectangle {
-//                            border.color: palette.dark
-//                            color: palette.base
-//                            radius: 2
-//                        }
+                    Menu {
+                        id: appsMenu
+                        x: Style.trayWindowMenuOffsetX
+                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + Style.trayWindowMenuOffsetY)
+                        width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
+                        height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
+                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+                        visible: false
+                        background: Rectangle {
+                            border.color: palette.dark
+                            color: palette.base
+                            radius: 2
+                        }
 
-//                        contentItem: ScrollView {
-//                            id: appsMenuScrollView
-//                            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                        contentItem: ScrollView {
+                            id: appsMenuScrollView
+                            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-//                            data: WheelHandler {
-//                                target: appsMenuScrollView.contentItem
-//                            }
-//                            ListView {
-//                                id: appsMenuListView
-//                                implicitHeight: contentHeight
-//                                model: UserAppsModel
-//                                interactive: true
-//                                clip: true
-//                                currentIndex: appsMenu.currentIndex
-//                                delegate: MenuItem {
-//                                    id: appEntry
-//                                    anchors.left: parent.left
-//                                    anchors.right: parent.right
+                            data: WheelHandler {
+                                target: appsMenuScrollView.contentItem
+                            }
+                            ListView {
+                                id: appsMenuListView
+                                implicitHeight: contentHeight
+                                model: UserAppsModel
+                                interactive: true
+                                clip: true
+                                currentIndex: appsMenu.currentIndex
+                                delegate: MenuItem {
+                                    id: appEntry
+                                    anchors.left: parent.left
+                                    anchors.right: parent.right
 
-//                                    text: model.appName
-//                                    font.pixelSize: Style.topLinePixelSize
-//                                    icon.source: model.appIconUrl
-//                                    icon.color: palette.buttonText
-//                                    onTriggered: UserAppsModel.openAppUrl(appUrl)
-//                                    hoverEnabled: true
+                                    text: model.appName
+                                    font.pixelSize: Style.topLinePixelSize
+                                    icon.source: model.appIconUrl
+                                    icon.color: palette.buttonText
+                                    onTriggered: UserAppsModel.openAppUrl(appUrl)
+                                    hoverEnabled: true
 
-//                                    background: Item {
-//                                        height: parent.height
-//                                        width: parent.width
-//                                        Rectangle {
-//                                            anchors.fill: parent
-//                                            anchors.margins: 1
-//                                            color: parent.parent.hovered || parent.parent.visualFocus ? palette.highlight : "transparent"
-//                                        }
-//                                    }
+                                    background: Item {
+                                        height: parent.height
+                                        width: parent.width
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            anchors.margins: 1
+                                            color: parent.parent.hovered || parent.parent.visualFocus ? palette.highlight : "transparent"
+                                        }
+                                    }
 
-//                                    Accessible.role: Accessible.MenuItem
-//                                    Accessible.name: qsTr("Open %1 in browser").arg(model.appName)
-//                                    Accessible.onPressAction: appEntry.triggered()
-//                                }
-//                            }
-//                        }
-//                    }
+                                    Accessible.role: Accessible.MenuItem
+                                    Accessible.name: qsTr("Open %1 in browser").arg(model.appName)
+                                    Accessible.onPressAction: appEntry.triggered()
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }   // Rectangle trayWindowHeaderBackground
 
-//        Rectangle{
-//            width: Style.trayWindowWidth
-//            height: 1
-//            color: Style.ncSecondaryTextColor
-//            anchors {
-//                top: trayWindowUnifiedSearchInputContainer.top
-//                left: trayWindowMainItem.left
-//                right: trayWindowMainItem.right
-//            }
-//        }
+        Rectangle{
+            visible: false
+            width: Style.trayWindowWidth
+            height: 1
+            color: Style.ncSecondaryTextColor
+            anchors {
+                top: trayWindowHeaderBackground.bottom
+                left: trayWindowMainItem.left
+                right: trayWindowMainItem.right
+            }
+        }
 
-//        UnifiedSearchInputContainer {
-//            id: trayWindowUnifiedSearchInputContainer
-//            height: visible ? Style.trayWindowHeaderHeight * 0.65 : 0
-//            visible: Style.isSearchFieldVisible
+        UnifiedSearchInputContainer {
+            id: trayWindowUnifiedSearchInputContainer
+            height: visible ? Style.trayWindowHeaderHeight * 0.65 : 0
+            visible: Style.isSearchFieldVisible
 
-//            anchors {
-//                top: trayWindowHeaderBackground.bottom
-//                left: trayWindowMainItem.left
-//                right: trayWindowMainItem.right
+            anchors {
+                top: trayWindowHeaderBackground.bottom
+                left: trayWindowMainItem.left
+                right: trayWindowMainItem.right
 
-//                topMargin: Style.trayHorizontalMargin + controlRoot.padding
-//                leftMargin: Style.trayHorizontalMargin + controlRoot.padding
-//                rightMargin: Style.trayHorizontalMargin + controlRoot.padding
-//            }
+                topMargin: Style.trayHorizontalMargin + controlRoot.padding
+                leftMargin: Style.trayHorizontalMargin + controlRoot.padding
+                rightMargin: Style.trayHorizontalMargin + controlRoot.padding
+            }
 
-//            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
-//            readOnly: !UserModel.currentUser.isConnected || UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
-//            isSearchInProgress: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
-//            onTextEdited: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = trayWindowUnifiedSearchInputContainer.text }
-//            onClearText: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = "" }
-//        }
+            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
+            readOnly: !UserModel.currentUser.isConnected || UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
+            isSearchInProgress: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
+            onTextEdited: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = trayWindowUnifiedSearchInputContainer.text }
+            onClearText: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = "" }
+        }
 
-//        ErrorBox {
-//            id: unifiedSearchResultsErrorLabel
-//            visible:  Style.isSearchFieldVisible //UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
-//                      //!unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress &&
-//                      //! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
-//            text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
-//            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-//            anchors.left: trayWindowMainItem.left
-//            anchors.right: trayWindowMainItem.right
-//            anchors.margins: Style.trayHorizontalMargin
-//        }
+        ErrorBox {
+            id: unifiedSearchResultsErrorLabel
+            visible:  Style.isSearchFieldVisible //UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
+                      //!unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress &&
+                      //! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
+            text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
+            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.left: trayWindowMainItem.left
+            anchors.right: trayWindowMainItem.right
+            anchors.margins: Style.trayHorizontalMargin
+        }
 
-//        UnifiedSearchResultNothingFound {
-//            id: unifiedSearchResultNothingFound
+        UnifiedSearchResultNothingFound {
+            id: unifiedSearchResultNothingFound
 
-//            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-//            anchors.left: trayWindowMainItem.left
-//            anchors.right: trayWindowMainItem.right
-//            anchors.topMargin: Style.trayHorizontalMargin
+            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.left: trayWindowMainItem.left
+            anchors.right: trayWindowMainItem.right
+            anchors.topMargin: Style.trayHorizontalMargin
 
-//            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
+            text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
 
-//            property bool isSearchRunning: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
-//            property bool waitingForSearchTermEditEnd: UserModel.currentUser.unifiedSearchResultsListModel.waitingForSearchTermEditEnd
-//            property bool isSearchResultsEmpty: unifiedSearchResultsListView.count === 0
-//            property bool nothingFound: text && isSearchResultsEmpty && !UserModel.currentUser.unifiedSearchResultsListModel.errorString
+            property bool isSearchRunning: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
+            property bool waitingForSearchTermEditEnd: UserModel.currentUser.unifiedSearchResultsListModel.waitingForSearchTermEditEnd
+            property bool isSearchResultsEmpty: unifiedSearchResultsListView.count === 0
+            property bool nothingFound: text && isSearchResultsEmpty && !UserModel.currentUser.unifiedSearchResultsListModel.errorString
 
-//            visible: Style.isSearchFieldVisible //!isSearchRunning && !waitingForSearchTermEditEnd && nothingFound
-//        }
+            visible: Style.isSearchFieldVisible //!isSearchRunning && !waitingForSearchTermEditEnd && nothingFound
+        }
 
-//        Loader {
-//            id: unifiedSearchResultsListViewSkeletonLoader
+        Loader {
+            id: unifiedSearchResultsListViewSkeletonLoader
 
-//            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
-//            anchors.left: trayWindowMainItem.left
-//            anchors.right: trayWindowMainItem.right
-//            anchors.bottom: trayWindowMainItem.bottom
-//            anchors.margins: controlRoot.padding
+            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.left: trayWindowMainItem.left
+            anchors.right: trayWindowMainItem.right
+            anchors.bottom: trayWindowMainItem.bottom
+            anchors.margins: controlRoot.padding
 
-//            active: !unifiedSearchResultNothingFound.visible &&
-//                    !unifiedSearchResultsListView.visible &&
-//                    !UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
-//                    UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
+            active: !unifiedSearchResultNothingFound.visible &&
+                    !unifiedSearchResultsListView.visible &&
+                    !UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
+                    UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
 
-//            sourceComponent: UnifiedSearchResultItemSkeletonContainer {
-//                anchors.fill: parent
-//                spacing: unifiedSearchResultsListView.spacing
-//                animationRectangleWidth: trayWindow.width
-//            }
-//        }
+            sourceComponent: UnifiedSearchResultItemSkeletonContainer {
+                anchors.fill: parent
+                spacing: unifiedSearchResultsListView.spacing
+                animationRectangleWidth: trayWindow.width
+            }
+        }
 
         ScrollView {
             id: controlRoot
