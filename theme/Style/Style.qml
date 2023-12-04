@@ -185,6 +185,13 @@ QtObject {
 
     property int activityListScrollToTopVelocity: 10000
 
+
+    // NMC Customization
+    readonly property string swipeFontFamily: "Segoe UI"
+    readonly property int skipButtonWidth: 160
+    readonly property int skipButtonHeight: 32
+    readonly property int skipButtonRadius: 8
+
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
