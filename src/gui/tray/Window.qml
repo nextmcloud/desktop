@@ -287,7 +287,7 @@ ApplicationWindow {
             anchors.right:  trayWindowMainItem.right
             anchors.top:    separator.bottom
             height:         Style.nmcTrayWindowHeaderHeight
-            color:          Style.nmcCurrentUserHeaderColor
+            color:          "white"
             radius: 10
 
             RowLayout {
@@ -796,7 +796,7 @@ ApplicationWindow {
         }   // Rectangle trayWindowHeaderBackground
 
         Rectangle{
-            visible: false
+            visible: true
             width: Style.trayWindowWidth
             height: 1
             color: Style.ncSecondaryTextColor
