@@ -666,6 +666,12 @@ QIcon Theme::folderOfflineIcon(bool sysTray) const
     return themeIcon(QLatin1String("state-offline"), sysTray);
 }
 
+QIcon Theme::addButtonIcon() const
+{
+    QString buttonIcon = QLatin1String("circle-add-magenta");
+    return themeIcon(buttonIcon, false);
+}
+
 QColor Theme::wizardHeaderTitleColor() const
 {
     return {APPLICATION_WIZARD_HEADER_TITLE_COLOR};

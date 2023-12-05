@@ -51,6 +51,12 @@ public:
         DataRoleCount
 
     };
+    enum addButtonText
+    {
+        AB_Headline,
+        AB_Textline
+    };
+
     void paint(QPainter *, const QStyleOptionViewItem &, const QModelIndex &) const override;
     [[nodiscard]] QSize sizeHint(const QStyleOptionViewItem &, const QModelIndex &) const override;
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
@@ -71,7 +77,7 @@ public slots:
 private:
     void customizeStyle();
 
-    static QString addFolderText();
+    static QString addFolderText(enum addButtonText selection);
     QPersistentModelIndex _pressedIndex;
 
     QIcon _iconMore;
