@@ -286,7 +286,7 @@ ApplicationWindow {
             anchors.left:   trayWindowMainItem.left
             anchors.right:  trayWindowMainItem.right
             anchors.top:    separator.bottom
-            height:         Style.nmcTrayWindowHeaderHeight
+            height:         Style.nmcTrayWindowItemListHeight
             color:          "white"
             radius: 10
 
@@ -301,7 +301,7 @@ ApplicationWindow {
                     id: currentAccountButton
 
                     Layout.preferredWidth:  Style.currentAccountButtonWidth
-                    Layout.preferredHeight: Style.nmcTrayWindowHeaderHeight
+                    Layout.preferredHeight: Style.nmcTrayWindowItemListHeight
                     display:                AbstractButton.IconOnly
                     flat:                   true
                     anchors.verticalCenter: trayWindowHeaderLayout.verticalCenter
@@ -647,8 +647,8 @@ ApplicationWindow {
 
                 NMCHeaderButton {
                     id: trayWindowLocalButton
-                    Layout.preferredHeight: Style.nmcTrayWindowHeaderHeight
-                    Layout.preferredWidth: Style.nmcTrayWindowHeaderHeight
+                    Layout.preferredHeight: Style.nmcTrayWindowItemListHeight
+                    Layout.preferredWidth: Style.nmcTrayWindowItemListHeight
                     icon.source: "qrc:///client/theme/white/folder.svg"
                     onClicked: {
                         UserModel.openCurrentAccountLocalFolder()
@@ -684,7 +684,7 @@ ApplicationWindow {
 
                 NMCHeaderButton {
                     id: trayWindowAppsButton
-                    Layout.preferredHeight: Style.nmcTrayWindowHeaderHeight
+                    Layout.preferredHeight: Style.nmcTrayWindowItemListHeight
                     Layout.preferredWidth: Style.nmcTrayWindowHeaderHeight
                     icon.source: "qrc:///client/theme/white/more-apps.svg"
                     onClicked: {
