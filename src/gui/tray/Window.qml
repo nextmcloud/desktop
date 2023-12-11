@@ -260,6 +260,8 @@ ApplicationWindow {
         NMCLogoArea
         {
             id: trayWindowMagentaBarBackground
+            anchors.left:   trayWindowMainItem.left
+            anchors.right:  trayWindowMainItem.right
         }
 
         Rectangle{
@@ -514,7 +516,7 @@ ApplicationWindow {
                             height: Style.accountAvatarSize
                             width:  Style.accountAvatarSize
                             cache: false
-                            source: Style.currentAccountAvatar
+                            source: Style.nmcAccountAvatarIcon
                             Layout.preferredHeight: Style.accountAvatarSize
                             Layout.preferredWidth: Style.accountAvatarSize
 
