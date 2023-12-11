@@ -514,7 +514,7 @@ ApplicationWindow {
                             height: Style.accountAvatarSize
                             width:  Style.accountAvatarSize
                             cache: false
-                            source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
+                            source: Style.currentAccountAvatar
                             Layout.preferredHeight: Style.accountAvatarSize
                             Layout.preferredWidth: Style.accountAvatarSize
 
