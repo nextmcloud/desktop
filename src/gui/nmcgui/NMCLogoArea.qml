@@ -20,15 +20,12 @@ import QtQuick.Layouts 1.15
 import Style 1.0
 
 Rectangle{
-    id: trayWindowMagentaBarBackground
-    anchors.left:   trayWindowMainItem.left
-    anchors.right:  trayWindowMainItem.right
-    height:         Style.nmcTrayWindowHeaderHeight
-    color:          Style.ncBlue
+    height: Style.nmcTrayWindowHeaderHeight
+    color: Style.ncBlue
 
     RowLayout
     {
-        anchors.fill: trayWindowMagentaBarBackground
+        anchors.fill: parent
 
         Image {
             anchors.verticalCenter: parent.verticalCenter
