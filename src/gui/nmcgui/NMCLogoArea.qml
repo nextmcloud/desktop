@@ -20,17 +20,19 @@ import QtQuick.Layouts 1.15
 import Style 1.0
 
 Rectangle{
+    id: root
     height: Style.nmcTrayWindowHeaderHeight
     color: Style.ncBlue
 
-    RowLayout
-    {
-        anchors.fill: parent
+    Image {
+        source: Style.nmcLogoMagenta
+        fillMode: Image.PreserveAspectFit
 
-        Image {
-            anchors.verticalCenter: parent.verticalCenter
-            Layout.leftMargin: Style.nmcTrayWindowHeaderLeftMargin
-            source: Style.nmcLogoMagenta
-        }
+        anchors.topMargin: Style.nmcTopBottomHeaderMargin
+        anchors.bottomMargin: Style.nmcTopBottomHeaderMargin
+        anchors.left: root.left
+        anchors.top: root.top
+        anchors.bottom: root.bottom
+        anchors.leftMargin: Style.nmcTrayWindowHeaderLeftMargin
     }
 }

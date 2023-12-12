@@ -193,6 +193,7 @@ QtObject {
     property int nmcTrayWindowHeaderHeight: variableSize(36)
     property int nmcTrayWindowItemListHeight: variableSize(46)
     property int nmcTrayWindowHeaderLeftMargin: 20
+    property int nmcTopBottomHeaderMargin: 5
     readonly property color nmcBrowserButtonColor: "#484848"
     readonly property color nmcCurrentUserHeaderColor: currentUserHeaderColor
     readonly property bool isSearchFieldVisible: false
