@@ -694,7 +694,7 @@ ApplicationWindow {
                         UserModel.openCurrentAccountLocalFolder()
                     }
                     NCToolTip {
-                        visible: trayWindowAppsButton.hovered
+                        visible: trayWindowLocalButton.hovered
                         text: qsTr("Open local folder")
                     }
                 }
