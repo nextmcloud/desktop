@@ -21,6 +21,7 @@ import Qt.labs.platform 1.1 as NativeDialogs
 
 import "../"
 import "../filedetails/"
+import "../nmcgui"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
@@ -231,7 +232,7 @@ ApplicationWindow {
                 height: parent.height
 
                 backgroundsVisible: false
-                accentColor: Style.currentUserHeaderColor
+                accentColor: Style.nmcCurrentUserHeaderColor
                 accountState: fileDetailsDrawer.folderAccountState
                 localPath: fileDetailsDrawer.fileLocalPath
                 showCloseButton: true
@@ -256,28 +257,56 @@ ApplicationWindow {
         Accessible.role: Accessible.Grouping
         Accessible.name: qsTr("Nextcloud desktop main dialog")
 
+        NMCLogoArea
+        {
+            id: trayWindowMagentaBarBackground
+            anchors.left:   trayWindowMainItem.left
+            anchors.right:  trayWindowMainItem.right
+        }
+
+        Rectangle{
+            id:separator
+            color: Style.ncBlue
+            anchors.top:    trayWindowMagentaBarBackground.bottom
+            anchors.left:   trayWindowMainItem.left
+            anchors.right:  trayWindowMainItem.right
+            height: 1
+        }
+
+        Rectangle{
+            id:topRadiusCoverUp
+            color: Style.ncBlue
+            anchors.top:    separator.bottom
+            anchors.left:   trayWindowMainItem.left
+            anchors.right:  trayWindowMainItem.right
+            height: 10
+        }
+
         Rectangle {
             id: trayWindowHeaderBackground
 
             anchors.left:   trayWindowMainItem.left
             anchors.right:  trayWindowMainItem.right
-            anchors.top:    trayWindowMainItem.top
-            height:         Style.trayWindowHeaderHeight
-            color:          Style.currentUserHeaderColor
+            anchors.top:    separator.bottom
+            height:         Style.nmcTrayWindowItemListHeight
+            color:          "white"
+            radius: 10
 
             RowLayout {
                 id: trayWindowHeaderLayout
 
                 spacing:        0
-                anchors.fill:   parent
+                anchors.fill:   trayWindowHeaderBackground
+                //anchors.bottom: trayWindowHeaderBackground.bottom
 
                 Button {
                     id: currentAccountButton
 
                     Layout.preferredWidth:  Style.currentAccountButtonWidth
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
+                    Layout.preferredHeight: Style.nmcTrayWindowItemListHeight
                     display:                AbstractButton.IconOnly
                     flat:                   true
+                    anchors.verticalCenter: trayWindowHeaderLayout.verticalCenter
 
                     Accessible.role: Accessible.ButtonMenu
                     Accessible.name: qsTr("Current account")
@@ -300,7 +329,7 @@ ApplicationWindow {
                         // x coordinate grows towards the right
                         // y coordinate grows towards the bottom
                         x: (currentAccountButton.x + 2)
-                        y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 2)
+                        y: trayWindowHeaderBackground.height //(currentAccountButton.y + Style.trayWindowHeaderHeight)
 
                         width: (Style.currentAccountButtonWidth - 2)
                         height: Math.min(implicitHeight, maxMenuHeight)
@@ -475,17 +504,19 @@ ApplicationWindow {
                     RowLayout {
                         id: accountControlRowLayout
 
-                        height: Style.trayWindowHeaderHeight
-                        width:  Style.currentAccountButtonWidth
+                        //height: Style.trayWindowHeaderHeight
+                        //width:  Style.currentAccountButtonWidth
+                        anchors.fill: currentAccountButton
                         spacing: 0
 
                         Image {
                             id: currentAccountAvatar
 
-                            Layout.leftMargin: Style.trayHorizontalMargin
-                            verticalAlignment: Qt.AlignCenter
+                            Layout.leftMargin: Style.nmcTrayWindowHeaderLeftMargin
+                            height: Style.accountAvatarSize
+                            width:  Style.accountAvatarSize
                             cache: false
-                            source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
+                            source: Style.nmcAccountAvatarIcon
                             Layout.preferredHeight: Style.accountAvatarSize
                             Layout.preferredWidth: Style.accountAvatarSize
 
@@ -500,7 +531,7 @@ ApplicationWindow {
                                 height: width
                                 anchors.bottom: currentAccountAvatar.bottom
                                 anchors.right: currentAccountAvatar.right
-                                color: Style.currentUserHeaderColor
+                                color: Style.nmcCurrentUserHeaderColor
                                 radius: width * Style.trayFolderStatusIndicatorRadiusFactor
                             }
 
@@ -523,8 +554,8 @@ ApplicationWindow {
                                          && UserModel.currentUser.serverHasUserStatus
                                 source: UserModel.currentUser.statusIcon
                                 cache: false
-                                x: currentAccountStatusIndicatorBackground.x + 1
-                                y: currentAccountStatusIndicatorBackground.y + 1
+                                anchors.verticalCenter:currentAccountAvatar.verticalCenter
+
                                 sourceSize.width: Style.accountAvatarStateIndicatorSize
                                 sourceSize.height: Style.accountAvatarStateIndicatorSize
 
@@ -547,7 +578,7 @@ ApplicationWindow {
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.name
                                 elide: Text.ElideRight
-                                color: Style.currentUserHeaderTextColor
+                                color: Style.ncTextColor
 
                                 font.pixelSize: Style.topLinePixelSize
                                 font.bold: true
@@ -559,7 +590,7 @@ ApplicationWindow {
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.server
                                 elide: Text.ElideRight
-                                color: Style.currentUserHeaderTextColor
+                                color: Style.nmcCurrentUserHeaderColor
                                 visible: UserModel.numUsers() > 1
                             }
 
@@ -586,7 +617,7 @@ ApplicationWindow {
                                           ? UserModel.currentUser.statusMessage
                                           : UserModel.currentUser.server
                                     elide: Text.ElideRight
-                                    color: Style.currentUserHeaderTextColor
+                                    color: Style.nmcCurrentUserHeaderColor
                                     font.pixelSize: Style.subLinePixelSize
                                 }
                             }
@@ -594,11 +625,11 @@ ApplicationWindow {
 
                         ColorOverlay {
                             cached: true
-                            color: Style.currentUserHeaderTextColor
+                            color: Style.ncSecondaryTextColor
                             width: source.width
                             height: source.height
                             source: Image {
-                                Layout.alignment: Qt.AlignRight
+                                Layout.alignment: Qt.AlignLeft
                                 verticalAlignment: Qt.AlignCenter
                                 Layout.margins: Style.accountDropDownCaretMargin
                                 source: "qrc:///client/theme/white/caret-down.svg"
@@ -616,12 +647,27 @@ ApplicationWindow {
                     Layout.fillWidth: true
                 }
 
+                NMCHeaderButton {
+                    id: trayWindowLocalButton
+                    Layout.preferredHeight: Style.nmcTrayWindowItemListHeight
+                    Layout.preferredWidth: implicitWidth
+                    icon.source: "qrc:///client/theme/white/folder.svg"
+                    text: qsTr("Local folder")
+                    onClicked: {
+                        UserModel.openCurrentAccountLocalFolder()
+                    }
+                    NCToolTip {
+                        visible: trayWindowLocalButton.hovered
+                        text: qsTr("Open local folder")
+                    }
+                }
+
                 TrayFoldersMenuButton {
                     id: openLocalFolderButton
 
-                    visible: currentUser.hasLocalFolder
+                    visible: false
                     currentUser: UserModel.currentUser
-
+                    icon.color: Style.currentUserHeaderTextColor
                     Layout.preferredWidth:  Style.iconButtonWidth * Style.trayFolderListButtonWidthScaleFactor
                     Layout.alignment: Qt.AlignHCenter
 
@@ -630,37 +676,29 @@ ApplicationWindow {
                     onFolderEntryTriggered: isGroupFolder ? UserModel.openCurrentAccountFolderFromTrayInfo(fullFolderPath) : UserModel.openCurrentAccountLocalFolder()
                 }
 
-                HeaderButton {
+                NMCHeaderButton {
                     id: trayWindowTalkButton
 
                     visible: UserModel.currentUser.serverHasTalk
                     icon.source: "qrc:///client/theme/white/talk-app.svg"
                     icon.color: Style.currentUserHeaderTextColor
                     onClicked: UserModel.openCurrentAccountTalk()
-
-                    Accessible.role: Accessible.Button
-                    Accessible.name: qsTr("Open Nextcloud Talk in browser")
-                    Accessible.onPressAction: trayWindowTalkButton.clicked()
                 }
 
-                HeaderButton {
+                NMCHeaderButton {
                     id: trayWindowAppsButton
+                    Layout.preferredHeight: Style.nmcTrayWindowItemListHeight
+                    Layout.preferredWidth: implicitWidth
                     icon.source: "qrc:///client/theme/white/more-apps.svg"
-                    icon.color: Style.currentUserHeaderTextColor
-
+                    text: qsTr("Open website")
                     onClicked: {
-                        if(appsMenuListView.count <= 0) {
-                            UserModel.openCurrentAccountServer()
-                        } else if (appsMenu.visible) {
-                            appsMenu.close()
-                        } else {
-                            appsMenu.open()
-                        }
+                        UserModel.openCurrentAccountServer()
                     }
-
-                    Accessible.role: Accessible.ButtonMenu
-                    Accessible.name: qsTr("More apps")
-                    Accessible.onPressAction: trayWindowAppsButton.clicked()
+                    NCToolTip {
+                        visible: trayWindowAppsButton.hovered
+                        text: qsTr("Open website")
+                    }
+                    Layout.rightMargin: Style.nmcTrayWindowHeaderLeftMargin
 
                     Menu {
                         id: appsMenu
@@ -669,7 +707,7 @@ ApplicationWindow {
                         width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
                         height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
                         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-
+                        visible: false
                         background: Rectangle {
                             border.color: palette.dark
                             color: palette.base
@@ -723,9 +761,22 @@ ApplicationWindow {
             }
         }   // Rectangle trayWindowHeaderBackground
 
+        Rectangle{
+            visible: true
+            width: Style.trayWindowWidth
+            height: 1
+            color: Style.ncSecondaryTextColor
+            anchors {
+                top: trayWindowHeaderBackground.bottom
+                left: trayWindowMainItem.left
+                right: trayWindowMainItem.right
+            }
+        }
+
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
-            height: Style.trayWindowHeaderHeight * 0.65
+            height: visible ? Style.trayWindowHeaderHeight * 0.65 : 0
+            visible: Style.isSearchFieldVisible
 
             anchors {
                 top: trayWindowHeaderBackground.bottom
@@ -746,7 +797,9 @@ ApplicationWindow {
 
         ErrorBox {
             id: unifiedSearchResultsErrorLabel
-            visible:  UserModel.currentUser.unifiedSearchResultsListModel.errorString && !unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress && ! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
+            visible:  Style.isSearchFieldVisible //UserModel.currentUser.unifiedSearchResultsListModel.errorString &&
+                      //!unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress &&
+                      //! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
             text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
             anchors.top: trayWindowUnifiedSearchInputContainer.bottom
             anchors.left: trayWindowMainItem.left
@@ -769,7 +822,7 @@ ApplicationWindow {
             property bool isSearchResultsEmpty: unifiedSearchResultsListView.count === 0
             property bool nothingFound: text && isSearchResultsEmpty && !UserModel.currentUser.unifiedSearchResultsListModel.errorString
 
-            visible: !isSearchRunning && !waitingForSearchTermEditEnd && nothingFound
+            visible: Style.isSearchFieldVisible //!isSearchRunning && !waitingForSearchTermEditEnd && nothingFound
         }
 
         Loader {
@@ -804,7 +857,7 @@ ApplicationWindow {
             }
             visible: unifiedSearchResultsListView.count > 0
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowHeaderBackground.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -846,7 +899,7 @@ ApplicationWindow {
 
             visible: !trayWindowMainItem.isUnifiedSearchActive
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowHeaderBackground.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
         }
@@ -874,7 +927,7 @@ ApplicationWindow {
                 textColorHovered: Style.currentUserHeaderTextColor
                 contentsFont.bold: true
                 bgNormalColor: Qt.lighter(bgHoverColor, 1.25)
-                bgHoverColor: Style.currentUserHeaderColor
+                bgHoverColor: Style.nmcCurrentUserHeaderColor
                 bgNormalOpacity: Style.newActivitiesBgNormalOpacity
                 bgHoverOpacity: Style.newActivitiesBgHoverOpacity
 

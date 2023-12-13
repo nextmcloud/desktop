@@ -17,7 +17,9 @@ import QtQuick.Layouts 1.15
 import QtGraphicalEffects 1.0
 import Style 1.0
 
-HeaderButton {
+import "../nmcgui"
+
+NMCHeaderButton {
     id: root
 
     signal folderEntryTriggered(string fullFolderPath, bool isGroupFolder)
