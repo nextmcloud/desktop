@@ -191,7 +191,7 @@ QtObject {
 
     //NMCStyle
     property int nmcTrayWindowHeaderHeight: variableSize(36)
-    property int nmcTrayWindowItemListHeight: variableSize(46)
+    property int nmcTrayWindowItemListHeight: variableSize(52)
     property int nmcTrayWindowHeaderLeftMargin: 20
     property int nmcTopBottomHeaderMargin: 5
     readonly property color nmcBrowserButtonColor: "#484848"

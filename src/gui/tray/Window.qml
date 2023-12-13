@@ -650,8 +650,9 @@ ApplicationWindow {
                 NMCHeaderButton {
                     id: trayWindowLocalButton
                     Layout.preferredHeight: Style.nmcTrayWindowItemListHeight
-                    Layout.preferredWidth: Style.nmcTrayWindowItemListHeight
+                    Layout.preferredWidth: implicitWidth
                     icon.source: "qrc:///client/theme/white/folder.svg"
+                    text: qsTr("Local folder")
                     onClicked: {
                         UserModel.openCurrentAccountLocalFolder()
                     }
@@ -687,8 +688,9 @@ ApplicationWindow {
                 NMCHeaderButton {
                     id: trayWindowAppsButton
                     Layout.preferredHeight: Style.nmcTrayWindowItemListHeight
-                    Layout.preferredWidth: Style.nmcTrayWindowHeaderHeight
+                    Layout.preferredWidth: implicitWidth
                     icon.source: "qrc:///client/theme/white/more-apps.svg"
+                    text: qsTr("Open website")
                     onClicked: {
                         UserModel.openCurrentAccountServer()
                     }
