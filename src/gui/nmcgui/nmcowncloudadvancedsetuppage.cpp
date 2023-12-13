@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Eugen Fischer <freitag@owncloud.com>
+ * Copyright (C) by Eugen Fischer
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

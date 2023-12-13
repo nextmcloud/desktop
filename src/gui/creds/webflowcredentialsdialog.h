@@ -45,20 +45,23 @@ signals:
     void onActivate();
     void onClose();
 
+protected:
+    bool _useFlow2;
+    Flow2AuthWidget *_flow2AuthWidget = nullptr;
+    QVBoxLayout *_containerLayout;
+    QLabel *_infoLabel;
+
 private:
     void customizeStyle();
 
-    bool _useFlow2;
 
-    Flow2AuthWidget *_flow2AuthWidget = nullptr;
 #ifdef WITH_WEBENGINE
     WebView *_webView = nullptr;
 #endif // WITH_WEBENGINE
 
     QLabel *_errorLabel;
-    QLabel *_infoLabel;
     QVBoxLayout *_layout;
-    QVBoxLayout *_containerLayout;
+
 };
 
 } // namespace OCC
