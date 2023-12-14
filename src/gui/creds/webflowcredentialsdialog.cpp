@@ -37,7 +37,7 @@ WebFlowCredentialsDialog::WebFlowCredentialsDialog(Account *account, bool useFlo
     _containerLayout->addWidget(_infoLabel);
 
     if (_useFlow2) {
-        _flow2AuthWidget = new NMCFlow2AuthWidget();
+        _flow2AuthWidget = new Flow2AuthWidget();
         _containerLayout->addWidget(_flow2AuthWidget);
 
         connect(_flow2AuthWidget, &Flow2AuthWidget::authResult, this, &WebFlowCredentialsDialog::slotFlow2AuthResult);

@@ -50,6 +50,7 @@ protected:
     Flow2AuthWidget *_flow2AuthWidget = nullptr;
     QVBoxLayout *_containerLayout;
     QLabel *_infoLabel;
+    QVBoxLayout *_layout;
 
 private:
     void customizeStyle();
@@ -60,8 +61,6 @@ private:
 #endif // WITH_WEBENGINE
 
     QLabel *_errorLabel;
-    QVBoxLayout *_layout;
-
 };
 
 } // namespace OCC

@@ -20,6 +20,6 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     : OwncloudAdvancedSetupPage(wizard)
 
 {
-
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 }
 } // namespace OCC

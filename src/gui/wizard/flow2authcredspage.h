@@ -56,6 +56,9 @@ signals:
     void pollNow();
     void styleChanged();
 
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
 public:
     QString _user;
     QString _appPassword;

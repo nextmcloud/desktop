@@ -205,8 +205,6 @@ set(client_SRCS
     nmcgui/nmcflow2authwidget.cpp
     nmcgui/nmcowncloudadvancedsetuppage.h
     nmcgui/nmcowncloudadvancedsetuppage.cpp
-    nmcgui/nmcwebflowcredentialsdialog.h
-    nmcgui/nmcwebflowcredentialsdialog.cpp
     tray/svgimageprovider.h
     tray/svgimageprovider.cpp
     tray/syncstatussummary.h

@@ -16,6 +16,7 @@
 
 #include "QPushButton"
 #include "QDesktopServices"
+#include "QtGui/qpainter.h"
 #include "theme.h"
 
 namespace OCC {
@@ -24,8 +25,7 @@ namespace OCC {
 NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     : Flow2AuthWidget(parent)
 {
-    setWindowFlags(Qt::Tool | Qt::FramelessWindowHint);
-
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
     _ui.copyLinkLabel->setVisible(false);
     _ui.openLinkLabel->setVisible(false);
@@ -66,6 +66,15 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     const QString styleSheet("QPushButton{font-size: 14px;font-family: Segoe;}");
     copyLinkButton->setStyleSheet(styleSheet);
     reopenBrowserButton->setStyleSheet(styleSheet);
+}
+
+void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
+{
+    QPainter painter;
+    painter.begin(this);
+    painter.fillRect(rect(), Qt::white);
+    painter.end();
+    Flow2AuthWidget::paintEvent(event);
 }
 
 

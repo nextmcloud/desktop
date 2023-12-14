@@ -16,6 +16,7 @@
 #include "account.h"
 #include "config.h"
 #include "configfile.h"
+#include "nmcgui/nmcowncloudadvancedsetuppage.h"
 #include "theme.h"
 #include "owncloudgui.h"
 
@@ -49,7 +50,7 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     , _setupPage(new OwncloudSetupPage(this))
     , _httpCredsPage(new OwncloudHttpCredsPage(this))
     , _flow2CredsPage(new Flow2AuthCredsPage)
-    , _advancedSetupPage(new OwncloudAdvancedSetupPage(this))
+    , _advancedSetupPage(new NMCOwncloudAdvancedSetupPage(this))
 #ifdef WITH_WEBENGINE
     , _webViewPage(new WebViewPage(this))
 #else // WITH_WEBENGINE
@@ -87,7 +88,7 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 
     Theme *theme = Theme::instance();
     setWindowTitle(tr("Add %1 account").arg(theme->appNameGUI()));
-    setWizardStyle(QWizard::ModernStyle);
+    setWizardStyle(QWizard::ClassicStyle);
     setOption(QWizard::NoBackButtonOnStartPage);
     setOption(QWizard::NoCancelButton);
     setButtonText(QWizard::CustomButton1, tr("Skip folders configuration"));
@@ -306,7 +307,7 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         id == WizardCommon::Page_WebView ||
 #endif // WITH_WEBENGINE
         id == WizardCommon::Page_Flow2AuthCreds) {
-        setButtonLayout({ QWizard::BackButton, QWizard::Stretch });
+        setButtonLayout({ QWizard::Stretch });
     } else if (id == WizardCommon::Page_AdvancedSetup) {
         setButtonLayout({ QWizard::CustomButton2, QWizard::Stretch, QWizard::CustomButton1, QWizard::FinishButton });
         setNextButtonAsDefault();
@@ -383,6 +384,15 @@ void OwncloudWizard::changeEvent(QEvent *e)
     }
 
     QWizard::changeEvent(e);
+}
+
+void OwncloudWizard::paintEvent(QPaintEvent *event)
+{
+    QPainter painter;
+    painter.begin(this);
+    painter.fillRect(rect(), Qt::white);
+    painter.end();
+    QWizard::paintEvent(event);
 }
 
 void OwncloudWizard::customizeStyle()

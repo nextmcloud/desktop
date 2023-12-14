@@ -15,7 +15,6 @@
 #include "accessmanager.h"
 #include "account.h"
 #include "configfile.h"
-#include "nmcgui/nmcwebflowcredentialsdialog.h"
 #include "theme.h"
 #ifdef WITH_WEBENGINE
 #include "wizard/webview.h"
@@ -155,7 +154,7 @@ void WebFlowCredentials::askFromUser() {
         bool useFlow2 = true;
 #endif // WITH_WEBENGINE
 
-        _askDialog = new NMCWebFlowCredentialsDialog(_account, useFlow2);
+        _askDialog = new WebFlowCredentialsDialog(_account, useFlow2);
 
         if (!useFlow2) {
             QUrl url = _account->url();
