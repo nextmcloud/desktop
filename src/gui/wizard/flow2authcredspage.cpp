@@ -146,13 +146,4 @@ void Flow2AuthCredsPage::slotStyleChanged()
     emit styleChanged();
 }
 
-void Flow2AuthCredsPage::paintEvent(QPaintEvent *event)
-{
-    QPainter painter;
-    painter.begin(this);
-    painter.fillRect(rect(), Qt::white);
-    painter.end();
-    AbstractCredentialsWizardPage::paintEvent(event);
-}
-
 } // namespace OCC

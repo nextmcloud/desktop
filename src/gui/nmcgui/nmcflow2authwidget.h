@@ -25,9 +25,6 @@ class NMCFlow2AuthWidget : public Flow2AuthWidget
 public:
     NMCFlow2AuthWidget(QWidget *parent = nullptr);
     ~NMCFlow2AuthWidget() = default;
-
-protected:
-    void paintEvent(QPaintEvent *event) override;
 };
 
 } // namespace OCC

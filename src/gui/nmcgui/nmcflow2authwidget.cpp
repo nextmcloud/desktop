@@ -68,14 +68,5 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     reopenBrowserButton->setStyleSheet(styleSheet);
 }
 
-void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
-{
-    QPainter painter;
-    painter.begin(this);
-    painter.fillRect(rect(), Qt::white);
-    painter.end();
-    Flow2AuthWidget::paintEvent(event);
-}
-
 
 } // namespace OCC
