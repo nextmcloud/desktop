@@ -13,6 +13,7 @@
  */
 
 #include "nmcgui/nmcowncloudadvancedsetuppage.h"
+#include "QtGui/qpainter.h"
 
 namespace OCC {
 
@@ -20,6 +21,20 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     : OwncloudAdvancedSetupPage(wizard)
 
 {
-    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+    _ui.confCheckBoxSize->setVisible(false);
+    _ui.confSpinBox->setVisible(false);
+    _ui.confTraillingSizeLabel->setVisible(false);
+    _ui.confCheckBoxSize->setFixedSize(0,0);
+    _ui.confSpinBox->setFixedSize(0,0);
+    _ui.confTraillingSizeLabel->setFixedSize(0,0);
+    _ui.wSyncStrategy->removeItem(_ui.horizontalLayout_6);
+
+    _ui.confCheckBoxExternal->setVisible(false);
+    _ui.confCheckBoxExternal->setFixedSize(0,0);
+    _ui.wSyncStrategy->removeItem(_ui.horizontalLayout_8);
+
+    _ui.verticalLayout->removeWidget(_ui.errorLabel);
+    _ui.wSyncStrategy->insertWidget(0, _ui.errorLabel);
 }
+
 } // namespace OCC

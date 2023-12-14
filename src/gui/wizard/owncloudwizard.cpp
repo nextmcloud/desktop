@@ -309,7 +309,7 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         id == WizardCommon::Page_Flow2AuthCreds) {
         setButtonLayout({ QWizard::Stretch });
     } else if (id == WizardCommon::Page_AdvancedSetup) {
-        setButtonLayout({ QWizard::CustomButton2, QWizard::Stretch, QWizard::CustomButton1, QWizard::FinishButton });
+        setButtonLayout({ QWizard::Stretch, QWizard::FinishButton });
         setNextButtonAsDefault();
     } else {
         setButtonLayout({ QWizard::BackButton, QWizard::Stretch, QWizard::NextButton });

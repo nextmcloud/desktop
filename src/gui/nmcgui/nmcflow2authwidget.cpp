@@ -25,8 +25,6 @@ namespace OCC {
 NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     : Flow2AuthWidget(parent)
 {
-    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-
     _ui.copyLinkLabel->setVisible(false);
     _ui.openLinkLabel->setVisible(false);
 
