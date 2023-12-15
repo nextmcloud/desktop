@@ -33,6 +33,9 @@ class NMCOwncloudAdvancedSetupPage : public OwncloudAdvancedSetupPage
 public:
     NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizard);
     ~NMCOwncloudAdvancedSetupPage() = default;
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
 };
 
 } // namespace OCC

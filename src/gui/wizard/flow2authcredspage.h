@@ -60,6 +60,9 @@ public:
     QString _user;
     QString _appPassword;
 
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
 private:
     Flow2AuthWidget *_flow2AuthWidget = nullptr;
     QVBoxLayout *_layout = nullptr;

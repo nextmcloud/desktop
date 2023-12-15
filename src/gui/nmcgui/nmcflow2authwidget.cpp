@@ -18,6 +18,8 @@
 #include "QDesktopServices"
 #include "QtGui/qpainter.h"
 #include "theme.h"
+#include "QString"
+#include <MacTypes.h>
 
 namespace OCC {
 
@@ -61,9 +63,18 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     copyLinkButton->setFocusPolicy(Qt::NoFocus);
 
     //Apply custom Pushbutton ui modifications, colors are set globaly in style.qml or theme?
-    const QString styleSheet("QPushButton{font-size: 14px;font-family: Segoe;}");
-    copyLinkButton->setStyleSheet(styleSheet);
-    reopenBrowserButton->setStyleSheet(styleSheet);
+    const QString styleSheet("QPushButton{font-size: 14px;font-family: Segoe; border: %1px solid; border-color: black; border-radius: 10px; background-color: %2; color: %3}");
+    copyLinkButton->setStyleSheet(styleSheet.arg("1","white","black"));
+    reopenBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white"));
+}
+
+void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
+{
+    QPainter painter;
+    painter.begin(this);
+    painter.fillRect(rect(), Qt::white);
+    painter.end();
+    Flow2AuthWidget::paintEvent(event);
 }
 
 
