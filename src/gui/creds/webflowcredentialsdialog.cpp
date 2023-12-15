@@ -3,7 +3,6 @@
 #include <QVBoxLayout>
 #include <QLabel>
 
-#include "nmcgui/nmcflow2authwidget.h"
 #include "theme.h"
 #include "application.h"
 #include "owncloudgui.h"
