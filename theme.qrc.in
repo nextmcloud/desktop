@@ -87,6 +87,8 @@
         <file>theme/colored/state-warning-256.png</file>
         <file>theme/black/folder.png</file>
         <file>theme/black/folder.svg</file>
+        <file>theme/black/computer-icon.svg</file>
+        <file>theme/black/computer-icon.png</file>
         <file>theme/black/folder-group.svg</file>
         <file>theme/black/folder@2x.png</file>
         <file>theme/white/folder.png</file>
