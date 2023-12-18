@@ -314,7 +314,7 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         setNextButtonAsDefault();
     } else if (id == WizardCommon::Page_Magenta) {
         setButtonLayout({ QWizard::Stretch, QWizard::FinishButton });
-        setNextButtonAsDefault();
+        //setNextButtonAsDefault();
     } else {
         setButtonLayout({ QWizard::BackButton, QWizard::Stretch, QWizard::NextButton });
         setNextButtonAsDefault();

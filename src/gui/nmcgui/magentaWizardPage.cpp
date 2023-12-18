@@ -23,7 +23,23 @@ namespace OCC {
 MagentaWizardPage::MagentaWizardPage(OwncloudWizard *ocWizard)
     : WelcomePage(ocWizard)
 {
+    this->layout()->removeItem(_ui->horizontalLayout);
+    _ui->hostYourOwnServerLabel->setVisible(false);
+    _ui->loginButton->setVisible(false);
+    _ui->createAccountButton->setVisible(false);
+    _ui->slideShow->startShow(2500);
 
+    setFinalPage(true);
+}
+
+int MagentaWizardPage::nextId() const
+{
+    return -1;
+}
+
+bool MagentaWizardPage::isComplete() const
+{
+    return true;
 }
 
 void MagentaWizardPage::styleSlideShow()
@@ -35,13 +51,18 @@ void MagentaWizardPage::styleSlideShow()
     const QString page2FileName = QString(":/client/theme/NMCIcons/page2.png");
     const QString page3FileName = QString(":/client/theme/NMCIcons/page3.png");
 
-    _ui->slideShow->addSlide(page1FileName, tr("Keep your data secure and under your control"));
-    _ui->slideShow->addSlide(page2FileName, tr("Secure collaboration & file exchange"));
-    _ui->slideShow->addSlide(page3FileName, tr("Easy-to-use web mail, calendaring & contacts"));
+    _ui->slideShow->addSlide(page1FileName, tr("Page 1"));
+    _ui->slideShow->addSlide(page2FileName, tr("Page 2"));
+    _ui->slideShow->addSlide(page3FileName, tr("Page 3"));
 
     const auto isDarkBackground = Theme::isDarkColor(backgroundColor);
     _ui->slideShowNextButton->setIcon(theme->uiThemeIcon(QString("control-next.svg"), isDarkBackground));
     _ui->slideShowPreviousButton->setIcon(theme->uiThemeIcon(QString("control-prev.svg"), isDarkBackground));
+}
+
+void MagentaWizardPage::setLoginButtonDefault()
+{
+    //No login button available, keep empty
 }
 
 

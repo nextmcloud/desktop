@@ -24,9 +24,12 @@ class MagentaWizardPage : public WelcomePage
     Q_OBJECT
 public:
     MagentaWizardPage(OwncloudWizard *ocWizard);
+    [[nodiscard]] int nextId() const override;
+    bool isComplete() const override;
 
 protected:
-    void styleSlideShow() override;
+    void styleSlideShow() override final;
+    void setLoginButtonDefault() override final;
 };
 
 } // namespace OCC

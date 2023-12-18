@@ -35,7 +35,7 @@ public:
     ~WelcomePage() override;
     [[nodiscard]] int nextId() const override;
     void initializePage() override;
-    void setLoginButtonDefault();
+    virtual void setLoginButtonDefault();
 
 protected:
     virtual void styleSlideShow();
