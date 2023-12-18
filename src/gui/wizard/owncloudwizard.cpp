@@ -89,7 +89,7 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 
     Theme *theme = Theme::instance();
     setWindowTitle(tr("Add %1 account").arg(theme->appNameGUI()));
-    setWizardStyle(QWizard::ModernStyle);
+    setWizardStyle(QWizard::ClassicStyle);
     setOption(QWizard::NoBackButtonOnStartPage);
     setOption(QWizard::NoCancelButton);
     setButtonText(QWizard::CustomButton1, tr("Skip folders configuration"));
@@ -385,6 +385,15 @@ void OwncloudWizard::changeEvent(QEvent *e)
     }
 
     QWizard::changeEvent(e);
+}
+
+void OwncloudWizard::paintEvent(QPaintEvent *event)
+{
+    QPainter painter;
+    painter.begin(this);
+    painter.fillRect(rect(), Qt::white);
+    painter.end();
+    QWizard::paintEvent(event);
 }
 
 void OwncloudWizard::customizeStyle()

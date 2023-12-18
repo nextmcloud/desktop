@@ -35,15 +35,8 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     _ui.verticalLayout->removeWidget(_ui.errorLabel);
     _ui.wSyncStrategy->insertWidget(0, _ui.errorLabel);
-}
 
-void NMCOwncloudAdvancedSetupPage::paintEvent(QPaintEvent *event)
-{
-    QPainter painter;
-    painter.begin(this);
-    painter.fillRect(rect(), Qt::white);
-    painter.end();
-    OwncloudAdvancedSetupPage::paintEvent(event);
+    _ui.lServerIcon->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 }
 
 } // namespace OCC
