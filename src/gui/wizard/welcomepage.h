@@ -37,16 +37,17 @@ public:
     void initializePage() override;
     void setLoginButtonDefault();
 
+protected:
+    virtual void styleSlideShow();
+    QScopedPointer<Ui::WelcomePage> _ui;
+
 private:
-    void setupUi();
     void customizeStyle();
-    void styleSlideShow();
     void setupSlideShow();
+    void setupUi();
     void setupLoginButton();
     void setupCreateAccountButton();
     void setupHostYourOwnServerLabel();
-
-    QScopedPointer<Ui::WelcomePage> _ui;
 
     OwncloudWizard *_ocWizard;
     WizardCommon::Pages _nextPage = WizardCommon::Page_ServerSetup;

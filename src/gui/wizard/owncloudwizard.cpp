@@ -55,6 +55,7 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 #else // WITH_WEBENGINE
     , _webViewPage(nullptr)
 #endif // WITH_WEBENGINE
+    , _magentaPage(new MagentaWizardPage(this))
 {
     setObjectName("owncloudWizard");
 
@@ -64,6 +65,7 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     setPage(WizardCommon::Page_HttpCreds, _httpCredsPage);
     setPage(WizardCommon::Page_Flow2AuthCreds, _flow2CredsPage);
     setPage(WizardCommon::Page_AdvancedSetup, _advancedSetupPage);
+    setPage(WizardCommon::Page_Magenta, _magentaPage);
 #ifdef WITH_WEBENGINE
     setPage(WizardCommon::Page_WebView, _webViewPage);
 #endif // WITH_WEBENGINE
@@ -308,7 +310,10 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         id == WizardCommon::Page_Flow2AuthCreds) {
         setButtonLayout({ QWizard::BackButton, QWizard::Stretch });
     } else if (id == WizardCommon::Page_AdvancedSetup) {
-        setButtonLayout({ QWizard::CustomButton2, QWizard::Stretch, QWizard::CustomButton1, QWizard::FinishButton });
+        setButtonLayout({ QWizard::CustomButton2, QWizard::Stretch, QWizard::NextButton });
+        setNextButtonAsDefault();
+    } else if (id == WizardCommon::Page_Magenta) {
+        setButtonLayout({ QWizard::Stretch, QWizard::FinishButton });
         setNextButtonAsDefault();
     } else {
         setButtonLayout({ QWizard::BackButton, QWizard::Stretch, QWizard::NextButton });
