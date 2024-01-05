@@ -62,5 +62,11 @@
         <file>src/gui/ConflictDelegate.qml</file>
         <file>src/gui/ConflictItemFileInfo.qml</file>
         <file>src/gui/filedetails/NCInputDateField.qml</file>
+        <file>src/gui/nmcgui/welcome.qml</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>theme/NMCswipe/page1.png</file>
+        <file>theme/NMCswipe/page2.png</file>
+        <file>theme/NMCswipe/page3.png</file>
     </qresource>
 </RCC>

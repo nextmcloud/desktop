@@ -67,6 +67,8 @@
 #include <QUrlQuery>
 #include <QVersionNumber>
 
+#include <QQuickItem>
+
 class QSocket;
 
 namespace OCC {
@@ -415,6 +417,22 @@ Application::Application(int &argc, char **argv)
         AccountSetupCommandLineManager::instance()->setupAccountFromCommandLine();
     }
     AccountSetupCommandLineManager::destroy();
+
+    // NMC Customization
+    /* Setup the swipe screen */
+    view.engine()->addImportPath("qrc:/qml/theme");
+    view.setSource(QStringLiteral("qrc:/qml/src/gui/nmcgui/welcome.qml"));
+    view.setFlags(view.flags());
+    QObject *rootObj = view.rootObject();
+    if(!rootObj)
+    {
+        return;
+    }
+    auto cancelButton = rootObj->findChild<QObject*>("cancelButton");
+    if(cancelButton)
+    {
+        connect(cancelButton, SIGNAL(cancelClicked()),this, SLOT(slotSwipeCancelClicked()));
+    }
 }
 
 Application::~Application()
@@ -655,6 +673,18 @@ void Application::slotownCloudWizardDone(int res)
         }
 
         Systray::instance()->showWindow();
+
+        // NMC Customization
+        /* Swipe screen works in a slideshow mode for first user */
+        if(UserModel::instance()->numUsers()==1)
+        {
+            auto *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
+            view.show();
+            if(timerSlideShow)
+            {
+                timerSlideShow->setProperty("running", true);
+            }
+        }
     }
 }
 
@@ -1062,6 +1092,21 @@ void Application::tryTrayAgain()
 {
     qCInfo(lcApplication) << "Trying tray icon, tray available:" << QSystemTrayIcon::isSystemTrayAvailable();
     _gui->hideAndShowTray();
+}
+
+void Application::slotSwipeCancelClicked()
+{
+    auto *timerSlideShow = view.rootObject()->findChild<QObject*>("timerSlideShow");
+    auto *swipeView = view.rootObject()->findChild<QObject*>("swipeView");
+
+    /* Stop a slideshow and go back to the first page */
+    if(timerSlideShow && swipeView)
+    {
+        timerSlideShow->setProperty("running", false);
+        timerSlideShow->setProperty("interval", slideShowDelay);
+        swipeView->setProperty("currentIndex", startPage);
+        view.hide();
+    }
 }
 
 bool Application::event(QEvent *event)

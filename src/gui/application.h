@@ -31,6 +31,7 @@
 #include "progressdispatcher.h"
 #include "clientproxy.h"
 #include "folderman.h"
+#include <QQuickView>
 
 class QMessageBox;
 class QSystemTrayIcon;
@@ -92,6 +93,8 @@ public slots:
 
     /// Attempt to show() the tray icon again. Used if no systray was available initially.
     void tryTrayAgain();
+
+    void slotSwipeCancelClicked(); //NMC
 
 protected:
     void parseOptions(const QStringList &);
@@ -167,6 +170,11 @@ private:
 #elif defined(Q_OS_MACOS)
     QScopedPointer<Mac::FileProvider> _fileProvider;
 #endif
+
+    // NMC
+    const int slideShowDelay = 3000;
+    const int startPage = 0;
+    QQuickView view;
 };
 
 } // namespace OCC
