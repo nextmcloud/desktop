@@ -22,6 +22,7 @@
 #include <QSslCertificate>
 
 #include "networkjobs.h"
+#include "nmcgui/magentaWizardPage.h"
 #include "wizard/owncloudwizardcommon.h"
 #include "accountfwd.h"
 
@@ -126,6 +127,9 @@ private:
     OwncloudWizardResultPage *_resultPage = nullptr;
     AbstractCredentialsWizardPage *_credentialsPage = nullptr;
     WebViewPage *_webViewPage = nullptr;
+
+    //NMCCustomization
+    MagentaWizardPage *_magentaPage = nullptr;
 
     QStringList _setupLog;
 
