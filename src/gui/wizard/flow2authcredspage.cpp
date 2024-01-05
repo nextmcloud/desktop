@@ -17,6 +17,8 @@
 #include <QVBoxLayout>
 
 #include "flow2authcredspage.h"
+#include "QtGui/qpainter.h"
+#include "nmcgui/nmcflow2authwidget.h"
 #include "theme.h"
 #include "account.h"
 #include "cookiejar.h"
@@ -33,7 +35,7 @@ Flow2AuthCredsPage::Flow2AuthCredsPage()
 {
     _layout = new QVBoxLayout(this);
 
-    _flow2AuthWidget = new Flow2AuthWidget();
+    _flow2AuthWidget = new NMCFlow2AuthWidget();
     _layout->addWidget(_flow2AuthWidget);
 
     connect(_flow2AuthWidget, &Flow2AuthWidget::authResult, this, &Flow2AuthCredsPage::slotFlow2AuthResult);
