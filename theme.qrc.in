@@ -218,6 +218,9 @@
         <file>theme/lock-broken.svg</file>
         <file>theme/network.svg</file>
         <file>theme/account.svg</file>
+        <file>theme/NMCIcons/settings_magenta.svg</file>
+        <file>theme/NMCIcons/network_magenta.svg</file>
+        <file>theme/NMCIcons/account_magenta.svg</file>
         <file>theme/colored/add.svg</file>
         <file>theme/colored/add-bordered.svg</file>
         <file>theme/colored/delete.svg</file>

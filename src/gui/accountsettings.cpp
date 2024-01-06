@@ -16,6 +16,7 @@
 #include "accountsettings.h"
 #include "common/syncjournaldb.h"
 #include "common/syncjournalfilerecord.h"
+#include "nmcgui/nmcfolderwizard.h"
 #include "qmessagebox.h"
 #include "ui_accountsettings.h"
 
@@ -742,7 +743,7 @@ void AccountSettings::slotAddFolder()
     const auto folderMan = FolderMan::instance();
     folderMan->setSyncEnabled(false); // do not start more syncs.
 
-    const auto folderWizard = new FolderWizard(_accountState->account(), this);
+    const auto folderWizard = new NMCFolderWizard(_accountState->account(), this);
     folderWizard->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(folderWizard, &QDialog::accepted, this, &AccountSettings::slotFolderWizardAccepted);
@@ -753,7 +754,7 @@ void AccountSettings::slotAddFolder()
 
 void AccountSettings::slotFolderWizardAccepted()
 {
-    const auto folderWizard = qobject_cast<FolderWizard *>(sender());
+    const auto folderWizard = qobject_cast<NMCFolderWizard *>(sender());
     const auto folderMan = FolderMan::instance();
 
     qCInfo(lcAccountSettings) << "Folder wizard completed";
@@ -1111,7 +1112,7 @@ void AccountSettings::showConnectionLabel(const QString &message, QStringList er
         _ui->connectLabel->setToolTip({});
         _ui->connectLabel->setStyleSheet(errStyle);
     }
-    _ui->accountStatus->setVisible(!message.isEmpty());
+    //_ui->accountStatus->setVisible(!message.isEmpty());
 }
 
 void AccountSettings::slotEnableCurrentFolder(bool terminate)
@@ -1572,8 +1573,8 @@ void AccountSettings::refreshSelectiveSyncStatus()
         infoString += tr("There are folders that have grown in size beyond %1MB: %2").arg(folderSizeLimitString, becameBigFoldersString);
     }
 
-    _ui->selectiveSyncNotification->setText(infoString);
-    _ui->bigFolderUi->setVisible(!infoString.isEmpty());
+    //_ui->selectiveSyncNotification->setText(infoString);
+    //_ui->bigFolderUi->setVisible(!infoString.isEmpty());
 }
 
 bool AccountSettings::event(QEvent *e)
