@@ -192,4 +192,13 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+
+    //NMC - Magenta brand specific resources
+    readonly property string nmcAccountAvatarIcon: "qrc:///client/theme/accountAvatarIcon.svg"
+    readonly property string nmcSettingsIcon:      "qrc:///client/theme/settings.svg"
+    readonly property string nmcCloseIcon:         "qrc:///client/theme/close.svg"
+    readonly property string nmcPauseIcon:         "qrc:///client/theme/pause.svg"
+    readonly property string nmcLogOutIcon:        "qrc:///client/theme/logout.svg"
+    readonly property string nmcRemoveIcon:        "qrc:///client/theme/remove.svg"
+    readonly property int nmcAccountMenuItemLeftPadding: 10
 }
