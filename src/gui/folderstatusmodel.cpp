@@ -270,7 +270,19 @@ QVariant FolderStatusModel::data(const QModelIndex &index, int role) const
         toolTip += folderInfo._folder->path();
         return toolTip;
     }
-    case FolderStatusDelegate::FolderStatusIconRole:
+    case FolderStatusDelegate::FolderStatusIconRole:{
+        if (accountConnected) {
+            auto theme = Theme::instance();
+            if (f->syncPaused()) {
+                return theme->folderDisabledIcon();
+            } else {
+                return theme->folderIcon();
+            }
+        } else {
+            return Theme::instance()->folderOfflineIcon();
+        }
+    }
+    case FolderStatusDelegate::FolderOverlayIconRole:
         if (accountConnected) {
             auto theme = Theme::instance();
             auto status = f->syncResult().status();
