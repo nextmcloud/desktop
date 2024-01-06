@@ -21,7 +21,7 @@ namespace OCC {
 Q_LOGGING_CATEGORY(lcFileActivityListModel, "nextcloud.gui.fileactivitylistmodel", QtInfoMsg)
 
 FileActivityListModel::FileActivityListModel(QObject *parent)
-    : ActivityListModel(nullptr, parent)
+    : NMCActivityListModel(nullptr, parent)
 {
     setDisplayActions(false);
     connect(this, &FileActivityListModel::accountStateChanged, this, &FileActivityListModel::load);

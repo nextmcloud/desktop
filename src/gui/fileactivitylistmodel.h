@@ -15,11 +15,11 @@
 #pragma once
 
 #include "accountstate.h"
-#include "tray/activitylistmodel.h"
+#include "nmcgui/nmcactivitylistmodel.h"
 
 namespace OCC {
 
-class FileActivityListModel : public ActivityListModel
+class FileActivityListModel : public NMCActivityListModel
 {
     Q_OBJECT
     Q_PROPERTY(QString localPath READ localPath WRITE setLocalPath NOTIFY localPathChanged)
