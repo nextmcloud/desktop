@@ -67,7 +67,7 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
     setupCustomization();
 
     connect(_ui.pbSelectLocalFolder, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotSelectFolder);
-    setButtonText(QWizard::FinishButton, tr("Connect"));
+    setButtonText(QWizard::NextButton, tr("Connect"));
 
     if (Theme::instance()->enforceVirtualFilesSyncFolder()) {
         _ui.rSyncEverything->setDisabled(true);
@@ -135,7 +135,7 @@ void OwncloudAdvancedSetupPage::setupCustomization()
 
 bool OwncloudAdvancedSetupPage::isComplete() const
 {
-    return !_checking && _localFolderValid;
+    return true; //!_checking && _localFolderValid;
 }
 
 void OwncloudAdvancedSetupPage::initializePage()
@@ -169,7 +169,7 @@ void OwncloudAdvancedSetupPage::initializePage()
     updateStatus();
 
     // ensure "next" gets the focus, not obSelectLocalFolder
-    QTimer::singleShot(0, wizard()->button(QWizard::FinishButton), qOverload<>(&QWidget::setFocus));
+    QTimer::singleShot(0, wizard()->button(QWizard::NextButton), qOverload<>(&QWidget::setFocus));
 
     auto acc = dynamic_cast<OwncloudWizard *>(wizard())->account();
     auto quotaJob = new PropfindJob(acc, _remoteFolder, this);
@@ -366,7 +366,7 @@ QUrl OwncloudAdvancedSetupPage::serverUrl() const
 int OwncloudAdvancedSetupPage::nextId() const
 {
     // tells the caller that this is the last dialog page
-    return -1;
+    return WizardCommon::Page_Magenta; //-1;
 }
 
 QString OwncloudAdvancedSetupPage::localFolder() const
