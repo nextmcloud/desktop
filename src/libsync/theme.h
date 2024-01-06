@@ -191,6 +191,8 @@ public:
 
     [[nodiscard]] QIcon folderDisabledIcon() const;
     [[nodiscard]] QIcon folderOfflineIcon(bool sysTray = false) const;
+    [[nodiscard]] QIcon addButtonIcon() const;
+    [[nodiscard]] QIcon folderIcon() const;
     [[nodiscard]] QIcon applicationIcon() const;
 #endif
 

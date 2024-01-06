@@ -1,1 +1,22 @@
-<svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(.87499 0 0 .87499 .26458 -255.9)"><circle cx="2.1167" cy="294.88" r="2.1167" fill="#5eb220" stroke-width=".25066"/><path d="m0.79642 295.01 0.93278 0.93284 1.7265-1.7267" fill="none" stroke="#faffff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52916"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4" height="4" viewBox="0 0 4 4">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fe319a"/>
+      <stop offset="1" stop-color="#e20074"/>
+    </linearGradient>
+    <clipPath id="clip-state-ok">
+      <rect width="4" height="4"/>
+    </clipPath>
+  </defs>
+  <g id="state-ok" clip-path="url(#clip-state-ok)">
+    <g id="Gruppe_683" data-name="Gruppe 683">
+      <path id="Pfad_497" data-name="Pfad 497" d="M.213,0H3.787A.213.213,0,0,1,4,.213V3.787A.213.213,0,0,1,3.787,4H.213A.213.213,0,0,1,0,3.787V.213A.213.213,0,0,1,.213,0Z" fill="url(#linear-gradient)"/>
+      <path id="Differenzmenge_7" data-name="Differenzmenge 7" d="M1.336,2.148a.989.989,0,0,1-.681-.271.539.539,0,0,1-.119.013A.536.536,0,0,1,.12,1.016.538.538,0,0,1,.42.83.533.533,0,0,1,1.1.351.9.9,0,0,1,1.41.1a.892.892,0,0,1,.982.119.893.893,0,0,1,.3.532A.573.573,0,0,1,2.573,1.88a.584.584,0,0,1-.061,0A.533.533,0,0,1,1.883,2V1.328h.442L1.652.639l-.677.689h.446v.816C1.393,2.147,1.364,2.148,1.336,2.148Z" transform="translate(0.427 0.907)" fill="#fff"/>
+      <path id="Differenzmenge_8" data-name="Differenzmenge 8" d="M1.354.154H.912V0H1.2l.151.154Zm-.9,0H0L.152,0h.3V.154Z" transform="translate(1.398 2.235)" fill="#f2f2f2"/>
+      <g id="Gruppe_682" data-name="Gruppe 682" transform="translate(2.444 2.177)">
+        <circle id="Ellipse_46" data-name="Ellipse 46" cx="0.607" cy="0.607" r="0.607" transform="translate(0.04 0.027)" fill="#fff"/>
+        <path id="Check-Icon" d="M2.1,1.146a.652.652,0,0,0-.913.006.645.645,0,0,0,.456,1.1A.667.667,0,0,0,2.1,2.064l.006-.006A.652.652,0,0,0,2.1,1.146Zm-.064.3-.509.509L1.257,1.69a.046.046,0,0,1,.064-.064l.2.2.445-.445a.042.042,0,0,1,.064.006A.053.053,0,0,1,2.035,1.45Z" transform="translate(-1 -0.962)" fill="#73c354"/>
+      </g>
+    </g>
+  </g>
+</svg>
