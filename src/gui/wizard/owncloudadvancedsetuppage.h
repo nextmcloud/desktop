@@ -50,6 +50,8 @@ public:
     void setMultipleFoldersExist(bool exist);
     void directoriesCreated();
 
+    Ui_OwncloudAdvancedSetupPage ui() const;
+
 signals:
     void createLocalAndRemoteFolders(const QString &, const QString &);
 
@@ -63,6 +65,9 @@ private slots:
     void slotSelectiveSyncClicked();
     void slotVirtualFileSyncClicked();
     void slotQuotaRetrieved(const QVariantMap &result);
+
+protected:
+    Ui_OwncloudAdvancedSetupPage _ui{};
 
 private:
     void setRadioChecked(QRadioButton *radio);
@@ -87,7 +92,6 @@ private:
     // TODO: remove when UX decision is made
     void refreshVirtualFilesAvailibility(const QString &path);
 
-    Ui_OwncloudAdvancedSetupPage _ui{};
     bool _checking = false;
     bool _created = false;
     bool _localFolderValid = false;

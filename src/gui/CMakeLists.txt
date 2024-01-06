@@ -201,6 +201,10 @@ set(client_SRCS
     filedetails/shareemodel.cpp
     filedetails/sortedsharemodel.h
     filedetails/sortedsharemodel.cpp
+    nmcgui/nmcflow2authwidget.h
+    nmcgui/nmcflow2authwidget.cpp
+    nmcgui/nmcowncloudadvancedsetuppage.h
+    nmcgui/nmcowncloudadvancedsetuppage.cpp
     tray/svgimageprovider.h
     tray/svgimageprovider.cpp
     tray/syncstatussummary.h
