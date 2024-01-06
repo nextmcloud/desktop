@@ -35,12 +35,12 @@ QtObject {
     readonly property int subLinePixelSize: topLinePixelSize - 2
 
     // Dimensions and sizes
-    property int trayWindowWidth: variableSize(400)
-    property int trayWindowHeight: variableSize(510)
-    property int trayWindowRadius: 10
+    property int trayWindowWidth: variableSize(380) //variableSize(400)
+    property int trayWindowHeight: variableSize(600) //variableSize(510)
+    property int trayWindowRadius: 0 //10
     property int trayWindowBorderWidth: variableSize(1)
     property int trayWindowHeaderHeight: variableSize(60)
-    property int trayHorizontalMargin: 10
+    property int trayHorizontalMargin: 20 //10
     property int trayModalWidth: 380
     property int trayModalHeight: 490
     property int trayListItemIconSize: accountAvatarSize
@@ -75,7 +75,7 @@ QtObject {
     property url stateOnlineImageSource: Theme.stateOnlineImageSource
     property url stateOfflineImageSource: Theme.stateOfflineImageSource
 
-    property int accountAvatarSize: (trayWindowHeaderHeight - 16)
+    property int accountAvatarSize: (trayWindowHeaderHeight - 36) //(trayWindowHeaderHeight - 16)
     property int accountAvatarStateIndicatorSize: 16
     property int folderStateIndicatorSize: 16
     property int accountLabelWidth: 128
@@ -87,7 +87,7 @@ QtObject {
     property double trayFoldersMenuButtonDropDownCaretIconSizeFraction: 0.3
     property double trayFoldersMenuButtonMainIconSizeFraction: 1.0 - trayFoldersMenuButtonDropDownCaretIconSizeFraction
 
-    property int addAccountButtonHeight: 50
+    property int addAccountButtonHeight: 0
 
     property int headerButtonIconSize: 32
     property int dismissButtonSize: 26
@@ -192,4 +192,14 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+
+    //NMCStyle
+    property int nmcTrayWindowHeaderHeight: variableSize(36)
+    property int nmcTrayWindowItemListHeight: variableSize(52)
+    property int nmcTrayWindowHeaderLeftMargin: 20
+    property int nmcTopBottomHeaderMargin: 5
+    readonly property color nmcBrowserButtonColor: "#484848"
+    readonly property color nmcCurrentUserHeaderColor: currentUserHeaderColor
+    readonly property bool isSearchFieldVisible: false
+    readonly property string nmcLogoMagenta: "qrc:///client/theme/NMCIcons/LogoMagenta.svg"
 }
