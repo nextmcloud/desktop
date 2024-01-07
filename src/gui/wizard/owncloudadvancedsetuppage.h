@@ -50,8 +50,6 @@ public:
     void setMultipleFoldersExist(bool exist);
     void directoriesCreated();
 
-    Ui_OwncloudAdvancedSetupPage ui() const;
-
 signals:
     void createLocalAndRemoteFolders(const QString &, const QString &);
 
