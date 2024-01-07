@@ -42,9 +42,9 @@ protected:
     QScopedPointer<Ui::WelcomePage> _ui;
 
 private:
+    void setupUi();
     void customizeStyle();
     void setupSlideShow();
-    void setupUi();
     void setupLoginButton();
     void setupCreateAccountButton();
     void setupHostYourOwnServerLabel();
