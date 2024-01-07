@@ -237,7 +237,7 @@ protected:
     void removeData(const QString &group, const QString &key);
     [[nodiscard]] bool dataExists(const QString &group, const QString &key) const;
     [[nodiscard]] QVariant getValue(const QString &param, const QString &group = QString(),
-        const QVariant &defaultValue = QVariant()) const;
+    const QVariant &defaultValue = QVariant()) const;
     void setValue(const QString &key, const QVariant &value);
 
 private:
