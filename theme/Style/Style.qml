@@ -196,8 +196,11 @@ QtObject {
     //NMC Customization
 
     readonly property int nmcFontSizeAccountName: 13
+    readonly property int nmcFontSizeIconText: 10
     readonly property string nmcTLogoPath: "qrc:///client/theme/NMCIcons/tlogocarrier.svg"
     property int nmcTrayWindowHeaderHeight: 64
+    property int nmcTrayWindowItemsHeight: 48
+    property int nmcTrayWindowIconWidth: 28
     readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
     readonly property color nmcTrayWindowHeaderTextColor: "black"
 }

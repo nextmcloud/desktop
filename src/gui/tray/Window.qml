@@ -21,6 +21,7 @@ import Qt.labs.platform 1.1 as NativeDialogs
 
 import "../"
 import "../filedetails/"
+import "../nmcgui"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
@@ -639,125 +640,41 @@ ApplicationWindow {
                     }
                 }
 
-                // Add space between items
+                //Add space between items
                 Item {
                     Layout.fillWidth: true
                 }
 
-                TrayFoldersMenuButton {
-                    id: openLocalFolderButton
-
-                    visible: currentUser.hasLocalFolder
-                    currentUser: UserModel.currentUser
-
-
-                    onClicked: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder()
-
-                    onFolderEntryTriggered: isGroupFolder ? UserModel.openCurrentAccountFolderFromTrayInfo(fullFolderPath) : UserModel.openCurrentAccountLocalFolder()
-
-                    Accessible.role: Accessible.Graphic
-                    Accessible.name: qsTr("Open local or group folders")
-                    Accessible.onPressAction: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder()
-
-                    Layout.alignment: Qt.AlignRight
-                    Layout.preferredWidth:  Style.trayWindowHeaderHeight
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
+                Rectangle{
+                    width: 64
+                    height: 40
+                    NMCHeaderButton {
+                    id: trayWindowWebsiteButton
+                    iconSource: "qrc:///client/theme/NMCIcons/website.svg"
+                        iconText: qsTr("Open website")
+                        onClickedButton: UserModel.openCurrentAccountServer()
+                    }
                 }
 
-                HeaderButton {
-                    id: trayWindowTalkButton
-
-                    visible: UserModel.currentUser.serverHasTalk
-                    icon.source: "qrc:///client/theme/white/talk-app.svg"
-                    icon.color: Style.currentUserHeaderTextColor
-                    onClicked: UserModel.openCurrentAccountTalk()
-
-                    Accessible.role: Accessible.Button
-                    Accessible.name: qsTr("Open Nextcloud Talk in browser")
-                    Accessible.onPressAction: trayWindowTalkButton.clicked()
-
-                    Layout.alignment: Qt.AlignRight
-                    Layout.preferredWidth:  Style.trayWindowHeaderHeight
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
-
+                Rectangle {
+                    width: 16
+                    color: Style.nmcTrayWindowHeaderBackgroundColor
                 }
 
-                HeaderButton {
-                    id: trayWindowAppsButton
-                    icon.source: "qrc:///client/theme/white/more-apps.svg"
-                    icon.color: Style.currentUserHeaderTextColor
-
-                    onClicked: {
-                        if(appsMenuListView.count <= 0) {
-                            UserModel.openCurrentAccountServer()
-                        } else if (appsMenu.visible) {
-                            appsMenu.close()
-                        } else {
-                            appsMenu.open()
-                        }
+                Rectangle{
+                    width: 64
+                    height: 40
+                    NMCHeaderButton {
+                        id: trayWindowLocalButton
+                        iconSource: "qrc:///client/theme/black/folder.svg"
+                        iconText: qsTr("Local folder")
+                        onClickedButton: UserModel.openCurrentAccountLocalFolder()
                     }
+                }
 
-                    Accessible.role: Accessible.ButtonMenu
-                    Accessible.name: qsTr("More apps")
-                    Accessible.onPressAction: trayWindowAppsButton.clicked()
-
-                    Menu {
-                        id: appsMenu
-                        x: Style.trayWindowMenuOffsetX
-                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + Style.trayWindowMenuOffsetY)
-                        width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
-                        height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
-                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-
-                        background: Rectangle {
-                            border.color: palette.dark
-                            color: palette.base
-                            radius: 2
-                        }
-
-                        contentItem: ScrollView {
-                            id: appsMenuScrollView
-                            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-
-                            data: WheelHandler {
-                                target: appsMenuScrollView.contentItem
-                            }
-                            ListView {
-                                id: appsMenuListView
-                                implicitHeight: contentHeight
-                                model: UserAppsModel
-                                interactive: true
-                                clip: true
-                                currentIndex: appsMenu.currentIndex
-                                delegate: MenuItem {
-                                    id: appEntry
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
-
-                                    text: model.appName
-                                    font.pixelSize: Style.topLinePixelSize
-                                    icon.source: model.appIconUrl
-                                    icon.color: palette.buttonText
-                                    onTriggered: UserAppsModel.openAppUrl(appUrl)
-                                    hoverEnabled: true
-
-                                    background: Item {
-                                        height: parent.height
-                                        width: parent.width
-                                        Rectangle {
-                                            anchors.fill: parent
-                                            anchors.margins: 1
-                                            color: parent.parent.hovered || parent.parent.visualFocus ? palette.highlight : "transparent"
-                                        }
-                                    }
-
-                                    Accessible.role: Accessible.MenuItem
-                                    Accessible.name: qsTr("Open %1 in browser").arg(model.appName)
-                                    Accessible.onPressAction: appEntry.triggered()
-                                }
-                            }
-                        }
-                    }
+                Rectangle {
+                    width: 10
+                    color: Style.nmcTrayWindowHeaderBackgroundColor
                 }
             }
         }   // Rectangle trayWindowHeaderBackground

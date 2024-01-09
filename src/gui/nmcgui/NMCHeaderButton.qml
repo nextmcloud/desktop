@@ -24,19 +24,47 @@ import QtGraphicalEffects 1.15
 import Style 1.0
 import com.nextcloud.desktopclient 1.0
 
-Button {
-    id: root
+Item{
+    id: rec
 
-    display: AbstractButton.TextUnderIcon
-    flat: true
-    hoverEnabled: Style.hoverEffectsEnabled
+    width: 64
 
-    icon.width: Style.headerButtonIconSize
-    icon.height: Style.headerButtonIconSize
-    icon.color: Style.nmcBrowserButtonColor
+    signal clickedButton
 
-    background: Rectangle {
-        color: root.hovered || root.visualFocus ? Style.currentUserHeaderTextColor : "transparent"
-        opacity: 0.2
+    property string iconText: ""
+    property string iconSource: ""
+
+    ColumnLayout{
+
+        spacing: 0
+
+        Button {
+            id: button
+            flat: true
+            icon.source: rec.iconSource
+            icon.width: Style.nmcTrayWindowIconWidth
+            icon.height: Style.nmcTrayWindowIconWidth
+
+            onClicked: {
+                rec.clickedButton()
+            }
+
+            background: Rectangle {
+                    color: root.hovered || root.visualFocus ? Style.currentUserHeaderTextColor : "transparent"
+                    opacity: 0.2
+            }
+            Layout.alignment: Qt.AlignHCenter
+        }
+
+        Text {
+            width: rec.width
+            text: rec.iconText
+            elide: Text.ElideRight
+            color: Style.nmcTrayWindowHeaderTextColor
+            font.pixelSize: Style.nmcFontSizeIconText
+            font.bold: false
+            Layout.alignment: Qt.AlignHCenter
+        }
     }
 }
+
