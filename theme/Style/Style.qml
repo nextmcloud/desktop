@@ -200,7 +200,8 @@ QtObject {
     readonly property string nmcTLogoPath: "qrc:///client/theme/NMCIcons/tlogocarrier.svg"
     property int nmcTrayWindowHeaderHeight: 64
     property int nmcTrayWindowItemsHeight: 48
-    property int nmcTrayWindowIconWidth: 28
+    property int nmcTrayWindowIconWidth: 24
     readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
     readonly property color nmcTrayWindowHeaderTextColor: "black"
+    readonly property color nmcTrayWindowHeaderSeparatorColor: "#ededed"
 }

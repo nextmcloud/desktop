@@ -679,12 +679,21 @@ ApplicationWindow {
             }
         }   // Rectangle trayWindowHeaderBackground
 
+        Rectangle{
+            id:separator
+            color: Style.nmcTrayWindowHeaderSeparatorColor
+            anchors.top:    trayWindowHeaderBackground.bottom
+            anchors.left:   trayWindowMainItem.left
+            anchors.right:  trayWindowMainItem.right
+            height: 1
+        }
+
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
             height: Style.trayWindowHeaderHeight * 0.65
 
             anchors {
-                top: trayWindowHeaderBackground.bottom
+                top: separator.bottom
                 left: trayWindowMainItem.left
                 right: trayWindowMainItem.right
 
@@ -870,6 +879,9 @@ ApplicationWindow {
 
         ActivityList {
             id: activityList
+
+            ScrollBar.vertical.policy: contentHeight > activityList.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+
             visible: !trayWindowMainItem.isUnifiedSearchActive
             anchors.top: syncStatus.bottom
             anchors.left: trayWindowMainItem.left
