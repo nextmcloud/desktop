@@ -192,4 +192,12 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+
+    //NMC Customization
+
+    readonly property int nmcFontSizeAccountName: 13
+    readonly property string nmcTLogoPath: "qrc:///client/theme/NMCIcons/tlogocarrier.svg"
+    property int nmcTrayWindowHeaderHeight: 64
+    readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
+    readonly property color nmcTrayWindowHeaderTextColor: "black"
 }

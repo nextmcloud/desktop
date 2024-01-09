@@ -262,20 +262,48 @@ ApplicationWindow {
             anchors.left:   trayWindowMainItem.left
             anchors.right:  trayWindowMainItem.right
             anchors.top:    trayWindowMainItem.top
-            height:         Style.trayWindowHeaderHeight
-            color:          Style.currentUserHeaderColor
+            height:         Style.nmcTrayWindowHeaderHeight
+            color:          Style.nmcTrayWindowHeaderBackgroundColor
+
+            Rectangle {
+                id: whiteMargin
+                anchors.top: trayWindowMainItem.top
+                anchors.left: trayWindowMainItem.left
+                width: 10
+                height: 64
+                color: Style.nmcTrayWindowHeaderBackgroundColor
+            }
+
+            Rectangle {
+                id: tLogo
+                anchors.top: trayWindowMainItem.top
+                anchors.left: whiteMargin.right
+                width: 64
+                height: 64
+
+                Image{
+                    anchors.fill: parent
+                    cache: false
+                    source: Style.nmcTLogoPath
+                    sourceSize: Qt.size(width, height)
+                    fillMode: Image.Stretch
+                }
+            }
 
             RowLayout {
                 id: trayWindowHeaderLayout
-
                 spacing:        0
-                anchors.fill:   parent
+                anchors{
+                    left:tLogo.right
+                    top: trayWindowHeaderBackground.top
+                    right: trayWindowHeaderBackground.right
+                }
 
                 Button {
                     id: currentAccountButton
 
                     Layout.preferredWidth:  Style.currentAccountButtonWidth
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
+                    Layout.preferredHeight: trayWindowHeaderBackground.height
                     display:                AbstractButton.IconOnly
                     flat:                   true
 
@@ -547,10 +575,10 @@ ApplicationWindow {
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.name
                                 elide: Text.ElideRight
-                                color: Style.currentUserHeaderTextColor
+                                color: Style.nmcTrayWindowHeaderTextColor
 
-                                font.pixelSize: Style.topLinePixelSize
-                                font.bold: true
+                                font.pixelSize: Style.nmcFontSizeAccountName
+                                font.bold: false
                             }
 
                             EnforcedPlainTextLabel {
@@ -594,7 +622,7 @@ ApplicationWindow {
 
                         ColorOverlay {
                             cached: true
-                            color: Style.currentUserHeaderTextColor
+                            color: Style.nmcTrayWindowHeaderTextColor
                             width: source.width
                             height: source.height
                             source: Image {
