@@ -209,9 +209,11 @@ QtObject {
     property int nmcTrayWindowItemsHeight: 48
     property int nmcTrayWindowIconWidth: 24
     property int nmcTrayWindowLogoWidth: 64
+    property int nmcTraySyncButtonHeight: 28
     property int nmcCurrentAccountButtonWidth: 180
     readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
     readonly property color nmcTrayWindowHeaderTextColor: "black"
     readonly property color nmcTrayWindowHeaderSeparatorColor: "#ededed"
+    readonly property color nmcTextInButtonColor: "white"
 
 }
