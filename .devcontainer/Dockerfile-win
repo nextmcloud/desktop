@@ -1,0 +1,47 @@
+FROM --platform=linux/amd64 ubuntu:24.04
+
+ARG qtpackage=https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz
+
+
+RUN apt-get -y update && \
+    apt-get -y install \
+        g++-mingw-w64 \
+        build-essential curl cmake python-is-python3 perl nano xz-utils freeglut3-dev gdb git iputils-ping libgl1-mesa-dev \
+        libglu1-mesa-dev libjpeg-dev libmysqlclient-dev libnss3-dev libopus-dev \
+        libpng-dev libsqlite3-dev libssl-dev libx11-xcb-dev libxcb-xinerama0-dev \
+        libxcb-xkb-dev libxcb1-dev libxcursor-dev libxi-dev libxml2-dev libxrender-dev \
+        libxslt-dev lzip mesa-common-dev valgrind wget zlib1g-dev libclang-dev  \
+        '^libxcb.*-dev' libxkbcommon-dev libxkbcommon-x11-dev && \
+        rm -rf /var/lib/apt/lists/* && \
+    update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix && \
+    update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix && \
+    cd /usr/x86_64-w64-mingw32/bin && \
+    ln -s ../../bin/x86_64-w64-mingw32-gcc gcc && \
+    ln -s ../../bin/x86_64-w64-mingw32-g++ g++ && \
+    ln -s ../../bin/x86_64-w64-mingw32-windres windres
+
+# download the qt5 package and install to /opt
+RUN \
+    set -eux && \
+    mkdir -p /opt/qtpackage && \
+    curl -L $qtpackage | tar x --use-compress-program xz -C /opt/qtpackage --strip-components 1
+
+RUN \
+    mkdir -p /opt/qt && \
+    cd /opt/qtpackage && \
+    ./configure -opensource -confirm-license -xplatform win32-g++ -device-option CROSS_COMPILE=/usr/x86_64-w64-mingw32/bin/ \
+      -opengl desktop \
+      -skip qtx11extras \
+      -skip qtvirtualkeyboard \
+      -skip qtgamepad \
+      -skip qtmacextras \
+      -prefix /opt/qt -nomake examples 
+
+RUN \
+    cd /opt/qtpackage && \
+    make -j$(nproc) all && \
+    make install && \
+    rm -rf qtlib
+
+ENV PATH="${PATH}:/opt/qt/bin"
+ENTRYPOINT ["/bin/bash"]

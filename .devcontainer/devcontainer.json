@@ -1,0 +1,11 @@
+{
+    "build": { 
+      "dockerfile": "Dockerfile-win",
+    },
+    "runArgs": [ "--platform=linux/amd64" ],
+    "customizations": {
+      "vscode": {
+        "extensions": ["ms-vscode.cpptools-extension-pack"]
+      }
+    }
+}
