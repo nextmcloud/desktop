@@ -56,7 +56,7 @@ AbstractButton {
             cache: false
             visible:false
             source: Style.nmcAccountAvatarIcon
-            sourceSize.width: Style.nmcTrayWindowIconWidth //These changes making the image sharp
+            sourceSize.width: Style.nmcTrayWindowIconWidth //NMC Customization: These changes making the image sharp
             sourceSize.height: Style.nmcTrayWindowIconWidth
 
             Rectangle {

@@ -510,7 +510,7 @@ ApplicationWindow {
                         id: accountControlRowLayout
 
                         height: Style.trayWindowHeaderHeight
-                        width:  Style.currentAccountButtonWidth
+                        width:  Style.nmcCurrentAccountButtonWidth
                         spacing: 0
 
                         Image {
@@ -626,13 +626,21 @@ ApplicationWindow {
                             }
                         }
 
-                        Image {
-                            Layout.alignment: Qt.AlignLeft
-                            source: "qrc:///client/theme/black/caret-down.svg"
-                            sourceSize.width: Style.accountDropDownCaretSize
-                            sourceSize.height: Style.accountDropDownCaretSize
-                            Accessible.role: Accessible.PopupMenu
-                            Accessible.name: qsTr("Account switcher and settings menu")
+                        ColorOverlay {
+                            cached: true
+                            color: Style.nmcTrayWindowHeaderTextColor
+                            width: source.width
+                            height: source.height
+                            source: Image {
+                                Layout.alignment: Qt.AlignRight
+                                verticalAlignment: Qt.AlignCenter
+                                Layout.margins: Style.accountDropDownCaretMargin
+                                source: "qrc:///client/theme/black/caret-down.svg"
+                                sourceSize.width: Style.accountDropDownCaretSize
+                                sourceSize.height: Style.accountDropDownCaretSize
+                                Accessible.role: Accessible.PopupMenu
+                                Accessible.name: qsTr("Account switcher and settings menu")
+                            }
                         }
                     }
                 }
