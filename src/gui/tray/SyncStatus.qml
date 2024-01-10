@@ -98,7 +98,7 @@ RowLayout {
         text: qsTr("Sync now")
 
         padding: Style.smallSpacing
-        textColor: Style.adjustedCurrentUserHeaderColor
+        textColor: Style.nmcTextInButtonColor
         textColorHovered: Style.currentUserHeaderTextColor
         contentsFont.bold: true
         bgColor: Style.currentUserHeaderColor
@@ -112,6 +112,12 @@ RowLayout {
             if(!syncStatus.syncing) {
                 NC.UserModel.currentUser.forceSyncNow();
             }
+        }
+
+        background: Rectangle {
+            color: Style.nmcTelekomMagentaColor
+            radius: 5
+            height: Style.nmcTraySyncButtonHeight
         }
     }
 
