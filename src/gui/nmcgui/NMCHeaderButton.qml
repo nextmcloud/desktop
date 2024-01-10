@@ -24,10 +24,11 @@ import QtGraphicalEffects 1.15
 import Style 1.0
 import com.nextcloud.desktopclient 1.0
 
-Rectangle{
+Item{
     id: rec
 
     width: 70
+    height: 70
 
     signal clickedButton
 
@@ -38,6 +39,7 @@ Rectangle{
     ColumnLayout{
 
         spacing: 0
+        anchors.centerIn: parent
 
         Button {
             id: button

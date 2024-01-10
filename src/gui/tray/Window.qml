@@ -655,12 +655,12 @@ ApplicationWindow {
                         id: trayWindowWebsiteButton
                         iconSource: "qrc:///client/theme/NMCIcons/website.svg"
                         iconText: qsTr("Open website")
-                        onClickedButton: UserModel.openCurrentAccountServer()
                     }
 
                     MouseArea{
                         anchors.fill: parent
                         hoverEnabled: true
+                        onClicked: UserModel.openCurrentAccountServer()
                         onEntered: {
                             trayWindowWebsiteButtonContainer.color = "#0D000000" // 0D = 0.05 Alpha
                         }
@@ -684,12 +684,12 @@ ApplicationWindow {
                         id: trayWindowLocalButton
                         iconSource: "qrc:///client/theme/black/folder.svg"
                         iconText: qsTr("Local folder")
-                        onClickedButton: UserModel.openCurrentAccountLocalFolder()
                     }
 
                     MouseArea{
                         anchors.fill: parent
                         hoverEnabled: true
+                        onClicked: UserModel.openCurrentAccountLocalFolder()
                         onEntered: {
                             trayWindowLocalButtonContainer.color = "#0D000000" // 0D = 0.05 Alpha
                         }
