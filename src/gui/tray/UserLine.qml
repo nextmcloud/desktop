@@ -16,6 +16,9 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtGraphicalEffects 1.0
+
+import "../nmcgui/"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
@@ -51,9 +54,10 @@ AbstractButton {
             Layout.leftMargin: 7
             verticalAlignment: Qt.AlignCenter
             cache: false
-            source: model.avatar !== "" ? model.avatar : Theme.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
-            Layout.preferredHeight: Style.accountAvatarSize
-            Layout.preferredWidth: Style.accountAvatarSize
+            visible:false
+            source: Style.nmcAccountAvatarIcon
+            sourceSize.width: Style.nmcTrayWindowIconWidth //NMC Customization: These changes making the image sharp
+            sourceSize.height: Style.nmcTrayWindowIconWidth
 
             Rectangle {
                 id: accountStatusIndicatorBackground
@@ -81,6 +85,18 @@ AbstractButton {
             }
         }
 
+        //this  section is added to add hover effect on account avatar image
+        //MagentaCustomization
+        ColorOverlay {
+            cached: true
+            color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+            width: source.width
+            height: source.height
+            source: accountAvatar
+            anchors.leftMargin: 16
+            Layout.leftMargin: 16
+        }
+
         ColumnLayout {
             id: accountLabels
             Layout.leftMargin: Style.accountLabelsSpacing
@@ -96,6 +112,7 @@ AbstractButton {
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
                 font.bold: true
+                palette.windowText :hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
             }
 
             RowLayout {
@@ -142,7 +159,7 @@ AbstractButton {
             flat: true
 
             icon.source: "qrc:///client/theme/more.svg"
-            icon.color: palette.buttonText
+            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
 
             Accessible.role: Accessible.ButtonMenu
             Accessible.name: qsTr("Account actions")
@@ -158,6 +175,8 @@ AbstractButton {
             AutoSizingMenu {
                 id: userMoreButtonMenu
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+                width: 170
+                height: Math.min(implicitHeight, maxMenuHeight)
 
                 MenuItem {
                     visible: model.isConnected && model.serverHasUserStatus
@@ -169,11 +188,10 @@ AbstractButton {
                     onClicked: showUserStatusSelector(index)
                 }
 
-                MenuItem {
+                NMCMenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
-                    font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
-                    hoverEnabled: true
+                    icon.source: Style.nmcLogOutIcon
+                    icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
@@ -202,12 +220,11 @@ AbstractButton {
                     }
                 }
 
-                MenuItem {
+                NMCMenuItem {
                     id: removeAccountButton
                     text: qsTr("Remove account")
-                    font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
-                    hoverEnabled: true
+                    icon.source: Style.nmcRemoveIcon
+                    icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()

@@ -177,7 +177,7 @@ RowLayout {
                 bgColor: palette.mid
                 bgNormalOpacity:  0
 
-                visible: model.showFileDetails
+                visible: false //model.showFileDetails
 
                 onClicked: Systray.presentShareViewInTray(model.openablePath)
             }
