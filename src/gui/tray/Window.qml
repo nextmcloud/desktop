@@ -384,6 +384,7 @@ ApplicationWindow {
                             height: Systray.enableAddAccount ? Style.addAccountButtonHeight : 0
                             hoverEnabled: true
                             visible: Systray.enableAddAccount
+                            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
 
                             background: Item {
                                 height: parent.height
@@ -431,11 +432,12 @@ ApplicationWindow {
                             color: palette.dark
                         }
 
-                        MenuItem {
+                        NMCMenuItem {
                             id: syncPauseButton
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
                             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
+                            icon.source: Style.nmcPauseIcon
+                            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                            leftPadding: Style.nmcAccountMenuItemLeftPadding
 
                             background: Item {
                                 height: parent.height
@@ -452,11 +454,12 @@ ApplicationWindow {
                             Accessible.onPressAction: syncPauseButton.clicked()
                         }
 
-                        MenuItem {
+                        NMCMenuItem {
                             id: settingsButton
                             text: qsTr("Settings")
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
+                            icon.source: Style.nmcSettingsIcon
+                            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                            leftPadding: Style.nmcAccountMenuItemLeftPadding
                             onClicked: Systray.openSettings()
 
                             background: Item {
@@ -474,11 +477,12 @@ ApplicationWindow {
                             Accessible.onPressAction: settingsButton.clicked()
                         }
 
-                        MenuItem {
+                        NMCMenuItem {
                             id: exitButton
                             text: qsTr("Exit");
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
+                            icon.source: Style.nmcCloseIcon
+                            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                            leftPadding: Style.nmcAccountMenuItemLeftPadding
                             onClicked: Systray.shutdown()
 
                             background: Item {
@@ -515,9 +519,9 @@ ApplicationWindow {
                             Layout.leftMargin: Style.trayHorizontalMargin
                             verticalAlignment: Qt.AlignCenter
                             cache: false
-                            source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
-                            Layout.preferredHeight: Style.accountAvatarSize
-                            Layout.preferredWidth: Style.accountAvatarSize
+                            source: Style.nmcAccountAvatarIcon
+                            width: Style.nmcTrayWindowIconWidth
+                            height: Style.nmcTrayWindowIconWidth
 
                             Accessible.role: Accessible.Graphic
                             Accessible.name: qsTr("Current account avatar")
@@ -622,21 +626,13 @@ ApplicationWindow {
                             }
                         }
 
-                        ColorOverlay {
-                            cached: true
-                            color: Style.nmcTrayWindowHeaderTextColor
-                            width: source.width
-                            height: source.height
-                            source: Image {
-                                Layout.alignment: Qt.AlignRight
-                                verticalAlignment: Qt.AlignCenter
-                                Layout.margins: Style.accountDropDownCaretMargin
-                                source: "qrc:///client/theme/white/caret-down.svg"
-                                sourceSize.width: Style.accountDropDownCaretSize
-                                sourceSize.height: Style.accountDropDownCaretSize
-                                Accessible.role: Accessible.PopupMenu
-                                Accessible.name: qsTr("Account switcher and settings menu")
-                            }
+                        Image {
+                            Layout.alignment: Qt.AlignLeft
+                            source: "qrc:///client/theme/black/caret-down.svg"
+                            sourceSize.width: Style.accountDropDownCaretSize
+                            sourceSize.height: Style.accountDropDownCaretSize
+                            Accessible.role: Accessible.PopupMenu
+                            Accessible.name: qsTr("Account switcher and settings menu")
                         }
                     }
                 }
@@ -648,7 +644,7 @@ ApplicationWindow {
 
                 Rectangle{
                     id: trayWindowWebsiteButtonContainer
-                    width: 70
+                    width: 80
                     height: Style.nmcTrayWindowHeaderHeight
 
                     NMCHeaderButton {
@@ -677,7 +673,7 @@ ApplicationWindow {
 
                 Rectangle{
                     id: trayWindowLocalButtonContainer
-                    width: 70
+                    width: 80
                     height: Style.nmcTrayWindowHeaderHeight
 
                     NMCHeaderButton {

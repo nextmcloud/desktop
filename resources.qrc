@@ -63,5 +63,6 @@
         <file>src/gui/ConflictItemFileInfo.qml</file>
         <file>src/gui/filedetails/NCInputDateField.qml</file>
         <file>src/gui/nmcgui/NMCHeaderButton.qml</file>
+        <file>src/gui/nmcgui/NMCMenuItem.qml</file>
     </qresource>
 </RCC>

@@ -27,8 +27,8 @@ import com.nextcloud.desktopclient 1.0
 Item{
     id: rec
 
-    width: 70
-    height: 70
+    width: 80
+    height: Style.nmcTrayWindowHeaderHeight
 
     signal clickedButton
 
