@@ -279,8 +279,8 @@ ApplicationWindow {
                 id: tLogo
                 anchors.top: trayWindowMainItem.top
                 anchors.left: whiteMargin.right
-                width: 64
-                height: 64
+                width: Style.nmcTrayWindowLogoWidth
+                height: Style.nmcTrayWindowLogoWidth
 
                 Image{
                     anchors.fill: parent
@@ -303,10 +303,11 @@ ApplicationWindow {
                 Button {
                     id: currentAccountButton
 
-                    Layout.preferredWidth:  Style.currentAccountButtonWidth
+                    Layout.preferredWidth:  Style.nmcCurrentAccountButtonWidth
                     Layout.preferredHeight: trayWindowHeaderBackground.height
                     display:                AbstractButton.IconOnly
                     flat:                   true
+                    hoverEnabled: true
 
                     Accessible.role: Accessible.ButtonMenu
                     Accessible.name: qsTr("Current account")
@@ -328,10 +329,10 @@ ApplicationWindow {
 
                         // x coordinate grows towards the right
                         // y coordinate grows towards the bottom
-                        x: (currentAccountButton.x + 2)
-                        y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 2)
+                        x: (0 - tLogo.width)
+                        y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 1)
 
-                        width: (Style.currentAccountButtonWidth - 2)
+                        width: (Style.currentAccountButtonWidth + tLogo.width - 2)
                         height: Math.min(implicitHeight, maxMenuHeight)
                         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
@@ -497,8 +498,8 @@ ApplicationWindow {
                     }
 
                     background: Rectangle {
-                        color: parent.hovered || parent.visualFocus ? Style.currentUserHeaderTextColor : "transparent"
-                        opacity: 0.2
+                        color: parent.hovered || parent.visualFocus ? "black"  : "transparent"
+                        opacity: 0.05
                     }
 
                     RowLayout {
@@ -646,13 +647,26 @@ ApplicationWindow {
                 }
 
                 Rectangle{
-                    width: 64
-                    height: 40
+                    id: trayWindowWebsiteButtonContainer
+                    width: 70
+                    height: Style.nmcTrayWindowHeaderHeight
+
                     NMCHeaderButton {
-                    id: trayWindowWebsiteButton
-                    iconSource: "qrc:///client/theme/NMCIcons/website.svg"
+                        id: trayWindowWebsiteButton
+                        iconSource: "qrc:///client/theme/NMCIcons/website.svg"
                         iconText: qsTr("Open website")
                         onClickedButton: UserModel.openCurrentAccountServer()
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: {
+                            trayWindowWebsiteButtonContainer.color = "#0D000000" // 0D = 0.05 Alpha
+                        }
+                        onExited:{
+                            trayWindowWebsiteButtonContainer.color = "transparent"
+                        }
                     }
                 }
 
@@ -662,13 +676,26 @@ ApplicationWindow {
                 }
 
                 Rectangle{
-                    width: 64
-                    height: 40
+                    id: trayWindowLocalButtonContainer
+                    width: 70
+                    height: Style.nmcTrayWindowHeaderHeight
+
                     NMCHeaderButton {
                         id: trayWindowLocalButton
                         iconSource: "qrc:///client/theme/black/folder.svg"
                         iconText: qsTr("Local folder")
                         onClickedButton: UserModel.openCurrentAccountLocalFolder()
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: {
+                            trayWindowLocalButtonContainer.color = "#0D000000" // 0D = 0.05 Alpha
+                        }
+                        onExited:{
+                            trayWindowLocalButtonContainer.color = "transparent"
+                        }
                     }
                 }
 

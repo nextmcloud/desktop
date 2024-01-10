@@ -95,7 +95,7 @@ RowLayout {
 
         Layout.rightMargin: Style.trayHorizontalMargin
 
-        text: qsTr("Sync now")
+        text: qsTr("Sync now!")
 
         padding: Style.smallSpacing
         textColor: Style.adjustedCurrentUserHeaderColor

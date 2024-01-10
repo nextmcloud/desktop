@@ -24,15 +24,16 @@ import QtGraphicalEffects 1.15
 import Style 1.0
 import com.nextcloud.desktopclient 1.0
 
-Item{
+Rectangle{
     id: rec
 
-    width: 64
+    width: 70
 
     signal clickedButton
 
     property string iconText: ""
     property string iconSource: ""
+    property bool iconHovered: false
 
     ColumnLayout{
 
@@ -50,8 +51,8 @@ Item{
             }
 
             background: Rectangle {
-                    color: root.hovered || root.visualFocus ? Style.currentUserHeaderTextColor : "transparent"
-                    opacity: 0.2
+                    color: iconHovered || button.visualFocus ? "black" : "transparent"
+                    opacity: 0.05
             }
             Layout.alignment: Qt.AlignHCenter
         }
