@@ -198,7 +198,7 @@ QtObject {
     readonly property int nmcFontSizeAccountName: 13
     readonly property int nmcFontSizeIconText: 10
     readonly property string nmcTLogoPath: "qrc:///client/theme/NMCIcons/tlogocarrier.svg"
-    readonly property string nmcAccountAvatarIcon: "qrc:///client/theme/NMCIcons/website.svg" //"qrc:///client/theme/accountAvatarIcon.svg"
+    readonly property string nmcAccountAvatarIcon: "qrc:///client/theme/accountAvatarIcon.svg"
     readonly property string nmcSettingsIcon: "qrc:///client/theme/settings.svg"
     readonly property string nmcCloseIcon: "qrc:///client/theme/close.svg"
     readonly property string nmcPauseIcon: "qrc:///client/theme/pause.svg"

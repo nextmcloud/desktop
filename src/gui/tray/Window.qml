@@ -520,8 +520,8 @@ ApplicationWindow {
                             verticalAlignment: Qt.AlignCenter
                             cache: false
                             source: Style.nmcAccountAvatarIcon
-                            width: Style.nmcTrayWindowIconWidth
-                            height: Style.nmcTrayWindowIconWidth
+                            sourceSize.width: Style.nmcTrayWindowIconWidth
+                            sourceSize.height: Style.nmcTrayWindowIconWidth
 
                             Accessible.role: Accessible.Graphic
                             Accessible.name: qsTr("Current account avatar")

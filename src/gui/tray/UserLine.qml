@@ -56,8 +56,8 @@ AbstractButton {
             cache: false
             visible:false
             source: Style.nmcAccountAvatarIcon
-            Layout.preferredHeight: Style.accountAvatarSize
-            Layout.preferredWidth: Style.accountAvatarSize
+            sourceSize.width: Style.nmcTrayWindowIconWidth //These changes making the image sharp
+            sourceSize.height: Style.nmcTrayWindowIconWidth
 
             Rectangle {
                 id: accountStatusIndicatorBackground
