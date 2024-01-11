@@ -27,7 +27,7 @@ import com.nextcloud.desktopclient 1.0
 Item{
     id: rec
 
-    width: 80
+    width: 92
     height: Style.nmcTrayWindowHeaderHeight
 
     signal clickedButton
@@ -66,7 +66,8 @@ Item{
             color: Style.nmcTrayWindowHeaderTextColor
             font.pixelSize: Style.nmcFontSizeIconText
             font.bold: false
-            Layout.alignment: Qt.AlignHCenter
+            leftPadding: 8
+            rightPadding: 8
         }
     }
 }

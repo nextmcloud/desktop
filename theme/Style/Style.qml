@@ -197,6 +197,7 @@ QtObject {
 
     readonly property int nmcFontSizeAccountName: 13
     readonly property int nmcFontSizeIconText: 10
+    readonly property int nmcFontSizeSyncText: 15
     readonly property string nmcTLogoPath: "qrc:///client/theme/NMCIcons/tlogocarrier.svg"
     readonly property string nmcAccountAvatarIcon: "qrc:///client/theme/accountAvatarIcon.svg"
     readonly property string nmcSettingsIcon: "qrc:///client/theme/settings.svg"
@@ -205,15 +206,18 @@ QtObject {
     readonly property string nmcLogOutIcon: "qrc:///client/theme/logout.svg"
     readonly property string nmcRemoveIcon: "qrc:///client/theme/remove.svg"
     readonly property color nmcTelekomMagentaColor: "#E20074"
+    readonly property color nmcSyncHoverColor: "#E10073"
     property int nmcTrayWindowHeaderHeight: 64
     property int nmcTrayWindowItemsHeight: 48
     property int nmcTrayWindowIconWidth: 24
     property int nmcTrayWindowLogoWidth: 64
+    property int nmcTrayWindowStandardMargin: 16
     property int nmcTraySyncButtonHeight: 28
     property int nmcCurrentAccountButtonWidth: 180
     readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
     readonly property color nmcTrayWindowHeaderTextColor: "black"
     readonly property color nmcTrayWindowHeaderSeparatorColor: "#ededed"
+    readonly property color nmcTrayWindowHeaderHighlightColor: "#ededed"
     readonly property color nmcTextInButtonColor: "white"
 
 }
