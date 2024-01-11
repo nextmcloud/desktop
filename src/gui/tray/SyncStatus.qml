@@ -120,8 +120,9 @@ RowLayout {
         }
 
         background: Rectangle {
+            id: backgroundArea
             color: mouse.hovered? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
-            radius: 5
+            radius: Style.nmcStandardRadius
             height: Style.nmcTraySyncButtonHeight
         }
     }

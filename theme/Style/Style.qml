@@ -207,16 +207,19 @@ QtObject {
     readonly property string nmcRemoveIcon: "qrc:///client/theme/remove.svg"
     readonly property color nmcTelekomMagentaColor: "#E20074"
     readonly property color nmcSyncHoverColor: "#c00063"
-    property int nmcTrayWindowAddAccountButtonHeight: 56
-    property int nmcTrayWindowHeaderHeight: 64
-    property int nmcTrayWindowItemsHeight: 48
-    property int nmcTrayWindowIconWidth: 24
-    property int nmcTrayWindowLogoWidth: 64
-    property int nmcTrayWindowStandardMargin: 16
-    property int nmcTraySyncButtonHeight: 28
-    property int nmcCurrentAccountButtonWidth: 180
-    property int nmcMenuSubItemHeight: 40
-    property int nmcMenuSubItemLeftPadding: 16
+    readonly property color nmcSyncPressColor: "#9e0051"
+    readonly property int nmcTrayWindowAddAccountButtonHeight: 56
+    readonly property int nmcTrayWindowHeaderHeight: 64
+    readonly property int nmcTrayWindowItemsHeight: 48
+    readonly property int nmcTrayWindowIconWidth: 24
+    readonly property int nmcTrayWindowLogoWidth: 64
+    readonly property int nmcTrayWindowStandardMargin: 16
+    readonly property int nmcTrayWindowMenuOverlayMargin: 8
+    readonly property int nmcTraySyncButtonHeight: 28
+    readonly property int nmcCurrentAccountButtonWidth: 180
+    readonly property int nmcMenuSubItemHeight: 40
+    readonly property int nmcMenuSubItemLeftPadding: 16
+    readonly property int nmcStandardRadius: 4
     readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
     readonly property color nmcTrayWindowHeaderTextColor: "black"
     readonly property color nmcTrayWindowHeaderSeparatorColor: "#ededed"
