@@ -40,8 +40,7 @@ AbstractButton {
     background: Rectangle {
         anchors.fill: parent
         anchors.margins: 1
-        color: (userLine.hovered || userLine.visualFocus) &&
-               !(userMoreButton.hovered || userMoreButton.visualFocus) ?
+        color: (userLine.hovered || userLine.visualFocus) ?
                    palette.highlight : palette.base
     }
 
@@ -89,7 +88,7 @@ AbstractButton {
         //MagentaCustomization
         ColorOverlay {
             cached: true
-            color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+            color: Style.ncTextColor
             width: source.width
             height: source.height
             source: accountAvatar
@@ -111,8 +110,8 @@ AbstractButton {
                 text: name
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
-                font.bold: true
-                palette.windowText :hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                font.bold: false
+                palette.windowText: Style.ncTextColor
             }
 
             RowLayout {
@@ -142,6 +141,7 @@ AbstractButton {
             }
 
             EnforcedPlainTextLabel {
+                visible: false
                 id: accountServer
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop
@@ -159,7 +159,7 @@ AbstractButton {
             flat: true
 
             icon.source: "qrc:///client/theme/more.svg"
-            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+            icon.color: Style.ncTextColor
 
             Accessible.role: Accessible.ButtonMenu
             Accessible.name: qsTr("Account actions")
@@ -169,7 +169,7 @@ AbstractButton {
             background: Rectangle {
                 anchors.fill: parent
                 anchors.margins: 1
-                color: userMoreButton.hovered || userMoreButton.visualFocus ? palette.highlight : "transparent"
+                color: userMoreButton.hovered || userMoreButton.visualFocus ? Style.nmcMenuMoreItemsColor : "transparent"
             }
 
             AutoSizingMenu {
@@ -177,6 +177,21 @@ AbstractButton {
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
                 width: 170
                 height: Math.min(implicitHeight, maxMenuHeight)
+
+                background: Rectangle {
+                    id:menuBackground
+                    border.color: palette.dark
+                    color: palette.base
+                    radius: Style.nmcStandardRadius
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        transparentBorder: true
+                        horizontalOffset: 0
+                        verticalOffset: 0
+                        radius: 6
+                        color: "#40000000"
+                    }
+                }
 
                 MenuItem {
                     visible: model.isConnected && model.serverHasUserStatus
@@ -190,8 +205,12 @@ AbstractButton {
 
                 NMCMenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
+                    height: Style.nmcMenuSubItemHeight
                     icon.source: Style.nmcLogOutIcon
-                    icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
@@ -223,8 +242,12 @@ AbstractButton {
                 NMCMenuItem {
                     id: removeAccountButton
                     text: qsTr("Remove account")
+                    height: Style.nmcMenuSubItemHeight
                     icon.source: Style.nmcRemoveIcon
-                    icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()
@@ -243,6 +266,13 @@ AbstractButton {
                     Accessible.role: Accessible.Button
                     Accessible.name: text
                     Accessible.onPressAction: removeAccountButton.clicked()
+                }
+
+                //NMC customization, spacer at the bottom of the emenu
+                Rectangle{
+                    height: 8
+                    color: "white"
+                    radius: Style.nmcStandardRadius
                 }
             }
         }
