@@ -652,7 +652,7 @@ ApplicationWindow {
 
                 Rectangle{
                     id: trayWindowWebsiteButtonContainer
-                    width: 80
+                    width: 92
                     height: Style.nmcTrayWindowHeaderHeight
 
                     NMCHeaderButton {
@@ -666,7 +666,7 @@ ApplicationWindow {
                         hoverEnabled: true
                         onClicked: UserModel.openCurrentAccountServer()
                         onEntered: {
-                            trayWindowWebsiteButtonContainer.color = "#0D000000" // 0D = 0.05 Alpha
+                            trayWindowWebsiteButtonContainer.color = Style.nmcTrayWindowHeaderHighlightColor
                         }
                         onExited:{
                             trayWindowWebsiteButtonContainer.color = "transparent"
@@ -674,14 +674,9 @@ ApplicationWindow {
                     }
                 }
 
-                Rectangle {
-                    width: 16
-                    color: Style.nmcTrayWindowHeaderBackgroundColor
-                }
-
                 Rectangle{
                     id: trayWindowLocalButtonContainer
-                    width: 80
+                    width: 92
                     height: Style.nmcTrayWindowHeaderHeight
 
                     NMCHeaderButton {
@@ -695,7 +690,7 @@ ApplicationWindow {
                         hoverEnabled: true
                         onClicked: UserModel.openCurrentAccountLocalFolder()
                         onEntered: {
-                            trayWindowLocalButtonContainer.color = "#0D000000" // 0D = 0.05 Alpha
+                            trayWindowLocalButtonContainer.color = Style.nmcTrayWindowHeaderHighlightColor
                         }
                         onExited:{
                             trayWindowLocalButtonContainer.color = "transparent"
@@ -728,7 +723,7 @@ ApplicationWindow {
                 left: trayWindowMainItem.left
                 right: trayWindowMainItem.right
 
-                topMargin: Style.trayHorizontalMargin + controlRoot.padding
+                topMargin: Style.nmcTrayWindowStandardMargin
                 leftMargin: Style.trayHorizontalMargin + controlRoot.padding
                 rightMargin: Style.trayHorizontalMargin + controlRoot.padding
             }
