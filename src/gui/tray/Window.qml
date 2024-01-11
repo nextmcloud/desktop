@@ -330,16 +330,25 @@ ApplicationWindow {
                         // x coordinate grows towards the right
                         // y coordinate grows towards the bottom
                         x: (0 - tLogo.width)
-                        y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 1)
+                        y: (currentAccountButton.y + Style.nmcTrayWindowHeaderHeight - Style.nmcTrayWindowMenuOverlayMargin)
 
                         width: (Style.currentAccountButtonWidth + tLogo.width - 2)
                         height: Math.min(implicitHeight, maxMenuHeight)
                         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
                         background: Rectangle {
+                            id:menuBackground
                             border.color: palette.dark
                             color: palette.base
-                            radius: Style.currentAccountButtonRadius
+                            radius: Style.nmcStandardRadius
+                            layer.enabled: true
+                            layer.effect: DropShadow {
+                                transparentBorder: true
+                                horizontalOffset: 0
+                                verticalOffset: 0
+                                radius: 6
+                                color: "#40000000"
+                            }
                         }
 
                         contentItem: ScrollView {
@@ -729,6 +738,8 @@ ApplicationWindow {
             id: trayWindowUnifiedSearchInputContainer
             height: Style.trayWindowHeaderHeight * 0.65
 
+            visible: false
+
             anchors {
                 top: separator.bottom
                 left: trayWindowMainItem.left
@@ -750,7 +761,8 @@ ApplicationWindow {
             id: unifiedSearchResultsErrorLabel
             visible:  UserModel.currentUser.unifiedSearchResultsListModel.errorString && !unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress && ! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
             text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.margins: Style.trayHorizontalMargin
@@ -759,7 +771,7 @@ ApplicationWindow {
         UnifiedSearchResultNothingFound {
             id: unifiedSearchResultNothingFound
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.topMargin: Style.trayHorizontalMargin
@@ -777,7 +789,7 @@ ApplicationWindow {
         Loader {
             id: unifiedSearchResultsListViewSkeletonLoader
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -806,7 +818,7 @@ ApplicationWindow {
             }
             visible: unifiedSearchResultsListView.count > 0
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -848,7 +860,7 @@ ApplicationWindow {
 
             visible: !trayWindowMainItem.isUnifiedSearchActive
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
         }
