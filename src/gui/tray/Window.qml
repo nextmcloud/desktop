@@ -381,7 +381,7 @@ ApplicationWindow {
 
                         MenuItem {
                             id: addAccountButton
-                            height: Systray.enableAddAccount ? Style.addAccountButtonHeight : 0
+                            height: Systray.enableAddAccount ? Style.nmcTrayWindowAddAccountButtonHeight : 0
                             hoverEnabled: true
                             visible: Systray.enableAddAccount
                             icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
@@ -436,8 +436,11 @@ ApplicationWindow {
                             id: syncPauseButton
                             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
                             icon.source: Style.nmcPauseIcon
+                            icon.height: Style.nmcTrayWindowIconWidth
+                            icon.width: Style.nmcTrayWindowIconWidth
                             icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
-                            leftPadding: Style.nmcAccountMenuItemLeftPadding
+                            leftPadding: Style.nmcMenuSubItemLeftPadding
+                            height: Style.nmcMenuSubItemHeight
 
                             background: Item {
                                 height: parent.height
@@ -458,8 +461,12 @@ ApplicationWindow {
                             id: settingsButton
                             text: qsTr("Settings")
                             icon.source: Style.nmcSettingsIcon
+                            icon.height: Style.nmcTrayWindowIconWidth
+                            icon.width: Style.nmcTrayWindowIconWidth
                             icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
-                            leftPadding: Style.nmcAccountMenuItemLeftPadding
+                            leftPadding: Style.nmcMenuSubItemLeftPadding
+                            height: Style.nmcMenuSubItemHeight
+
                             onClicked: Systray.openSettings()
 
                             background: Item {
@@ -481,8 +488,12 @@ ApplicationWindow {
                             id: exitButton
                             text: qsTr("Exit");
                             icon.source: Style.nmcCloseIcon
+                            icon.height: Style.nmcTrayWindowIconWidth
+                            icon.width: Style.nmcTrayWindowIconWidth
                             icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
-                            leftPadding: Style.nmcAccountMenuItemLeftPadding
+                            leftPadding: Style.nmcMenuSubItemLeftPadding
+                            height: Style.nmcMenuSubItemHeight
+
                             onClicked: Systray.shutdown()
 
                             background: Item {
