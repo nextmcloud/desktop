@@ -220,6 +220,7 @@ QtObject {
     readonly property int nmcMenuSubItemHeight: 40
     readonly property int nmcMenuSubItemLeftPadding: 16
     readonly property int nmcStandardRadius: 4
+    readonly property color nmcMenuMoreItemsColor: "#E5E5E5"
     readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
     readonly property color nmcTrayWindowHeaderTextColor: "black"
     readonly property color nmcTrayWindowHeaderSeparatorColor: "#ededed"
