@@ -54,7 +54,7 @@ RowLayout {
 
             text: syncStatus.syncStatusString
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Style.topLinePixelSize
+            font.pixelSize: Style.nmcFontSizeSyncText
             font.bold: true
             wrapMode: Text.Wrap
         }
@@ -114,8 +114,13 @@ RowLayout {
             }
         }
 
+        HoverHandler {
+            id: mouse
+            acceptedDevices: PointerDevice.Mouse
+        }
+
         background: Rectangle {
-            color: Style.nmcTelekomMagentaColor
+            color: mouse.hovered? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
             radius: 5
             height: Style.nmcTraySyncButtonHeight
         }
