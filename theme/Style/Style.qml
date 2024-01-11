@@ -206,7 +206,7 @@ QtObject {
     readonly property string nmcLogOutIcon: "qrc:///client/theme/logout.svg"
     readonly property string nmcRemoveIcon: "qrc:///client/theme/remove.svg"
     readonly property color nmcTelekomMagentaColor: "#E20074"
-    readonly property color nmcSyncHoverColor: "#E10073"
+    readonly property color nmcSyncHoverColor: "#c00063"
     property int nmcTrayWindowHeaderHeight: 64
     property int nmcTrayWindowItemsHeight: 48
     property int nmcTrayWindowIconWidth: 24
