@@ -207,6 +207,7 @@ QtObject {
     readonly property string nmcRemoveIcon: "qrc:///client/theme/remove.svg"
     readonly property color nmcTelekomMagentaColor: "#E20074"
     readonly property color nmcSyncHoverColor: "#c00063"
+    property int nmcTrayWindowAddAccountButtonHeight: 56
     property int nmcTrayWindowHeaderHeight: 64
     property int nmcTrayWindowItemsHeight: 48
     property int nmcTrayWindowIconWidth: 24
@@ -214,6 +215,8 @@ QtObject {
     property int nmcTrayWindowStandardMargin: 16
     property int nmcTraySyncButtonHeight: 28
     property int nmcCurrentAccountButtonWidth: 180
+    property int nmcMenuSubItemHeight: 40
+    property int nmcMenuSubItemLeftPadding: 16
     readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
     readonly property color nmcTrayWindowHeaderTextColor: "black"
     readonly property color nmcTrayWindowHeaderSeparatorColor: "#ededed"
