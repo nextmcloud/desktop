@@ -332,7 +332,7 @@ ApplicationWindow {
                         x: (0 - tLogo.width)
                         y: (currentAccountButton.y + Style.nmcTrayWindowHeaderHeight - Style.nmcTrayWindowMenuOverlayMargin)
 
-                        width: (Style.currentAccountButtonWidth + tLogo.width - 2)
+                        width: (Style.nmcCurrentAccountButtonWidth + tLogo.width + 30)
                         height: Math.min(implicitHeight, maxMenuHeight)
                         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
@@ -393,7 +393,7 @@ ApplicationWindow {
                             height: Systray.enableAddAccount ? Style.nmcTrayWindowAddAccountButtonHeight : 0
                             hoverEnabled: true
                             visible: Systray.enableAddAccount
-                            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                            icon.color: Style.ncTextColor
 
                             background: Item {
                                 height: parent.height
@@ -447,7 +447,7 @@ ApplicationWindow {
                             icon.source: Style.nmcPauseIcon
                             icon.height: Style.nmcTrayWindowIconWidth
                             icon.width: Style.nmcTrayWindowIconWidth
-                            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                            icon.color: Style.ncTextColor
                             leftPadding: Style.nmcMenuSubItemLeftPadding
                             height: Style.nmcMenuSubItemHeight
 
@@ -472,7 +472,7 @@ ApplicationWindow {
                             icon.source: Style.nmcSettingsIcon
                             icon.height: Style.nmcTrayWindowIconWidth
                             icon.width: Style.nmcTrayWindowIconWidth
-                            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                            icon.color: Style.ncTextColor
                             leftPadding: Style.nmcMenuSubItemLeftPadding
                             height: Style.nmcMenuSubItemHeight
 
@@ -499,7 +499,7 @@ ApplicationWindow {
                             icon.source: Style.nmcCloseIcon
                             icon.height: Style.nmcTrayWindowIconWidth
                             icon.width: Style.nmcTrayWindowIconWidth
-                            icon.color: hovered ? Style.nmcTelekomMagentaColor : Style.ncTextColor
+                            icon.color: Style.ncTextColor
                             leftPadding: Style.nmcMenuSubItemLeftPadding
                             height: Style.nmcMenuSubItemHeight
 
@@ -518,6 +518,13 @@ ApplicationWindow {
                             Accessible.role: Accessible.MenuItem
                             Accessible.name: text
                             Accessible.onPressAction: exitButton.clicked()
+                        }
+
+                        //NMC customization, spacer at the bottom of the emenu
+                        Rectangle{
+                            height: 8
+                            color: "white"
+                            radius: Style.nmcStandardRadius
                         }
                     }
 
