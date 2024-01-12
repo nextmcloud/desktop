@@ -115,13 +115,12 @@ RowLayout {
         }
 
         HoverHandler {
-            id: mouse
+            id: mouseSync
             acceptedDevices: PointerDevice.Mouse
         }
 
         background: Rectangle {
-            id: backgroundArea
-            color: mouse.hovered? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
+            color: mouseSync.hovered? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
             radius: Style.nmcStandardRadius
             height: Style.nmcTraySyncButtonHeight
         }
@@ -135,8 +134,9 @@ RowLayout {
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Resolve conflicts")
-        textColor: Style.adjustedCurrentUserHeaderColor
-        textColorHovered: Style.currentUserHeaderTextColor
+        padding: Style.smallSpacing
+        textColor: Style.nmcTextInButtonColor
+        textColorHovered: Style.nmcTextInButtonColor
         contentsFont.bold: true
         bgColor: Style.currentUserHeaderColor
 
@@ -146,5 +146,16 @@ RowLayout {
                  NC.UserModel.currentUser.isConnected
         enabled: visible
         onClicked: NC.Systray.createResolveConflictsDialog(activityModel.allConflicts);
+
+        HoverHandler {
+            id: mouseConflict
+            acceptedDevices: PointerDevice.Mouse
+        }
+
+        background: Rectangle {
+            color: mouseConflict.hovered? Style.nmcConflictHoverColor : Style.nmcConflictColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
+        }
     }
 }
