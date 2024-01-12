@@ -29,7 +29,7 @@ RowLayout {
         Layout.topMargin: 16
         Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
         Layout.bottomMargin: 16
-        Layout.leftMargin: Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
+        Layout.leftMargin: Style.nmcListViewLeftPadding //Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
 
         padding: 0
 
@@ -46,6 +46,8 @@ RowLayout {
         Layout.bottomMargin: 8
         Layout.fillWidth: true
         Layout.fillHeight: true
+
+        Layout.leftMargin: Style.nmcProgressFieldTextOffset
 
         EnforcedPlainTextLabel {
             id: syncProgressText
@@ -78,7 +80,8 @@ RowLayout {
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusDetailString
-            visible: syncStatus.syncStatusDetailString !== ""
+            //NMC Customization
+            visible: false // syncStatus.syncStatusDetailString !== ""
             color: palette.midlight
             font.pixelSize: Style.subLinePixelSize
             wrapMode: Text.Wrap
