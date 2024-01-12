@@ -224,6 +224,7 @@ QtObject {
     readonly property int nmcStandardRadius: 4
     readonly property int nmcListViewLeftPadding: 22
     readonly property int nmcListViewIconSize: 32
+    readonly property int nmcProgressFieldTextOffset: -12
     readonly property color nmcMenuMoreItemsColor: "#E5E5E5"
     readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
     readonly property color nmcTrayWindowHeaderTextColor: "black"
