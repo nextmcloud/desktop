@@ -33,12 +33,6 @@ RowLayout {
         implicitWidth: root.iconSize
         implicitHeight: model.thumbnail && model.thumbnail.isMimeTypeIcon ? root.iconSize * 0.9 : root.iconSize
 
-        // Rectangle{
-        //     anchors.fill: thumbnailItem
-        //     border.color: "green"
-        //     border.width: 1
-        // }
-
         Loader {
             id: thumbnailImageLoader
             anchors.fill: parent
