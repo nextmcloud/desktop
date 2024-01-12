@@ -208,6 +208,7 @@ QtObject {
     readonly property color nmcTelekomMagentaColor: "#E20074"
     readonly property color nmcSyncHoverColor: "#c00063"
     readonly property color nmcSyncPressColor: "#9e0051"
+    readonly property color nmcSyncRefreshColor: "#2238df"
     readonly property int nmcTrayWindowAddAccountButtonHeight: 56
     readonly property int nmcTrayWindowHeaderHeight: 64
     readonly property int nmcTrayWindowItemsHeight: 48
