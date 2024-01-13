@@ -22,10 +22,10 @@ ProgressBar {
     background: Rectangle {
         implicitWidth: Style.progressBarWidth
         implicitHeight: Style.progressBarBackgroundHeight
-        radius: Style.progressBarRadius
-        color: Style.progressBarBackgroundColor
+        radius: Style.nmcStandardRadius
+        color: Style.nmcTrayWindowHeaderHighlightColor
         border.color: Style.progressBarBackgroundBorderColor
-        border.width: Style.progressBarBackgroundBorderWidth
+        border.width: 0 //Style.progressBarBackgroundBorderWidth
     }
 
     contentItem: Item {
@@ -36,9 +36,9 @@ ProgressBar {
             width: control.visualPosition * parent.width
             height: parent.height
             radius: Style.progressBarRadius
-            color: Style.progressBarContentColor
+            color: Style.nmcTelekomMagentaColor
             border.color: Style.progressBarContentBorderColor
-            border.width: Style.progressBarContentBorderWidth
+            border.width: 0 //Style.progressBarContentBorderWidth
         }
     }
 }
