@@ -259,6 +259,8 @@ set(client_SRCS
     wizard/welcomepage.cpp
     wizard/linklabel.h
     wizard/linklabel.cpp
+    nmcgui/nmcflow2authwidget.h
+    nmcgui/nmcflow2authwidget.cpp
     )
 
 if (Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
