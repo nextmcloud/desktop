@@ -26,6 +26,6 @@ NMCSortedActivityListModel::NMCSortedActivityListModel(QObject *parent)
 bool NMCSortedActivityListModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     Q_UNUSED(sourceParent)
-    return sourceRow <  30 ? true : false;
+    return sourceRow <  _maxEntries ? true : false;
 }
 }
