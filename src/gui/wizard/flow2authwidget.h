@@ -47,6 +47,17 @@ Q_SIGNALS:
     void authResult(Flow2Auth::Result, const QString &errorString, const QString &user, const QString &appPassword);
     void pollNow();
 
+protected:
+    Ui_Flow2AuthWidget &getUi()
+    {
+        return _ui;
+    }
+
+    QProgressIndicator *getProgressIndicator()
+    {
+        return _progressIndi;
+    }
+
 private:
     Account *_account = nullptr;
     QScopedPointer<Flow2Auth> _asyncAuth;
