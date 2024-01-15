@@ -77,7 +77,7 @@ ScrollView {
         preferredHighlightBegin: 0
         preferredHighlightEnd: controlRoot.height
 
-        model: NC.SortedActivityListModel {
+        model: NC.NMCSortedActivityListModel  {
             id: sortedActivityList
         }
 
