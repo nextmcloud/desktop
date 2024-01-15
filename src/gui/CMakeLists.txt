@@ -259,6 +259,8 @@ set(client_SRCS
     wizard/welcomepage.cpp
     wizard/linklabel.h
     wizard/linklabel.cpp
+    nmcgui/nmcsortedactivitylistmodel.h
+    nmcgui/nmcsortedactivitylistmodel.cpp
     )
 
 if (Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
