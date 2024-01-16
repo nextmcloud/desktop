@@ -112,6 +112,8 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 
     adjustWizardSize();
     centerWindow();
+
+    this->setStyleSheet("QWizard { margin: 0; padding: 0; }" "QWizard::separator { width: 0; }");
 }
 
 void OwncloudWizard::centerWindow()
@@ -132,14 +134,16 @@ void OwncloudWizard::adjustWizardSize()
     const auto pageSizes = calculateWizardPageSizes();
     const auto currentPageIndex = currentId();
 
-    // If we can, just use the size of the current page
-    if(currentPageIndex > -1 && currentPageIndex < pageSizes.count()) {
-        resize(pageSizes.at(currentPageIndex));
-        return;
-    }
+    // //If we can, just use the size of the current page
+    // if(currentPageIndex > -1 && currentPageIndex < pageSizes.count()) {
+    //     resize(pageSizes.at(currentPageIndex));
+    //     return;
+    // }
 
-    // As a backup, resize to largest page
-    resize(calculateLargestSizeOfWizardPages(pageSizes));
+    // //As a backup, resize to largest page
+    // resize(calculateLargestSizeOfWizardPages(pageSizes));
+
+    resize(700,502); //NMC customization
 }
 
 QList<QSize> OwncloudWizard::calculateWizardPageSizes() const
@@ -307,6 +311,7 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
 #endif // WITH_WEBENGINE
         id == WizardCommon::Page_Flow2AuthCreds) {
         setButtonLayout({ QWizard::BackButton, QWizard::Stretch });
+        button(QWizard::BackButton)->setVisible(false);
     } else if (id == WizardCommon::Page_AdvancedSetup) {
         setButtonLayout({ QWizard::CustomButton2, QWizard::Stretch, QWizard::CustomButton1, QWizard::FinishButton });
         setNextButtonAsDefault();
@@ -383,6 +388,15 @@ void OwncloudWizard::changeEvent(QEvent *e)
     }
 
     QWizard::changeEvent(e);
+}
+
+void OwncloudWizard::paintEvent(QPaintEvent *event)
+{
+    // QPainter painter;
+    // painter.begin(this);
+    // painter.fillRect(rect(), Qt::white);
+    // painter.end();
+    QWizard::paintEvent(event);
 }
 
 void OwncloudWizard::customizeStyle()
