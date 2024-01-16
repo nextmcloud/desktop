@@ -67,10 +67,12 @@ protected slots:
     void slotOpenBrowser();
     void slotCopyLinkToClipboard();
 
+protected:
+    virtual void customizeStyle();
+
 private:
     void startSpinner();
     void stopSpinner(bool showStatusLabel);
-    void customizeStyle();
     void setLogo();
 
     QProgressIndicator *_progressIndi;
