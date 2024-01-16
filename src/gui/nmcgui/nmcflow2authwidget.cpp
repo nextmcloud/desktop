@@ -46,7 +46,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 
     //Set login button size and style
     QSize buttonSize(120,32);
-    const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 10px; background-color: %2; color: %3}");
+    const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3}");
     loginBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white"));
     loginBrowserButton->setFixedSize(buttonSize);
 
@@ -64,13 +64,16 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     auto hLogoAndLabelLayout = new QHBoxLayout(this);
     getUi().verticalLayout_3->removeWidget(getUi().logoLabel);
     getUi().logoLabel->setFixedSize(36,36);
+    getUi().logoLabel->setPixmap(QIcon(QLatin1String(":/client/theme/account.svg")).pixmap(36,36));
     hLogoAndLabelLayout->addWidget(getUi().logoLabel);
 
     QLabel *magentaLabel = new QLabel("MagentaCLOUD");
+    magentaLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     hLogoAndLabelLayout->addWidget(magentaLabel);
     leftSideVerticalLayout->insertItem(0, hLogoAndLabelLayout);
 
     QLabel *descriptionLabel = new QLabel("SETUP_DESCRIPTION1");
+    descriptionLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     descriptionLabel->setStyleSheet("");
     leftSideVerticalLayout->insertWidget(1, descriptionLabel);
 
@@ -84,6 +87,9 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 
     //Add items to the right side
     QLabel *bigMagetnaIcon = new QLabel("Test");
+    bigMagetnaIcon->setFixedSize(175,175);
+    bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/account.svg")).pixmap(175,175));
+
     rightSideVerticalLayout->addWidget(bigMagetnaIcon);
 
     getUi().verticalLayout_3->removeWidget(getUi().errorLabel);
@@ -123,6 +129,11 @@ void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
     painter.fillRect(rect(), Qt::white);
     painter.end();
     Flow2AuthWidget::paintEvent(event);
+}
+
+void NMCFlow2AuthWidget::customizeStyle()
+{
+    //Empty
 }
 
 
