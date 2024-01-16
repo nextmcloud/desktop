@@ -46,7 +46,8 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 
     //Set login button size and style
     QSize buttonSize(120,32);
-    const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3}");
+    const QString styleSheetHoverPart = "QPushButton:hover { background-color: #c00063; }";
+    const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;}" + styleSheetHoverPart );
     loginBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white"));
     loginBrowserButton->setFixedSize(buttonSize);
 
@@ -78,6 +79,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     hLogoAndLabelLayout->addSpacerItem(spacer9);
 
     QLabel *magentaLabel = new QLabel("MagentaCLOUD");
+    magentaLabel->setStyleSheet("QLabel{font-size: 15px; font-weight: bold;}");
     magentaLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     hLogoAndLabelLayout->addWidget(magentaLabel);
     leftSideVerticalLayout->insertItem(1, hLogoAndLabelLayout);
@@ -87,14 +89,15 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 
     QLabel *descriptionLabel = new QLabel("Melden Sie sich an um direkt loszulegen");
     descriptionLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    descriptionLabel->setStyleSheet("QLabel{font-size: 28px;}");
+    descriptionLabel->setStyleSheet("QLabel{font-size: 28px; font-weight: normal;}");
     descriptionLabel->setWordWrap(true);
+    descriptionLabel->setMinimumSize(descriptionLabel->sizeHint());
     leftSideVerticalLayout->insertWidget(3, descriptionLabel);
 
     QSpacerItem *spacer5 = new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed);
     leftSideVerticalLayout->insertSpacerItem(4, spacer5);
 
-    getUi().label->setStyleSheet("QLabel{font-size: 15px;}");
+    getUi().label->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
     getUi().verticalLayout_3->removeWidget(getUi().label);
     leftSideVerticalLayout->insertWidget(5, getUi().label);
     getUi().label->setText("Wechseln Sie bitte zu ihrem Browser und melden Sie sich dort an um ihr Konto zu verbinden.");
