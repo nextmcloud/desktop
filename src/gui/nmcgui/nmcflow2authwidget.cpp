@@ -110,7 +110,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     //Add buttons
     leftSideVerticalLayout->insertWidget(7, loginBrowserButton);
 
-
     //Add items to the right side
     QLabel *bigMagetnaIcon = new QLabel("Test");
     bigMagetnaIcon->setFixedSize(175,175);
@@ -142,16 +141,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     }
 
     this->setLayout(mainVerticalLayout);
-
-
-
-
-
-    // //Now add the layout to base layout
-    // getUi().verticalLayout_3->addLayout(hLayout);
-
-    // //Make sure the first button wont get focus. It will be assigned to second button (reopenBrowserButton)
-    // copyLinkButton->setFocusPolicy(Qt::NoFocus);
 }
 
 void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
