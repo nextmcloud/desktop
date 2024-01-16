@@ -238,6 +238,8 @@
         <file>theme/delete.svg</file>
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
+        <file>theme/NMCIcons/tlogocarrier.svg</file>
+        <file>theme/NMCIcons/ApplicationLogo.svg</file>
         <file>theme/more-apps.svg</file>
         <file>theme/talk-app.svg</file>
     </qresource>

@@ -26,6 +26,9 @@ namespace OCC {
 NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     : Flow2AuthWidget(parent)
 {
+
+    //setFixedSize(700,502);
+
     getUi().copyLinkLabel->setVisible(false);
     getUi().openLinkLabel->setVisible(false);
     auto progressInd = getProgressIndicator();
@@ -123,12 +126,16 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     bigMagetnaIcon->setFixedSize(175,175);
     bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/applicationLogo.svg")).pixmap(175,175));
 
-    QSpacerItem *spacer1 = new QSpacerItem(1,100, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem *spacer1 = new QSpacerItem(1,98, QSizePolicy::Fixed, QSizePolicy::Fixed);
     rightSideVerticalLayout->addSpacerItem(spacer1);
     rightSideVerticalLayout->addWidget(bigMagetnaIcon);
 
     QSpacerItem *spacer10 = new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding);
     rightSideVerticalLayout->addSpacerItem(spacer10);
+
+    QSpacerItem *spacer2 = new QSpacerItem(0,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    subMainHorizontalLayout->addSpacerItem(spacer2);
+
 
     getUi().verticalLayout_3->removeWidget(getUi().errorLabel);
     mainVerticalLayout->addWidget(getUi().errorLabel);

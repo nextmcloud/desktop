@@ -406,6 +406,15 @@ void OwncloudWizard::changeEvent(QEvent *e)
     QWizard::changeEvent(e);
 }
 
+void OwncloudWizard::paintEvent(QPaintEvent *event)
+{
+    // QPainter painter;
+    // painter.begin(this);
+    // painter.fillRect(rect(), Qt::white);
+    // painter.end();
+    QWizard::paintEvent(event);
+}
+
 void OwncloudWizard::customizeStyle()
 {
     // HINT: Customize wizard's own style here, if necessary in the future (Dark-/Light-Mode switching)
