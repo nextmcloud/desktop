@@ -57,6 +57,9 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     auto rightSideVerticalLayout = new QVBoxLayout(this);
 
     mainVerticalLayout->addLayout(subMainHorizontalLayout);
+
+    QSpacerItem *spacer4 = new QSpacerItem(32,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    subMainHorizontalLayout->addSpacerItem(spacer4);
     subMainHorizontalLayout->addLayout(leftSideVerticalLayout);
     subMainHorizontalLayout->addLayout(rightSideVerticalLayout);
 
@@ -65,24 +68,44 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     getUi().verticalLayout_3->removeWidget(getUi().logoLabel);
     getUi().logoLabel->setFixedSize(36,36);
     getUi().logoLabel->setPixmap(QIcon(QLatin1String(":/client/theme/account.svg")).pixmap(36,36));
+
     hLogoAndLabelLayout->addWidget(getUi().logoLabel);
+
+    QSpacerItem *spacer3 = new QSpacerItem(1,64, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    leftSideVerticalLayout->addSpacerItem(spacer3);
+
+    QSpacerItem *spacer9 = new QSpacerItem(8,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    hLogoAndLabelLayout->addSpacerItem(spacer9);
 
     QLabel *magentaLabel = new QLabel("MagentaCLOUD");
     magentaLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     hLogoAndLabelLayout->addWidget(magentaLabel);
-    leftSideVerticalLayout->insertItem(0, hLogoAndLabelLayout);
+    leftSideVerticalLayout->insertItem(1, hLogoAndLabelLayout);
 
-    QLabel *descriptionLabel = new QLabel("SETUP_DESCRIPTION1");
+    QSpacerItem *spacer7 = new QSpacerItem(1,24, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    leftSideVerticalLayout->insertSpacerItem(2, spacer7);
+
+    QLabel *descriptionLabel = new QLabel("Melden Sie sich an um direkt loszulegen");
     descriptionLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    descriptionLabel->setStyleSheet("");
-    leftSideVerticalLayout->insertWidget(1, descriptionLabel);
+    descriptionLabel->setStyleSheet("QLabel{font-size: 28px;}");
+    descriptionLabel->setWordWrap(true);
+    leftSideVerticalLayout->insertWidget(3, descriptionLabel);
 
-    getUi().label->setStyleSheet("");
+    QSpacerItem *spacer5 = new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    leftSideVerticalLayout->insertSpacerItem(4, spacer5);
+
+    getUi().label->setStyleSheet("QLabel{font-size: 15px;}");
     getUi().verticalLayout_3->removeWidget(getUi().label);
-    leftSideVerticalLayout->insertWidget(2, getUi().label);
+    leftSideVerticalLayout->insertWidget(5, getUi().label);
+    getUi().label->setText("Wechseln Sie bitte zu ihrem Browser und melden Sie sich dort an um ihr Konto zu verbinden.");
+    getUi().label->setFixedWidth(282);
+    getUi().label->setAlignment(Qt::AlignLeft);
+
+    QSpacerItem *spacer6 = new QSpacerItem(1,32, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    leftSideVerticalLayout->insertSpacerItem(6, spacer6);
 
     //Add buttons
-    leftSideVerticalLayout->insertWidget(3, loginBrowserButton);
+    leftSideVerticalLayout->insertWidget(7, loginBrowserButton);
 
 
     //Add items to the right side
@@ -90,7 +113,13 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     bigMagetnaIcon->setFixedSize(175,175);
     bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/account.svg")).pixmap(175,175));
 
+    QSpacerItem *spacer1 = new QSpacerItem(1,128, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    rightSideVerticalLayout->addSpacerItem(spacer1);
     rightSideVerticalLayout->addWidget(bigMagetnaIcon);
+
+    QSpacerItem *spacer2 = new QSpacerItem(48,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    subMainHorizontalLayout->addSpacerItem(spacer2);
+
 
     getUi().verticalLayout_3->removeWidget(getUi().errorLabel);
     mainVerticalLayout->addWidget(getUi().errorLabel);
