@@ -16,6 +16,7 @@
 #define NMCADVERTWIDGET_H
 
 #include <QWidget>
+#include <QLabel>
 
 class NMCAdvertWidget : public QWidget
 {
@@ -24,6 +25,12 @@ class NMCAdvertWidget : public QWidget
 public:
     explicit NMCAdvertWidget(QWidget *parent = nullptr);
     ~NMCAdvertWidget() = default;
+
+private:
+    void loadPNG(const QString &name);
+
+private:
+    QLabel m_imageLabel;
 
 private:
     // Hier können Sie Mitgliedsvariablen und private Methoden hinzufügen
