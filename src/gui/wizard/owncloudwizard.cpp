@@ -16,6 +16,7 @@
 #include "account.h"
 #include "config.h"
 #include "configfile.h"
+#include "nmcgui/nmcowncloudadvancedsetuppage.h"
 #include "theme.h"
 #include "owncloudgui.h"
 
@@ -49,7 +50,7 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     , _setupPage(new OwncloudSetupPage(this))
     , _httpCredsPage(new OwncloudHttpCredsPage(this))
     , _flow2CredsPage(new Flow2AuthCredsPage)
-    , _advancedSetupPage(new OwncloudAdvancedSetupPage(this))
+    , _advancedSetupPage(new NMCOwncloudAdvancedSetupPage(this))
 #ifdef WITH_WEBENGINE
     , _webViewPage(new WebViewPage(this))
 #else // WITH_WEBENGINE
