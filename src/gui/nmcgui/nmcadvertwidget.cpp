@@ -18,6 +18,8 @@
 #include "QtWidgets/qapplication.h"
 #include "QtWidgets/qboxlayout.h"
 #include "QGraphicsPixmapItem"
+#include "nmcadvertwidget.h"
+#include "QtWidgets/qboxlayout.h"
 
 NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
     ,m_graphicsView(new NMCCustomGraphicsView(this))
@@ -235,4 +237,19 @@ void NMCAdvertWidget::selectTextByID()
     {
         m_currentImageId != 0 ? m_header->setVisible(false) : m_header->setVisible(true);
     }
+{
+    setFixedSize(700,502);
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    setLayout(layout);
+    layout->addWidget(&m_imageLabel);
+    layout->setMargin(0);
+    //Set initial image
+    loadPNG(QString(":/client/theme/NMCIcons/configuration1.png"));
+}
+
+void NMCAdvertWidget::loadPNG(const QString &name)
+{
+    QPixmap pixmap(name);
+    pixmap = pixmap.scaled(window()->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    m_imageLabel.setPixmap(pixmap);
 }
