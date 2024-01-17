@@ -14,21 +14,59 @@
 
 #include "nmcadvertwidget.h"
 #include "QtWidgets/qboxlayout.h"
+#include "QGraphicsPixmapItem"
 
 NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
+    ,m_graphicsView(new QGraphicsView)
+
 {
     setFixedSize(700,502);
     QHBoxLayout *layout = new QHBoxLayout(this);
     setLayout(layout);
-    layout->addWidget(&m_imageLabel);
+    m_graphicsView->setScene(&m_graphicsScene);
+    layout->addWidget(m_graphicsView);
     layout->setMargin(0);
-    //Set initial image
-    loadPNG(QString(":/client/theme/NMCIcons/configuration1.png"));
+
+    m_graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    generatePixmapList(":/client/theme/NMCIcons/configuration1.png");
+    generatePixmapList(":/client/theme/NMCIcons/configuration2.png");
+    generatePixmapList(":/client/theme/NMCIcons/configuration3.png");
+
+    //Set initial page
+    if(!m_pixmapList.empty())
+    {
+        loadPNG(m_pixmapList.first());
+        m_currentImageId = 0;
+    }
+
+    m_graphicsView->show();
+
+    m_animationTimer.setInterval(2500);
+    connect(&m_animationTimer, &QTimer::timeout, this, [this](){
+
+        ++m_currentImageId;
+        if(m_pixmapList.size()-1 < m_currentImageId)
+        {
+            m_currentImageId = 0;
+        }
+
+        loadPNG(m_pixmapList.at(m_currentImageId));
+    });
+
+    m_animationTimer.start();
 }
 
-void NMCAdvertWidget::loadPNG(const QString &name)
+void NMCAdvertWidget::loadPNG(const QPixmap &pixmap)
+{
+    m_graphicsScene.clear();
+    QGraphicsPixmapItem *pixmapItem = m_graphicsScene.addPixmap(pixmap.scaled(window()->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_graphicsView->setFixedSize(pixmapItem->pixmap().size());
+}
+
+void NMCAdvertWidget::generatePixmapList(const QString &name)
 {
     QPixmap pixmap(name);
-    pixmap = pixmap.scaled(window()->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    m_imageLabel.setPixmap(pixmap);
+    m_pixmapList.append(pixmap.scaled(window()->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
