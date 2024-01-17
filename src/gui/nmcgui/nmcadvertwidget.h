@@ -15,6 +15,8 @@
 #ifndef NMCADVERTWIDGET_H
 #define NMCADVERTWIDGET_H
 
+#include "QtCore/qtimer.h"
+#include "QtWidgets/qgraphicsview.h"
 #include <QWidget>
 #include <QLabel>
 
@@ -27,10 +29,15 @@ public:
     ~NMCAdvertWidget() = default;
 
 private:
-    void loadPNG(const QString &name);
+    void loadPNG(const QPixmap &pixmap);
+    void generatePixmapList(const QString &name);
 
 private:
-    QLabel m_imageLabel;
+    QGraphicsView *m_graphicsView = nullptr;
+    QGraphicsScene m_graphicsScene;
+    QList<QPixmap> m_pixmapList;
+    QTimer m_animationTimer;
+    int m_currentImageId = 0;
 
 private:
     // Hier können Sie Mitgliedsvariablen und private Methoden hinzufügen
