@@ -241,5 +241,7 @@
         <file>theme/NMCIcons/configuration1.png</file>
         <file>theme/NMCIcons/configuration2.png</file>
         <file>theme/NMCIcons/configuration3.png</file>
+        <file>theme/NMCIcons/navigation-left.svg</file>
+        <file>theme/NMCIcons/navigation-right.svg</file>
     </qresource>
 </RCC>
