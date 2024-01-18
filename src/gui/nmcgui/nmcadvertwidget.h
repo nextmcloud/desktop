@@ -17,6 +17,7 @@
 
 #include "QtCore/qtimer.h"
 #include "QtWidgets/qgraphicsview.h"
+#include "QtWidgets/qpushbutton.h"
 #include <QWidget>
 #include <QLabel>
 
@@ -31,7 +32,8 @@ public:
 private:
     void loadPNG(const QPixmap &pixmap);
     void generatePixmapList(const QString &name);
-    void drawStartButton();
+    void initStartButton();
+    void showStartButton();
 
 private:
     QGraphicsView *m_graphicsView = nullptr;
@@ -39,6 +41,7 @@ private:
     QList<QPixmap> m_pixmapList;
     QTimer m_animationTimer;
     int m_currentImageId = 0;
+    QPushButton *m_pushButton = nullptr;
 
 private:
     // Hier können Sie Mitgliedsvariablen und private Methoden hinzufügen
