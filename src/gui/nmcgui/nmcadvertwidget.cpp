@@ -14,12 +14,12 @@
 
 #include "nmcadvertwidget.h"
 #include "QtCore/qdebug.h"
+#include "QtGui/qevent.h"
 #include "QtWidgets/qboxlayout.h"
 #include "QGraphicsPixmapItem"
 
 NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
-    ,m_graphicsView(new QGraphicsView(this))
-
+    ,m_graphicsView(new NMCCustomGraphicsView(this))
 {
     setFixedSize(700,502);
     QHBoxLayout *layout = new QHBoxLayout(this);

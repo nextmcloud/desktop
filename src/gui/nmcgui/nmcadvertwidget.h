@@ -16,10 +16,23 @@
 #define NMCADVERTWIDGET_H
 
 #include "QtCore/qtimer.h"
+#include "QtGui/qevent.h"
 #include "QtWidgets/qgraphicsview.h"
 #include "QtWidgets/qpushbutton.h"
 #include <QWidget>
 #include <QLabel>
+
+class NMCCustomGraphicsView : public QGraphicsView
+{
+public:
+    NMCCustomGraphicsView(QWidget *parent = nullptr) : QGraphicsView(parent) {}
+
+protected:
+    void wheelEvent(QWheelEvent *event) override
+    {
+        event->ignore();
+    }
+};
 
 class NMCClickableLabel : public QLabel
 {
@@ -64,7 +77,7 @@ private:
     void selectTextByID();
 
 private:
-    QGraphicsView *m_graphicsView = nullptr;
+    NMCCustomGraphicsView *m_graphicsView = nullptr;
     QGraphicsScene m_graphicsScene;
     QList<QPixmap> m_pixmapList;
     QTimer m_animationTimer;
