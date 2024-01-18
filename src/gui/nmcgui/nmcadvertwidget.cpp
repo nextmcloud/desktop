@@ -18,7 +18,7 @@
 #include "QGraphicsPixmapItem"
 
 NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
-    ,m_graphicsView(new QGraphicsView)
+    ,m_graphicsView(new QGraphicsView(this))
 
 {
     setFixedSize(700,502);
@@ -35,15 +35,16 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
     generatePixmapList(":/client/theme/NMCIcons/configuration2.png");
     generatePixmapList(":/client/theme/NMCIcons/configuration3.png");
 
+    initStartButton();
+
     //Set initial page
+    m_graphicsView->show();
+
     if(!m_pixmapList.empty())
     {
         loadPNG(m_pixmapList.first());
-        drawStartButton();
         m_currentImageId = 0;
     }
-
-    m_graphicsView->show();
 
     m_animationTimer.setInterval(2500);
     connect(&m_animationTimer, &QTimer::timeout, this, [this](){
@@ -55,17 +56,18 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
         }
 
         loadPNG(m_pixmapList.at(m_currentImageId));
-        drawStartButton();
+        showStartButton();
     });
 
     m_animationTimer.start();
+    showStartButton();
 }
 
 void NMCAdvertWidget::loadPNG(const QPixmap &pixmap)
 {
-    m_graphicsScene.clear();
     QGraphicsPixmapItem *pixmapItem = m_graphicsScene.addPixmap(pixmap.scaled(window()->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     m_graphicsView->setFixedSize(pixmapItem->pixmap().size());
+    m_graphicsView->update();
 }
 
 void NMCAdvertWidget::generatePixmapList(const QString &name)
@@ -74,31 +76,39 @@ void NMCAdvertWidget::generatePixmapList(const QString &name)
     m_pixmapList.append(pixmap.scaled(window()->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
-void NMCAdvertWidget::drawStartButton()
+void NMCAdvertWidget::initStartButton()
 {
-    QPainterPath roundedPath;
-    roundedPath.addRoundedRect((m_graphicsView->width()/2) - 60, m_graphicsView->height() - 32 - 32, 120, 32, 4, 4);
+    if(m_pushButton == nullptr)
+    {
+        m_pushButton = new QPushButton(tr("START_NOW"), m_graphicsView);
+        if(m_pushButton != nullptr)
+        {
+            const QString styleSheet = "QPushButton {"
+                "    font-size: 15px;"
+                "    border: 0px solid black;"
+                "    border-radius: 4px;"
+                "    background-color: white;"
+                "    color: black;"
+                "}"
+                "QPushButton:hover {"
+                "    background-color: #ededed;"
+                "}";
+            m_pushButton->setStyleSheet(styleSheet);
+            m_pushButton->setFixedSize(130,32);
 
-    QGraphicsPathItem *roundedRect = new QGraphicsPathItem(roundedPath);
-    roundedRect->setBrush(QBrush(Qt::white));
-    roundedRect->setPen(QPen(Qt::NoPen));
+            connect(m_pushButton, &QPushButton::clicked, this, [this](){
+                this->close();
+            });
+        }
+    }
+}
 
-    m_graphicsScene.addItem(roundedRect);
-
-    QGraphicsTextItem *textItem = new QGraphicsTextItem(tr("START_NOW"));
-    textItem->setDefaultTextColor(Qt::black);
-
-    QFont font;
-    font.setPointSize(15);
-    font.setWeight(QFont::Normal);
-    textItem->setFont(font);
-
-    m_graphicsScene.addItem(textItem);
-
-    qreal textX = (roundedRect->boundingRect().width() - textItem->boundingRect().width()) / 2;
-    qreal textY = (roundedRect->boundingRect().height() - textItem->boundingRect().height()) / 2;
-
-    QPointF scenePos = roundedRect->sceneBoundingRect().topLeft();
-
-    textItem->setPos(scenePos.x() + textX, scenePos.y() + textY);
+void NMCAdvertWidget::showStartButton()
+{
+    if (m_pushButton != nullptr && m_graphicsView != nullptr)
+    {
+        m_graphicsScene.addWidget(m_pushButton);
+        m_pushButton->setGeometry((m_graphicsView->width()/2) - 60, m_graphicsView->height() - 32 - 32, 120, 32);
+        m_pushButton->show();
+    }
 }
