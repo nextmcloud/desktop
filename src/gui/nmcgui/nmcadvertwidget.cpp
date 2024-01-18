@@ -13,6 +13,7 @@
  */
 
 #include "nmcadvertwidget.h"
+#include "QtCore/qdebug.h"
 #include "QtWidgets/qboxlayout.h"
 #include "QGraphicsPixmapItem"
 
@@ -38,6 +39,7 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
     if(!m_pixmapList.empty())
     {
         loadPNG(m_pixmapList.first());
+        drawStartButton();
         m_currentImageId = 0;
     }
 
@@ -53,6 +55,7 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
         }
 
         loadPNG(m_pixmapList.at(m_currentImageId));
+        drawStartButton();
     });
 
     m_animationTimer.start();
@@ -69,4 +72,33 @@ void NMCAdvertWidget::generatePixmapList(const QString &name)
 {
     QPixmap pixmap(name);
     m_pixmapList.append(pixmap.scaled(window()->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+}
+
+void NMCAdvertWidget::drawStartButton()
+{
+    QPainterPath roundedPath;
+    roundedPath.addRoundedRect((m_graphicsView->width()/2) - 60, m_graphicsView->height() - 32 - 32, 120, 32, 4, 4);
+
+    QGraphicsPathItem *roundedRect = new QGraphicsPathItem(roundedPath);
+    roundedRect->setBrush(QBrush(Qt::white));
+    roundedRect->setPen(QPen(Qt::NoPen));
+
+    m_graphicsScene.addItem(roundedRect);
+
+    QGraphicsTextItem *textItem = new QGraphicsTextItem(tr("START_NOW"));
+    textItem->setDefaultTextColor(Qt::black);
+
+    QFont font;
+    font.setPointSize(15);
+    font.setWeight(QFont::Normal);
+    textItem->setFont(font);
+
+    m_graphicsScene.addItem(textItem);
+
+    qreal textX = (roundedRect->boundingRect().width() - textItem->boundingRect().width()) / 2;
+    qreal textY = (roundedRect->boundingRect().height() - textItem->boundingRect().height()) / 2;
+
+    QPointF scenePos = roundedRect->sceneBoundingRect().topLeft();
+
+    textItem->setPos(scenePos.x() + textX, scenePos.y() + textY);
 }
