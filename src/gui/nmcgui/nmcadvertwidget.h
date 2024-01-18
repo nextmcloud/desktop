@@ -21,6 +21,28 @@
 #include <QWidget>
 #include <QLabel>
 
+class NMCClickableLabel : public QLabel
+{
+    Q_OBJECT
+
+public:
+    explicit NMCClickableLabel(QWidget *parent = nullptr) : QLabel(parent)
+    {
+    }
+
+    ~NMCClickableLabel() = default;
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override {
+        Q_UNUSED(event)
+        emit clicked();
+    }
+
+signals:
+    void clicked();
+};
+
+
 class NMCAdvertWidget : public QWidget
 {
     Q_OBJECT
@@ -33,7 +55,13 @@ private:
     void loadPNG(const QPixmap &pixmap);
     void generatePixmapList(const QString &name);
     void initStartButton();
-    void showStartButton();
+    void setStartButton();
+    void setDetailText(const QString &p_text);
+    void setHeaderText(const QString &p_text);
+    void setHeader(const QString &p_text);
+    void setArrows();
+    void loadPicture(bool next = true);
+    void selectTextByID(int imageID);
 
 private:
     QGraphicsView *m_graphicsView = nullptr;
@@ -42,9 +70,11 @@ private:
     QTimer m_animationTimer;
     int m_currentImageId = 0;
     QPushButton *m_pushButton = nullptr;
-
-private:
-    // Hier können Sie Mitgliedsvariablen und private Methoden hinzufügen
+    QLabel *m_detailText = nullptr;
+    QLabel *m_headerText = nullptr;
+    QLabel *m_header = nullptr;
+    NMCClickableLabel *m_arrow_left = nullptr;
+    NMCClickableLabel *m_arrow_right = nullptr;
 };
 
 #endif // NMCADVERTWIDGET_H
