@@ -31,6 +31,7 @@ public:
 private:
     void loadPNG(const QPixmap &pixmap);
     void generatePixmapList(const QString &name);
+    void drawStartButton();
 
 private:
     QGraphicsView *m_graphicsView = nullptr;
