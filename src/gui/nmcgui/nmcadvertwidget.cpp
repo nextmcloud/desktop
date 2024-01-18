@@ -68,9 +68,7 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
         {
             m_currentImageId = 0;
         }
-
-        loadPNG(m_pixmapList.at(m_currentImageId));
-        selectTextByID(m_currentImageId);
+        selectTextByID();
     });
 
     m_animationTimer.start();
@@ -130,12 +128,11 @@ void NMCAdvertWidget::setStartButton()
     }
 }
 
-//"Speichern Sie ihre Fotos, Videos, und Dokumente sicher in der MagentaCLOUD und greifen Sie jederzeit und von überall darauf zu - auch offline."
 void NMCAdvertWidget::setDetailText(const QString &p_text)
 {
     if(m_detailText)
     {
-        m_detailText->setText("Speichern Sie ihre Fotos, Videos, und Dokumente sicher in der MagentaCLOUD und greifen Sie jederzeit und von überall darauf zu - auch offline.");
+        m_detailText->setText(p_text);
     }
     else{
         m_detailText = new QLabel(p_text, m_graphicsView);
@@ -151,7 +148,6 @@ void NMCAdvertWidget::setDetailText(const QString &p_text)
     m_detailText->setGeometry(m_graphicsView->width()/2 - m_detailText->sizeHint().width()/2, m_graphicsView->height() - 88 - m_detailText->sizeHint().height(), m_detailText->sizeHint().width(), m_detailText->sizeHint().height());
 }
 
-//"Sicher. Online. Speichern."
 void NMCAdvertWidget::setHeaderText(const QString &p_text)
 {
     if(m_headerText)
@@ -172,7 +168,6 @@ void NMCAdvertWidget::setHeaderText(const QString &p_text)
     m_headerText->setGeometry(m_graphicsView->width()/2 - m_headerText->sizeHint().width()/2, m_graphicsView->height() - 96 - m_detailText->sizeHint().height() - m_headerText->sizeHint().height(), m_headerText->sizeHint().width(), m_headerText->sizeHint().height());
 }
 
-//"MagentaCLOUD"
 void NMCAdvertWidget::setHeader(const QString &p_text)
 {
     m_header = new QLabel(p_text, m_graphicsView);
@@ -208,11 +203,13 @@ void NMCAdvertWidget::loadPicture(bool next)
         m_currentImageId = 0;
     }
 
-    selectTextByID(m_currentImageId);
+    selectTextByID();
 }
 
-void NMCAdvertWidget::selectTextByID(int imageID)
+void NMCAdvertWidget::selectTextByID()
 {
+    loadPNG(m_pixmapList.at(m_currentImageId));
+
     switch (m_currentImageId) {
     case 0: {
         setDetailText(tr("ADVERT_DETAIL_TEXT_1"));
@@ -238,5 +235,3 @@ void NMCAdvertWidget::selectTextByID(int imageID)
         m_currentImageId != 0 ? m_header->setVisible(false) : m_header->setVisible(true);
     }
 }
-
-

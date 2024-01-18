@@ -61,7 +61,7 @@ private:
     void setHeader(const QString &p_text);
     void setArrows();
     void loadPicture(bool next = true);
-    void selectTextByID(int imageID);
+    void selectTextByID();
 
 private:
     QGraphicsView *m_graphicsView = nullptr;
