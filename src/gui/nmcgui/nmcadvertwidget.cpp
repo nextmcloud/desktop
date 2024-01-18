@@ -40,13 +40,27 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
     //Set initial page
     m_graphicsView->show();
 
+    m_arrow_left = new NMCClickableLabel(m_graphicsView);
+    m_arrow_left->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/navigation-left.svg")).pixmap(24,24));
+    connect(m_arrow_left, &NMCClickableLabel::clicked, this, [this](){
+        m_animationTimer.stop();
+        loadPicture(false);
+    });
+
+    m_arrow_right = new NMCClickableLabel(m_graphicsView);
+    m_arrow_right->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/navigation-right.svg")).pixmap(24,24));
+    connect(m_arrow_right, &NMCClickableLabel::clicked, this, [this](){
+        m_animationTimer.stop();
+        loadPicture();
+    });
+
     if(!m_pixmapList.empty())
     {
         loadPNG(m_pixmapList.first());
         m_currentImageId = 0;
     }
 
-    m_animationTimer.setInterval(2500);
+    m_animationTimer.setInterval(5000);
     connect(&m_animationTimer, &QTimer::timeout, this, [this](){
 
         ++m_currentImageId;
@@ -56,11 +70,15 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
         }
 
         loadPNG(m_pixmapList.at(m_currentImageId));
-        showStartButton();
+        selectTextByID(m_currentImageId);
     });
 
     m_animationTimer.start();
-    showStartButton();
+    setStartButton();
+    setDetailText(tr("ADVERT_DETAIL_TEXT_1"));
+    setHeaderText(tr("ADVERT_HEADER_TEXT_1"));
+    setHeader(tr("ADVERT_HEADER_1"));
+    setArrows();
 }
 
 void NMCAdvertWidget::loadPNG(const QPixmap &pixmap)
@@ -103,12 +121,122 @@ void NMCAdvertWidget::initStartButton()
     }
 }
 
-void NMCAdvertWidget::showStartButton()
+void NMCAdvertWidget::setStartButton()
 {
     if (m_pushButton != nullptr && m_graphicsView != nullptr)
     {
         m_graphicsScene.addWidget(m_pushButton);
-        m_pushButton->setGeometry((m_graphicsView->width()/2) - 60, m_graphicsView->height() - 32 - 32, 120, 32);
-        m_pushButton->show();
+        m_pushButton->setGeometry(m_graphicsView->width()/2 - 60, m_graphicsView->height() - 32 - 32, 120, 32);
     }
 }
+
+//"Speichern Sie ihre Fotos, Videos, und Dokumente sicher in der MagentaCLOUD und greifen Sie jederzeit und von überall darauf zu - auch offline."
+void NMCAdvertWidget::setDetailText(const QString &p_text)
+{
+    if(m_detailText)
+    {
+        m_detailText->setText("Speichern Sie ihre Fotos, Videos, und Dokumente sicher in der MagentaCLOUD und greifen Sie jederzeit und von überall darauf zu - auch offline.");
+    }
+    else{
+        m_detailText = new QLabel(p_text, m_graphicsView);
+    }
+
+    m_detailText->setFixedWidth(380);
+    m_detailText->setStyleSheet("font-size: 15px; color: white");
+    m_detailText->setWordWrap(true);
+    m_detailText->setAlignment(Qt::AlignCenter);
+
+    m_graphicsScene.addWidget(m_detailText);
+    //88 is the result of all margins and buttonszie
+    m_detailText->setGeometry(m_graphicsView->width()/2 - m_detailText->sizeHint().width()/2, m_graphicsView->height() - 88 - m_detailText->sizeHint().height(), m_detailText->sizeHint().width(), m_detailText->sizeHint().height());
+}
+
+//"Sicher. Online. Speichern."
+void NMCAdvertWidget::setHeaderText(const QString &p_text)
+{
+    if(m_headerText)
+    {
+        m_headerText->setText(p_text);
+    }
+    else{
+        m_headerText = new QLabel(p_text, m_graphicsView);
+    }
+
+    m_headerText->setFixedWidth(380);
+    m_headerText->setStyleSheet("font-size: 28px; color: white");
+    m_headerText->setWordWrap(true);
+    m_headerText->setAlignment(Qt::AlignCenter);
+
+    m_graphicsScene.addWidget(m_headerText);
+    //96 is the result of all margins and buttonszie
+    m_headerText->setGeometry(m_graphicsView->width()/2 - m_headerText->sizeHint().width()/2, m_graphicsView->height() - 96 - m_detailText->sizeHint().height() - m_headerText->sizeHint().height(), m_headerText->sizeHint().width(), m_headerText->sizeHint().height());
+}
+
+//"MagentaCLOUD"
+void NMCAdvertWidget::setHeader(const QString &p_text)
+{
+    m_header = new QLabel(p_text, m_graphicsView);
+    m_header->setStyleSheet("font-size: 22px; color: white; font-weight: bold;");
+    m_header->setAlignment(Qt::AlignCenter);
+
+    m_graphicsScene.addWidget(m_header);
+    //146 is the result of all margins and buttonszie
+    m_header->setGeometry(m_graphicsView->width()/2 - m_header->sizeHint().width()/2, m_graphicsView->height() - 146 - m_detailText->sizeHint().height() - m_headerText->sizeHint().height(), m_header->sizeHint().width(), m_header->sizeHint().height());
+}
+
+void NMCAdvertWidget::setArrows()
+{
+    m_arrow_left->move( 112, m_graphicsView->height() - 130);
+    m_arrow_right->move( m_graphicsView->width() - 130, m_graphicsView->height() - 130);
+}
+
+void NMCAdvertWidget::loadPicture(bool next)
+{
+    if(next)
+    {
+        ++m_currentImageId;
+    }
+    else{
+        --m_currentImageId;
+    }
+    if(m_currentImageId < 0)
+    {
+        m_currentImageId = 2;
+    }
+    if(m_currentImageId > 2)
+    {
+        m_currentImageId = 0;
+    }
+
+    selectTextByID(m_currentImageId);
+}
+
+void NMCAdvertWidget::selectTextByID(int imageID)
+{
+    switch (m_currentImageId) {
+    case 0: {
+        setDetailText(tr("ADVERT_DETAIL_TEXT_1"));
+        setHeaderText(tr("ADVERT_HEADER_TEXT_1"));
+        break;
+    }
+    case 1: {
+        setDetailText(tr("ADVERT_DETAIL_TEXT_2"));
+        setHeaderText(tr("ADVERT_HEADER_TEXT_2"));
+        break;
+    }
+    case 2: {
+        setDetailText(tr("ADVERT_DETAIL_TEXT_3"));
+        setHeaderText(tr("ADVERT_HEADER_TEXT_3"));
+        break;
+    }
+    default:
+        break;
+    }
+
+    if(m_header)
+    {
+        m_currentImageId != 0 ? m_header->setVisible(false) : m_header->setVisible(true);
+    }
+}
+
+
