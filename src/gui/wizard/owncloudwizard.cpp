@@ -132,8 +132,8 @@ void OwncloudWizard::centerWindow()
 
 void OwncloudWizard::adjustWizardSize()
 {
-    const auto pageSizes = calculateWizardPageSizes();
-    const auto currentPageIndex = currentId();
+    //const auto pageSizes = calculateWizardPageSizes();
+    //const auto currentPageIndex = currentId();
 
     // //If we can, just use the size of the current page
     // if(currentPageIndex > -1 && currentPageIndex < pageSizes.count()) {
@@ -389,15 +389,6 @@ void OwncloudWizard::changeEvent(QEvent *e)
     }
 
     QWizard::changeEvent(e);
-}
-
-void OwncloudWizard::paintEvent(QPaintEvent *event)
-{
-    // QPainter painter;
-    // painter.begin(this);
-    // painter.fillRect(rect(), Qt::white);
-    // painter.end();
-    QWizard::paintEvent(event);
 }
 
 void OwncloudWizard::customizeStyle()

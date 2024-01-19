@@ -111,7 +111,6 @@ signals:
 
 protected:
     void changeEvent(QEvent *) override;
-    void paintEvent(QPaintEvent *event) override;
 
 private:
     void customizeStyle();
