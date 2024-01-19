@@ -50,6 +50,11 @@ public:
     void setMultipleFoldersExist(bool exist);
     void directoriesCreated();
 
+    QScopedPointer<ElidedLabel> &getFilePathLabel()
+    {
+        return _filePathLabel;
+    }
+
 signals:
     void createLocalAndRemoteFolders(const QString &, const QString &);
 
@@ -63,6 +68,12 @@ private slots:
     void slotSelectiveSyncClicked();
     void slotVirtualFileSyncClicked();
     void slotQuotaRetrieved(const QVariantMap &result);
+
+protected:
+    Ui_OwncloudAdvancedSetupPage &getUi()
+    {
+        return _ui;
+    }
 
 private:
     void setRadioChecked(QRadioButton *radio);
