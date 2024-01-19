@@ -25,9 +25,18 @@
 class NMCCustomGraphicsView : public QGraphicsView
 {
 public:
+    /**
+     * @brief Constructs an NMCCustomGraphicsView object.
+     * @param parent The parent widget (default is nullptr).
+     */
     NMCCustomGraphicsView(QWidget *parent = nullptr) : QGraphicsView(parent) {}
 
 protected:
+    /**
+     * @brief Reimplemented from QGraphicsView.
+     * Handles wheel events to ignore them and disable scrolling.
+     * @param event The wheel event.
+     */
     void wheelEvent(QWheelEvent *event) override
     {
         event->ignore();
@@ -39,6 +48,10 @@ class NMCClickableLabel : public QLabel
     Q_OBJECT
 
 public:
+    /**
+     * @brief Constructs an NMCClickableLabel object.
+     * @param parent The parent widget (default is nullptr).
+     */
     explicit NMCClickableLabel(QWidget *parent = nullptr) : QLabel(parent)
     {
     }
@@ -46,6 +59,11 @@ public:
     ~NMCClickableLabel() = default;
 
 protected:
+    /**
+     * @brief Reimplemented from QLabel.
+     * Handles mouse press events and emits the clicked signal.
+     * @param event The mouse press event.
+     */
     void mousePressEvent(QMouseEvent *event) override {
         Q_UNUSED(event)
         emit clicked();
@@ -61,19 +79,69 @@ class NMCAdvertWidget : public QWidget
     Q_OBJECT
 
 public:
+    /**
+     * @brief Constructs an NMCAdvertWidget object.
+     * @param parent The parent widget (default is nullptr).
+     */
     explicit NMCAdvertWidget(QWidget *parent = nullptr);
+
     ~NMCAdvertWidget() = default;
 
 private:
+    /**
+     * @brief Loads a PNG image into the QPixmap.
+     * @param pixmap The QPixmap to load the image into.
+     */
     void loadPNG(const QPixmap &pixmap);
+
+    /**
+     * @brief Generates a list of Pixmaps from a specified image name.
+     * @param name The base name of the image.
+     */
     void generatePixmapList(const QString &name);
+
+    /**
+     * @brief Initializes the start button.
+     */
     void initStartButton();
+
+    /**
+     * @brief Sets the start button properties.
+     */
     void setStartButton();
+
+    /**
+     * @brief Sets the detail text label.
+     * @param p_text The text to set.
+     */
     void setDetailText(const QString &p_text);
+
+    /**
+     * @brief Sets the header text label.
+     * @param p_text The text to set.
+     */
     void setHeaderText(const QString &p_text);
+
+    /**
+     * @brief Sets the header label.
+     * @param p_text The text to set.
+     */
     void setHeader(const QString &p_text);
+
+    /**
+     * @brief Sets the left and right arrows for navigation.
+     */
     void setArrows();
+
+    /**
+     * @brief Loads the next or previous picture in the list.
+     * @param next If true, loads the next picture; otherwise, loads the previous.
+     */
     void loadPicture(bool next = true);
+
+    /**
+     * @brief Selects text by its ID.
+     */
     void selectTextByID();
 
 private:
