@@ -41,6 +41,9 @@ public:
      * @brief Destructor for NMCOwncloudAdvancedSetupPage.
      */
     ~NMCOwncloudAdvancedSetupPage() = default;
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
 };
 
 } // namespace OCC
