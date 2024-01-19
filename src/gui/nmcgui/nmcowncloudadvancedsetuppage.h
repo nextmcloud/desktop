@@ -22,17 +22,27 @@
 namespace OCC {
 
 /**
- * @brief The NMCOwncloudAdvancedSetupPage class
+ * @brief The NMCOwncloudAdvancedSetupPage class.
  * @ingroup gui
+ * Subclass of OwncloudAdvancedSetupPage, representing the advanced setup page for NMC OwnCloud.
  */
 class NMCOwncloudAdvancedSetupPage : public OwncloudAdvancedSetupPage
 {
     Q_OBJECT
+
 public:
+    /**
+     * @brief Constructs an NMCOwncloudAdvancedSetupPage object.
+     * @param wizard Pointer to the parent OwncloudWizard.
+     */
     NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizard);
+
+    /**
+     * @brief Destructor for NMCOwncloudAdvancedSetupPage.
+     */
     ~NMCOwncloudAdvancedSetupPage() = default;
 };
 
 } // namespace OCC
 
-#endif
+#endif // MIRALL_NMCOWNCLOUD_ADVANCED_SETUP_PAGE_H
