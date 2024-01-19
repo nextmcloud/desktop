@@ -28,9 +28,6 @@ namespace OCC {
 NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     : Flow2AuthWidget(parent)
 {
-
-    //setFixedSize(700,502);
-
     getUi().copyLinkLabel->setVisible(false);
     getUi().openLinkLabel->setVisible(false);
     auto progressInd = getProgressIndicator();
