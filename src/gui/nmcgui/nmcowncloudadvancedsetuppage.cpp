@@ -20,35 +20,27 @@
 namespace OCC {
 
 NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizard)
-    : OwncloudAdvancedSetupPage(wizard)
+    : OwncloudAdvancedSetupPage(wizard),
+    _tLogoLbl(new QLabel(this))
 {
-    //getUi().copyLinkLabel->setVisible(false);
-    //getUi().openLinkLabel->setVisible(false);
+    //Remove elements we dont need
+    getUi().locationsGridLayout->removeWidget(getUi().syncLogoLabel);
+    getUi().syncLogoLabel->setVisible(false);
 
-
-
-
-
-
-    //auto progressInd = getProgressIndicator();
-    //getUi().progressLayout->removeWidget(progressInd);
-    //progressInd->setVisible(false);
-    //progressInd->setFixedSize(0,0);
-
-           //Create and connect the push buttons to base slots
+    //Create and connect the push buttons to base slots
     auto loginBrowserButton = new QPushButton(tr("Login"));
     connect(loginBrowserButton, &QPushButton::clicked, this, [this](){
         //slotOpenBrowser();
     });
 
-           //Set login button size and style
+    //Set login button size and style
     QSize buttonSize(130,32);
     const QString styleSheetHoverPart = "QPushButton:hover { background-color: #c00063; }";
     const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;}" + styleSheetHoverPart );
     loginBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white"));
     loginBrowserButton->setFixedSize(buttonSize);
 
-           //Create needed layouts
+    //Create needed layouts
     auto mainVerticalLayout = new QVBoxLayout(this);
     auto subMainHorizontalLayout = new QHBoxLayout(this);
     auto leftSideVerticalLayout = new QVBoxLayout(this);
@@ -61,13 +53,13 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     subMainHorizontalLayout->addLayout(leftSideVerticalLayout);
     subMainHorizontalLayout->addLayout(rightSideVerticalLayout);
 
-           //Create a horizontal Logo and label layout
+    //Create a horizontal T-Logo and MagentaCLOUC-label layout
     auto hLogoAndLabelLayout = new QHBoxLayout(this);
-    getUi().locationsGridLayout->removeWidget(getUi().syncLogoLabel);
-    getUi().syncLogoLabel->setFixedSize(36,36);
-    getUi().syncLogoLabel->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/tlogocarrier.svg")).pixmap(36,36));
 
-    hLogoAndLabelLayout->addWidget(getUi().syncLogoLabel);
+    //T-Logo
+    _tLogoLbl->setFixedSize(36,36);
+    _tLogoLbl->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/tlogocarrier.svg")).pixmap(36,36));
+    hLogoAndLabelLayout->addWidget(_tLogoLbl);
 
     QSpacerItem *spacer3 = new QSpacerItem(1,32, QSizePolicy::Fixed, QSizePolicy::Fixed);
     leftSideVerticalLayout->addSpacerItem(spacer3);
@@ -75,6 +67,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     QSpacerItem *spacer9 = new QSpacerItem(8,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
     hLogoAndLabelLayout->addSpacerItem(spacer9);
 
+    //MagentaCLOUC-label
     QLabel *magentaLabel = new QLabel("MagentaCLOUD");
     magentaLabel->setStyleSheet("QLabel{font-size: 15px; font-weight: bold;}");
     magentaLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
