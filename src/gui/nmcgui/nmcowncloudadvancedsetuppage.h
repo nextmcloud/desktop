@@ -44,7 +44,11 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
+
+private:
+    QLabel *_tLogoLbl = nullptr;
 };
+
 
 } // namespace OCC
 
