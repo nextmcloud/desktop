@@ -94,7 +94,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     //Create and connect the push buttons to base slots
     auto loginBrowserButton = new QPushButton(tr("Login"));
     connect(loginBrowserButton, &QPushButton::clicked, this, [this](){
-        //slotOpenBrowser();
+        ocWizard()->successfulStep();
     });
 
     auto buttonLayout = new QHBoxLayout(this);
@@ -127,7 +127,6 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     leftSideVerticalLayout->setContentsMargins(0,0,0,0);
     rightSideVerticalLayout->setSpacing(0);
     rightSideVerticalLayout->setContentsMargins(0,0,0,0);
-
 
     mainVerticalLayout->addLayout(subMainHorizontalLayout);
 
@@ -212,7 +211,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding));
 
     //Add items to the right side
-    QLabel *bigMagetnaIcon = new QLabel("Test");
+    QLabel *bigMagetnaIcon = new QLabel("");
     bigMagetnaIcon->setFixedSize(175,175);
     bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/ApplicationLogo.svg")).pixmap(175,175));
 
@@ -220,7 +219,6 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     rightSideVerticalLayout->addWidget(bigMagetnaIcon);
 
     rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding));
-
     subMainHorizontalLayout->addSpacerItem(new QSpacerItem(0,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
 
