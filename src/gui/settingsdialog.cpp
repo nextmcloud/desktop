@@ -15,6 +15,7 @@
 #include "nmcgui/nmcnetworksettings.h"
 // end nmc customzations
 #include "settingsdialog.h"
+#include "nmcgui/nmcnetworksettings.h"
 #include "ui_settingsdialog.h"
 
 #include "folderman.h"
