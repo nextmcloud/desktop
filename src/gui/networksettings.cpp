@@ -169,6 +169,8 @@ void NetworkSettings::loadBWLimitSettings()
     _ui->uploadSpinBox->setValue(cfgFile.uploadLimit());
 }
 
+
+
 void NetworkSettings::saveProxySettings()
 {
     ConfigFile cfgFile;
