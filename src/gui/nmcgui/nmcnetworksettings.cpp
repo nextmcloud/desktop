@@ -30,8 +30,6 @@ NMCNetworkSettings::NMCNetworkSettings(QWidget *parent)
 void NMCNetworkSettings::setDefaultSettings()
 {
     //Set default settings
-    getUi()->manualSettings->setVisible(true);
-    getUi()->manualSettings->setEnabled(false);
     getUi()->downloadSpinBox->setVisible(true);
     if(getUi()->downloadLimitRadioButton->isChecked())
     {
@@ -75,18 +73,44 @@ void NMCNetworkSettings::setLayout()
     //Remove spacer, so the elements can expand.
     getUi()->horizontalSpacer->changeSize(0,0, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    //DonwloadBox
-    getUi()->downloadBox->layout()->removeItem(getUi()->horizontalLayout_3);
-    static_cast<QGridLayout *>(getUi()->downloadBox->layout())->addItem(getUi()->horizontalLayout_3, 3, 1);
+    //DownloadBox
     getUi()->verticalSpacer_2->changeSize(0,0, QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->downloadBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    getUi()->horizontalLayout_3->setSpacing(5);
+    getUi()->horizontalLayout_3->setSpacing(5);  
+    getUi()->downloadBox->setTitle("");
+    getUi()->downloadBox->layout()->removeWidget(getUi()->noDownloadLimitRadioButton);
+    getUi()->downloadBox->layout()->removeWidget(getUi()->autoDownloadLimitRadioButton);
+    getUi()->downloadBox->layout()->removeWidget(getUi()->downloadLimitRadioButton);
+    getUi()->downloadBox->layout()->removeItem(getUi()->horizontalLayout_3);
+
+    QGridLayout *downLayout = static_cast<QGridLayout *>(getUi()->downloadBox->layout());
+
+    downLayout->addWidget(new QLabel("Download-Bandbreite"), 0, 0 );
+    downLayout->addWidget(getUi()->noDownloadLimitRadioButton, 1, 0 );
+    downLayout->addWidget(getUi()->autoDownloadLimitRadioButton, 2, 0 );
+    downLayout->addWidget(getUi()->downloadLimitRadioButton, 3, 0 );
+    downLayout->addItem(getUi()->horizontalLayout_3, 3, 1);
+
     //UploadBox
     getUi()->uploadBox->layout()->removeItem(getUi()->horizontalLayout_4);
     static_cast<QGridLayout *>(getUi()->uploadBox->layout())->addItem(getUi()->horizontalLayout_4, 2, 1);
+
     getUi()->verticalSpacer_3->changeSize(0,0, QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->uploadBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     getUi()->horizontalLayout_4->setSpacing(5);
+    getUi()->uploadBox->setTitle("");
+    getUi()->uploadBox->layout()->removeWidget(getUi()->noUploadLimitRadioButton);
+    getUi()->uploadBox->layout()->removeWidget(getUi()->autoUploadLimitRadioButton);
+    getUi()->uploadBox->layout()->removeWidget(getUi()->uploadLimitRadioButton);
+    getUi()->uploadBox->layout()->removeItem(getUi()->horizontalLayout_4);
+
+    QGridLayout *upLayout = static_cast<QGridLayout *>(getUi()->uploadBox->layout());
+
+    upLayout->addWidget(new QLabel("Upload-Bandbreite"), 0, 0 );
+    upLayout->addWidget(getUi()->noUploadLimitRadioButton, 1, 0 );
+    upLayout->addWidget(getUi()->autoUploadLimitRadioButton, 2, 0 );
+    upLayout->addWidget(getUi()->uploadLimitRadioButton, 3, 0 );
+    upLayout->addItem(getUi()->horizontalLayout_4, 3, 1);
 
     //Fix widgets visibility
     //Download settings
