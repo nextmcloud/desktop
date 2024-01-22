@@ -55,6 +55,11 @@ public:
         return _filePathLabel;
     }
 
+    OwncloudWizard *ocWizard() const
+    {
+        return _ocWizard;
+    }
+
 signals:
     void createLocalAndRemoteFolders(const QString &, const QString &);
 
