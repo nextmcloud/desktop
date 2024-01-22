@@ -19,13 +19,77 @@
 
 namespace OCC {
 
+void OCC::NMCOwncloudAdvancedSetupPage::cleanUpElements()
+{
+    getUi().locationsGridLayout->removeWidget(getUi().syncLogoLabel);
+    getUi().syncLogoLabel->setFixedSize(0,0);
+    getUi().syncLogoLabel->setVisible(false);
+
+    getUi().horizontalLayout_6->removeWidget(getUi().confCheckBoxSize);
+    getUi().confCheckBoxSize->setFixedSize(0,0);
+    getUi().confCheckBoxSize->setVisible(false);
+
+    getUi().horizontalLayout_6->removeWidget(getUi().confSpinBox);
+    getUi().confSpinBox->setFixedSize(0,0);
+    getUi().confSpinBox->setVisible(false);
+
+    getUi().horizontalLayout_6->removeWidget(getUi().confTraillingSizeLabel);
+    getUi().confTraillingSizeLabel->setFixedSize(0,0);
+    getUi().confTraillingSizeLabel->setVisible(false);
+
+    getUi().horizontalLayout_8->removeWidget(getUi().confCheckBoxExternal);
+    getUi().confCheckBoxExternal->setFixedSize(0,0);
+    getUi().confCheckBoxExternal->setVisible(false);
+
+    getUi().lVirtualFileSync->removeWidget(getUi().rVirtualFileSync);
+    getUi().rVirtualFileSync->setFixedSize(0,0);
+    getUi().rVirtualFileSync->setVisible(false);
+
+    getUi().resolutionWidget->setVisible(false);
+
+    getUi().verticalLayout->removeWidget(getUi().errorLabel);
+    getUi().errorLabel->setFixedSize(0,0);
+    getUi().errorLabel->setVisible(false);
+
+    getUi().verticalLayout->removeWidget(getUi().bottomLabel);
+    getUi().bottomLabel->setFixedSize(0,0);
+    getUi().bottomLabel->setVisible(false);
+
+    getUi().verticalLayout->removeWidget(getUi().topLabel);
+    getUi().topLabel->setFixedSize(0,0);
+    getUi().topLabel->setVisible(false);
+
+    getUi().locationsGridLayout->removeWidget(getUi().syncLogoLabel);
+    getUi().syncLogoLabel->setFixedSize(0,0);
+    getUi().syncLogoLabel->setVisible(false);
+
+    getUi().locationsGridLayout->removeWidget(getUi().lLocal);
+    getUi().lLocal->setFixedSize(0,0);
+    getUi().lLocal->setVisible(false);
+
+    getUi().locationsGridLayout->removeWidget(getUi().localFolderDescriptionLabel);
+    getUi().localFolderDescriptionLabel->setFixedSize(0,0);
+    getUi().localFolderDescriptionLabel->setVisible(false);
+
+    getUi().locationsGridLayout->removeWidget(getUi().lServerIcon);
+    getUi().lServerIcon->setFixedSize(0,0);
+    getUi().lServerIcon->setVisible(false);
+
+    getUi().locationsGridLayout->removeWidget(getUi().userNameLabel);
+    getUi().userNameLabel->setFixedSize(0,0);
+    getUi().userNameLabel->setVisible(false);
+
+    getUi().locationsGridLayout->removeWidget(getUi().serverAddressLabel);
+    getUi().serverAddressLabel->setFixedSize(0,0);
+    getUi().serverAddressLabel->setVisible(false);
+}
+
 NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizard)
     : OwncloudAdvancedSetupPage(wizard),
     _tLogoLbl(new QLabel(this))
 {
-    //Remove elements we dont need
-    getUi().locationsGridLayout->removeWidget(getUi().syncLogoLabel);
-    getUi().syncLogoLabel->setVisible(false);
+
+    cleanUpElements();
 
     //Create and connect the push buttons to base slots
     auto loginBrowserButton = new QPushButton(tr("Login"));
@@ -33,12 +97,25 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
         //slotOpenBrowser();
     });
 
+    auto buttonLayout = new QHBoxLayout(this);
+    buttonLayout->setSpacing(8);
     //Set login button size and style
     QSize buttonSize(130,32);
-    const QString styleSheetHoverPart = "QPushButton:hover { background-color: #c00063; }";
-    const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;}" + styleSheetHoverPart );
-    loginBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white"));
+    const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;} QPushButton:hover { background-color: %4; }" );
+    loginBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white", "#c00063"));
     loginBrowserButton->setFixedSize(buttonSize);
+
+    getUi().locationsGridLayout->removeWidget(getUi().pbSelectLocalFolder);
+    getUi().pbSelectLocalFolder->setFixedSize(180, 32);
+    getUi().pbSelectLocalFolder->setStyleSheet(styleSheet.arg("1","white","black", "#ededed"));
+    getUi().pbSelectLocalFolder->setText("Speicherort ändern");
+
+    buttonLayout->addWidget(getUi().pbSelectLocalFolder);
+    buttonLayout->addWidget(loginBrowserButton);
+    buttonLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Fixed));
+
+
+
 
     //Create needed layouts
     auto mainVerticalLayout = new QVBoxLayout(this);
@@ -48,10 +125,11 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     mainVerticalLayout->addLayout(subMainHorizontalLayout);
 
-    QSpacerItem *spacer4 = new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    subMainHorizontalLayout->addSpacerItem(spacer4);
+    subMainHorizontalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
     subMainHorizontalLayout->addLayout(leftSideVerticalLayout);
     subMainHorizontalLayout->addLayout(rightSideVerticalLayout);
+
+    leftSideVerticalLayout->setSpacing(0);
 
     //Create a horizontal T-Logo and MagentaCLOUC-label layout
     auto hLogoAndLabelLayout = new QHBoxLayout(this);
@@ -61,11 +139,9 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     _tLogoLbl->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/tlogocarrier.svg")).pixmap(36,36));
     hLogoAndLabelLayout->addWidget(_tLogoLbl);
 
-    QSpacerItem *spacer3 = new QSpacerItem(1,32, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    leftSideVerticalLayout->addSpacerItem(spacer3);
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,32, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    QSpacerItem *spacer9 = new QSpacerItem(8,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    hLogoAndLabelLayout->addSpacerItem(spacer9);
+    hLogoAndLabelLayout->addSpacerItem(new QSpacerItem(8,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     //MagentaCLOUC-label
     QLabel *magentaLabel = new QLabel("MagentaCLOUD");
@@ -74,8 +150,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     hLogoAndLabelLayout->addWidget(magentaLabel);
     leftSideVerticalLayout->addItem(hLogoAndLabelLayout);
 
-    QSpacerItem *spacer7 = new QSpacerItem(1,24, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    leftSideVerticalLayout->addSpacerItem(spacer7);
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,24, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     //Headline
     QLabel *descriptionLabel = new QLabel("Melden Sie sich an um direkt loszulegen");
@@ -85,8 +160,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     descriptionLabel->setMinimumSize(descriptionLabel->sizeHint());
     leftSideVerticalLayout->addWidget(descriptionLabel);
 
-    QSpacerItem *spacer13 = new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    leftSideVerticalLayout->addSpacerItem(spacer13);
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     //_ui.locationsGridLayout->addWidget(getFilePathLabel().data(), 3, 3);
 
@@ -95,23 +169,16 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     leftSideVerticalLayout->addWidget(getFilePathLabel().data());
     getFilePathLabel().data()->setAlignment(Qt::AlignLeft);
 
-    // QSpacerItem *spacer14 = new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    // leftSideVerticalLayout->addSpacerItem(spacer14);
-
     //Free space available
     getUi().locationsGridLayout->removeWidget(getUi().lFreeSpace);
     leftSideVerticalLayout->addWidget(getUi().lFreeSpace);
     getUi().lFreeSpace->setAlignment(Qt::AlignLeft);
 
-    QSpacerItem *spacer15 = new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    leftSideVerticalLayout->addSpacerItem(spacer15);
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     //Synch Radio button layout
     getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_5);
     leftSideVerticalLayout->addLayout(getUi().horizontalLayout_5);
-
-    QSpacerItem *spacer16 = new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    leftSideVerticalLayout->addSpacerItem(spacer16);
 
     //Choose what to sync layout
     getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_10);
@@ -119,8 +186,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     getUi().horizontalLayout_10->removeWidget(getUi().lSelectiveSyncSizeLabel); //Remove text label, its not needed
     getUi().lSelectiveSyncSizeLabel->setVisible(false);
 
-    QSpacerItem *spacer5 = new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    leftSideVerticalLayout->addSpacerItem(spacer5);
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     //Detail description
     QLabel *detailLabel = new QLabel("Überprüfen Sie den Speicherort und ändern Sie ihn, falls Sie schon einen bestehenden MagentaCLOUD Ordner aus einer früheren Installation wiederverwenden möchten.");
@@ -130,36 +196,24 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     detailLabel->setMinimumWidth(396);
     leftSideVerticalLayout->addWidget(detailLabel);
 
-    QSpacerItem *spacer6 = new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    leftSideVerticalLayout->addSpacerItem(spacer6);
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-           //Add buttons
-    leftSideVerticalLayout->addWidget(loginBrowserButton);
+    //Add buttons
+    leftSideVerticalLayout->addItem(buttonLayout);
 
-    QSpacerItem *spacer11 = new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding);
-    leftSideVerticalLayout->addSpacerItem(spacer11);
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding));
 
-           //Add items to the right side
+    //Add items to the right side
     QLabel *bigMagetnaIcon = new QLabel("Test");
     bigMagetnaIcon->setFixedSize(175,175);
     bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/ApplicationLogo.svg")).pixmap(175,175));
 
-    QSpacerItem *spacer1 = new QSpacerItem(1,176, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    rightSideVerticalLayout->addSpacerItem(spacer1);
+    rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,176, QSizePolicy::Fixed, QSizePolicy::Fixed));
     rightSideVerticalLayout->addWidget(bigMagetnaIcon);
 
-    QSpacerItem *spacer10 = new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding);
-    rightSideVerticalLayout->addSpacerItem(spacer10);
+    rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding));
 
-    QSpacerItem *spacer2 = new QSpacerItem(0,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    subMainHorizontalLayout->addSpacerItem(spacer2);
-
-
-    //getUi().verticalLayout_3->removeWidget(getUi().errorLabel);
-    //mainVerticalLayout->addWidget(getUi().errorLabel);
-
-    //getUi().verticalLayout_3->removeWidget(getUi().statusLabel);
-    //getUi().statusLabel->setFixedSize(0,0);
+    subMainHorizontalLayout->addSpacerItem(new QSpacerItem(0,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
 
     //Delete previous installed layout, or you can not apply the new one.
