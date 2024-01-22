@@ -20,24 +20,32 @@
 namespace OCC {
 
 /**
- * @brief The NetworkSettingsMagenta class
+ * @brief The NMCNetworkSettings class
  * @ingroup gui
+ * @brief Derived class for network settings specific to NMC (Magenta) in the ownCloud client.
  */
 class NMCNetworkSettings : public NetworkSettings
 {
     Q_OBJECT
 
 public:
+    /**
+     * @brief Constructs an NMCNetworkSettings object.
+     * @param parent Pointer to the parent QWidget.
+     */
     explicit NMCNetworkSettings(QWidget *parent = nullptr);
+
+    /**
+     * @brief Destructor for NMCNetworkSettings.
+     */
     ~NMCNetworkSettings() = default;
 
-// NMCGuiInterface interface
-protected:
-    void setDefaultSettings();
+private:
+    /**
+     * @brief Sets the layout for the network settings specific to NMC (Magenta).
+     */
     void setLayout();
-    void setLogic();
 };
-
 
 } // namespace OCC
 #endif // MIRALL_NETWORKSETTINGSMAGENTA_H
