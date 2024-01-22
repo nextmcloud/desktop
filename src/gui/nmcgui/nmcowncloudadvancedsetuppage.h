@@ -43,13 +43,23 @@ public:
     ~NMCOwncloudAdvancedSetupPage() = default;
 
 protected:
+    /**
+     * @brief Override of paintEvent to handle custom painting.
+     * @param event Pointer to the QPaintEvent object.
+     */
     void paintEvent(QPaintEvent *event) override;
 
 private:
+    /**
+     * @brief Pointer to the QLabel for the custom logo.
+     */
     QLabel *_tLogoLbl = nullptr;
+
+    /**
+     * @brief Helper function to clean up elements.
+     */
     void cleanUpElements();
 };
-
 
 } // namespace OCC
 
