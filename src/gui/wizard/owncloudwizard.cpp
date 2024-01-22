@@ -329,7 +329,7 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         setButtonLayout({ QWizard::BackButton, QWizard::Stretch });
         button(QWizard::BackButton)->setVisible(false);
     } else if (id == WizardCommon::Page_AdvancedSetup) {
-        setButtonLayout({ QWizard::CustomButton2, QWizard::Stretch, QWizard::CustomButton1, QWizard::FinishButton });
+        setButtonLayout({ /*QWizard::CustomButton2, QWizard::Stretch, QWizard::CustomButton1, QWizard::FinishButton*/});
         setNextButtonAsDefault();
     } else {
         setButtonLayout({ QWizard::BackButton, QWizard::Stretch, QWizard::NextButton });
