@@ -47,6 +47,7 @@ protected:
 
 private:
     QLabel *_tLogoLbl = nullptr;
+    void cleanUpElements();
 };
 
 
