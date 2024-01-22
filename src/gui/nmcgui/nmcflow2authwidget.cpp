@@ -53,6 +53,14 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     auto subMainHorizontalLayout = new QHBoxLayout(this);
     auto leftSideVerticalLayout = new QVBoxLayout(this);
     auto rightSideVerticalLayout = new QVBoxLayout(this);
+    mainVerticalLayout->setSpacing(0);
+    mainVerticalLayout->setContentsMargins(16,8,28,0);
+    subMainHorizontalLayout->setSpacing(0);
+    subMainHorizontalLayout->setContentsMargins(0,0,0,0);
+    leftSideVerticalLayout->setSpacing(0);
+    leftSideVerticalLayout->setContentsMargins(0,0,0,0);
+    rightSideVerticalLayout->setSpacing(0);
+    rightSideVerticalLayout->setContentsMargins(0,0,0,0);
 
     mainVerticalLayout->addLayout(subMainHorizontalLayout);
 
@@ -63,6 +71,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 
     //Create a horizontal Logo and label layout
     auto hLogoAndLabelLayout = new QHBoxLayout(this);
+    hLogoAndLabelLayout->setContentsMargins(0,0,0,0);
     getUi().verticalLayout_3->removeWidget(getUi().logoLabel);
     getUi().logoLabel->setFixedSize(36,36);
     getUi().logoLabel->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/tlogocarrier.svg")).pixmap(36,36));
@@ -115,16 +124,12 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     bigMagetnaIcon->setFixedSize(175,175);
     bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/ApplicationLogo.svg")).pixmap(175,175));
 
-    QSpacerItem *spacer1 = new QSpacerItem(1,98, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QSpacerItem *spacer1 = new QSpacerItem(1,100, QSizePolicy::Fixed, QSizePolicy::Fixed);
     rightSideVerticalLayout->addSpacerItem(spacer1);
     rightSideVerticalLayout->addWidget(bigMagetnaIcon);
 
     QSpacerItem *spacer10 = new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding);
     rightSideVerticalLayout->addSpacerItem(spacer10);
-
-    QSpacerItem *spacer2 = new QSpacerItem(0,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    subMainHorizontalLayout->addSpacerItem(spacer2);
-
 
     getUi().verticalLayout_3->removeWidget(getUi().errorLabel);
     mainVerticalLayout->addWidget(getUi().errorLabel);
