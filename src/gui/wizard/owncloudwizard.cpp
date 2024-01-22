@@ -148,7 +148,7 @@ void OwncloudWizard::adjustWizardSize()
     // //As a backup, resize to largest page
     // resize(calculateLargestSizeOfWizardPages(pageSizes));
 
-    resize(700,502); //NMC customization
+    resize(700,460); //NMC customization
 }
 
 QList<QSize> OwncloudWizard::calculateWizardPageSizes() const
