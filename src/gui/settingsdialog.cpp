@@ -13,6 +13,7 @@
  */
 
 #include "settingsdialog.h"
+#include "nmcgui/nmcnetworksettings.h"
 #include "ui_settingsdialog.h"
 
 #include "folderman.h"
@@ -129,7 +130,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
-    auto *networkSettings = new NetworkSettings;
+    auto *networkSettings = new NMCNetworkSettings;
     _ui->stack->addWidget(networkSettings);
 
     connect(_ui->stack, &QStackedWidget::currentChanged, this, &SettingsDialog::currentPageChanged);
