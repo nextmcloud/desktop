@@ -20,7 +20,11 @@
 namespace OCC {
 
 /**
- * @brief The GeneralSettingsMagenta class
+ * @brief The NMCGeneralSettings class
+ *
+ * This class represents the Magenta-specific implementation of general settings
+ * for a graphical user interface. It inherits from the base class GeneralSettings.
+ *
  * @ingroup gui
  */
 class NMCGeneralSettings : public GeneralSettings
@@ -28,15 +32,35 @@ class NMCGeneralSettings : public GeneralSettings
     Q_OBJECT
 
 public:
+    /**
+     * @brief Constructor for NMCGeneralSettings
+     *
+     * Creates an instance of NMCGeneralSettings with the specified parent widget.
+     *
+     * @param parent The parent widget (default is nullptr).
+     */
     explicit NMCGeneralSettings(QWidget *parent = nullptr);
+
+    /**
+     * @brief Destructor for NMCGeneralSettings
+     */
     ~NMCGeneralSettings() = default;
 
-// NMCGuiInterface interface
 protected:
+    /**
+     * @brief Set default settings
+     *
+     * Sets the default values for Magenta-specific general settings.
+     */
     void setDefaultSettings();
+
+    /**
+     * @brief Set layout
+     *
+     * Sets the layout for the Magenta-specific general settings user interface.
+     */
     void setLayout();
 };
-
 
 } // namespace OCC
 #endif // MIRALL_GENERALSETTINGSMAGENTA_H
