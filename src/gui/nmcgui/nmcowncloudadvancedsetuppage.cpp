@@ -213,7 +213,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     //Add items to the right side
     QLabel *bigMagetnaIcon = new QLabel("");
     bigMagetnaIcon->setFixedSize(175,175);
-    bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/ApplicationLogo.svg")).pixmap(175,175));
+    bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/folderLogo.svg")).pixmap(175,175));
 
     rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,164, QSizePolicy::Fixed, QSizePolicy::Fixed));
     rightSideVerticalLayout->addWidget(bigMagetnaIcon);

@@ -239,6 +239,7 @@
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
         <file>theme/NMCIcons/tlogocarrier.svg</file>
-        <file>theme/NMCIcons/ApplicationLogo.svg</file>
+        <file>theme/NMCIcons/applicationLogo.svg</file>
+        <file>theme/NMCIcons/folderLogo.svg</file>
     </qresource>
 </RCC>
