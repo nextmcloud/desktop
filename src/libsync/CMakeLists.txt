@@ -134,6 +134,8 @@ set(libsync_SRCS
     creds/keychainchunk.cpp
     caseclashconflictsolver.h
     caseclashconflictsolver.cpp
+    nmclibsync/nmcconfigfile.h
+    nmclibsync/nmcconfigfile.cpp
 )
 
 if (WIN32)
