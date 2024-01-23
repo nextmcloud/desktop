@@ -41,14 +41,14 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
     m_graphicsView->show();
 
     m_arrow_left = new NMCClickableLabel(m_graphicsView);
-    m_arrow_left->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/navigation-left.svg")).pixmap(24,24));
+    m_arrow_left->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/navigation-left.svg")).pixmap(32,32));
     connect(m_arrow_left, &NMCClickableLabel::clicked, this, [this](){
         m_animationTimer.stop();
         loadPicture(false);
     });
 
     m_arrow_right = new NMCClickableLabel(m_graphicsView);
-    m_arrow_right->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/navigation-right.svg")).pixmap(24,24));
+    m_arrow_right->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/navigation-right.svg")).pixmap(32,32));
     connect(m_arrow_right, &NMCClickableLabel::clicked, this, [this](){
         m_animationTimer.stop();
         loadPicture();
