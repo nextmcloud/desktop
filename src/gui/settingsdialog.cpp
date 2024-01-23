@@ -13,6 +13,7 @@
  */
 
 #include "settingsdialog.h"
+#include "nmcgui/nmcgeneralsettings.h"
 #include "ui_settingsdialog.h"
 
 #include "folderman.h"
@@ -121,7 +122,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/settings.svg"), tr("General"));
     _actionGroup->addAction(generalAction);
     _toolBar->addAction(generalAction);
-    auto *generalSettings = new GeneralSettings;
+    auto *generalSettings = new NMCGeneralSettings;
     _ui->stack->addWidget(generalSettings);
 
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
