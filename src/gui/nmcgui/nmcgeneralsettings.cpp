@@ -52,49 +52,60 @@ void NMCGeneralSettings::setDefaultSettings()
 
 void NMCGeneralSettings::setLayout()
 {
-    //Fix layout
     //General settings
+    auto generalSettingsLabel = new QLabel(tr("GENERAL_SETTINGS"));
+    generalSettingsLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
+    getUi()->generalGroupBox->setTitle("");
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->serverNotificationsCheckBox);
-    static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->serverNotificationsCheckBox, 1, 0);
+    getUi()->generalGroupBox->layout()->removeWidget(getUi()->autostartCheckBox);
+    static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(generalSettingsLabel, 0, 0);
+    static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->autostartCheckBox, 1, 0);
+    static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->serverNotificationsCheckBox, 2, 0);
+    getUi()->generalGroupBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    getUi()->autostartCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
+    getUi()->serverNotificationsCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
+
     //Advanced settings
-    getUi()->horizontalLayout_3->layout()->removeWidget(getUi()->newFolderLimitCheckBox);
-    getUi()->horizontalLayout_3->layout()->removeWidget(getUi()->newFolderLimitSpinBox);
-    getUi()->horizontalLayout_3->layout()->removeWidget(getUi()->label);
+    auto advancedSettingsLabel = new QLabel(tr("ADVANCED_SETTINGS"));
+    advancedSettingsLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
+    QGroupBox *advancedSettingsBox = new QGroupBox(this);
+    advancedSettingsBox->setTitle("");
+    advancedSettingsBox->setLayout(new QVBoxLayout);
+    advancedSettingsBox->layout()->setContentsMargins(12,12,12,12); //Like in Nextcloud .ui file
+    advancedSettingsBox->layout()->setSpacing(8);
+    advancedSettingsBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
 
-    QWidget *folderLimit = new QWidget(this);
-    auto *folderHBoxLayout = new QHBoxLayout(this);
-    folderLimit->setLayout(folderHBoxLayout);
-    folderHBoxLayout->addWidget(getUi()->newFolderLimitCheckBox);
-    folderHBoxLayout->addWidget(getUi()->newFolderLimitSpinBox);
-    folderHBoxLayout->addWidget(getUi()->label);
-    folderHBoxLayout->setContentsMargins(0,0,0,0);
+    getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
+    getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
 
-    QGroupBox *advancedBox = new QGroupBox(this);
-    advancedBox->setTitle(getUi()->groupBox->title());
-    auto *advancedVBoxLayout = new QVBoxLayout(this);
-    advancedBox->setLayout(advancedVBoxLayout);
-    advancedVBoxLayout->addWidget(folderLimit);
-    getUi()->gridLayout_3->addWidget(advancedBox, 2, 0);
+    advancedSettingsBox->layout()->addWidget(advancedSettingsLabel);
+    advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
+    advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
+    getUi()->showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
+    getUi()->moveFilesToTrashCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
-    //Updates
-    getUi()->updatesContainer->layout()->removeWidget(getUi()->autoCheckForUpdatesCheckBox);
-    QGroupBox *aboutBox = new QGroupBox(this);
-    aboutBox->setTitle(getUi()->aboutAndUpdatesGroupBox->title());
-    aboutBox->setLayout(new QVBoxLayout);
-    aboutBox->layout()->addWidget(getUi()->autoCheckForUpdatesCheckBox);
-    getUi()->gridLayout_3->addWidget(aboutBox, 3, 0);
+    getUi()->gridLayout_3->addWidget(advancedSettingsBox, 2, 0);
 
     //Datenschutz
+    auto updatesLabel = new QLabel(tr("UPDATES_SETTINGS"));
+    updatesLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
+
     QGroupBox *dataProtectionBox = new QGroupBox(this);
-    dataProtectionBox->setTitle(tr("DATA_PROTECTION"));
+    dataProtectionBox->setTitle("");
     dataProtectionBox->setLayout(new QVBoxLayout);
     dataProtectionBox->layout()->setContentsMargins(12,12,12,12); //Like in Nextcloud .ui file
-    dataProtectionBox->layout()->setSpacing(5);
+    dataProtectionBox->layout()->setSpacing(8);
+    dataProtectionBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
 
     auto *dataAnalysisCheckBox = new QCheckBox(this);
     dataAnalysisCheckBox->setText(tr("DATA_ANALYSIS"));
+    dataAnalysisCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
+    getUi()->autoCheckForUpdatesCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
+
+    dataProtectionBox->layout()->addWidget(updatesLabel);
+    dataProtectionBox->layout()->addWidget(getUi()->autoCheckForUpdatesCheckBox);
     dataProtectionBox->layout()->addWidget(dataAnalysisCheckBox);
-    dataProtectionBox->layout()->addItem(new QSpacerItem(1,5,QSizePolicy::Fixed,QSizePolicy::Fixed));
+
     connect(dataAnalysisCheckBox, &QAbstractButton::toggled, this, [](bool toggle){
         NMCConfigFile cfgFile;
         cfgFile.setTransferUsageData(toggle, QString());
@@ -102,12 +113,15 @@ void NMCGeneralSettings::setLayout()
     NMCConfigFile cfgFile;
     dataAnalysisCheckBox->setChecked(cfgFile.transferUsageData());
 
+    dataProtectionBox->layout()->addItem(new QSpacerItem(1,8,QSizePolicy::Fixed,QSizePolicy::Fixed));
+
     auto *dataAnalysisImpressum = new QLabel(this);
     dataAnalysisImpressum->setText(QString("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(tr("IMPRESSUM")));
     dataAnalysisImpressum->setTextFormat(Qt::RichText);
     dataAnalysisImpressum->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisImpressum->setOpenExternalLinks(true);
     dataAnalysisImpressum->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    dataAnalysisImpressum->setStyleSheet("font-size: 13px");
     dataProtectionBox->layout()->addWidget(dataAnalysisImpressum);
 
     auto *dataAnalysisData = new QLabel(this);
@@ -116,6 +130,7 @@ void NMCGeneralSettings::setLayout()
     dataAnalysisData->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisData->setOpenExternalLinks(true);
     dataAnalysisData->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    dataAnalysisData->setStyleSheet("font-size: 13px");
     dataProtectionBox->layout()->addWidget(dataAnalysisData);
 
     auto *dataAnalysisOpenSource = new QLabel(this);
@@ -124,19 +139,8 @@ void NMCGeneralSettings::setLayout()
     dataAnalysisOpenSource->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisOpenSource->setOpenExternalLinks(true);
     dataAnalysisOpenSource->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    dataAnalysisOpenSource->setStyleSheet("font-size: 13px");
     dataProtectionBox->layout()->addWidget(dataAnalysisOpenSource);
-
-    QWidget *versionLabel = new QWidget(this);
-    auto *versionLabelLayout = new QHBoxLayout(this);
-    versionLabel->setLayout(versionLabelLayout);
-    versionLabelLayout->setContentsMargins(0,0,0,0);
-    versionLabel->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-
-    auto *currentVersion = new QLabel(this);
-    currentVersion->setText(Theme::instance()->about());
-    currentVersion->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    //Todo, set current version
-    versionLabelLayout->addWidget(currentVersion);
 
     auto *dataAnalysisFurtherInfo = new QLabel(this);
     dataAnalysisFurtherInfo->setText(QString("<a href=\"https://cloud.telekom-dienste.de/hilfe\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(tr("FURTHER_INFO")));
@@ -144,12 +148,18 @@ void NMCGeneralSettings::setLayout()
     dataAnalysisFurtherInfo->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisFurtherInfo->setOpenExternalLinks(true);
     dataAnalysisFurtherInfo->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    versionLabelLayout->addWidget(dataAnalysisFurtherInfo);
-    versionLabelLayout->layout()->addItem(new QSpacerItem(1,1,QSizePolicy::Expanding,QSizePolicy::Fixed));
+    dataAnalysisFurtherInfo->setStyleSheet("font-size: 13px");
+    dataProtectionBox->layout()->addWidget(dataAnalysisFurtherInfo);
 
-    dataProtectionBox->layout()->addWidget(versionLabel);
+    dataProtectionBox->layout()->addItem(new QSpacerItem(1,8,QSizePolicy::Fixed,QSizePolicy::Fixed));
 
-    getUi()->gridLayout_3->addWidget(dataProtectionBox, 4, 0);
+    auto *currentVersion = new QLabel(this);
+    currentVersion->setText(Theme::instance()->about());
+    currentVersion->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    //Todo, set current version
+    dataProtectionBox->layout()->addWidget(currentVersion);
+
+    getUi()->gridLayout_3->addWidget(dataProtectionBox, 3, 0);
 
     auto *vExpandSpacer = new QSpacerItem(1,1,QSizePolicy::Fixed,QSizePolicy::Expanding);
     getUi()->gridLayout_3->layout()->addItem(vExpandSpacer);
