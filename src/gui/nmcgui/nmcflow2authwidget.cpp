@@ -122,7 +122,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     //Add items to the right side
     QLabel *bigMagetnaIcon = new QLabel("Test");
     bigMagetnaIcon->setFixedSize(175,175);
-    bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/ApplicationLogo.svg")).pixmap(175,175));
+    bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/applicationLogo.svg")).pixmap(175,175));
 
     QSpacerItem *spacer1 = new QSpacerItem(1,100, QSizePolicy::Fixed, QSizePolicy::Fixed);
     rightSideVerticalLayout->addSpacerItem(spacer1);
