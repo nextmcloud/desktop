@@ -21,6 +21,10 @@ namespace OCC {
 
 NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
     : AccountSettings(accountState, parent)
+    , m_liveAccountButton(new CustomButton(tr("ADD_LIVE_BACKUP"), QIcon(QLatin1String(":/client/theme/NMCIcons/action-add.svg")).pixmap(24,24)))
+    , m_liveTitle(new QLabel(tr("LIVE_BACKUPS")))
+    , m_liveDescription(new QLabel(tr("LIVE_DESCRIPTION")))
+    , m_folderSync(new QLabel(tr("YOUR_FOLDER_SYNC")))
 {
     setDefaultSettings();
     setLayout();
@@ -34,6 +38,8 @@ void NMCAccountSettings::setDefaultSettings()
     getUi()->selectiveSyncNotification->setVisible(false);
     getUi()->accountStatus->setVisible(false);
     getUi()->bigFolderUi->setVisible(false);
+
+    getUi()->gridLayout->setSpacing(8);
 }
 
 void NMCAccountSettings::setLayout()
@@ -42,6 +48,45 @@ void NMCAccountSettings::setLayout()
     getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoLabel);
     getUi()->storageGroupBox->removeWidget(getUi()->quotaProgressBar);
 
+    getUi()->gridLayout->removeWidget(getUi()->encryptionMessage);
+    getUi()->gridLayout->addWidget(getUi()->encryptionMessage, 0, 0);
+
+    //getUi()->gridLayout->addWidget(new QLabel(""), 1, 0); //Spacer
+
+    //Title
+    m_folderSync->setStyleSheet("font-size: 15px; font-weight: 600; padding: 8px;"); //Semi-bold
+    getUi()->gridLayout->addWidget(m_folderSync, 1, 0);
+
+    //Live backup area encryptionMessage
+    auto *liveHLayout = new QHBoxLayout(this);
+    liveHLayout->setContentsMargins(8,8,8,8);
+    auto *liveVLayout = new QVBoxLayout(this);
+    auto *liveWidget = new QWidget(this);
+
+    liveWidget->setStyleSheet("QWidget {background-color: white;border-radius: 4px;}");
+    liveWidget->setLayout(liveHLayout);
+    liveHLayout->addLayout(liveVLayout);
+
+    liveHLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Fixed));
+
+    const QString styleSheet("QPushButton{ font-size: %5px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;} QPushButton:hover { background-color: %4; }" );
+    m_liveAccountButton->setStyleSheet(styleSheet.arg("0","#E20074","white", "#c00063", "13"));
+    m_liveAccountButton->setFixedSize(180, 32);
+    m_liveAccountButton->setleftIconMargin(4);
+    liveHLayout->addWidget(m_liveAccountButton);
+
+    liveVLayout->addWidget(m_liveTitle);
+    m_liveTitle->setStyleSheet("font-size: 15px; font-weight: 600;"); //Semi-bold
+    liveVLayout->addWidget(m_liveDescription);
+    m_liveDescription->setStyleSheet("font-size: 13px;");
+    m_liveDescription->setText("Synchronisieren Sie weitere beliebiege lokale Ordner in ihre MagentaCLOUD und schützen Sie damit ihre Onhalte kontienuierlich.");
+    m_liveDescription->setWordWrap(true);
+    m_liveDescription->setFixedWidth(450);
+
+    getUi()->gridLayout->addWidget(liveWidget, 4, 0);
+
+
+    //Storage area
     auto *magentaHLayout = new QHBoxLayout(this);
     magentaHLayout->setSpacing(32);
 
@@ -50,9 +95,9 @@ void NMCAccountSettings::setLayout()
     auto *quota = new QLabel(this);
     quota->setText(tr("USED_STORAGE_%1").arg(QString::number(getUi()->quotaProgressBar->value() > 0 ? getUi()->quotaProgressBar->value() : 0)));
 
-    quotaVLayout->addSpacerItem(new QSpacerItem(1,20, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
-    getUi()->quotaInfoLabel->setStyleSheet("QLabel{font-size: 18px;}");
+    getUi()->quotaInfoLabel->setStyleSheet("QLabel{font-size: 18px; padding: 8px;}");
     quotaVLayout->addWidget(getUi()->quotaProgressBar);
     getUi()->quotaProgressBar->setStyleSheet("QProgressBar {"
         "    background-color: #e5e5e5;"
@@ -66,7 +111,7 @@ void NMCAccountSettings::setLayout()
         "    background-color: #ea0a8e; }");
     getUi()->quotaProgressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     quotaVLayout->addWidget(quota);
-    quota->setStyleSheet("font-size: 13px;");
+    quota->setStyleSheet("font-size: 13px; padding: 8px;");
     quotaVLayout->addSpacerItem(new QSpacerItem(1,20, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     magentaHLayout->addLayout(quotaVLayout);
@@ -89,7 +134,7 @@ void NMCAccountSettings::setLayout()
     magentaHLayout->addWidget(storageLinkButton);
     magentaHLayout->addSpacerItem(new QSpacerItem(8,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    getUi()->gridLayout->addLayout(magentaHLayout, 4, 0);
+    getUi()->gridLayout->addLayout(magentaHLayout, 5, 0);
 }
 
 } // namespace OCC
