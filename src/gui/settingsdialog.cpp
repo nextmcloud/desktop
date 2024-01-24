@@ -13,6 +13,7 @@
  */
 
 #include "settingsdialog.h"
+#include "nmcgui/nmcaccountsettings.h"
 #include "ui_settingsdialog.h"
 
 #include "folderman.h"
@@ -242,7 +243,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     }
 
     _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
-    auto accountSettings = new AccountSettings(s, this);
+    auto accountSettings = new NMCAccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
     objectName += s->account()->displayName();
     accountSettings->setObjectName(objectName);
@@ -304,7 +305,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
 void SettingsDialog::accountRemoved(AccountState *s)
 {
     for (auto it = _actionGroupWidgets.begin(); it != _actionGroupWidgets.end(); ++it) {
-        auto as = qobject_cast<AccountSettings *>(*it);
+        auto as = qobject_cast<NMCAccountSettings *>(*it);
         if (!as) {
             continue;
         }

@@ -351,6 +351,8 @@ QString AccountSettings::selectedFolderAlias() const
     return _model->data(selected, FolderStatusDelegate::FolderAliasRole).toString();
 }
 
+
+
 void AccountSettings::slotToggleSignInState()
 {
     if (_accountState->isSignedOut()) {
