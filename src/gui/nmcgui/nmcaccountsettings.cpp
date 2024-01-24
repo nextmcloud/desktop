@@ -28,6 +28,7 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
 {
     setDefaultSettings();
     setLayout();
+    connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
 }
 
 void NMCAccountSettings::setDefaultSettings()
