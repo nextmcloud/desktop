@@ -1136,7 +1136,7 @@ void AccountSettings::showConnectionLabel(const QString &message, QStringList er
         _ui->connectLabel->setToolTip({});
         _ui->connectLabel->setStyleSheet(errStyle);
     }
-    _ui->accountStatus->setVisible(!message.isEmpty());
+    //_ui->accountStatus->setVisible(!message.isEmpty()); //NMC Customization
 }
 
 void AccountSettings::slotEnableCurrentFolder(bool terminate)
