@@ -23,6 +23,41 @@
 
 namespace OCC {
 
+class CustomButton : public QPushButton {
+public:
+    explicit CustomButton(const QString &text, const QIcon &icon, QWidget *parent = nullptr)
+        : QPushButton(text, parent)
+        , icon_(icon)
+    {
+        setIconSize(QSize(24, 24));
+    }
+
+    void setleftIconMargin(int margin){
+        m_leftMargin = margin;
+    }
+
+protected:
+    void paintEvent(QPaintEvent *event) override {
+        QPushButton::paintEvent(event);
+
+        if (!icon_.isNull()) {
+            QRect iconRect = QRect( m_leftMargin, //left margin
+                                   (height() - iconSize().height()) / 2, // vertical center
+                                   iconSize().width(),
+                                   iconSize().height());
+
+            QPainter painter(this);
+            painter.drawPixmap(iconRect, icon_.pixmap(iconSize()));
+        }
+    }
+
+private:
+    QIcon icon_;
+    int m_leftMargin = 4;
+};
+
+
+
 /**
  * @brief The CustomButton class is a QPushButton with an additional left icon.
  * @ingroup gui
