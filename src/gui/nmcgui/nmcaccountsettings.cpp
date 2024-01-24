@@ -72,7 +72,7 @@ void NMCAccountSettings::setLayout()
     const QString styleSheet("QPushButton{ font-size: %5px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;} QPushButton:hover { background-color: %4; }" );
     m_liveAccountButton->setStyleSheet(styleSheet.arg("0","#E20074","white", "#c00063", "13"));
     m_liveAccountButton->setFixedSize(180, 32);
-    m_liveAccountButton->setleftIconMargin(4);
+    m_liveAccountButton->setLeftIconMargin(4);
     liveHLayout->addWidget(m_liveAccountButton);
 
     liveVLayout->addWidget(m_liveTitle);

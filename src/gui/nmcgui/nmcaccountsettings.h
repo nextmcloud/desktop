@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Daniel Molkentin <danimo@owncloud.com>
+ * Copyright (C) by Eugen Fischer
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,18 @@
 
 namespace OCC {
 
+/**
+ * @brief The CustomButton class is a QPushButton with an additional left icon.
+ * @ingroup gui
+ */
 class CustomButton : public QPushButton {
 public:
+    /**
+     * @brief Constructs a CustomButton.
+     * @param text The button text.
+     * @param icon The button icon.
+     * @param parent The parent widget.
+     */
     explicit CustomButton(const QString &text, const QIcon &icon, QWidget *parent = nullptr)
         : QPushButton(text, parent)
         , icon_(icon)
@@ -32,7 +42,11 @@ public:
         setIconSize(QSize(24, 24));
     }
 
-    void setleftIconMargin(int margin){
+    /**
+     * @brief Sets the left margin for the icon.
+     * @param margin The left margin for the icon.
+     */
+    void setLeftIconMargin(int margin){
         m_leftMargin = margin;
     }
 
@@ -41,7 +55,7 @@ protected:
         QPushButton::paintEvent(event);
 
         if (!icon_.isNull()) {
-            QRect iconRect = QRect( m_leftMargin, //left margin
+            QRect iconRect = QRect(m_leftMargin, // left margin
                                    (height() - iconSize().height()) / 2, // vertical center
                                    iconSize().width(),
                                    iconSize().height());
@@ -56,10 +70,8 @@ private:
     int m_leftMargin = 4;
 };
 
-
-
 /**
- * @brief The NMCAccountSettingsMagenta class
+ * @brief The NMCAccountSettings class represents the account settings for a specific type.
  * @ingroup gui
  */
 class NMCAccountSettings : public AccountSettings
@@ -67,11 +79,23 @@ class NMCAccountSettings : public AccountSettings
     Q_OBJECT
 
 public:
+    /**
+     * @brief Constructs NMCAccountSettings.
+     * @param accountState The account state associated with the settings.
+     * @param parent The parent widget.
+     */
     explicit NMCAccountSettings(AccountState *accountState, QWidget *parent = nullptr);
     ~NMCAccountSettings() = default;
 
-protected:
+private:
+    /**
+     * @brief Sets default settings for NMCAccountSettings.
+     */
     void setDefaultSettings();
+
+    /**
+     * @brief Sets the layout for NMCAccountSettings.
+     */
     void setLayout();
 
 private:
@@ -80,7 +104,6 @@ private:
     QLabel *m_liveDescription = nullptr;
     QLabel *m_folderSync = nullptr;
 };
-
 
 } // namespace OCC
 #endif // MIRALL_ACCOUNTSETTINGSMAGENTA_H
