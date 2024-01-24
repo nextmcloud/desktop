@@ -55,6 +55,7 @@ void NMCAccountSettings::setLayout()
 
     //Title
     m_folderSync->setStyleSheet("font-size: 15px; font-weight: 600; padding: 8px;"); //Semi-bold
+    m_folderSync->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     getUi()->gridLayout->addWidget(m_folderSync, 1, 0);
 
     //Live backup area encryptionMessage
