@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Daniel Molkentin <danimo@owncloud.com>
+ * Copyright (C) by Eugen Fischer
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,12 @@
 namespace OCC {
 
 /**
- * @brief The SettingsDialogMagenta class
+ * @brief The NMCSettingsDialog class
+ *
+ * This class represents the settings dialog specific to the Magenta theme.
+ * It inherits from SettingsDialog and provides additional functionalities
+ * or customizations related to the Magenta theme.
+ *
  * @ingroup gui
  */
 class NMCSettingsDialog : public SettingsDialog
@@ -28,25 +33,38 @@ class NMCSettingsDialog : public SettingsDialog
     Q_OBJECT
 
 public:
+    /**
+     * @brief Constructor for NMCSettingsDialog
+     *
+     * @param gui Pointer to the ownCloudGui instance.
+     * @param parent Pointer to the parent QWidget (default is nullptr).
+     */
     explicit NMCSettingsDialog(ownCloudGui *gui, QWidget *parent = nullptr);
+
+    /**
+     * @brief Destructor for NMCSettingsDialog
+     */
     ~NMCSettingsDialog() = default;
 
 public slots:
-    void slotSwitchPage(QAction *action);
+    /**
+     * @brief Slot for handling changes in the account avatar
+     */
     void slotAccountAvatarChanged();
 
-// NMCGuiInterface interface
+    // NMCGuiInterface interface
 protected:
-    void setDefaultSettings();
-    void setLayout();
-    void setLogic();
+    /**
+     * @brief Sets the layout for the NMCSettingsDialog
+     */
+    void setLayout() const;
 
 private:
-    void fixAccountButton(QString styleSheet);
-    QString transparentAndBlack = "background-color: rgba(255, 255, 255, 0)";
-    QString transparentAndMagenta = "background-color: #e5e5e5; color: #E20074;";
+    /**
+     * @brief Fixes the appearance of the account button
+     */
+    void fixAccountButton() const;
 };
-
 
 } // namespace OCC
 #endif // MIRALL_SETTINGSDIALOGMAGENTA_H
