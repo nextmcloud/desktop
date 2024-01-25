@@ -1,11 +1,18 @@
 {
     "build": { 
       "dockerfile": "Dockerfile-win",
+      "args": {
+        "tag": "nc-win-desktop:0.1"
+      }
     },
-    "runArgs": [ "--platform=linux/amd64" ],
+    "runArgs": [ 
+        "--platform=linux/amd64",
+        "--name=nc-win-desktop"
+    ],
     "customizations": {
       "vscode": {
         "extensions": ["ms-vscode.cpptools-extension-pack"]
       }
-    }
+    },
+    "postCreateCommand": ".devcontainer/buildenv-x86_64-win.sh"
 }

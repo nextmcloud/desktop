@@ -1,13 +1,13 @@
-FROM --platform=linux/amd64 ubuntu:24.04
+FROM --platform=linux/amd64 debian:bookworm-slim
 
 ARG qtpackage=https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz
-
+ARG sslpackage=https://www.openssl.org/source/openssl-3.2.0.tar.gz
 
 RUN apt-get -y update && \
     apt-get -y install \
-        g++-mingw-w64 \
+        g++-mingw-w64 libz-mingw-w64 \
         build-essential curl cmake python-is-python3 perl nano xz-utils freeglut3-dev gdb git iputils-ping libgl1-mesa-dev \
-        libglu1-mesa-dev libjpeg-dev libmysqlclient-dev libnss3-dev libopus-dev \
+        libglu1-mesa-dev libjpeg-dev libnss3-dev libopus-dev \
         libpng-dev libsqlite3-dev libssl-dev libx11-xcb-dev libxcb-xinerama0-dev \
         libxcb-xkb-dev libxcb1-dev libxcursor-dev libxi-dev libxml2-dev libxrender-dev \
         libxslt-dev lzip mesa-common-dev valgrind wget zlib1g-dev libclang-dev  \
@@ -23,25 +23,80 @@ RUN apt-get -y update && \
 # download the qt5 package and install to /opt
 RUN \
     set -eux && \
-    mkdir -p /opt/qtpackage && \
-    curl -L $qtpackage | tar x --use-compress-program xz -C /opt/qtpackage --strip-components 1
+    mkdir -p /opt/win/build/qtpackage && \
+    curl -L $qtpackage | tar x --use-compress-program xz -C /opt/win/build/qtpackage --strip-components 1
 
+###
+# The current -debug-and-release build has a bug for cross-compiling when using qtdeclarative
+# so we have to comment out a certain line in a submake wiith sed
+#
 RUN \
-    mkdir -p /opt/qt && \
-    cd /opt/qtpackage && \
-    ./configure -opensource -confirm-license -xplatform win32-g++ -device-option CROSS_COMPILE=/usr/x86_64-w64-mingw32/bin/ \
+    mkdir -p /opt/win/qt && \
+    cd /opt/win/build/qtpackage && \
+    ./configure -debug-and-release -opensource -confirm-license -xplatform win32-g++ -device-option CROSS_COMPILE=/usr/x86_64-w64-mingw32/bin/ \
       -opengl desktop \
-      -skip qtx11extras \
-      -skip qtvirtualkeyboard \
+      -qt-zlib -qt-libjpeg -qt-libpng -qt-pcre \
+      -skip qt3d \
+      -skip qtactiveqt \
+      -skip qtandroidextras \
+      -skip qtcharts \
+      -skip qtdatavis3d \
       -skip qtgamepad \
+      -skip qtgraphicaleffects \
+      -skip qtlocation \
+      -skip qtlottie \
       -skip qtmacextras \
-      -prefix /opt/qt -nomake examples 
+      -skip qtmultimedia \
+      -skip qtnetworkauth \
+      -skip qtpurchasing \
+      -skip qtquick3d \
+      -skip qtquicktimeline \
+      -skip qtremoteobjects \
+      -skip qtscxml \
+      -skip qtsensors \
+      -skip qtserialbus \
+      -skip qtserialport \
+      -skip qtspeech \
+      -skip qtvirtualkeyboard \
+      -skip qtwayland \
+      -skip qtwebchannel \
+      -skip qtwebengine \
+      -skip qtwebglplugin \
+      -skip qtwebsockets \
+      -skip qtwebview \
+      -skip qtx11extras \
+      -prefix /opt/win/qt \
+      -nomake tests \
+      -nomake examples && \
+    sed -i '/[[:space:]]*qtConfig(d3d12).*/s/^/# /' \
+      /opt/win/build/qtpackage/qtdeclarative/src/plugins/scenegraph/scenegraph.pro && \
+    make && \
+    make install 
+    
+COPY ./toolchain-x86_64-win.cmake /opt/win/build/toolchain-x86_64-win.cmake
 
+# dependency 1: compile qtkeychain OS project for win
 RUN \
-    cd /opt/qtpackage && \
-    make -j$(nproc) all && \
-    make install && \
-    rm -rf qtlib
+    git clone https://github.com/frankosterfeld/qtkeychain.git /opt/win/qtkeychain && \
+    cd /opt/win/qtkeychain && \
+    cmake . -DCMAKE_BUILD_TYPE="Release" -DCMAKE_TOOLCHAIN_FILE=/opt/win/build/toolchain-x86_64-win.cmake \
+            -DCMAKE_INSTALL_PREFIX=/opt/win/qtkeychain && \
+    make install
 
-ENV PATH="${PATH}:/opt/qt/bin"
-ENTRYPOINT ["/bin/bash"]
+# dependency 2: compile openssl 
+RUN \
+    mkdir -p /opt/win/build/openssl && \
+    curl -L $sslpackage | tar xz -C /opt/win/build/openssl --strip-components 1 && \
+    cd /opt/win/build/openssl && \
+    ./Configure --cross-compile-prefix=x86_64-w64-mingw32- \
+       --prefix=/opt/win/openssl --openssldir=/opt/win/openssl no-idea no-mdc2 no-rc5 shared mingw64 && \
+    make install
+
+# dependency 3: zlib is already installed by apt libz-mingw-w64
+
+# the last cleanup
+RUN rm -rf /opt/win/build
+
+ENV PATH="${PATH}:/opt/win/qt/bin:/opt/win/qtkeychain:/opt/win/openssl/bin"
+
+CMD ["/bin/bash"]
