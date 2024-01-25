@@ -61,7 +61,7 @@ public:
 public slots:
     void showFirstPage();
     void showIssuesList(OCC::AccountState *account);
-    virtual void slotSwitchPage(QAction *action);
+    void slotSwitchPage(QAction *action);
     virtual void slotAccountAvatarChanged();
     void slotAccountDisplayNameChanged();
 
