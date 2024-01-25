@@ -393,6 +393,8 @@ QAction *SettingsDialog::createActionWithIcon(const QIcon &icon, const QString &
     return action;
 }
 
+
+
 QAction *SettingsDialog::createColorAwareAction(const QString &iconPath, const QString &text)
 {
     // all buttons must have the same size in order to keep a good layout
