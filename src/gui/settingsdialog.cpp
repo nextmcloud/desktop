@@ -13,6 +13,7 @@
  */
 
 #include "settingsdialog.h"
+#include "QtWidgets/qmainwindow.h"
 #include "ui_settingsdialog.h"
 
 #include "folderman.h"
@@ -70,7 +71,7 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
         host = fm.elidedText(host, Qt::ElideMiddle, width);
         user = fm.elidedText(user, Qt::ElideRight, width);
     }
-    return QStringLiteral("%1\n%2").arg(user, host);
+    return QStringLiteral("%1").arg(user);
 }
 }
 
@@ -122,6 +123,13 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar->addAction(generalAction);
     auto *generalSettings = new GeneralSettings;
     _ui->stack->addWidget(generalSettings);
+
+    //NMC customization
+    //Adds space between general and network actions
+    auto *spacer2 = new QWidget();
+    spacer2->setFixedWidth(8);
+    spacer2->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _toolBar->addWidget(spacer2);
 
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
     connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettings::slotStyleChanged);
@@ -238,7 +246,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     const auto accountAction = createColorAwareAction(QLatin1String(":/client/theme/account.svg"), actionText);
 
     if (!brandingSingleAccount) {
-        accountAction->setToolTip(s->account()->displayName());
+        accountAction->setToolTip(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
     }
 
@@ -298,6 +306,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
             action->setText(displayName);
             auto height = _toolBar->sizeHint().height();
             action->setIconText(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
+            action->setToolTip(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
         }
     }
 }
@@ -392,8 +401,6 @@ QAction *SettingsDialog::createActionWithIcon(const QIcon &icon, const QString &
     }
     return action;
 }
-
-
 
 QAction *SettingsDialog::createColorAwareAction(const QString &iconPath, const QString &text)
 {
