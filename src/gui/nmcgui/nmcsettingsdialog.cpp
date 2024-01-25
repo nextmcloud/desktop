@@ -13,6 +13,8 @@
  */
 
 #include "nmcsettingsdialog.h"
+#include "QtWidgets/qboxlayout.h"
+#include "QtWidgets/qlabel.h"
 #include "QtWidgets/qtoolbar.h"
 #include "settingsdialog.h"
 
@@ -21,54 +23,28 @@ namespace OCC {
 NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
     : SettingsDialog(gui, parent)
 {
-    setDefaultSettings();
     setLayout();
-    setLogic();
-}
 
-void NMCSettingsDialog::slotSwitchPage(QAction *action)
-{
-    SettingsDialog::slotSwitchPage(action);
+    //The window has no background widget, use palette
+    QPalette palette;
+    palette.setColor(QPalette::Window, QColor("#F3f3f3"));
+    setPalette(palette);
 
-    // customizeStyle();
-    // if(action->text() == QCoreApplication::translate("OCC::SettingsDialog","General") || action->text() == QCoreApplication::tr("General"))
-    // {
-    //     const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/settings_magenta.svg"));
-    //     action->setIcon(openIcon);
-    // }
-    // else if(action->text() == QCoreApplication::translate("OCC::SettingsDialog","Network") || action->text() == QCoreApplication::tr("Network"))
-    // {
-    //     const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/network_magenta.svg"));
-    //     action->setIcon(openIcon);
-    // }
-    // else
-    // {
-    //     const QIcon openIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/NMCIcons/account_magenta.svg"));
-    //     action->setIcon(openIcon);
-    // }
+    setFixedSize(750,760);
 
-    // //Make sure, text color is correct (magenta or black)
-    // setLayout();
-    // auto *widget = getToolBar()->widgetForAction(action);
-    // if(widget)
-    // {
-    //     widget->setStyleSheet(transparentAndMagenta);
-    // }
+    getToolBar()->setFixedHeight(91); ///75px button height + 8 + 8 margin top and bottom
+    getToolBar()->setStyleSheet("QToolBar{background: #f3f3f3; background-color: #f3f3f3; border-width: 0px; border-color: none;}");
+    getToolBar()->setContentsMargins(8,0,8,0); //Left margin not accepted, Qt bug?
 }
 
 void NMCSettingsDialog::slotAccountAvatarChanged()
 {
     //Intercept the base class slot, so the round avatar is not set. (dont pass to base class)
     //Fix Account button size, for ech new created account
-    fixAccountButton(transparentAndMagenta);
+    fixAccountButton();
 }
 
-void OCC::NMCSettingsDialog::setDefaultSettings()
-{
-  //Empty
-}
-
-void OCC::NMCSettingsDialog::setLayout()
+void OCC::NMCSettingsDialog::setLayout() const
 {
     //Fix network and general settings button size
     const auto actions = getToolBar()->actions();
@@ -82,22 +58,20 @@ void OCC::NMCSettingsDialog::setLayout()
             if(widget)
             {
                 widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-                widget->setFixedSize(128, 75);
-                //widget->setStyleSheet(transparentAndBlack);
+                widget->setFixedSize(75, 75);
+                widget->setStyleSheet(
+                    "QToolButton { border: none; background-color: #f3f3f3; border-radius: 4px; font-size: 13px;}"
+                    "QToolButton:hover { background-color: #e5e5e5; }"
+                    );
             }
         }
     }
 
-    //Fix initial account btton size and color
-    fixAccountButton(transparentAndBlack);
+    //Fix initial account button size and stylesheet
+    fixAccountButton();
 }
 
-void OCC::NMCSettingsDialog::setLogic()
-{
-  //Empty
-}
-
-void NMCSettingsDialog::fixAccountButton(QString styleSheet)
+void NMCSettingsDialog::fixAccountButton() const
 {
     auto action = getToolBar()->actions().at(0);
     auto *widget = getToolBar()->widgetForAction(action);
@@ -105,7 +79,10 @@ void NMCSettingsDialog::fixAccountButton(QString styleSheet)
     {
         widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         widget->setFixedSize(128, 75);
-        //widget->setStyleSheet(styleSheet);
+        widget->setStyleSheet(
+            "QToolButton { border: none; background-color: #f3f3f3; border-radius: 4px; font-size: 13px;}"
+            "QToolButton:hover { background-color: #e5e5e5; }"
+            );
     }
 }
 
