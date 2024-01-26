@@ -201,6 +201,10 @@ set(client_SRCS
     filedetails/shareemodel.cpp
     filedetails/sortedsharemodel.h
     filedetails/sortedsharemodel.cpp
+    nmcgui/nmcactivitylistmodel.h
+    nmcgui/nmcactivitylistmodel.cpp
+    nmcgui/nmcsortedactivitylistmodel.h
+    nmcgui/nmcsortedactivitylistmodel.cpp
     tray/svgimageprovider.h
     tray/svgimageprovider.cpp
     tray/syncstatussummary.h
