@@ -99,7 +99,7 @@ void KMessageWidgetPrivate::init(KMessageWidget *q_ptr)
 
     titleLabel = new QLabel(content);
     titleLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    titleLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION"));
+    titleLabel->setText(KMessageWidget::tr("E2E_ENCRYPTION"));
     titleLabel->setStyleSheet("font-size: 13px; font-weight: 600;");
 
     titelIcon = new QLabel(content);
@@ -145,8 +145,7 @@ void KMessageWidgetPrivate::createLayout()
     if (true) {
         auto *layout = new QGridLayout(content);
 
-        layout->setContentsMargins(8,4,8,4);
-        layout->setSpacing(0);
+        layout->setContentsMargins(8,8,0,8);
         content->setFixedHeight(84);
 
         auto *titleLayout = new QHBoxLayout(content);

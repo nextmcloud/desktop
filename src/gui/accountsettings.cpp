@@ -297,7 +297,7 @@ void AccountSettings::slotE2eEncryptionMnemonicReady()
     });
 
     _ui->encryptionMessage->setMessageType(KMessageWidget::Positive);
-    _ui->encryptionMessage->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_ACTIVE"));
+    _ui->encryptionMessage->setText(tr("End-to-end encryption has been enabled for this account"));
     //_ui->encryptionMessage->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/lock.svg")));
     _ui->encryptionMessage->show();
 }
