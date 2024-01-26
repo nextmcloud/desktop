@@ -238,5 +238,6 @@
         <file>theme/delete.svg</file>
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
+        <file>theme/NMCIcons/cloud-security.svg</file>
     </qresource>
 </RCC>
