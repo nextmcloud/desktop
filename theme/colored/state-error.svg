@@ -1,1 +1,13 @@
-<svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(.87498 0 0 .87498 .26458 -255.9)"><circle cx="2.1167" cy="294.88" r="2.1167" fill="#d40000" stroke-width=".25066"/><path d="m1.1839 293.95 1.8656 1.8656" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52917"/><path d="m3.0495 293.95-1.8656 1.8656" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52917"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4" height="4" viewBox="0 0 4 4">
+  <defs>
+    <clipPath id="clip-state-error">
+      <rect width="4" height="4"/>
+    </clipPath>
+  </defs>
+  <g id="state-error" clip-path="url(#clip-state-error)">
+    <circle id="Ellipse_54" data-name="Ellipse 54" cx="1.85" cy="1.85" r="1.85" transform="translate(0.148 0.15)" fill="#d82a48"/>
+    <g id="icon_action_close_selected" data-name="icon/action/close/selected" transform="translate(-4.427 -4.423)">
+      <path id="Path" d="M1.3,1.029,1.992.34A.195.195,0,1,0,1.717.065L1.029.753.34.065A.195.195,0,1,0,.065.34l.688.689-.688.689a.194.194,0,0,0,0,.275A.192.192,0,0,0,.2,2.05.2.2,0,0,0,.34,1.992L1.029,1.3l.689.688a.2.2,0,0,0,.138.058.192.192,0,0,0,.137-.058.194.194,0,0,0,0-.275Z" transform="translate(5.398 5.398)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
