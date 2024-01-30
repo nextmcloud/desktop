@@ -95,6 +95,17 @@ RUN \
 
 # dependency 3: zlib is already installed by apt libz-mingw-w64
 
+# dependency 4: extracted sqlite3 from qt delivered 3rdparty dir
+RUN \
+    mkdir -p /opt/win/sqlite3/lib && \
+    mkdir -p /opt/win/sqlite3/include && \
+    cd /opt/win/build/qtpackage/qtbase/src/3rdparty/sqlite/ && \
+    cp sqlite3.h /opt/win/sqlite3/include && \
+    /usr/bin/x86_64-w64-mingw32-gcc -shared -DWIN64 -DNDEBUG -D_WINDOWS -D_USRDLL -DNO_TCL -D_CRT_SECURE_NO_DEPRECATE -DTHREADSAFE=1 \
+        -DTEMP_STORE=1 -DSQLITE_MAX_EXPR_DEPTH=0 -m64 -I. sqlite3.c -o \
+        /opt/win/sqlite3/lib/sqlite3_x64.dll \
+        -Wl,--out-implib,/opt/win/sqlite3/lib/sqlite3_x64.dll.a
+
 # the last cleanup
 RUN rm -rf /opt/win/build
 
