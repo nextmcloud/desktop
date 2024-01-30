@@ -114,6 +114,26 @@ int FolderStatusDelegate::rootFolderHeightWithoutErrors(const QFontMetrics &fm, 
     return h;
 }
 
+QRect FolderStatusDelegate::moreRectPos(const QRect &rectIndex)
+{
+    if(rectIndex.isValid())
+    {
+        const int buttonWidth = 88;
+        const int buttonHeight = 32;
+
+        const int parentWidth = rectIndex.width();
+        const int parentHeight = rectIndex.height();
+        const int parentX = rectIndex.x();
+        const int parentY = rectIndex.y();
+
+        const int xMoreButton = (parentX + parentWidth - buttonWidth - 16);
+        const int yMoreButton = ((parentHeight - buttonHeight) / 2) + parentY;
+
+        return QRect(xMoreButton, yMoreButton, buttonWidth, buttonHeight);
+    }
+    return{};
+}
+
 void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (index.data(AddButton).toBool()) {
@@ -355,21 +375,9 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         drawTextBox(infoTexts, QColor(0x4d, 0x4d, 0xba));
     }
 
-    //NMC Customization, we need these infos already here to adjust the progress bar;
-
-    const int buttonWidth = 88;
-    const int buttonHeight = 32;
-
-    const int parentWidth = option.rect.width();
-    const int parentHeight = option.rect.height();
-    const int parentX = option.rect.x();
-    const int parentY = option.rect.y();
-
-    const int xMoreButton = (parentX + parentWidth - buttonWidth - 16);
-    const int yMoreButton = ((parentHeight - buttonHeight) / 2) + parentY;
-
-    const int nmcWidth = xMoreButton - nextToIcon - 8; //8 is margin to "More button"
-
+    //NMC Customization, we need these infos already here to adjust the progress bar
+    const auto currentButtonRectPos = moreRectPos(option.rect);
+    const int nmcWidth = currentButtonRectPos.x() - nextToIcon - 8; //8 is margin to "More button"
 
     // Sync File Progress Bar: Show it if syncFile is not empty.
     if (showProgess) {
@@ -422,7 +430,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         btnOpt.subControls = QStyle::SC_ToolButton;
 
         //NMC customization
-        btnOpt.rect = QRect(xMoreButton, yMoreButton, buttonWidth, buttonHeight);
+        btnOpt.rect = currentButtonRectPos;
 
         // Create QPainterPath with rounded corners
         QPainterPath path;
@@ -453,7 +461,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         painter->setFont(btnOpt.font);
         int textX = iconX + btnOpt.iconSize.width() + 10;
         int textY = iconY;
-        int textWidth = xMoreButton + buttonWidth - textX;
+        int textWidth = currentButtonRectPos.x() + currentButtonRectPos.width() - textX;
         int textHeight = btnOpt.fontMetrics.height();
 
         painter->drawText(QRect(textX, textY, textWidth, textHeight), Qt::AlignLeft | Qt::AlignVCenter, buttonText);
