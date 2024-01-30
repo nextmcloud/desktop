@@ -44,32 +44,15 @@ QRect FolderStatusView::visualRect(const QModelIndex &index) const
 }
 
 void FolderStatusView::drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const {
-    QMutexLocker locker(&mutex);  // Locker zum Sperren des Mutex für den kritischen Abschnitt
 
-    if (index.isValid() && mouseOverIndex == index) {
-        painter->save();
-        painter->fillRect(rect, Qt::red);
-        painter->restore();
-    }
+    Q_UNUSED(painter)
+    Q_UNUSED(rect)
+    Q_UNUSED(index)
 
-    QTreeView::drawBranches(painter, rect, index);
+    //Empty, we override this function, to get rid of the left column with the collapse and expand icons. Its implemented here, but due to synchronisation,
+    // we will implement it in folderstatusdelegate.cpp paint funtion
 }
 
-void FolderStatusView::mouseMoveEvent(QMouseEvent *event) {
-    QMutexLocker locker(&mutex);  // Locker zum Sperren des Mutex für den kritischen Abschnitt
-
-    QTreeView::mouseMoveEvent(event);
-
-    mouseOverIndex = indexAt(event->pos());
-}
-
-void FolderStatusView::leaveEvent(QEvent *event) {
-    QMutexLocker locker(&mutex);  // Locker zum Sperren des Mutex für den kritischen Abschnitt
-
-    QTreeView::leaveEvent(event);
-    mouseOverIndex = QModelIndex();  // Zurücksetzen auf einen ungültigen Index
-
-}
 
 
 } // namespace OCC
