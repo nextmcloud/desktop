@@ -238,5 +238,7 @@
         <file>theme/delete.svg</file>
         <file>theme/send.svg</file>
         <file>theme/call-notification.wav</file>
+        <file>theme/NMCIcons/navigation-right.svg</file>
+        <file>theme/NMCIcons/collapse-down.svg</file>
     </qresource>
 </RCC>
