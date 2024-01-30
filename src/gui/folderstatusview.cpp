@@ -50,7 +50,7 @@ void FolderStatusView::drawBranches(QPainter *painter, const QRect &rect, const 
     Q_UNUSED(index)
 
     //Empty, we override this function, to get rid of the left column with the collapse and expand icons. Its implemented here, but due to synchronisation,
-    // we will implement it in folderstatusdelegate.cpp paint funtion
+    //we will implement it in folderstatusdelegate.cpp paint funtion
 }
 
 
