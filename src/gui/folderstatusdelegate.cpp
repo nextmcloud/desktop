@@ -15,6 +15,7 @@
  */
 
 #include "folderstatusdelegate.h"
+#include "QtGui/qpainterpath.h"
 #include "folderstatusmodel.h"
 #include "folderstatusview.h"
 #include "folderman.h"
@@ -117,6 +118,16 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 {
     if (index.data(AddButton).toBool()) {
         const_cast<QStyleOptionViewItem &>(option).showDecorationSelected = false;
+    }
+
+    if (option.state & QStyle::State_MouseOver)
+    {
+        painter->save();
+
+        // Drawing the highlight color #e5e5e5
+        painter->fillRect(option.rect, QColor(0xe5, 0xe5, 0xe5));
+
+        painter->restore();
     }
 
     QStyledItemDelegate::paint(painter, option, index);
@@ -335,8 +346,6 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         painter->restore();
     }
 
-    painter->restore();
-
     {
         QStyleOptionToolButton btnOpt;
         btnOpt.state = option.state;
@@ -344,12 +353,56 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         btnOpt.state |= QStyle::State_Raised;
         btnOpt.arrowType = Qt::NoArrow;
         btnOpt.subControls = QStyle::SC_ToolButton;
-        btnOpt.rect = optionsButtonVisualRect;
+
+        const int buttonWidth = 88;
+        const int buttonHeight = 32;
+
+        const int parentWidth = option.rect.width();
+        const int parentHeight = option.rect.height();
+        const int parentX = option.rect.x();
+        const int parentY = option.rect.y();
+
+        const int x = (parentX + parentWidth - buttonWidth - 16);
+        const int y = ((parentHeight - buttonHeight) / 2) + parentY;
+
+        btnOpt.rect = QRect(x, y, buttonWidth, buttonHeight);
+
+        // Create QPainterPath with rounded corners
+        QPainterPath path;
+        path.addRoundedRect(btnOpt.rect, 4, 4);  // 4 ist der Radius für die abgerundeten Ecken
+
+        // Draw border line
+        QPen borderPen(QColor(0, 0, 0)); // Beispiel: Schwarzer Rand
+        borderPen.setWidth(1);
+        painter->setPen(borderPen);
+        painter->drawPath(path);
+
+        // Fill the rectangle
+        painter->fillPath(path, Qt::transparent);
+
+        // Draw the icon in rectangle
         btnOpt.icon = _iconMore;
         const auto buttonSize = QApplication::style()->pixelMetric(QStyle::PM_ButtonIconSize);
         btnOpt.iconSize = QSize(buttonSize, buttonSize);
-        QApplication::style()->drawComplexControl(QStyle::CC_ToolButton, &btnOpt, painter);
+
+        // Set icon position
+        int iconX = btnOpt.rect.x() + 12;  // Beispiel: Horizontaler Abstand
+        int iconY = btnOpt.rect.y() + (btnOpt.rect.height() - btnOpt.iconSize.height()) / 2;
+
+        painter->drawPixmap(iconX, iconY, btnOpt.icon.pixmap(btnOpt.iconSize));
+
+        //Add text
+        const QString buttonText = tr("More");
+        painter->setFont(btnOpt.font);
+        int textX = iconX + btnOpt.iconSize.width() + 10;
+        int textY = iconY;
+        int textWidth = x + buttonWidth - textX;
+        int textHeight = btnOpt.fontMetrics.height();
+
+        painter->drawText(QRect(textX, textY, textWidth, textHeight), Qt::AlignLeft | Qt::AlignVCenter, buttonText);
     }
+
+    painter->restore();
 }
 
 bool FolderStatusDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
