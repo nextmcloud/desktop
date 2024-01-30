@@ -36,6 +36,16 @@ public:
 protected:
     void drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const override;
     void paintEvent(QPaintEvent *event) override;
+
+    void mouseMoveEvent(QMouseEvent *event) override;
+
+    void leaveEvent(QEvent *event) override;
+
+    QModelIndex mouseOverIndex;
+    bool mouseEntered = false;
+
+private:
+    mutable QMutex mutex;  // Mutex für die Synchronisation
 };
 
 } // namespace OCC
