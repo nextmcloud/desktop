@@ -13,7 +13,7 @@
 # be deleted asap a newer release is available.
 #
 
-name: MCLOUD custom app release
+name: MCLOUD custom client merge
 
 on:
   workflow_dispatch:
