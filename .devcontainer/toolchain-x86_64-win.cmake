@@ -3,7 +3,9 @@ SET(MINGW_PREFIX  /usr/bin/x86_64-w64-mingw32)
 
 # specify the cross compiler
 SET(CMAKE_C_COMPILER ${MINGW_PREFIX}-gcc)
+SET(CMAKE_C_COMPILER_ID MINGW)
 SET(CMAKE_CXX_COMPILER ${MINGW_PREFIX}-g++)
+SET(CMAKE_CXX_COMPILER_ID MINGW)
 SET(CMAKE_RC_COMPILER ${MINGW_PREFIX}-windres)
 
 # where is the target environment containing libraries
@@ -18,8 +20,7 @@ SET(CMAKE_PREFIX_PATH ${WIN_DEP_PREFIX}/qt)
 SET(QTKEYCHAIN_LIBRARY ${WIN_DEP_PREFIX}/qtkeychain/lib/libqtkeychain.dll)
 SET(QTKEYCHAIN_INCLUDE_DIR ${WIN_DEP_PREFIX}/qtkeychain/include)
 SET(OPENSSL_ROOT_DIR ${WIN_DEP_PREFIX}/openssl)
-SET(OPENSSL_INCLUDE_DIR ${WIN_DEP_PREFIX}/openssl/include)
-
-
 SET(ZLIB_LIBRARY /usr/x86_64-w64-mingw32/lib/)
 SET(ZLIB_INCLUDE_DIR /usr/include)
+SET(SQLite3_INCLUDE_DIR ${WIN_DEP_PREFIX}/sqlite3/include)
+SET(SQLite3_LIBRARY ${WIN_DEP_PREFIX}/sqlite3/lib)
