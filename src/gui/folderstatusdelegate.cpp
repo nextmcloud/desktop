@@ -120,12 +120,61 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         const_cast<QStyleOptionViewItem &>(option).showDecorationSelected = false;
     }
 
-    if (option.state & QStyle::State_MouseOver)
     {
+        //NMC customization
+
         painter->save();
 
-        // Drawing the highlight color #e5e5e5
-        painter->fillRect(option.rect, QColor(0xe5, 0xe5, 0xe5));
+        //Make sure, we dont draw the "new folder" button, since we have a speccial button for it outside this widget
+        if(index.data(AddButton).toBool())
+        {
+            return;
+        }
+
+        const QRect leftRect(0, option.rect.y(), option.rect.x(), option.rect.height());
+
+        if (option.state & QStyle::State_MouseOver)
+        {
+            // Drawing the highlight color #e5e5e5
+            painter->fillRect(option.rect, QColor(0xe5, 0xe5, 0xe5));
+
+            //Now we need to paint the left side, what we disabled in folderstatusview.cpp (drawBranches() function)
+            painter->fillRect(leftRect, QColor(0xe5, 0xe5, 0xe5));
+        }
+
+        if (option.state & QStyle::State_Selected)
+        {
+            //Get selection background color
+            const QColor selectionColor = option.palette.color(QPalette::Highlight);
+            painter->fillRect(leftRect, selectionColor);
+        }
+
+        const QTreeView* treeView = qobject_cast<const QTreeView*>(option.widget);
+        if (treeView)
+        {
+            QIcon leftIcon;
+            QSize iconSize(16,16);
+
+            const QModelIndex parentIndex = index.parent();
+            if (!parentIndex.isValid())
+            {
+                //We are in the root directory, make the icon bigger
+                iconSize.setHeight(24);
+                iconSize.setWidth(24);
+            }
+
+            if (index.isValid() && treeView->isExpanded(index))
+            {
+                // The parent item is expanded
+                leftIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/collapse-down.svg"));
+            }
+            else
+            {
+                // The parent item is not expanded
+                leftIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/navigation-right.svg"));
+            }
+            painter->drawPixmap(QPointF(leftRect.width() / 2 - iconSize.width()/2, leftRect.y() + leftRect.height() / 2 - iconSize.height()/2), leftIcon.pixmap(iconSize));
+        }
 
         painter->restore();
     }
@@ -353,6 +402,8 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         btnOpt.state |= QStyle::State_Raised;
         btnOpt.arrowType = Qt::NoArrow;
         btnOpt.subControls = QStyle::SC_ToolButton;
+
+        //NMC Customization
 
         const int buttonWidth = 88;
         const int buttonHeight = 32;
