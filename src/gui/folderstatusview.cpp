@@ -13,7 +13,11 @@
  */
 
 #include "folderstatusview.h"
+#include "QtCore/qtimer.h"
+#include "QtGui/qevent.h"
 #include "folderstatusdelegate.h"
+
+#include "QPainter"
 
 namespace OCC {
 
@@ -38,5 +42,34 @@ QRect FolderStatusView::visualRect(const QModelIndex &index) const
     }
     return rect;
 }
+
+void FolderStatusView::drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const {
+    QMutexLocker locker(&mutex);  // Locker zum Sperren des Mutex für den kritischen Abschnitt
+
+    if (index.isValid() && mouseOverIndex == index) {
+        painter->save();
+        painter->fillRect(rect, Qt::red);
+        painter->restore();
+    }
+
+    QTreeView::drawBranches(painter, rect, index);
+}
+
+void FolderStatusView::mouseMoveEvent(QMouseEvent *event) {
+    QMutexLocker locker(&mutex);  // Locker zum Sperren des Mutex für den kritischen Abschnitt
+
+    QTreeView::mouseMoveEvent(event);
+
+    mouseOverIndex = indexAt(event->pos());
+}
+
+void FolderStatusView::leaveEvent(QEvent *event) {
+    QMutexLocker locker(&mutex);  // Locker zum Sperren des Mutex für den kritischen Abschnitt
+
+    QTreeView::leaveEvent(event);
+    mouseOverIndex = QModelIndex();  // Zurücksetzen auf einen ungültigen Index
+
+}
+
 
 } // namespace OCC
