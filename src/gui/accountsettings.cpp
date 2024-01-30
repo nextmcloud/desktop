@@ -161,7 +161,7 @@ protected:
             const auto index = folderList->indexAt(pos);
             if (model->classify(index) == FolderStatusModel::RootFolder &&
                 (FolderStatusDelegate::errorsListRect(folderList->visualRect(index)).contains(pos) ||
-                    FolderStatusDelegate::optionsButtonRect(folderList->visualRect(index),folderList->layoutDirection()).contains(pos))) {
+                    FolderStatusDelegate::moreRectPos(folderList->visualRect(index)).contains(pos))) {
                 shape = Qt::PointingHandCursor;
             }
             folderList->setCursor(shape);
@@ -226,9 +226,8 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
             AccountManager::instance(), &AccountManager::removeAccountFolders);
     connect(_ui->_folderList, &QWidget::customContextMenuRequested,
         this, &AccountSettings::slotCustomContextMenuRequested);
-    //NMC Customization, button removed
-    // connect(_ui->_folderList, &QAbstractItemView::clicked,
-    //     this, &AccountSettings::slotFolderListClicked);
+    connect(_ui->_folderList, &QAbstractItemView::clicked,
+        this, &AccountSettings::slotFolderListClicked);
     connect(_ui->_folderList, &QTreeView::expanded, this, &AccountSettings::refreshSelectiveSyncStatus);
     connect(_ui->_folderList, &QTreeView::collapsed, this, &AccountSettings::refreshSelectiveSyncStatus);
     connect(_ui->selectiveSyncNotification, &QLabel::linkActivated,
@@ -717,34 +716,38 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
 
 void AccountSettings::slotFolderListClicked(const QModelIndex &indx)
 {
-    if (indx.data(FolderStatusDelegate::AddButton).toBool()) {
-        // "Add Folder Sync Connection"
-        const auto treeView = _ui->_folderList;
-        const auto pos = treeView->mapFromGlobal(QCursor::pos());
-        QStyleOptionViewItem opt;
-        opt.initFrom(treeView);
-        const auto btnRect = treeView->visualRect(indx);
-        const auto btnSize = treeView->itemDelegate(indx)->sizeHint(opt, indx);
-        const auto actual = QStyle::visualRect(opt.direction, btnRect, QRect(btnRect.topLeft(), btnSize));
-        if (!actual.contains(pos)) {
-            return;
-        }
+    //NMC Customization
+    //We dont need to look for the "new folder" button. This piece of code calls a function, on where the button should be, and not if it really exists or not.
+    //Thats why we can not just make the button invisible, the button is drawn in in the paint function (overriden and its not the case), but lacks functionality, its implemented this way.
 
-        if (indx.flags() & Qt::ItemIsEnabled) {
-            slotAddFolder();
-        } else {
-            QToolTip::showText(
-                QCursor::pos(),
-                _model->data(indx, Qt::ToolTipRole).toString(),
-                this);
-        }
-        return;
-    }
+    // if (indx.data(FolderStatusDelegate::AddButton).toBool()) {
+    //     // "Add Folder Sync Connection"
+    //     const auto treeView = _ui->_folderList;
+    //     const auto pos = treeView->mapFromGlobal(QCursor::pos());
+    //     QStyleOptionViewItem opt;
+    //     opt.initFrom(treeView);
+    //     const auto btnRect = treeView->visualRect(indx);
+    //     const auto btnSize = treeView->itemDelegate(indx)->sizeHint(opt, indx);
+    //     const auto actual = QStyle::visualRect(opt.direction, btnRect, QRect(btnRect.topLeft(), btnSize));
+    //     if (!actual.contains(pos)) {
+    //         return;
+    //     }
+
+    //     if (indx.flags() & Qt::ItemIsEnabled) {
+    //         slotAddFolder();
+    //     } else {
+    //         QToolTip::showText(
+    //             QCursor::pos(),
+    //             _model->data(indx, Qt::ToolTipRole).toString(),
+    //             this);
+    //     }
+    //     return;
+    // }
     if (_model->classify(indx) == FolderStatusModel::RootFolder) {
         // tries to find if we clicked on the '...' button.
         const auto treeView = _ui->_folderList;
         const auto pos = treeView->mapFromGlobal(QCursor::pos());
-        if (FolderStatusDelegate::optionsButtonRect(treeView->visualRect(indx), layoutDirection()).contains(pos)) {
+        if (FolderStatusDelegate::moreRectPos(treeView->visualRect(indx)).contains(pos)) {
             slotCustomContextMenuRequested(pos);
             return;
         }
