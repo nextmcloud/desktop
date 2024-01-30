@@ -32,6 +32,18 @@ public:
 
     [[nodiscard]] QModelIndex indexAt(const QPoint &point) const override;
     [[nodiscard]] QRect visualRect(const QModelIndex &index) const override;
+
+    void drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const override;
+
+    void mouseMoveEvent(QMouseEvent *event) override;
+
+    void leaveEvent(QEvent *event) override;
+
+    QModelIndex mouseOverIndex;
+    bool mouseEntered = false;
+
+private:
+    mutable QMutex mutex;  // Mutex für die Synchronisation
 };
 
 } // namespace OCC
