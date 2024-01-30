@@ -226,8 +226,9 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
             AccountManager::instance(), &AccountManager::removeAccountFolders);
     connect(_ui->_folderList, &QWidget::customContextMenuRequested,
         this, &AccountSettings::slotCustomContextMenuRequested);
-    connect(_ui->_folderList, &QAbstractItemView::clicked,
-        this, &AccountSettings::slotFolderListClicked);
+    //NMC Customization, button removed
+    // connect(_ui->_folderList, &QAbstractItemView::clicked,
+    //     this, &AccountSettings::slotFolderListClicked);
     connect(_ui->_folderList, &QTreeView::expanded, this, &AccountSettings::refreshSelectiveSyncStatus);
     connect(_ui->_folderList, &QTreeView::collapsed, this, &AccountSettings::refreshSelectiveSyncStatus);
     connect(_ui->selectiveSyncNotification, &QLabel::linkActivated,
