@@ -173,7 +173,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
                 // The parent item is not expanded
                 leftIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/navigation-right.svg"));
             }
-            painter->drawPixmap(QPointF(leftRect.width() / 2 - iconSize.width()/2, leftRect.y() + leftRect.height() / 2 - iconSize.height()/2), leftIcon.pixmap(iconSize));
+            painter->drawPixmap(QPointF(leftRect.width() - iconSize.width(), leftRect.y() + leftRect.height() / 2 - iconSize.height()/2), leftIcon.pixmap(iconSize));
         }
 
         painter->restore();
@@ -365,10 +365,10 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     const int parentX = option.rect.x();
     const int parentY = option.rect.y();
 
-    const int xIcon = (parentX + parentWidth - buttonWidth - 16);
-    const int yIcon = ((parentHeight - buttonHeight) / 2) + parentY;
+    const int xMoreButton = (parentX + parentWidth - buttonWidth - 16);
+    const int yMoreButton = ((parentHeight - buttonHeight) / 2) + parentY;
 
-    const int nmcWidth = xIcon - nextToIcon - 8; //8 is margin to "More button"
+    const int nmcWidth = xMoreButton - nextToIcon - 8; //8 is margin to "More button"
 
 
     // Sync File Progress Bar: Show it if syncFile is not empty.
@@ -422,7 +422,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         btnOpt.subControls = QStyle::SC_ToolButton;
 
         //NMC customization
-        btnOpt.rect = QRect(xIcon, yIcon, buttonWidth, buttonHeight);
+        btnOpt.rect = QRect(xMoreButton, yMoreButton, buttonWidth, buttonHeight);
 
         // Create QPainterPath with rounded corners
         QPainterPath path;
@@ -453,7 +453,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         painter->setFont(btnOpt.font);
         int textX = iconX + btnOpt.iconSize.width() + 10;
         int textY = iconY;
-        int textWidth = xIcon + buttonWidth - textX;
+        int textWidth = xMoreButton + buttonWidth - textX;
         int textHeight = btnOpt.fontMetrics.height();
 
         painter->drawText(QRect(textX, textY, textWidth, textHeight), Qt::AlignLeft | Qt::AlignVCenter, buttonText);
