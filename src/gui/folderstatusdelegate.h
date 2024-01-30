@@ -75,6 +75,8 @@ private:
     QPersistentModelIndex _pressedIndex;
 
     QIcon _iconMore;
+
+    QStyleOptionViewItem _newOption;
 };
 
 } // namespace OCC
