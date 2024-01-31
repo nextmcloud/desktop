@@ -96,6 +96,9 @@ QSize FolderStatusDelegate::sizeHint(const QStyleOptionViewItem &option,
         }
     }
 
+    // Make sur its at least 76 Pixel height
+    h = std::max(h, 76);
+
     return {0, h};
 }
 
@@ -140,6 +143,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         const_cast<QStyleOptionViewItem &>(option).showDecorationSelected = false;
     }
 
+    const QModelIndex parentIndex = index.parent(); //NMC customization
     {
         //NMC customization
 
@@ -175,7 +179,6 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
             QIcon leftIcon;
             QSize iconSize(16,16);
 
-            const QModelIndex parentIndex = index.parent();
             if (!parentIndex.isValid())
             {
                 //We are in the root directory, make the icon bigger
@@ -278,7 +281,8 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     iconRect.setBottom(localPathRect.bottom());
     iconRect.setWidth(iconRect.height());
 
-    const auto nextToIcon = iconRect.right() + aliasMargin;
+    //NMC Customization, make sure we have at least 16 pixel for the status icon next to folder icon
+    const auto nextToIcon = iconRect.right() + std::max(aliasMargin, 16);
     aliasRect.setLeft(nextToIcon);
     localPathRect.setLeft(nextToIcon);
     remotePathRect.setLeft(nextToIcon);
@@ -287,8 +291,23 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     auto optionsButtonVisualRect = optionsButtonRect(option.rect, option.direction);
 
-    const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
-    painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), statusPixmap);
+    //NMC Customization
+    if(!parentIndex.isValid()){
+        QIcon nmcFolderIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/folderLogo.svg"));
+        const auto nmcFolderPixmap = nmcFolderIcon.pixmap(iconSize, iconSize, QIcon::Normal);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), nmcFolderPixmap);
+
+        const QSize statusIconSize(24,24);
+        const auto statusPixmap = statusIcon.pixmap(statusIconSize.width(), statusIconSize.height(), syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).right() - statusIconSize.width() * 0.6, iconRect.bottom() - statusIconSize.height() * 0.8, statusPixmap);
+    }
+    else{
+        const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), statusPixmap);
+    }
+
+    // const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+    // painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), statusPixmap);
 
     // only show the warning icon if the sync is running. Otherwise its
     // encoded in the status icon.
