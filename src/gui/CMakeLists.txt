@@ -260,14 +260,9 @@ set(client_SRCS
     wizard/linklabel.cpp
     )
 
-# -- Feature: 2244_ActivityList_Model -- start
-set(NMC_SRCS_2244_ActivityList_Model
-    nmcgui/nmcsortedactivitylistmodel.h
-    nmcgui/nmcsortedactivitylistmodel.cpp
-)
-
-list(APPEND client_SRCS ${NMC_SRCS_2244_ActivityList_Model})
-# -- Feature: 2244_ActivityList_Model -- end
+file(GLOB NMC_FILES "nmcgui/*")
+set(NMC_SRCS ${NMC_FILES})
+list(APPEND client_SRCS ${NMC_SRCS})
 
 if (Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
   list(APPEND client_SRCS
