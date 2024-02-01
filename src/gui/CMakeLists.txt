@@ -259,9 +259,16 @@ set(client_SRCS
     wizard/welcomepage.cpp
     wizard/linklabel.h
     wizard/linklabel.cpp
+    )
+
+# -- Feature: 2240_ActivityList_Model -- start
+set(NMC_SRCS_2240_ActivityList_Model
     nmcgui/nmcsortedactivitylistmodel.h
     nmcgui/nmcsortedactivitylistmodel.cpp
-    )
+)
+
+list(APPEND client_SRCS ${NMC_SRCS_2240_ActivityList_Model})
+# -- Feature: 2240_ActivityList_Model -- end
 
 if (Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
   list(APPEND client_SRCS
