@@ -187,5 +187,7 @@ int main(int argc, char **argv)
         }
     }
 
+    QResource::registerResource(QDir::toNativeSeparators(QDir::currentPath() + "/nmctheme_v1.rcc"));
+
     return app.exec();
 }
