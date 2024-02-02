@@ -260,6 +260,10 @@ set(client_SRCS
     wizard/linklabel.cpp
     )
 
+file(GLOB NMC_FILES "nmcgui/*")
+set(NMC_SRCS ${NMC_FILES})
+list(APPEND client_SRCS ${NMC_SRCS})
+
 if (Qt5WebEngine_FOUND AND Qt5WebEngineWidgets_FOUND)
   list(APPEND client_SRCS
     wizard/webviewpage.h
