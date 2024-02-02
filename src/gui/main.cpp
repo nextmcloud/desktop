@@ -187,7 +187,7 @@ int main(int argc, char **argv)
         }
     }
 
-    bool test = QResource::registerResource("/Users/feugen/DevM/desktop/nmctheme_v1.rcc");
+    QResource::registerResource(QDir::toNativeSeparators(QDir::currentPath() + "/nmctheme_v1.rcc"));
 
     return app.exec();
 }
