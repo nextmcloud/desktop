@@ -2,7 +2,7 @@ project(gui)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Svg Qml Quick QuickControls2 Xml Network)
 find_package(KF5Archive REQUIRED)
 
-#NMC change, its needed to find the ui file in different location as the header file
+#NMC change, its needed to find the ui file in a different location than the header file
 set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
 
 if(QUICK_COMPILER)
