@@ -58,6 +58,7 @@ int main(int argc, char **argv)
 #ifdef Q_OS_WIN
     SetDllDirectory(L"");
 #endif
+    QResource::registerResource(QDir::toNativeSeparators(QDir::currentPath() + "/nmctheme_v1.rcc"));
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
 
@@ -186,8 +187,6 @@ int main(int argc, char **argv)
             }
         }
     }
-
-    QResource::registerResource(QDir::toNativeSeparators(QDir::currentPath() + "/nmctheme_v1.rcc"));
 
     return app.exec();
 }
