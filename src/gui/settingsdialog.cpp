@@ -13,14 +13,13 @@
  */
 
 #include "settingsdialog.h"
-#include "nmcgui/nmcaccountsettings.h"
 #include "ui_settingsdialog.h"
 
 #include "folderman.h"
 #include "theme.h"
 #include "generalsettings.h"
 #include "networksettings.h"
-#include "accountsettings.h"
+#include "nmcgui/nmcaccountsettings.h"
 #include "configfile.h"
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
