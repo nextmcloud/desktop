@@ -194,7 +194,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
             else
             {
                 // The parent item is not expanded
-                leftIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/navigation-right.svg"));
+                leftIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/collapse-right.svg"));
             }
             painter->drawPixmap(QPointF(leftRect.width() - iconSize.width(), leftRect.y() + leftRect.height() / 2 - iconSize.height()/2), leftIcon.pixmap(iconSize));
         }
