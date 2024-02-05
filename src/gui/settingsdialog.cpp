@@ -13,12 +13,11 @@
  */
 
 #include "settingsdialog.h"
-#include "nmcgui/nmcgeneralsettings.h"
 #include "ui_settingsdialog.h"
 
 #include "folderman.h"
 #include "theme.h"
-#include "generalsettings.h"
+#include "nmcgui/nmcgeneralsettings.h"
 #include "networksettings.h"
 #include "accountsettings.h"
 #include "configfile.h"
