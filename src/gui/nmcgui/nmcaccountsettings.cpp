@@ -99,7 +99,7 @@ void NMCAccountSettings::setLayout()
 
     quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
-    getUi()->quotaInfoLabel->setStyleSheet("QLabel{font-size: 18px; padding: 8px;}");
+    getUi()->quotaInfoLabel->setStyleSheet("QLabel{font-size: 18px; padding: 8px; font-weight: 500;}");
     quotaVLayout->addWidget(getUi()->quotaProgressBar);
     getUi()->quotaProgressBar->setStyleSheet("QProgressBar {"
         "    background-color: #e5e5e5;"
