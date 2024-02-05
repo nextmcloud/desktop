@@ -13,6 +13,7 @@
  */
 
 #include "QtGui/qpainter.h"
+#include "common/utility.h"
 #include "wizard/owncloudwizard.h"
 #include "wizard/owncloudadvancedsetuppage.h"
 #include "nmcgui/nmcowncloudadvancedsetuppage.h"
@@ -150,7 +151,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     hLogoAndLabelLayout->addSpacerItem(new QSpacerItem(8,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    //MagentaCLOUC-label
+    //MagentaCLOUD-label
     QLabel *magentaLabel = new QLabel("MagentaCLOUD");
     magentaLabel->setStyleSheet("QLabel{font-size: 15px; font-weight: bold;}");
     magentaLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -186,6 +187,16 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     //Synch Radio button layout
     getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_5);
     leftSideVerticalLayout->addLayout(getUi().horizontalLayout_5);
+
+    //Disable Mac related UI fields
+    if(Utility::isWindows())
+    {
+        getUi().lSyncEverythingSizeLabel->setVisible(false);
+        getUi().rSyncEverything->setVisible(false);
+        getUi().rSelectiveSync->setVisible(false);
+        getUi().bSelectiveSync->setVisible(false);
+        getUi().lSelectiveSyncSizeLabel->setVisible(false);
+    }
 
     //Choose what to sync layout
     getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_10);
