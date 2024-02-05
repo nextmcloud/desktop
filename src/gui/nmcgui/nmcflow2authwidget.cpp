@@ -19,8 +19,6 @@
 #include "QDesktopServices"
 #include "QtGui/qpainter.h"
 #include "theme.h"
-#include "QString"
-#include <MacTypes.h>
 
 namespace OCC {
 
