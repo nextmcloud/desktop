@@ -35,6 +35,7 @@ public:
 
 protected:
     void drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const override;
+    void paintEvent(QPaintEvent *event) override;
 };
 
 } // namespace OCC
