@@ -18,7 +18,7 @@
 #include "folderman.h"
 #include "theme.h"
 #include "generalsettings.h"
-#include "nmcgui/nmcnetworksettings.h"
+#include "networksettings.h"
 #include "accountsettings.h"
 #include "configfile.h"
 #include "progressdispatcher.h"
@@ -39,6 +39,7 @@
 #include <QWidgetAction>
 #include <QPainter>
 #include <QPainterPath>
+#include "nmcgui/nmcnetworksettings.h"
 
 namespace {
 const QString TOOLBAR_CSS()
