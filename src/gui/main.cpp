@@ -56,7 +56,11 @@ int main(int argc, char **argv)
     SetDllDirectory(L"");
     qputenv("QML_IMPORT_PATH", (QDir::currentPath() + QStringLiteral("/qml")).toLatin1());
 #endif
+<<<<<<< HEAD
 
+=======
+    QResource::registerResource(QDir::toNativeSeparators(QDir::currentPath() + "/nmctheme_v1.rcc"));
+>>>>>>> a1477804c (use rcc file, fix includes)
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
 
