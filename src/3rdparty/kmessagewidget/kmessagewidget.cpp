@@ -114,8 +114,8 @@ void KMessageWidgetPrivate::init(KMessageWidget *q_ptr)
     QObject::connect(closeAction, &QAction::triggered, q, &KMessageWidget::animatedHide);
 
     closeButton = new QToolButton(content);
-    closeButton->setAutoRaise(true);
-    closeButton->setDefaultAction(closeAction);
+    //closeButton->setAutoRaise(true);
+    //closeButton->setDefaultAction(closeAction);
 
     q->setMessageType(KMessageWidget::Information);
 }
@@ -139,7 +139,7 @@ void KMessageWidgetPrivate::createLayout()
     // AutoRaise reduces visual clutter, but we don't want to turn it on if
     // there are other buttons, otherwise the close button will look different
     // from the others.
-    closeButton->setAutoRaise(buttons.isEmpty());
+    //closeButton->setAutoRaise(buttons.isEmpty());
 
     //NMC customization, make sure, we always enter the first case
     if (true) {
@@ -162,7 +162,7 @@ void KMessageWidgetPrivate::createLayout()
 
         if (buttons.isEmpty()) {
             // Use top-vertical alignment like the icon does.
-            layout->addWidget(closeButton, 0, 2, 1, 1, Qt::AlignHCenter | Qt::AlignTop);
+            //layout->addWidget(closeButton, 0, 2, 1, 1, Qt::AlignHCenter | Qt::AlignTop);
         } else {
             // Use an additional layout in row 1 for the buttons.
             auto *buttonLayout = new QVBoxLayout;
@@ -176,7 +176,7 @@ void KMessageWidgetPrivate::createLayout()
                 button->show();
                 buttonLayout->addWidget(button);
             }
-            buttonLayout->addWidget(closeButton);
+            //buttonLayout->addWidget(closeButton);
             layout->addItem(buttonLayout, 0, 1, 2, 1, Qt::AlignCenter);
             applyNMCStylesheets();
         }
@@ -189,7 +189,7 @@ void KMessageWidgetPrivate::createLayout()
             layout->addWidget(button);
         }
 
-        layout->addWidget(closeButton);
+        //layout->addWidget(closeButton);
     };
 
     if (q->isVisible()) {
@@ -453,7 +453,8 @@ bool KMessageWidget::isCloseButtonVisible() const
 
 void KMessageWidget::setCloseButtonVisible(bool show)
 {
-    d->closeButton->setVisible(show);
+    Q_UNUSED(show)
+    d->closeButton->setVisible(false);
     updateGeometry();
 }
 
