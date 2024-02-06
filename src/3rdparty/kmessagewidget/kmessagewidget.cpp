@@ -225,7 +225,6 @@ void KMessageWidgetPrivate::applyStyleSheet()
     const QPalette palette = QGuiApplication::palette();
     const QColor windowColor = palette.window().color();
     const QColor textColor = palette.text().color();
-    const QColor border = bgBaseColor;
 
     // Generate a final background color from overlaying bgBaseColor over windowColor
     const int newRed = qRound(bgBaseColor.red() * bgBaseColorAlpha) + qRound(windowColor.red() * (1 - bgBaseColorAlpha));
