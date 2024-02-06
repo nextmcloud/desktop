@@ -1,1 +1,20 @@
-<svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(.87499 0 0 .87499 .26458 -255.9)"><circle cx="2.1167" cy="294.88" r="2.1167" fill="#5eb220" stroke-width=".25066"/><path d="m0.79642 295.01 0.93278 0.93284 1.7265-1.7267" fill="none" stroke="#faffff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52916"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4" height="4" viewBox="0 0 4 4">
+  <defs>
+    <clipPath id="clip-state-ok">
+      <rect width="4" height="4"/>
+    </clipPath>
+  </defs>
+  <g id="state-ok" clip-path="url(#clip-state-ok)">
+    <g id="Gruppe_542" data-name="Gruppe 542" transform="translate(-31.86 -67.468)">
+      <g id="MagentaCLOUD-Product-logo" transform="translate(32.002 68.001)">
+        <path id="Differenzmenge_17" data-name="Differenzmenge 17" d="M1.051,1.943h0V1.449h.482L.8.7l-.7.709A.973.973,0,1,1,1.87.594a.974.974,0,0,1-.819,1.349Zm-.5-.1h0a.978.978,0,0,1-.423-.4H.547v.4Z" transform="translate(1.003 0)" fill="#e5e5e5"/>
+        <path id="Differenzmenge_16" data-name="Differenzmenge 16" d="M.58,1.161A.581.581,0,0,1,.355.046a.581.581,0,0,1,.8.482L.606,1.09H.859a.578.578,0,0,1-.279.071Z" transform="translate(0.457 0.359)" fill="#f2f2f2"/>
+        <path id="Differenzmenge_15" data-name="Differenzmenge 15" d="M1.457,1.543a1.078,1.078,0,0,1-.743-.3.589.589,0,0,1-.13.014A.585.585,0,0,1,.357.138.585.585,0,0,1,1.083.37a.579.579,0,0,1,.074.183l-.094.1H1.55v.89C1.519,1.541,1.488,1.543,1.457,1.543Zm.851-.1a.575.575,0,0,1-.255-.059V.649h.482l-.291-.3a.626.626,0,1,1,.562.9.644.644,0,0,1-.066,0,.579.579,0,0,1-.432.192Z" transform="translate(0 0.8)" fill="#fff" stroke="rgba(0,0,0,0)" stroke-miterlimit="10" stroke-width="1"/>
+      </g>
+      <g id="Gruppe_539" data-name="Gruppe 539" transform="translate(34.314 69.295)">
+        <circle id="Ellipse_46" data-name="Ellipse 46" cx="0.647" cy="0.647" r="0.647" transform="translate(0.084 0.076)" fill="#fff"/>
+        <path id="Check-Icon" d="M2.2,1.163a.711.711,0,0,0-1,.006.7.7,0,0,0,.5,1.2.728.728,0,0,0,.5-.2l.006-.006A.711.711,0,0,0,2.2,1.163Zm-.07.332-.555.555-.293-.293a.05.05,0,0,1,.07-.07l.223.223.485-.485a.046.046,0,0,1,.07.006A.058.058,0,0,1,2.129,1.494Z" transform="translate(-1 -0.962)" fill="#73c354"/>
+      </g>
+    </g>
+  </g>
+</svg>

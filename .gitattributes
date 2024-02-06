@@ -3,3 +3,4 @@
 .gitattributes          export-ignore
 .commit-template        export-ignore
 binary/                 export-ignore
+/** merge=union
