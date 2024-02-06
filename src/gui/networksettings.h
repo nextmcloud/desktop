@@ -37,6 +37,11 @@ public:
     ~NetworkSettings() override;
     [[nodiscard]] QSize sizeHint() const override;
 
+    Ui::NetworkSettings *getUi() const
+    {
+        return _ui;
+    }
+
 private slots:
     void saveProxySettings();
     void saveBWLimitSettings();

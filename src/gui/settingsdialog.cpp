@@ -40,6 +40,7 @@
 #include <QWidgetAction>
 #include <QPainter>
 #include <QPainterPath>
+#include "nmcgui/nmcnetworksettings.h"
 
 namespace {
 const QString TOOLBAR_CSS()
@@ -137,7 +138,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
-    auto *networkSettings = new NetworkSettings;
+    auto *networkSettings = new NMCNetworkSettings;
     _ui->stack->addWidget(networkSettings);
 
     connect(_ui->stack, &QStackedWidget::currentChanged, this, &SettingsDialog::currentPageChanged);
