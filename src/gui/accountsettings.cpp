@@ -329,6 +329,8 @@ QString AccountSettings::selectedFolderAlias() const
     return _model->data(selected, FolderStatusDelegate::FolderAliasRole).toString();
 }
 
+
+
 void AccountSettings::slotToggleSignInState()
 {
     if (_accountState->isSignedOut()) {
@@ -1112,7 +1114,7 @@ void AccountSettings::showConnectionLabel(const QString &message, QStringList er
         _ui->connectLabel->setToolTip({});
         _ui->connectLabel->setStyleSheet(errStyle);
     }
-    _ui->accountStatus->setVisible(!message.isEmpty());
+    //_ui->accountStatus->setVisible(!message.isEmpty()); //NMC Customization
 }
 
 void AccountSettings::slotEnableCurrentFolder(bool terminate)
