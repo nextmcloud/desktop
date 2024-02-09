@@ -2,6 +2,9 @@ project(gui)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Svg Qml Quick QuickControls2 Xml Network)
 find_package(KF5Archive REQUIRED)
 
+#NMC change, its needed to find the ui file in different location as the header file
+set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
+
 if(QUICK_COMPILER)
         find_package(Qt5QuickCompiler)
         set_package_properties(Qt5QuickCompiler PROPERTIES
@@ -191,6 +194,21 @@ set(client_SRCS
     syncconflictsmodel.cpp
     fileactivitylistmodel.h
     fileactivitylistmodel.cpp
+    nmcgui/nmcaccountsettings.h
+    nmcgui/nmcaccountsettings.cpp
+    nmcgui/nmcfolderwizard.h
+    nmcgui/nmcfolderwizard.cpp
+    nmcgui/nmcfolderwizardsourcepage.h
+    nmcgui/nmcfolderwizardsourcepage.cpp
+    nmcgui/nmcfolderwizardtargetpage.h
+    nmcgui/nmcfolderwizardtargetpage.cpp
+    nmcgui/nmcgeneralsettings.h
+    nmcgui/nmcgeneralsettings.cpp
+    nmcgui/nmcguiinterface.h
+    nmcgui/nmcnetworksettings.h
+    nmcgui/nmcnetworksettings.cpp
+    nmcgui/nmcsettingsdialog.h
+    nmcgui/nmcsettingsdialog.cpp
     filedetails/datefieldbackend.h
     filedetails/datefieldbackend.cpp
     filedetails/filedetails.h

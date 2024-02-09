@@ -55,6 +55,8 @@ set(libsync_SRCS
     accessmanager.cpp
     configfile.h
     configfile.cpp
+    nmcconfigfile.h
+    nmcconfigfile.cpp
     abstractnetworkjob.h
     abstractnetworkjob.cpp
     networkjobs.h
