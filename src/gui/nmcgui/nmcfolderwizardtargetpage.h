@@ -18,8 +18,11 @@
 #include "ui_folderwizardtargetpage.h"
 
 /**
- * @brief The NMCFolderWizardTargetPage class
+ * @brief The NMCFolderWizardTargetPage class represents a target page for the NMCFolderWizard.
  * @ingroup gui
+ *
+ * The NMCFolderWizardTargetPage class is derived from the Ui::FolderWizardTargetPage class and provides
+ * additional functionality specific to the NMCFolderWizard in the NMC application (replace with the actual application name).
  */
 
 namespace OCC {
@@ -28,15 +31,26 @@ class NMCFolderWizardTargetPage : public ::Ui::FolderWizardTargetPage
 {
 
 public:
+    /**
+     * @brief Constructs an instance of NMCFolderWizardTargetPage.
+     */
     explicit NMCFolderWizardTargetPage();
+
+    /**
+     * @brief Destroys the NMCFolderWizardTargetPage instance.
+     */
     ~NMCFolderWizardTargetPage() = default;
 
-    // NMCGuiInterface interface
+    /**
+     * @brief Sets default settings for the NMCFolderWizardTargetPage.
+     */
     void setDefaultSettings();
-    void setLayout();
-    void setLogic();
-};
 
+    /**
+     * @brief Sets the layout for the NMCFolderWizardTargetPage.
+     */
+    void setLayout();
+};
 
 } // namespace OCC
 

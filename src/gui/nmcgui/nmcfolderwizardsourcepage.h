@@ -18,8 +18,11 @@
 #include "ui_folderwizardsourcepage.h"
 
 /**
- * @brief The NMCFolderWizardSourcePage class
+ * @brief The NMCFolderWizardSourcePage class represents a source page for the NMCFolderWizard.
  * @ingroup gui
+ *
+ * The NMCFolderWizardSourcePage class is derived from the Ui::FolderWizardSourcePage class and provides
+ * additional functionality specific to the NMCFolderWizard in the NMC application (replace with the actual application name).
  */
 
 namespace OCC {
@@ -28,14 +31,26 @@ class NMCFolderWizardSourcePage : public ::Ui::FolderWizardSourcePage
 {
 
 public:
+    /**
+     * @brief Constructs an instance of NMCFolderWizardSourcePage.
+     */
     explicit NMCFolderWizardSourcePage();
+
+    /**
+     * @brief Destroys the NMCFolderWizardSourcePage instance.
+     */
     ~NMCFolderWizardSourcePage() = default;
 
-public:
+    /**
+     * @brief Sets default settings for the NMCFolderWizardSourcePage.
+     */
     void setDefaultSettings();
+
+    /**
+     * @brief Changes the layout of the NMCFolderWizardSourcePage.
+     */
     void changeLayout();
 };
-
 
 } // namespace OCC
 

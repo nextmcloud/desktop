@@ -24,12 +24,13 @@
 
 #include "nmcgui/nmcfolderwizardsourcepage.h"
 #include "nmcgui/nmcfolderwizardtargetpage.h"
+#include "nmcgui/nmcselectivesyncdialog.h"
 
 class QCheckBox;
 
 namespace OCC {
 
-class SelectiveSyncWidget;
+class NMCSelectiveSyncWidget;
 
 class ownCloudInfo;
 
@@ -155,7 +156,7 @@ private slots:
     void virtualFilesCheckboxClicked();
 
 private:
-    SelectiveSyncWidget *_selectiveSync;
+    NMCSelectiveSyncWidget *_selectiveSync;
     QCheckBox *_virtualFilesCheckBox = nullptr;
 };
 

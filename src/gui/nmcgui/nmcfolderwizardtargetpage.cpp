@@ -24,7 +24,6 @@ NMCFolderWizardTargetPage::NMCFolderWizardTargetPage()
 
 void NMCFolderWizardTargetPage::setDefaultSettings()
 {
-    //folderEntry->setVisible(false);
     warnFrame->setVisible(false);
     groupBox->setVisible(false);
 }
@@ -39,14 +38,11 @@ void NMCFolderWizardTargetPage::setLayout()
     gridLayout_6->addWidget(icon, 0, 0);
 
     QLabel *stepLabel = new QLabel();
-    stepLabel->setText(QObject::tr("ADD_LIVE_BACKUP_HEADLINE_2"));
+    stepLabel->setText(QObject::tr("ADD_LIVE_BACKUP_HEADLINE"));
     stepLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     stepLabel->setStyleSheet("QLabel{color: black; font-size: 13px; font-weight: bold;}");
 
     gridLayout_6->addWidget(stepLabel, 0, 1, Qt::AlignTop | Qt::AlignLeft);
-
-
-
 
     QGridLayout *hLayout = new QGridLayout();
 
@@ -78,19 +74,8 @@ void NMCFolderWizardTargetPage::setLayout()
     hLayout->addWidget(folderEntry, 4, 0, 1, 3);
 
     gridLayout_6->addWidget(hLayoutWidget, 4, 0, 1, 3);
-
-    //this->gridLayout_6->removeWidget(warnFrame);
     gridLayout_6->addWidget(warnFrame, 5, 0, 1, 3 );
     warnFrame->setStyleSheet("border: 0px; border-radius: 4px; background-color: #fee2d0");
-    //warnLabel->setVisible(false);
-
-    //connect(warnFrame, &QFrame::v)
-
 }
-
-void NMCFolderWizardTargetPage::setLogic()
-{
-}
-
 
 } // end namespace
