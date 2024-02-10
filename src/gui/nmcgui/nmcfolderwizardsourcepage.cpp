@@ -38,7 +38,7 @@ void NMCFolderWizardSourcePage::changeLayout()
     gridLayout_2->addWidget(icon, 0, 0);
 
     QLabel *stepLabel = new QLabel();
-    stepLabel->setText(QObject::tr("ADD_LIVE_BACKUP_HEADLINE_1"));
+    stepLabel->setText(QObject::tr("ADD_LIVE_BACKUP_HEADLINE"));
     stepLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     stepLabel->setStyleSheet("QLabel{color: black; font-size: 13px; font-weight: bold;}");
 
