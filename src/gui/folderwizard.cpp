@@ -565,7 +565,7 @@ void FolderWizardRemotePath::changeStyle()
 FolderWizardSelectiveSync::FolderWizardSelectiveSync(const AccountPtr &account)
 {
     auto *layout = new QVBoxLayout(this);
-    _selectiveSync = new SelectiveSyncWidget(account, this);
+    _selectiveSync = new NMCSelectiveSyncWidget(account, this);
     layout->addWidget(_selectiveSync);
 
     if (Theme::instance()->showVirtualFilesOption() && bestAvailableVfsMode() != Vfs::Off) {
@@ -669,7 +669,7 @@ void FolderWizardSelectiveSync::virtualFilesCheckboxClicked()
 FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
     : QWizard(parent)
     , _folderWizardSourcePage(new FolderWizardLocalPath(account))
-    //, _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
+    , _folderWizardSelectiveSyncPage(new FolderWizardSelectiveSync(account))
 {
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setPage(Page_Source, _folderWizardSourcePage);
@@ -679,7 +679,11 @@ FolderWizard::FolderWizard(AccountPtr account, QWidget *parent)
         setPage(Page_Target, _folderWizardTargetPage);
         _folderWizardTargetPage->installEventFilter(this);
     }
-    setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
+
+    if(Utility::isMac())
+    {
+        setPage(Page_SelectiveSync, _folderWizardSelectiveSyncPage);
+    }
 
     setWindowTitle(tr("Add Folder Sync Connection"));
     setOptions(QWizard::CancelButtonOnLeft);
