@@ -23,9 +23,7 @@ NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
     :FolderWizard(account, parent)
 {
     setWizardStyle(QWizard::ClassicStyle);
-    setOption(QWizard::NoBackButtonOnStartPage);
-    setOption(QWizard::NoBackButtonOnLastPage);
-    setButtonText(QWizard::FinishButton, tr("Finish"));
+    setButtonText(QWizard::FinishButton, tr("ADD_SYNCHRONIZATION"));
 
     //Source page
     auto sourceUi = _folderWizardSourcePage->getUi();
