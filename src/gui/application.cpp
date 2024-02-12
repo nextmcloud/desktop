@@ -993,12 +993,27 @@ void Application::setupTranslations()
                 installTranslator(qtTranslator);
             if (!qtkeychainTranslator->isEmpty())
                 installTranslator(qtkeychainTranslator);
+
+            //Make sure, the current language is the last one, because we want to have our languge files to be the last ones
+            if(lang.startsWith(QLatin1String("de")))
+            {
+                if(!translator->load(QLatin1String("client_magenta_de"), trPath)){
+                    qCritical(lcApplication) << "Could not find magenta language file";
+                }
+            }
+            else if(lang.startsWith(QLatin1String("en")))
+            {
+                if(!translator->load(QLatin1String("client_magenta_en"), trPath)){
+                    qCritical(lcApplication) << "Could not find magenta language file";
+                }
+            }
             break;
         } else {
             qCWarning(lcApplication()) << "translation catalog failed to load";
             const auto folderContent = trFolder.entryList();
             qCDebug(lcApplication()) << "folder content" << folderContent.join(QStringLiteral(", "));
         }
+
         if (property("ui_lang").isNull()) {
             setProperty("ui_lang", "C");
         }
