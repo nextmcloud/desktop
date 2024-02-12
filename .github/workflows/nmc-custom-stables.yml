@@ -22,10 +22,11 @@ on:
         type: choice
         description: Custom build from base branch
         options: 
-          - stable-4.9.7
-          - 4.9.6
-          - 4.9.5
-        default: stable-4.9.7
+          - stable-3.12
+          - stable-3.11
+          - stable-3.10
+          - v3.8.2
+        default: stable-3.12
 
 jobs:
   backport-custom:
