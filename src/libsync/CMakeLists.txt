@@ -149,9 +149,11 @@ set(libsync_SRCS
     creds/keychainchunk.cpp
     caseclashconflictsolver.h
     caseclashconflictsolver.cpp
-    nmclibsync/nmcconfigfile.h
-    nmclibsync/nmcconfigfile.cpp
 )
+
+file(GLOB NMC_FILES "nmclibsync/*")
+set(NMC_SRCS ${NMC_FILES})
+list(APPEND libsync_SRCS ${NMC_SRCS})
 
 if (WIN32)
     # to fix warnings from ntstatus.h
