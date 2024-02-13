@@ -14,22 +14,19 @@
 
 #include "nmcconfigfile.h"
 
-namespace{
-    static constexpr char TransferUsageDataC[] = "TransferUsageData";
-}
-
 namespace OCC {
 
 bool NMCConfigFile::transferUsageData(const QString &connection) const
 {
     QString con(connection);
     if (connection.isEmpty())
+    {
         con = defaultConnection();
+    }
+    QVariant fallback = getValue(m_transferUsageData, con, false);
+    fallback = getValue(m_transferUsageData, QString(), fallback);
 
-    QVariant fallback = getValue(QLatin1String(TransferUsageDataC), con, false);
-    fallback = getValue(QLatin1String(TransferUsageDataC), QString(), fallback);
-
-    QVariant value = getPolicySetting(QLatin1String(TransferUsageDataC), fallback);
+    QVariant value = getPolicySetting(m_transferUsageData, fallback);
     return value.toBool();
 }
 
@@ -37,12 +34,13 @@ void NMCConfigFile::setTransferUsageData(bool usageData, const QString &connecti
 {
     QString con(connection);
     if (connection.isEmpty())
+    {
         con = defaultConnection();
-
+    }
     QSettings settings(configFile(), QSettings::IniFormat);
     settings.beginGroup(con);
 
-    settings.setValue(QLatin1String(TransferUsageDataC), QVariant(usageData));
+    settings.setValue(m_transferUsageData, QVariant(usageData));
     settings.sync();
 }
 
