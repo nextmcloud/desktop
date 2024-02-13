@@ -23,9 +23,8 @@ namespace OCC {
  * @brief The NMCConfigFile class
  * @ingroup lib
  */
-class NMCConfigFile : public ConfigFile
+class OWNCLOUDSYNC_EXPORT NMCConfigFile : public ConfigFile
 {
-
 public:
     explicit NMCConfigFile() = default;
     ~NMCConfigFile() = default;
@@ -33,6 +32,9 @@ public:
     // MagentaCustomization
     [[nodiscard]] bool transferUsageData(const QString &connection = QString()) const;
     void setTransferUsageData(bool usageData, const QString &connection);
+
+private:
+    QString m_transferUsageData = "TransferUsageData";
 };
 
 
