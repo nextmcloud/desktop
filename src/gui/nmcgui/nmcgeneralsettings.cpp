@@ -25,7 +25,7 @@ NMCGeneralSettings::NMCGeneralSettings(QWidget *parent)
     : GeneralSettings(parent)
 {
     setDefaultSettings();
-    setLayout();
+    setNMCLayout();
 }
 
 void NMCGeneralSettings::setDefaultSettings()
@@ -50,7 +50,7 @@ void NMCGeneralSettings::setDefaultSettings()
     getUi()->aboutAndUpdatesGroupBox->setVisible(false);
 }
 
-void NMCGeneralSettings::setLayout()
+void NMCGeneralSettings::setNMCLayout()
 {
     //General settings
     auto generalSettingsLabel = new QLabel(tr("GENERAL_SETTINGS"));

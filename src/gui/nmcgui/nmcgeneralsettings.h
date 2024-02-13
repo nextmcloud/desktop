@@ -59,7 +59,7 @@ protected:
      *
      * Sets the layout for the Magenta-specific general settings user interface.
      */
-    void setLayout();
+    void setNMCLayout();
 };
 
 } // namespace OCC
