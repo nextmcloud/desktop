@@ -12,6 +12,8 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  */
+
+
 #include <QtGlobal>
 
 #include <cmath>
@@ -37,6 +39,7 @@
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QSurfaceFormat>
+
 
 using namespace OCC;
 
@@ -75,7 +78,7 @@ int main(int argc, char **argv)
 
 
 
-    //QCoreApplication coreApp(argc, argv);
+
 
     // Get the path to the executable and extract the directory
     //QString executablePath = QCoreApplication::applicationFilePath();
@@ -101,21 +104,18 @@ int main(int argc, char **argv)
 
 
 
+
+
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
+
+
+
 
 
     OCC::Application app(argc, argv);
 
 
-    qCInfo(lcApplication) << "!!! currentPath: " + currentPath;
-    //qCInfo(lcApplication) << "!!! executablePath: " + executablePath;
-    qCInfo(lcApplication) << "!!! bundlePath: " + bundlePath;
-    qCInfo(lcApplication) << "!!! rccFilePath: " + rccFilePath;
-    QString string3 = loaded ? "true" : "false";
-    qCInfo(lcApplication) << "!!! loaded: " + string3;
-    QString string4 = loaded2 ? "true" : "false";
-    qCInfo(lcApplication) << "!!! loaded2: " + string4;
 
 
 
