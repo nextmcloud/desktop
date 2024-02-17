@@ -80,27 +80,7 @@ int main(int argc, char **argv)
 
 
 
-    // Get the path to the executable and extract the directory
-    //QString executablePath = QCoreApplication::applicationFilePath();
-    QString bundlePath = QCoreApplication::applicationDirPath();
 
-    auto dir = QDir(bundlePath);
-    dir.cdUp();
-
-           // Construct the path to the RCC file within the app bundle
-    QString rccFilePath = dir.absolutePath() + "/Resources/nmctheme_v1.rcc";
-    bool loaded = QResource::registerResource(rccFilePath);
-    QString currentPath = QDir::currentPath();
-    bool loaded2 = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
-
-    qCInfo(lcApplication) << "!!! currentPath: " + currentPath;
-    //qCInfo(lcApplication) << "!!! executablePath: " + executablePath;
-    qCInfo(lcApplication) << "!!! bundlePath: " + bundlePath;
-    qCInfo(lcApplication) << "!!! rccFilePath: " + rccFilePath;
-    QString string = loaded ? "true" : "false";
-    qCInfo(lcApplication) << "!!! loaded: " + string;
-    QString string2 = loaded2 ? "true" : "false";
-    qCInfo(lcApplication) << "!!! loaded2: " + string2;
 
 
 
@@ -238,6 +218,28 @@ int main(int argc, char **argv)
         }
     }
 
+
+    // Get the path to the executable and extract the directory
+    //QString executablePath = QCoreApplication::applicationFilePath();
+    QString bundlePath = QCoreApplication::applicationDirPath();
+
+    auto dir = QDir(bundlePath);
+    dir.cdUp();
+
+           // Construct the path to the RCC file within the app bundle
+    QString rccFilePath = dir.absolutePath() + "/Resources/nmctheme_v1.rcc";
+    bool loaded = QResource::registerResource(rccFilePath);
+    QString currentPath = QDir::currentPath();
+    bool loaded2 = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
+
+    qCInfo(lcApplication) << "!!! currentPath: " + currentPath;
+    //qCInfo(lcApplication) << "!!! executablePath: " + executablePath;
+    qCInfo(lcApplication) << "!!! bundlePath: " + bundlePath;
+    qCInfo(lcApplication) << "!!! rccFilePath: " + rccFilePath;
+    QString string = loaded ? "true" : "false";
+    qCInfo(lcApplication) << "!!! loaded: " + string;
+    QString string2 = loaded2 ? "true" : "false";
+    qCInfo(lcApplication) << "!!! loaded2: " + string2;
 
 
     return app.exec();
