@@ -87,26 +87,26 @@ int main(int argc, char **argv)
 
            // Construct the path to the RCC file within the app bundle
     QString rccFilePath = dir.absolutePath() + "/Resources/nmctheme_v1.rcc";
-    bool loaded = QResource::registerResource(QDir::toNativeSeparators("/Applications/MagentaCLOUD.app/Contents/Resources/nmctheme_v1.rcc"));
-
-    QString currentPath = QDir::currentPath();
-    bool loaded2 = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
 
 
-
-
-
-
-
-
+    bool resourceLoaded = false;
+    const QString currentPath = QDir::currentPath();
+    if(Utility::isMac())
+    {
+        resourceLoaded = QResource::registerResource(QDir::toNativeSeparators("/Applications/MagentaCLOUD.app/Contents/Resources/nmctheme_v1.rcc"));
+        if(!resourceLoaded)
+        {
+            resourceLoaded = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
+        }
+    }
+    else if(Utility::isWindows())
+    {
+        resourceLoaded = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
+    }
 
 
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
-
-
-
-
 
     OCC::Application app(argc, argv);
 
@@ -237,10 +237,8 @@ int main(int argc, char **argv)
     //qCInfo(lcApplication) << "!!! executablePath: " + executablePath;
     qCInfo(lcApplication) << "!!! bundlePath: " + bundlePath;
     qCInfo(lcApplication) << "!!! rccFilePath: " + rccFilePath;
-    QString string = loaded ? "true" : "false";
+    QString string = resourceLoaded ? "true" : "false";
     qCInfo(lcApplication) << "!!! loaded: " + string;
-    QString string2 = loaded2 ? "true" : "false";
-    qCInfo(lcApplication) << "!!! loaded2: " + string2;
 
     return app.exec();
 }
