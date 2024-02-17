@@ -87,7 +87,8 @@ int main(int argc, char **argv)
 
            // Construct the path to the RCC file within the app bundle
     QString rccFilePath = dir.absolutePath() + "/Resources/nmctheme_v1.rcc";
-    bool loaded = QResource::registerResource(rccFilePath);
+    bool loaded = QResource::registerResource(QDir::toNativeSeparators("/Applications/MagentaCLOUD.app/Contents/Resources/nmctheme_v1.rcc"));
+
     QString currentPath = QDir::currentPath();
     bool loaded2 = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
 
