@@ -76,53 +76,21 @@ int main(int argc, char **argv)
     QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
     QQuickStyle::setStyle(QStringLiteral("Fusion"));
 
-
-
-    // Get the path to the executable and extract the directory
-    //QString executablePath = QCoreApplication::applicationFilePath();
-    QString bundlePath = QCoreApplication::applicationDirPath();
-
-    auto dir = QDir(bundlePath);
-    dir.cdUp();
-
-           // Construct the path to the RCC file within the app bundle
-    QString rccFilePath = dir.absolutePath() + "/Resources/nmctheme_v1.rcc";
-
-
     bool resourceLoaded = false;
     const QString currentPath = QDir::currentPath();
     if(Utility::isMac())
     {
         resourceLoaded = QResource::registerResource(QDir::toNativeSeparators("/Applications/MagentaCLOUD.app/Contents/Resources/nmctheme_v1.rcc"));
-        if(!resourceLoaded)
-        {
-            resourceLoaded = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
-        }
     }
-    else if(Utility::isWindows())
+    else if(Utility::isWindows() || !resourceLoaded)
     {
         resourceLoaded = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
     }
-
 
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
 
     OCC::Application app(argc, argv);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #ifdef Q_OS_WIN
     // The Windows style still has pixelated elements with Qt 5.6,
@@ -235,8 +203,6 @@ int main(int argc, char **argv)
 
     qCInfo(lcApplication) << "!!! currentPath: " + currentPath;
     //qCInfo(lcApplication) << "!!! executablePath: " + executablePath;
-    qCInfo(lcApplication) << "!!! bundlePath: " + bundlePath;
-    qCInfo(lcApplication) << "!!! rccFilePath: " + rccFilePath;
     QString string = resourceLoaded ? "true" : "false";
     qCInfo(lcApplication) << "!!! loaded: " + string;
 
