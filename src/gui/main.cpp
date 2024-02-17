@@ -58,10 +58,21 @@ int main(int argc, char **argv)
 #ifdef Q_OS_WIN
     SetDllDirectory(L"");
 #endif
-    QResource::registerResource(QDir::toNativeSeparators(QDir::currentPath() + "/nmctheme_v1.rcc"));
+    // Get the path to the executable and extract the directory
+    QString executablePath = QCoreApplication::applicationFilePath();
+    QString bundlePath = QFileInfo(executablePath).dir().absolutePath();
+
+    auto dir = QDir(bundlePath);
+    dir.cdUp();
+
+    // Construct the path to the RCC file within the app bundle
+    QString rccFilePath = dir.absolutePath() + "/Resources/nmctheme_v1.rcc";
+
+    bool loaded = QResource::registerResource(rccFilePath);
+
+    bool loaded2 = QResource::registerResource(QDir::toNativeSeparators(QDir::currentPath() + "/nmctheme_v1.rcc"));
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
-
     // OpenSSL 1.1.0: No explicit initialisation or de-initialisation is necessary.
 
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
@@ -187,6 +198,14 @@ int main(int argc, char **argv)
             }
         }
     }
+
+    qCInfo(lcApplication) << "!!! executablePath: " + executablePath;
+    qCInfo(lcApplication) << "!!! bundlePath: " + bundlePath;
+    qCInfo(lcApplication) << "!!! rccFilePath: " + rccFilePath;
+    QString string = loaded ? "true" : "false";
+    qCInfo(lcApplication) << "!!! loaded: " + string;
+    QString string2 = loaded2 ? "true" : "false";
+    qCInfo(lcApplication) << "!!! loaded2: " + string2;
 
     return app.exec();
 }
