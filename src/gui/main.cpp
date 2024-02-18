@@ -18,36 +18,38 @@
 #include <csignal>
 
 #ifdef Q_OS_UNIX
-#include <sys/time.h>
 #include <sys/resource.h>
+#include <sys/time.h>
 #endif
 
 #include "application.h"
 #include "cocoainitializer.h"
-#include "theme.h"
 #include "common/utility.h"
+#include "theme.h"
 
 #if defined(BUILD_UPDATER)
 #include "updater/updater.h"
 #endif
 
-#include <QTimer>
-#include <QMessageBox>
 #include <QDebug>
+#include <QMessageBox>
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QSurfaceFormat>
+#include <QTimer>
 
 using namespace OCC;
 
 void warnSystray()
 {
-    QMessageBox::critical(nullptr, qApp->translate("main.cpp", "System Tray not available"),
-        qApp->translate("main.cpp", "%1 requires on a working system tray. "
-                                    "If you are running XFCE, please follow "
-                                    "<a href=\"http://docs.xfce.org/xfce/xfce4-panel/systray\">these instructions</a>. "
-                                    "Otherwise, please install a system tray application such as \"trayer\" and try again.")
-            .arg(Theme::instance()->appNameGUI()));
+    QMessageBox::critical(nullptr,
+                          qApp->translate("main.cpp", "System Tray not available"),
+                          qApp->translate("main.cpp",
+                                          "%1 requires on a working system tray. "
+                                          "If you are running XFCE, please follow "
+                                          "<a href=\"http://docs.xfce.org/xfce/xfce4-panel/systray\">these instructions</a>. "
+                                          "Otherwise, please install a system tray application such as \"trayer\" and try again.")
+                              .arg(Theme::instance()->appNameGUI()));
 }
 
 int main(int argc, char **argv)
@@ -56,11 +58,7 @@ int main(int argc, char **argv)
     SetDllDirectory(L"");
     qputenv("QML_IMPORT_PATH", (QDir::currentPath() + QStringLiteral("/qml")).toLatin1());
 #endif
-<<<<<<< HEAD
 
-=======
-    QResource::registerResource(QDir::toNativeSeparators(QDir::currentPath() + "/nmctheme_v1.rcc"));
->>>>>>> a1477804c (use rcc file, fix includes)
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
 
@@ -103,7 +101,8 @@ int main(int argc, char **argv)
 // check a environment variable for core dumps
 #ifdef Q_OS_UNIX
     if (!qEnvironmentVariableIsEmpty("OWNCLOUD_CORE_DUMP")) {
-        struct rlimit core_limit{};
+        struct rlimit core_limit {
+        };
         core_limit.rlim_cur = RLIM_INFINITY;
         core_limit.rlim_max = RLIM_INFINITY;
 
@@ -147,8 +146,7 @@ int main(int argc, char **argv)
 
     // We can't call isSystemTrayAvailable with appmenu-qt5 begause it hides the systemtray
     // (issue #4693)
-    if (qgetenv("QT_QPA_PLATFORMTHEME") != "appmenu-qt5")
-    {
+    if (qgetenv("QT_QPA_PLATFORMTHEME") != "appmenu-qt5") {
         if (!QSystemTrayIcon::isSystemTrayAvailable()) {
             // If the systemtray is not there, we will wait one second for it to maybe start
             // (eg boot time) then we show the settings dialog if there is still no systemtray.
