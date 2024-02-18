@@ -68,14 +68,6 @@ int main(int argc, char **argv)
 #ifdef Q_OS_MAC
     Mac::CocoaInitializer cocoaInit; // RIIA
 #endif
-
-    auto surfaceFormat = QSurfaceFormat::defaultFormat();
-    surfaceFormat.setOption(QSurfaceFormat::ResetNotification);
-    QSurfaceFormat::setDefaultFormat(surfaceFormat);
-
-    QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
-    QQuickStyle::setStyle(QStringLiteral("Fusion"));
-
     bool resourceLoaded = false;
     const QString currentPath = QDir::currentPath();
     if(Utility::isMac())
@@ -89,6 +81,13 @@ int main(int argc, char **argv)
 
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
+
+    auto surfaceFormat = QSurfaceFormat::defaultFormat();
+    surfaceFormat.setOption(QSurfaceFormat::ResetNotification);
+    QSurfaceFormat::setDefaultFormat(surfaceFormat);
+
+    QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
+    QQuickStyle::setStyle(QStringLiteral("Fusion"));
 
     OCC::Application app(argc, argv);
 
@@ -200,11 +199,6 @@ int main(int argc, char **argv)
             }
         }
     }
-
-    qCInfo(lcApplication) << "!!! currentPath: " + currentPath;
-    //qCInfo(lcApplication) << "!!! executablePath: " + executablePath;
-    QString string = resourceLoaded ? "true" : "false";
-    qCInfo(lcApplication) << "!!! loaded: " + string;
 
     return app.exec();
 }
