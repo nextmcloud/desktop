@@ -61,13 +61,6 @@ int main(int argc, char **argv)
 #ifdef Q_OS_WIN
     SetDllDirectory(L"");
 #endif
-    // OpenSSL 1.1.0: No explicit initialisation or de-initialisation is necessary.
-
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-#ifdef Q_OS_MAC
-    Mac::CocoaInitializer cocoaInit; // RIIA
-#endif
     bool resourceLoaded = false;
     const QString currentPath = QDir::currentPath();
     if(Utility::isMac())
@@ -82,6 +75,13 @@ int main(int argc, char **argv)
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
 
+    // OpenSSL 1.1.0: No explicit initialisation or de-initialisation is necessary.
+
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+#ifdef Q_OS_MAC
+    Mac::CocoaInitializer cocoaInit; // RIIA
+#endif
     auto surfaceFormat = QSurfaceFormat::defaultFormat();
     surfaceFormat.setOption(QSurfaceFormat::ResetNotification);
     QSurfaceFormat::setDefaultFormat(surfaceFormat);
