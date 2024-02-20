@@ -39,7 +39,7 @@ void NMCNetworkSettings::setLayout()
     getUi()->proxyGroupBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
 
     QGridLayout *proxyLayout = static_cast<QGridLayout *>(getUi()->proxyGroupBox->layout());
-    auto proxyLabel = new QLabel(tr("PROXY_SETTINGS"));
+    auto proxyLabel = new QLabel(QCoreApplication::translate("", "PROXY_SETTINGS"));
     proxyLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
 
     proxyLayout->addWidget(proxyLabel, 0, 0 );
@@ -66,7 +66,7 @@ void NMCNetworkSettings::setLayout()
 
     QGridLayout *downLayout = static_cast<QGridLayout *>(getUi()->downloadBox->layout());
 
-    auto downLabel = new QLabel(tr("DOWNLOAD_BANDWITH"));
+    auto downLabel = new QLabel(QCoreApplication::translate("", "DOWNLOAD_BANDWITH"));
     downLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
     downLayout->addWidget(downLabel, 0, 0 );
     downLayout->addItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed), 1, 0);
@@ -94,7 +94,7 @@ void NMCNetworkSettings::setLayout()
 
     QGridLayout *upLayout = static_cast<QGridLayout *>(getUi()->uploadBox->layout());
 
-    auto uploadLabel = new QLabel(tr("UPLOAD_BANDWITH"));
+    auto uploadLabel = new QLabel(QCoreApplication::translate("", "UPLOAD_BANDWITH"));
     uploadLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
     upLayout->addWidget(uploadLabel, 0, 0 );
     upLayout->addItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed), 1, 0);
