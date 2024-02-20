@@ -15,6 +15,7 @@
 #include "nmcadvertwidget.h"
 #include "QtCore/qdebug.h"
 #include "QtGui/qevent.h"
+#include "QtWidgets/qapplication.h"
 #include "QtWidgets/qboxlayout.h"
 #include "QGraphicsPixmapItem"
 
@@ -73,9 +74,9 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
 
     m_animationTimer.start();
     setStartButton();
-    setDetailText(tr("ADVERT_DETAIL_TEXT_1"));
-    setHeaderText(tr("ADVERT_HEADER_TEXT_1"));
-    setHeader(tr("ADVERT_HEADER_1"));
+    setDetailText(QCoreApplication::translate("", "ADVERT_DETAIL_TEXT_1"));
+    setHeaderText(QCoreApplication::translate("", "ADVERT_HEADER_TEXT_1"));
+    setHeader(QCoreApplication::translate("", "ADVERT_HEADER_1"));
     setArrows();
 }
 
@@ -96,7 +97,7 @@ void NMCAdvertWidget::initStartButton()
 {
     if(m_pushButton == nullptr)
     {
-        m_pushButton = new QPushButton(tr("START_NOW"), m_graphicsView);
+        m_pushButton = new QPushButton(QCoreApplication::translate("", "START_NOW"), m_graphicsView);
         if(m_pushButton != nullptr)
         {
             const QString styleSheet = "QPushButton {"
@@ -212,18 +213,18 @@ void NMCAdvertWidget::selectTextByID()
 
     switch (m_currentImageId) {
     case 0: {
-        setDetailText(tr("ADVERT_DETAIL_TEXT_1"));
-        setHeaderText(tr("ADVERT_HEADER_TEXT_1"));
+        setDetailText(QCoreApplication::translate("", "ADVERT_DETAIL_TEXT_1"));
+        setHeaderText(QCoreApplication::translate("", "ADVERT_HEADER_TEXT_1"));
         break;
     }
     case 1: {
-        setDetailText(tr("ADVERT_DETAIL_TEXT_2"));
-        setHeaderText(tr("ADVERT_HEADER_TEXT_2"));
+        setDetailText(QCoreApplication::translate("", "ADVERT_DETAIL_TEXT_2"));
+        setHeaderText(QCoreApplication::translate("", "ADVERT_HEADER_TEXT_2"));
         break;
     }
     case 2: {
-        setDetailText(tr("ADVERT_DETAIL_TEXT_3"));
-        setHeaderText(tr("ADVERT_HEADER_TEXT_3"));
+        setDetailText(QCoreApplication::translate("", "ADVERT_DETAIL_TEXT_3"));
+        setHeaderText(QCoreApplication::translate("", "ADVERT_HEADER_TEXT_3"));
         break;
     }
     default:
