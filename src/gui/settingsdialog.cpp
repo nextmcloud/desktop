@@ -27,6 +27,7 @@
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
 #include "accountmanager.h"
+#include "nmcgui/nmcnetworksettings.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
