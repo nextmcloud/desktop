@@ -38,7 +38,7 @@ void NMCFolderWizardSourcePage::changeLayout()
     gridLayout_2->addWidget(icon, 0, 0);
 
     QLabel *stepLabel = new QLabel();
-    stepLabel->setText(QObject::tr("ADD_LIVE_BACKUP_HEADLINE"));
+    stepLabel->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_HEADLINE"));
     stepLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     stepLabel->setStyleSheet("QLabel{color: black; font-size: 13px; font-weight: bold;}");
 
@@ -53,7 +53,7 @@ void NMCFolderWizardSourcePage::changeLayout()
     mainLayoutWidget->setLayout(whiteLayout);
 
     QLabel *textLabel = new QLabel();
-    textLabel->setText(QObject::tr("ADD_LIVE_BACKUP_PAGE1_DESCRIPTION"));
+    textLabel->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PAGE1_DESCRIPTION"));
     textLabel->setWordWrap(true);
     textLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
