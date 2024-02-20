@@ -34,7 +34,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     progressInd->setFixedSize(0,0);
 
     //Create and connect the push buttons to base slots
-    auto loginBrowserButton = new QPushButton(tr("Login"));
+    auto loginBrowserButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
     connect(loginBrowserButton, &QPushButton::clicked, this, [this](){
         slotOpenBrowser();
     });
