@@ -297,7 +297,7 @@ void AccountSettings::slotE2eEncryptionMnemonicReady()
     });
 
     _ui->encryptionMessage->setMessageType(KMessageWidget::Positive);
-    _ui->encryptionMessage->setText(tr("End-to-end encryption has been enabled for this account"));
+    _ui->encryptionMessage->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_ACTIVE"));
     //_ui->encryptionMessage->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/lock.svg")));
     _ui->encryptionMessage->show();
 }
@@ -1643,11 +1643,7 @@ void AccountSettings::initializeE2eEncryption()
 
         connect(_accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this] {
             if (!_accountState->account()->e2e()->_publicKey.isNull()) {
-                _ui->encryptionMessage->setText(tr("End-to-end encryption has been enabled on this account with another device."
-                                                   "<br>"
-                                                   "It can be enabled on this device by entering your mnemonic."
-                                                   "<br>"
-                                                   "This will enable synchronisation of existing encrypted folders."));
+                _ui->encryptionMessage->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_START"));
             }
         });
         _accountState->account()->setE2eEncryptionKeysGenerationAllowed(false);
