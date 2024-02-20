@@ -476,7 +476,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         painter->drawPixmap(iconX, iconY, btnOpt.icon.pixmap(btnOpt.iconSize));
 
         //Add text
-        const QString buttonText = tr("More");
+        const QString buttonText = QCoreApplication::translate("", "MORE");
         painter->setFont(btnOpt.font);
         int textX = iconX + btnOpt.iconSize.width() + 10;
         int textY = iconY;
