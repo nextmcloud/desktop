@@ -21,10 +21,10 @@ namespace OCC {
 
 NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
     : AccountSettings(accountState, parent)
-    , m_liveAccountButton(new CustomButton(tr("ADD_LIVE_BACKUP"), QIcon(QLatin1String(":/client/theme/NMCIcons/action-add.svg")).pixmap(24,24)))
-    , m_liveTitle(new QLabel(tr("LIVE_BACKUPS")))
-    , m_liveDescription(new QLabel(tr("LIVE_DESCRIPTION")))
-    , m_folderSync(new QLabel(tr("YOUR_FOLDER_SYNC")))
+    , m_liveAccountButton(new CustomButton(QCoreApplication::translate("", "ADD_LIVE_BACKUP"), QIcon(QLatin1String(":/client/theme/NMCIcons/action-add.svg")).pixmap(24,24)))
+    , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS")))
+    , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION")))
+    , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC")))
 {
     setDefaultSettings();
     setLayout();
@@ -95,7 +95,7 @@ void NMCAccountSettings::setLayout()
     auto *quotaVLayout = new QVBoxLayout(this);
     quotaVLayout->setSpacing(4);
     auto *quota = new QLabel(this);
-    quota->setText(tr("USED_STORAGE_%1").arg(QString::number(getUi()->quotaProgressBar->value() > 0 ? getUi()->quotaProgressBar->value() : 0)));
+    quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(getUi()->quotaProgressBar->value() > 0 ? getUi()->quotaProgressBar->value() : 0)));
 
     quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
@@ -118,7 +118,7 @@ void NMCAccountSettings::setLayout()
 
     magentaHLayout->addLayout(quotaVLayout);
 
-    auto *storageLinkButton = new QPushButton(tr("STORAGE_EXTENSION"), this);
+    auto *storageLinkButton = new QPushButton(QCoreApplication::translate("", "STORAGE_EXTENSION"), this);
     storageLinkButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     storageLinkButton->setStyleSheet("QPushButton {"
         "    height: 32px;"
