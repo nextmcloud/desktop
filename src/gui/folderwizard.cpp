@@ -509,7 +509,7 @@ bool FolderWizardRemotePath::isComplete() const
             //warnStrings.append(tr("You are already syncing <i>%1</i>, which is a parent folder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
         } else if (curDir.startsWith(dir)) {
             //NMC customization
-            warnStrings.append(tr("FOLDER_WIZARD_FOLDER_WARNING"));
+            warnStrings.append(QCoreApplication::translate("", "FOLDER_WIZARD_FOLDER_WARNING"));
             //warnStrings.append(tr("You are already syncing <i>%1</i>, which is a subfolder of <i>%2</i>.").arg(Utility::escape(curDir), Utility::escape(dir)));
         }
     }
