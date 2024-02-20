@@ -53,7 +53,7 @@ void NMCGeneralSettings::setDefaultSettings()
 void NMCGeneralSettings::setNMCLayout()
 {
     //General settings
-    auto generalSettingsLabel = new QLabel(tr("GENERAL_SETTINGS"));
+    auto generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"));
     generalSettingsLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
     getUi()->generalGroupBox->setTitle("");
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->serverNotificationsCheckBox);
@@ -66,7 +66,7 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->serverNotificationsCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
     //Advanced settings
-    auto advancedSettingsLabel = new QLabel(tr("ADVANCED_SETTINGS"));
+    auto advancedSettingsLabel = new QLabel(QCoreApplication::translate("", "ADVANCED_SETTINGS"));
     advancedSettingsLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
     QGroupBox *advancedSettingsBox = new QGroupBox(this);
     advancedSettingsBox->setTitle("");
@@ -87,7 +87,7 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->gridLayout_3->addWidget(advancedSettingsBox, 2, 0);
 
     //Datenschutz
-    auto updatesLabel = new QLabel(tr("UPDATES_SETTINGS"));
+    auto updatesLabel = new QLabel(QCoreApplication::translate("", "UPDATES_SETTINGS"));
     updatesLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
 
     QGroupBox *dataProtectionBox = new QGroupBox(this);
