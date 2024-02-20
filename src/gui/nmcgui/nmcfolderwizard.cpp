@@ -23,7 +23,7 @@ NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
     :FolderWizard(account, parent)
 {
     setWizardStyle(QWizard::ClassicStyle);
-    setButtonText(QWizard::FinishButton, tr("ADD_SYNCHRONIZATION"));
+    setButtonText(QWizard::FinishButton, QCoreApplication::translate("", "ADD_SYNCHRONIZATION"));
 
     //Source page
     auto sourceUi = _folderWizardSourcePage->getUi();
