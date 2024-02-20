@@ -12,6 +12,7 @@
  * for more details.
  */
 #include "nmcgui/nmcselectivesyncdialog.h"
+#include "QtWidgets/qapplication.h"
 #include "QtWidgets/qboxlayout.h"
 #include "QtWidgets/qlabel.h"
 
@@ -24,7 +25,7 @@ NMCSelectiveSyncWidget::NMCSelectiveSyncWidget(AccountPtr account, QWidget *pare
     _layout->removeWidget(_folderTree);
     _layout->removeWidget(_header);
 
-    _header->setText(tr("ADD_LIVE_BACKUP_PAGE3_DESCRIPTION"));
+    _header->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PAGE3_DESCRIPTION"));
 
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->setSpacing(8);
@@ -35,7 +36,7 @@ NMCSelectiveSyncWidget::NMCSelectiveSyncWidget(AccountPtr account, QWidget *pare
     hLayout->addWidget(icon);
 
     QLabel *stepLabel = new QLabel(this);
-    stepLabel->setText(QObject::tr("ADD_LIVE_BACKUP_HEADLINE"));
+    stepLabel->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_HEADLINE"));
     stepLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     stepLabel->setStyleSheet("QLabel{color: black; font-size: 13px; font-weight: bold;}");
     hLayout->addWidget(stepLabel);
