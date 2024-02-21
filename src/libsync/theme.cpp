@@ -661,6 +661,11 @@ QIcon Theme::folderDisabledIcon() const
     return themeIcon(QLatin1String("state-pause"));
 }
 
+QIcon Theme::folderIcon() const
+{
+    return themeIcon(QLatin1String("folder"));
+}
+
 QIcon Theme::folderOfflineIcon(bool sysTray) const
 {
     return themeIcon(QLatin1String("state-offline"), sysTray);
