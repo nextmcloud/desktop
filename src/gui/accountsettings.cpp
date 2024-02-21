@@ -1067,9 +1067,7 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
     ui.setupUi(&widget);
     widget.setWindowTitle(tr("End-to-end encryption mnemonic"));
     ui.label->setText(
-        tr("To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. "
-           "Please note these down and keep them safe. "
-           "They will be needed to add other devices to your account (like your mobile phone or laptop)."));
+        QCoreApplication::translate("", "E2E_MNEMONIC_TEXT"));
     QFont monoFont(QStringLiteral("Monospace"));
     monoFont.setStyleHint(QFont::TypeWriter);
     ui.lineEdit->setFont(monoFont);
