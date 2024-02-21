@@ -390,9 +390,7 @@ bool AccountSettings::canEncryptOrDecrypt(const FolderStatusModel::SubFolderInfo
 
     if (!_accountState->account()->e2e() || _accountState->account()->e2e()->_mnemonic.isEmpty()) {
         QMessageBox msgBox;
-        msgBox.setText(tr("End-to-end encryption is not configured on this device. "
-                          "Once it is configured, you will be able to encrypt this folder.\n"
-                          "Would you like to set up end-to-end encryption?"));
+        msgBox.setText(QCoreApplication::translate("", "E2E_MNEMONIC_TEXT2"));
         msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Ok);
         const auto ret = msgBox.exec();
@@ -1091,10 +1089,10 @@ void AccountSettings::disableEncryptionForAccount(const AccountPtr &account) con
 {
     QMessageBox dialog;
     dialog.setWindowTitle(tr("Disable end-to-end encryption"));
-    dialog.setText(tr("Disable end-to-end encryption for %1?").arg(account->davUser()));
-    dialog.setInformativeText(tr("Removing end-to-end encryption will remove locally-synced files that are encrypted."
-                                 "<br>"
-                                 "Encrypted files will remain on the server."));
+    dialog.setText(QCoreApplication::translate("", "E2E_MNEMONIC_TEXT4"));
+    // dialog.setInformativeText(tr("Removing end-to-end encryption will remove locally-synced files that are encrypted."
+    //                              "<br>"
+    //                              "Encrypted files will remain on the server."));
     dialog.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     dialog.setDefaultButton(QMessageBox::Ok);
     dialog.adjustSize();
