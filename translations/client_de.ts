@@ -6683,5 +6683,17 @@ Server antwortete mit Fehler: %2</translation>
         <source>LOGIN</source>
         <translation>Einloggen</translation>
     </message>
+    <message>
+        <source>PROXY_SETTINGS</source>
+        <translation>Proxy-Einstellungen</translation>
+    </message>
+    <message>
+        <source>DOWNLOAD_BANDWIDTH</source>
+        <translation>Download-Bandbreite</translation>
+    </message>
+    <message>
+        <source>UPLOAD_BANDWIDTH</source>
+        <translation>Upload-Bandbreite</translation>
+    </message>
 </context>
 </TS>
