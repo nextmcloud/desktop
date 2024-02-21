@@ -685,7 +685,7 @@ ApplicationWindow {
                     NMCHeaderButton {
                         id: trayWindowWebsiteButton
                         iconSource: "qrc:///client/theme/NMCIcons/website.svg"
-                        iconText: qsTr("Open website")
+                        iconText: qsTr("OPEN_WEBSITE")
                     }
 
                     MouseArea{
@@ -709,7 +709,7 @@ ApplicationWindow {
                     NMCHeaderButton {
                         id: trayWindowLocalButton
                         iconSource: "qrc:///client/theme/black/folder.svg"
-                        iconText: qsTr("Local folder")
+                        iconText: qsTr("LOCAL_FOLDER")
                     }
 
                     MouseArea{
