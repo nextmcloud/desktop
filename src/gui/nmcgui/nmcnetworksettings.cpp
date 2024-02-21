@@ -66,7 +66,7 @@ void NMCNetworkSettings::setLayout()
 
     QGridLayout *downLayout = static_cast<QGridLayout *>(getUi()->downloadBox->layout());
 
-    auto downLabel = new QLabel(QCoreApplication::translate("", "DOWNLOAD_BANDWITH"));
+    auto downLabel = new QLabel(QCoreApplication::translate("", "DOWNLOAD_BANDWIDTH"));
     downLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
     downLayout->addWidget(downLabel, 0, 0 );
     downLayout->addItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed), 1, 0);
@@ -94,7 +94,7 @@ void NMCNetworkSettings::setLayout()
 
     QGridLayout *upLayout = static_cast<QGridLayout *>(getUi()->uploadBox->layout());
 
-    auto uploadLabel = new QLabel(QCoreApplication::translate("", "UPLOAD_BANDWITH"));
+    auto uploadLabel = new QLabel(QCoreApplication::translate("", "UPLOAD_BANDWIDTH"));
     uploadLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
     upLayout->addWidget(uploadLabel, 0, 0 );
     upLayout->addItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed), 1, 0);
