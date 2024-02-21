@@ -99,7 +99,7 @@ void KMessageWidgetPrivate::init(KMessageWidget *q_ptr)
 
     titleLabel = new QLabel(content);
     titleLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    titleLabel->setText(KMessageWidget::tr("E2E_ENCRYPTION"));
+    titleLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_ACTIVE"));
     titleLabel->setStyleSheet("font-size: 13px; font-weight: 600;");
 
     titelIcon = new QLabel(content);
@@ -145,7 +145,8 @@ void KMessageWidgetPrivate::createLayout()
     if (true) {
         auto *layout = new QGridLayout(content);
 
-        layout->setContentsMargins(8,8,0,8);
+        layout->setContentsMargins(8,4,0,4);
+        layout->setSpacing(2);
         content->setFixedHeight(84);
 
         auto *titleLayout = new QHBoxLayout(content);
@@ -159,6 +160,10 @@ void KMessageWidgetPrivate::createLayout()
         // Set alignment to make sure icon does not move down if text wraps
         //layout->addWidget(iconLabel, 0, 0, 1, 1, Qt::AlignHCenter | Qt::AlignTop);
         layout->addWidget(textLabel, 1, 0);
+        textLabel->setWordWrap(true);
+
+        QSpacerItem *spacerItem = new QSpacerItem(1, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
+        layout->addItem(spacerItem, 2, 0);
 
         if (buttons.isEmpty()) {
             // Use top-vertical alignment like the icon does.
@@ -177,7 +182,7 @@ void KMessageWidgetPrivate::createLayout()
                 buttonLayout->addWidget(button);
             }
             //buttonLayout->addWidget(closeButton);
-            layout->addItem(buttonLayout, 0, 1, 2, 1, Qt::AlignCenter);
+            layout->addItem(buttonLayout, 0, 1, 3, 1, Qt::AlignCenter);
             applyNMCStylesheets();
         }
     } else {
