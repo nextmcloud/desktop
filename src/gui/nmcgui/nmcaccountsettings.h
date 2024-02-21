@@ -54,15 +54,18 @@ protected:
     void paintEvent(QPaintEvent *event) override {
         QPushButton::paintEvent(event);
 
-        if (!icon_.isNull()) {
-            QRect iconRect = QRect(m_leftMargin, // left margin
-                                   (height() - iconSize().height()) / 2, // vertical center
-                                   iconSize().width(),
-                                   iconSize().height());
+        //Its an icon within the button, but we disable it for now, because the text occupies to much space, and the button shod be increased in size to fir the size,
+        //but we dont want to change the button size for cosmetic reasons.
 
-            QPainter painter(this);
-            painter.drawPixmap(iconRect, icon_.pixmap(iconSize()));
-        }
+        // if (!icon_.isNull()) {
+        //     QRect iconRect = QRect(m_leftMargin, // left margin
+        //                            (height() - iconSize().height()) / 2, // vertical center
+        //                            iconSize().width(),
+        //                            iconSize().height());
+
+        //     QPainter painter(this);
+        //     painter.drawPixmap(iconRect, icon_.pixmap(iconSize()));
+        // }
     }
 
 private:
