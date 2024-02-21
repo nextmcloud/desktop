@@ -352,13 +352,15 @@ void SettingsDialog::customizeStyle()
     QString background(palette().base().color().name());
     _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, dark, highlightColor, highlightTextColor));
 
-    Q_FOREACH (QAction *a, _actionGroup->actions()) {
-        QIcon icon = Theme::createColorAwareIcon(a->property("iconPath").toString(), palette());
-        a->setIcon(icon);
-        auto *btn = qobject_cast<QToolButton *>(_toolBar->widgetForAction(a));
-        if (btn)
-            btn->setIcon(icon);
-    }
+    //NMC cusomization, in Windows its setting the icon color to white?
+
+    // Q_FOREACH (QAction *a, _actionGroup->actions()) {
+    //     QIcon icon = Theme::createColorAwareIcon(a->property("iconPath").toString(), palette());
+    //     a->setIcon(icon);
+    //     auto *btn = qobject_cast<QToolButton *>(_toolBar->widgetForAction(a));
+    //     if (btn)
+    //         btn->setIcon(icon);
+    // }
 }
 
 class ToolButtonAction : public QWidgetAction
@@ -405,8 +407,10 @@ QAction *SettingsDialog::createActionWithIcon(const QIcon &icon, const QString &
 QAction *SettingsDialog::createColorAwareAction(const QString &iconPath, const QString &text)
 {
     // all buttons must have the same size in order to keep a good layout
-    QIcon coloredIcon = Theme::createColorAwareIcon(iconPath, palette());
-    return createActionWithIcon(coloredIcon, text, iconPath);
+
+    //NMC cusomization, in Windows its setting the icon color to white?
+    //QIcon coloredIcon = Theme::createColorAwareIcon(iconPath, palette());
+    return createActionWithIcon(QIcon(iconPath), text, iconPath);
 }
 
 } // namespace OCC
