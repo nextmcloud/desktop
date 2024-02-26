@@ -268,8 +268,8 @@ ApplicationWindow {
 
             Rectangle {
                 id: whiteMargin
-                anchors.top: trayWindowMainItem.top
-                anchors.left: trayWindowMainItem.left
+                anchors.top: trayWindowHeaderBackground.top
+                anchors.left: trayWindowHeaderBackground.left
                 width: 10
                 height: 64
                 color: Style.nmcTrayWindowHeaderBackgroundColor
@@ -277,7 +277,7 @@ ApplicationWindow {
 
             Rectangle {
                 id: tLogo
-                anchors.top: trayWindowMainItem.top
+                anchors.top: trayWindowHeaderBackground.top
                 anchors.left: whiteMargin.right
                 width: Style.nmcTrayWindowLogoWidth
                 height: Style.nmcTrayWindowLogoWidth
