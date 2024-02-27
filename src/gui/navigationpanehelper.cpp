@@ -96,9 +96,10 @@ void NavigationPaneHelper::updateCloudStorageRegistry()
                 QString namespacePath = QString() % R"(Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\)" % clsidStr;
 
                 QString title = folder->shortGuiRemotePathOrAppName();
+                title = title % " - " % folder->accountState()->account()->prettyName(); //Magenta Customization
                 // Write the account name in the sidebar only when using more than one account.
-                if (AccountManager::instance()->accounts().size() > 1)
-                    title = title % " - " % folder->accountState()->account()->displayName();
+                // if (AccountManager::instance()->accounts().size() > 1)
+                //     title = title % " - " % folder->accountState()->account()->displayName();
                 QString iconPath = QDir::toNativeSeparators(qApp->applicationFilePath());
                 QString targetFolderPath = QDir::toNativeSeparators(folder->cleanPath());
 
