@@ -91,10 +91,10 @@ RowLayout {
     CustomButton {
         id: syncNowButton
 
-        FontMetrics {
-            id: syncNowFm
-            font: syncNowButton.contentsFont
-        }
+        // FontMetrics {
+        //     id: syncNowFm
+        //     font: syncNowButton.contentsFont
+        // }
 
         Layout.rightMargin: Style.trayHorizontalMargin
 
