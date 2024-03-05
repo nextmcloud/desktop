@@ -137,6 +137,8 @@ void NMCAccountSettings::setLayout()
     magentaHLayout->addSpacerItem(new QSpacerItem(8,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     getUi()->gridLayout->addLayout(magentaHLayout, 5, 0);
+
+    getUi()->encryptionMessage->hide();
 }
 
 } // namespace OCC
