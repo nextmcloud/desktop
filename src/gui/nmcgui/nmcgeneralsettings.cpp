@@ -77,10 +77,15 @@ void NMCGeneralSettings::setNMCLayout()
 
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
+    getUi()->horizontalLayout_4->removeWidget(getUi()->ignoredFilesButton);
+
+    getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
 
     advancedSettingsBox->layout()->addWidget(advancedSettingsLabel);
     advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
+    advancedSettingsBox->layout()->addWidget(getUi()->ignoredFilesButton);
     getUi()->showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     getUi()->moveFilesToTrashCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
