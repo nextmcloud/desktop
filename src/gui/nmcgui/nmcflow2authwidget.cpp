@@ -92,7 +92,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     QSpacerItem *spacer7 = new QSpacerItem(1,24, QSizePolicy::Fixed, QSizePolicy::Fixed);
     leftSideVerticalLayout->insertSpacerItem(2, spacer7);
 
-    QLabel *descriptionLabel = new QLabel("Melden Sie sich an um direkt loszulegen");
+    QLabel *descriptionLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_1"));
     descriptionLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     descriptionLabel->setStyleSheet("QLabel{font-size: 28px; font-weight: normal;}");
     descriptionLabel->setWordWrap(true);
