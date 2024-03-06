@@ -564,8 +564,9 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         }
     }
 
-    ac = menu.addAction(tr("Edit Ignored Files"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
+    //NMC customization
+    // ac = menu.addAction(tr("Edit Ignored Files"));
+    // connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
 
     ac = menu.addAction(tr("Create new folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
@@ -634,8 +635,9 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
     auto ac = menu->addAction(tr("Open folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentFolder);
 
-    ac = menu->addAction(tr("Edit Ignored Files"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
+    //NMC customization
+    // ac = menu->addAction(tr("Edit Ignored Files"));
+    // connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
 
     ac = menu->addAction(tr("Create new folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
