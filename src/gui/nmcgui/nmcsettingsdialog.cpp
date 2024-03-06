@@ -60,7 +60,7 @@ void OCC::NMCSettingsDialog::setLayout() const
                 widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
                 widget->setFixedSize(75, 75);
                 widget->setStyleSheet(
-                    "QToolButton { border: none; background-color: #f3f3f3; border-radius: 4px; font-size: 13px;}"
+                    "QToolButton { border: none; background-color: #f3f3f3; border-radius: 4px; font-size: 13px; padding: 8px;}"
                     "QToolButton:hover { background-color: #e5e5e5; }"
                     );
             }
@@ -80,7 +80,7 @@ void NMCSettingsDialog::fixAccountButton() const
         widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         widget->setFixedSize(128, 75);
         widget->setStyleSheet(
-            "QToolButton { border: none; background-color: #f3f3f3; border-radius: 4px; font-size: 13px;}"
+            "QToolButton { border: none; background-color: #f3f3f3; border-radius: 4px; font-size: 13px; padding: 8px;}"
             "QToolButton:hover { background-color: #e5e5e5; }"
             );
     }
