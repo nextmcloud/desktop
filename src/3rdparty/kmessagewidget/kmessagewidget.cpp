@@ -145,7 +145,7 @@ void KMessageWidgetPrivate::createLayout()
     if (true) {
         auto *layout = new QGridLayout(content);
 
-        layout->setContentsMargins(8,4,0,4);
+        layout->setContentsMargins(8,4,8,4);
         layout->setSpacing(0);
         content->setFixedHeight(84);
 
@@ -182,7 +182,7 @@ void KMessageWidgetPrivate::createLayout()
                 buttonLayout->addWidget(button);
             }
             //buttonLayout->addWidget(closeButton);
-            layout->addItem(buttonLayout, 0, 1, 3, 1, Qt::AlignCenter);
+            layout->addItem(buttonLayout, 0, 1, 3, 1, Qt::AlignRight);
             applyNMCStylesheets();
         }
     } else {
