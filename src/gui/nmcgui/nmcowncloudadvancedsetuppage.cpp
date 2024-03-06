@@ -45,6 +45,7 @@ void OCC::NMCOwncloudAdvancedSetupPage::cleanUpElements()
     getUi().lVirtualFileSync->removeWidget(getUi().rVirtualFileSync);
     getUi().rVirtualFileSync->setFixedSize(0,0);
     getUi().rVirtualFileSync->setVisible(false);
+    getUi().rVirtualFileSync->setChecked(true);
 
     getUi().resolutionWidget->setVisible(false);
 
