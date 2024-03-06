@@ -450,6 +450,8 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
         //NMC customization
         btnOpt.rect = currentButtonRectPos;
+        //make sure the button is not too far away from the left border
+        btnOpt.rect.setRight(btnOpt.rect.x() + btnOpt.rect.width() + 4);
 
         // Create QPainterPath with rounded corners
         QPainterPath path;
