@@ -161,7 +161,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,24, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     //Headline
-    QLabel *descriptionLabel = new QLabel("Melden Sie sich an um direkt loszulegen");
+    QLabel *descriptionLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_2"));
     descriptionLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     descriptionLabel->setStyleSheet("QLabel{font-size: 28px; font-weight: normal;}");
     descriptionLabel->setWordWrap(true);
@@ -204,10 +204,10 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     getUi().horizontalLayout_10->removeWidget(getUi().lSelectiveSyncSizeLabel); //Remove text label, its not needed
     getUi().lSelectiveSyncSizeLabel->setVisible(false);
 
-    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     //Detail description
-    QLabel *detailLabel = new QLabel("Überprüfen Sie den Speicherort und ändern Sie ihn, falls Sie schon einen bestehenden MagentaCLOUD Ordner aus einer früheren Installation wiederverwenden möchten.");
+    QLabel *detailLabel = new QLabel(QCoreApplication::translate("","SETUP_DESCRIPTION_TEXT_2"));
     detailLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
     detailLabel->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
     detailLabel->setWordWrap(true);
