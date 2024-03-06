@@ -470,7 +470,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         btnOpt.iconSize = QSize(buttonSize, buttonSize);
 
         // Set icon position
-        int iconX = btnOpt.rect.x() + 12;  // Beispiel: Horizontaler Abstand
+        int iconX = btnOpt.rect.x() + btnOpt.rect.width()/5;
         int iconY = btnOpt.rect.y() + (btnOpt.rect.height() - btnOpt.iconSize.height()) / 2;
 
         painter->drawPixmap(iconX, iconY, btnOpt.icon.pixmap(btnOpt.iconSize));
