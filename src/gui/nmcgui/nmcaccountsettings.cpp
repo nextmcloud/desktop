@@ -138,7 +138,10 @@ void NMCAccountSettings::setLayout()
 
     getUi()->gridLayout->addLayout(magentaHLayout, 5, 0);
 
+    //We need these, because our widget becomes visibe, when we add it to our layout (due to parent), but in accountsettings its forced to be invisible at first.
+    //We do here the same and check if the visibility is needed or not.
     getUi()->encryptionMessage->hide();
+    checkClientSideEncryptionState();
 }
 
 } // namespace OCC

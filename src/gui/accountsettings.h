@@ -111,6 +111,7 @@ protected slots:
     void slotSelectiveSyncChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight,
                                   const QVector<int> &roles);
     void slotPossiblyUnblacklistE2EeFoldersAndRestartSync();
+    void checkClientSideEncryptionState(); //NMC customization, we need acces to it
 
 private slots:
     void updateBlackListAndScheduleFolderSync(const QStringList &blackList, OCC::Folder *folder, const QStringList &foldersToRemoveFromBlacklist) const;
@@ -125,7 +126,6 @@ private slots:
 
     void initializeE2eEncryption();
     void resetE2eEncryption();
-    void checkClientSideEncryptionState();
     void removeActionFromEncryptionMessage(const QString &actionId);
 
 protected:
