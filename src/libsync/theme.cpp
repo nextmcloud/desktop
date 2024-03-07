@@ -942,19 +942,20 @@ QPalette Theme::systemPalette()
 
 bool Theme::darkMode()
 {
-    connectToPaletteSignal();
-// Windows: Check registry for dark mode
-#if defined(Q_OS_WIN)
-    const auto darkModeSubkey = QStringLiteral("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
-    if (Utility::registryKeyExists(HKEY_CURRENT_USER, darkModeSubkey) &&
-        !Utility::registryGetKeyValue(HKEY_CURRENT_USER, darkModeSubkey, QStringLiteral("AppsUseLightTheme")).toBool()) {
-        return true;
-    }
+//     connectToPaletteSignal();
+// // Windows: Check registry for dark mode
+// #if defined(Q_OS_WIN)
+//     const auto darkModeSubkey = QStringLiteral("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
+//     if (Utility::registryKeyExists(HKEY_CURRENT_USER, darkModeSubkey) &&
+//         !Utility::registryGetKeyValue(HKEY_CURRENT_USER, darkModeSubkey, QStringLiteral("AppsUseLightTheme")).toBool()) {
+//         return true;
+//     }
 
-    return false;
-#else
-    return Theme::isDarkColor(QGuiApplication::palette().window().color());
-#endif
+//     return false;
+// #else
+//     return Theme::isDarkColor(QGuiApplication::palette().window().color());
+// #endif
+return false;
 }
 
 void Theme::setOverrideServerUrl(const QString &overrideServerUrl)

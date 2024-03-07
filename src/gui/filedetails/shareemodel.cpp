@@ -33,7 +33,7 @@ ShareeModel::ShareeModel(QObject *parent)
     _searchGloballyPlaceholder.reset(new Sharee({}, tr("Search globally"), Sharee::LookupServerSearch, QStringLiteral("magnifying-glass.svg")));
     _searchGloballyPlaceholder->setIsIconColourful(true);
     connect(&_searchRateLimitingTimer, &QTimer::timeout, this, &ShareeModel::fetch);
-    connect(Theme::instance(), &Theme::darkModeChanged, this, &ShareeModel::slotDarkModeChanged);
+    //connect(Theme::instance(), &Theme::darkModeChanged, this, &ShareeModel::slotDarkModeChanged);
 }
 
 // ---------------------- QAbstractListModel methods ---------------------- //
