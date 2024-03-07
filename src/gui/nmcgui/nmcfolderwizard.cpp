@@ -28,7 +28,7 @@ NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
     //Source page
     auto sourceUi = _folderWizardSourcePage->getUi();
     sourceUi.localFolderLineEdit->clear();
-    sourceUi.localFolderLineEdit->setPlaceholderText(tr("Please select a folder"));
+    sourceUi.localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
     sourceUi.setDefaultSettings();
     sourceUi.changeLayout();
 
@@ -37,7 +37,5 @@ NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
     targetUi.setDefaultSettings();
     targetUi.setLayout();
 }
-
-
 
 } // end namespace

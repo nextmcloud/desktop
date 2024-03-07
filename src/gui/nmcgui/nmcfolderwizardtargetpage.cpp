@@ -32,17 +32,12 @@ void NMCFolderWizardTargetPage::setLayout()
 {
     gridLayout_6->setMargin(0);
 
-    QLabel *icon = new QLabel();
-    icon->setFixedSize(18,18);
-    icon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/applicationLogo.svg")).pixmap(18,18));
-    gridLayout_6->addWidget(icon, 0, 0);
-
     QLabel *stepLabel = new QLabel();
     stepLabel->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_HEADLINE"));
     stepLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     stepLabel->setStyleSheet("QLabel{color: black; font-size: 13px; font-weight: bold;}");
 
-    gridLayout_6->addWidget(stepLabel, 0, 1, Qt::AlignTop | Qt::AlignLeft);
+    gridLayout_6->addWidget(stepLabel, 0, 0, Qt::AlignTop | Qt::AlignLeft);
 
     QGridLayout *hLayout = new QGridLayout();
 
