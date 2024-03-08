@@ -198,5 +198,61 @@ int main(int argc, char **argv)
         }
     }
 
+    // Holen Sie die aktuelle Palette
+    QPalette palette = app.palette();
+
+    // qDebug() << "WindowText: " << palette.color(QPalette::WindowText);
+    // qDebug() << "Button: " << palette.color(QPalette::Button);
+    // qDebug() << "Light: " << palette.color(QPalette::Light);
+    // qDebug() << "Midlight: " << palette.color(QPalette::Midlight);
+    // qDebug() << "Dark: " << palette.color(QPalette::Dark);
+    // qDebug() << "Mid: " << palette.color(QPalette::Mid);
+    // qDebug() << "Text: " << palette.color(QPalette::Text);
+    // qDebug() << "BrightText: " << palette.color(QPalette::BrightText);
+    // qDebug() << "ButtonText: " << palette.color(QPalette::ButtonText);
+    // qDebug() << "Base: " << palette.color(QPalette::Base);
+    // qDebug() << "Window: " << palette.color(QPalette::Window);
+    // qDebug() << "Shadow: " << palette.color(QPalette::Shadow);
+    // qDebug() << "Highlight: " << palette.color(QPalette::Highlight);
+    // qDebug() << "HighlightedText: " << palette.color(QPalette::HighlightedText);
+    // qDebug() << "Link: " << palette.color(QPalette::Link);
+    // qDebug() << "LinkVisited: " << palette.color(QPalette::LinkVisited);
+    // qDebug() << "AlternateBase: " << palette.color(QPalette::AlternateBase);
+    // qDebug() << "NoRole: " << palette.color(QPalette::NoRole);
+    // qDebug() << "ToolTipBase: " << palette.color(QPalette::ToolTipBase);
+    // qDebug() << "ToolTipText: " << palette.color(QPalette::ToolTipText);
+    // qDebug() << "PlaceholderText: " << palette.color(QPalette::PlaceholderText);
+    // qDebug() << "NColorRoles: " << palette.color(QPalette::NColorRoles);
+
+
+
+    //        // Ändern Sie die Hintergrundfarbe für den hellen Modus
+    palette.setColor(QPalette::WindowText, QColor(0, 0, 0));
+    palette.setColor(QPalette::Button, QColor(236, 236, 236));
+    palette.setColor(QPalette::Light, QColor(255, 255, 255));
+    palette.setColor(QPalette::Midlight, QColor(245, 245, 245));
+    palette.setColor(QPalette::Dark, QColor(191, 191, 191));
+    palette.setColor(QPalette::Mid, QColor(168, 168, 168));
+    palette.setColor(QPalette::Text, QColor(0, 0, 0));
+    palette.setColor(QPalette::BrightText, QColor(255, 255, 255));
+    palette.setColor(QPalette::ButtonText, QColor(0, 0, 0));
+    palette.setColor(QPalette::Base, QColor(255, 255, 255));
+    palette.setColor(QPalette::Window, QColor(236, 236, 236));
+    palette.setColor(QPalette::Shadow, QColor(0, 0, 0));
+    palette.setColor(QPalette::Highlight, QColor(179, 215, 255));
+    palette.setColor(QPalette::HighlightedText, QColor(0, 0, 0));
+    palette.setColor(QPalette::Link, QColor(0, 104, 218));
+    palette.setColor(QPalette::LinkVisited, QColor(255, 0, 255));
+    palette.setColor(QPalette::AlternateBase, QColor(245, 245, 245));
+    palette.setColor(QPalette::NoRole, QColor(0, 0, 0));
+    palette.setColor(QPalette::ToolTipBase, QColor(255, 255, 255));
+    palette.setColor(QPalette::ToolTipText, QColor(0, 0, 0));
+    palette.setColor(QPalette::PlaceholderText, QColor(0, 0, 0));
+
+
+    app.setPalette(palette);
+
+
+
     return app.exec();
 }

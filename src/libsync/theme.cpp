@@ -923,7 +923,7 @@ void Theme::connectToPaletteSignal()
     if (!_paletteSignalsConnected) {
         if (const auto ptr = qobject_cast<QGuiApplication *>(QGuiApplication::instance())) {
             connect(ptr, &QGuiApplication::paletteChanged, this, &Theme::systemPaletteChanged);
-            connect(ptr, &QGuiApplication::paletteChanged, this, &Theme::darkModeChanged);
+            //connect(ptr, &QGuiApplication::paletteChanged, this, &Theme::darkModeChanged);
             _paletteSignalsConnected = true;
         }
     }

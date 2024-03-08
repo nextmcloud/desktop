@@ -277,8 +277,8 @@ void setTrayWindowLevelAndVisibleOnAllSpaces(QWindow *window)
 
 bool osXInDarkMode()
 {
-    NSString * const osxMode = [NSUserDefaults.standardUserDefaults stringForKey:@"AppleInterfaceStyle"];
-    return [osxMode containsString:@"Dark"];
+    //NSString * const osxMode = [NSUserDefaults.standardUserDefaults stringForKey:@"AppleInterfaceStyle"];
+    return false; //[osxMode containsString:@"Dark"];
 }
 
 } // OCC namespace

@@ -406,7 +406,7 @@ QByteArray Utility::normalizeEtag(QByteArray etag)
 
 bool Utility::hasDarkSystray()
 {
-    return hasDarkSystray_private();
+    return false; //hasDarkSystray_private();
 }
 
 
