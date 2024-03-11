@@ -37,10 +37,12 @@ private slots:
         QLocale::setDefault(QLocale("en"));
         QCOMPARE(octetsToString(999) , QString("999 B"));
         QCOMPARE(octetsToString(1024) , QString("1 KB"));
+        QCOMPARE(octetsToString(1110) , QString("1 KB"));
         QCOMPARE(octetsToString(1364) , QString("1 KB"));
 
         QCOMPARE(octetsToString(9110) , QString("9 KB"));
         QCOMPARE(octetsToString(9910) , QString("10 KB"));
+        QCOMPARE(octetsToString(9999) , QString("10 KB"));
         QCOMPARE(octetsToString(10240) , QString("10 KB"));
 
         QCOMPARE(octetsToString(123456) , QString("121 KB"));
@@ -54,6 +56,8 @@ private slots:
         QCOMPARE(octetsToString(1024), QString("1 KB"));
         QCOMPARE(octetsToString(1024*1024), QString("1 MB"));
         QCOMPARE(octetsToString(1024LL*1024*1024), QString("1 GB"));
+        QCOMPARE(octetsToString(1024LL*1024*1024*1024), QString("1 TB"));
+        QCOMPARE(octetsToString(1024LL*1024*1024*1024 * 5), QString("5 TB"));
     }
 
     void testLaunchOnStartup()
@@ -286,6 +290,54 @@ private slots:
         QVERIFY(!isPathWindowsDrivePartitionRoot("c:/"));
         QVERIFY(!isPathWindowsDrivePartitionRoot("c:\\"));
 #endif
+    }
+
+    void testFullRemotePathToRemoteSyncRootRelative()
+    {
+        QVector<QPair<QString, QString>> remoteFullPathsForRoot = {
+            {"2020", {"2020"}},
+            {"/2021/", {"2021"}},
+            {"/2022/file.docx", {"2022/file.docx"}}
+        };
+        // test against root remote path - result must stay unchanged, leading and trailing slashes must get removed
+        for (const auto &remoteFullPathForRoot : remoteFullPathsForRoot) {
+            const auto fullRemotePathOriginal = remoteFullPathForRoot.first;
+            const auto fullRemotePathExpected = remoteFullPathForRoot.second;
+            const auto fullRepotePathResult = OCC::Utility::fullRemotePathToRemoteSyncRootRelative(fullRemotePathOriginal, "/");
+            QCOMPARE(fullRepotePathResult, fullRemotePathExpected);
+        }
+
+        const auto remotePathNonRoot = QStringLiteral("/Documents/reports");
+        QVector<QPair<QString, QString>> remoteFullPathsForNonRoot = {
+            {remotePathNonRoot + "/" + "2020", {"2020"}},
+            {remotePathNonRoot + "/" + "2021/", {"2021"}},
+            {remotePathNonRoot + "/" + "2022/file.docx", {"2022/file.docx"}}
+        };
+
+        // test against non-root remote path - must always return a proper path as in local db
+        for (const auto &remoteFullPathForNonRoot : remoteFullPathsForNonRoot) {
+            const auto fullRemotePathOriginal = remoteFullPathForNonRoot.first;
+            const auto fullRemotePathExpected = remoteFullPathForNonRoot.second;
+            const auto fullRepotePathResult = OCC::Utility::fullRemotePathToRemoteSyncRootRelative(fullRemotePathOriginal, remotePathNonRoot);
+            QCOMPARE(fullRepotePathResult, fullRemotePathExpected);
+        }
+
+        // test against non-root remote path with trailing slash - must work the same
+        const auto remotePathNonRootWithTrailingSlash = QStringLiteral("/Documents/reports/");
+        for (const auto &remoteFullPathForNonRoot : remoteFullPathsForNonRoot) {
+            const auto fullRemotePathOriginal = remoteFullPathForNonRoot.first;
+            const auto fullRemotePathExpected = remoteFullPathForNonRoot.second;
+            const auto fullRepotePathResult = OCC::Utility::fullRemotePathToRemoteSyncRootRelative(fullRemotePathOriginal, remotePathNonRootWithTrailingSlash);
+            QCOMPARE(fullRepotePathResult, fullRemotePathExpected);
+        }
+
+        // test against unrelated remote path - result must stay unchanged
+        const auto remotePathUnrelated = QStringLiteral("/Documents1/reports");
+        for (const auto &remoteFullPathForNonRoot : remoteFullPathsForNonRoot) {
+            const auto fullRemotePathOriginal = remoteFullPathForNonRoot.first;
+            const auto fullRepotePathResult = OCC::Utility::fullRemotePathToRemoteSyncRootRelative(fullRemotePathOriginal, remotePathUnrelated);
+            QCOMPARE(fullRepotePathResult, fullRemotePathOriginal);
+        }
     }
 };
 

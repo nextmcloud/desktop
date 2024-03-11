@@ -39,7 +39,6 @@
 #include <QSysInfo>
 #include <qrandom.h>
 
-
 #ifdef Q_OS_UNIX
 #include <sys/statvfs.h>
 #include <sys/types.h>
@@ -50,13 +49,13 @@
 #include <cstdarg>
 #include <cstring>
 
-#if defined(Q_OS_WIN)
-#include "utility_win.cpp"
-#elif defined(Q_OS_MAC)
-#include "utility_mac.cpp"
-#else
-#include "utility_unix.cpp"
-#endif
+namespace {
+constexpr auto bytes = 1024;
+constexpr auto kilobytes = bytes;
+constexpr auto megabytes = bytes * kilobytes;
+constexpr qint64 gigabytes = bytes * megabytes;
+constexpr qint64 terabytes = bytes * gigabytes;
+}
 
 namespace OCC {
 
@@ -104,56 +103,41 @@ QString Utility::formatFingerprint(const QByteArray &fmhash, bool colonSeparated
     return fp;
 }
 
-void Utility::setupFavLink(const QString &folder)
+
+QString Utility::octetsToString(const qint64 octets)
 {
-    setupFavLink_private(folder);
-}
+    auto unitName = QCoreApplication::translate("Utility", "%L1 B");
+    qreal dataSize = octets;
 
-void Utility::removeFavLink(const QString &folder)
-{
-    removeFavLink_private(folder);
-}
+    // Display decimals when value < TB and unit < 10
+    auto showDecimals = true;
 
-QString Utility::octetsToString(qint64 octets)
-{
-#define THE_FACTOR 1024
-    static const qint64 kb = THE_FACTOR;
-    static const qint64 mb = THE_FACTOR * kb;
-    static const qint64 gb = THE_FACTOR * mb;
-
-    QString s;
-    qreal value = octets;
-
-    // Whether we care about decimals: only for GB/MB and only
-    // if it's less than 10 units.
-    bool round = true;
-
-    // do not display terra byte with the current units, as when
-    // the MB, GB and KB units were made, there was no TB,
-    // see the JEDEC standard
-    // https://en.wikipedia.org/wiki/JEDEC_memory_standards
-    if (octets >= gb) {
-        s = QCoreApplication::translate("Utility", "%L1 GB");
-        value /= gb;
-        round = false;
-    } else if (octets >= mb) {
-        s = QCoreApplication::translate("Utility", "%L1 MB");
-        value /= mb;
-        round = false;
-    } else if (octets >= kb) {
-        s = QCoreApplication::translate("Utility", "%L1 KB");
-        value /= kb;
-    } else {
-        s = QCoreApplication::translate("Utility", "%L1 B");
+    if (octets >= terabytes) {
+        unitName = QCoreApplication::translate("Utility", "%L1 TB");
+        dataSize /= terabytes;
+        showDecimals = false;
+    } else if (octets >= gigabytes) {
+        unitName = QCoreApplication::translate("Utility", "%L1 GB");
+        dataSize /= gigabytes;
+        showDecimals = false;
+    } else if (octets >= megabytes) {
+        unitName = QCoreApplication::translate("Utility", "%L1 MB");
+        dataSize /= megabytes;
+        showDecimals = false;
+    } else if (octets >= kilobytes) {
+        unitName = QCoreApplication::translate("Utility", "%L1 KB");
+        dataSize /= kilobytes;
     }
 
-    if (value > 9.95)
-        round = true;
+    if (dataSize > 9.95) {
+        showDecimals = true;
+    }
 
-    if (round)
-        return s.arg(qRound(value));
+    if (showDecimals) {
+        return unitName.arg(qRound(dataSize));
+    }
 
-    return s.arg(value, 0, 'g', 2);
+    return unitName.arg(dataSize, 0, 'g', 2);
 }
 
 // Qtified version of get_platforms() in csync_owncloud.c
@@ -198,26 +182,6 @@ QByteArray Utility::friendlyUserAgentString()
     const auto pattern = QStringLiteral("%1 (Desktop Client - %2)");
     const auto userAgent = pattern.arg(QSysInfo::machineHostName(), platform());
     return userAgent.toUtf8();
-}
-
-bool Utility::hasSystemLaunchOnStartup(const QString &appName)
-{
-#if defined(Q_OS_WIN)
-    return hasSystemLaunchOnStartup_private(appName);
-#else
-    Q_UNUSED(appName)
-    return false;
-#endif
-}
-
-bool Utility::hasLaunchOnStartup(const QString &appName)
-{
-    return hasLaunchOnStartup_private(appName);
-}
-
-void Utility::setLaunchOnStartup(const QString &appName, const QString &guiName, bool enable)
-{
-    setLaunchOnStartup_private(appName, guiName, enable);
 }
 
 qint64 Utility::freeDiskSpace(const QString &path)
@@ -403,12 +367,6 @@ QByteArray Utility::normalizeEtag(QByteArray etag)
     etag.squeeze();
     return etag;
 }
-
-bool Utility::hasDarkSystray()
-{
-    return hasDarkSystray_private();
-}
-
 
 QString Utility::platformName()
 {
@@ -733,6 +691,30 @@ QString Utility::noLeadingSlashPath(const QString &path)
 {
     static const auto slash = QLatin1Char('/');
     return path.startsWith(slash) ? path.mid(1) : path;
+}
+
+QString Utility::noTrailingSlashPath(const QString &path)
+{
+    static const auto slash = QLatin1Char('/');
+    return path.endsWith(slash) ? path.chopped(1) : path;
+}
+
+QString Utility::fullRemotePathToRemoteSyncRootRelative(const QString &fullRemotePath, const QString &remoteSyncRoot)
+{
+    const auto remoteSyncRootNoLeadingSlashWithTrailingSlash = Utility::trailingSlashPath(noLeadingSlashPath(remoteSyncRoot));
+    const auto fullRemotePathNoLeadingSlash = noLeadingSlashPath(fullRemotePath);
+
+    if (remoteSyncRootNoLeadingSlashWithTrailingSlash == QStringLiteral("/")) {
+        return noLeadingSlashPath(noTrailingSlashPath(fullRemotePath));
+    }
+
+    if (!fullRemotePathNoLeadingSlash.startsWith(remoteSyncRootNoLeadingSlashWithTrailingSlash)) {
+        return fullRemotePath;
+    }
+
+    const auto relativePathToRemoteSyncRoot = fullRemotePathNoLeadingSlash.mid(remoteSyncRootNoLeadingSlashWithTrailingSlash.size());
+    Q_ASSERT(!relativePathToRemoteSyncRoot.isEmpty());
+    return noLeadingSlashPath(noTrailingSlashPath(relativePathToRemoteSyncRoot));
 }
 
 

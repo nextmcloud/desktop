@@ -60,8 +60,7 @@ double menuBarThickness();
  * @brief The Systray class
  * @ingroup gui
  */
-class Systray
-    : public QSystemTrayIcon
+class Systray : public QSystemTrayIcon
 {
     Q_OBJECT
 
@@ -96,6 +95,8 @@ public:
     [[nodiscard]] bool enableAddAccount() const;
 
     bool raiseDialogs();
+
+    [[nodiscard]] QQmlApplicationEngine* trayEngine() const;
 
 signals:
     void currentUserChanged();
@@ -165,18 +166,18 @@ private:
 
     [[nodiscard]] QScreen *currentScreen() const;
     [[nodiscard]] QRect currentScreenRect() const;
+    [[nodiscard]] QRect currentAvailableScreenRect() const;
     [[nodiscard]] QPoint computeWindowReferencePoint() const;
     [[nodiscard]] QPoint computeNotificationReferencePoint(int spacing = 20, NotificationPosition position = NotificationPosition::Default) const;
     [[nodiscard]] QPoint calcTrayIconCenter() const;
     [[nodiscard]] TaskBarPosition taskbarOrientation() const;
-    [[nodiscard]] QRect taskbarGeometry() const;
     [[nodiscard]] QRect computeWindowRect(int spacing, const QPoint &topLeft, const QPoint &bottomRight) const;
     [[nodiscard]] QPoint computeWindowPosition(int width, int height) const;
     [[nodiscard]] QPoint computeNotificationPosition(int width, int height, int spacing = 20, NotificationPosition position = NotificationPosition::Default) const;
 
     bool _isOpen = false;
     bool _syncIsPaused = true;
-    QPointer<QQmlApplicationEngine> _trayEngine;
+    std::unique_ptr<QQmlApplicationEngine> _trayEngine;
     QPointer<QMenu> _contextMenu;
     QSharedPointer<QQuickWindow> _trayWindow;
 

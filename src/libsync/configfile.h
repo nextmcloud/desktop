@@ -153,6 +153,10 @@ public:
     [[nodiscard]] bool moveToTrash() const;
     void setMoveToTrash(bool);
 
+    /** If we should force loginflow v2 */
+    [[nodiscard]] bool forceLoginV2() const;
+    void setForceLoginV2(bool);
+
     [[nodiscard]] bool showMainDialogAsNormalWindow() const;
 
     static bool setConfDir(const QString &value);
@@ -216,6 +220,11 @@ public:
     [[nodiscard]] QString clientVersionString() const;
     void setClientVersionString(const QString &version);
 
+    /** If the option 'Launch on system startup' is set
+        Updated by configVersionMigration() at client startup. */
+    [[nodiscard]] bool launchOnSystemStartup() const;
+    void setLaunchOnSystemStartup(const bool autostart);
+
     /**  Returns a new settings pre-set in a specific group.  The Settings will be created
          with the given parent. If no parent is specified, the caller must destroy the settings */
     static std::unique_ptr<QSettings> settingsWithGroup(const QString &group, QObject *parent = nullptr);
@@ -226,9 +235,6 @@ public:
     /// Set during first time migration of legacy accounts in AccountManager
     [[nodiscard]] static QString discoveredLegacyConfigPath();
     static void setDiscoveredLegacyConfigPath(const QString &discoveredLegacyConfigPath);
-
-    [[nodiscard]] bool macFileProviderModuleEnabled() const;
-    void setMacFileProviderModuleEnabled(const bool moduleEnabled);
 
 protected:
     [[nodiscard]] QVariant getPolicySetting(const QString &policy, const QVariant &defaultValue = QVariant()) const;

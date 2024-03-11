@@ -44,6 +44,7 @@
 
 #include "creds/abstractcredentials.h"
 #include "creds/httpcredentials.h"
+#include "configfile.h"
 
 namespace OCC {
 
@@ -316,13 +317,13 @@ bool LsColXMLParser::parse(const QByteArray &xml, QHash<QString, ExtraFolderInfo
 
 /*********************************************************************************************/
 
-LsColJob::LsColJob(AccountPtr account, const QString &path, QObject *parent)
-    : AbstractNetworkJob(account, path, parent)
+LsColJob::LsColJob(AccountPtr account, const QString &path)
+    : AbstractNetworkJob(account, path)
 {
 }
 
-LsColJob::LsColJob(AccountPtr account, const QUrl &url, QObject *parent)
-    : AbstractNetworkJob(account, QString(), parent)
+LsColJob::LsColJob(AccountPtr account, const QUrl &url)
+    : AbstractNetworkJob(account, QString())
     , _url(url)
 {
 }
@@ -403,6 +404,13 @@ bool LsColJob::finished()
         connect(&parser, &LsColXMLParser::finishedWithoutError,
             this, &LsColJob::finishedWithoutError);
 
+        // bool LsColXMLParser::parse takes a while, let's process some events in attempt to make UI more responsive
+        // from https://doc.qt.io/qt-5/qcoreapplication.html#processEvents-1 
+        // "You can call this function occasionally when your program is busy doing a long operation (e.g. copying a file)."
+        // we should not abuse this function, as it affects QObject instances lifetime (when children are getting deleted or when deleteLater is called)
+        // one reason I had to remove ability for LsColJob to have parent, which, otherwise, leads to a crash later
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
         QString expectedPath = reply()->request().url().path(); // something like "/owncloud/remote.php/dav/folder"
         if (!parser.parse(reply()->readAll(), &_folderInfos, expectedPath)) {
             // XML parse error
@@ -413,7 +421,10 @@ bool LsColJob::finished()
         emit finishedWithError(reply());
     }
 
-    return true;
+    this->deleteLater();
+
+    // fix crash on random deletion mess in the parent class, we never discard this job but always delete it inside this method
+    return false;
 }
 
 /*********************************************************************************************/
@@ -1012,6 +1023,7 @@ DetermineAuthTypeJob::DetermineAuthTypeJob(AccountPtr account, QObject *parent)
     : QObject(parent)
     , _account(account)
 {
+    useFlow2 = ConfigFile().forceLoginV2();
 }
 
 void DetermineAuthTypeJob::start()
@@ -1077,7 +1089,11 @@ void DetermineAuthTypeJob::start()
                 if (flow != QJsonValue::Undefined) {
                     if (flow.toInt() == 1) {
 #ifdef WITH_WEBENGINE
-                        _resultOldFlow = WebViewFlow;
+                        if(!this->useFlow2) {
+                            _resultOldFlow = WebViewFlow;
+                        } else {
+                            qCWarning(lcDetermineAuthTypeJob) << "Server only supports flow1, but this client was configured to only use flow2";
+                        }
 #else // WITH_WEBENGINE
                         qCWarning(lcDetermineAuthTypeJob) << "Server does only support flow1, but this client was compiled without support for flow1";
 #endif // WITH_WEBENGINE
@@ -1111,6 +1127,9 @@ void DetermineAuthTypeJob::checkAllDone()
     // WebViewFlow > Basic
     if (_account->serverVersionInt() >= Account::makeServerVersion(12, 0, 0)) {
         result = WebViewFlow;
+        if (useFlow2) {
+            result = LoginFlowV2;
+        }
     }
 #endif // WITH_WEBENGINE
 
@@ -1123,6 +1142,9 @@ void DetermineAuthTypeJob::checkAllDone()
     // If we determined that we need the webview flow (GS for example) then we switch to that
     if (_resultOldFlow == WebViewFlow) {
         result = WebViewFlow;
+        if (useFlow2) {
+            result = LoginFlowV2;
+        }
     }
 #endif // WITH_WEBENGINE
 

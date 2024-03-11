@@ -206,7 +206,7 @@ void EditLocallyJob::fetchRemoteFileParentInfo()
         return;
     }
 
-    const auto job = new LsColJob(_accountState->account(), QDir::cleanPath(_folderForFile->remotePathTrailingSlash() + _relPathParent), this);
+    const auto job = new LsColJob(_accountState->account(), QDir::cleanPath(_folderForFile->remotePathTrailingSlash() + _relPathParent));
     const QList<QByteArray> props{QByteArrayLiteral("resourcetype"),
                                   QByteArrayLiteral("getlastmodified"),
                                   QByteArrayLiteral("getetag"),
@@ -650,7 +650,8 @@ void EditLocallyJob::lockFile()
                                                                 _folderForFile->remotePathTrailingSlash(),
                                                                 _folderForFile->path(),
                                                                 _folderForFile->journalDb(),
-                                                                SyncFileItem::LockStatus::LockedItem);
+                                                                SyncFileItem::LockStatus::LockedItem,
+                                                                SyncFileItem::LockOwnerType::TokenLock);
 }
 
 void EditLocallyJob::disconnectFolderSignals()

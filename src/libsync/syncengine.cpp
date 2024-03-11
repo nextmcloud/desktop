@@ -314,7 +314,6 @@ void SyncEngine::conflictRecordMaintenance()
             }
 
             _journal->setConflictRecord(record);
-            account()->reportClientStatus(ClientStatusReportingStatus::DownloadError_Conflict);
         }
     }
 }
@@ -451,6 +450,7 @@ void OCC::SyncEngine::slotItemDiscovered(const OCC::SyncFileItemPtr &item)
         return;
     } else if (item->_instruction == CSYNC_INSTRUCTION_NONE) {
         _hasNoneFiles = true;
+        _syncFileStatusTracker->slotCheckAndRemoveSilentlyExcluded(item->_file);
         if (_account->capabilities().uploadConflictFiles() && Utility::isConflictFile(item->_file)) {
             // For uploaded conflict files, files with no action performed on them should
             // be displayed: but we mustn't overwrite the instruction if something happens
@@ -510,7 +510,9 @@ void SyncEngine::startSync()
                 const auto folderId = e2EeLockedFolder.first;
                 qCInfo(lcEngine()) << "start unlock job for folderId:" << folderId;
                 const auto folderToken = EncryptionHelper::decryptStringAsymmetric(_account->e2e()->_privateKey, e2EeLockedFolder.second);
+                // TODO: We need to rollback changes done to metadata in case we have an active lock, this needs to be implemented on the server first
                 const auto unlockJob = new OCC::UnlockEncryptFolderApiJob(_account, folderId, folderToken, _journal, this);
+                unlockJob->setShouldRollbackMetadataChanges(true);
                 unlockJob->start();
             }
         }
@@ -519,6 +521,10 @@ void SyncEngine::startSync()
     if (s_anySyncRunning || _syncRunning) {
         return;
     }
+    const auto currentEncryptionStatus = EncryptionStatusEnums::toDbEncryptionStatus(EncryptionStatusEnums::fromEndToEndEncryptionApiVersion(_account->capabilities().clientSideEncryptionVersion()));
+    [[maybe_unused]] const auto result = _journal->listAllE2eeFoldersWithEncryptionStatusLessThan(static_cast<int>(currentEncryptionStatus), [this](const SyncJournalFileRecord &record) {
+        _journal->schedulePathForRemoteDiscovery(record.path());
+    });
 
     s_anySyncRunning = true;
     _syncRunning = true;
@@ -1262,7 +1268,6 @@ void SyncEngine::slotSummaryError(const QString &message)
 
 void SyncEngine::slotInsufficientLocalStorage()
 {
-    account()->reportClientStatus(ClientStatusReportingStatus::DownloadError_No_Free_Space);
     slotSummaryError(
         tr("Disk space is low: Downloads that would reduce free space "
            "below %1 were skipped.")
@@ -1271,7 +1276,6 @@ void SyncEngine::slotInsufficientLocalStorage()
 
 void SyncEngine::slotInsufficientRemoteStorage()
 {
-    account()->reportClientStatus(ClientStatusReportingStatus::UploadError_No_Free_Space);
     auto msg = tr("There is insufficient space available on the server for some uploads.");
     if (_uniqueErrors.contains(msg))
         return;

@@ -27,6 +27,7 @@
 #include "gui/systray.h"
 #include <pushnotifications.h>
 #include <syncengine.h>
+#include "updatee2eefolderusersmetadatajob.h"
 
 #ifdef Q_OS_MAC
 #include <CoreServices/CoreServices.h>
@@ -1534,17 +1535,67 @@ void FolderMan::setDirtyNetworkLimits()
 
 void FolderMan::leaveShare(const QString &localFile)
 {
-    if (const auto folder = FolderMan::instance()->folderForPath(localFile)) {
-        const auto filePathRelative = QString(localFile).remove(folder->path());
+    const auto localFileNoTrailingSlash = localFile.endsWith('/') ? localFile.chopped(1) : localFile;
+    if (const auto folder = FolderMan::instance()->folderForPath(localFileNoTrailingSlash)) {
+        const auto filePathRelative = QString(localFileNoTrailingSlash).remove(folder->path());
 
-        const auto leaveShareJob = new SimpleApiJob(folder->accountState()->account(), folder->accountState()->account()->davPath() + filePathRelative);
-        leaveShareJob->setVerb(SimpleApiJob::Verb::Delete);
-        connect(leaveShareJob, &SimpleApiJob::resultReceived, this, [this, folder](int statusCode) {
-            Q_UNUSED(statusCode)
-            scheduleFolder(folder);
-        });
-        leaveShareJob->start();
+        SyncJournalFileRecord rec;
+        if (folder->journalDb()->getFileRecord(filePathRelative, &rec)
+            && rec.isValid() && rec.isE2eEncrypted()) {
+
+            if (_removeE2eeShareJob) {
+                _removeE2eeShareJob->deleteLater();
+            }
+
+            _removeE2eeShareJob = new UpdateE2eeFolderUsersMetadataJob(folder->accountState()->account(),
+                                                                                 folder->journalDb(),
+                                                                                 folder->remotePath(),
+                                                                                 UpdateE2eeFolderUsersMetadataJob::Remove,
+                //TODO: Might need to add a slash to "filePathRelative" once the server is working
+                                                                                 filePathRelative,
+                                                                                 folder->accountState()->account()->davUser());
+            _removeE2eeShareJob->setParent(this);
+            _removeE2eeShareJob->start(true);
+            connect(_removeE2eeShareJob, &UpdateE2eeFolderUsersMetadataJob::finished, this, [localFileNoTrailingSlash, this](int code, const QString &message) {   
+                if (code != 200) {
+                    qCDebug(lcFolderMan) << "Could not remove share from E2EE folder's metadata!" << code << message;
+                    return;
+                }
+                slotLeaveShare(localFileNoTrailingSlash, _removeE2eeShareJob->folderToken());
+            });
+
+            return;
+        }
+        slotLeaveShare(localFileNoTrailingSlash);
     }
+}
+
+void FolderMan::slotLeaveShare(const QString &localFile, const QByteArray &folderToken)
+{
+    const auto folder = FolderMan::instance()->folderForPath(localFile);
+
+    if (!folder) {
+        qCWarning(lcFolderMan) << "Could not find a folder for localFile:" << localFile;
+        return;
+    }
+
+    const auto filePathRelative = QString(localFile).remove(folder->path());
+    const auto leaveShareJob = new SimpleApiJob(folder->accountState()->account(), folder->accountState()->account()->davPath() + filePathRelative);
+    leaveShareJob->setVerb(SimpleApiJob::Verb::Delete);
+    leaveShareJob->addRawHeader("e2e-token", folderToken);
+    connect(leaveShareJob, &SimpleApiJob::resultReceived, this, [this, folder, localFile](int statusCode) {
+        qCDebug(lcFolderMan) << "slotLeaveShare callback statusCode" << statusCode;
+        Q_UNUSED(statusCode);
+        if (_removeE2eeShareJob) {
+            _removeE2eeShareJob->unlockFolder(EncryptedFolderMetadataHandler::UnlockFolderWithResult::Success);
+            connect(_removeE2eeShareJob.data(), &UpdateE2eeFolderUsersMetadataJob::folderUnlocked, this, [this, folder] {
+                scheduleFolder(folder);
+            });
+            return;
+        }
+        scheduleFolder(folder);
+    });
+    leaveShareJob->start();
 }
 
 void FolderMan::trayOverallStatus(const QList<Folder *> &folders,
@@ -1553,7 +1604,7 @@ void FolderMan::trayOverallStatus(const QList<Folder *> &folders,
     *status = SyncResult::Undefined;
     *unresolvedConflicts = false;
 
-    int cnt = folders.count();
+    const auto cnt = folders.count();
 
     // if one folder: show the state of the one folder.
     // if more folders:
@@ -1562,7 +1613,7 @@ void FolderMan::trayOverallStatus(const QList<Folder *> &folders,
     // do not show "problem" in the tray
     //
     if (cnt == 1) {
-        Folder *folder = folders.at(0);
+        const auto folder = folders.at(0);
         if (folder) {
             auto syncResult = folder->syncResult();
             if (folder->syncPaused()) {
@@ -1584,52 +1635,66 @@ void FolderMan::trayOverallStatus(const QList<Folder *> &folders,
             *unresolvedConflicts = syncResult.hasUnresolvedConflicts();
         }
     } else {
-        int errorsSeen = 0;
-        int goodSeen = 0;
-        int abortOrPausedSeen = 0;
-        int runSeen = 0;
+        auto errorsSeen = false;
+        auto goodSeen = false;
+        auto abortOrPausedSeen = false;
+        auto runSeen = false;
+        auto various = false;
 
         for (const Folder *folder : qAsConst(folders)) {
-            SyncResult folderResult = folder->syncResult();
+            // We've already seen an error, worst case met.
+            // No need to check the remaining folders.
+            if (errorsSeen) {
+                break;
+            }
+
+            const auto folderResult = folder->syncResult();
+
             if (folder->syncPaused()) {
-                abortOrPausedSeen++;
+                abortOrPausedSeen = true;
             } else {
-                SyncResult::Status syncStatus = folderResult.status();
+                const auto syncStatus = folderResult.status();
 
                 switch (syncStatus) {
                 case SyncResult::Undefined:
                 case SyncResult::NotYetStarted:
+                    various = true;
                     break;
                 case SyncResult::SyncPrepare:
                 case SyncResult::SyncRunning:
-                    runSeen++;
+                    runSeen = true;
                     break;
                 case SyncResult::Problem: // don't show the problem icon in tray.
                 case SyncResult::Success:
-                    goodSeen++;
+                    goodSeen = true;
                     break;
                 case SyncResult::Error:
                 case SyncResult::SetupError:
-                    errorsSeen++;
+                    errorsSeen = true;
                     break;
                 case SyncResult::SyncAbortRequested:
                 case SyncResult::Paused:
-                    abortOrPausedSeen++;
+                    abortOrPausedSeen = true;
                     // no default case on purpose, check compiler warnings
                 }
             }
-            if (folderResult.hasUnresolvedConflicts())
+
+            if (folderResult.hasUnresolvedConflicts()) {
                 *unresolvedConflicts = true;
+            }
         }
-        if (errorsSeen > 0) {
+
+        if (errorsSeen) {
             *status = SyncResult::Error;
-        } else if (abortOrPausedSeen > 0 && abortOrPausedSeen == cnt) {
+        } else if (abortOrPausedSeen) {
             // only if all folders are paused
             *status = SyncResult::Paused;
-        } else if (runSeen > 0) {
+        } else if (runSeen) {
             *status = SyncResult::SyncRunning;
-        } else if (goodSeen > 0) {
+        } else if (goodSeen) {
             *status = SyncResult::Success;
+        } else if (various) {
+            *status = SyncResult::Undefined;
         }
     }
 }

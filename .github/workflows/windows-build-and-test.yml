@@ -35,7 +35,7 @@ jobs:
           
       - name: Cache Install OpenCppCoverage
         id: cache-install-opencppcoverage
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: C:\Program Files\OpenCppCoverage
           key: ${{ runner.os }}-cache-install-opencppcoverage
@@ -78,7 +78,7 @@ jobs:
           runTestsAndCreateCoverage
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ${{ github.workspace }}\cobertura_coverage

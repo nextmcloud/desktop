@@ -158,6 +158,11 @@ bool Application::configVersionMigration()
         return true;
     }
 
+    // 'Launch on system startup' defaults to true > 3.11.x
+    const auto theme = Theme::instance();
+    configFile.setLaunchOnSystemStartup(configFile.launchOnSystemStartup());
+    Utility::setLaunchOnStartup(theme->appName(), theme->appNameGUI(), configFile.launchOnSystemStartup());
+
     // back up all old config files
     QStringList backupFilesList;
     QDir configDir(configFile.configPath());
@@ -344,10 +349,6 @@ Application::Application(int &argc, char **argv)
 
     connect(this, &SharedTools::QtSingleApplication::messageReceived, this, &Application::slotParseMessage);
 
-#if defined(BUILD_FILE_PROVIDER_MODULE)
-    _fileProvider.reset(new Mac::FileProvider);
-#endif
-
     // create accounts and folders from a legacy desktop client or from the current config file
     setupAccountsAndFolders();
 
@@ -415,6 +416,10 @@ Application::Application(int &argc, char **argv)
         AccountSetupCommandLineManager::instance()->setupAccountFromCommandLine();
     }
     AccountSetupCommandLineManager::destroy();
+
+#if defined(BUILD_FILE_PROVIDER_MODULE)
+    _fileProvider.reset(new Mac::FileProvider);
+#endif
 }
 
 Application::~Application()
@@ -639,20 +644,7 @@ void Application::slotownCloudWizardDone(int res)
         _checkConnectionTimer.start();
         slotCheckConnection();
 
-        // If one account is configured: enable autostart
-#ifndef QT_DEBUG
-        bool shouldSetAutoStart = AccountManager::instance()->accounts().size() == 1;
-#else
-        bool shouldSetAutoStart = false;
-#endif
-#ifdef Q_OS_MAC
-        // Don't auto start when not being 'installed'
-        shouldSetAutoStart = shouldSetAutoStart
-            && QCoreApplication::applicationDirPath().startsWith("/Applications/");
-#endif
-        if (shouldSetAutoStart) {
-            Utility::setLaunchOnStartup(_theme->appName(), _theme->appNameGUI(), true);
-        }
+        Utility::setLaunchOnStartup(_theme->appName(), _theme->appNameGUI(), true);
 
         Systray::instance()->showWindow();
     }

@@ -1,7 +1,3 @@
-# TODO: OSX and LIB_ONLY seem to require this to go to binary dir only
-if(NOT TOKEN_AUTH_ONLY)
-endif()
-
 include(ECMEnableSanitizers)
 
 set(REQUIRED_QT_VERSION "5.15.0")
@@ -27,6 +23,12 @@ set_package_properties(Qt5Xml PROPERTIES
 find_package(Qt5Concurrent ${REQUIRED_QT_VERSION} CONFIG QUIET)
 set_package_properties(Qt5Concurrent PROPERTIES
     DESCRIPTION "Qt5 Concurrent component."
+    TYPE REQUIRED
+)
+
+find_package(Qt5QuickWidgets ${REQUIRED_QT_VERSION} CONFIG QUIET)
+set_package_properties(Qt5QuickWidgets PROPERTIES
+    DESCRIPTION "Qt5 QuickWidgets component."
     TYPE REQUIRED
 )
 
