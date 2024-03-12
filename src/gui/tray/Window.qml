@@ -451,6 +451,10 @@ ApplicationWindow {
                             leftPadding: Style.nmcMenuSubItemLeftPadding
                             height: Style.nmcMenuSubItemHeight
 
+                            font {
+                                color: Style.nmcTrayWindowHeaderTextColor
+                            }
+
                             background: Item {
                                 height: parent.height
                                 width: parent.menu.width
@@ -475,6 +479,10 @@ ApplicationWindow {
                             icon.color: Style.ncTextColor
                             leftPadding: Style.nmcMenuSubItemLeftPadding
                             height: Style.nmcMenuSubItemHeight
+
+                            font {
+                                color: Style.nmcTrayWindowHeaderTextColor
+                            }
 
                             onClicked: Systray.openSettings()
 
@@ -502,6 +510,10 @@ ApplicationWindow {
                             icon.color: Style.ncTextColor
                             leftPadding: Style.nmcMenuSubItemLeftPadding
                             height: Style.nmcMenuSubItemHeight
+
+                            font {
+                                color: Style.nmcTrayWindowHeaderTextColor
+                            }
 
                             onClicked: Systray.shutdown()
 
