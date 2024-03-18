@@ -451,7 +451,7 @@ ApplicationWindow {
                             leftPadding: Style.nmcMenuSubItemLeftPadding
                             height: Style.nmcMenuSubItemHeight
 
-                            font {
+                            Text {
                                 color: Style.nmcTrayWindowHeaderTextColor
                             }
 
@@ -480,7 +480,7 @@ ApplicationWindow {
                             leftPadding: Style.nmcMenuSubItemLeftPadding
                             height: Style.nmcMenuSubItemHeight
 
-                            font {
+                            Text {
                                 color: Style.nmcTrayWindowHeaderTextColor
                             }
 
@@ -511,7 +511,7 @@ ApplicationWindow {
                             leftPadding: Style.nmcMenuSubItemLeftPadding
                             height: Style.nmcMenuSubItemHeight
 
-                            font {
+                            Text {
                                 color: Style.nmcTrayWindowHeaderTextColor
                             }
 
