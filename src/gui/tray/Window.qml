@@ -41,21 +41,21 @@ ApplicationWindow {
     // TODO: Rather than setting all these palette colours manually,
     // create a custom style and do it for all components globally
     palette {
-        text: Style.ncTextColor
-        windowText: Style.ncTextColor
-        buttonText: Style.ncTextColor
-        brightText: Style.ncTextBrightColor
+        text: Style.nmcTrayWindowHeaderTextColor
+        windowText: Style.nmcTrayWindowHeaderTextColor
+        buttonText: Style.nmcTrayWindowHeaderTextColor
+        brightText: Style.nmcTrayWindowHeaderTextColor
         highlight: Style.lightHover
-        highlightedText: Style.ncTextColor
+        highlightedText: Style.nmcTrayWindowHeaderTextColor
         light: Style.lightHover
-        midlight: Style.ncSecondaryTextColor
+        midlight: Style.nmcTrayWindowHeaderTextColor
         mid: Style.darkerHover
         dark: Style.menuBorder
         button: Style.buttonBackgroundColor
         window: Style.backgroundColor
         base: Style.backgroundColor
         toolTipBase: Style.backgroundColor
-        toolTipText: Style.ncTextColor
+        toolTipText: Style.nmcTrayWindowHeaderTextColor
     }
 
     readonly property int maxMenuHeight: Style.trayWindowHeight - Style.trayWindowHeaderHeight - 2 * Style.trayWindowBorderWidth
