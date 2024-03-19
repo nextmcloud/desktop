@@ -20,7 +20,7 @@ import Style 1.0
 
 MenuItem {
     icon.color: hovered ? Style.ncBlue : Style.ncTextColor
-    palette.windowText: hovered ? Style.ncBlue : Style.ncTextColor
+    palette.windowText: hovered ? Style.nmcTrayWindowHeaderTextColor : Style.nmcTrayWindowHeaderTextColor
     hoverEnabled: true
     font.pixelSize: Style.topLinePixelSize
 }
