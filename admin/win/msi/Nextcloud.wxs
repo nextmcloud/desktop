@@ -131,8 +131,6 @@
         ]]>
     </CustomAction>
     <InstallExecuteSequence>
-        <!-- Notify about the existing app -->
-      <!--  <Custom Action='UninstallOldClient' Before='InstallFiles'></Custom> -->
         <!-- Install: Remove previous NSIS installation, if detected -->
         <Custom Action="ExecNsisUninstaller" Before="ProcessComponents">NSIS_UNINSTALLEXE AND NOT Installed</Custom>
 
