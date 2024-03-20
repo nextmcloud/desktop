@@ -96,7 +96,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     //Create and connect the push buttons to base slots
     auto loginBrowserButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
     connect(loginBrowserButton, &QPushButton::clicked, this, [this](){
-        ocWizard()->successfulStep();
+        validatePage();
     });
 
     auto buttonLayout = new QHBoxLayout(this);
