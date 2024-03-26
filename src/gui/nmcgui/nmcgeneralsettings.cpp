@@ -130,7 +130,7 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->layout()->addWidget(dataAnalysisImpressum);
 
     auto *dataAnalysisData = new QLabel(this);
-    dataAnalysisData->setText(QString("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(QCoreApplication::translate("", "DATA_PROTECTION")));
+    dataAnalysisData->setText(QString("<a href=\"https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(QCoreApplication::translate("", "DATA_PROTECTION")));
     dataAnalysisData->setTextFormat(Qt::RichText);
     dataAnalysisData->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisData->setOpenExternalLinks(true);
