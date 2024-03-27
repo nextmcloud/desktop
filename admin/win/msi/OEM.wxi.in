@@ -22,6 +22,7 @@
     <!-- App Defines -->
     <?define AppName = "@APPLICATION_NAME@" ?>
     <?define AppShortName = "@APPLICATION_EXECUTABLE@" ?>
+    <?define OldAppName = "MagentaCLOUD Software" ?>
 
     <?define AppIcon = "@APPLICATION_ICON_NAME@.ico" ?>
     <?define AppExe = "@APPLICATION_EXECUTABLE@.exe" ?>
@@ -36,9 +37,8 @@
     <?define NCContextMenuShellextWndClassName = "@NCCONTEXTMENU_SHELLEXT_WINDOW_CLASS_NAME@" ?>
 
     <!-- Custom license: To use it, also remove the "Skip the license page" stuff in the <UI> section
-                         and uncomment <WixVariable Id="WixUILicenseRtf"...
-    <?define AppLicenseRtf = "path\License.rtf" ?>
-    -->
+                         and uncomment <WixVariable Id="WixUILicenseRtf"...-->
+    <?define AppLicenseRtf = "$(sys.CURRENTDIR)\License.rtf" ?>
 
     <!-- App Version -->
     <?define VerMajor = "@MIRALL_VERSION_MAJOR@" ?>
