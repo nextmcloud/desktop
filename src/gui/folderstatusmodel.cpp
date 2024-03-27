@@ -51,13 +51,13 @@ FolderStatusModel::FolderStatusModel(QObject *parent)
 
 FolderStatusModel::~FolderStatusModel() = default;
 
-static bool sortByFolderHeader(const FolderStatusModel::SubFolderInfo &lhs, const FolderStatusModel::SubFolderInfo &rhs)
-{
-    return QString::compare(lhs._folder->shortGuiRemotePathOrAppName(),
-               rhs._folder->shortGuiRemotePathOrAppName(),
-               Qt::CaseInsensitive)
-        < 0;
-}
+// static bool sortByFolderHeader(const FolderStatusModel::SubFolderInfo &lhs, const FolderStatusModel::SubFolderInfo &rhs)
+// {
+//     return QString::compare(lhs._folder->shortGuiRemotePathOrAppName(),
+//                rhs._folder->shortGuiRemotePathOrAppName(),
+//                Qt::CaseInsensitive)
+//         < 0;
+// }
 
 void FolderStatusModel::setAccountState(const AccountState *accountState)
 {
@@ -91,7 +91,8 @@ void FolderStatusModel::setAccountState(const AccountState *accountState)
     }
 
     // Sort by header text
-    std::sort(_folders.begin(), _folders.end(), sortByFolderHeader);
+    //NMC customization, dont sort the folders by name, try to keep them as thwey were created
+    //std::sort(_folders.begin(), _folders.end(), sortByFolderHeader);
 
     // Set the root _pathIdx after the sorting
     for (int i = 0; i < _folders.size(); ++i) {
@@ -577,7 +578,6 @@ bool FolderStatusModel::hasChildren(const QModelIndex &parent) const
 
     return true;
 }
-
 
 bool FolderStatusModel::canFetchMore(const QModelIndex &parent) const
 {
