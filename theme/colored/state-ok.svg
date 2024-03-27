@@ -1,1 +1,15 @@
-<svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(.87499 0 0 .87499 .26458 -255.9)"><circle cx="2.1167" cy="294.88" r="2.1167" fill="#5eb220" stroke-width=".25066"/><path d="m0.79642 295.01 0.93278 0.93284 1.7265-1.7267" fill="none" stroke="#faffff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52916"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="4" height="4" viewBox="0 0 4 4">
+  <defs>
+    <clipPath id="clip-state-ok_1">
+      <rect width="4" height="4"/>
+    </clipPath>
+  </defs>
+  <g id="state-ok_1" data-name="state-ok – 1" clip-path="url(#clip-state-ok_1)">
+    <g id="Gruppe_542" data-name="Gruppe 542" transform="translate(-34.164 -69.145)">
+      <g id="Gruppe_539" data-name="Gruppe 539" transform="translate(34.314 69.295)">
+        <circle id="Ellipse_46" data-name="Ellipse 46" cx="1.794" cy="1.794" r="1.794" transform="translate(0.084 0.076)" fill="#fff"/>
+        <path id="Check-Icon" d="M4.156,1.489a1.87,1.87,0,0,0-2.619.017,1.852,1.852,0,0,0,1.31,3.156,1.915,1.915,0,0,0,1.31-.537l.017-.017A1.87,1.87,0,0,0,4.156,1.489Zm-.185.873L2.511,3.823l-.772-.772a.131.131,0,1,1,.185-.185l.588.588L3.787,2.178a.12.12,0,0,1,.185.017A.153.153,0,0,1,3.972,2.362Z" transform="translate(-1 -0.962)" fill="#73c354"/>
+      </g>
+    </g>
+  </g>
+</svg>
