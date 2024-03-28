@@ -41,6 +41,7 @@
 #include "tray/sortedactivitylistmodel.h"
 #include "tray/syncstatussummary.h"
 #include "tray/unifiedsearchresultslistmodel.h"
+#include "nmcgui/nmcsortedactivitylistmodel.h"
 
 #ifdef WITH_LIBCLOUDPROVIDERS
 #include "cloudproviders/cloudprovidermanager.h"
@@ -122,6 +123,7 @@ ownCloudGui::ownCloudGui(Application *parent)
     qmlRegisterType<ActivityListModel>("com.nextcloud.desktopclient", 1, 0, "ActivityListModel");
     qmlRegisterType<FileActivityListModel>("com.nextcloud.desktopclient", 1, 0, "FileActivityListModel");
     qmlRegisterType<SortedActivityListModel>("com.nextcloud.desktopclient", 1, 0, "SortedActivityListModel");
+    qmlRegisterType<NMCSortedActivityListModel>("com.nextcloud.desktopclient", 1, 0, "NMCSortedActivityListModel");
     qmlRegisterType<WheelHandler>("com.nextcloud.desktopclient", 1, 0, "WheelHandler");
     qmlRegisterType<CallStateChecker>("com.nextcloud.desktopclient", 1, 0, "CallStateChecker");
     qmlRegisterType<Quick::DateFieldBackend>("com.nextcloud.desktopclient", 1, 0, "DateFieldBackend");
