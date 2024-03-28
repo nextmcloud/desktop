@@ -41,6 +41,12 @@ public:
     ~GeneralSettings() override;
     [[nodiscard]] QSize sizeHint() const override;
 
+protected:
+    Ui::GeneralSettings *getUi() const
+    {
+        return _ui;
+    }
+
 public slots:
     void slotStyleChanged();
 
