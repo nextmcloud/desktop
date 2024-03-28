@@ -64,6 +64,7 @@ public:
     static QRect addButtonRect(QRect within, Qt::LayoutDirection direction);
     static QRect errorsListRect(QRect within);
     static int rootFolderHeightWithoutErrors(const QFontMetrics &fm, const QFontMetrics &aliasFm);
+    static QRect moreRectPos(const QRect &rectIndex); //NMC customization
 
 public slots:
     void slotStyleChanged();
@@ -75,6 +76,8 @@ private:
     QPersistentModelIndex _pressedIndex;
 
     QIcon _iconMore;
+
+    QStyleOptionViewItem _newOption;
 };
 
 } // namespace OCC
