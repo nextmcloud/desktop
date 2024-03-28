@@ -275,8 +275,8 @@ void AccountSettings::slotE2eEncryptionMnemonicReady()
     });
 
     _ui->encryptionMessage->setMessageType(KMessageWidget::Positive);
-    _ui->encryptionMessage->setText(tr("End-to-end encryption has been enabled for this account"));
-    _ui->encryptionMessage->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/lock.svg")));
+    _ui->encryptionMessage->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_ACTIVE"));
+    //_ui->encryptionMessage->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/lock.svg")));
     _ui->encryptionMessage->show();
 }
 
@@ -370,9 +370,7 @@ bool AccountSettings::canEncryptOrDecrypt(const FolderStatusModel::SubFolderInfo
 
     if (!_accountState->account()->e2e() || _accountState->account()->e2e()->_mnemonic.isEmpty()) {
         QMessageBox msgBox;
-        msgBox.setText(tr("End-to-end encryption is not configured on this device. "
-                          "Once it is configured, you will be able to encrypt this folder.\n"
-                          "Would you like to set up end-to-end encryption?"));
+        msgBox.setText(QCoreApplication::translate("", "E2E_MNEMONIC_TEXT2"));
         msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Ok);
         const auto ret = msgBox.exec();
@@ -1047,9 +1045,7 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
     ui.setupUi(&widget);
     widget.setWindowTitle(tr("End-to-end encryption mnemonic"));
     ui.label->setText(
-        tr("To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. "
-           "Please note these down and keep them safe. "
-           "They will be needed to add other devices to your account (like your mobile phone or laptop)."));
+        QCoreApplication::translate("", "E2E_MNEMONIC_TEXT"));
     QFont monoFont(QStringLiteral("Monospace"));
     monoFont.setStyleHint(QFont::TypeWriter);
     ui.lineEdit->setFont(monoFont);
@@ -1073,10 +1069,10 @@ void AccountSettings::disableEncryptionForAccount(const AccountPtr &account) con
 {
     QMessageBox dialog;
     dialog.setWindowTitle(tr("Disable end-to-end encryption"));
-    dialog.setText(tr("Disable end-to-end encryption for %1?").arg(account->davUser()));
-    dialog.setInformativeText(tr("Removing end-to-end encryption will remove locally-synced files that are encrypted."
-                                 "<br>"
-                                 "Encrypted files will remain on the server."));
+    dialog.setText(QCoreApplication::translate("", "E2E_MNEMONIC_TEXT4"));
+    // dialog.setInformativeText(tr("Removing end-to-end encryption will remove locally-synced files that are encrypted."
+    //                              "<br>"
+    //                              "Encrypted files will remain on the server."));
     dialog.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     dialog.setDefaultButton(QMessageBox::Ok);
     dialog.adjustSize();
@@ -1623,11 +1619,7 @@ void AccountSettings::initializeE2eEncryption()
 
         connect(_accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this] {
             if (!_accountState->account()->e2e()->_publicKey.isNull()) {
-                _ui->encryptionMessage->setText(tr("End-to-end encryption has been enabled on this account with another device."
-                                                   "<br>"
-                                                   "It can be enabled on this device by entering your mnemonic."
-                                                   "<br>"
-                                                   "This will enable synchronisation of existing encrypted folders."));
+                _ui->encryptionMessage->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_START"));
             }
         });
         _accountState->account()->setE2eEncryptionKeysGenerationAllowed(false);
@@ -1683,7 +1675,7 @@ void AccountSettings::initializeE2eEncryptionSettingsMessage()
 {
     _ui->encryptionMessage->setMessageType(KMessageWidget::Information);
     _ui->encryptionMessage->setText(tr("This account supports end-to-end encryption"));
-    _ui->encryptionMessage->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/black/state-info.svg")));
+    //_ui->encryptionMessage->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/black/state-info.svg")));
     _ui->encryptionMessage->hide();
 
     auto *const actionEnableE2e = addActionToEncryptionMessage(tr("Set up encryption"), e2EeUiActionEnableEncryptionId);
