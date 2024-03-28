@@ -33,6 +33,9 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
 #NMC change, its needed to find the ui file in a different location than the header file
 set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
 
+#NMC change, its needed to find the ui file in a different location than the header file
+set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
+
 if(QUICK_COMPILER)
         find_package(Qt5QuickCompiler)
         set_package_properties(Qt5QuickCompiler PROPERTIES
