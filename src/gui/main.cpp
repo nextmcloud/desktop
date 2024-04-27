@@ -12,6 +12,8 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  */
+
+
 #include <QtGlobal>
 
 #include <cmath>
@@ -37,6 +39,7 @@
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QSurfaceFormat>
+
 
 using namespace OCC;
 
@@ -79,7 +82,6 @@ int main(int argc, char **argv)
 #ifdef Q_OS_MAC
     Mac::CocoaInitializer cocoaInit; // RIIA
 #endif
-
     auto surfaceFormat = QSurfaceFormat::defaultFormat();
     surfaceFormat.setOption(QSurfaceFormat::ResetNotification);
     QSurfaceFormat::setDefaultFormat(surfaceFormat);
