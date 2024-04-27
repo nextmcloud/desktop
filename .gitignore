@@ -1,4 +1,5 @@
-.gitmodules
+# Ignorierte Dateien und Ordner
+
 *build*/
 *flymake*
 CMakeLists.txt.user*
