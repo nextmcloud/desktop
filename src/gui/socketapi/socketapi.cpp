@@ -561,10 +561,21 @@ void SocketApi::processEncryptRequest(const QString &localFile)
                                                      "Server replied with error: %2").arg(fileData.folderRelativePath, job->errorString()));
             Q_UNUSED(ret)
         } else {
-            const int ret = QMessageBox::information(nullptr,
-                                                     tr("Folder encrypted successfully").arg(fileData.folderRelativePath),
-                                                     tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
-            Q_UNUSED(ret)
+            // const int ret = QMessageBox::information(nullptr,
+            //                                          tr("Folder encrypted successfully").arg(fileData.folderRelativePath),
+            //                                          tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
+            // Q_UNUSED(ret)
+
+            //Magenta customization
+            const auto messageBox = new QMessageBox;
+            messageBox->setAttribute(Qt::WA_DeleteOnClose);
+            messageBox->setWindowTitle(tr("Folder encrypted successfully").arg(fileData.folderRelativePath));
+            messageBox->setText(tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
+            const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/lock.svg"));
+            QPixmap pixmap = avatarIcon.pixmap(QSize(24, 24));
+            messageBox->setIconPixmap(pixmap);
+            messageBox->addButton(QMessageBox::NoButton);
+            messageBox->show();
         }
     });
     job->setProperty(encryptJobPropertyFolder, QVariant::fromValue(folder));
@@ -1183,40 +1194,41 @@ void SocketApi::sendSharingContextMenuOptions(const FileData &fileData, SocketLi
         listener->sendMessage(QLatin1String("MENU_ITEM:LEAVESHARE") + flagString + tr("Leave this share"));
     }
 
+    //Magenta customization
     // If sharing is globally disabled, do not show any sharing entries.
     // If there is no permission to share for this file, add a disabled entry saying so
-    if (isOnTheServer && !record._remotePerm.isNull() && !record._remotePerm.hasPermission(RemotePermissions::CanReshare)) {
-        listener->sendMessage(QLatin1String("MENU_ITEM:DISABLED:d:") + (!record.isDirectory() ? tr("Resharing this file is not allowed") : tr("Resharing this folder is not allowed")));
-    } else {
-        listener->sendMessage(QLatin1String("MENU_ITEM:SHARE") + flagString + tr("Share options"));
+    // if (isOnTheServer && !record._remotePerm.isNull() && !record._remotePerm.hasPermission(RemotePermissions::CanReshare)) {
+    //     listener->sendMessage(QLatin1String("MENU_ITEM:DISABLED:d:") + (!record.isDirectory() ? tr("Resharing this file is not allowed") : tr("Resharing this folder is not allowed")));
+    // } else {
+    //     listener->sendMessage(QLatin1String("MENU_ITEM:SHARE") + flagString + tr("Share options"));
 
-        // Do we have public links?
-        bool publicLinksEnabled = theme->linkSharing() && capabilities.sharePublicLink();
+    //     // Do we have public links?
+    //     bool publicLinksEnabled = theme->linkSharing() && capabilities.sharePublicLink();
 
-        // Is is possible to create a public link without user choices?
-        bool canCreateDefaultPublicLink = publicLinksEnabled
-            && !capabilities.sharePublicLinkEnforceExpireDate()
-            && !capabilities.sharePublicLinkAskOptionalPassword()
-            && !capabilities.sharePublicLinkEnforcePassword();
+    //     // Is is possible to create a public link without user choices?
+    //     bool canCreateDefaultPublicLink = publicLinksEnabled
+    //         && !capabilities.sharePublicLinkEnforceExpireDate()
+    //         && !capabilities.sharePublicLinkAskOptionalPassword()
+    //         && !capabilities.sharePublicLinkEnforcePassword();
 
-        if (canCreateDefaultPublicLink) {
-            if (isSecureFileDropSupported) {
-                listener->sendMessage(QLatin1String("MENU_ITEM:COPY_SECUREFILEDROP_LINK") + QLatin1String("::") + tr("Copy secure file drop link"));
-            } else {
-                listener->sendMessage(QLatin1String("MENU_ITEM:COPY_PUBLIC_LINK") + flagString + tr("Copy public link"));
-            }
-        } else if (publicLinksEnabled) {
-            if (isSecureFileDropSupported) {
-                listener->sendMessage(QLatin1String("MENU_ITEM:MANAGE_PUBLIC_LINKS") + QLatin1String("::") + tr("Copy secure filedrop link"));
-            } else {
-                listener->sendMessage(QLatin1String("MENU_ITEM:MANAGE_PUBLIC_LINKS") + flagString + tr("Copy public link"));
-            }
-        }
-    }
+    //     if (canCreateDefaultPublicLink) {
+    //         if (isSecureFileDropSupported) {
+    //             listener->sendMessage(QLatin1String("MENU_ITEM:COPY_SECUREFILEDROP_LINK") + QLatin1String("::") + tr("Copy secure file drop link"));
+    //         } else {
+    //             listener->sendMessage(QLatin1String("MENU_ITEM:COPY_PUBLIC_LINK") + flagString + tr("Copy public link"));
+    //         }
+    //     } else if (publicLinksEnabled) {
+    //         if (isSecureFileDropSupported) {
+    //             listener->sendMessage(QLatin1String("MENU_ITEM:MANAGE_PUBLIC_LINKS") + QLatin1String("::") + tr("Copy secure filedrop link"));
+    //         } else {
+    //             listener->sendMessage(QLatin1String("MENU_ITEM:MANAGE_PUBLIC_LINKS") + flagString + tr("Copy public link"));
+    //         }
+    //     }
+    // }
 
-    if (itemEncryptionFlag == SharingContextItemEncryptedFlag::NotEncryptedItem) {
-        listener->sendMessage(QLatin1String("MENU_ITEM:COPY_PRIVATE_LINK") + flagString + tr("Copy internal link"));
-    }
+    // if (itemEncryptionFlag == SharingContextItemEncryptedFlag::NotEncryptedItem) {
+    //     listener->sendMessage(QLatin1String("MENU_ITEM:COPY_PRIVATE_LINK") + flagString + tr("Copy internal link"));
+    // }
 
     // Disabled: only providing email option for private links would look odd,
     // and the copy option is more general.
@@ -1380,9 +1392,10 @@ void SocketApi::command_GET_MENU_ITEMS(const QString &argument, OCC::SocketListe
         const QFileInfo fileInfo(fileData.localPath);
         sendLockFileInfoMenuEntries(fileInfo, syncFolder, fileData, listener, record);
 
-        if (!fileInfo.isDir()) {
-            listener->sendMessage(QLatin1String("MENU_ITEM:ACTIVITY") + flagString + tr("Activity"));
-        }
+        //Magenta customization
+        // if (!fileInfo.isDir()) {
+        //     listener->sendMessage(QLatin1String("MENU_ITEM:ACTIVITY") + flagString + tr("Activity"));
+        // }
 
         DirectEditor* editor = getDirectEditorForLocalFile(fileData.localPath);
         if (editor) {
