@@ -25,6 +25,7 @@
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
 #include "accountmanager.h"
+#include "nmcgui/nmcnetworksettings.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
@@ -138,7 +139,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
-    auto *networkSettings = new NetworkSettings;
+    auto *networkSettings = new NMCNetworkSettings;
     _ui->stack->addWidget(networkSettings);
 
     _actionGroupWidgets.insert(generalAction, generalSettings);
