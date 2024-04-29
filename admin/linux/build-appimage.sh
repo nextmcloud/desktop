@@ -7,8 +7,14 @@ export EXECUTABLE_NAME=${EXECUTABLE_NAME:-nextcloud}
 export BUILD_UPDATER=${BUILD_UPDATER:-OFF}
 export BUILDNR=${BUILDNR:-0000}
 export DESKTOP_CLIENT_ROOT=${DESKTOP_CLIENT_ROOT:-/home/user}
-export QT_BASE_DIR=${QT_BASE_DIR:-/usr}
-export OPENSSL_ROOT_DIR=${OPENSSL_ROOT_DIR:-/usr/lib/x86_64-linux-gnu}
+
+#Set Qt-5.15
+
+export QT_BASE_DIR=/opt/kdeqt5.15
+
+export QTDIR=$QT_BASE_DIR
+export PATH=$QT_BASE_DIR/bin:$PATH
+
 export VERSION_SUFFIX=${VERSION_SUFFIX:stable}
 
 # Set defaults
