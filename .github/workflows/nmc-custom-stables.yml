@@ -22,6 +22,7 @@ on:
         type: choice
         description: Custom build from base branch
         options: 
+          - stable-3.13
           - stable-3.12
           - stable-3.11
           - stable-3.10
