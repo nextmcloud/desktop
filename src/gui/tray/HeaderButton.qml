@@ -36,4 +36,25 @@ Button {
     Layout.alignment: Qt.AlignRight
     Layout.preferredWidth:  Style.trayWindowHeaderHeight
     Layout.preferredHeight: Style.trayWindowHeaderHeight
+
+    background: Rectangle {
+        color: root.hovered || root.visualFocus ? Style.currentUserHeaderTextColor : "transparent"
+        opacity: 0.2
+    }
+
+    contentItem: Item {
+        anchors.fill: parent
+        
+        Image {
+            id: internalImage
+            anchors.centerIn: parent
+            width: root.icon.width
+            height: root.icon.height
+            source: root.icon.source
+            sourceSize {
+                width: root.icon.width
+                height: root.icon.height
+            }
+        }
+    }
 }
