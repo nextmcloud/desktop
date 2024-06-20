@@ -58,7 +58,6 @@ int main(int argc, char **argv)
 #ifdef Q_OS_WIN
     SetDllDirectory(L"");
 #endif
-
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
 
