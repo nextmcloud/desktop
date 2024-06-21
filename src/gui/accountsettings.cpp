@@ -22,7 +22,7 @@
 #include "theme.h"
 #include "foldercreationdialog.h"
 #include "folderman.h"
-#include "folderwizard.h"
+#include "nmcgui/nmcfolderwizard.h"
 #include "folderstatusmodel.h"
 #include "folderstatusdelegate.h"
 #include "common/utility.h"
@@ -749,7 +749,7 @@ void AccountSettings::slotAddFolder()
     const auto folderMan = FolderMan::instance();
     folderMan->setSyncEnabled(false); // do not start more syncs.
 
-    const auto folderWizard = new FolderWizard(_accountState->account(), this);
+    const auto folderWizard = new NMCFolderWizard(_accountState->account(), this);
     folderWizard->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(folderWizard, &QDialog::accepted, this, &AccountSettings::slotFolderWizardAccepted);
@@ -760,7 +760,7 @@ void AccountSettings::slotAddFolder()
 
 void AccountSettings::slotFolderWizardAccepted()
 {
-    const auto folderWizard = qobject_cast<FolderWizard *>(sender());
+    const auto folderWizard = qobject_cast<NMCFolderWizard *>(sender());
     const auto folderMan = FolderMan::instance();
 
     qCInfo(lcAccountSettings) << "Folder wizard completed";
