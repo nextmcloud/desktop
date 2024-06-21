@@ -45,7 +45,6 @@
         https://www.joyofsetup.com/2010/01/16/major-upgrades-now-easier-than-ever/
     -->
     <MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="yes" />
-    <Property Id="REINSTALLMODE" Value="amus" />
 
     <Media Id="1" Cabinet="$(var.AppShortName).cab" EmbedCab="yes" />
 
@@ -54,12 +53,19 @@
         <RegistrySearch Id="RegistryInstallDir" Type="raw" Root="HKLM" Key="Software\$(var.AppVendor)\$(var.AppName)" Win64="no" />
     </Property>
 
+    <Property Id="OLDCLIENTDIR">C:\Windows\System32\</Property>
+
     <!-- Detect legacy NSIS installation -->
     <Property Id="NSIS_UNINSTALLEXE">
         <RegistrySearch Id="RegistryLegacyUninstallString" Type="file" Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\$(var.AppName)" Name="UninstallString" Win64="no">
 		    <FileSearch Id="LegacyUninstallFileName" Name="Uninstall.exe"/>
 	    </RegistrySearch>
     </Property>
+
+   <!-- <Property Id="UNINSTALL_OLD">
+        <RegistrySearch Id="RegistryLegacyUninstallString" Type="file" Root="HKLM" Key="Software\Microsoft\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\$("MagentaCLOUD Software")" Name="UninstallString" Win64="no">
+            </RegistrySearch>
+    </Property>-->
 
     <!-- Property to disable update checks -->
     <Property Id="SKIPAUTOUPDATE" Value="0" />
@@ -71,6 +77,59 @@
     <SetProperty Id="ExecNsisUninstaller" Value="&quot;$(var.AppShortName)&quot; &quot;[NSIS_UNINSTALLEXE]&quot;" Before="ExecNsisUninstaller" Sequence="execute" />
     <SetProperty Id="RemoveNavigationPaneEntries" Value="&quot;$(var.AppName)&quot;" Before="RemoveNavigationPaneEntries" Sequence="execute" />
 
+    <!-- Detect the old client by its upgrade id -->
+   <!-- <Upgrade Id="21BAADEB-079C-4503-B99A-D49A34D8C525">
+        <UpgradeVersion OnlyDetect='no' Property='OLDFOUND' 
+            Minimum="0.0.0.0" IncludeMinimum="yes"
+            Maximum='99.0.0.0' IncludeMaximum='yes' />
+    </Upgrade> -->
+    <CustomAction Id="UninstallOldClient"
+        Script="vbscript"
+        Execute="immediate">
+        <![CDATA[
+                const HKEY_CLASSES_ROOT   = &H80000000
+                const HKEY_CURRENT_USER   = &H80000001
+                const HKEY_LOCAL_MACHINE  = &H80000002
+                const HKEY_USERS          = &H80000003
+                const HKEY_CURRENT_CONFIG = &H80000004
+                const HKEY_DYN_DATA       = &H80000005
+                strComputer = "."
+                oldClientExists = False
+                userName = CreateObject("WScript.Network").UserName
+                configPath = "C:\Users\"& userName &"\AppData\Roaming\MagentaCLOUD"
+                configFile = configPath & "\magentacloud.cfg"
+                jsonPath = "C:\Users\"& userName &"\AppData\Local\MagentaCLOUD"
+                jsonFile = jsonFile & "\magentacloud.cfg"
+
+                set oWsh = createobject("wscript.shell")
+                Set oReg = GetObject("winmgmts:{impersonationLevel=impersonate}!\\" _
+                         & strComputer & "\root\default:StdRegProv")
+
+                strKeyPath = "software\WOW6432Node\microsoft\windows\currentversion\uninstall" ' Root level
+                oReg.EnumKey HKEY_LOCAL_MACHINE, strKeyPath, arrSubKeys
+
+                For Each subkey In arrSubKeys
+                  on error resume next
+                  sDisplayName = oWsh.Regread("HKLM\" & strKeyPath & "\" & subkey & "\DisplayName")
+                  if err.number = 0 then
+                    on error goto 0
+                    if sDisplayName = "MagentaCLOUD Software" then
+                        oldClientExists = True
+                        sUninstall = oWsh.Regread("HKLM\" & strKeyPath & "\" & subkey & "\UnInstallString")
+                    End If
+                  End If
+                Next
+                on error goto 0
+
+                if oldClientExists Then
+                    sUninstall = sUnInstall & " /qn"
+                    command = "/k " & sUninstall
+                    Set objShell = CreateObject("Shell.Application")
+                    objShell.ShellExecute "cmd.exe", command, "", "runas", 0
+
+                End If
+        ]]>
+    </CustomAction>
     <InstallExecuteSequence>
         <!-- Install: Remove previous NSIS installation, if detected -->
         <Custom Action="ExecNsisUninstaller" Before="ProcessComponents">NSIS_UNINSTALLEXE AND NOT Installed</Custom>
@@ -114,18 +173,27 @@
     -->
 
     <!-- Custom license -->
-    <!--
     <WixVariable Id="WixUILicenseRtf" Value="$(var.AppLicenseRtf)" />
-    -->
 
     <UI>
         <UIRef Id="WixUI_FeatureTree" />
         <UIRef Id="WixUI_ErrorProgressText" />
 
-        <!-- Skip the license page -->
-        <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg" Order="3">1</Publish>
-        <!-- Skip the page on the way back too -->
-        <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3">1</Publish>
+        <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg" Order="3">1</Publish>
+        <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg" Order="3">1</Publish>
+        <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="3">1</Publish>
+
+     <!--   <Publish Dialog="MigrationDialog"
+            Control="Finish"
+            Event="DoAction"
+            Value="RemoveOldClient">NOT Installed</Publish> -->
+
+     <!--   <Publish Dialog="MigrationDialog" Control="cancelButton" Event="EndDialog" Value="ExitDialog">1</Publish> -->
+        <UIRef Id="MigrationDialogUI"/>
+
+        <Publish Dialog="MigrationDialog" Control="Weiter"
+            Event="DoAction" Value="UninstallOldClient">Not Installed</Publish>
+       <Publish Dialog="MigrationDialog" Control="Weiter" Event="EndDialog" Value="Return">1</Publish>
 
         <!-- https://wixtoolset.org/documentation/manual/v3/howtos/ui_and_localization/run_program_after_install.html -->        
         <Publish Dialog="ExitDialog" 
@@ -141,15 +209,17 @@
     <!-- "Launch" checkbox -->
     <Property Id="WixShellExecTarget" Value="[#MainExecutable]" />
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
-    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch $(var.AppName)" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="$(var.AppName) starten" />
     <SetProperty Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" Before="CostInitialize">NOT (LAUNCH=0)</SetProperty>
 
     <!-- Components -->
     <Directory Id="TARGETDIR" Name="SourceDir">
         <Directory Id="$(var.PlatformProgramFilesFolder)" Name="PFiles">
             <Directory Id="INSTALLDIR" Name="$(var.AppName)">
+                <Directory Id="OLDCLIENTDIR" Name="UninstallString">
                 <!-- Shell Extensions -->
-                <Directory Id="ShellExtDir" />
+                    <Directory Id="ShellExtDir" Name="shellext" />
+                </Directory>
             </Directory>
         </Directory>
 
