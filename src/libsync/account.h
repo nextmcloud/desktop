@@ -40,6 +40,13 @@
 #include <QPixmap>
 #endif
 
+#include "accountfwd.h"
+#include "capabilities.h"
+#include "clientsideencryption.h"
+#include "clientstatusreporting.h"
+#include "common/utility.h"
+#include "syncfileitem.h"
+
 #include <memory>
 
 class QSettings;
