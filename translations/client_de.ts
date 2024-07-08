@@ -54,11 +54,11 @@
     </message>
     <message>
         <source>LIVE_BACKUPS_DESCRIPTION</source>
-        <translation>Synchronisieren Sie weitere beliebiege lokale Ordner in ihre MagentaCLOUD und schützen Sie damit ihre Inhalte kontinuierlich.</translation>
+        <translation>Synchronisieren Sie weitere beliebige lokale Ordner in Ihre MagentaCLOUD und schützen Sie damit Ihre Inhalte kontinuierlich.</translation>
     </message>
     <message>
         <source>LIVE_BACKUP_DESCRIPTION</source>
-        <translation>Synchronisieren Sie weitere beliebiege lokale Ordner in ihre MagentaCLOUD und schützen Sie damit ihre Inhalte kontinuierlich.</translation>
+        <translation>Synchronisieren Sie weitere beliebige lokale Ordner in Ihre MagentaCLOUD und schützen Sie damit hre Inhalte kontinuierlich.</translation>
     </message>
     <message>
         <source>YOUR_FOLDER_SYNC</source>
@@ -82,7 +82,7 @@
     </message>
     <message>
         <source>ADD_LIVE_BACKUP_HEADLINE</source>
-        <translation>Live.Backup hinzufügen</translation>
+        <translation>Live - Backup hinzufügen</translation>
     </message>
     <message>
         <source>ADD_LIVE_BACKUP_PAGE1_DESCRIPTION</source>
@@ -156,7 +156,7 @@ MagentaCLOUD</translation>
     </message>
     <message>
         <source>E2E_ENCRYPTION_ACTIVE</source>
-        <translation>Die Ende-zu-Ende-Verschlüsselung wurde erfolgreich aktiviert. Sie können nun verschlüsselte Inhalte bearbeiten oder neue, leere Ordner verschlüsseln.</translation>
+        <translation>Die Ende-zu-Ende-Verschlüsselung wurde erfolgreich aktiviert. Sie können nun verschlüsselte Inhalte bearbeiten.</translation>
     </message>
     <message>
         <source>E2E_ENCRYPTION_START</source>
@@ -196,11 +196,11 @@ MagentaCLOUD</translation>
 erstellt. Wir empfehlen ihnen, die Passphrase zu notieren und sicher aufzubewahren.
 
 Die Passphrase ist ihr persönliches Kennwort mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder den Zugriff auf diese Dateien auf anderen Geräten wie z.B.
-Smartphones zu ermöglichen.</translation>
+Smartphones ermöglichen.</translation>
     </message>
     <message>
     	<source>E2E_MNEMONIC_TEXT2</source>
-    	<translation>Sie können keine Ordner verschlüsseln, die bereits unverschlüsselt synchronisierte Dateien enthalten. Bitte legen Sie einen neuen, leeren Ordner an und verschlüsseln diesen.</translation>
+    	<translation>Sie können keine Ordner verschlüsseln, die bereits unverschlüsselt synchronisierte Dateien enthalten. Bitte legen Sie einen neuen, leeren Ordner an und verschlüsseln Sie diesen.</translation>
     </message>
     <message>
     	<source>E2E_MNEMONIC_TEXT3</source>
@@ -695,8 +695,8 @@ Soll das Konto importiert werden?</translation>
         <location filename="../src/gui/accountsettings.cpp" line="118"/>
         <source>This will encrypt your folder and all files within it. These files will no longer be accessible without your encryption mnemonic key. 
 &lt;b&gt;This process is not reversible. Are you sure you want to proceed?&lt;/b&gt;</source>
-        <translation>Dadurch werden Ihr Ordner und alle darin enthaltenen Dateien verschlüsselt. Auf diese Dateien kann ohne Ihren mnemonischen Verschlüsselungsschlüssel nicht mehr zugegriffen werden.
-&lt;b&gt;Dies kann nicht rückgängig gemacht werden. Sind Sie sicher, dass Sie fortfahren möchten?&lt;/b&gt;</translation>
+    <translation>Der Ordner und alle enthaltenen Dateien werden verschlüsselt.Ohne die 12 - Wort Passphrase kann dann nicht mehr auf die Dateien zugegriffen werden.
+&lt;b&gt;Möchten sie fortfahren?&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="232"/>
