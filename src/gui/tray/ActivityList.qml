@@ -85,8 +85,9 @@ ScrollView {
             background: null
             width: activityList.contentItem.width
 
+            leftPadding: Style.nmcListViewLeftPadding
             isFileActivityList: controlRoot.isFileActivityList
-            iconSize: controlRoot.iconSize
+            iconSize: Style.nmcListViewIconSize //controlRoot.iconSize
             flickable: activityList
             onHoveredChanged: if (hovered) {
                 // When we set the currentIndex the list view will scroll...
