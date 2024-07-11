@@ -106,6 +106,7 @@ for distribution in ${UBUNTU_DISTRIBUTIONS} ${DEBIAN_DISTRIBUTIONS}; do
         debsign -k2265D8767D14AA7B -S
     fi
 done
+
 cd ..
 ls -al
 
