@@ -11,7 +11,9 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  */
-
+// begin nmc customzations
+#include "nmcgui/nmcnetworksettings.h"
+// end nmc customzations
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 
@@ -24,7 +26,6 @@
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
 #include "accountmanager.h"
-#include "nmcgui/nmcnetworksettings.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
@@ -40,7 +41,6 @@
 #include <QWidgetAction>
 #include <QPainter>
 #include <QPainterPath>
-#include <QQuickView>
 
 namespace {
 const QString TOOLBAR_CSS()
