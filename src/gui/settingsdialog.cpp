@@ -24,7 +24,6 @@
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
 #include "accountmanager.h"
-#include "nmcgui/nmcnetworksettings.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
@@ -40,6 +39,8 @@
 #include <QWidgetAction>
 #include <QPainter>
 #include <QPainterPath>
+
+#include "nmcgui/nmcnetworksettings.h"
 
 namespace {
 const QString TOOLBAR_CSS()
