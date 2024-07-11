@@ -27,7 +27,6 @@
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
 #include "accountmanager.h"
-#include "nmcgui/nmcnetworksettings.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
@@ -43,8 +42,6 @@
 #include <QWidgetAction>
 #include <QPainter>
 #include <QPainterPath>
-#include <QQuickView>
-#include <QActionGroup>
 
 #include "nmcgui/nmcnetworksettings.h"
 
