@@ -217,6 +217,109 @@
     </message>
 </context>
 <context>
+    <name>FileProviderEvictionDialog</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="33"/>
+        <source>Evict materialised files</source>
+        <translation>Избаци материјализоване фајлове</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="49"/>
+        <source>Materialised items</source>
+        <translation>Материјализоване ставке</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="61"/>
+        <source>Reload</source>
+        <translation>Поново учитај</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderFastEnumerationSettings</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderFastEnumerationSettings.qml" line="38"/>
+        <source>Enable fast sync</source>
+        <translation>Укључи брзу синхронизацију</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderFastEnumerationSettings.qml" line="53"/>
+        <source>Fast sync will only sync changes in files and folders within folders that have been explored. This can significantly increase responsiveness on initial configuration of virtual files. However, it will cause redundant downloads of files moved to an unexplored folder. </source>
+        <translation>Брза синхронизација ће синхронизовати само измене над фајловима и фолдерима унутар фолдера који су истражени. Ово може значајно да побољша брзину одзива приликом почетног подешавања виртуелних фајлова. Међутим, изаваће додатна преузимања фајлова који су премештени у неистражени фолдер.</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderFileDelegate</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderFileDelegate.qml" line="95"/>
+        <source>Delete</source>
+        <translation>Обриши</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderSettings</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="32"/>
+        <source>Virtual files settings</source>
+        <translation>Подешавања виртуелних фајлова</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="73"/>
+        <source>General settings</source>
+        <translation>Општа подешавања</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="82"/>
+        <source>Enable virtual files</source>
+        <translation>Укључи виртуелне фајлове</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="167"/>
+        <source>Advanced</source>
+        <translation>Напредно</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="174"/>
+        <source>Signal file provider domain</source>
+        <translation>Наведи домен пружаоца фајла</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="179"/>
+        <source>Create debug archive</source>
+        <translation>Креирај дибаг архиву</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderStorageInfo</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="41"/>
+        <source>Local storage use</source>
+        <translation>Искоришћење локалног складишта</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="49"/>
+        <source>%1 GB of %2 GB remote files synced</source>
+        <translation>Синхронизовано је %1 GB од %2 GB удаљених фајлова</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="58"/>
+        <source>Evict local copies...</source>
+        <translation>Избаци локалне копије</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderSyncStatus</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="57"/>
+        <source>Syncing</source>
+        <translation>Синхронизује се</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="57"/>
+        <source>All synced!</source>
+        <translation>Све је синхронизовано!</translation>
+    </message>
+</context>
+<context>
     <name>FileSystem</name>
     <message>
         <location filename="../src/libsync/filesystem.cpp" line="157"/>
@@ -350,14 +453,14 @@ Should an account import be attempted?</source>
 Да ли да се покуша увоз налога?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="198"/>
+        <location filename="../src/gui/accountmanager.cpp" line="199"/>
         <source>%1 accounts were detected from a legacy desktop client.
 Should the accounts be imported?</source>
         <translation>Откривено је %1 налога са десктоп клијента старе верзије.
 Да ли би требало да се увезу?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="200"/>
+        <location filename="../src/gui/accountmanager.cpp" line="201"/>
         <source>1 account was detected from a legacy desktop client.
 Should the account be imported?</source>
         <translation>Откривен је 1 налог са десктоп клијента старе верзије.
@@ -371,12 +474,12 @@ Should the account be imported?</source>
         <translation>Увоз старе верзије</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="203"/>
+        <location filename="../src/gui/accountmanager.cpp" line="204"/>
         <source>Import</source>
         <translation>Увези</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="204"/>
+        <location filename="../src/gui/accountmanager.cpp" line="205"/>
         <source>Skip</source>
         <translation>Прескочи</translation>
     </message>
@@ -393,6 +496,11 @@ Should the account be imported?</source>
 </context>
 <context>
     <name>OCC::AccountSettings</name>
+    <message>
+        <location filename="../src/gui/accountsettings.ui" line="148"/>
+        <source>Storage space: …</source>
+        <translation>Складиштени простор: …</translation>
+    </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="31"/>
         <source>Unchecked folders will be &lt;b&gt;removed&lt;/b&gt; from your local file system and will not be synchronized to this computer anymore</source>
@@ -416,11 +524,6 @@ Should the account be imported?</source>
         <translation>Повезан са &lt;server&gt; као &lt;user&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.ui" line="148"/>
-        <source>Storage space: …</source>
-        <translation>Складиштени простор: …</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.ui" line="256"/>
         <source>Synchronize all</source>
         <translation>Синхронизуј све</translation>
@@ -434,6 +537,16 @@ Should the account be imported?</source>
         <location filename="../src/gui/accountsettings.ui" line="270"/>
         <source>Apply manual changes</source>
         <translation>Примени ручне измене</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.ui" line="267"/>
+        <source>Standard file sync</source>
+        <translation>Сихрнонизовање стандардног фајла</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.ui" line="308"/>
+        <source>Virtual file sync</source>
+        <translation>Сихрнонизовање виртуелног фајла</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="93"/>
@@ -456,12 +569,12 @@ Should the account be imported?</source>
         <translation>Шифрирај фолдер</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="116"/>
+        <location filename="../src/gui/accountsettings.cpp" line="120"/>
         <source>End-to-end Encryption</source>
         <translation>Шифровање са краја на крај</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="118"/>
+        <location filename="../src/gui/accountsettings.cpp" line="122"/>
         <source>This will encrypt your folder and all files within it. These files will no longer be accessible without your encryption mnemonic key. 
 &lt;b&gt;This process is not reversible. Are you sure you want to proceed?&lt;/b&gt;</source>
         <translation>Ово ће да шифрује фолдер и све фајлове у њему. Тим фајловима више неће моћи да се приступи без мнемоничког кључа шифровања. 
@@ -493,17 +606,17 @@ Should the account be imported?</source>
         <translation>Упозорење</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="356"/>
+        <location filename="../src/gui/accountsettings.cpp" line="377"/>
         <source>Please wait for the folder to sync before trying to encrypt it.</source>
         <translation>Молимо вас да најпре сачекате да се фолдер синхронизује пре него што покушате да га шифрујете.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="358"/>
+        <location filename="../src/gui/accountsettings.cpp" line="379"/>
         <source>The folder has a minor sync problem. Encryption of this folder will be possible once it has synced successfully</source>
         <translation>Овај фолдер има мали проблем са синхронизацијом. Шифровање ће бити могуће тек када се успешно синхронизује</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="360"/>
+        <location filename="../src/gui/accountsettings.cpp" line="381"/>
         <source>The folder has a sync error. Encryption of this folder will be possible once it has synced successfully</source>
         <translation>Овај фолдер има грешку синхронизације. Шифровање ће бити могуће тек када се успешно синхронизује</translation>
     </message>
@@ -759,6 +872,11 @@ This action will abort any currently running synchronization.</source>
         <translation>Нема конекције на %1 са %2.</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1300"/>
+        <source>Unable to connect to %1.</source>
+        <translation>Није успело повезивање са %1.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1264"/>
         <source>Server configuration error: %1 at %2.</source>
         <translation>Грешка у конфигурацији сервера: %1 у %2.</translation>
@@ -784,7 +902,7 @@ This action will abort any currently running synchronization.</source>
         <translation>Ово су фасцикле које нису синхронизоване зато што су превелике или су на спољним складиштима:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1573"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1594"/>
         <source>There are folders that have grown in size beyond %1MB: %2</source>
         <translation>Има фолдера чија је величина нарасла преко %1MB: %2</translation>
     </message>
@@ -981,34 +1099,34 @@ This action will abort any currently running synchronization.</source>
         <translation>Настави</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="460"/>
+        <location filename="../src/gui/application.cpp" line="499"/>
         <source>%1 accounts</source>
         <comment>number of accounts imported</comment>
         <translation>%1 налога</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="461"/>
+        <location filename="../src/gui/application.cpp" line="500"/>
         <source>1 account</source>
         <translation>1 налог</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="463"/>
+        <location filename="../src/gui/application.cpp" line="502"/>
         <source>%1 folders</source>
         <comment>number of folders imported</comment>
         <translation>%1 фолдера</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="464"/>
+        <location filename="../src/gui/application.cpp" line="503"/>
         <source>1 folder</source>
         <translation>1 фолдер</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="466"/>
+        <location filename="../src/gui/application.cpp" line="505"/>
         <source>Legacy import</source>
         <translation>Увоз старе верзије</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="467"/>
+        <location filename="../src/gui/application.cpp" line="506"/>
         <source>Imported %1 and %2 from a legacy desktop client.
 %3</source>
         <comment>number of accounts and folders imported. list of users.</comment>
@@ -1451,6 +1569,11 @@ This action will abort any currently running synchronization.</source>
         <source>Please update to the latest server and restart the client.</source>
         <translation>Ажурирајте сервер и поново покрените клијента.</translation>
     </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="344"/>
+        <source>Connection issue</source>
+        <translation>Проблем са везом</translation>
+    </message>
 </context>
 <context>
     <name>OCC::DiscoveryPhase</name>
@@ -1474,8 +1597,8 @@ This action will abort any currently running synchronization.</source>
         <translation>Серверска грешка: PROPFIND одговор није XML форматиран!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="668"/>
-        <location filename="../src/libsync/discoveryphase.cpp" line="696"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="678"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="707"/>
         <source>Encrypted metadata setup error!</source>
         <translation>Грешка подешавања шифрованих метаподатака!</translation>
     </message>
@@ -1645,32 +1768,34 @@ This can be an issue with your OpenSSL libraries.</source>
 <context>
     <name>OCC::EncryptedFolderMetadataHandler</name>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="59"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="162"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="171"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="199"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="64"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="71"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="77"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="180"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="189"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="217"/>
         <source>Error fetching metadata.</source>
         <translation>Грешка приликом добављања метаподатака.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="114"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="120"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="213"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="132"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="138"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="231"/>
         <source>Error locking folder.</source>
         <translation>Грешка код закључавања фолдера.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="147"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="165"/>
         <source>Error fetching encrypted folder ID.</source>
-        <translation type="unfinished"/>
+        <translation>Грешка приликом добављања ID шифрованог фолдера.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="181"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="199"/>
         <source>Error parsing or decrypting metadata.</source>
         <translation>Грешка приликом парсирања или дешифровања метаподатака.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="323"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="341"/>
         <source>Failed to upload metadata</source>
         <translation>Није успело отпремање метаподатака</translation>
     </message>
@@ -1926,29 +2051,49 @@ This can be an issue with your OpenSSL libraries.</source>
         <translation>Идите у поставке и означите ако желите да ја преузмете.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1369"/>
+        <location filename="../src/gui/folder.cpp" line="1386"/>
         <source>A folder has surpassed the set folder size limit of %1MB: %2.
 %3</source>
         <translation>Фолдер је прешао постављено ограничење величине од %1MB: %2.
 %3</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1380"/>
+        <location filename="../src/gui/folder.cpp" line="1397"/>
         <source>Keep syncing</source>
         <translation>Настави синхронизацију</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1388"/>
+        <location filename="../src/gui/folder.cpp" line="1405"/>
         <source>Stop syncing</source>
         <translation>Заустави синхронизацију</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1399"/>
+        <location filename="../src/gui/folder.cpp" line="1411"/>
+        <source>All files in the sync folder &quot;%1&quot; folder were deleted on the server.
+These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
+If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
+If you decide to delete the files, they will be unavailable to you, unless you are the owner.</source>
+        <translation>Сви фајлови у фолдеру за синхронизацију „%1” су обрисани са сервера.
+Ова брисања ће се синхронизовати са вашим локалним фолдером за синхронизацију, па ти фајлови неће бити доступни осим у случају да имате право да их обновите. 
+Ако одлучите да обновите фајлове, они ће се поново синхронизовати са сервером у случају да имате права за то.
+Ако одлучите да обришете фајлове, нећете више моћи да им приступите, осим у случају да сте ви њихов власник.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1416"/>
         <source>The folder %1 has surpassed the set folder size limit of %2MB.</source>
         <translation>Фолдер %1 је прешао постављено ограничење величине од %2MB.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1400"/>
+        <location filename="../src/gui/folder.cpp" line="1416"/>
+        <source>All the files in your local sync folder &quot;%1&quot; were deleted. These deletes will be synchronized with your server, making such files unavailable unless restored.
+Are you sure you want to sync those actions with the server?
+If this was an accident and you decide to keep your files, they will be re-synced from the server.</source>
+        <translation>Обрисани су сви фајлови у вашем локалном фолдеру за синхронизацију „%1”. Ова брисања ће се синхронизовати са вашим сервером, па ти фајлови више неће бити доступни осим ако се не обнове.
+Да ли сте сигурни да желите да синхронизујете ове акције са сервером?
+Ако је ово било случајно и одлучите да задржите своје фајлове, они ће се поново синхронизовати са сервера.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1417"/>
         <source>Would you like to stop syncing this folder?</source>
         <translation>Желите ли да зауставите синхронизацију овог фолдера?</translation>
     </message>
@@ -1976,31 +2121,6 @@ This means that the synchronization client might not upload local changes immedi
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1521"/>
-        <source>Virtual file download failed with code &quot;%1&quot;, status &quot;%2&quot; and error message &quot;%3&quot;</source>
-        <translation>Није успело виртуелно преузимање фајла, кôд „%1”, статус „%2” и порука о грешки „%3~</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folder.cpp" line="1411"/>
-        <source>All files in the sync folder &quot;%1&quot; folder were deleted on the server.
-These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
-If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
-If you decide to delete the files, they will be unavailable to you, unless you are the owner.</source>
-        <translation>Сви фајлови у фолдеру за синхронизацију „%1” су обрисани са сервера.
-Ова брисања ће се синхронизовати са вашим локалним фолдером за синхронизацију, па ти фајлови неће бити доступни осим у случају да имате право да их обновите. 
-Ако одлучите да обновите фајлове, они ће се поново синхронизовати са сервером у случају да имате права за то.
-Ако одлучите да обришете фајлове, нећете више моћи да им приступите, осим у случају да сте ви њихов власник.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folder.cpp" line="1416"/>
-        <source>All the files in your local sync folder &quot;%1&quot; were deleted. These deletes will be synchronized with your server, making such files unavailable unless restored.
-Are you sure you want to sync those actions with the server?
-If this was an accident and you decide to keep your files, they will be re-synced from the server.</source>
-        <translation>Обрисани су сви фајлови у вашем локалном фолдеру за синхронизацију „%1”. Ова брисања ће се синхронизовати са вашим сервером, па ти фајлови више неће бити доступни осим ако се не обнове.
-Да ли сте сигурни да желите да синхронизујете ове акције са сервером?
-Ако је ово било случајно и одлучите да задржите своје фајлове, они ће се поново синхронизовати са сервера.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/folder.cpp" line="1420"/>
         <source>Remove All Files?</source>
         <translation>Уклонити све фајлове?</translation>
@@ -2014,6 +2134,44 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <location filename="../src/gui/folder.cpp" line="1425"/>
         <source>Keep files</source>
         <translation>Остави фајлове</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1538"/>
+        <source>Virtual file download failed with code &quot;%1&quot;, status &quot;%2&quot; and error message &quot;%3&quot;</source>
+        <translation>Није успело виртуелно преузимање фајла, кôд „%1”, статус „%2” и порука о грешки „%3~</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1631"/>
+        <source>All files in the server folder &quot;%1&quot; were deleted.
+
+If you restore the files, they will be uploaded again to the server.</source>
+        <translation>Обрисани су сви фајлови у фолдеру „%1” на серверу.
+
+Ако вратите фајлове, они ће се поново отпремити на сервер.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1632"/>
+        <source>All files in the local folder &quot;%1&quot; were deleted.
+
+If you restore the files, they will be downloaded again from the server.</source>
+        <translation>Обрисани су сви фајлови у локалном фолдеру „%1”.
+
+Ако вратите фајлове, они ће се поново преузети са сервера.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1633"/>
+        <source>Remove all files?</source>
+        <translation>Желите ли да уклоните све фајлове?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1637"/>
+        <source>Proceed to remove all files</source>
+        <translation>Настави са уклањањем свих фајлова</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1638"/>
+        <source>Restore files</source>
+        <translation>Врати фајлове</translation>
     </message>
 </context>
 <context>
@@ -2609,7 +2767,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>Питај за потврду пре синхронизације фасцикли већих од</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="245"/>
+        <location filename="../src/gui/generalsettings.ui" line="230"/>
         <source>Desktop client x.x.x</source>
         <translation>Десктоп клијент x.x.x</translation>
     </message>
@@ -2619,44 +2777,27 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>Канал ажурирања</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="151"/>
-        <location filename="../src/gui/generalsettings.cpp" line="327"/>
-        <source>stable</source>
-        <translation>стабилан</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="156"/>
-        <location filename="../src/gui/generalsettings.cpp" line="329"/>
-        <source>beta</source>
-        <translation>бета</translation>
-    </message>
-    <message>
         <location filename="../src/gui/generalsettings.ui" line="183"/>
         <source>&amp;Restart &amp;&amp; Update</source>
         <translation>&amp;Поново покрени и ажурирај</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="284"/>
-        <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
-        <translation>Прикажи синхронизоване фасцикле у &amp;Експлореровом навигационом панелу</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="323"/>
+        <location filename="../src/gui/generalsettings.ui" line="313"/>
         <source>&amp;Automatically check for updates</source>
         <translation>&amp;Аутоматски проверавај постојање ажурирања</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="339"/>
+        <location filename="../src/gui/generalsettings.ui" line="329"/>
         <source>Check Now</source>
         <translation>Провери сада</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="363"/>
+        <location filename="../src/gui/generalsettings.ui" line="353"/>
         <source>Usage Documentation</source>
         <translation>Документација о употреби</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="370"/>
+        <location filename="../src/gui/generalsettings.ui" line="360"/>
         <source>Legal Notice</source>
         <translation>Правно обавештење</translation>
     </message>
@@ -2671,22 +2812,27 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>За системску палету</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="420"/>
+        <location filename="../src/gui/generalsettings.ui" line="284"/>
+        <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
+        <translation>Прикажи синхронизоване фасцикле у &amp;Експлореровом навигационом панелу</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="410"/>
         <source>Use &amp;monochrome icons</source>
         <translation>Користи &amp;једнобојне иконе</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="427"/>
+        <location filename="../src/gui/generalsettings.ui" line="417"/>
         <source>&amp;Launch on system startup</source>
         <translation>Покрени при покретању &amp;система</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="434"/>
+        <location filename="../src/gui/generalsettings.ui" line="424"/>
         <source>Show server &amp;notifications</source>
         <translation>Прикажи &amp;обавештења са сервера</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="441"/>
+        <location filename="../src/gui/generalsettings.ui" line="431"/>
         <source>Show call notifications</source>
         <translation>Прикажи обавештења о позиву</translation>
     </message>
@@ -2706,6 +2852,18 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>Не можете да искључите аутостарт јер је укључен аутостарт на нивоу система.</translation>
     </message>
     <message>
+        <location filename="../src/gui/generalsettings.ui" line="151"/>
+        <location filename="../src/gui/generalsettings.cpp" line="327"/>
+        <source>stable</source>
+        <translation>стабилан</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="156"/>
+        <location filename="../src/gui/generalsettings.cpp" line="329"/>
+        <source>beta</source>
+        <translation>бета</translation>
+    </message>
+    <message>
         <location filename="../src/gui/generalsettings.cpp" line="350"/>
         <source>Change update channel?</source>
         <translation>Да ли да променим канал ажурирања?</translation>
@@ -2718,6 +2876,44 @@ Note that this selects only what pool upgrades are taken from, and that there ar
         <translation>Канал ажурирања одређује која клијентска ажурирања се нуде за инсталацију. „стабилан” канал садржи само ажурирања које се сматрају поузданим, док верзије у „бета” каналу могу да садрже новије могућности и исправке багова, али још увек нису детаљно тестиране.
 
 Имајте на уму да ово бира само из ког складишта се преузимају ажурирања, као и да нема враћања на раније верзије: тако да враћање са бета канала на стабилни канал обично не може да се изврши тренутно и значи да је потребно чекање на стабилну верзију која је новија од тренутно инсталиране бета верзије.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="359"/>
+        <source>daily</source>
+        <translation>дневно</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="363"/>
+        <source>enterprise</source>
+        <translation>предузетничка</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="391"/>
+        <source>- enterprise: contains stable versions for customers.
+</source>
+        <comment>description of enterprise update channel for enterprise customers</comment>
+        <translation>- предузетничка: садржи стабилне верзије за муштерије.
+</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="396"/>
+        <source>Changing update channel?</source>
+        <translation>Мењате ли канал ажурирања?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="397"/>
+        <source>The channel determines which upgrades will be offered to install:
+- stable: contains tested versions considered reliable
+- beta: contains versions with new features that may not be tested thoroughly
+- daily: contains versions created daily only for testing and development
+%1
+Downgrading versions is not possible immediately: changing from beta to stable means waiting for the new stable version.</source>
+        <translation>Канал одређује која ажурирања ће се понудити за инсталирање:
+- стабилни: садржи тестиране верзије које се сматрају за поуздане
+- бета: садржи верзије са новим функцијама које можда нису темељно тестиране
+- дневни: садржи верзије које се креирају свакодневно и служе само за тестирање и развој
+%1
+Враћање на старију верзију није могуће тренутно: промена са бета канала на стабилни значи да ће се чекати на нову стабилну верзију.</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="364"/>
@@ -3683,6 +3879,34 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Име фајла је резервисано име на овом фајл систему.</translation>
     </message>
     <message>
+        <location filename="../src/libsync/discovery.cpp" line="358"/>
+        <source>Folder</source>
+        <comment>name of folder entity to use when warning about invalid name</comment>
+        <translation>Фолдер</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="358"/>
+        <source>File</source>
+        <comment>name of folder entity to use when warning about invalid name</comment>
+        <translation>Фајл</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="360"/>
+        <source>%1 name containing the character &quot;%2&quot; is not supported on this file system.</source>
+        <comment>folder or file impossible to sync due to an invalid name, placeholders will be file or folder and the invalid character</comment>
+        <translation>Име „%1” које садржи карактер „%2” се не подржава на овом фајл систему.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="362"/>
+        <source>%1 name contains at least one invalid character</source>
+        <translation>Име %1 садржи бар један недозвољени карактер</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="364"/>
+        <source>%1 name is a reserved name on this file system.</source>
+        <translation>Име %1 је резервисано име на овом фајл систему.</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/discovery.cpp" line="361"/>
         <source>Filename contains trailing spaces.</source>
         <translation>Име фајла садржи размаке на крају.</translation>
@@ -3763,6 +3987,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Не може да се синхронизује због неисправног времена измене</translation>
     </message>
     <message>
+        <location filename="../src/libsync/discovery.cpp" line="1048"/>
+        <source>Could not upload file, because it is open in &quot;%1&quot;.</source>
+        <translation>Фајл не може да се отпреми јер је отворен у „%1”.</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/discovery.cpp" line="1010"/>
         <source>Error while deleting file record %1 from the database</source>
         <translation>Грешка приликом брисања фајл записа %1 из базе података</translation>
@@ -3776,6 +4005,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/discovery.cpp" line="1268"/>
         <source>Conflict when uploading a file. It&apos;s going to get removed!</source>
         <translation>Конфликт приликом отпремања фајла. Обрисаће се!</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="1711"/>
+        <source>Moved to invalid target, restoring</source>
+        <translation>Премештено на неисправан циљ, враћа се</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1637"/>
@@ -3796,11 +4030,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/discovery.cpp" line="1689"/>
         <source>Not allowed to upload this file because it is read-only on the server, restoring</source>
         <translation>Није дозвољено да отпремите овај фајл јер је на серверу означен као само-за-читање. Враћа се</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/discovery.cpp" line="1711"/>
-        <source>Moved to invalid target, restoring</source>
-        <translation>Премештено на неисправан циљ, враћа се</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1725"/>
@@ -3829,6 +4058,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/owncloudpropagator.cpp" line="1371"/>
         <source>Error updating metadata due to invalid modification time</source>
         <translation>Грешка приликом ажурирања метаподатака услед неисправног времена измене</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1480"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1505"/>
+        <source>The folder %1 cannot be made read-only: %2</source>
+        <translation>Фолдер %1 не може да се буде само-за-читање: %2</translation>
     </message>
     <message>
         <location filename="../src/libsync/owncloudpropagator.cpp" line="1387"/>
@@ -3948,6 +4183,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Не може да се креира фолдер %1</translation>
     </message>
     <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="229"/>
+        <source>The folder %1 cannot be made read-only: %2</source>
+        <translation>Фолдер %1 не може да се буде само-за-читање: %2</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="200"/>
         <source>Error updating metadata: %1</source>
         <translation>Грешка приликом ажурирања метаподатака: %1</translation>
@@ -3973,6 +4213,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 </context>
 <context>
     <name>OCC::PropagateLocalRename</name>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="312"/>
+        <source>Folder %1 cannot be renamed because of a local file or folder name clash!</source>
+        <translation>Фолдеру %1 не може да се промени име због судара са називом локалног фајла или фолдера!</translation>
+    </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="254"/>
         <source>File %1 downloaded but it resulted in a local file name clash!</source>
@@ -4048,7 +4293,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Сервер је вратио погрешан HTTP кôд. Очекивао се 201, а примљен је „%1 %2”.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemkdir.cpp" line="248"/>
+        <location filename="../src/libsync/propagateremotemkdir.cpp" line="258"/>
         <source>Failed to encrypt a folder %1</source>
         <translation>Није успело шифровање фолдера %1</translation>
     </message>
@@ -4338,7 +4583,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::ShareManager</name>
     <message>
-        <location filename="../src/gui/sharemanager.cpp" line="681"/>
+        <location filename="../src/gui/sharemanager.cpp" line="684"/>
         <source>Error</source>
         <translation>Грешка</translation>
     </message>
@@ -4371,7 +4616,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>Сигурно место за упуштање фајлова</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="855"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="862"/>
         <source>Could not find local folder for %1</source>
         <translation>Не може да се пронађе локални фолдер за %1</translation>
     </message>
@@ -4995,16 +5240,16 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::Theme</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="553"/>
-        <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;&lt;p&gt;Version %1. For more information please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt;.&lt;/p&gt;</source>
-        <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
-        <translation>&lt;p&gt;%1 Десктоп клијент&lt;/p&gt;&lt;p&gt;верзија %1. За више информација, молимо вас да кликнете &lt;a href=&apos;%2&apos;&gt;овде&lt;/a&gt;.&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/theme.cpp" line="554"/>
         <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
         <translation>&lt;p&gt;%1 десктоп клијент&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/theme.cpp" line="559"/>
+        <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;&lt;p&gt;Version %1. For more information please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt;.&lt;/p&gt;</source>
+        <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
+        <translation>&lt;p&gt;%1 Десктоп клијент&lt;/p&gt;&lt;p&gt;верзија %1. За више информација, молимо вас да кликнете &lt;a href=&apos;%2&apos;&gt;овде&lt;/a&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="561"/>
@@ -5012,7 +5257,7 @@ Server replied with error: %2</source>
         <translation>&lt;p&gt;&lt;small&gt;Користи се додатак виртуелних фајлова: %1&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="570"/>
+        <location filename="../src/libsync/theme.cpp" line="576"/>
         <source>&lt;p&gt;%1 desktop client %2&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
         <translation>&lt;p&gt;%1 десктоп клијент %2&lt;/p&gt;</translation>
@@ -5055,17 +5300,17 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::UpdateE2eeFolderMetadataJob</name>
     <message>
-        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="130"/>
+        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="132"/>
         <source>Failed to update folder metadata.</source>
         <translation>Није успело отпремање метаподатака фолдера.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="153"/>
+        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="155"/>
         <source>Failed to unlock encrypted folder.</source>
         <translation>Није успело откључавање шифрованог фолдера.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="163"/>
+        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="165"/>
         <source>Failed to finalize item.</source>
         <translation>Није успело довршавање ставке.</translation>
     </message>
@@ -5073,35 +5318,35 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::UpdateE2eeFolderUsersMetadataJob</name>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="60"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="71"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="116"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="131"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="138"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="148"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="169"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="201"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="260"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="58"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="69"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="113"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="128"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="135"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="145"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="166"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="198"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="257"/>
         <source>Error updating metadata for a folder %1</source>
         <translation>Грешка приликом ажурирања метаподатака за фолдер %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="92"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="90"/>
         <source>Could not fetch public key for user %1</source>
-        <translation type="unfinished"/>
+        <translation>Није успело добављање јавног кључа за корисника %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="100"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="97"/>
         <source>Could not find root encrypted folder for folder %1</source>
         <translation>Није могао да се пронађе корени шифровани фолдер за фолдер %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="121"/>
-        <source>Could not add or remove a folder user %1, for folder %2</source>
-        <translation>Није могао да се дода корисник фолдера %1, за фолдер %2</translation>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="118"/>
+        <source>Could not add or remove user %1 to access folder %2</source>
+        <translation>Није могло да се дода или уклони право приступа кориснику %1 за фолдер %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="238"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="235"/>
         <source>Failed to unlock a folder.</source>
         <translation>Није успело откључавање фолдера.</translation>
     </message>
@@ -5118,6 +5363,16 @@ Server replied with error: %2</source>
         <location filename="../src/gui/tray/usermodel.cpp" line="838"/>
         <source>Resolve conflict</source>
         <translation>Разреши конфликт</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1052"/>
+        <source>Open Nextcloud Assistant in browser</source>
+        <translation>Отвори Nextcloud Асистент у прегледачу</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1052"/>
+        <source>Open Nextcloud Talk in browser</source>
+        <translation>Отвори Nextcloud Talk у прегледачу</translation>
     </message>
 </context>
 <context>
@@ -5616,6 +5871,16 @@ Server replied with error: %2</source>
         <translation>Нови фолдер</translation>
     </message>
     <message>
+        <location filename="../src/gui/generalsettings.cpp" line="117"/>
+        <source>Failed to create debug archive</source>
+        <translation>Није успело креирање дибаг архиве</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="118"/>
+        <source>Could not create debug archive in selected location!</source>
+        <translation>На изабраној локацији није могла да се креира дибаг архива!</translation>
+    </message>
+    <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="763"/>
         <source>You renamed %1</source>
         <translation>Променили сте име %1</translation>
@@ -5684,6 +5949,11 @@ Server replied with error: %2</source>
         <source>%1: %2</source>
         <extracomment>this displays an error string (%2) for a file %1</extracomment>
         <translation>%1: %2</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/cfapiwrapper.cpp" line="63"/>
+        <source>Paths beginning with &apos;#&apos; character are not supported in VFS mode.</source>
+        <translation>У VFS режиму се не подржавају путање које почињу карактером ’#’.</translation>
     </message>
 </context>
 <context>
@@ -6262,7 +6532,7 @@ Server replied with error: %2</source>
         <translation>Пребацивач налога и мени подешавања</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="631"/>
+        <location filename="../src/gui/tray/Window.qml" line="615"/>
         <source>Open local or group folders</source>
         <translation>Отвори локалне или фолдере групе</translation>
     </message>
@@ -6287,7 +6557,7 @@ Server replied with error: %2</source>
         <translation>Обједињена листа резултата претраге</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="894"/>
+        <location filename="../src/gui/tray/Window.qml" line="896"/>
         <source>New activities</source>
         <translation>Нове активности</translation>
     </message>
@@ -6308,7 +6578,7 @@ Server replied with error: %2</source>
 <context>
     <name>nextcloudTheme::aboutInfo()</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="533"/>
+        <location filename="../src/libsync/theme.cpp" line="539"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;Изграђен из Git ревизије &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; дана %3, %4 користећи Qt %5, %6&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
@@ -6376,6 +6646,11 @@ Server replied with error: %2</source>
         <translation>Ажурирани локални метаподаци</translation>
     </message>
     <message>
+        <location filename="../src/libsync/progressdispatcher.cpp" line="60"/>
+        <source>Updated local virtual files metadata</source>
+        <translation>Ажурирани су метаподаци локалних виртуелних фајлова</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="61"/>
         <location filename="../src/libsync/progressdispatcher.cpp" line="63"/>
         <source>Unknown</source>
@@ -6415,6 +6690,11 @@ Server replied with error: %2</source>
         <location filename="../src/libsync/progressdispatcher.cpp" line="89"/>
         <source>updating local metadata</source>
         <translation>ажурирам локалне метаподатке</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/progressdispatcher.cpp" line="93"/>
+        <source>updating local virtual files metadata</source>
+        <translation>ажурирамју се метаподаци локалних виртуелних фајлова</translation>
     </message>
 </context>
 <context>

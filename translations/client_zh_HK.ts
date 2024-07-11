@@ -217,6 +217,109 @@
     </message>
 </context>
 <context>
+    <name>FileProviderEvictionDialog</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="33"/>
+        <source>Evict materialised files</source>
+        <translation>驅逐已實體化的檔案</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="49"/>
+        <source>Materialised items</source>
+        <translation>物化項目</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="61"/>
+        <source>Reload</source>
+        <translation>重新加載</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderFastEnumerationSettings</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderFastEnumerationSettings.qml" line="38"/>
+        <source>Enable fast sync</source>
+        <translation>啟用快速同步</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderFastEnumerationSettings.qml" line="53"/>
+        <source>Fast sync will only sync changes in files and folders within folders that have been explored. This can significantly increase responsiveness on initial configuration of virtual files. However, it will cause redundant downloads of files moved to an unexplored folder. </source>
+        <translation>快速同步僅同步已瀏覽的資料夾內的檔案與資料夾中的變更。這可以顯著提昇虛擬檔案初始設定的回應能力。但是，這會導致移動到未探索的資料夾的檔案被重複下載。</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderFileDelegate</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderFileDelegate.qml" line="95"/>
+        <source>Delete</source>
+        <translation>刪除</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderSettings</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="32"/>
+        <source>Virtual files settings</source>
+        <translation>虛擬檔案設定</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="73"/>
+        <source>General settings</source>
+        <translation>一般設定</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="82"/>
+        <source>Enable virtual files</source>
+        <translation>啟用虛擬檔案</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="167"/>
+        <source>Advanced</source>
+        <translation>進階</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="174"/>
+        <source>Signal file provider domain</source>
+        <translation>信號檔案提供者網域</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="179"/>
+        <source>Create debug archive</source>
+        <translation>建立除錯封存檔</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderStorageInfo</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="41"/>
+        <source>Local storage use</source>
+        <translation>近端儲存使用</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="49"/>
+        <source>%1 GB of %2 GB remote files synced</source>
+        <translation>%1 GB / %2 GB 遠端檔案已同步</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="58"/>
+        <source>Evict local copies...</source>
+        <translation>移除近端複本 ...</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderSyncStatus</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="57"/>
+        <source>Syncing</source>
+        <translation>同步中</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="57"/>
+        <source>All synced!</source>
+        <translation>已同步所有檔案！</translation>
+    </message>
+</context>
+<context>
     <name>FileSystem</name>
     <message>
         <location filename="../src/libsync/filesystem.cpp" line="157"/>
@@ -260,7 +363,7 @@
     <message>
         <location filename="../src/gui/wizard/flow2authwidget.ui" line="73"/>
         <source>Switch to your browser to connect your account</source>
-        <translation>切換到瀏覽器以連接您的賬戶</translation>
+        <translation>切換到瀏覽器以連接您的帳戶</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/flow2authwidget.ui" line="148"/>
@@ -350,14 +453,14 @@ Should an account import be attempted?</source>
 應該嘗試匯入帳號嗎？</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="198"/>
+        <location filename="../src/gui/accountmanager.cpp" line="199"/>
         <source>%1 accounts were detected from a legacy desktop client.
 Should the accounts be imported?</source>
         <translation>檢測到 %1 個來自舊版桌面客戶端的帳戶。
 是否應該導入這些帳戶？</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="200"/>
+        <location filename="../src/gui/accountmanager.cpp" line="201"/>
         <source>1 account was detected from a legacy desktop client.
 Should the account be imported?</source>
         <translation>檢測到 1 個來自舊版桌面客戶端的帳戶。
@@ -371,12 +474,12 @@ Should the account be imported?</source>
         <translation>舊版匯入</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="203"/>
+        <location filename="../src/gui/accountmanager.cpp" line="204"/>
         <source>Import</source>
         <translation>導入</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="204"/>
+        <location filename="../src/gui/accountmanager.cpp" line="205"/>
         <source>Skip</source>
         <translation>略過</translation>
     </message>
@@ -393,6 +496,11 @@ Should the account be imported?</source>
 </context>
 <context>
     <name>OCC::AccountSettings</name>
+    <message>
+        <location filename="../src/gui/accountsettings.ui" line="148"/>
+        <source>Storage space: …</source>
+        <translation>儲存空間：…</translation>
+    </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="31"/>
         <source>Unchecked folders will be &lt;b&gt;removed&lt;/b&gt; from your local file system and will not be synchronized to this computer anymore</source>
@@ -417,11 +525,6 @@ Should the account be imported?</source>
         <translation>以 &lt;user&gt; 的身分連接 &lt;server&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.ui" line="148"/>
-        <source>Storage space: …</source>
-        <translation>儲存空間：…</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.ui" line="256"/>
         <source>Synchronize all</source>
         <translation>全部同步</translation>
@@ -435,6 +538,16 @@ Should the account be imported?</source>
         <location filename="../src/gui/accountsettings.ui" line="270"/>
         <source>Apply manual changes</source>
         <translation>套用手動改變</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.ui" line="267"/>
+        <source>Standard file sync</source>
+        <translation>標準檔案同步</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.ui" line="308"/>
+        <source>Virtual file sync</source>
+        <translation>虛擬檔案同步</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="93"/>
@@ -457,12 +570,12 @@ Should the account be imported?</source>
         <translation>加密資料夾</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="116"/>
+        <location filename="../src/gui/accountsettings.cpp" line="120"/>
         <source>End-to-end Encryption</source>
         <translation>端到端加密</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="118"/>
+        <location filename="../src/gui/accountsettings.cpp" line="122"/>
         <source>This will encrypt your folder and all files within it. These files will no longer be accessible without your encryption mnemonic key. 
 &lt;b&gt;This process is not reversible. Are you sure you want to proceed?&lt;/b&gt;</source>
         <translation>這將加密您的資料夾及其中的所有檔案。如果沒有您的加密助記符密鑰，將無法再存取這些檔案。
@@ -486,7 +599,7 @@ Should the account be imported?</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="256"/>
         <source>End-to-end encryption has been enabled for this account</source>
-        <translation>此賬戶已啟用端到端加密</translation>
+        <translation>此帳戶已啟用端到端加密</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="288"/>
@@ -494,17 +607,17 @@ Should the account be imported?</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="356"/>
+        <location filename="../src/gui/accountsettings.cpp" line="377"/>
         <source>Please wait for the folder to sync before trying to encrypt it.</source>
         <translation>請等待資料夾同步，然後再嘗試對其進行加密。</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="358"/>
+        <location filename="../src/gui/accountsettings.cpp" line="379"/>
         <source>The folder has a minor sync problem. Encryption of this folder will be possible once it has synced successfully</source>
         <translation>該資料夾存在輕微的同步問題。同步成功後即可加密該資料夾</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="360"/>
+        <location filename="../src/gui/accountsettings.cpp" line="381"/>
         <source>The folder has a sync error. Encryption of this folder will be possible once it has synced successfully</source>
         <translation>該資料夾存在同步問題。同步成功後即可加密該資料夾</translation>
     </message>
@@ -662,7 +775,7 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1016"/>
         <source>To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. Please note these down and keep them safe. They will be needed to add other devices to your account (like your mobile phone or laptop).</source>
-        <translation>為了保護您的身分，我們將用含12個單詞的助記碼進行加密。請將這些單詞記在一個安全的地方。要將其他裝置（如手提電話或手提電腦）加入您的賬戶中，需用到此助記碼。</translation>
+        <translation>為了保護您的身分，我們將用含12個單詞的助記碼進行加密。請將這些單詞記在一個安全的地方。要將其他裝置（如手提電話或手提電腦）加入您的帳戶中，需用到此助記碼。</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1041"/>
@@ -760,6 +873,11 @@ This action will abort any currently running synchronization.</source>
         <translation>%1 沒有連線到 %2  </translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1300"/>
+        <source>Unable to connect to %1.</source>
+        <translation>無法連接至 %1。</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1264"/>
         <source>Server configuration error: %1 at %2.</source>
         <translation>伺服器設定錯誤：%1 在 %2。</translation>
@@ -785,19 +903,19 @@ This action will abort any currently running synchronization.</source>
         <translation>有部分資料夾因為容量太大或是外部存儲沒有辦法同步： </translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1573"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1594"/>
         <source>There are folders that have grown in size beyond %1MB: %2</source>
         <translation>有些資料夾的大小已超過 %1MB：%2</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1577"/>
         <source>End-to-end encryption has been enabled on this account with another device.&lt;br&gt;It can be enabled on this device by entering your mnemonic.&lt;br&gt;This will enable synchronisation of existing encrypted folders.</source>
-        <translation>已在另一裝置上為此賬戶啟用端到端加密。&lt;br&gt;可通過輸入您的助記碼在此裝置上啟用。&lt;br&gt;這將啟用現有加密資料夾的同步。</translation>
+        <translation>已在另一裝置上為此帳戶啟用端到端加密。&lt;br&gt;可通過輸入您的助記碼在此裝置上啟用。&lt;br&gt;這將啟用現有加密資料夾的同步。</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1568"/>
         <source>This account supports end-to-end encryption</source>
-        <translation>此賬戶支援端到端加密</translation>
+        <translation>此帳戶支援端到端加密</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="1572"/>
@@ -984,34 +1102,34 @@ This action will abort any currently running synchronization.</source>
         <translation>繼續</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="460"/>
+        <location filename="../src/gui/application.cpp" line="499"/>
         <source>%1 accounts</source>
         <comment>number of accounts imported</comment>
-        <translation>%1 個賬戶</translation>
+        <translation>%1 個帳戶</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="461"/>
+        <location filename="../src/gui/application.cpp" line="500"/>
         <source>1 account</source>
-        <translation>1 個賬戶</translation>
+        <translation>1 個帳戶</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="463"/>
+        <location filename="../src/gui/application.cpp" line="502"/>
         <source>%1 folders</source>
         <comment>number of folders imported</comment>
         <translation>%n 個資料夾</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="464"/>
+        <location filename="../src/gui/application.cpp" line="503"/>
         <source>1 folder</source>
         <translation>1 個資料夾</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="466"/>
+        <location filename="../src/gui/application.cpp" line="505"/>
         <source>Legacy import</source>
         <translation>舊版匯入</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="467"/>
+        <location filename="../src/gui/application.cpp" line="506"/>
         <source>Imported %1 and %2 from a legacy desktop client.
 %3</source>
         <comment>number of accounts and folders imported. list of users.</comment>
@@ -1427,7 +1545,7 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/connectionvalidator.cpp" line="49"/>
         <source>No Nextcloud account configured</source>
-        <translation>沒有 Nextcloud 賬戶的設定檔</translation>
+        <translation>沒有 Nextcloud 帳戶的設定檔</translation>
     </message>
     <message>
         <location filename="../src/gui/connectionvalidator.cpp" line="166"/>
@@ -1454,6 +1572,11 @@ This action will abort any currently running synchronization.</source>
         <source>Please update to the latest server and restart the client.</source>
         <translation>請將伺服器端更新到最新版並重新啟動客戶端</translation>
     </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="344"/>
+        <source>Connection issue</source>
+        <translation>連線問題</translation>
+    </message>
 </context>
 <context>
     <name>OCC::DiscoveryPhase</name>
@@ -1477,8 +1600,8 @@ This action will abort any currently running synchronization.</source>
         <translation>伺服器錯誤：PROPFIND回覆未採用XML格式！</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="668"/>
-        <location filename="../src/libsync/discoveryphase.cpp" line="696"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="678"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="707"/>
         <source>Encrypted metadata setup error!</source>
         <translation>已加密的元數據設置錯誤！</translation>
     </message>
@@ -1536,7 +1659,7 @@ This action will abort any currently running synchronization.</source>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="76"/>
         <source>Could not find an account for local editing.</source>
-        <translation>找不到用於近端編輯的賬戶。</translation>
+        <translation>找不到用於近端編輯的帳戶。</translation>
     </message>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="93"/>
@@ -1647,32 +1770,34 @@ This can be an issue with your OpenSSL libraries.</source>
 <context>
     <name>OCC::EncryptedFolderMetadataHandler</name>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="59"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="162"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="171"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="199"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="64"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="71"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="77"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="180"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="189"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="217"/>
         <source>Error fetching metadata.</source>
         <translation>錯誤擷取元數據。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="114"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="120"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="213"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="132"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="138"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="231"/>
         <source>Error locking folder.</source>
         <translation>鎖定資料夾時發生錯誤。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="147"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="165"/>
         <source>Error fetching encrypted folder ID.</source>
-        <translation type="unfinished"/>
+        <translation>錯誤擷取已加密資料夾ID。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="181"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="199"/>
         <source>Error parsing or decrypting metadata.</source>
         <translation>錯誤剖析或解密元數據。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="323"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="341"/>
         <source>Failed to upload metadata</source>
         <translation>無法上傳元數據</translation>
     </message>
@@ -1927,29 +2052,49 @@ This can be an issue with your OpenSSL libraries.</source>
         <translation>若要下載此項目，請前往設定選擇它</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1369"/>
+        <location filename="../src/gui/folder.cpp" line="1386"/>
         <source>A folder has surpassed the set folder size limit of %1MB: %2.
 %3</source>
         <translation>資料夾已超出設置的資料夾大小限制 %1MB：%2。
 %3</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1380"/>
+        <location filename="../src/gui/folder.cpp" line="1397"/>
         <source>Keep syncing</source>
         <translation>保持同步</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1388"/>
+        <location filename="../src/gui/folder.cpp" line="1405"/>
         <source>Stop syncing</source>
         <translation>停止同步</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1399"/>
+        <location filename="../src/gui/folder.cpp" line="1411"/>
+        <source>All files in the sync folder &quot;%1&quot; folder were deleted on the server.
+These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
+If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
+If you decide to delete the files, they will be unavailable to you, unless you are the owner.</source>
+        <translation>「%1」資料夾中的所有檔案已從伺服器上移除。
+同步後，這些檔案也會從您的近端資料夾中移除。除非您有復原的權限，否則您將無法讀取這些檔案。
+假如您決定復原這些檔案，只要您擁有權限，這些檔案就會重新和伺服器同步。
+假如您決定刪除這些檔案，除非您是檔案的所有者，否則您將無法讀取這些檔案。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1416"/>
         <source>The folder %1 has surpassed the set folder size limit of %2MB.</source>
         <translation>資料夾已超出設置的資料夾大小限制 %2MB。</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1400"/>
+        <location filename="../src/gui/folder.cpp" line="1416"/>
+        <source>All the files in your local sync folder &quot;%1&quot; were deleted. These deletes will be synchronized with your server, making such files unavailable unless restored.
+Are you sure you want to sync those actions with the server?
+If this was an accident and you decide to keep your files, they will be re-synced from the server.</source>
+        <translation>近端同步資料夾 &quot;%1&quot; 中的所有檔案都已刪除。這些刪除將與您的伺服器同步，除非恢復，否則此類檔案將不可用。
+您確定要與伺服器同步這些操作嗎？
+如果您意外地刪除了檔案並決定保留它們，則它們將從伺服器重新同步。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1417"/>
         <source>Would you like to stop syncing this folder?</source>
         <translation>您想停止同步此資料夾嗎？</translation>
     </message>
@@ -1977,31 +2122,6 @@ This means that the synchronization client might not upload local changes immedi
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1521"/>
-        <source>Virtual file download failed with code &quot;%1&quot;, status &quot;%2&quot; and error message &quot;%3&quot;</source>
-        <translation>虛擬檔案下載失敗，代碼為“%1”，狀態為“%2”，錯誤訊息為“%3”</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folder.cpp" line="1411"/>
-        <source>All files in the sync folder &quot;%1&quot; folder were deleted on the server.
-These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
-If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
-If you decide to delete the files, they will be unavailable to you, unless you are the owner.</source>
-        <translation>「%1」資料夾中的所有檔案已從伺服器上移除。
-同步後，這些檔案也會從您的近端資料夾中移除。除非您有復原的權限，否則您將無法讀取這些檔案。
-假如您決定復原這些檔案，只要您擁有權限，這些檔案就會重新和伺服器同步。
-假如您決定刪除這些檔案，除非您是檔案的所有者，否則您將無法讀取這些檔案。</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folder.cpp" line="1416"/>
-        <source>All the files in your local sync folder &quot;%1&quot; were deleted. These deletes will be synchronized with your server, making such files unavailable unless restored.
-Are you sure you want to sync those actions with the server?
-If this was an accident and you decide to keep your files, they will be re-synced from the server.</source>
-        <translation>近端同步資料夾 &quot;%1&quot; 中的所有檔案都已刪除。這些刪除將與您的伺服器同步，除非恢復，否則此類檔案將不可用。
-您確定要與伺服器同步這些操作嗎？
-如果您意外地刪除了檔案並決定保留它們，則它們將從伺服器重新同步。</translation>
-    </message>
-    <message>
         <location filename="../src/gui/folder.cpp" line="1420"/>
         <source>Remove All Files?</source>
         <translation>移除所有檔案？</translation>
@@ -2015,6 +2135,44 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <location filename="../src/gui/folder.cpp" line="1425"/>
         <source>Keep files</source>
         <translation>保留檔案</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1538"/>
+        <source>Virtual file download failed with code &quot;%1&quot;, status &quot;%2&quot; and error message &quot;%3&quot;</source>
+        <translation>虛擬檔案下載失敗，代碼為“%1”，狀態為“%2”，錯誤訊息為“%3”</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1631"/>
+        <source>All files in the server folder &quot;%1&quot; were deleted.
+
+If you restore the files, they will be uploaded again to the server.</source>
+        <translation>伺服器資料夾「%1」中的所有檔案已被刪除。
+
+如果您還原這些文件，它們將重新上傳到伺服器。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1632"/>
+        <source>All files in the local folder &quot;%1&quot; were deleted.
+
+If you restore the files, they will be downloaded again from the server.</source>
+        <translation>近端資料夾「%1」中的所有檔案已被刪除。
+
+如果您還原這些文件，它們將重新已下載到伺服器。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1633"/>
+        <source>Remove all files?</source>
+        <translation>移除所有檔案？</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1637"/>
+        <source>Proceed to remove all files</source>
+        <translation>繼續移除所有檔案</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1638"/>
+        <source>Restore files</source>
+        <translation>還原檔案</translation>
     </message>
 </context>
 <context>
@@ -2610,7 +2768,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>先詢問，當要同步的資料夾大小超過</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="245"/>
+        <location filename="../src/gui/generalsettings.ui" line="230"/>
         <source>Desktop client x.x.x</source>
         <translation>桌面客戶端 x.x.x</translation>
     </message>
@@ -2620,44 +2778,27 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>更新頻道</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="151"/>
-        <location filename="../src/gui/generalsettings.cpp" line="327"/>
-        <source>stable</source>
-        <translation>穩定版</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="156"/>
-        <location filename="../src/gui/generalsettings.cpp" line="329"/>
-        <source>beta</source>
-        <translation>測試版</translation>
-    </message>
-    <message>
         <location filename="../src/gui/generalsettings.ui" line="183"/>
         <source>&amp;Restart &amp;&amp; Update</source>
         <translation>重新啟動並更新（&amp;R）</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="284"/>
-        <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
-        <translation>在檔案管理員中顯示資料夾</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="323"/>
+        <location filename="../src/gui/generalsettings.ui" line="313"/>
         <source>&amp;Automatically check for updates</source>
         <translation>自動檢查更新（&amp;A）</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="339"/>
+        <location filename="../src/gui/generalsettings.ui" line="329"/>
         <source>Check Now</source>
         <translation>現在檢查</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="363"/>
+        <location filename="../src/gui/generalsettings.ui" line="353"/>
         <source>Usage Documentation</source>
         <translation>運用說明書</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="370"/>
+        <location filename="../src/gui/generalsettings.ui" line="360"/>
         <source>Legal Notice</source>
         <translation>法律聲明</translation>
     </message>
@@ -2672,22 +2813,27 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>顯示在工作列</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="420"/>
+        <location filename="../src/gui/generalsettings.ui" line="284"/>
+        <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
+        <translation>在檔案管理員中顯示資料夾</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="410"/>
         <source>Use &amp;monochrome icons</source>
         <translation>使用單色圖示（&amp;m）</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="427"/>
+        <location filename="../src/gui/generalsettings.ui" line="417"/>
         <source>&amp;Launch on system startup</source>
         <translation>系統啟動時啟動（&amp;L）</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="434"/>
+        <location filename="../src/gui/generalsettings.ui" line="424"/>
         <source>Show server &amp;notifications</source>
         <translation>顯示系統訊息（&amp;n）</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="441"/>
+        <location filename="../src/gui/generalsettings.ui" line="431"/>
         <source>Show call notifications</source>
         <translation>顯示通話通告</translation>
     </message>
@@ -2707,6 +2853,18 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>您不可以停用自動啟動，因為已啟用系統廣域自動啟動。</translation>
     </message>
     <message>
+        <location filename="../src/gui/generalsettings.ui" line="151"/>
+        <location filename="../src/gui/generalsettings.cpp" line="327"/>
+        <source>stable</source>
+        <translation>穩定版</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="156"/>
+        <location filename="../src/gui/generalsettings.cpp" line="329"/>
+        <source>beta</source>
+        <translation>測試版</translation>
+    </message>
+    <message>
         <location filename="../src/gui/generalsettings.cpp" line="350"/>
         <source>Change update channel?</source>
         <translation>變更更新頻道？</translation>
@@ -2719,6 +2877,43 @@ Note that this selects only what pool upgrades are taken from, and that there ar
         <translation>更新通道確定將提供哪些客戶端更新來進行安裝。“穩定”通道僅包含被認為可靠的升級，而“測試版”通道中的版本可能包含較新的功能和錯誤修正，但尚未經過全面測試。
 
 請注意，這僅選擇從哪個池升級中進行升級，並且沒有降級：因此通常無法立即從Beta通道返回到穩定通道，這意味著要等待比當前安裝的測試版本更新的穩定版本。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="359"/>
+        <source>daily</source>
+        <translation>每日</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="363"/>
+        <source>enterprise</source>
+        <translation>企業</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="391"/>
+        <source>- enterprise: contains stable versions for customers.
+</source>
+        <comment>description of enterprise update channel for enterprise customers</comment>
+        <translation>- 企業版：包含客戶穩定版本。</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="396"/>
+        <source>Changing update channel?</source>
+        <translation>變更更新頻道？</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="397"/>
+        <source>The channel determines which upgrades will be offered to install:
+- stable: contains tested versions considered reliable
+- beta: contains versions with new features that may not be tested thoroughly
+- daily: contains versions created daily only for testing and development
+%1
+Downgrading versions is not possible immediately: changing from beta to stable means waiting for the new stable version.</source>
+        <translation>更新頻道決定將提供哪些升級進行安裝：
+- 穩定版（stable）：包含經過測試且被認為可靠的版本
+- 測試版（beta）：包含可能尚未全面測試的新功能版本
+- 每日版（daily）：包含每日創建的僅供測試和開發的版本
+%1
+版本降級無法立即進行：從測試版更改為穩定版意味著需要等待新的穩定版本。</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="364"/>
@@ -3585,7 +3780,7 @@ Note that using any logging command line options will override this setting.</so
     <message>
         <location filename="../src/gui/wizard/owncloudwizard.cpp" line="93"/>
         <source>Add %1 account</source>
-        <translation>新增 %1 賬戶</translation>
+        <translation>新增 %1 帳戶</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudwizard.cpp" line="97"/>
@@ -3684,6 +3879,34 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>此檔案名已被此檔案系統保留所用。</translation>
     </message>
     <message>
+        <location filename="../src/libsync/discovery.cpp" line="358"/>
+        <source>Folder</source>
+        <comment>name of folder entity to use when warning about invalid name</comment>
+        <translation>資料夾</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="358"/>
+        <source>File</source>
+        <comment>name of folder entity to use when warning about invalid name</comment>
+        <translation>檔案</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="360"/>
+        <source>%1 name containing the character &quot;%2&quot; is not supported on this file system.</source>
+        <comment>folder or file impossible to sync due to an invalid name, placeholders will be file or folder and the invalid character</comment>
+        <translation>此檔案系統不支援包含字符 &quot;%2&quot; 的 %1 名稱。</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="362"/>
+        <source>%1 name contains at least one invalid character</source>
+        <translation>%1 名稱含有不無效的字元</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="364"/>
+        <source>%1 name is a reserved name on this file system.</source>
+        <translation>在檔案件系統中，%1 名稱是保留的名稱，無法使用。</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/discovery.cpp" line="361"/>
         <source>Filename contains trailing spaces.</source>
         <translation>檔案名的結尾為空白符。</translation>
@@ -3764,6 +3987,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>由於修改時間無效，無法同步</translation>
     </message>
     <message>
+        <location filename="../src/libsync/discovery.cpp" line="1048"/>
+        <source>Could not upload file, because it is open in &quot;%1&quot;.</source>
+        <translation>無法上傳檔案，因為其於「%1」開啟。</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/discovery.cpp" line="1010"/>
         <source>Error while deleting file record %1 from the database</source>
         <translation>從數據庫中刪除檔案記錄 %1 時出錯</translation>
@@ -3777,6 +4005,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/discovery.cpp" line="1268"/>
         <source>Conflict when uploading a file. It&apos;s going to get removed!</source>
         <translation>上傳檔案時發生衝突。將被清除！</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="1711"/>
+        <source>Moved to invalid target, restoring</source>
+        <translation>已移至無效目標，正在還原</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1637"/>
@@ -3797,11 +4030,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/discovery.cpp" line="1689"/>
         <source>Not allowed to upload this file because it is read-only on the server, restoring</source>
         <translation>不允許上傳此檔案，因為它在伺服器上是唯讀的，正在還原</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/discovery.cpp" line="1711"/>
-        <source>Moved to invalid target, restoring</source>
-        <translation>已移至無效目標，正在還原</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1725"/>
@@ -3830,6 +4058,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/owncloudpropagator.cpp" line="1371"/>
         <source>Error updating metadata due to invalid modification time</source>
         <translation>由於修改時間無效，更新元數據時出錯。</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1480"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1505"/>
+        <source>The folder %1 cannot be made read-only: %2</source>
+        <translation>無法將資料夾 %1 設為唯讀：%2</translation>
     </message>
     <message>
         <location filename="../src/libsync/owncloudpropagator.cpp" line="1387"/>
@@ -3949,6 +4183,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>無法建立資料夾 %1</translation>
     </message>
     <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="229"/>
+        <source>The folder %1 cannot be made read-only: %2</source>
+        <translation>無法將資料夾 %1 設為唯讀：%2</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="200"/>
         <source>Error updating metadata: %1</source>
         <translation>更新元數據時出錯：%1</translation>
@@ -3974,6 +4213,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 </context>
 <context>
     <name>OCC::PropagateLocalRename</name>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="312"/>
+        <source>Folder %1 cannot be renamed because of a local file or folder name clash!</source>
+        <translation>無法重新命名資料夾 %1，因為近端檔案或資料夾名稱有衝突！</translation>
+    </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="254"/>
         <source>File %1 downloaded but it resulted in a local file name clash!</source>
@@ -4049,7 +4293,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>從伺服器端回傳錯誤的 HTTP 代碼， 預期是 201， 但是接收到的是 &quot;%1 %2&quot;。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemkdir.cpp" line="248"/>
+        <location filename="../src/libsync/propagateremotemkdir.cpp" line="258"/>
         <source>Failed to encrypt a folder %1</source>
         <translation>加密資料夾失敗 %1</translation>
     </message>
@@ -4333,13 +4577,13 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/settingsdialog.cpp" line="237"/>
         <source>Account</source>
-        <translation>賬戶</translation>
+        <translation>帳戶</translation>
     </message>
 </context>
 <context>
     <name>OCC::ShareManager</name>
     <message>
-        <location filename="../src/gui/sharemanager.cpp" line="681"/>
+        <location filename="../src/gui/sharemanager.cpp" line="684"/>
         <source>Error</source>
         <translation>錯誤</translation>
     </message>
@@ -4372,7 +4616,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>安全檔案投放</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="855"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="862"/>
         <source>Could not find local folder for %1</source>
         <translation>找不到 %1 的近端資料夾</translation>
     </message>
@@ -4417,7 +4661,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="528"/>
         <source>The account %1 does not have end-to-end encryption configured. Please configure this in your account settings to enable folder encryption.</source>
-        <translation>賬戶 %1 沒有配置端到端加密。請在您的帳戶設置中配置此項以啟用資料夾加密。</translation>
+        <translation>帳戶 %1 沒有配置端到端加密。請在您的帳戶設置中配置此項以啟用資料夾加密。</translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="549"/>
@@ -4943,7 +5187,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/systray.cpp" line="180"/>
         <source>Add account</source>
-        <translation>新增賬戶</translation>
+        <translation>新增帳戶</translation>
     </message>
     <message>
         <location filename="../src/gui/systray.cpp" line="182"/>
@@ -4996,16 +5240,16 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::Theme</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="553"/>
-        <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;&lt;p&gt;Version %1. For more information please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt;.&lt;/p&gt;</source>
-        <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
-        <translation>&lt;p&gt;%1 桌面客戶端&lt;/p&gt;&lt;p&gt;版本 %1。詳細資訊請點擊 &lt;a href=&apos;%2&apos;&gt;此處&lt;/a&gt;。&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/theme.cpp" line="554"/>
         <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
         <translation>&lt;p&gt;%1 桌面版用戶端&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/theme.cpp" line="559"/>
+        <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;&lt;p&gt;Version %1. For more information please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt;.&lt;/p&gt;</source>
+        <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
+        <translation>&lt;p&gt;%1 桌面客戶端&lt;/p&gt;&lt;p&gt;版本 %1。詳細資訊請點擊 &lt;a href=&apos;%2&apos;&gt;此處&lt;/a&gt;。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="561"/>
@@ -5013,7 +5257,7 @@ Server replied with error: %2</source>
         <translation>&lt;p&gt;&lt;small&gt;使用虛擬文件插件：%1&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="570"/>
+        <location filename="../src/libsync/theme.cpp" line="576"/>
         <source>&lt;p&gt;%1 desktop client %2&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
         <translation>&lt;p&gt;%1 桌面客戶端 %2&lt;/p&gt;</translation>
@@ -5056,17 +5300,17 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::UpdateE2eeFolderMetadataJob</name>
     <message>
-        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="130"/>
+        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="132"/>
         <source>Failed to update folder metadata.</source>
         <translation>無法更新資料夾元數據。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="153"/>
+        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="155"/>
         <source>Failed to unlock encrypted folder.</source>
         <translation>無法解鎖已加密的資料夾。</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="163"/>
+        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="165"/>
         <source>Failed to finalize item.</source>
         <translation>無法完成項目。</translation>
     </message>
@@ -5074,35 +5318,35 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::UpdateE2eeFolderUsersMetadataJob</name>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="60"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="71"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="116"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="131"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="138"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="148"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="169"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="201"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="260"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="58"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="69"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="113"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="128"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="135"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="145"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="166"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="198"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="257"/>
         <source>Error updating metadata for a folder %1</source>
         <translation>錯誤更新資料夾 %1 的元數據</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="92"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="90"/>
         <source>Could not fetch public key for user %1</source>
-        <translation type="unfinished"/>
+        <translation>無法擷取用戶 %1 的公鑰</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="100"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="97"/>
         <source>Could not find root encrypted folder for folder %1</source>
         <translation>找不到資料夾 %1 的根已加密資料夾</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="121"/>
-        <source>Could not add or remove a folder user %1, for folder %2</source>
-        <translation>無法添加或移除資料夾用戶 %1，用於資料夾 %2</translation>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="118"/>
+        <source>Could not add or remove user %1 to access folder %2</source>
+        <translation>無法添加或移除用戶 %1 存取資料夾 %2 的權限</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="238"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="235"/>
         <source>Failed to unlock a folder.</source>
         <translation>無法解鎖資料夾。</translation>
     </message>
@@ -5120,13 +5364,23 @@ Server replied with error: %2</source>
         <source>Resolve conflict</source>
         <translation>解決抵觸</translation>
     </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1052"/>
+        <source>Open Nextcloud Assistant in browser</source>
+        <translation>在瀏覽器中開啟 Nextcloud Assistant</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1052"/>
+        <source>Open Nextcloud Talk in browser</source>
+        <translation>在瀏覽器中開啟 Nextcloud Talk</translation>
+    </message>
 </context>
 <context>
     <name>OCC::UserModel</name>
     <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="1403"/>
         <source>Confirm Account Removal</source>
-        <translation>請確認移除賬戶</translation>
+        <translation>請確認移除帳戶</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="1404"/>
@@ -5384,7 +5638,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="267"/>
         <source>The server on account %1 runs an unsupported version %2. Using this client with unsupported server versions is untested and potentially dangerous. Proceed at your own risk.</source>
-        <translation>%1 賬戶所在的伺服器正運行不受支援的舊版本 %2。此客戶端在該伺服器版本上未經測試，可能會有風險。請慎行。</translation>
+        <translation>%1 帳戶所在的伺服器正運行不受支援的舊版本 %2。此客戶端在該伺服器版本上未經測試，可能會有風險。請慎行。</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="308"/>
@@ -5394,7 +5648,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="310"/>
         <source>Disconnected from some accounts</source>
-        <translation>已從一些賬戶斷開</translation>
+        <translation>已從一些帳戶斷開</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="318"/>
@@ -5424,7 +5678,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="342"/>
         <source>Account synchronization is disabled</source>
-        <translation>已禁用賬戶同步</translation>
+        <translation>已禁用帳戶同步</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="343"/>
@@ -5617,6 +5871,16 @@ Server replied with error: %2</source>
         <translation>新資料夾</translation>
     </message>
     <message>
+        <location filename="../src/gui/generalsettings.cpp" line="117"/>
+        <source>Failed to create debug archive</source>
+        <translation>創建排除錯誤封存失敗</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="118"/>
+        <source>Could not create debug archive in selected location!</source>
+        <translation>無法在選定位置創建排除錯誤封存！</translation>
+    </message>
+    <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="763"/>
         <source>You renamed %1</source>
         <translation>您已將 %1 重新命名</translation>
@@ -5685,6 +5949,11 @@ Server replied with error: %2</source>
         <source>%1: %2</source>
         <extracomment>this displays an error string (%2) for a file %1</extracomment>
         <translation>%1：%2</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/cfapiwrapper.cpp" line="63"/>
+        <source>Paths beginning with &apos;#&apos; character are not supported in VFS mode.</source>
+        <translation>VFS 模式不支援以「#」字元開頭的路徑。</translation>
     </message>
 </context>
 <context>
@@ -6014,7 +6283,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="80"/>
         <source>Current account status is online</source>
-        <translation>目前賬戶狀態為在線</translation>
+        <translation>目前帳戶狀態為在線</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="80"/>
@@ -6024,7 +6293,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="148"/>
         <source>Account actions</source>
-        <translation>賬戶操作</translation>
+        <translation>帳戶操作</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/UserLine.qml" line="165"/>
@@ -6208,7 +6477,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="282"/>
         <source>Current account</source>
-        <translation>目前賬戶</translation>
+        <translation>目前帳戶</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="288"/>
@@ -6225,7 +6494,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="380"/>
         <source>Add account</source>
-        <translation>新增賬戶</translation>
+        <translation>新增帳戶</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="392"/>
@@ -6245,12 +6514,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="492"/>
         <source>Current account avatar</source>
-        <translation>目前賬戶虛擬化身大頭照</translation>
+        <translation>目前帳戶虛擬化身大頭照</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="531"/>
         <source>Current account status is online</source>
-        <translation>目前賬戶狀態為在線</translation>
+        <translation>目前帳戶狀態為在線</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/Window.qml" line="531"/>
@@ -6263,7 +6532,7 @@ Server replied with error: %2</source>
         <translation>帳戶切換器和設置選項單</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="631"/>
+        <location filename="../src/gui/tray/Window.qml" line="615"/>
         <source>Open local or group folders</source>
         <translation>打開近端或群組資料夾</translation>
     </message>
@@ -6288,7 +6557,7 @@ Server replied with error: %2</source>
         <translation>統一搜索結果列表</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="894"/>
+        <location filename="../src/gui/tray/Window.qml" line="896"/>
         <source>New activities</source>
         <translation>新活動</translation>
     </message>
@@ -6309,7 +6578,7 @@ Server replied with error: %2</source>
 <context>
     <name>nextcloudTheme::aboutInfo()</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="533"/>
+        <location filename="../src/libsync/theme.cpp" line="539"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;根據Git版本號&lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt;在 %3， %4建置 使用了Qt %5，%6&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
@@ -6377,6 +6646,11 @@ Server replied with error: %2</source>
         <translation>近端元資料已更新</translation>
     </message>
     <message>
+        <location filename="../src/libsync/progressdispatcher.cpp" line="60"/>
+        <source>Updated local virtual files metadata</source>
+        <translation>近端虛擬元數據已更新</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="61"/>
         <location filename="../src/libsync/progressdispatcher.cpp" line="63"/>
         <source>Unknown</source>
@@ -6416,6 +6690,11 @@ Server replied with error: %2</source>
         <location filename="../src/libsync/progressdispatcher.cpp" line="89"/>
         <source>updating local metadata</source>
         <translation>正在更新近端元資料</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/progressdispatcher.cpp" line="93"/>
+        <source>updating local virtual files metadata</source>
+        <translation>正在更新近端虛擬元數據</translation>
     </message>
 </context>
 <context>

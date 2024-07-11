@@ -22,7 +22,6 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QLoggingCategory>
-#include <QtMacExtras/QtMacExtras>
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreServices/CoreServices.h>
@@ -30,6 +29,12 @@
 #import <Foundation/NSUserDefaults.h>
 
 namespace OCC {
+
+QVector<Utility::ProcessInfosForOpenFile> Utility::queryProcessInfosKeepingFileOpen(const QString &filePath)
+{
+    Q_UNUSED(filePath)
+    return {};
+}
 
 void Utility::setupFavLink(const QString &folder)
 {

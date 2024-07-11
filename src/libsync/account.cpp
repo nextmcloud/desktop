@@ -52,7 +52,13 @@
 #include <QHttpMultiPart>
 
 #include <qsslconfiguration.h>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <qt6keychain/keychain.h>
+#else
 #include <qt5keychain/keychain.h>
+#endif
+
 #include "creds/abstractcredentials.h"
 
 using namespace QKeychain;
@@ -683,6 +689,8 @@ void Account::setCapabilities(const QVariantMap &caps)
     _capabilities = Capabilities(caps);
 
     updateServerColors();
+    updateServerSubcription();
+    updateDesktopEnterpriseChannel();
 
     emit capabilitiesChanged();
 
@@ -729,6 +737,17 @@ int Account::serverVersionInt() const
     return makeServerVersion(components.value(0).toInt(),
         components.value(1).toInt(),
         components.value(2).toInt());
+}
+
+bool Account::serverHasMountRootProperty() const
+{
+    if (serverVersionInt() == 0) {
+        return false;
+    }
+
+    return serverVersionInt() >= Account::makeServerVersion(NEXTCLOUD_SERVER_VERSION_MOUNT_ROOT_PROPERTY_SUPPORTED_MAJOR,
+                                                            NEXTCLOUD_SERVER_VERSION_MOUNT_ROOT_PROPERTY_SUPPORTED_MINOR,
+                                                            NEXTCLOUD_SERVER_VERSION_MOUNT_ROOT_PROPERTY_SUPPORTED_PATCH);
 }
 
 bool Account::serverVersionUnsupported() const
@@ -1050,5 +1069,24 @@ void Account::setAskUserForMnemonic(const bool ask)
     _e2eAskUserForMnemonic = ask;
     emit askUserForMnemonicChanged();
 }
+
+void Account::updateServerSubcription()
+{
+    ConfigFile currentConfig;
+    if (const auto serverHasValidSubscription = _capabilities.serverHasValidSubscription();
+        serverHasValidSubscription != currentConfig.serverHasValidSubscription()) {
+        currentConfig.setServerHasValidSubscription(serverHasValidSubscription);
+    }
+}
+
+void Account::updateDesktopEnterpriseChannel()
+{
+    ConfigFile currentConfig;
+    if (const auto desktopEnterpriseChannel = _capabilities.desktopEnterpriseChannel();
+        desktopEnterpriseChannel != currentConfig.desktopEnterpriseChannel()) {
+        currentConfig.setDesktopEnterpriseChannel(desktopEnterpriseChannel);
+    }
+}
+
 
 } // namespace OCC

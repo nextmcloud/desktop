@@ -27,6 +27,7 @@
 #endif
 #include <QSslSocket>
 #include <QSvgRenderer>
+#include <QPainter>
 
 #include "nextcloudtheme.h"
 
@@ -116,7 +117,7 @@ QString Theme::statusHeaderText(SyncResult::Status status) const
 
 bool Theme::isBranded() const
 {
-    return appNameGUI() != QStringLiteral("Nextcloud");
+    return (appNameGUI() != QStringLiteral("Nextcloud") && NEXTCLOUD_DEV == 0);
 }
 
 QString Theme::appNameGUI() const
@@ -192,6 +193,11 @@ QUrl Theme::folderOffline() const
 QString Theme::version() const
 {
     return MIRALL_VERSION_STRING;
+}
+
+QString Theme::versionSuffix() const
+{
+    return QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION_SUFFIX));
 }
 
 QString Theme::configFileName() const
@@ -929,15 +935,40 @@ void Theme::connectToPaletteSignal()
     }
 }
 
-QPalette Theme::systemPalette()
+QVariantMap Theme::systemPalette()
 {
     connectToPaletteSignal();
 #if defined(Q_OS_WIN)
+    auto systemPalette = QGuiApplication::palette();
     if(darkMode()) {
-        return reserveDarkPalette;
+        systemPalette = reserveDarkPalette;
     }
+#else
+    const auto systemPalette = QGuiApplication::palette();
 #endif
-    return QGuiApplication::palette();
+
+    return QVariantMap {
+        { QStringLiteral("base"), systemPalette.base().color() },
+        { QStringLiteral("alternateBase"), systemPalette.alternateBase().color() },
+        { QStringLiteral("text"), systemPalette.text().color() },
+        { QStringLiteral("toolTipBase"), systemPalette.toolTipBase().color() },
+        { QStringLiteral("toolTipText"), systemPalette.toolTipText().color() },
+        { QStringLiteral("brightText"), systemPalette.brightText().color() },
+        { QStringLiteral("buttonText"), systemPalette.buttonText().color() },
+        { QStringLiteral("button"), systemPalette.button().color() },
+        { QStringLiteral("highlightedText"), systemPalette.highlightedText().color() },
+        { QStringLiteral("placeholderText"), systemPalette.placeholderText().color() },
+        { QStringLiteral("windowText"), systemPalette.windowText().color() },
+        { QStringLiteral("window"), systemPalette.window().color() },
+        { QStringLiteral("dark"), systemPalette.dark().color() },
+        { QStringLiteral("highlight"), systemPalette.highlight().color() },
+        { QStringLiteral("light"), systemPalette.light().color() },
+        { QStringLiteral("link"), systemPalette.link().color() },
+        { QStringLiteral("midlight"), systemPalette.midlight().color() },
+        { QStringLiteral("mid"), systemPalette.mid().color() },
+        { QStringLiteral("linkVisited"), systemPalette.linkVisited().color() },
+        { QStringLiteral("shadow"), systemPalette.shadow().color() },
+    };
 }
 
 bool Theme::darkMode()

@@ -24,6 +24,7 @@
 #include "common/syncjournaldb.h"
 #include "config.h"
 
+#include <ntstatus.h>
 #include <cfapi.h>
 #include <comdef.h>
 
@@ -198,6 +199,16 @@ Result<void, QString> VfsCfApi::updateMetadata(const QString &filePath, time_t m
     }
 }
 
+Result<Vfs::ConvertToPlaceholderResult, QString> VfsCfApi::updatePlaceholderMarkInSync(const QString &filePath, const QByteArray &fileId)
+{
+    return cfapi::updatePlaceholderMarkInSync(filePath, fileId, {});
+}
+
+bool VfsCfApi::isPlaceHolderInSync(const QString &filePath) const
+{
+    return cfapi::isPlaceHolderInSync(filePath);
+}
+
 Result<void, QString> VfsCfApi::createPlaceholder(const SyncFileItem &item)
 {
     Q_ASSERT(params().filesystemPath.endsWith('/'));
@@ -334,28 +345,47 @@ Optional<PinState> VfsCfApi::pinStateLocal(const QString &localPath) const
     return info.pinState();
 }
 
-Vfs::AvailabilityResult VfsCfApi::availability(const QString &folderPath)
+Vfs::AvailabilityResult VfsCfApi::availability(const QString &folderPath, const AvailabilityRecursivity recursiveCheck)
 {
     const auto basePinState = pinState(folderPath);
-    const auto hydrationAndPinStates = computeRecursiveHydrationAndPinStates(folderPath, basePinState);
-
-    const auto pin = hydrationAndPinStates.pinState;
-    const auto hydrationStatus = hydrationAndPinStates.hydrationStatus;
-
-    if (hydrationStatus.hasDehydrated) {
-        if (hydrationStatus.hasHydrated)
-            return VfsItemAvailability::Mixed;
-        if (pin && *pin == PinState::OnlineOnly)
-            return VfsItemAvailability::OnlineOnly;
-        else
-            return VfsItemAvailability::AllDehydrated;
-    } else if (hydrationStatus.hasHydrated) {
-        if (pin && *pin == PinState::AlwaysLocal)
+    if (basePinState && recursiveCheck == Vfs::AvailabilityRecursivity::NotRecursiveAvailability) {
+        switch (*basePinState)
+        {
+        case OCC::PinState::AlwaysLocal:
             return VfsItemAvailability::AlwaysLocal;
-        else
-            return VfsItemAvailability::AllHydrated;
+            break;
+        case OCC::PinState::Excluded:
+            break;
+        case OCC::PinState::Inherited:
+            break;
+        case OCC::PinState::OnlineOnly:
+            return VfsItemAvailability::OnlineOnly;
+            break;
+        case OCC::PinState::Unspecified:
+            break;
+        };
+        return VfsItemAvailability::Mixed;
+    } else {
+        const auto hydrationAndPinStates = computeRecursiveHydrationAndPinStates(folderPath, basePinState);
+
+        const auto pin = hydrationAndPinStates.pinState;
+        const auto hydrationStatus = hydrationAndPinStates.hydrationStatus;
+
+        if (hydrationStatus.hasDehydrated) {
+            if (hydrationStatus.hasHydrated)
+                return VfsItemAvailability::Mixed;
+            if (pin && *pin == PinState::OnlineOnly)
+                return VfsItemAvailability::OnlineOnly;
+            else
+                return VfsItemAvailability::AllDehydrated;
+        } else if (hydrationStatus.hasHydrated) {
+            if (pin && *pin == PinState::AlwaysLocal)
+                return VfsItemAvailability::AlwaysLocal;
+            else
+                return VfsItemAvailability::AllHydrated;
+        }
+        return AvailabilityError::NoSuchItem;
     }
-    return AvailabilityError::NoSuchItem;
 }
 
 HydrationJob *VfsCfApi::findHydrationJob(const QString &requestId) const
@@ -445,7 +475,7 @@ void VfsCfApi::scheduleHydrationJob(const QString &requestId, const QString &fol
 
     auto job = new HydrationJob(this);
     job->setAccount(params().account);
-    job->setRemotePath(params().remotePath);
+    job->setRemoteSyncRootPath(params().remotePath);
     job->setLocalPath(params().filesystemPath);
     job->setJournal(params().journal);
     job->setRequestId(requestId);

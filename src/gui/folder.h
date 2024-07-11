@@ -26,6 +26,8 @@
 #include <QObject>
 #include <QStringList>
 #include <QUuid>
+#include <QSet>
+
 #include <set>
 #include <chrono>
 #include <memory>
@@ -161,6 +163,8 @@ public:
      * remote folder path, always with a trailing /
      */
     QString remotePathTrailingSlash() const;
+
+    [[nodiscard]] QString fulllRemotePathToPathInSyncJournalDb(const QString &fullRemotePath) const;
 
     void setNavigationPaneClsid(const QUuid &clsid) { _definition.navigationPaneClsid = clsid; }
     QUuid navigationPaneClsid() const { return _definition.navigationPaneClsid; }
@@ -348,7 +352,7 @@ public slots:
        * changes. Needs to check whether this change should trigger a new
        * sync run to be scheduled.
        */
-    void slotWatchedPathChanged(const QString &path, OCC::Folder::ChangeReason reason);
+    void slotWatchedPathChanged(const QStringView &path, const OCC::Folder::ChangeReason reason);
 
     /*
     * Triggered when lock files were removed
@@ -400,6 +404,11 @@ public slots:
 private slots:
     void slotSyncStarted();
     void slotSyncFinished(bool);
+    /*
+     * Disconnects all the slots from the FolderWatcher
+     * Needs to be called each time a folder is removed
+     */
+    void disconnectFolderWatcher();
 
     /** Adds a error message that's not tied to a specific item.
      */
@@ -434,7 +443,7 @@ private slots:
     void slotFolderConflicts(const QString &folder, const QStringList &conflictPaths);
 
     /** Warn users if they create a file or folder that is selective-sync excluded */
-    void warnOnNewExcludedItem(const OCC::SyncJournalFileRecord &record, const QStringRef &path);
+    void warnOnNewExcludedItem(const OCC::SyncJournalFileRecord &record, const QStringView &path);
 
     /** Warn users about an unreliable folder watcher */
     void slotWatcherUnreliable(const QString &message);

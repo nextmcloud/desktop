@@ -16,6 +16,13 @@
 #ifndef SERVERCONNECTION_H
 #define SERVERCONNECTION_H
 
+#include "accountfwd.h"
+#include "capabilities.h"
+#include "clientsideencryption.h"
+#include "clientstatusreporting.h"
+#include "common/utility.h"
+#include "syncfileitem.h"
+
 #include <QByteArray>
 #include <QUrl>
 #include <QNetworkCookie>
@@ -26,16 +33,12 @@
 #include <QSslCipher>
 #include <QSslError>
 #include <QSharedPointer>
+#include <QHttpMultiPart>
+#include <QTimer>
 
 #ifndef TOKEN_AUTH_ONLY
 #include <QPixmap>
 #endif
-
-#include "capabilities.h"
-#include "clientsideencryption.h"
-#include "clientstatusreporting.h"
-#include "common/utility.h"
-#include "syncfileitem.h"
 
 #include <memory>
 
@@ -53,8 +56,6 @@ class ReadPasswordJob;
 namespace OCC {
 
 class AbstractCredentials;
-class Account;
-using AccountPtr = QSharedPointer<Account>;
 class AccessManager;
 class SimpleNetworkJob;
 class PushNotifications;
@@ -247,6 +248,8 @@ public:
      */
     [[nodiscard]] int serverVersionInt() const;
 
+    [[nodiscard]] bool serverHasMountRootProperty() const;
+
     static constexpr int makeServerVersion(const int majorVersion, const int minorVersion, const int patchVersion) {
         return (majorVersion << 16) + (minorVersion << 8) + patchVersion;
     };
@@ -331,6 +334,9 @@ public:
     [[nodiscard]] bool e2eEncryptionKeysGenerationAllowed() const;
 
     [[nodiscard]] bool askUserForMnemonic() const;
+
+    void updateServerSubcription();
+    void updateDesktopEnterpriseChannel();
 
 public slots:
     /// Used when forgetting credentials

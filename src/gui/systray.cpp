@@ -59,9 +59,14 @@ Systray *Systray::instance()
     return _instance;
 }
 
+QQmlApplicationEngine *Systray::trayEngine() const
+{
+    return _trayEngine.get();
+}
+
 void Systray::setTrayEngine(QQmlApplicationEngine *trayEngine)
 {
-    _trayEngine = trayEngine;
+    _trayEngine = std::make_unique<QQmlApplicationEngine>(trayEngine);
 
     _trayEngine->setNetworkAccessManagerFactory(&_accessManagerFactory);
 
@@ -74,7 +79,7 @@ void Systray::setTrayEngine(QQmlApplicationEngine *trayEngine)
 Systray::Systray()
     : QSystemTrayIcon(nullptr)
 {
-#if defined(Q_OS_MACOS) && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
+#if defined(Q_OS_MACOS) && __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14 && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
     setUserNotificationCenterDelegate();
     checkNotificationAuth(MacNotificationAuthorizationOptions::Default); // No provisional auth, ask user explicitly first time
     registerNotificationCategories(QString(tr("Download")));
@@ -110,9 +115,11 @@ void Systray::create()
     if (_trayEngine) {
         if (!AccountManager::instance()->accounts().isEmpty()) {
             _trayEngine->rootContext()->setContextProperty("activityModel", UserModel::instance()->currentActivityModel());
+        } else {
+            _trayEngine->rootContext()->setContextProperty("activityModel", &_fakeActivityModel);
         }
 
-        QQmlComponent trayWindowComponent(_trayEngine, QStringLiteral("qrc:/qml/src/gui/tray/Window.qml"));
+        QQmlComponent trayWindowComponent(trayEngine(), QStringLiteral("qrc:/qml/src/gui/tray/Window.qml"));
 
         if(trayWindowComponent.isError()) {
             qCWarning(lcSystray) << trayWindowComponent.errorString();
@@ -122,14 +129,8 @@ void Systray::create()
     }
     hideWindow();
     emit activated(QSystemTrayIcon::ActivationReason::Unknown);
-
-    const auto folderMap = FolderMan::instance()->map();
-    for (const auto *folder : folderMap) {
-        if (!folder->syncPaused()) {
-            _syncIsPaused = false;
-            break;
-        }
-    }
+    slotUpdateSyncPausedState();
+    connect(FolderMan::instance(), &FolderMan::folderListChanged, this, &Systray::slotUpdateSyncPausedState);
 }
 
 void Systray::showWindow(WindowPosition position)
@@ -243,7 +244,7 @@ void Systray::createCallDialog(const Activity &callNotification, const AccountSt
             {"link", callNotification._link},
         };
 
-        const auto callDialog = new QQmlComponent(_trayEngine, QStringLiteral("qrc:/qml/src/gui/tray/CallNotificationDialog.qml"));
+        const auto callDialog = new QQmlComponent(trayEngine(), QStringLiteral("qrc:/qml/src/gui/tray/CallNotificationDialog.qml"));
 
         if(callDialog->isError()) {
             qCWarning(lcSystray) << callDialog->errorString();
@@ -265,7 +266,7 @@ void Systray::createEditFileLocallyLoadingDialog(const QString &fileName)
 
     qCDebug(lcSystray) << "Opening a file local editing dialog...";
 
-    const auto editFileLocallyLoadingDialog = new QQmlComponent(_trayEngine, QStringLiteral("qrc:/qml/src/gui/tray/EditFileLocallyLoadingDialog.qml"));
+    const auto editFileLocallyLoadingDialog = new QQmlComponent(trayEngine(), QStringLiteral("qrc:/qml/src/gui/tray/EditFileLocallyLoadingDialog.qml"));
 
     if (editFileLocallyLoadingDialog->isError()) {
         qCWarning(lcSystray) << editFileLocallyLoadingDialog->errorString();
@@ -287,7 +288,7 @@ void Systray::destroyEditFileLocallyLoadingDialog()
 
 void Systray::createResolveConflictsDialog(const OCC::ActivityList &allConflicts)
 {
-    const auto conflictsDialog = std::make_unique<QQmlComponent>(_trayEngine, QStringLiteral("qrc:/qml/src/gui/ResolveConflictsDialog.qml"));
+    const auto conflictsDialog = std::make_unique<QQmlComponent>(trayEngine(), QStringLiteral("qrc:/qml/src/gui/ResolveConflictsDialog.qml"));
     const QVariantMap initialProperties{
                                         {"allConflicts", QVariant::fromValue(allConflicts)},
     };
@@ -378,7 +379,7 @@ void Systray::createFileDetailsDialog(const QString &localPath)
         {"localPath", localPath},
     };
 
-    QQmlComponent fileDetailsDialog(_trayEngine, QStringLiteral("qrc:/qml/src/gui/filedetails/FileDetailsWindow.qml"));
+    QQmlComponent fileDetailsDialog(trayEngine(), QStringLiteral("qrc:/qml/src/gui/filedetails/FileDetailsWindow.qml"));
 
     if (!fileDetailsDialog.isError()) {
         const auto createdDialog = fileDetailsDialog.createWithInitialProperties(initialProperties);
@@ -433,6 +434,22 @@ void Systray::slotCurrentUserChanged()
 
     // Rebuild App list
     UserAppsModel::instance()->buildAppList();
+}
+
+void Systray::slotUpdateSyncPausedState()
+{
+    const auto folderMap = FolderMan::instance()->map();
+    for (const auto folder : folderMap) {
+        connect(folder, &Folder::syncPausedChanged, this, &Systray::slotUpdateSyncPausedState, Qt::UniqueConnection);
+        if (!folder->syncPaused()) {
+            _syncIsPaused = false;
+            emit syncIsPausedChanged();
+            return;
+        }
+    }
+
+    _syncIsPaused = true;
+    emit syncIsPausedChanged();
 }
 
 void Systray::slotUnpauseAllFolders()
@@ -517,7 +534,7 @@ void Systray::showMessage(const QString &title, const QString &message, MessageI
         QDBusConnection::sessionBus().asyncCall(method);
     } else
 #endif
-#if defined(Q_OS_MACOS) && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
+#if defined(Q_OS_MACOS) && __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14 && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
         if (canOsXSendUserNotification()) {
         sendOsXUserNotification(title, message);
     } else
@@ -529,7 +546,7 @@ void Systray::showMessage(const QString &title, const QString &message, MessageI
 
 void Systray::showUpdateMessage(const QString &title, const QString &message, const QUrl &webUrl)
 {
-#if defined(Q_OS_MACOS) && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
+#if defined(Q_OS_MACOS) && __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14 && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
     sendOsXUpdateNotification(title, message, webUrl);
 #else // TODO: Implement custom notifications (i.e. actionable) for other OSes
     Q_UNUSED(webUrl);
@@ -539,7 +556,7 @@ void Systray::showUpdateMessage(const QString &title, const QString &message, co
 
 void Systray::showTalkMessage(const QString &title, const QString &message, const QString &token, const QString &replyTo, const AccountStatePtr &accountState)
 {
-#if defined(Q_OS_MACOS) && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
+#if defined(Q_OS_MACOS) && __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14 && defined(BUILD_OWNCLOUD_OSX_BUNDLE)
     sendOsXTalkNotification(title, message, token, replyTo, accountState);
 #else // TODO: Implement custom notifications (i.e. actionable) for other OSes
     Q_UNUSED(replyTo)
@@ -567,6 +584,7 @@ void Systray::setSyncIsPaused(const bool syncIsPaused)
     } else {
         slotUnpauseAllFolders();
     }
+    emit syncIsPausedChanged();
 }
 
 /********************************************************************************************/

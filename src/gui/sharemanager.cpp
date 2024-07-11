@@ -32,7 +32,7 @@ namespace OCC {
 /**
  * When a share is modified, we need to tell the folders so they can adjust overlay icons
  */
-static void updateFolder(const AccountPtr &account, const QString &path)
+static void updateFolder(const AccountPtr &account, QStringView path)
 {
     foreach (Folder *f, FolderMan::instance()->map()) {
         if (f->accountState()->account() != account)
@@ -41,7 +41,7 @@ static void updateFolder(const AccountPtr &account, const QString &path)
         if (path.startsWith(folderPath) && (path == folderPath || folderPath.endsWith('/') || path[folderPath.size()] == '/')) {
             // Workaround the fact that the server does not invalidate the etags of parent directories
             // when something is shared.
-            auto relative = path.midRef(f->remotePathTrailingSlash().length());
+            auto relative = path.mid(f->remotePathTrailingSlash().length());
             f->journalDb()->schedulePathForRemoteDiscovery(relative.toString());
 
             // Schedule a sync so it can update the remote permission flag and let the socket API
@@ -488,7 +488,7 @@ void ShareManager::createShare(const QString &path,
     job->getSharedWithMe();
 }
 
-void ShareManager::createE2EeShareJob(const QString &path,
+void ShareManager::createE2EeShareJob(const QString &fullRemotePath,
                                       const ShareePtr sharee,
                                       const Share::Permissions permissions,
                                       const QString &password)
@@ -506,11 +506,14 @@ void ShareManager::createE2EeShareJob(const QString &path,
         return;
     }
 
+    Q_ASSERT(folder->remotePath() == QStringLiteral("/") ||
+        Utility::noLeadingSlashPath(fullRemotePath).startsWith(Utility::noLeadingSlashPath(Utility::noTrailingSlashPath(folder->remotePath()))));
+
     const auto createE2eeShareJob = new UpdateE2eeFolderUsersMetadataJob(_account,
                                                                          folder->journalDb(),
                                                                          folder->remotePath(),
                                                                          UpdateE2eeFolderUsersMetadataJob::Add,
-                                                                         path,
+                                                                         fullRemotePath,
                                                                          sharee->shareWith(),
                                                                          QSslCertificate{},
                                                                          this);

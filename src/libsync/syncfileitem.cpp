@@ -169,7 +169,7 @@ SyncFileItemPtr SyncFileItem::fromSyncJournalFileRecord(const SyncJournalFileRec
     return item;
 }
 
-SyncFileItemPtr SyncFileItem::fromProperties(const QString &filePath, const QMap<QString, QString> &properties)
+SyncFileItemPtr SyncFileItem::fromProperties(const QString &filePath, const QMap<QString, QString> &properties, RemotePermissions::MountedPermissionAlgorithm algorithm)
 {
     SyncFileItemPtr item(new SyncFileItem);
     item->_file = filePath;
@@ -182,7 +182,7 @@ SyncFileItemPtr SyncFileItem::fromProperties(const QString &filePath, const QMap
     item->_fileId = properties.value(QStringLiteral("id")).toUtf8();
 
     if (properties.contains(QStringLiteral("permissions"))) {
-        item->_remotePerm = RemotePermissions::fromServerString(properties.value("permissions"));
+        item->_remotePerm = RemotePermissions::fromServerString(properties.value("permissions"), algorithm, properties);
     }
 
     if (!properties.value(QStringLiteral("share-types")).isEmpty()) {
@@ -219,8 +219,8 @@ SyncFileItemPtr SyncFileItem::fromProperties(const QString &filePath, const QMap
         const auto intConvertedValue = properties.value(QStringLiteral("lock-timeout")).toULongLong(&ok);
         item->_lockTimeout = ok ? intConvertedValue : 0;
     }
-
-    const auto date = QDateTime::fromString(properties.value(QStringLiteral("getlastmodified")), Qt::RFC2822Date);
+    const auto lastModifiedValue = properties.value(QStringLiteral("getlastmodified")).replace("GMT", "+0000");
+    const auto date = QDateTime::fromString(lastModifiedValue, Qt::RFC2822Date);
     Q_ASSERT(date.isValid());
     if (date.toSecsSinceEpoch() > 0) {
         item->_modtime = date.toSecsSinceEpoch();

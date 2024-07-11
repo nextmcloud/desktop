@@ -14,13 +14,18 @@
 
 #pragma once
 
+#include "owncloudlib.h"
+
 #include "account.h"
 #include "rootencryptedfolderinfo.h"
+#include "common/syncjournaldb.h"
+
 #include <QHash>
 #include <QMutex>
 #include <QObject>
 #include <QSslCertificate>
 #include <QString>
+#include <QPointer>
 
 namespace OCC {
 class FolderMetadata;
@@ -50,7 +55,7 @@ public:
     };
     Q_ENUM(UnlockFolderWithResult);
 
-    explicit EncryptedFolderMetadataHandler(const AccountPtr &account, const QString &folderPath, SyncJournalDb *const journalDb, const QString &pathForTopLevelFolder, QObject *parent = nullptr);
+    explicit EncryptedFolderMetadataHandler(const AccountPtr &account, const QString &folderPath, const QString &remoteFolderRoot, SyncJournalDb *const journalDb, const QString &pathForTopLevelFolder, QObject *parent = nullptr);
 
     [[nodiscard]] QSharedPointer<FolderMetadata> folderMetadata() const;
 
@@ -101,8 +106,9 @@ public: signals:
 
 private:
     AccountPtr _account;
-    QString _folderPath;
     QPointer<SyncJournalDb> _journalDb;
+    QString _folderFullRemotePath;
+    QString _remoteFolderRoot;
     QByteArray _folderId;
     QByteArray _folderToken;
 

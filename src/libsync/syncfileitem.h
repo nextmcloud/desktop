@@ -133,7 +133,7 @@ public:
 
     /** Creates a basic SyncFileItem from remote properties
      */
-    [[nodiscard]] static SyncFileItemPtr fromProperties(const QString &filePath, const QMap<QString, QString> &properties);
+    [[nodiscard]] static SyncFileItemPtr fromProperties(const QString &filePath, const QMap<QString, QString> &properties, RemotePermissions::MountedPermissionAlgorithm algorithm);
 
 
     SyncFileItem()
@@ -335,6 +335,9 @@ public:
     bool _isFileDropDetected = false;
 
     bool _isEncryptedMetadataNeedUpdate = false;
+
+    bool _isAnyInvalidCharChild = false;
+    bool _isAnyCaseClashChild = false;
 };
 
 inline bool operator<(const SyncFileItemPtr &item1, const SyncFileItemPtr &item2)

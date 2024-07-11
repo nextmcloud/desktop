@@ -67,7 +67,6 @@
 #include <QJsonObject>
 #include <QWidget>
 
-#include <QClipboard>
 #include <QDesktopServices>
 
 #include <QProcess>
@@ -77,6 +76,12 @@
 #include <CoreFoundation/CoreFoundation.h>
 #endif
 
+#ifdef HAVE_KGUIADDONS
+#include <QMimeData>
+#include <KSystemClipboard>
+#else
+#include <QClipboard>
+#endif
 
 // This is the version that is returned when the client asks for the VERSION.
 // The first number should be changed if there is an incompatible change that breaks old clients.
@@ -194,6 +199,17 @@ static QString buildMessage(const QString &verb, const QString &path, const QStr
     }
     return msg;
 }
+
+void setClipboardText(const QString &text)
+{
+#ifdef HAVE_KGUIADDONS
+    auto mimeData = new QMimeData();
+    mimeData->setText(text);
+    KSystemClipboard::instance()->setMimeData(mimeData, QClipboard::Clipboard);
+#else
+    QApplication::clipboard()->setText(text);
+#endif
+}
 }
 
 namespace OCC {
@@ -284,7 +300,7 @@ SocketApi::SocketApi(QObject *parent)
             qCDebug(lcSocketApi) << "creating" << info.dir().path() << result;
             if (result) {
                 QFile::setPermissions(socketPath,
-                    QFile::Permissions(QFile::ReadOwner + QFile::WriteOwner + QFile::ExeOwner));
+                    QFile::Permissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner));
             }
         }
     }
@@ -368,7 +384,7 @@ void SocketApi::slotReadSocket()
         const QString line = QString::fromUtf8(socket->readLine().trimmed()).normalized(QString::NormalizationForm_C);
         qCDebug(lcSocketApi) << "Received SocketAPI message <--" << line << "from" << socket;
         const int argPos = line.indexOf(QLatin1Char(':'));
-        const QByteArray command = line.midRef(0, argPos).toUtf8().toUpper();
+        const QByteArray command = line.mid(0, argPos).toUtf8().toUpper();
         const int indexOfMethod = [&] {
             QByteArray functionWithArguments = QByteArrayLiteral("command_");
             if (command.startsWith("ASYNC_")) {
@@ -378,7 +394,7 @@ void SocketApi::slotReadSocket()
             } else {
                 functionWithArguments += command + QByteArrayLiteral("(QString,SocketListener*)");
             }
-            Q_ASSERT(staticQtMetaObject.normalizedSignature(functionWithArguments) == functionWithArguments);
+            Q_ASSERT(staticMetaObject.normalizedSignature(functionWithArguments) == functionWithArguments);
             const auto out = staticMetaObject.indexOfMethod(functionWithArguments);
             if (out == -1) {
                 listener->sendError(QStringLiteral("Function %1 not found").arg(QString::fromUtf8(functionWithArguments)));
@@ -387,7 +403,7 @@ void SocketApi::slotReadSocket()
             return out;
         }();
 
-        const auto argument = argPos != -1 ? line.midRef(argPos + 1) : QStringRef();
+        const auto argument = argPos != -1 ? line.mid(argPos + 1) : QStringView();
         if (command.startsWith("ASYNC_")) {
             auto arguments = argument.split('|');
             if (arguments.size() != 2) {
@@ -534,15 +550,9 @@ void SocketApi::processEncryptRequest(const QString &localFile)
     auto path = rec._path;
     // Folder records have directory paths in Foo/Bar/ convention...
     // But EncryptFolderJob expects directory path Foo/Bar convention
-    auto choppedPath = path;
-    if (choppedPath.endsWith('/') && choppedPath != QStringLiteral("/")) {
-        choppedPath.chop(1);
-    }
-    if (choppedPath.startsWith('/') && choppedPath != QStringLiteral("/")) {
-        choppedPath = choppedPath.mid(1);
-    }
+    const auto choppedPath = Utility::noTrailingSlashPath(Utility::noLeadingSlashPath(path));
 
-    auto job = new OCC::EncryptFolderJob(account, folder->journalDb(), choppedPath, rec.numericFileId());
+    auto job = new OCC::EncryptFolderJob(account, folder->journalDb(), choppedPath, choppedPath, folder->remotePath(), rec.numericFileId());
     job->setParent(this);
     connect(job, &OCC::EncryptFolderJob::finished, this, [fileData, job](const int status) {
         if (status == OCC::EncryptFolderJob::Error) {
@@ -902,7 +912,7 @@ void SocketApi::command_COPY_PUBLIC_LINK(const QString &localFile, SocketListene
 #ifdef Q_OS_WIN
 void SocketApi::command_COPYASPATH(const QString &localFile, SocketListener *)
 {
-    QApplication::clipboard()->setText(localFile);
+    setClipboardText(localFile);
 }
 
 void SocketApi::command_OPENNEWWINDOW(const QString &localFile, SocketListener *)
@@ -995,7 +1005,7 @@ void SocketApi::command_MAKE_ONLINE_ONLY(const QString &filesArg, SocketListener
 
 void SocketApi::copyUrlToClipboard(const QString &link)
 {
-    QApplication::clipboard()->setText(link);
+    setClipboardText(link);
 }
 
 void SocketApi::command_RESOLVE_CONFLICT(const QString &localFile, SocketListener *)
@@ -1336,7 +1346,7 @@ SocketApi::FileData SocketApi::FileData::parentFolder() const
 
 void SocketApi::command_GET_MENU_ITEMS(const QString &argument, OCC::SocketListener *listener)
 {
-    listener->sendMessage(QString("GET_MENU_ITEMS:BEGIN"));
+    listener->sendMessage(QString("GET_MENU_ITEMS:BEGIN"), true);
     const QStringList files = split(argument);
 
     // Find the common sync folder.
@@ -1378,7 +1388,7 @@ void SocketApi::command_GET_MENU_ITEMS(const QString &argument, OCC::SocketListe
         DirectEditor* editor = getDirectEditorForLocalFile(fileData.localPath);
         if (editor) {
             //listener->sendMessage(QLatin1String("MENU_ITEM:EDIT") + flagString + tr("Edit via ") + editor->name());
-            listener->sendMessage(QLatin1String("MENU_ITEM:EDIT") + flagString + tr("Edit"));
+            listener->sendMessage(QLatin1String("MENU_ITEM:EDIT") + flagString + tr("Open in browser"));
         } else {
             listener->sendMessage(QLatin1String("MENU_ITEM:OPEN_PRIVATE_LINK") + flagString + tr("Open in browser"));
         }
@@ -1449,7 +1459,7 @@ void SocketApi::command_GET_MENU_ITEMS(const QString &argument, OCC::SocketListe
         };
         for (const auto &file : files) {
             auto fileData = FileData::get(file);
-            auto availability = syncFolder->vfs().availability(fileData.folderRelativePath);
+            auto availability = syncFolder->vfs().availability(fileData.folderRelativePath, Vfs::AvailabilityRecursivity::NotRecursiveAvailability);
             if (!availability) {
                 if (availability.error() == Vfs::AvailabilityError::DbError)
                     availability = VfsItemAvailability::Mixed;

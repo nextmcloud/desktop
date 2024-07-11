@@ -13,6 +13,7 @@
  */
 
 #include "accountstate.h"
+
 #include "accountmanager.h"
 #include "remotewipe.h"
 #include "account.h"
@@ -23,6 +24,7 @@
 #include "ocsnavigationappsjob.h"
 #include "ocsuserstatusconnector.h"
 #include "pushnotifications.h"
+#include "networkjobs.h"
 
 #include <QSettings>
 #include <QTimer>
@@ -32,6 +34,7 @@
 #include <QJsonArray>
 #include <QNetworkRequest>
 #include <QBuffer>
+#include <QRandomGenerator>
 
 #include <cmath>
 
@@ -39,12 +42,13 @@ namespace OCC {
 
 Q_LOGGING_CATEGORY(lcAccountState, "nextcloud.gui.account.state", QtInfoMsg)
 
-AccountState::AccountState(AccountPtr account)
+AccountState::AccountState(const AccountPtr &account)
     : QObject()
     , _account(account)
     , _state(AccountState::Disconnected)
     , _connectionStatus(ConnectionValidator::Undefined)
-    , _maintenanceToConnectedDelay(60000 + (qrand() % (4 * 60000))) // 1-5min delay
+    , _waitingForNewCredentials(false)
+    , _maintenanceToConnectedDelay(60000 + (QRandomGenerator::global()->generate() % (4 * 60000))) // 1-5min delay
     , _remoteWipe(new RemoteWipe(_account))
     , _isDesktopNotificationsAllowed(true)
 {
@@ -81,12 +85,6 @@ AccountState::AccountState(AccountPtr account)
 
 AccountState::~AccountState() = default;
 
-AccountState *AccountState::loadFromSettings(AccountPtr account, QSettings & /*settings*/)
-{
-    auto accountState = new AccountState(account);
-    return accountState;
-}
-
 AccountPtr AccountState::account() const
 {
     return _account;
@@ -117,7 +115,6 @@ void AccountState::setState(State state)
 
         if (_state == SignedOut) {
             _connectionStatus = ConnectionValidator::Undefined;
-            _connectionErrors.clear();
         } else if (oldState == SignedOut && _state == Disconnected) {
             // If we stop being voluntarily signed-out, try to connect and
             // auth right now!
@@ -297,8 +294,9 @@ void AccountState::checkConnectivity()
         return;
     }
 
-    auto *conValidator = new ConnectionValidator(AccountStatePtr(this));
+    auto *conValidator = new ConnectionValidator(AccountStatePtr(this), _connectionErrors);
     _connectionValidator = conValidator;
+    _connectionErrors.clear();
     connect(conValidator, &ConnectionValidator::connectionResult,
         this, &AccountState::slotConnectionValidatorResult);
     if (isConnected()) {
@@ -319,7 +317,7 @@ void AccountState::checkConnectivity()
 
         // If we don't reset the ssl config a second CheckServerJob can produce a
         // ssl config that does not have a sensible certificate chain.
-        account()->setSslConfiguration(QSslConfiguration());
+        account()->setSslConfiguration(QSslConfiguration::defaultConfiguration());
         //#endif
         conValidator->checkServerAndAuth();
     }

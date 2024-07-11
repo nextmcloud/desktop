@@ -217,6 +217,109 @@
     </message>
 </context>
 <context>
+    <name>FileProviderEvictionDialog</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="33"/>
+        <source>Evict materialised files</source>
+        <translation>إخلاء الملفات المنجزة</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="49"/>
+        <source>Materialised items</source>
+        <translation>عناصر منجزة materialized</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="61"/>
+        <source>Reload</source>
+        <translation>إعادة تحميل</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderFastEnumerationSettings</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderFastEnumerationSettings.qml" line="38"/>
+        <source>Enable fast sync</source>
+        <translation>تمكين المزامنة السريعة</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderFastEnumerationSettings.qml" line="53"/>
+        <source>Fast sync will only sync changes in files and folders within folders that have been explored. This can significantly increase responsiveness on initial configuration of virtual files. However, it will cause redundant downloads of files moved to an unexplored folder. </source>
+        <translation>تقوم المزامنة السريعة فقط بمزامنة التغييرات في الملفات والمجلدات داخل المجلدات التي تم استعراضها. يمكن أن يؤدي هذا إلى تحسين الاستجابة بشكل ملحوظ عند التكوين الأولي للملفات الافتراضية. ومع ذلك، سيؤدي ذلك إلى تنزيلات زائدة عن الحاجة للملفات المنقولة إلى مجلد غير مستعرض.</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderFileDelegate</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderFileDelegate.qml" line="95"/>
+        <source>Delete</source>
+        <translation>حذف</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderSettings</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="32"/>
+        <source>Virtual files settings</source>
+        <translation>إعدادات الملفات الافتراضية</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="73"/>
+        <source>General settings</source>
+        <translation>الإعدادات العامة</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="82"/>
+        <source>Enable virtual files</source>
+        <translation>تمكين الملفات الافتراضية</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="167"/>
+        <source>Advanced</source>
+        <translation>متقدم</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="174"/>
+        <source>Signal file provider domain</source>
+        <translation>نطاق مُزوّد ملف الإشارة</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="179"/>
+        <source>Create debug archive</source>
+        <translation>إنشاء أرشيف للتنقيح</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderStorageInfo</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="41"/>
+        <source>Local storage use</source>
+        <translation>استعمال التخزين المحلي</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="49"/>
+        <source>%1 GB of %2 GB remote files synced</source>
+        <translation>%1 غيغا بايت من أصل %2 غيغا بايت ملفات قصيّة تمّت مزامنتها</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="58"/>
+        <source>Evict local copies...</source>
+        <translation>إخلاء النسخ المحلية ...</translation>
+    </message>
+</context>
+<context>
+    <name>FileProviderSyncStatus</name>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="57"/>
+        <source>Syncing</source>
+        <translation>مزامنة ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="57"/>
+        <source>All synced!</source>
+        <translation>إكتملت المزامنة!</translation>
+    </message>
+</context>
+<context>
     <name>FileSystem</name>
     <message>
         <location filename="../src/libsync/filesystem.cpp" line="157"/>
@@ -349,14 +452,14 @@ Should an account import be attempted?</source>
         <translation>تم اكتشاف تهيئة من نسخة سابقة للعميل موجودة على الجهاز. هل ترغب في محاولة استيراد الحساب؟</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="198"/>
+        <location filename="../src/gui/accountmanager.cpp" line="199"/>
         <source>%1 accounts were detected from a legacy desktop client.
 Should the accounts be imported?</source>
         <translation>%1 حسابات تمّ حذفها من تطبيق عميل سطح المكتب القديم.
 هل يتوجب استيراد الحسابات؟</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="200"/>
+        <location filename="../src/gui/accountmanager.cpp" line="201"/>
         <source>1 account was detected from a legacy desktop client.
 Should the account be imported?</source>
         <translation>حساب واحد 1 تم حذفه من تطبيق عميل سطح المكتب القديم. هل يتوجب استيراد الحساب؟</translation>
@@ -369,12 +472,12 @@ Should the account be imported?</source>
         <translation>إستيراد قديم</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="203"/>
+        <location filename="../src/gui/accountmanager.cpp" line="204"/>
         <source>Import</source>
         <translation>استيراد</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="204"/>
+        <location filename="../src/gui/accountmanager.cpp" line="205"/>
         <source>Skip</source>
         <translation>تخطِّي</translation>
     </message>
@@ -391,6 +494,11 @@ Should the account be imported?</source>
 </context>
 <context>
     <name>OCC::AccountSettings</name>
+    <message>
+        <location filename="../src/gui/accountsettings.ui" line="148"/>
+        <source>Storage space: …</source>
+        <translation>مساحة التخزين: …</translation>
+    </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="31"/>
         <source>Unchecked folders will be &lt;b&gt;removed&lt;/b&gt; from your local file system and will not be synchronized to this computer anymore</source>
@@ -414,11 +522,6 @@ Should the account be imported?</source>
         <translation>تمّ التوصيل مع &lt;server&gt; كـ &lt;user&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.ui" line="148"/>
-        <source>Storage space: …</source>
-        <translation>مساحة التخزين: …</translation>
-    </message>
-    <message>
         <location filename="../src/gui/accountsettings.ui" line="256"/>
         <source>Synchronize all</source>
         <translation>زامن الكل</translation>
@@ -432,6 +535,16 @@ Should the account be imported?</source>
         <location filename="../src/gui/accountsettings.ui" line="270"/>
         <source>Apply manual changes</source>
         <translation>طبّق التغييرات اليدوية</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.ui" line="267"/>
+        <source>Standard file sync</source>
+        <translation>مزامنة الملفات الاعتيادية</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.ui" line="308"/>
+        <source>Virtual file sync</source>
+        <translation>مزامنة الملفات الافتراضية</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="93"/>
@@ -454,12 +567,12 @@ Should the account be imported?</source>
         <translation>شفّر المُجلّد</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="116"/>
+        <location filename="../src/gui/accountsettings.cpp" line="120"/>
         <source>End-to-end Encryption</source>
         <translation>تشفير من الحدّ للحدّ</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="118"/>
+        <location filename="../src/gui/accountsettings.cpp" line="122"/>
         <source>This will encrypt your folder and all files within it. These files will no longer be accessible without your encryption mnemonic key. 
 &lt;b&gt;This process is not reversible. Are you sure you want to proceed?&lt;/b&gt;</source>
         <translation>سييؤدي هذا إلى تشفير مجلدك و كافة الملفات داخله. و لن يمكنك الوصول إلى هذه الملفات إلاّ بعد تقديم مفتاح الشفرة التذكُّرية mnemonic key الصحيح . 
@@ -491,17 +604,17 @@ Should the account be imported?</source>
         <translation>تحذير</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="356"/>
+        <location filename="../src/gui/accountsettings.cpp" line="377"/>
         <source>Please wait for the folder to sync before trying to encrypt it.</source>
         <translation>رجاءً، إنتظر حتى تنتهي عملية مزامنة المجلد قبل محاولة تشفيره.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="358"/>
+        <location filename="../src/gui/accountsettings.cpp" line="379"/>
         <source>The folder has a minor sync problem. Encryption of this folder will be possible once it has synced successfully</source>
         <translation>عملية مزامنة هذا المجلد كان فيها بعض الأخطاء الطفيفة. لا يمكن البدء في تشفير المجلد إلاّ بعد اكتمال عملية المزامنة بالشكل الصحيح.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="360"/>
+        <location filename="../src/gui/accountsettings.cpp" line="381"/>
         <source>The folder has a sync error. Encryption of this folder will be possible once it has synced successfully</source>
         <translation>عملية مزامنة هذا المجلد فيها بعض الأخطاء. لا يمكن البدء في تشفير المجلد إلاّ بعد اكتمال عملية المزامنة بالشكل الصحيح.</translation>
     </message>
@@ -537,7 +650,7 @@ Wait for the new sync, then encrypt it.</source>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="527"/>
         <source>Encrypt</source>
-        <translation>شفّر</translation>
+        <translation>شفِّر</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="535"/>
@@ -555,7 +668,7 @@ Wait for the new sync, then encrypt it.</source>
         <location filename="../src/gui/accountsettings.cpp" line="544"/>
         <location filename="../src/gui/accountsettings.cpp" line="634"/>
         <source>Availability</source>
-        <translation>أوقات التواجد Availability</translation>
+        <translation>أوقات التواجد</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="613"/>
@@ -754,6 +867,11 @@ This action will abort any currently running synchronization.</source>
         <translation>لا يوجد اتصال مع %1 فى %2.</translation>
     </message>
     <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1300"/>
+        <source>Unable to connect to %1.</source>
+        <translation>تعذّر الاتصال بـ %1.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/accountsettings.cpp" line="1264"/>
         <source>Server configuration error: %1 at %2.</source>
         <translation>خطـأ تهيئة الخادوم: %1 في %2.</translation>
@@ -779,7 +897,7 @@ This action will abort any currently running synchronization.</source>
         <translation>هنالك مجلدات لم تتم مزامنتها لأن حجمها كبيرٌ جدًا أو لأنها وحدات تخزين خارجية:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1573"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1594"/>
         <source>There are folders that have grown in size beyond %1MB: %2</source>
         <translation>هنالك مجلدات تجاوز حجمها  %1ميغا بايت: %2</translation>
     </message>
@@ -976,34 +1094,34 @@ This action will abort any currently running synchronization.</source>
         <translation>استمرار</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="460"/>
+        <location filename="../src/gui/application.cpp" line="499"/>
         <source>%1 accounts</source>
         <comment>number of accounts imported</comment>
         <translation>%1 حساب</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="461"/>
+        <location filename="../src/gui/application.cpp" line="500"/>
         <source>1 account</source>
         <translation>حساب واحد 1</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="463"/>
+        <location filename="../src/gui/application.cpp" line="502"/>
         <source>%1 folders</source>
         <comment>number of folders imported</comment>
         <translation>%1 مجلد</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="464"/>
+        <location filename="../src/gui/application.cpp" line="503"/>
         <source>1 folder</source>
         <translation>مجلد واحد 1</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="466"/>
+        <location filename="../src/gui/application.cpp" line="505"/>
         <source>Legacy import</source>
         <translation>استيراد القديمة</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="467"/>
+        <location filename="../src/gui/application.cpp" line="506"/>
         <source>Imported %1 and %2 from a legacy desktop client.
 %3</source>
         <comment>number of accounts and folders imported. list of users.</comment>
@@ -1446,6 +1564,11 @@ This action will abort any currently running synchronization.</source>
         <source>Please update to the latest server and restart the client.</source>
         <translation>يرجى التحديث إلى الإصدار الأخير من الخادوم ثم إعادة تشغيل العميل.</translation>
     </message>
+    <message>
+        <location filename="../src/gui/connectionvalidator.cpp" line="344"/>
+        <source>Connection issue</source>
+        <translation>مشكلة في الاتصال</translation>
+    </message>
 </context>
 <context>
     <name>OCC::DiscoveryPhase</name>
@@ -1469,8 +1592,8 @@ This action will abort any currently running synchronization.</source>
         <translation>خطأ خادوم: رد PROPFIND ليس على نسق XML!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="668"/>
-        <location filename="../src/libsync/discoveryphase.cpp" line="696"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="678"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="707"/>
         <source>Encrypted metadata setup error!</source>
         <translation>خطأ في إعدادات البيانات الوصفية المشفرة!</translation>
     </message>
@@ -1639,32 +1762,34 @@ This can be an issue with your OpenSSL libraries.</source>
 <context>
     <name>OCC::EncryptedFolderMetadataHandler</name>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="59"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="162"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="171"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="199"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="64"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="71"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="77"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="180"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="189"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="217"/>
         <source>Error fetching metadata.</source>
         <translation>خطأ في جلب البيانات الوصفية.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="114"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="120"/>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="213"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="132"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="138"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="231"/>
         <source>Error locking folder.</source>
         <translation>خطأ في قفل الجلد.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="147"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="165"/>
         <source>Error fetching encrypted folder ID.</source>
-        <translation type="unfinished"/>
+        <translation>خطأ أثناء جلب مُعرِّف المجلد المُشفّر.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="181"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="199"/>
         <source>Error parsing or decrypting metadata.</source>
         <translation>خطأ في تحليل البيانات الوصفية أو في فك تشفيرها.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="323"/>
+        <location filename="../src/libsync/encryptedfoldermetadatahandler.cpp" line="341"/>
         <source>Failed to upload metadata</source>
         <translation>تعذّر رفع البيانات الوصفية</translation>
     </message>
@@ -1920,29 +2045,47 @@ This can be an issue with your OpenSSL libraries.</source>
         <translation>رجاءً، إذهب إلى الإعدادات لاختياره إذا كنت ترغب في تنزيله.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1369"/>
+        <location filename="../src/gui/folder.cpp" line="1386"/>
         <source>A folder has surpassed the set folder size limit of %1MB: %2.
 %3</source>
         <translation>تجاوز المجلد الحجم الأقصى المحدد و هو %1 ميغا بايت: %2. 
 %3</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1380"/>
+        <location filename="../src/gui/folder.cpp" line="1397"/>
         <source>Keep syncing</source>
         <translation>إستمِر في المزامنة</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1388"/>
+        <location filename="../src/gui/folder.cpp" line="1405"/>
         <source>Stop syncing</source>
         <translation>أوقِف المزامنة</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1399"/>
+        <location filename="../src/gui/folder.cpp" line="1411"/>
+        <source>All files in the sync folder &quot;%1&quot; folder were deleted on the server.
+These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
+If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
+If you decide to delete the files, they will be unavailable to you, unless you are the owner.</source>
+        <translation>تم حذف جميع الملفات الموجودة في مجلد المزامنة &quot;٪ 1&quot; على الخادوم. ستتم مزامنة عمليات الحذف هذه مع مجلد المزامنة المحلي، مما يجعل هذه الملفات غير متاحة إلاّ ذا كان لديك الحق في استعادتها. 
+إذا قررت استعادة الملفات ، فستتم إعادة مزامنتها مع الخادوم إذا كان لديك صلاحية القيام بذلك. 
+إذا قررت حذف الملفات، فلن تكون متاحة لك إلا إذا كنت المالك.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1416"/>
         <source>The folder %1 has surpassed the set folder size limit of %2MB.</source>
         <translation>تجاوز المجلد %1 الحجم الأقصى المحدد و هو %2 ميغا بايت. </translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1400"/>
+        <location filename="../src/gui/folder.cpp" line="1416"/>
+        <source>All the files in your local sync folder &quot;%1&quot; were deleted. These deletes will be synchronized with your server, making such files unavailable unless restored.
+Are you sure you want to sync those actions with the server?
+If this was an accident and you decide to keep your files, they will be re-synced from the server.</source>
+        <translation>تم حذف كافة الملفات الموجودة في مجلد المزامنة المحلي &quot;٪ 1&quot;. ستتم مزامنة عمليات الحذف هذه مع خادومك، هذا يجعل هذه الملفات غير متاحة ما لم تتم استعادتها. 
+هل تريد بالتأكيد مزامنة هذه الإجراءات مع الخادم؟ إذا كان هذا حادثًا وقررت الاحتفاظ بملفاتك، فستتم إعادة مزامنتها من الخادم.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1417"/>
         <source>Would you like to stop syncing this folder?</source>
         <translation>هل ترغب في التوقف عن مزامنة هذا المجلد؟</translation>
     </message>
@@ -1968,29 +2111,6 @@ This means that the synchronization client might not upload local changes immedi
 ٪ 1</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1521"/>
-        <source>Virtual file download failed with code &quot;%1&quot;, status &quot;%2&quot; and error message &quot;%3&quot;</source>
-        <translation>تعذّر تنزيل الملف الظاهري الذي رمزه: &quot;%1&quot;, الحالة: &quot;%2&quot; و رسالة الخطأ: &quot;%3&quot;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folder.cpp" line="1411"/>
-        <source>All files in the sync folder &quot;%1&quot; folder were deleted on the server.
-These deletes will be synchronized to your local sync folder, making such files unavailable unless you have a right to restore. 
-If you decide to restore the files, they will be re-synced with the server if you have rights to do so.
-If you decide to delete the files, they will be unavailable to you, unless you are the owner.</source>
-        <translation>تم حذف جميع الملفات الموجودة في مجلد المزامنة &quot;٪ 1&quot; على الخادوم. ستتم مزامنة عمليات الحذف هذه مع مجلد المزامنة المحلي، مما يجعل هذه الملفات غير متاحة إلاّ ذا كان لديك الحق في استعادتها. 
-إذا قررت استعادة الملفات ، فستتم إعادة مزامنتها مع الخادوم إذا كان لديك صلاحية القيام بذلك. 
-إذا قررت حذف الملفات، فلن تكون متاحة لك إلا إذا كنت المالك.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/folder.cpp" line="1416"/>
-        <source>All the files in your local sync folder &quot;%1&quot; were deleted. These deletes will be synchronized with your server, making such files unavailable unless restored.
-Are you sure you want to sync those actions with the server?
-If this was an accident and you decide to keep your files, they will be re-synced from the server.</source>
-        <translation>تم حذف كافة الملفات الموجودة في مجلد المزامنة المحلي &quot;٪ 1&quot;. ستتم مزامنة عمليات الحذف هذه مع خادومك، هذا يجعل هذه الملفات غير متاحة ما لم تتم استعادتها. 
-هل تريد بالتأكيد مزامنة هذه الإجراءات مع الخادم؟ إذا كان هذا حادثًا وقررت الاحتفاظ بملفاتك، فستتم إعادة مزامنتها من الخادم.</translation>
-    </message>
-    <message>
         <location filename="../src/gui/folder.cpp" line="1420"/>
         <source>Remove All Files?</source>
         <translation>حذف كل الملفات؟</translation>
@@ -2004,6 +2124,44 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <location filename="../src/gui/folder.cpp" line="1425"/>
         <source>Keep files</source>
         <translation>إحتفظ بالملفات</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1538"/>
+        <source>Virtual file download failed with code &quot;%1&quot;, status &quot;%2&quot; and error message &quot;%3&quot;</source>
+        <translation>تعذّر تنزيل الملف الظاهري الذي رمزه: &quot;%1&quot;, الحالة: &quot;%2&quot; و رسالة الخطأ: &quot;%3&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1631"/>
+        <source>All files in the server folder &quot;%1&quot; were deleted.
+
+If you restore the files, they will be uploaded again to the server.</source>
+        <translation>تمّ حذف جميع الملفات في مجلد الخادوم  &quot;%1&quot;. 
+
+إذا طلبت استعادة هذه الملفات، فستتم إعادة رفعها مُجدّداً إلى الخادوم.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1632"/>
+        <source>All files in the local folder &quot;%1&quot; were deleted.
+
+If you restore the files, they will be downloaded again from the server.</source>
+        <translation>تمّ حذف جميع الملفات في المجلد المحلي &quot;%1&quot;. 
+
+إذا طلب استعادة هذه الملفات، فستتم إعادة تنزيلها مُجدّداً من الخادوم.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1633"/>
+        <source>Remove all files?</source>
+        <translation>حذف كل الملفات؟</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1637"/>
+        <source>Proceed to remove all files</source>
+        <translation>إستمِر في حذف كل الملفات</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/folder.cpp" line="1638"/>
+        <source>Restore files</source>
+        <translation>إستعادة الملفات</translation>
     </message>
 </context>
 <context>
@@ -2599,7 +2757,7 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>أطلب التأكيد قبل مزامنة المجلدات الأكبر من</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="245"/>
+        <location filename="../src/gui/generalsettings.ui" line="230"/>
         <source>Desktop client x.x.x</source>
         <translation>عميل سطح المكتب؛ الإصدار x.x.x</translation>
     </message>
@@ -2609,44 +2767,27 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>تحديث القناة</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="151"/>
-        <location filename="../src/gui/generalsettings.cpp" line="327"/>
-        <source>stable</source>
-        <translation>مُستقِرٌ</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="156"/>
-        <location filename="../src/gui/generalsettings.cpp" line="329"/>
-        <source>beta</source>
-        <translation>بيتا</translation>
-    </message>
-    <message>
         <location filename="../src/gui/generalsettings.ui" line="183"/>
         <source>&amp;Restart &amp;&amp; Update</source>
         <translation>&amp;أعد_التشغيل_و_حدّث</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="284"/>
-        <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
-        <translation>إظهار مجلدات المزامنة في جزء التنقل من &amp;المتصفح</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/generalsettings.ui" line="323"/>
+        <location filename="../src/gui/generalsettings.ui" line="313"/>
         <source>&amp;Automatically check for updates</source>
         <translation>ابحث عن التحديثات بشكل تلقائي</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="339"/>
+        <location filename="../src/gui/generalsettings.ui" line="329"/>
         <source>Check Now</source>
         <translation>إفحَصِ الآن</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="363"/>
+        <location filename="../src/gui/generalsettings.ui" line="353"/>
         <source>Usage Documentation</source>
         <translation>توثيق الاستعمالات</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="370"/>
+        <location filename="../src/gui/generalsettings.ui" line="360"/>
         <source>Legal Notice</source>
         <translation>ملاحظة قانونية</translation>
     </message>
@@ -2661,22 +2802,27 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <translation>لشريط النظام system tray</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="420"/>
+        <location filename="../src/gui/generalsettings.ui" line="284"/>
+        <source>Show sync folders in &amp;Explorer&apos;s Navigation Pane</source>
+        <translation>إظهار مجلدات المزامنة في جزء التنقل من &amp;المتصفح</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="410"/>
         <source>Use &amp;monochrome icons</source>
-        <translation>استعمل أيقونات أحادية اللون</translation>
+        <translation>إستعمال أيقونات أحادية اللون</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="427"/>
+        <location filename="../src/gui/generalsettings.ui" line="417"/>
         <source>&amp;Launch on system startup</source>
-        <translation>إطلاقٌ عند بداية تشغيل النظام</translation>
+        <translation>الإطلاق عند بداية تشغيل النظام</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="434"/>
+        <location filename="../src/gui/generalsettings.ui" line="424"/>
         <source>Show server &amp;notifications</source>
         <translation>إظهار إشعارات الخادوم</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.ui" line="441"/>
+        <location filename="../src/gui/generalsettings.ui" line="431"/>
         <source>Show call notifications</source>
         <translation>إظهار كل الإشعارات</translation>
     </message>
@@ -2688,12 +2834,24 @@ If this was an accident and you decide to keep your files, they will be re-synce
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="148"/>
         <source>Show call notification dialogs.</source>
-        <translation>أعرض حوارات إشعارات المكالمات.</translation>
+        <translation>عرض حوارات إشعارات المكالمات.</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="162"/>
         <source>You cannot disable autostart because system-wide autostart is enabled.</source>
         <translation>لا يمكنك تعطيل التشغيل التلقائي لأنه تم تمكين التشغيل التلقائي على مستوى النظام.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="151"/>
+        <location filename="../src/gui/generalsettings.cpp" line="327"/>
+        <source>stable</source>
+        <translation>مُستقِرٌ</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.ui" line="156"/>
+        <location filename="../src/gui/generalsettings.cpp" line="329"/>
+        <source>beta</source>
+        <translation>بيتا</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="350"/>
@@ -2705,7 +2863,45 @@ If this was an accident and you decide to keep your files, they will be re-synce
         <source>The update channel determines which client updates will be offered for installation. The &quot;stable&quot; channel contains only upgrades that are considered reliable, while the versions in the &quot;beta&quot; channel may contain newer features and bugfixes, but have not yet been tested thoroughly.
 
 Note that this selects only what pool upgrades are taken from, and that there are no downgrades: So going back from the beta channel to the stable channel usually cannot be done immediately and means waiting for a stable version that is newer than the currently installed beta version.</source>
-        <translation>تُحدّد قناة التحديث أي تحديثات للعميل سيتم اقتراح تثبيتها. تحتوي القناة &quot;المستقرة&quot; فقط على الترقيات الموثوقة. في حين أن الإصدارات الموجودة في القناة &quot;التجريبية&quot; قد تحتوي على تحسيناتٍ و تصليحاتٍ أحدث؛ ولكن لم يتم اختبارها بدقة بعد.  لا حظ أنه لا يمكن عادةً العودة من القناة التجريبية إلى القناة الثابتة على الفور إلا بانتظار إصدار ثابت أحدث من الإصدار التجريبي المثبت حاليًا.</translation>
+        <translation>تُحدّد قناة التحديث أي تحديثات للعميل سيتم اقتراح تثبيتها. تحتوي القناة &quot;المستقرة&quot; فقط على الترقيات الموثوقة. في حين أن الإصدارات الموجودة في القناة &quot;التجريبية&quot; قد تحتوي على تحسيناتٍ و تصليحاتٍ أحدث؛ ولكن لم يتم اختبارها بدقة بعد. لا حظ أنه لا يمكن عادةً العودة من القناة التجريبية إلى القناة الثابتة على الفور إلا بانتظار إصدار ثابت أحدث من الإصدار التجريبي المثبت حاليًا.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="359"/>
+        <source>daily</source>
+        <translation>يومي</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="363"/>
+        <source>enterprise</source>
+        <translation>مؤسَّسِي</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="391"/>
+        <source>- enterprise: contains stable versions for customers.
+</source>
+        <comment>description of enterprise update channel for enterprise customers</comment>
+        <translation>- مُؤسَّسي: يحتوي على إصدارات مستقرة للعملاء.
+</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="396"/>
+        <source>Changing update channel?</source>
+        <translation>تغيير قناة التحديث؟</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="397"/>
+        <source>The channel determines which upgrades will be offered to install:
+- stable: contains tested versions considered reliable
+- beta: contains versions with new features that may not be tested thoroughly
+- daily: contains versions created daily only for testing and development
+%1
+Downgrading versions is not possible immediately: changing from beta to stable means waiting for the new stable version.</source>
+        <translation>تحدد القناة الترقيات التي سيتم عرضها للتثبيت: 
+- مستقر: يحتوي على إصدارات مجربة تعتبر موثوقة 
+- تجريبي: يحتوي على إصدارات ذات ميزات جديدة ربما لم يتم اختبارها بدقة 
+- يومي: يحتوي على إصدارات يتم إنشاؤها يوميًا للاختبار والتطوير فقط 
+%1 
+لا يمكن خفض مستوى الإصدارات على الفور: فالتغيير من الإصدار التجريبي إلى الإصدار المستقر يعني انتظار الإصدار المستقر الجديد.</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="364"/>
@@ -3663,6 +3859,34 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>اسم الملف هذا هو اسم محجوز لنظام التشغيل هذا.</translation>
     </message>
     <message>
+        <location filename="../src/libsync/discovery.cpp" line="358"/>
+        <source>Folder</source>
+        <comment>name of folder entity to use when warning about invalid name</comment>
+        <translation>مجلد </translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="358"/>
+        <source>File</source>
+        <comment>name of folder entity to use when warning about invalid name</comment>
+        <translation>ملف</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="360"/>
+        <source>%1 name containing the character &quot;%2&quot; is not supported on this file system.</source>
+        <comment>folder or file impossible to sync due to an invalid name, placeholders will be file or folder and the invalid character</comment>
+        <translation>الاسم %1 الذي يحتوي على الحرف &quot;%2&quot; غير مدعوم في نظام الملفات هذا.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="362"/>
+        <source>%1 name contains at least one invalid character</source>
+        <translation>يحتوي الاسم %1 على حرف واحد غير صالح على الأقل</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="364"/>
+        <source>%1 name is a reserved name on this file system.</source>
+        <translation>الاسم %1 هو اسم محجوز في نظام الملفات هذا.</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/discovery.cpp" line="361"/>
         <source>Filename contains trailing spaces.</source>
         <translation>اسم ملف يحوي فراغات في نهايته</translation>
@@ -3743,6 +3967,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>تعذّرت المزامنة لأن وقت آخر تعديل للملف غير صالح</translation>
     </message>
     <message>
+        <location filename="../src/libsync/discovery.cpp" line="1048"/>
+        <source>Could not upload file, because it is open in &quot;%1&quot;.</source>
+        <translation>يتعذّر فتح الملف لأنه مفتوح سلفاً في &quot;%1&quot;.</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/discovery.cpp" line="1010"/>
         <source>Error while deleting file record %1 from the database</source>
         <translation>حدث خطأ أثناء حذف file record سجل الملفات %1 من قاعدة البيانات</translation>
@@ -3756,6 +3985,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/discovery.cpp" line="1268"/>
         <source>Conflict when uploading a file. It&apos;s going to get removed!</source>
         <translation>حدث تعارضٌ أثناء رفع المجلد. سوف يتم حذفه!</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/discovery.cpp" line="1711"/>
+        <source>Moved to invalid target, restoring</source>
+        <translation>نُقِلَ إلى مَقْصِد taget غير صالحٍ. إستعادة</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1637"/>
@@ -3776,11 +4010,6 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/discovery.cpp" line="1689"/>
         <source>Not allowed to upload this file because it is read-only on the server, restoring</source>
         <translation>غير مسموح برفع هذا الملف لأنه للقراءة فقط على الخادوم. إستعادة</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/discovery.cpp" line="1711"/>
-        <source>Moved to invalid target, restoring</source>
-        <translation>نُقِلَ إلى مَقْصِد taget غير صالحٍ. إستعادة</translation>
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1725"/>
@@ -3809,6 +4038,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <location filename="../src/libsync/owncloudpropagator.cpp" line="1371"/>
         <source>Error updating metadata due to invalid modification time</source>
         <translation>خطأ في تحديث البيانات الوصفية metadata بسبب أن &quot;آخر وقت تعديل للملف&quot; غير صالح</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1480"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1505"/>
+        <source>The folder %1 cannot be made read-only: %2</source>
+        <translation>المجلد %1؛ لا يمكن جعله للقراءة فقط: %2</translation>
     </message>
     <message>
         <location filename="../src/libsync/owncloudpropagator.cpp" line="1387"/>
@@ -3928,6 +4163,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>تعذّر إنشاء المجلد %1</translation>
     </message>
     <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="229"/>
+        <source>The folder %1 cannot be made read-only: %2</source>
+        <translation>المجلد %1؛ لا يمكن جعله للقراءة فقط: %2</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="200"/>
         <source>Error updating metadata: %1</source>
         <translation>تعذّر تحديث البيانات الوصفية: %1</translation>
@@ -3953,6 +4193,11 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 </context>
 <context>
     <name>OCC::PropagateLocalRename</name>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="312"/>
+        <source>Folder %1 cannot be renamed because of a local file or folder name clash!</source>
+        <translation>المجلد %1 لا يمكن إعادة تسميته بسبب تعارض الاسم الجديد مع اسم مجلد أو ملف محلي آخر!</translation>
+    </message>
     <message>
         <location filename="../src/libsync/propagatorjobs.cpp" line="254"/>
         <source>File %1 downloaded but it resulted in a local file name clash!</source>
@@ -4028,7 +4273,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>أرجع الخادم كود بروتوكول HTTP خاطئ. متوقع 201 ، ولكن تم تلقي &quot;٪ 1٪ 2&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemkdir.cpp" line="248"/>
+        <location filename="../src/libsync/propagateremotemkdir.cpp" line="258"/>
         <source>Failed to encrypt a folder %1</source>
         <translation>تعذّر تشفير المجلد %1</translation>
     </message>
@@ -4318,7 +4563,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::ShareManager</name>
     <message>
-        <location filename="../src/gui/sharemanager.cpp" line="681"/>
+        <location filename="../src/gui/sharemanager.cpp" line="684"/>
         <source>Error</source>
         <translation>خطأ</translation>
     </message>
@@ -4351,7 +4596,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation>إفلات آمن للملف</translation>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="855"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="862"/>
         <source>Could not find local folder for %1</source>
         <translation>تعذّر إيجاد المجلد المَحلّي لـ  %1</translation>
     </message>
@@ -4973,16 +5218,16 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::Theme</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="553"/>
-        <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;&lt;p&gt;Version %1. For more information please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt;.&lt;/p&gt;</source>
-        <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
-        <translation>&lt;p&gt;%1 عميل سطح المكتب&lt;/p&gt;&lt;p&gt;الإصدار %1. لمزيد المعلومات إضغَط &lt;a href=&apos;%2&apos;&gt;هنا.&lt;/p&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/libsync/theme.cpp" line="554"/>
         <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
         <translation>&lt;p&gt;%1 عميل سطح المكتب Desktop Client&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/theme.cpp" line="559"/>
+        <source>&lt;p&gt;%1 Desktop Client&lt;/p&gt;&lt;p&gt;Version %1. For more information please click &lt;a href=&apos;%2&apos;&gt;here&lt;/a&gt;.&lt;/p&gt;</source>
+        <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
+        <translation>&lt;p&gt;%1 عميل سطح المكتب&lt;/p&gt;&lt;p&gt;الإصدار %1. لمزيد المعلومات إضغَط &lt;a href=&apos;%2&apos;&gt;هنا.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/libsync/theme.cpp" line="561"/>
@@ -4990,7 +5235,7 @@ Server replied with error: %2</source>
         <translation>&lt;p&gt;&lt;small&gt;إستعمال الملحق البرمجي plugin للملفات الظاهرية: %1&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="570"/>
+        <location filename="../src/libsync/theme.cpp" line="576"/>
         <source>&lt;p&gt;%1 desktop client %2&lt;/p&gt;</source>
         <extracomment>Example text: &quot;&lt;p&gt;Nextcloud Desktop Client&lt;/p&gt;&quot; (%1 is the application name)</extracomment>
         <translation>&lt;p&gt;%1 عميل سطح المكتب %2&lt;/p&gt;</translation>
@@ -5033,17 +5278,17 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::UpdateE2eeFolderMetadataJob</name>
     <message>
-        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="130"/>
+        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="132"/>
         <source>Failed to update folder metadata.</source>
         <translation>تعذّر رفع البيانات الوصفية للمجلد.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="153"/>
+        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="155"/>
         <source>Failed to unlock encrypted folder.</source>
         <translation>تعذّر فك قفل المجلد المشفر.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="163"/>
+        <location filename="../src/libsync/updatee2eefoldermetadatajob.cpp" line="165"/>
         <source>Failed to finalize item.</source>
         <translation>تعذّر إكمال العنصر.</translation>
     </message>
@@ -5051,35 +5296,35 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::UpdateE2eeFolderUsersMetadataJob</name>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="60"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="71"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="116"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="131"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="138"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="148"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="169"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="201"/>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="260"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="58"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="69"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="113"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="128"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="135"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="145"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="166"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="198"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="257"/>
         <source>Error updating metadata for a folder %1</source>
         <translation>خطأ في تحديث البيانات الوصفية للمجلد %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="92"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="90"/>
         <source>Could not fetch public key for user %1</source>
-        <translation type="unfinished"/>
+        <translation>تعذّر جلب المفتاح العمومي للمستخدِم %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="100"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="97"/>
         <source>Could not find root encrypted folder for folder %1</source>
         <translation>تعذّر إيجاد المجلد الجذر المشفر للمجلد %1 </translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="121"/>
-        <source>Could not add or remove a folder user %1, for folder %2</source>
-        <translation>تعذّرت إضافة أو حذف مستخدم المجلد %1, للمجلد %2</translation>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="118"/>
+        <source>Could not add or remove user %1 to access folder %2</source>
+        <translation>تعذر إضافة أو إزالة حق وصول المستخدم %1 إلى المجلد %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="238"/>
+        <location filename="../src/libsync/updatee2eefolderusersmetadatajob.cpp" line="235"/>
         <source>Failed to unlock a folder.</source>
         <translation>تعذّر فك قفل مجلد.</translation>
     </message>
@@ -5096,6 +5341,16 @@ Server replied with error: %2</source>
         <location filename="../src/gui/tray/usermodel.cpp" line="838"/>
         <source>Resolve conflict</source>
         <translation>حُلّ التعارض</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1052"/>
+        <source>Open Nextcloud Assistant in browser</source>
+        <translation>إفتَح &quot;مُساعِد نكست كلاود&quot; Assistant في المُستعرِض</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1052"/>
+        <source>Open Nextcloud Talk in browser</source>
+        <translation>إفتَح &quot;مُحادثة نكست كلاود&quot; Talk في المُستعرِض</translation>
     </message>
 </context>
 <context>
@@ -5594,6 +5849,16 @@ Server replied with error: %2</source>
         <translation>مجلد جديد</translation>
     </message>
     <message>
+        <location filename="../src/gui/generalsettings.cpp" line="117"/>
+        <source>Failed to create debug archive</source>
+        <translation>تعذّر إنشاء أرشيف لتنقيح الأخطاء</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/generalsettings.cpp" line="118"/>
+        <source>Could not create debug archive in selected location!</source>
+        <translation>تعذّر إنشاء أرشيف لتنقيح الأخطاء في الموضع المحدد!</translation>
+    </message>
+    <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="763"/>
         <source>You renamed %1</source>
         <translation>أنت غيّرت اسم %1</translation>
@@ -5662,6 +5927,11 @@ Server replied with error: %2</source>
         <source>%1: %2</source>
         <extracomment>this displays an error string (%2) for a file %1</extracomment>
         <translation>1%: 2%</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/cfapi/cfapiwrapper.cpp" line="63"/>
+        <source>Paths beginning with &apos;#&apos; character are not supported in VFS mode.</source>
+        <translation>المسارات التي تبدأ بحرف &apos;#&apos; غير مدعومة في وضعية VFS.</translation>
     </message>
 </context>
 <context>
@@ -6240,7 +6510,7 @@ Server replied with error: %2</source>
         <translation>مُبدّل الحساب Account switcher و قائمة الإعدادات</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="631"/>
+        <location filename="../src/gui/tray/Window.qml" line="615"/>
         <source>Open local or group folders</source>
         <translation>فتح مُجلّدات محلّية أو جماعية</translation>
     </message>
@@ -6265,7 +6535,7 @@ Server replied with error: %2</source>
         <translation>قائمة نتائج البحث الموحدة</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/Window.qml" line="894"/>
+        <location filename="../src/gui/tray/Window.qml" line="896"/>
         <source>New activities</source>
         <translation>حركات جديدة</translation>
     </message>
@@ -6286,7 +6556,7 @@ Server replied with error: %2</source>
 <context>
     <name>nextcloudTheme::aboutInfo()</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="533"/>
+        <location filename="../src/libsync/theme.cpp" line="539"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;تمّ بناؤها من نسخة &quot;قيت هب&quot; &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; في %3, %4 باستعمال &quot;كيو تي&quot; %5, %6&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
@@ -6354,6 +6624,11 @@ Server replied with error: %2</source>
         <translation>تحديث بيانات التعريف الوصفية المحلية</translation>
     </message>
     <message>
+        <location filename="../src/libsync/progressdispatcher.cpp" line="60"/>
+        <source>Updated local virtual files metadata</source>
+        <translation>بيانات وصفية مٌحدَّثة للملفات الافتراضية المحلية local virtual files</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="61"/>
         <location filename="../src/libsync/progressdispatcher.cpp" line="63"/>
         <source>Unknown</source>
@@ -6393,6 +6668,11 @@ Server replied with error: %2</source>
         <location filename="../src/libsync/progressdispatcher.cpp" line="89"/>
         <source>updating local metadata</source>
         <translation>تحديث بيانات التعريف الوصفية المحلية</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/progressdispatcher.cpp" line="93"/>
+        <source>updating local virtual files metadata</source>
+        <translation>تحديث البيانات الوصفية للملفات الافتراضية المحلية</translation>
     </message>
 </context>
 <context>

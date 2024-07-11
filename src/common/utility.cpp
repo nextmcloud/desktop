@@ -209,7 +209,7 @@ qint64 Utility::freeDiskSpace(const QString &path)
 QString Utility::compactFormatDouble(double value, int prec, const QString &unit)
 {
     QLocale locale = QLocale::system();
-    QChar decPoint = locale.decimalPoint();
+    const auto decPoint = locale.decimalPoint();
     QString str = locale.toString(value, 'f', prec);
     while (str.endsWith(QLatin1Char('0')) || str.endsWith(decPoint)) {
         if (str.endsWith(decPoint)) {
@@ -575,7 +575,7 @@ QString Utility::makeConflictFileName(
 
 bool Utility::isConflictFile(const QString &name)
 {
-    auto bname = name.midRef(name.lastIndexOf(QLatin1Char('/')) + 1);
+    auto bname = name.mid(name.lastIndexOf(QLatin1Char('/')) + 1);
 
     if (bname.contains(QStringLiteral("_conflict-"))) {
         return true;
@@ -676,9 +676,15 @@ QString Utility::makeCaseClashConflictFileName(const QString &filename, const QD
 
 bool Utility::isCaseClashConflictFile(const QString &name)
 {
-    const auto bname = name.midRef(name.lastIndexOf(QLatin1Char('/')) + 1);
+    const auto bname = name.mid(name.lastIndexOf(QLatin1Char('/')) + 1);
 
     return bname.contains(QStringLiteral("(case clash from"));
+}
+
+QString Utility::leadingSlashPath(const QString &path)
+{
+    static const auto slash = QLatin1Char('/');
+    return !path.startsWith(slash) ? QString(slash + path) : path;
 }
 
 QString Utility::trailingSlashPath(const QString &path)
@@ -690,7 +696,31 @@ QString Utility::trailingSlashPath(const QString &path)
 QString Utility::noLeadingSlashPath(const QString &path)
 {
     static const auto slash = QLatin1Char('/');
-    return path.startsWith(slash) ? path.mid(1) : path;
+    return path.size() > 1 && path.startsWith(slash) ? path.mid(1) : path;
+}
+
+QString Utility::noTrailingSlashPath(const QString &path)
+{
+    static const auto slash = QLatin1Char('/');
+    return path.size() > 1 && path.endsWith(slash) ? path.chopped(1) : path;
+}
+
+QString Utility::fullRemotePathToRemoteSyncRootRelative(const QString &fullRemotePath, const QString &remoteSyncRoot)
+{
+    const auto remoteSyncRootNoLeadingSlashWithTrailingSlash = Utility::trailingSlashPath(noLeadingSlashPath(remoteSyncRoot));
+    const auto fullRemotePathNoLeadingSlash = noLeadingSlashPath(fullRemotePath);
+
+    if (remoteSyncRootNoLeadingSlashWithTrailingSlash == QStringLiteral("/")) {
+        return noLeadingSlashPath(noTrailingSlashPath(fullRemotePath));
+    }
+
+    if (!fullRemotePathNoLeadingSlash.startsWith(remoteSyncRootNoLeadingSlashWithTrailingSlash)) {
+        return fullRemotePath;
+    }
+
+    const auto relativePathToRemoteSyncRoot = fullRemotePathNoLeadingSlash.mid(remoteSyncRootNoLeadingSlashWithTrailingSlash.size());
+    Q_ASSERT(!relativePathToRemoteSyncRoot.isEmpty());
+    return noLeadingSlashPath(noTrailingSlashPath(relativePathToRemoteSyncRoot));
 }
 
 

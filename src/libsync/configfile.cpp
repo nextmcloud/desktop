@@ -110,9 +110,13 @@ static constexpr char forceLoginV2C[] = "forceLoginV2";
 static constexpr char certPath[] = "http_certificatePath";
 static constexpr char certPasswd[] = "http_certificatePasswd";
 
-static const QSet validUpdateChannels { QStringLiteral("stable"), QStringLiteral("beta") };
+static constexpr char serverHasValidSubscriptionC[] = "serverHasValidSubscription";
+static constexpr char desktopEnterpriseChannelName[] = "desktopEnterpriseChannel";
 
-static constexpr auto macFileProviderModuleEnabledC = "macFileProviderModuleEnabled";
+static const QStringList defaultUpdateChannelsList { QStringLiteral("stable"), QStringLiteral("beta"), QStringLiteral("daily") };
+static const QString defaultUpdateChannelName = "stable";
+static const QStringList enterpriseUpdateChannelsList { QStringLiteral("stable"), QStringLiteral("enterprise") };
+static const QString defaultEnterpriseChannel = "enterprise";
 }
 
 namespace OCC {
@@ -406,14 +410,14 @@ QString ConfigFile::excludeFileFromSystem()
 {
     QFileInfo fi;
 #ifdef Q_OS_WIN
-    fi.setFile(QCoreApplication::applicationDirPath(), exclFile);
+    fi.setFile(QCoreApplication::applicationDirPath(), syncExclFile);
 #endif
 #ifdef Q_OS_UNIX
-    fi.setFile(QString(SYSCONFDIR "/" + Theme::instance()->appName()), exclFile);
+    fi.setFile(QString(SYSCONFDIR "/" + Theme::instance()->appName()), syncExclFile);
     if (!fi.exists()) {
         // Prefer to return the preferred path! Only use the fallback location
         // if the other path does not exist and the fallback is valid.
-        QFileInfo nextToBinary(QCoreApplication::applicationDirPath(), exclFile);
+        QFileInfo nextToBinary(QCoreApplication::applicationDirPath(), syncExclFile);
         if (nextToBinary.exists()) {
             fi = nextToBinary;
         } else {
@@ -423,7 +427,7 @@ QString ConfigFile::excludeFileFromSystem()
             d.cdUp(); // go out of usr
             if (!d.isRoot()) { // it is really a mountpoint
                 if (d.cd("etc") && d.cd(Theme::instance()->appName())) {
-                    QFileInfo inMountDir(d, exclFile);
+                    QFileInfo inMountDir(d, syncExclFile);
                     if (inMountDir.exists()) {
                         fi = inMountDir;
                     }
@@ -435,7 +439,7 @@ QString ConfigFile::excludeFileFromSystem()
 #ifdef Q_OS_MAC
     // exec path is inside the bundle
     fi.setFile(QCoreApplication::applicationDirPath(),
-        QLatin1String("../Resources/") + exclFile);
+        QLatin1String("../Resources/") + syncExclFile);
 #endif
 
     return fi.absoluteFilePath();
@@ -688,37 +692,61 @@ int ConfigFile::updateSegment() const
     return segment;
 }
 
-QString ConfigFile::updateChannel() const
+QStringList ConfigFile::validUpdateChannels() const
 {
-    QString defaultUpdateChannel = QStringLiteral("stable");
-    QString suffix = QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION_SUFFIX));
-    if (suffix.startsWith("daily")
-        || suffix.startsWith("nightly")
-        || suffix.startsWith("alpha")
-        || suffix.startsWith("rc")
-        || suffix.startsWith("beta")) {
-        defaultUpdateChannel = QStringLiteral("beta");
+    const auto isBranded = Theme::instance()->isBranded();
+
+    if (isBranded) {
+        return { defaultUpdateChannelName };
     }
 
+    if (serverHasValidSubscription()) {
+        return enterpriseUpdateChannelsList;
+    }
+
+    return defaultUpdateChannelsList;
+}
+
+QString ConfigFile::defaultUpdateChannel() const
+{
+    const auto isBranded = Theme::instance()->isBranded();
+    if (serverHasValidSubscription() && !isBranded) {
+        if (const auto serverChannel = desktopEnterpriseChannel();
+            validUpdateChannels().contains(serverChannel)) {
+            qCWarning(lcConfigFile()) << "Enforcing update channel" << serverChannel << "because that is the desktop enterprise channel returned by the server.";
+            return serverChannel;
+        }
+    }
+
+    if (const auto currentVersionSuffix = Theme::instance()->versionSuffix();
+        validUpdateChannels().contains(currentVersionSuffix) && !isBranded) {
+        qCWarning(lcConfigFile()) << "Enforcing update channel" << currentVersionSuffix << "because of the version suffix of the current client.";
+        return currentVersionSuffix;
+    }
+
+    qCWarning(lcConfigFile()) << "Enforcing default update channel" << defaultUpdateChannelName;
+    return defaultUpdateChannelName;
+}
+
+QString ConfigFile::currentUpdateChannel() const
+{
+    auto updateChannel = defaultUpdateChannel();
     QSettings settings(configFile(), QSettings::IniFormat);
-    const auto channel = settings.value(QLatin1String(updateChannelC), defaultUpdateChannel).toString();
-    if (!validUpdateChannels.contains(channel)) {
-        qCWarning(lcConfigFile()) << "Received invalid update channel from confog:"
-                                  << channel
-                                  << "defaulting to:"
-                                  << defaultUpdateChannel;
-        return defaultUpdateChannel;
+    if (const auto configUpdateChannel = settings.value(QLatin1String(updateChannelC), updateChannel).toString();
+        validUpdateChannels().contains(configUpdateChannel)) {
+        qCWarning(lcConfigFile()) << "Config file has a valid update channel:" << configUpdateChannel;
+        updateChannel = configUpdateChannel;
     }
 
-    return channel;
+    return updateChannel;
 }
 
 void ConfigFile::setUpdateChannel(const QString &channel)
 {
-    if (!validUpdateChannels.contains(channel)) {
+    if (!validUpdateChannels().contains(channel)) {
         qCWarning(lcConfigFile()) << "Received invalid update channel:"
                                   << channel
-                                  << "can only accept 'stable' or 'beta'. Ignoring.";
+                                  << "can only accept" << validUpdateChannels() << ". Ignoring.";
         return;
     }
 
@@ -1173,6 +1201,31 @@ void ConfigFile::setLaunchOnSystemStartup(const bool autostart)
     settings.setValue(QLatin1String(launchOnSystemStartupC), autostart);
 }
 
+bool ConfigFile::serverHasValidSubscription() const
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    return settings.value(QLatin1String(serverHasValidSubscriptionC), false).toBool();
+}
+
+void ConfigFile::setServerHasValidSubscription(const bool valid)
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.setValue(QLatin1String(serverHasValidSubscriptionC), valid);
+}
+
+QString ConfigFile::desktopEnterpriseChannel() const
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    return settings.value(QLatin1String(desktopEnterpriseChannelName), defaultUpdateChannel()).toString();
+}
+
+void ConfigFile::setDesktopEnterpriseChannel(const QString &channel)
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.setValue(QLatin1String(desktopEnterpriseChannelName), channel);
+}
+
+
 Q_GLOBAL_STATIC(QString, g_configFileName)
 
 std::unique_ptr<QSettings> ConfigFile::settingsWithGroup(const QString &group, QObject *parent)
@@ -1227,18 +1280,6 @@ void ConfigFile::setDiscoveredLegacyConfigPath(const QString &discoveredLegacyCo
     }
 
     _discoveredLegacyConfigPath = discoveredLegacyConfigPath;
-}
-
-bool ConfigFile::macFileProviderModuleEnabled() const
-{
-    QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(macFileProviderModuleEnabledC, false).toBool();
-}
-
-void ConfigFile::setMacFileProviderModuleEnabled(const bool moduleEnabled)
-{
-    QSettings settings(configFile(), QSettings::IniFormat);
-    settings.setValue(QLatin1String(macFileProviderModuleEnabledC), moduleEnabled);
 }
 
 }

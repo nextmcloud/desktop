@@ -31,6 +31,12 @@
 
 namespace OCC {
 
+QVector<Utility::ProcessInfosForOpenFile> Utility::queryProcessInfosKeepingFileOpen(const QString &filePath)
+{
+    Q_UNUSED(filePath)
+    return {};
+}
+
 void Utility::setupFavLink(const QString &folder)
 {
     // Nautilus: add to ~/.gtk-bookmarks
@@ -93,7 +99,6 @@ void Utility::setLaunchOnStartup(const QString &appName, const QString &guiName,
         const QString executablePath = runningInsideAppImage ? appImagePath : QCoreApplication::applicationFilePath();
 
         QTextStream ts(&iniFile);
-        ts.setCodec("UTF-8");
         ts << QLatin1String("[Desktop Entry]\n")
            << QLatin1String("Name=") << guiName << QLatin1Char('\n')
            << QLatin1String("GenericName=") << QLatin1String("File Synchronizer\n")

@@ -29,9 +29,9 @@
 #include <QUuid>
 
 #include <sddl.h>
+#include <ntstatus.h>
 #include <cfapi.h>
 #include <comdef.h>
-#include <ntstatus.h>
 
 #include "config.h"
 
@@ -47,6 +47,24 @@ constexpr auto syncRootFlagsFull = 34;
 constexpr auto syncRootFlagsNoCfApiContextMenu = 2;
 
 constexpr auto syncRootManagerRegKey = R"(SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SyncRootManager)";
+
+constexpr auto forbiddenLeadingCharacterInPath = "#";
+
+QString createErrorMessageForPlaceholderUpdateAndCreate(const QString &path, const QString &originalErrorMessage)
+{
+    const auto pathFromNativeSeparators = QDir::fromNativeSeparators(path);
+    if (!pathFromNativeSeparators.contains(QStringLiteral("/%1").arg(forbiddenLeadingCharacterInPath))) {
+        return originalErrorMessage;
+    }
+    const auto fileComponents = pathFromNativeSeparators.split("/");
+    for (const auto &fileComponent : fileComponents) {
+        if (fileComponent.startsWith(forbiddenLeadingCharacterInPath)) {
+            qCInfo(lcCfApiWrapper) << "Failed to create/update a placeholder for path \"" << pathFromNativeSeparators << "\" that has a leading '#'.";
+            return {(originalErrorMessage + QStringLiteral(": ") + QObject::tr("Paths beginning with '#' character are not supported in VFS mode."))};
+        }
+    }
+    return originalErrorMessage;
+}
 
 DWORD sizeToDWORD(size_t size)
 {
@@ -115,6 +133,10 @@ void cfApiSendTransferInfo(const CF_CONNECTION_KEY &connectionKey, const CF_TRAN
 void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const CF_CALLBACK_PARAMETERS *callbackParameters)
 {
     qDebug(lcCfApiWrapper) << "Fetch data callback called. File size:" << callbackInfo->FileSize.QuadPart;
+    qDebug(lcCfApiWrapper) << "Desktop client proccess id:" << QCoreApplication::applicationPid();
+    qDebug(lcCfApiWrapper) << "Fetch data requested by proccess id:" << callbackInfo->ProcessInfo->ProcessId;
+    qDebug(lcCfApiWrapper) << "Fetch data requested by application id:" << QString(QString::fromWCharArray(callbackInfo->ProcessInfo->ApplicationId));
+
     const auto sendTransferError = [=] {
         cfApiSendTransferInfo(callbackInfo->ConnectionKey,
                               callbackInfo->TransferKey,
@@ -135,10 +157,18 @@ void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const
                               callbackInfo->FileSize.QuadPart);
     };
 
+    if (QCoreApplication::applicationPid() == callbackInfo->ProcessInfo->ProcessId) {
+        qCCritical(lcCfApiWrapper) << "implicit hydration triggered by the client itself. Will lead to a deadlock. Cancel";
+        sendTransferError();
+        return;
+    }
+
     auto vfs = reinterpret_cast<OCC::VfsCfApi *>(callbackInfo->CallbackContext);
     Q_ASSERT(vfs->metaObject()->className() == QByteArrayLiteral("OCC::VfsCfApi"));
     const auto path = QString(QString::fromWCharArray(callbackInfo->VolumeDosName) + QString::fromWCharArray(callbackInfo->NormalizedPath));
     const auto requestId = QString::number(callbackInfo->TransferKey.QuadPart, 16);
+
+    qCDebug(lcCfApiWrapper) << "Request hydration for" << path << requestId;
 
     const auto invokeResult = QMetaObject::invokeMethod(vfs, [=] { vfs->requestHydration(requestId, path); }, Qt::QueuedConnection);
     if (!invokeResult) {
@@ -147,26 +177,33 @@ void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const
         return;
     }
 
+    qCDebug(lcCfApiWrapper) << "Successfully triggered hydration for" << path << requestId;
+
     // Block and wait for vfs to signal back the hydration is ready
     bool hydrationRequestResult = false;
     QEventLoop loop;
     QObject::connect(vfs, &OCC::VfsCfApi::hydrationRequestReady, &loop, [&](const QString &id) {
         if (requestId == id) {
             hydrationRequestResult = true;
+            qCDebug(lcCfApiWrapper) << "Hydration request ready for" << path << requestId;
             loop.quit();
         }
     });
     QObject::connect(vfs, &OCC::VfsCfApi::hydrationRequestFailed, &loop, [&](const QString &id) {
         if (requestId == id) {
             hydrationRequestResult = false;
+            qCDebug(lcCfApiWrapper) << "Hydration request failed for" << path << requestId;
             loop.quit();
         }
     });
-    loop.exec();
-    QObject::disconnect(vfs, nullptr, &loop, nullptr);
-    qCInfo(lcCfApiWrapper) << "VFS replied for hydration of" << path << requestId << "status was:" << hydrationRequestResult;
 
+    qCDebug(lcCfApiWrapper) << "Starting event loop 1";
+    loop.exec();
+    QObject::disconnect(vfs, nullptr, &loop, nullptr); // Ensure we properly cancel hydration on server errors
+
+    qCInfo(lcCfApiWrapper) << "VFS replied for hydration of" << path << requestId << "status was:" << hydrationRequestResult;
     if (!hydrationRequestResult) {
+        qCCritical(lcCfApiWrapper) << "Failed to trigger hydration for" << path << requestId;
         sendTransferError();
         return;
     }
@@ -194,6 +231,7 @@ void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const
     auto hydrationRequestCancelled = false;
     QObject::connect(&signalSocket, &QLocalSocket::readyRead, &loop, [&] {
         hydrationRequestCancelled = true;
+        qCCritical(lcCfApiWrapper) << "Hydration canceled for " << path << requestId;
     });
 
     // CFAPI expects sent blocks to be of a multiple of a block size.
@@ -213,7 +251,6 @@ void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const
         const auto protudingSize = data.size() % cfapiBlockSize;
         protrudingData = data.right(protudingSize);
         data.chop(protudingSize);
-
         sendTransferInfo(data, dataOffset);
         dataOffset += data.size();
     };
@@ -242,6 +279,7 @@ void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const
         }
     });
 
+    qCDebug(lcCfApiWrapper) << "Starting event loop 2";
     loop.exec();
 
     if (!hydrationRequestCancelled && !protrudingData.isEmpty()) {
@@ -251,7 +289,7 @@ void CALLBACK cfApiFetchDataCallback(const CF_CALLBACK_INFO *callbackInfo, const
 
     int hydrationJobResult = OCC::HydrationJob::Status::Error;
     const auto invokeFinalizeResult = QMetaObject::invokeMethod(
-        vfs, [=] { vfs->finalizeHydrationJob(requestId); }, Qt::BlockingQueuedConnection,
+        vfs, [&hydrationJobResult, vfs, requestId] { return vfs->finalizeHydrationJob(requestId); }, Qt::BlockingQueuedConnection,
         &hydrationJobResult);
     if (!invokeFinalizeResult) {
         qCritical(lcCfApiWrapper) << "Failed to finalize hydration job for" << path << requestId;
@@ -267,7 +305,12 @@ enum class CfApiUpdateMetadataType {
     AllMetadata,
 };
 
-OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> updatePlaceholderState(const QString &path, time_t modtime, qint64 size, const QByteArray &fileId, const QString &replacesPath, CfApiUpdateMetadataType updateType)
+OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> updatePlaceholderState(const QString &path,
+                                                                                  time_t modtime,
+                                                                                  qint64 size,
+                                                                                  const QByteArray &fileId,
+                                                                                  const QString &replacesPath,
+                                                                                  CfApiUpdateMetadataType updateType)
 {
     if (updateType == CfApiUpdateMetadataType::AllMetadata && modtime <= 0) {
             return {QString{"Could not update metadata due to invalid modification time for %1: %2"}.arg(path).arg(modtime)};
@@ -297,8 +340,9 @@ OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> updatePlaceholderStat
                                                   nullptr, 0, CF_UPDATE_FLAG_MARK_IN_SYNC, nullptr, nullptr);
 
         if (result != S_OK) {
-            qCWarning(lcCfApiWrapper) << "Couldn't update placeholder info for" << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage()) << replacesPath;
-            return { "Couldn't update placeholder info" };
+            const auto errorMessage = createErrorMessageForPlaceholderUpdateAndCreate(path, "Couldn't update placeholder info");
+            qCWarning(lcCfApiWrapper) << errorMessage << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage()) << replacesPath;
+            return errorMessage;
         }
 
                // Pin state tends to be lost on updates, so restore it every time
@@ -327,9 +371,57 @@ void CALLBACK cfApiCancelFetchData(const CF_CALLBACK_INFO *callbackInfo, const C
     }
 }
 
+void CALLBACK cfApiNotifyFileOpenCompletion(const CF_CALLBACK_INFO *callbackInfo, const CF_CALLBACK_PARAMETERS * /*callbackParameters*/)
+{
+    const auto path = QString(QString::fromWCharArray(callbackInfo->VolumeDosName) + QString::fromWCharArray(callbackInfo->NormalizedPath));
+
+    auto vfs = reinterpret_cast<OCC::VfsCfApi *>(callbackInfo->CallbackContext);
+    Q_ASSERT(vfs->metaObject()->className() == QByteArrayLiteral("OCC::VfsCfApi"));
+    const auto requestId = QString::number(callbackInfo->TransferKey.QuadPart, 16);
+
+    qCDebug(lcCfApiWrapper) << "Open file completion:" << path << requestId;
+}
+
+void CALLBACK cfApiValidateData(const CF_CALLBACK_INFO *callbackInfo, const CF_CALLBACK_PARAMETERS * /*callbackParameters*/)
+{
+    const auto path = QString(QString::fromWCharArray(callbackInfo->VolumeDosName) + QString::fromWCharArray(callbackInfo->NormalizedPath));
+
+    auto vfs = reinterpret_cast<OCC::VfsCfApi *>(callbackInfo->CallbackContext);
+    Q_ASSERT(vfs->metaObject()->className() == QByteArrayLiteral("OCC::VfsCfApi"));
+    const auto requestId = QString::number(callbackInfo->TransferKey.QuadPart, 16);
+
+    qCDebug(lcCfApiWrapper) << "Validate data:" << path << requestId;
+}
+
+void CALLBACK cfApiCancelFetchPlaceHolders(const CF_CALLBACK_INFO *callbackInfo, const CF_CALLBACK_PARAMETERS * /*callbackParameters*/)
+{
+    const auto path = QString(QString::fromWCharArray(callbackInfo->VolumeDosName) + QString::fromWCharArray(callbackInfo->NormalizedPath));
+
+    auto vfs = reinterpret_cast<OCC::VfsCfApi *>(callbackInfo->CallbackContext);
+    Q_ASSERT(vfs->metaObject()->className() == QByteArrayLiteral("OCC::VfsCfApi"));
+    const auto requestId = QString::number(callbackInfo->TransferKey.QuadPart, 16);
+
+    qCDebug(lcCfApiWrapper) << "Cancel fetch placeholder:" << path << requestId;
+}
+
+void CALLBACK cfApiNotifyFileCloseCompletion(const CF_CALLBACK_INFO *callbackInfo, const CF_CALLBACK_PARAMETERS * /*callbackParameters*/)
+{
+    const auto path = QString(QString::fromWCharArray(callbackInfo->VolumeDosName) + QString::fromWCharArray(callbackInfo->NormalizedPath));
+
+    auto vfs = reinterpret_cast<OCC::VfsCfApi *>(callbackInfo->CallbackContext);
+    Q_ASSERT(vfs->metaObject()->className() == QByteArrayLiteral("OCC::VfsCfApi"));
+    const auto requestId = QString::number(callbackInfo->TransferKey.QuadPart, 16);
+
+    qCDebug(lcCfApiWrapper) << "Close file completion:" << path << requestId;
+}
+
 CF_CALLBACK_REGISTRATION cfApiCallbacks[] = {
     { CF_CALLBACK_TYPE_FETCH_DATA, cfApiFetchDataCallback },
     { CF_CALLBACK_TYPE_CANCEL_FETCH_DATA, cfApiCancelFetchData },
+    { CF_CALLBACK_TYPE_NOTIFY_FILE_OPEN_COMPLETION, cfApiNotifyFileOpenCompletion },
+    { CF_CALLBACK_TYPE_NOTIFY_FILE_CLOSE_COMPLETION, cfApiNotifyFileCloseCompletion },
+    { CF_CALLBACK_TYPE_VALIDATE_DATA, cfApiValidateData },
+    { CF_CALLBACK_TYPE_CANCEL_FETCH_PLACEHOLDERS, cfApiCancelFetchPlaceHolders },
     CF_CALLBACK_REGISTRATION_END
 };
 
@@ -827,8 +919,9 @@ OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> OCC::CfApiWrapper::de
                                                   nullptr);
 
         if (result != S_OK) {
-            qCWarning(lcCfApiWrapper) << "Couldn't update placeholder info for" << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage());
-            return {"Couldn't update placeholder info"};
+            const auto errorMessage = createErrorMessageForPlaceholderUpdateAndCreate(path, "Couldn't update placeholder info");
+            qCWarning(lcCfApiWrapper) << errorMessage << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage());
+            return errorMessage;
         }
     } else {
         const qint64 result = CfConvertToPlaceholder(handleForPath(path).get(),
@@ -839,8 +932,9 @@ OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> OCC::CfApiWrapper::de
                                                      nullptr);
 
         if (result != S_OK) {
-            qCWarning(lcCfApiWrapper) << "Couldn't convert to placeholder" << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage());
-            return {"Couldn't convert to placeholder"};
+            const auto errorMessage = createErrorMessageForPlaceholderUpdateAndCreate(path, "Couldn't convert to placeholder");
+            qCWarning(lcCfApiWrapper) << errorMessage << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage());
+            return errorMessage;
         }
     }
 
@@ -857,8 +951,9 @@ OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> OCC::CfApiWrapper::co
     const qint64 result = CfConvertToPlaceholder(handleForPath(path).get(), fileIdentity.data(), sizeToDWORD(fileIdentitySize), CF_CONVERT_FLAG_MARK_IN_SYNC, nullptr, nullptr);
     Q_ASSERT(result == S_OK);
     if (result != S_OK) {
-        qCCritical(lcCfApiWrapper) << "Couldn't convert to placeholder" << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage());
-        return { "Couldn't convert to placeholder" };
+        const auto errorMessage = createErrorMessageForPlaceholderUpdateAndCreate(path, "Couldn't convert to placeholder");
+        qCWarning(lcCfApiWrapper) << errorMessage << path << ":" << QString::fromWCharArray(_com_error(result).ErrorMessage());
+        return errorMessage;
     }
 
     const auto originalInfo = findPlaceholderInfo(replacesPath);
@@ -877,4 +972,13 @@ OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> OCC::CfApiWrapper::co
 OCC::Result<OCC::Vfs::ConvertToPlaceholderResult, QString> OCC::CfApiWrapper::updatePlaceholderMarkInSync(const QString &path, const QByteArray &fileId, const QString &replacesPath)
 {
     return updatePlaceholderState(path, {}, {}, fileId, replacesPath, CfApiUpdateMetadataType::OnlyBasicMetadata);
+}
+
+bool OCC::CfApiWrapper::isPlaceHolderInSync(const QString &filePath)
+{
+    if (const auto originalInfo = findPlaceholderInfo(filePath)) {
+        return originalInfo->InSyncState == CF_IN_SYNC_STATE_IN_SYNC;
+    }
+
+    return true;
 }

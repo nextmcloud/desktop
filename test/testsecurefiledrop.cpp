@@ -38,6 +38,11 @@ class TestSecureFileDrop : public QObject
 private slots:
     void initTestCase()
     {
+        OCC::Logger::instance()->setLogFlush(true);
+        OCC::Logger::instance()->setLogDebug(true);
+
+        QStandardPaths::setTestModeEnabled(true);
+
         QVariantMap capabilities;
         capabilities[QStringLiteral("end-to-end-encryption")] = QVariantMap{{QStringLiteral("enabled"), true}, {QStringLiteral("api-version"), "2.0"}};
 
@@ -79,7 +84,7 @@ private slots:
         _account->e2e()->_publicKey = publicKey;
         _account->e2e()->_privateKey = privateKey;
 
-        QScopedPointer<FolderMetadata> metadata(new FolderMetadata(_account, FolderMetadata::FolderType::Root));
+        QScopedPointer<FolderMetadata> metadata(new FolderMetadata(_account, "/",  FolderMetadata::FolderType::Root));
         QSignalSpy metadataSetupCompleteSpy(metadata.data(), &FolderMetadata::setupComplete);
         metadataSetupCompleteSpy.wait();
         QCOMPARE(metadataSetupCompleteSpy.count(), 1);
@@ -146,7 +151,7 @@ private slots:
         const auto signature = metadata->metadataSignature();
         QJsonDocument ocsDoc =
             QJsonDocument::fromJson(QStringLiteral("{\"ocs\": {\"data\": {\"meta-data\": \"%1\"}}}").arg(QString::fromUtf8(encryptedMetadata)).toUtf8());
-        _parsedMetadataWithFileDrop.reset(new FolderMetadata(_account, ocsDoc.toJson(), RootEncryptedFolderInfo::makeDefault(), signature));
+        _parsedMetadataWithFileDrop.reset(new FolderMetadata(_account, "/",  ocsDoc.toJson(), RootEncryptedFolderInfo::makeDefault(), signature));
 
         QSignalSpy metadataWithFileDropSetupCompleteSpy(_parsedMetadataWithFileDrop.data(), &FolderMetadata::setupComplete);
         metadataWithFileDropSetupCompleteSpy.wait();
@@ -167,7 +172,7 @@ private slots:
         QJsonDocument ocsDoc =
             QJsonDocument::fromJson(QStringLiteral("{\"ocs\": {\"data\": {\"meta-data\": \"%1\"}}}").arg(QString::fromUtf8(encryptedMetadata)).toUtf8());
         
-        _parsedMetadataAfterProcessingFileDrop.reset(new FolderMetadata(_account, ocsDoc.toJson(), RootEncryptedFolderInfo::makeDefault(), signature));
+        _parsedMetadataAfterProcessingFileDrop.reset(new FolderMetadata(_account, "/", ocsDoc.toJson(), RootEncryptedFolderInfo::makeDefault(), signature));
 
         QSignalSpy metadataAfterProcessingFileDropSetupCompleteSpy(_parsedMetadataAfterProcessingFileDrop.data(), &FolderMetadata::setupComplete);
         metadataAfterProcessingFileDropSetupCompleteSpy.wait();

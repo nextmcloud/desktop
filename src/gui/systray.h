@@ -15,12 +15,12 @@
 #ifndef SYSTRAY_H
 #define SYSTRAY_H
 
-#include <QSystemTrayIcon>
-
 #include "accountmanager.h"
 #include "tray/usermodel.h"
 
+#include <QSystemTrayIcon>
 #include <QQmlNetworkAccessManagerFactory>
+#include <QStringListModel>
 
 class QScreen;
 class QQmlApplicationEngine;
@@ -40,6 +40,7 @@ public:
 };
 
 #ifdef Q_OS_MACOS
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14
 enum MacNotificationAuthorizationOptions {
     Default = 0,
     Provisional
@@ -52,6 +53,7 @@ bool canOsXSendUserNotification();
 void sendOsXUserNotification(const QString &title, const QString &message);
 void sendOsXUpdateNotification(const QString &title, const QString &message, const QUrl &webUrl);
 void sendOsXTalkNotification(const QString &title, const QString &message, const QString &token, const QString &replyTo, const AccountStatePtr accountState);
+#endif
 void setTrayWindowLevelAndVisibleOnAllSpaces(QWindow *window);
 double menuBarThickness();
 #endif
@@ -60,8 +62,7 @@ double menuBarThickness();
  * @brief The Systray class
  * @ingroup gui
  */
-class Systray
-    : public QSystemTrayIcon
+class Systray : public QSystemTrayIcon
 {
     Q_OBJECT
 
@@ -96,6 +97,8 @@ public:
     [[nodiscard]] bool enableAddAccount() const;
 
     bool raiseDialogs();
+
+    [[nodiscard]] QQmlApplicationEngine* trayEngine() const;
 
 signals:
     void currentUserChanged();
@@ -149,6 +152,7 @@ public slots:
     void presentShareViewInTray(const QString &localPath);
 
 private slots:
+    void slotUpdateSyncPausedState();
     void slotUnpauseAllFolders();
     void slotPauseAllFolders();
 
@@ -176,7 +180,7 @@ private:
 
     bool _isOpen = false;
     bool _syncIsPaused = true;
-    QPointer<QQmlApplicationEngine> _trayEngine;
+    std::unique_ptr<QQmlApplicationEngine> _trayEngine;
     QPointer<QMenu> _contextMenu;
     QSharedPointer<QQuickWindow> _trayWindow;
 
@@ -185,6 +189,8 @@ private:
     QSet<qlonglong> _callsAlreadyNotified;
     QPointer<QObject> _editFileLocallyLoadingDialog;
     QVector<QQuickWindow*> _fileDetailDialogs;
+
+    QStringListModel _fakeActivityModel;
 };
 
 } // namespace OCC
