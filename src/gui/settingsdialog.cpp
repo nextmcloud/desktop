@@ -27,6 +27,7 @@
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
 #include "accountmanager.h"
+#include "nmcgui/nmcnetworksettings.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
@@ -138,6 +139,8 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar->addAction(networkAction);
     auto *networkSettings = new NMCNetworkSettings;
     _ui->stack->addWidget(networkSettings);
+
+    connect(_ui->stack, &QStackedWidget::currentChanged, this, &SettingsDialog::currentPageChanged);
 
     _actionGroupWidgets.insert(generalAction, generalSettings);
     _actionGroupWidgets.insert(networkAction, networkSettings);
