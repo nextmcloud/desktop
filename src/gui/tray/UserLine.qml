@@ -171,12 +171,6 @@ AbstractButton {
                 color: userMoreButton.hovered || userMoreButton.visualFocus ? Style.nmcMenuMoreItemsColor : "transparent"
             }
 
-            contentItem: Image {
-                anchors.fill: parent
-                source: "image://svgimage-custom-color/more.svg" + "/" + palette.buttonText
-                fillMode: Image.PreserveAspectFit
-            }
-
             AutoSizingMenu {
                 id: userMoreButtonMenu
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
