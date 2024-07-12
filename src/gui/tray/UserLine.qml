@@ -16,6 +16,9 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import QtGraphicalEffects 1.0
+
+import "../nmcgui/"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
@@ -37,8 +40,7 @@ AbstractButton {
     background: Rectangle {
         anchors.fill: parent
         anchors.margins: 1
-        color: (userLine.hovered || userLine.visualFocus) &&
-               !(userMoreButton.hovered || userMoreButton.visualFocus) ?
+        color: (userLine.hovered || userLine.visualFocus) ?
                    palette.highlight : palette.base
     }
 
@@ -51,9 +53,10 @@ AbstractButton {
             Layout.leftMargin: 7
             verticalAlignment: Qt.AlignCenter
             cache: false
-            source: model.avatar !== "" ? model.avatar : Theme.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
-            Layout.preferredHeight: Style.accountAvatarSize
-            Layout.preferredWidth: Style.accountAvatarSize
+            visible:false
+            source: Style.nmcAccountAvatarIcon
+            sourceSize.width: Style.nmcTrayWindowIconWidth // NMC Customization: These changes sharpen the image 
+            sourceSize.height: Style.nmcTrayWindowIconWidth
 
             Rectangle {
                 id: accountStatusIndicatorBackground
@@ -81,6 +84,17 @@ AbstractButton {
             }
         }
 
+        //NMC Customization: This section adds hover effect to account avatar image
+        ColorOverlay {
+            cached: true
+            color: Style.ncTextColor
+            width: source.width
+            height: source.height
+            source: accountAvatar
+            anchors.leftMargin: 16
+            Layout.leftMargin: 16
+        }
+
         ColumnLayout {
             id: accountLabels
             Layout.leftMargin: Style.accountLabelsSpacing
@@ -95,7 +109,8 @@ AbstractButton {
                 text: name
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
-                font.bold: true
+                font.bold: false
+                palette.windowText: Style.ncTextColor
             }
 
             RowLayout {
@@ -132,6 +147,7 @@ AbstractButton {
                 text: server
                 elide: Text.ElideRight
                 font.pixelSize: Style.subLinePixelSize
+                visible: false
             }
         }
 
@@ -142,7 +158,7 @@ AbstractButton {
             flat: true
 
             icon.source: "qrc:///client/theme/more.svg"
-            icon.color: palette.buttonText
+            icon.color: Style.ncTextColor
 
             Accessible.role: Accessible.ButtonMenu
             Accessible.name: qsTr("Account actions")
@@ -152,12 +168,29 @@ AbstractButton {
             background: Rectangle {
                 anchors.fill: parent
                 anchors.margins: 1
-                color: userMoreButton.hovered || userMoreButton.visualFocus ? palette.highlight : "transparent"
+                color: userMoreButton.hovered || userMoreButton.visualFocus ? Style.nmcMenuMoreItemsColor : "transparent"
             }
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+                width: 170
+                height: Math.min(implicitHeight, maxMenuHeight)
+
+                background: Rectangle {
+                    id:menuBackground
+                    border.color: palette.dark
+                    color: palette.base
+                    radius: Style.nmcStandardRadius
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        transparentBorder: true
+                        horizontalOffset: 0
+                        verticalOffset: 0
+                        radius: 6
+                        color: "#40000000"
+                    }
+                }
 
                 MenuItem {
                     visible: model.isConnected && model.serverHasUserStatus
@@ -169,11 +202,14 @@ AbstractButton {
                     onClicked: showUserStatusSelector(index)
                 }
 
-                MenuItem {
+                NMCMenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
-                    font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
-                    hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+                    icon.source: Style.nmcLogOutIcon
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
@@ -202,12 +238,15 @@ AbstractButton {
                     }
                 }
 
-                MenuItem {
+                NMCMenuItem {
                     id: removeAccountButton
                     text: qsTr("Remove account")
-                    font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
-                    hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+                    icon.source: Style.nmcRemoveIcon
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()
@@ -226,6 +265,13 @@ AbstractButton {
                     Accessible.role: Accessible.Button
                     Accessible.name: text
                     Accessible.onPressAction: removeAccountButton.clicked()
+                }
+
+                //NMC Customization: spacer at the bottom of the menu
+                Rectangle {
+                    height: 8
+                    color: "white"
+                    radius: Style.nmcStandardRadius
                 }
             }
         }

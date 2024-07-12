@@ -21,6 +21,7 @@ import Qt.labs.platform 1.1 as NativeDialogs
 
 import "../"
 import "../filedetails/"
+import "../nmcgui"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style 1.0
@@ -40,21 +41,21 @@ ApplicationWindow {
     // TODO: Rather than setting all these palette colours manually,
     // create a custom style and do it for all components globally
     palette {
-        text: Style.ncTextColor
-        windowText: Style.ncTextColor
-        buttonText: Style.ncTextColor
-        brightText: Style.ncTextBrightColor
+        text: Style.nmcTrayWindowHeaderTextColor
+        windowText: Style.nmcTrayWindowHeaderTextColor
+        buttonText: Style.nmcTrayWindowHeaderTextColor
+        brightText: Style.nmcTrayWindowHeaderTextColor
         highlight: Style.lightHover
-        highlightedText: Style.ncTextColor
+        highlightedText: Style.nmcTrayWindowHeaderTextColor
         light: Style.lightHover
-        midlight: Style.ncSecondaryTextColor
+        midlight: Style.nmcTrayWindowHeaderTextColor
         mid: Style.darkerHover
         dark: Style.menuBorder
         button: Style.buttonBackgroundColor
         window: Style.backgroundColor
         base: Style.backgroundColor
         toolTipBase: Style.backgroundColor
-        toolTipText: Style.ncTextColor
+        toolTipText: Style.nmcTrayWindowHeaderTextColor
     }
 
     readonly property int maxMenuHeight: Style.trayWindowHeight - Style.trayWindowHeaderHeight - 2 * Style.trayWindowBorderWidth
@@ -262,22 +263,51 @@ ApplicationWindow {
             anchors.left:   trayWindowMainItem.left
             anchors.right:  trayWindowMainItem.right
             anchors.top:    trayWindowMainItem.top
-            height:         Style.trayWindowHeaderHeight
-            color:          Style.currentUserHeaderColor
+            height:         Style.nmcTrayWindowHeaderHeight
+            color:          Style.nmcTrayWindowHeaderBackgroundColor
+
+            Rectangle {
+                id: whiteMargin
+                anchors.top: trayWindowHeaderBackground.top
+                anchors.left: trayWindowHeaderBackground.left
+                width: 10
+                height: 64
+                color: Style.nmcTrayWindowHeaderBackgroundColor
+            }
+
+            Rectangle {
+                id: tLogo
+                anchors.top: trayWindowHeaderBackground.top
+                anchors.left: whiteMargin.right
+                width: Style.nmcTrayWindowLogoWidth
+                height: Style.nmcTrayWindowLogoWidth
+
+                Image {
+                    anchors.fill: parent
+                    cache: false
+                    source: Style.nmcTLogoPath
+                    sourceSize: Qt.size(width, height)
+                    fillMode: Image.Stretch
+                }
+            }
 
             RowLayout {
                 id: trayWindowHeaderLayout
-
-                spacing:        0
-                anchors.fill:   parent
+                spacing: 0
+                anchors {
+                    left: tLogo.right
+                    top: trayWindowHeaderBackground.top
+                    right: trayWindowHeaderBackground.right
+                }
 
                 Button {
                     id: currentAccountButton
 
-                    Layout.preferredWidth:  Style.currentAccountButtonWidth
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
+                    Layout.preferredWidth:  Style.nmcCurrentAccountButtonWidth
+                    Layout.preferredHeight: trayWindowHeaderBackground.height
                     display:                AbstractButton.IconOnly
                     flat:                   true
+                    hoverEnabled:           true
 
                     Accessible.role: Accessible.ButtonMenu
                     Accessible.name: qsTr("Current account")
@@ -299,17 +329,26 @@ ApplicationWindow {
 
                         // x coordinate grows towards the right
                         // y coordinate grows towards the bottom
-                        x: (currentAccountButton.x + 2)
-                        y: (currentAccountButton.y + Style.trayWindowHeaderHeight + 2)
+                        x: (0 - tLogo.width)
+                        y: (currentAccountButton.y + Style.nmcTrayWindowHeaderHeight - Style.nmcTrayWindowMenuOverlayMargin)
 
-                        width: (Style.currentAccountButtonWidth - 2)
+                        width: (Style.nmcCurrentAccountButtonWidth + tLogo.width + 30)
                         height: Math.min(implicitHeight, maxMenuHeight)
                         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
                         background: Rectangle {
+                            id: menuBackground
                             border.color: palette.dark
                             color: palette.base
-                            radius: Style.currentAccountButtonRadius
+                            radius: Style.nmcStandardRadius
+                            layer.enabled: true
+                            layer.effect: DropShadow {
+                                transparentBorder: true
+                                horizontalOffset: 0
+                                verticalOffset: 0
+                                radius: 6
+                                color: "#40000000"
+                            }
                         }
 
                         contentItem: ScrollView {
@@ -351,9 +390,10 @@ ApplicationWindow {
 
                         MenuItem {
                             id: addAccountButton
-                            height: Systray.enableAddAccount ? Style.addAccountButtonHeight : 0
+                            height: Systray.enableAddAccount ? Style.nmcTrayWindowAddAccountButtonHeight : 0
                             hoverEnabled: true
                             visible: Systray.enableAddAccount
+                            icon.color: Style.ncTextColor
 
                             background: Item {
                                 height: parent.height
@@ -401,11 +441,19 @@ ApplicationWindow {
                             color: palette.dark
                         }
 
-                        MenuItem {
+                        NMCMenuItem {
                             id: syncPauseButton
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
                             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
+                            icon.source: Style.nmcPauseIcon
+                            icon.height: Style.nmcTrayWindowIconWidth
+                            icon.width: Style.nmcTrayWindowIconWidth
+                            icon.color: Style.ncTextColor
+                            leftPadding: Style.nmcMenuSubItemLeftPadding
+                            height: Style.nmcMenuSubItemHeight
+
+                            Text {
+                                color: Style.nmcTrayWindowHeaderTextColor
+                            }
 
                             background: Item {
                                 height: parent.height
@@ -422,11 +470,20 @@ ApplicationWindow {
                             Accessible.onPressAction: syncPauseButton.clicked()
                         }
 
-                        MenuItem {
+                        NMCMenuItem {
                             id: settingsButton
                             text: qsTr("Settings")
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
+                            icon.source: Style.nmcSettingsIcon
+                            icon.height: Style.nmcTrayWindowIconWidth
+                            icon.width: Style.nmcTrayWindowIconWidth
+                            icon.color: Style.ncTextColor
+                            leftPadding: Style.nmcMenuSubItemLeftPadding
+                            height: Style.nmcMenuSubItemHeight
+
+                            Text {
+                                color: Style.nmcTrayWindowHeaderTextColor
+                            }
+
                             onClicked: Systray.openSettings()
 
                             background: Item {
@@ -444,11 +501,20 @@ ApplicationWindow {
                             Accessible.onPressAction: settingsButton.clicked()
                         }
 
-                        MenuItem {
+                        NMCMenuItem {
                             id: exitButton
                             text: qsTr("Exit");
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
+                            icon.source: Style.nmcCloseIcon
+                            icon.height: Style.nmcTrayWindowIconWidth
+                            icon.width: Style.nmcTrayWindowIconWidth
+                            icon.color: Style.ncTextColor
+                            leftPadding: Style.nmcMenuSubItemLeftPadding
+                            height: Style.nmcMenuSubItemHeight
+
+                            Text {
+                                color: Style.nmcTrayWindowHeaderTextColor
+                            }
+
                             onClicked: Systray.shutdown()
 
                             background: Item {
@@ -465,18 +531,25 @@ ApplicationWindow {
                             Accessible.name: text
                             Accessible.onPressAction: exitButton.clicked()
                         }
+
+                        //NMC customization: spacer at the bottom of the menu
+                        Rectangle{
+                            height: 8
+                            color: "white"
+                            radius: Style.nmcStandardRadius
+                        }
                     }
 
                     background: Rectangle {
-                        color: parent.hovered || parent.visualFocus ? Style.currentUserHeaderTextColor : "transparent"
-                        opacity: 0.2
+                        color: parent.hovered || parent.visualFocus ? "black"  : "transparent"
+                        opacity: 0.05
                     }
 
                     RowLayout {
                         id: accountControlRowLayout
 
                         height: Style.trayWindowHeaderHeight
-                        width:  Style.currentAccountButtonWidth
+                        width:  Style.nmcCurrentAccountButtonWidth
                         spacing: 0
 
                         Image {
@@ -485,9 +558,9 @@ ApplicationWindow {
                             Layout.leftMargin: Style.trayHorizontalMargin
                             verticalAlignment: Qt.AlignCenter
                             cache: false
-                            source: UserModel.currentUser.avatar != "" ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
-                            Layout.preferredHeight: Style.accountAvatarSize
-                            Layout.preferredWidth: Style.accountAvatarSize
+                            source: Style.nmcAccountAvatarIcon
+                            sourceSize.width: Style.nmcTrayWindowIconWidth
+                            sourceSize.height: Style.nmcTrayWindowIconWidth
 
                             Accessible.role: Accessible.Graphic
                             Accessible.name: qsTr("Current account avatar")
@@ -547,10 +620,10 @@ ApplicationWindow {
                                 width: Style.currentAccountLabelWidth
                                 text: UserModel.currentUser.name
                                 elide: Text.ElideRight
-                                color: Style.currentUserHeaderTextColor
+                                color: Style.nmcTrayWindowHeaderTextColor
 
-                                font.pixelSize: Style.topLinePixelSize
-                                font.bold: true
+                                font.pixelSize: Style.nmcFontSizeAccountName
+                                font.bold: false
                             }
 
                             EnforcedPlainTextLabel {
@@ -594,14 +667,14 @@ ApplicationWindow {
 
                         ColorOverlay {
                             cached: true
-                            color: Style.currentUserHeaderTextColor
+                            color: Style.nmcTrayWindowHeaderTextColor
                             width: source.width
                             height: source.height
                             source: Image {
                                 Layout.alignment: Qt.AlignRight
                                 verticalAlignment: Qt.AlignCenter
                                 Layout.margins: Style.accountDropDownCaretMargin
-                                source: "qrc:///client/theme/white/caret-down.svg"
+                                source: "qrc:///client/theme/black/caret-down.svg"
                                 sourceSize.width: Style.accountDropDownCaretSize
                                 sourceSize.height: Style.accountDropDownCaretSize
                                 Accessible.role: Accessible.PopupMenu
@@ -616,134 +689,82 @@ ApplicationWindow {
                     Layout.fillWidth: true
                 }
 
-                TrayFoldersMenuButton {
-                    id: openLocalFolderButton
+                Rectangle {
+                    id: trayWindowWebsiteButtonContainer
+                    width: 92
+                    height: Style.nmcTrayWindowHeaderHeight
 
-                    visible: currentUser.hasLocalFolder
-                    currentUser: UserModel.currentUser
-
-
-                    onClicked: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder()
-
-                    onFolderEntryTriggered: isGroupFolder ? UserModel.openCurrentAccountFolderFromTrayInfo(fullFolderPath) : UserModel.openCurrentAccountLocalFolder()
-
-                    Accessible.role: Accessible.Graphic
-                    Accessible.name: qsTr("Open local or group folders")
-                    Accessible.onPressAction: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder()
-
-                    Layout.alignment: Qt.AlignRight
-                    Layout.preferredWidth:  Style.trayWindowHeaderHeight
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
-                }
-
-                HeaderButton {
-                    id: trayWindowTalkButton
-
-                    visible: UserModel.currentUser.serverHasTalk
-                    icon.source: "qrc:///client/theme/white/talk-app.svg"
-                    icon.color: Style.currentUserHeaderTextColor
-                    onClicked: UserModel.openCurrentAccountTalk()
-
-                    Accessible.role: Accessible.Button
-                    Accessible.name: qsTr("Open Nextcloud Talk in browser")
-                    Accessible.onPressAction: trayWindowTalkButton.clicked()
-
-                    Layout.alignment: Qt.AlignRight
-                    Layout.preferredWidth:  Style.trayWindowHeaderHeight
-                    Layout.preferredHeight: Style.trayWindowHeaderHeight
-
-                }
-
-                HeaderButton {
-                    id: trayWindowAppsButton
-                    icon.source: "qrc:///client/theme/white/more-apps.svg"
-                    icon.color: Style.currentUserHeaderTextColor
-
-                    onClicked: {
-                        if(appsMenuListView.count <= 0) {
-                            UserModel.openCurrentAccountServer()
-                        } else if (appsMenu.visible) {
-                            appsMenu.close()
-                        } else {
-                            appsMenu.open()
-                        }
+                    NMCHeaderButton {
+                        id: trayWindowWebsiteButton
+                        iconSource: "qrc:///client/theme/NMCIcons/website.svg"
+                        iconText: qsTranslate("", "OPEN_WEBSITE")
                     }
 
-                    Accessible.role: Accessible.ButtonMenu
-                    Accessible.name: qsTr("More apps")
-                    Accessible.onPressAction: trayWindowAppsButton.clicked()
-
-                    Menu {
-                        id: appsMenu
-                        x: Style.trayWindowMenuOffsetX
-                        y: (trayWindowAppsButton.y + trayWindowAppsButton.height + Style.trayWindowMenuOffsetY)
-                        width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
-                        height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
-                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-
-                        background: Rectangle {
-                            border.color: palette.dark
-                            color: palette.base
-                            radius: 2
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: UserModel.openCurrentAccountServer()
+                        onEntered: {
+                            trayWindowWebsiteButtonContainer.color = Style.nmcTrayWindowHeaderHighlightColor
                         }
-
-                        contentItem: ScrollView {
-                            id: appsMenuScrollView
-                            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-
-                            data: WheelHandler {
-                                target: appsMenuScrollView.contentItem
-                            }
-                            ListView {
-                                id: appsMenuListView
-                                implicitHeight: contentHeight
-                                model: UserAppsModel
-                                interactive: true
-                                clip: true
-                                currentIndex: appsMenu.currentIndex
-                                delegate: MenuItem {
-                                    id: appEntry
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
-
-                                    text: model.appName
-                                    font.pixelSize: Style.topLinePixelSize
-                                    icon.source: model.appIconUrl
-                                    icon.color: palette.buttonText
-                                    onTriggered: UserAppsModel.openAppUrl(appUrl)
-                                    hoverEnabled: true
-
-                                    background: Item {
-                                        height: parent.height
-                                        width: parent.width
-                                        Rectangle {
-                                            anchors.fill: parent
-                                            anchors.margins: 1
-                                            color: parent.parent.hovered || parent.parent.visualFocus ? palette.highlight : "transparent"
-                                        }
-                                    }
-
-                                    Accessible.role: Accessible.MenuItem
-                                    Accessible.name: qsTr("Open %1 in browser").arg(model.appName)
-                                    Accessible.onPressAction: appEntry.triggered()
-                                }
-                            }
+                        onExited: {
+                            trayWindowWebsiteButtonContainer.color = "transparent"
                         }
                     }
+                }
+
+                Rectangle {
+                    id: trayWindowLocalButtonContainer
+                    width: 92
+                    height: Style.nmcTrayWindowHeaderHeight
+
+                    NMCHeaderButton {
+                        id: trayWindowLocalButton
+                        iconSource: "qrc:///client/theme/black/folder.svg"
+                        iconText: qsTranslate("", "LOCAL_FOLDER")
+                    }
+
+                    MouseArea{
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: UserModel.openCurrentAccountLocalFolder()
+                        onEntered: {
+                            trayWindowLocalButtonContainer.color = Style.nmcTrayWindowHeaderHighlightColor
+                        }
+                        onExited:{
+                            trayWindowLocalButtonContainer.color = "transparent"
+                        }
+                    }
+                }
+
+                Rectangle {
+                    width: 10
+                    color: Style.nmcTrayWindowHeaderBackgroundColor
                 }
             }
         }   // Rectangle trayWindowHeaderBackground
+
+        Rectangle{
+            id: separator
+            color: Style.nmcTrayWindowHeaderSeparatorColor
+            anchors.top:    trayWindowHeaderBackground.bottom
+            anchors.left:   trayWindowMainItem.left
+            anchors.right:  trayWindowMainItem.right
+            height: 1
+        }
 
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
             height: Style.trayWindowHeaderHeight * 0.65
 
+            visible: false
+
             anchors {
-                top: trayWindowHeaderBackground.bottom
+                top: separator.bottom
                 left: trayWindowMainItem.left
                 right: trayWindowMainItem.right
 
-                topMargin: Style.trayHorizontalMargin + controlRoot.padding
+                topMargin: Style.nmcTrayWindowStandardMargin
                 leftMargin: Style.trayHorizontalMargin + controlRoot.padding
                 rightMargin: Style.trayHorizontalMargin + controlRoot.padding
             }
@@ -759,7 +780,7 @@ ApplicationWindow {
             id: unifiedSearchResultsErrorLabel
             visible:  UserModel.currentUser.unifiedSearchResultsListModel.errorString && !unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress && ! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
             text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.margins: Style.trayHorizontalMargin
@@ -768,7 +789,7 @@ ApplicationWindow {
         UnifiedSearchResultNothingFound {
             id: unifiedSearchResultNothingFound
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.topMargin: Style.trayHorizontalMargin
@@ -786,7 +807,7 @@ ApplicationWindow {
         Loader {
             id: unifiedSearchResultsListViewSkeletonLoader
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -815,7 +836,7 @@ ApplicationWindow {
             }
             visible: unifiedSearchResultsListView.count > 0
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -857,7 +878,7 @@ ApplicationWindow {
 
             visible: !trayWindowMainItem.isUnifiedSearchActive
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
         }
@@ -925,6 +946,7 @@ ApplicationWindow {
 
         ActivityList {
             id: activityList
+            ScrollBar.vertical.policy: contentHeight > activityList.height ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
             visible: !trayWindowMainItem.isUnifiedSearchActive
             anchors.top: syncStatus.bottom
             anchors.left: trayWindowMainItem.left
