@@ -83,7 +83,7 @@ void NMCAccountSettings::setLayout()
     m_liveTitle->setStyleSheet("font-size: 15px; font-weight: 600;"); //Semi-bold
     liveVLayout->addWidget(m_liveDescription);
     m_liveDescription->setStyleSheet("font-size: 13px;");
-    m_liveDescription->setText("Synchronisieren Sie weitere beliebiege lokale Ordner in ihre MagentaCLOUD und schützen Sie damit ihre Onhalte kontienuierlich.");
+    m_liveDescription->setText(QCoreApplication::translate("", "LIVE_BACKUPS_DESCRIPTION"));
     m_liveDescription->setWordWrap(true);
     m_liveDescription->setFixedWidth(450);
 
