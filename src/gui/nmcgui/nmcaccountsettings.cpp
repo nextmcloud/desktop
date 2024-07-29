@@ -95,7 +95,7 @@ void NMCAccountSettings::setLayout()
     auto *quotaVLayout = new QVBoxLayout(this);
     quotaVLayout->setSpacing(4);
     auto *quota = new QLabel(this);
-    quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(getUi()->quotaProgressBar->value() > 0 ? getUi()->quotaProgressBar->value() : 0)));
+    quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(getUi()->quotaProgressBar->value() > 0 ? getUi()->quotaProgressBar->value() : 10)));
 
     quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
