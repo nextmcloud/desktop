@@ -351,6 +351,8 @@ QString AccountSettings::selectedFolderAlias() const
     return _model->data(selected, FolderStatusDelegate::FolderAliasRole).toString();
 }
 
+
+
 void AccountSettings::slotToggleSignInState()
 {
     if (_accountState->isSignedOut()) {
@@ -1134,7 +1136,7 @@ void AccountSettings::showConnectionLabel(const QString &message, QStringList er
         _ui->connectLabel->setToolTip({});
         _ui->connectLabel->setStyleSheet(errStyle);
     }
-    _ui->accountStatus->setVisible(!message.isEmpty());
+    //_ui->accountStatus->setVisible(!message.isEmpty()); //NMC Customization
 }
 
 void AccountSettings::slotEnableCurrentFolder(bool terminate)
@@ -1230,7 +1232,7 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
         const auto totalStr = Utility::octetsToString(total);
         const auto percentStr = Utility::compactFormatDouble(percent, 1);
         const auto toolTip = tr("%1 (%3%) of %2 in use. Some folders, including network mounted or shared folders, might have different limits.").arg(usedStr, totalStr, percentStr);
-        _ui->quotaInfoLabel->setText(tr("%1 of %2 in use").arg(usedStr, totalStr));
+        _ui->quotaInfoLabel->setText(QCoreApplication::translate("", "%1_OF_%2").arg(usedStr, totalStr));
         _ui->quotaInfoLabel->setToolTip(toolTip);
         _ui->quotaProgressBar->setToolTip(toolTip);
     } else {
