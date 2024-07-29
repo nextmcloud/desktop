@@ -14,6 +14,8 @@
 
 #include "nmcgui/nmcaccountsettings.h"
 #include "ui_accountsettings.h"
+#include "../common/utility.h"
+#include "guiutility.h"
 #include "qdesktopservices.h"
 
 
@@ -95,7 +97,7 @@ void NMCAccountSettings::setLayout()
     auto *quotaVLayout = new QVBoxLayout(this);
     quotaVLayout->setSpacing(4);
     auto *quota = new QLabel(this);
-    quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(getUi()->quotaProgressBar->value() > 0 ? getUi()->quotaProgressBar->value() : 10)));
+    quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(getUi()->quotaProgressBar->value() > 0 ? Utility::compactFormatDouble(getUi()->quotaProgressBar->value(), 1) : 0));
 
     quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
