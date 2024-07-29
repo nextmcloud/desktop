@@ -1064,6 +1064,7 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
     Ui_Dialog ui{};
     ui.setupUi(&widget);
     widget.setWindowTitle(tr("End-to-end encryption mnemonic"));
+    widget.setWindowFlags(Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
     ui.label->setText(
         QCoreApplication::translate("", "E2E_MNEMONIC_TEXT"));
     QFont monoFont(QStringLiteral("Monospace"));
