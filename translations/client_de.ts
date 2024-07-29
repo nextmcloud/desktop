@@ -58,7 +58,7 @@
     </message>
     <message>
         <source>LIVE_BACKUP_DESCRIPTION</source>
-        <translation>Synchronisieren Sie weitere beliebige lokale Ordner in Ihre MagentaCLOUD und schützen Sie damit hre Inhalte kontinuierlich.</translation>
+        <translation>Synchronisieren Sie weitere beliebige lokale Ordner in Ihre MagentaCLOUD und schützen Sie damit Ihre Inhalte kontinuierlich.</translation>
     </message>
     <message>
         <source>YOUR_FOLDER_SYNC</source>
