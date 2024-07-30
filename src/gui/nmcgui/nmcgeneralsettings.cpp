@@ -32,9 +32,9 @@ void NMCGeneralSettings::setDefaultSettings()
 {
     //Set default settings
     //General settings
-    getUi()->autostartCheckBox->setCheckState(Qt::Checked);
+    //getUi()->autostartCheckBox->setCheckState(Qt::Checked);
     getUi()->monoIconsCheckBox->setCheckState(Qt::Unchecked);
-    getUi()->serverNotificationsCheckBox->setCheckState(Qt::Unchecked);
+    //getUi()->serverNotificationsCheckBox->setCheckState(Qt::Unchecked);
     getUi()->callNotificationsCheckBox->setCheckState(Qt::Unchecked);
     //Advanced settings
     getUi()->newFolderLimitCheckBox->setCheckState(Qt::Unchecked);
