@@ -27,16 +27,16 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
     , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS")))
     , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION")))
     , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC")))
+    , _userInfo(accountState, false, true)
 {
     setDefaultSettings();
     setLayout();
     connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
+    connect(&_userInfo, &UserInfo::quotaUpdated, this, &NMCAccountSettings::slotUpdateQuota);
 }
 
 void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
 {
-    AccountSettings::slotUpdateQuota(total, used);
-
     auto *quota = getUI()->findChild<QLabel*>("nmcquota"); 
 
     if (total > 0) {

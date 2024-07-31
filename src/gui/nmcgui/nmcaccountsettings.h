@@ -21,6 +21,8 @@
 #include <QIcon>
 #include <QPainter>
 
+#include "userinfo.h"
+
 namespace OCC {
 
 /**
@@ -91,7 +93,7 @@ public:
     ~NMCAccountSettings() = default;
 
 public slots:
-    void slotUpdateQuota(qint64 total, qint64 used) Q_DECL_OVERRIDE;
+    void slotUpdateQuota(qint64 total, qint64 used);
 
 private:
     /**
@@ -109,6 +111,7 @@ private:
     QLabel *m_liveTitle = nullptr;
     QLabel *m_liveDescription = nullptr;
     QLabel *m_folderSync = nullptr;
+    UserInfo _userInfo;
 };
 
 } // namespace OCC
