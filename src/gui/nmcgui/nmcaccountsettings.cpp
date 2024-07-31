@@ -33,6 +33,23 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
     connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
 }
 
+void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
+{
+    AccountSettings::slotUpdateQuota(total, used);
+
+    auto *quota = getUI()->findChild<QLabel*>("nmcquota"); 
+
+    if (total > 0) {
+        // workaround the label only accepting ints (which may be only 32 bit wide)
+        const auto percent = used / (double)total * 100;
+        const auto percentStr = Utility::compactFormatDouble(percent, 1);
+
+        quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(total > 0 ? percentStr : QString::number(0)));
+    } else {
+        quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(0)));
+    }
+}
+
 void NMCAccountSettings::setDefaultSettings()
 {
     //Set default settings
@@ -89,15 +106,15 @@ void NMCAccountSettings::setLayout()
 
     getUi()->gridLayout->addWidget(liveWidget, 4, 0);
 
-
     //Storage area
     auto *magentaHLayout = new QHBoxLayout(this);
     magentaHLayout->setSpacing(32);
 
     auto *quotaVLayout = new QVBoxLayout(this);
     quotaVLayout->setSpacing(4);
+
     auto *quota = new QLabel(this);
-    quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(Utility::compactFormatDouble(getUi()->quotaProgressBar->value(), 1)));
+    quota->setObjectName("nmcquota");
 
     quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
@@ -115,6 +132,7 @@ void NMCAccountSettings::setLayout()
         "    background-color: #ea0a8e; }");
     getUi()->quotaProgressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     quotaVLayout->addWidget(quota);
+
     quota->setStyleSheet("font-size: 13px; padding: 8px;");
     quotaVLayout->addSpacerItem(new QSpacerItem(1,20, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
