@@ -29,10 +29,10 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
     , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC")))
     , _userInfo(accountState, false, true)
 {
-    setDefaultSettings();
-    setLayout();
     connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
     connect(&_userInfo, &UserInfo::quotaUpdated, this, &NMCAccountSettings::slotUpdateQuota);
+    setDefaultSettings();
+    setLayout(total, used);
 }
 
 void NMCAccountSettings::setDefaultSettings()
