@@ -97,10 +97,9 @@ void NMCAccountSettings::setLayout()
     auto *quotaVLayout = new QVBoxLayout(this);
     quotaVLayout->setSpacing(4);
 
-    const QString percentage;
-    QRegularExpression regex("\\((.*)\\)");
-    percentage << regex.match(getUi()->quotaProgressBar->toolTip()).captured(1);
-    m_quotaPercent->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(percentage));
+    static const QRegularExpression regex("\\((.*)\\)");
+    const auto regexMatch = regex.match(getUi()->quotaProgressBar->toolTip()).captured(1);
+    m_quotaPercent->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(regexMatch));
 
     quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
