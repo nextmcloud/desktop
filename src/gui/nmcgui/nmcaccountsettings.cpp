@@ -35,11 +35,6 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
     connect(&_userInfo, &UserInfo::quotaUpdated, this, &NMCAccountSettings::slotUpdateQuota);
 }
 
-void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
-{
-
-}
-
 void NMCAccountSettings::setDefaultSettings()
 {
     //Set default settings
