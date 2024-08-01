@@ -27,12 +27,24 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
     , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS")))
     , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION")))
     , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC")))
+    , m_quotaPercent(new QLabel(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(0))))
     , _userInfo(accountState, false, true)
 {
+    setDefaultSettings();
+    setLayout();
     connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
     connect(&_userInfo, &UserInfo::quotaUpdated, this, &NMCAccountSettings::slotUpdateQuota);
-    setDefaultSettings();
-    setLayout(total, used);
+}
+
+void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
+{
+    if (total > 0) {
+        // workaround the label only accepting ints (which may be only 32 bit wide)
+        const auto percent = used / (double)total * 100;
+        const auto percentStr = Utility::compactFormatDouble(percent, 1);
+
+        m_quotaPercent->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(total > 0 ? percentStr : QString::number(0)));
+    }
 }
 
 void NMCAccountSettings::setDefaultSettings()
@@ -47,7 +59,7 @@ void NMCAccountSettings::setDefaultSettings()
     getUi()->gridLayout->setSpacing(8);
 }
 
-void NMCAccountSettings::setLayout(qint64 total, qint64 used)
+void NMCAccountSettings::setLayout()
 {
     //Fix layout
     getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoLabel);
@@ -98,18 +110,6 @@ void NMCAccountSettings::setLayout(qint64 total, qint64 used)
     auto *quotaVLayout = new QVBoxLayout(this);
     quotaVLayout->setSpacing(4);
 
-    auto *quota = new QLabel(this);
-    quota->setObjectName("nmcquota");
-
-    if (total > 0) {
-        // workaround the label only accepting ints (which may be only 32 bit wide)
-        const auto percent = used / (double)total * 100;
-        const auto percentStr = Utility::compactFormatDouble(percent, 1);
-        quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(percentStr));
-    } else {
-        quota->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(0)));
-    }
-
     quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
     getUi()->quotaInfoLabel->setStyleSheet("QLabel{font-size: 18px; padding: 8px; font-weight: 500;}");
@@ -125,9 +125,9 @@ void NMCAccountSettings::setLayout(qint64 total, qint64 used)
         "QProgressBar::chunk {"
         "    background-color: #ea0a8e; }");
     getUi()->quotaProgressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    quotaVLayout->addWidget(quota);
+    quotaVLayout->addWidget(m_quotaPercent);
 
-    quota->setStyleSheet("font-size: 13px; padding: 8px;");
+    m_quotaPercent->setStyleSheet("font-size: 13px; padding: 8px;");
     quotaVLayout->addSpacerItem(new QSpacerItem(1,20, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     magentaHLayout->addLayout(quotaVLayout);

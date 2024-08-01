@@ -92,6 +92,9 @@ public:
     explicit NMCAccountSettings(AccountState *accountState, QWidget *parent = nullptr);
     ~NMCAccountSettings() = default;
 
+public slots:
+    void slotUpdateQuota(qint64 total, qint64 used);
+
 private:
     /**
      * @brief Sets default settings for NMCAccountSettings.
@@ -101,13 +104,14 @@ private:
     /**
      * @brief Sets the layout for NMCAccountSettings.
      */
-    void setLayout(qint64 total, qint64 used);
+    void setLayout();
 
 private:
     CustomButton *m_liveAccountButton = nullptr;
     QLabel *m_liveTitle = nullptr;
     QLabel *m_liveDescription = nullptr;
     QLabel *m_folderSync = nullptr;
+    QLabel *m_quotaPercent = nullptr;
     UserInfo _userInfo;
 };
 
