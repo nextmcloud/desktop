@@ -47,7 +47,7 @@ void NMCAccountSettings::setDefaultSettings()
     getUi()->gridLayout->setSpacing(8);
 }
 
-void NMCAccountSettings::setLayout()
+void NMCAccountSettings::setLayout(qint64 total, qint64 used)
 {
     //Fix layout
     getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoLabel);
