@@ -28,23 +28,10 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
     , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION")))
     , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC")))
     , m_quotaPercent(new QLabel(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(0))))
-    , _userInfo(accountState, false, true)
 {
     setDefaultSettings();
     setLayout();
     connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
-    connect(&_userInfo, &UserInfo::quotaUpdated, this, &NMCAccountSettings::slotUpdateQuota);
-}
-
-void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
-{
-    if (total > 0) {
-        // workaround the label only accepting ints (which may be only 32 bit wide)
-        const auto percent = used / (double)total * 100;
-        const auto percentStr = Utility::compactFormatDouble(percent, 1);
-
-        m_quotaPercent->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(total > 0 ? percentStr : QString::number(0)));
-    }
 }
 
 void NMCAccountSettings::setDefaultSettings()
@@ -109,6 +96,11 @@ void NMCAccountSettings::setLayout()
 
     auto *quotaVLayout = new QVBoxLayout(this);
     quotaVLayout->setSpacing(4);
+
+    const QString percentage;
+    QRegularExpression regex("\\((.*)\\)");
+    percentage << regex.match(getUi()->quotaProgressBar->toolTip()).captured(1);
+    m_quotaPercent->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(percentage));
 
     quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);

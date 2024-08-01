@@ -21,8 +21,6 @@
 #include <QIcon>
 #include <QPainter>
 
-#include "userinfo.h"
-
 namespace OCC {
 
 /**
@@ -112,7 +110,6 @@ private:
     QLabel *m_liveDescription = nullptr;
     QLabel *m_folderSync = nullptr;
     QLabel *m_quotaPercent = nullptr;
-    UserInfo _userInfo;
 };
 
 } // namespace OCC
