@@ -151,6 +151,10 @@ set(libsync_SRCS
     caseclashconflictsolver.cpp
 )
 
+file(GLOB NMC_FILES "nmclibsync/*")
+set(NMC_SRCS ${NMC_FILES})
+list(APPEND libsync_SRCS ${NMC_SRCS})
+
 if (WIN32)
     # to fix warnings from ntstatus.h
     add_definitions(-DUMDF_USING_NTSTATUS)
