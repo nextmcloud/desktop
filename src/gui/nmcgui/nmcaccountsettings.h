@@ -106,7 +106,6 @@ private:
     QLabel *m_liveTitle = nullptr;
     QLabel *m_liveDescription = nullptr;
     QLabel *m_folderSync = nullptr;
-    QLabel *m_quotaPercent = nullptr;
 };
 
 } // namespace OCC

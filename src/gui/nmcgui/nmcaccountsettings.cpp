@@ -27,7 +27,6 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
     , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS")))
     , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION")))
     , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC")))
-    , m_quotaPercent(new QLabel(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(0))))
 {
     setDefaultSettings();
     setLayout();
@@ -42,7 +41,6 @@ void NMCAccountSettings::setDefaultSettings()
     getUi()->selectiveSyncNotification->setVisible(false);
     getUi()->accountStatus->setVisible(false);
     getUi()->bigFolderUi->setVisible(false);
-
     getUi()->gridLayout->setSpacing(8);
 }
 
@@ -51,6 +49,7 @@ void NMCAccountSettings::setLayout()
     //Fix layout
     getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoLabel);
     getUi()->storageGroupBox->removeWidget(getUi()->quotaProgressBar);
+    getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoText);
 
     getUi()->gridLayout->removeWidget(getUi()->encryptionMessage);
     getUi()->gridLayout->addWidget(getUi()->encryptionMessage, 0, 0);
@@ -97,10 +96,6 @@ void NMCAccountSettings::setLayout()
     auto *quotaVLayout = new QVBoxLayout(this);
     quotaVLayout->setSpacing(4);
 
-    static const QRegularExpression regex("\\((.*)\\)");
-    const auto regexMatch = regex.match(getUi()->quotaProgressBar->toolTip()).captured(1);
-    m_quotaPercent->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(regexMatch));
-
     quotaVLayout->addSpacerItem(new QSpacerItem(1,12, QSizePolicy::Fixed, QSizePolicy::Fixed));
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
     getUi()->quotaInfoLabel->setStyleSheet("QLabel{font-size: 18px; padding: 8px; font-weight: 500;}");
@@ -116,9 +111,9 @@ void NMCAccountSettings::setLayout()
         "QProgressBar::chunk {"
         "    background-color: #ea0a8e; }");
     getUi()->quotaProgressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    quotaVLayout->addWidget(m_quotaPercent);
+    quotaVLayout->addWidget(getUi()->quotaInfoText);
+    getUi()->quotaInfoText->setStyleSheet("QLabel{font-size: 13px; padding: 8px;}");
 
-    m_quotaPercent->setStyleSheet("font-size: 13px; padding: 8px;");
     quotaVLayout->addSpacerItem(new QSpacerItem(1,20, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     magentaHLayout->addLayout(quotaVLayout);

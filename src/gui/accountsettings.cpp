@@ -1235,6 +1235,8 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
         _ui->quotaInfoLabel->setText(QCoreApplication::translate("", "%1_OF_%2").arg(usedStr, totalStr));
         _ui->quotaInfoLabel->setToolTip(toolTip);
         _ui->quotaProgressBar->setToolTip(toolTip);
+        
+        _ui->quotaInfoText->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(percentStr));
     } else {
         _ui->quotaProgressBar->setVisible(false);
         _ui->quotaInfoLabel->setToolTip({});
@@ -1246,6 +1248,8 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
             const auto usedStr = Utility::octetsToString(used);
             _ui->quotaInfoLabel->setText(tr("%1 in use").arg(usedStr));
         }
+        
+        _ui->quotaInfoText->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(0)));
     }
 }
 
