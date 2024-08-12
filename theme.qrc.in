@@ -240,6 +240,5 @@
         <file>theme/call-notification.wav</file>
         <file>theme/more-apps.svg</file>
         <file>theme/talk-app.svg</file>
-        <file>theme/NMCIcons/cloud-security.svg</file>
     </qresource>
 </RCC>
