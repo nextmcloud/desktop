@@ -240,8 +240,5 @@
         <file>theme/call-notification.wav</file>
         <file>theme/more-apps.svg</file>
         <file>theme/talk-app.svg</file>
-        <file>theme/NMCIcons/navigation-right.svg</file>
-        <file>theme/NMCIcons/collapse-down.svg</file>
-        <file>theme/NMCIcons/folderLogo.svg</file>
     </qresource>
 </RCC>
