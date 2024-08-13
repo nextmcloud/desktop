@@ -96,7 +96,7 @@ void WelcomePage::setupCreateAccountButton()
     connect(_ui->createAccountButton, &QPushButton::clicked, this, [this](bool /*checked*/) {
         _ocWizard->setRegistration(true);
         _nextPage = WizardCommon::Page_WebView;
-        _ocWizard->setAuthType(OCC::DetermineAuthTypeJob::WebViewFlow);
+        _ocWizard->next();
     });
 #else // WITH_WEBENGINE
     connect(_ui->createAccountButton, &QPushButton::clicked, this, [this](bool /*checked*/) {
