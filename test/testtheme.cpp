@@ -73,7 +73,7 @@ private slots:
         const auto result = OCC::Theme::isDarkColor(color);
 
         //QCOMPARE(result, true);
-        Q_UNUSED(iconPath)
+        Q_UNUSED(result)
     }
 
     void testIsDarkColor_lightColor_returnFalse()
@@ -92,7 +92,7 @@ private slots:
         const auto result = OCC::Theme::isDarkColor(color);
 
         //QCOMPARE(result, true);
-        Q_UNUSED(iconPath)
+        Q_UNUSED(result)
     }
 
     void testIsHidpi_hidpi_returnTrue()
