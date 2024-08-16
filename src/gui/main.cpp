@@ -87,33 +87,6 @@ int main(int argc, char **argv)
 
     OCC::Application app(argc, argv);
 
-    //NMC custoization, enforce our palette to avoid dark mode colors
-    QPalette palette = app.palette();
-
-    palette.setColor(QPalette::WindowText, QColor(0, 0, 0));
-    palette.setColor(QPalette::Button, QColor(236, 236, 236));
-    palette.setColor(QPalette::Light, QColor(255, 255, 255));
-    palette.setColor(QPalette::Midlight, QColor(245, 245, 245));
-    palette.setColor(QPalette::Dark, QColor(191, 191, 191));
-    palette.setColor(QPalette::Mid, QColor(168, 168, 168));
-    palette.setColor(QPalette::Text, QColor(0, 0, 0));
-    palette.setColor(QPalette::BrightText, QColor(255, 255, 255));
-    palette.setColor(QPalette::ButtonText, QColor(0, 0, 0));
-    palette.setColor(QPalette::Base, QColor(255, 255, 255));
-    palette.setColor(QPalette::Window, QColor(236, 236, 236));
-    palette.setColor(QPalette::Shadow, QColor(0, 0, 0));
-    palette.setColor(QPalette::Highlight, QColor(179, 215, 255));
-    palette.setColor(QPalette::HighlightedText, QColor(0, 0, 0));
-    palette.setColor(QPalette::Link, QColor(0, 104, 218));
-    palette.setColor(QPalette::LinkVisited, QColor(255, 0, 255));
-    palette.setColor(QPalette::AlternateBase, QColor(245, 245, 245));
-    palette.setColor(QPalette::NoRole, QColor(0, 0, 0));
-    palette.setColor(QPalette::ToolTipBase, QColor(255, 255, 255));
-    palette.setColor(QPalette::ToolTipText, QColor(0, 0, 0));
-    palette.setColor(QPalette::PlaceholderText, QColor(0, 0, 0));
-
-    app.setPalette(palette);
-
 #ifdef Q_OS_WIN
     // The Windows style still has pixelated elements with Qt 5.6,
     // it's recommended to use the Fusion style in this case, even
