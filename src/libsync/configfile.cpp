@@ -200,7 +200,7 @@ bool ConfigFile::setConfDir(const QString &value)
 bool ConfigFile::optionalServerNotifications() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(optionalServerNotificationsC), true).toBool();
+    return settings.value(QLatin1String(optionalServerNotificationsC), false).toBool();
 }
 
 bool ConfigFile::showCallNotifications() const
