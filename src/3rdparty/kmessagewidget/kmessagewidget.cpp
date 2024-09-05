@@ -99,7 +99,7 @@ void KMessageWidgetPrivate::init(KMessageWidget *q_ptr)
 
     titleLabel = new QLabel(content);
     titleLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    titleLabel->setText(KMessageWidget::tr("E2E_ENCRYPTION"));
+    titleLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION"));
     titleLabel->setStyleSheet("font-size: 13px; font-weight: 600;");
 
     titelIcon = new QLabel(content);
