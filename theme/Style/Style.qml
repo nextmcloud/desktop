@@ -202,4 +202,42 @@ QtObject {
     function variableSize(size) {
         return size * (1 + Math.min(pixelSize / 100, 1));
     }
+
+    //NMC Customization
+    readonly property int nmcFontSizeAccountName: 13
+    readonly property int nmcFontSizeIconText: 10
+    readonly property int nmcFontSizeSyncText: 15
+    readonly property string nmcTLogoPath: "qrc:///client/theme/NMCIcons/tlogocarrier.svg"
+    readonly property string nmcAccountAvatarIcon: "qrc:///client/theme/NMCIcons/accountAvatarIcon.svg"
+    readonly property string nmcSettingsIcon: "qrc:///client/theme/settings.svg"
+    readonly property string nmcCloseIcon: "qrc:///client/theme/close.svg"
+    readonly property string nmcPauseIcon: "qrc:///client/theme/NMCIcons/pause.svg"
+    readonly property string nmcLogOutIcon: "qrc:///client/theme/NMCIcons/logout.svg"
+    readonly property string nmcRemoveIcon: "qrc:///client/theme/NMCIcons/remove.svg"
+    readonly property color nmcTelekomMagentaColor: "#E20074"
+    readonly property color nmcConflictColor: "#F97012"
+    readonly property color nmcConflictHoverColor: "#de6310"
+    readonly property color nmcSyncHoverColor: "#c00063"
+    readonly property color nmcSyncRefreshColor: "#2238df"
+    readonly property int nmcTrayWindowAddAccountButtonHeight: 56
+    readonly property int nmcTrayWindowHeaderHeight: 64
+    readonly property int nmcTrayWindowItemsHeight: 48
+    readonly property int nmcTrayWindowIconWidth: 24
+    readonly property int nmcTrayWindowLogoWidth: 64
+    readonly property int nmcTrayWindowStandardMargin: 16
+    readonly property int nmcTrayWindowMenuOverlayMargin: 8
+    readonly property int nmcTraySyncButtonHeight: 28
+    readonly property int nmcCurrentAccountButtonWidth: 180
+    readonly property int nmcMenuSubItemHeight: 40
+    readonly property int nmcMenuSubItemLeftPadding: 16
+    readonly property int nmcStandardRadius: 4
+    readonly property int nmcListViewLeftPadding: 22
+    readonly property int nmcListViewIconSize: 32
+    readonly property int nmcProgressFieldTextOffset: -12
+    readonly property color nmcMenuMoreItemsColor: "#E5E5E5"
+    readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
+    readonly property color nmcTrayWindowHeaderTextColor: "black"
+    readonly property color nmcTrayWindowHeaderSeparatorColor: "#ededed"
+    readonly property color nmcTrayWindowHeaderHighlightColor: "#ededed"
+    readonly property color nmcTextInButtonColor: "white"
 }

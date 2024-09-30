@@ -29,7 +29,7 @@ RowLayout {
         Layout.topMargin: 16
         Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
         Layout.bottomMargin: 16
-        Layout.leftMargin: Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
+        Layout.leftMargin: Style.nmcListViewLeftPadding
 
         padding: 0
 
@@ -47,6 +47,8 @@ RowLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
+        Layout.leftMargin: Style.nmcProgressFieldTextOffset
+
         EnforcedPlainTextLabel {
             id: syncProgressText
 
@@ -54,7 +56,7 @@ RowLayout {
 
             text: syncStatus.syncStatusString
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Style.topLinePixelSize
+            font.pixelSize: Style.nmcFontSizeSyncText
             font.bold: true
             wrapMode: Text.Wrap
         }
@@ -78,7 +80,7 @@ RowLayout {
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusDetailString
-            visible: syncStatus.syncStatusDetailString !== ""
+            visible: false
             color: palette.midlight
             font.pixelSize: Style.subLinePixelSize
             wrapMode: Text.Wrap
@@ -88,17 +90,17 @@ RowLayout {
     CustomButton {
         id: syncNowButton
 
-        FontMetrics {
-            id: syncNowFm
-            font: syncNowButton.contentsFont
-        }
+        // FontMetrics {
+        //     id: syncNowFm
+        //     font: syncNowButton.contentsFont
+        // }
 
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Sync now")
 
         padding: Style.smallSpacing
-        textColor: Style.adjustedCurrentUserHeaderColor
+        textColor: Style.nmcTextInButtonColor
         textColorHovered: Style.currentUserHeaderTextColor
         contentsFont.bold: true
         bgColor: Style.currentUserHeaderColor
@@ -113,6 +115,17 @@ RowLayout {
                 NC.UserModel.currentUser.forceSyncNow();
             }
         }
+
+        HoverHandler {
+            id: mouseSync
+            acceptedDevices: PointerDevice.Mouse
+        }
+
+        background: Rectangle {
+            color: mouseSync.hovered? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
+        }
     }
 
     CustomButton {
@@ -123,8 +136,9 @@ RowLayout {
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Resolve conflicts")
-        textColor: Style.adjustedCurrentUserHeaderColor
-        textColorHovered: Style.currentUserHeaderTextColor
+        padding: Style.smallSpacing
+        textColor: Style.nmcTextInButtonColor
+        textColorHovered: Style.nmcTextInButtonColor
         contentsFont.bold: true
         bgColor: Style.currentUserHeaderColor
 
@@ -134,5 +148,16 @@ RowLayout {
                  NC.UserModel.currentUser.isConnected
         enabled: visible
         onClicked: NC.Systray.createResolveConflictsDialog(activityModel.allConflicts);
+
+        HoverHandler {
+            id: mouseConflict
+            acceptedDevices: PointerDevice.Mouse
+        }
+
+        background: Rectangle {
+            color: mouseConflict.hovered? Style.nmcConflictHoverColor : Style.nmcConflictColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
+        }
     }
 }
