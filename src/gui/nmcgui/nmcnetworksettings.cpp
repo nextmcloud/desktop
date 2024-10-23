@@ -19,8 +19,8 @@
 
 namespace OCC {
 
-NMCNetworkSettings::NMCNetworkSettings(QWidget *parent)
-    : NetworkSettings(parent)
+NMCNetworkSettings::NMCNetworkSettings(AccountPtr &account, QWidget *parent)
+    : NetworkSettings(account, parent)
 {
     setLayout();
 }
