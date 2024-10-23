@@ -461,6 +461,7 @@ bool KMessageWidget::isCloseButtonVisible() const
 
 void KMessageWidget::setCloseButtonVisible(bool show)
 {
+    Q_UNUSED(show);
     d->closeButton->setVisible(false);
     updateGeometry();
 }
