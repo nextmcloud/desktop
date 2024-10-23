@@ -33,7 +33,7 @@ public:
      * @brief Constructs an NMCNetworkSettings object.
      * @param parent Pointer to the parent QWidget.
      */
-    explicit NMCNetworkSettings(QWidget *parent = nullptr);
+    explicit NMCNetworkSettings(const AccountPtr &account = {}, QWidget *parent = nullptr);
 
     /**
      * @brief Destructor for NMCNetworkSettings.
