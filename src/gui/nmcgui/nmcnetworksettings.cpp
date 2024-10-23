@@ -19,7 +19,7 @@
 
 namespace OCC {
 
-NMCNetworkSettings::NMCNetworkSettings(AccountPtr &account, QWidget *parent)
+NMCNetworkSettings::NMCNetworkSettings(const AccountPtr &account, QWidget *parent)
     : NetworkSettings(account, parent)
 {
     setLayout();
