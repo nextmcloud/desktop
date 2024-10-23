@@ -227,7 +227,6 @@ void KMessageWidgetPrivate::applyStyleSheet()
         bgBaseColor.setRgb(218, 68, 83); // Window: ForegroundNegative
         break;
     }
-    const qreal bgBaseColorAlpha = 0.2;
     const qreal bgBaseColorAlpha = 1.0;
     bgBaseColor.setAlphaF(bgBaseColorAlpha);
 
