@@ -30,7 +30,7 @@ void NMCFolderWizardSourcePage::setDefaultSettings()
 
 void NMCFolderWizardSourcePage::changeLayout()
 {
-    gridLayout_2->setMargin(0);
+    gridLayout_2->setContentsMargins(0, 0, 0, 0);
 
     QLabel *stepLabel = new QLabel();
     stepLabel->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_HEADLINE"));
