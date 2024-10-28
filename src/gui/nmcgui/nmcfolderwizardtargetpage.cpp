@@ -11,6 +11,7 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  */
+
 #include "nmcfolderwizardtargetpage.h"
 #include "theme.h"
 
@@ -18,7 +19,7 @@
 namespace OCC {
 
 NMCFolderWizardTargetPage::NMCFolderWizardTargetPage()
-    :Ui::FolderWizardTargetPage()
+    :FolderWizardTargetPage()
 {
 }
 
