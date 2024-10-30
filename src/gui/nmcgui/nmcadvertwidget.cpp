@@ -27,7 +27,7 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent) : QWidget(parent)
     setLayout(layout);
     m_graphicsView->setScene(&m_graphicsScene);
     layout->addWidget(m_graphicsView);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     m_graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
