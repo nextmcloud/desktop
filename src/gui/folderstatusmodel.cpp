@@ -51,13 +51,13 @@ FolderStatusModel::FolderStatusModel(QObject *parent)
 
 FolderStatusModel::~FolderStatusModel() = default;
 
-static bool sortByFolderHeader(const FolderStatusModel::SubFolderInfo &lhs, const FolderStatusModel::SubFolderInfo &rhs)
-{
-    return QString::compare(lhs._folder->shortGuiRemotePathOrAppName(),
-               rhs._folder->shortGuiRemotePathOrAppName(),
-               Qt::CaseInsensitive)
-        < 0;
-}
+// static bool sortByFolderHeader(const FolderStatusModel::SubFolderInfo &lhs, const FolderStatusModel::SubFolderInfo &rhs)
+// {
+//     return QString::compare(lhs._folder->shortGuiRemotePathOrAppName(),
+//                rhs._folder->shortGuiRemotePathOrAppName(),
+//                Qt::CaseInsensitive)
+//         < 0;
+// }
 
 void FolderStatusModel::setAccountState(const AccountState *accountState)
 {
@@ -92,7 +92,7 @@ void FolderStatusModel::setAccountState(const AccountState *accountState)
     }
 
     // Sort by header text
-    std::sort(_folders.begin(), _folders.end(), sortByFolderHeader);
+    // std::sort(_folders.begin(), _folders.end(), sortByFolderHeader);
 
     // Set the root _pathIdx after the sorting
     for (auto i = 0; i < _folders.size(); ++i) {
