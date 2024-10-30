@@ -65,6 +65,14 @@ int main(int argc, char **argv)
     Mac::CocoaInitializer cocoaInit; // RIIA
 #endif
 
+    bool resourceLoaded = false;
+    const QString currentPath = QDir::currentPath();
+    if(Utility::isMac()) {
+        resourceLoaded = QResource::registerResource(QDir::toNativeSeparators("/Applications/MagentaCLOUD.app/Contents/Resources/nmctheme_v1.rcc"));
+    } else if(Utility::isWindows() || !resourceLoaded) {
+        resourceLoaded = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
+    }
+
     auto surfaceFormat = QSurfaceFormat::defaultFormat();
     surfaceFormat.setOption(QSurfaceFormat::ResetNotification);
     QSurfaceFormat::setDefaultFormat(surfaceFormat);
