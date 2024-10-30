@@ -16,6 +16,9 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtGraphicalEffects 1.0
+
+import "../nmcgui/"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
@@ -37,8 +40,7 @@ AbstractButton {
     background: Rectangle {
         anchors.fill: parent
         anchors.margins: 1
-        color: (userLine.hovered || userLine.visualFocus) &&
-               !(userMoreButton.hovered || userMoreButton.visualFocus) ?
+        color: (userLine.hovered || userLine.visualFocus) ?
                    palette.highlight : palette.window
         radius: Style.halfTrayWindowRadius
     }
@@ -52,9 +54,13 @@ AbstractButton {
             Layout.leftMargin: Style.accountIconsMenuMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
-            source: model.avatar !== "" ? model.avatar : Theme.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
-            Layout.preferredHeight: Style.accountAvatarSize
-            Layout.preferredWidth: Style.accountAvatarSize
+            // source: model.avatar !== "" ? model.avatar : Theme.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
+            // Layout.preferredHeight: Style.accountAvatarSize
+            // Layout.preferredWidth: Style.accountAvatarSize
+            visible:false
+            source: Style.nmcAccountAvatarIcon
+            sourceSize.width: Style.nmcTrayWindowIconWidth // NMC Customization: These changes sharpen the image 
+            sourceSize.height: Style.nmcTrayWindowIconWidth
 
             Rectangle {
                 id: accountStatusIndicatorBackground
@@ -95,7 +101,8 @@ AbstractButton {
                 text: name
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
-                font.bold: true
+                // font.bold: true
+                font.bold: false
             }
 
             RowLayout {
@@ -132,6 +139,7 @@ AbstractButton {
                 text: server
                 elide: Text.ElideRight
                 font.pixelSize: Style.subLinePixelSize
+                visible: false
             }
         }
 
@@ -141,27 +149,42 @@ AbstractButton {
             Layout.fillHeight: true
             flat: true
 
+            icon.source: "qrc:///client/theme/more.svg"
+            icon.color: Style.ncTextColor
+
             Accessible.role: Accessible.ButtonMenu
             Accessible.name: qsTr("Account actions")
             Accessible.onPressAction: userMoreButtonMouseArea.clicked()
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
-            Image {
-                anchors.fill: parent
-                source: "image://svgimage-custom-color/more.svg/" + palette.windowText
-                fillMode: Image.PreserveAspectFit
-                anchors.rightMargin: Style.accountLabelsAnchorsMargin
-            }
+            // Image {
+            //     anchors.fill: parent
+            //     source: "image://svgimage-custom-color/more.svg/" + palette.windowText
+            //     fillMode: Image.PreserveAspectFit
+            //     anchors.rightMargin: Style.accountLabelsAnchorsMargin
+            // }
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+                height: Math.min(implicitHeight, maxMenuHeight)
+                width: 170
 
                 background: Rectangle {
                     border.color: palette.dark
-                    radius: Style.halfTrayWindowRadius
-                    color: palette.window
+                    // radius: Style.halfTrayWindowRadius
+                    // color: palette.window
+                    radius: Style.nmcStandardRadius
+                    color: palette.base
+                    layer.enabled: true
+                    layer.effect: DropShadow {
+                        transparentBorder: true
+                        horizontalOffset: 0
+                        verticalOffset: 0
+                        radius: 6
+                        color: "#40000000"
+                    }
                 }
 
                 MenuItem {
@@ -178,10 +201,16 @@ AbstractButton {
                     }
                 }
 
-                MenuItem {
+                NMCMenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
-                    font.pixelSize: Style.topLinePixelSize
-                    hoverEnabled: true
+                    // font.pixelSize: Style.topLinePixelSize
+                    // hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+                    icon.source: Style.nmcLogOutIcon
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
@@ -205,11 +234,17 @@ AbstractButton {
                     }
                 }
 
-                MenuItem {
+                NMCMenuItem {
                     id: removeAccountButton
                     text: qsTr("Remove account")
-                    font.pixelSize: Style.topLinePixelSize
-                    hoverEnabled: true
+                    // font.pixelSize: Style.topLinePixelSize
+                    // hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+                    icon.source: Style.nmcRemoveIcon
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()
@@ -223,6 +258,13 @@ AbstractButton {
                         radius: Style.halfTrayWindowRadius
                         color: parent.hovered ? palette.highlight : palette.window
                     }
+                }
+
+                //NMC Customization: spacer at the bottom of the menu
+                Rectangle {
+                    height: 8
+                    color: "white"
+                    radius: Style.nmcStandardRadius
                 }
             }
         }
