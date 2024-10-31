@@ -29,7 +29,8 @@ RowLayout {
         Layout.topMargin: 16
         Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
         Layout.bottomMargin: 16
-        Layout.leftMargin: Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
+        // Layout.leftMargin: Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
+        Layout.leftMargin: Style.nmcListViewLeftPadding
 
         padding: 0
 
@@ -43,6 +44,7 @@ RowLayout {
         Layout.alignment: Qt.AlignVCenter
         Layout.topMargin: 8
         Layout.rightMargin: Style.trayHorizontalMargin
+        Layout.leftMargin: Style.nmcProgressFieldTextOffset
         Layout.bottomMargin: 8
         Layout.fillWidth: true
         Layout.fillHeight: true
@@ -54,7 +56,8 @@ RowLayout {
 
             text: syncStatus.syncStatusString
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Style.topLinePixelSize
+            // font.pixelSize: Style.topLinePixelSize
+            font.pixelSize: Style.nmcFontSizeSyncText
             font.bold: true
             wrapMode: Text.Wrap
         }
@@ -78,7 +81,8 @@ RowLayout {
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusDetailString
-            visible: syncStatus.syncStatusDetailString !== ""
+            // visible: syncStatus.syncStatusDetailString !== ""
+            visible: false
             font.pixelSize: Style.subLinePixelSize
             wrapMode: Text.Wrap
         }
@@ -87,15 +91,17 @@ RowLayout {
     CustomButton {
         id: syncNowButton
 
-        FontMetrics {
-            id: syncNowFm
-        }
+        // FontMetrics {
+        //     id: syncNowFm
+        // }
 
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Sync now")
 
         padding: Style.smallSpacing
+        textColor: Style.nmcTextInButtonColor
+        textColorHovered: Style.nmcTextInButtonColor
 
         visible: !activityModel.hasSyncConflicts &&
                  !syncStatus.syncing &&
@@ -106,6 +112,17 @@ RowLayout {
             if(!syncStatus.syncing) {
                 NC.UserModel.currentUser.forceSyncNow();
             }
+        }
+
+        HoverHandler {
+            id: mouseSync
+            acceptedDevices: PointerDevice.Mouse
+        }
+
+        background: Rectangle {
+            color: mouseSync.hovered? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
         }
     }
 
@@ -118,11 +135,26 @@ RowLayout {
 
         text: qsTr("Resolve conflicts")
 
+        padding: Style.smallSpacing
+        textColor: Style.nmcTextInButtonColor
+        textColorHovered: Style.nmcTextInButtonColor
+
         visible: activityModel.hasSyncConflicts &&
                  !syncStatus.syncing &&
                  NC.UserModel.currentUser.hasLocalFolder &&
                  NC.UserModel.currentUser.isConnected
         enabled: visible
         onClicked: NC.Systray.createResolveConflictsDialog(activityModel.allConflicts);
+
+        HoverHandler {
+            id: mouseConflict
+            acceptedDevices: PointerDevice.Mouse
+        }
+
+        background: Rectangle {
+            color: mouseConflict.hovered? Style.nmcConflictHoverColor : Style.nmcConflictColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
+        }
     }
 }
