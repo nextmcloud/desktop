@@ -18,6 +18,7 @@
 #include "configfile.h"
 #include "theme.h"
 #include "owncloudgui.h"
+#include "nmcgui/nmcowncloudadvancedsetuppage.h"
 
 #ifdef Q_OS_MAC
 #include "foregroundbackground_interface.h"
