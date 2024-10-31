@@ -57,14 +57,6 @@ int main(int argc, char **argv)
     qputenv("QML_IMPORT_PATH", (QDir::currentPath() + QStringLiteral("/qml")).toLatin1());
 #endif
 
-    Q_INIT_RESOURCE(resources);
-    Q_INIT_RESOURCE(theme);
-
-    // OpenSSL 1.1.0: No explicit initialisation or de-initialisation is necessary.
-#ifdef Q_OS_MAC
-    Mac::CocoaInitializer cocoaInit; // RIIA
-#endif
-
     bool resourceLoaded = false;
     const QString currentPath = QDir::currentPath();
     if(Utility::isMac()) {
@@ -72,6 +64,14 @@ int main(int argc, char **argv)
     } else if(Utility::isWindows() || !resourceLoaded) {
         resourceLoaded = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
     }
+
+    Q_INIT_RESOURCE(resources);
+    Q_INIT_RESOURCE(theme);
+
+    // OpenSSL 1.1.0: No explicit initialisation or de-initialisation is necessary.
+#ifdef Q_OS_MAC
+    Mac::CocoaInitializer cocoaInit; // RIIA
+#endif
 
     auto surfaceFormat = QSurfaceFormat::defaultFormat();
     surfaceFormat.setOption(QSurfaceFormat::ResetNotification);
