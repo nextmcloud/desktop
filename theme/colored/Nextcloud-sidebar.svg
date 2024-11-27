@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <clipPath id="clip-Sidebar_logo">
+      <rect width="300" height="300"/>
+    </clipPath>
+  </defs>
+  <g id="Sidebar_logo" data-name="Sidebar logo" clip-path="url(#clip-Sidebar_logo)">
+    <g id="MagentaCLOUD-Product-logo" transform="translate(13.208 19.493)">
+      <circle id="Ellipse_12" data-name="Ellipse 12" cx="66.88" cy="66.88" r="66.88" transform="translate(87.886 48.507)" fill="#d6d7d6"/>
+      <circle id="Ellipse_13" data-name="Ellipse 13" cx="39.893" cy="39.893" r="39.893" transform="translate(50.178 73.147)" fill="#c2c3c3"/>
+      <g id="Gruppe_535" data-name="Gruppe 535" transform="translate(-4.006 -15.287)">
+        <circle id="Ellipse_39" data-name="Ellipse 39" cx="40.227" cy="40.227" r="40.227" transform="translate(22.8 125.122)" fill="#afb0b0"/>
+        <path id="Pfad_506" data-name="Pfad 506" d="M136.269,154.593c7.374-.826,22.274-3.341,39.632,10.375,13.507,10.673,9.069,33.575,9.069,33.575a74.445,74.445,0,0,1-117.014.74S98.9,158.778,136.269,154.593Z" transform="translate(-3.151 -2.448)" fill="#afb0b0" fill-rule="evenodd"/>
+        <path id="Pfad_507" data-name="Pfad 507" d="M230.406,182.271a39.939,39.939,0,0,1-79.878,0Z" transform="translate(-8.914 -4.43)" fill="#afb0b0" fill-rule="evenodd"/>
+        <circle id="Ellipse_40" data-name="Ellipse 40" cx="43.001" cy="43.001" r="43.001" transform="translate(172.798 118.794)" fill="#afb0b0"/>
+      </g>
+      <path id="Pfad_505" data-name="Pfad 505" d="M67.146,18,117.6,69.626H84.453v55.146c-.587,0-.587-.587-1.173-.587a70.87,70.87,0,0,1-33.44,11.733V69.626H16.4Z" transform="translate(75.546 78.553)" fill="#e4e4e4" fill-rule="evenodd"/>
+      <path id="Differenzmenge_12" data-name="Differenzmenge 12" d="M103.2,166.223c-.743,0-1.5,0-2.246-.037l-1.277.022a78.259,78.259,0,0,1-52.492-20.1,52.719,52.719,0,0,1-6.943.719H40.23A45.383,45.383,0,0,1,26.34,58.134,45.4,45.4,0,0,1,80.7,20.147,72.4,72.4,0,0,1,206.859,52.175,47.9,47.9,0,0,1,227,132.526a47.975,47.975,0,0,1-33.759,13.739l-2.6,0C183.6,154.13,171.461,159,158.344,159a42.117,42.117,0,0,1-19.777-4.559l-2.871-1.562V91.973H161.28L123.886,53.7,86.254,91.973h25.832v73.878l-5.215.271C105.567,166.189,104.33,166.223,103.2,166.223Zm-52.673-32.1,2.156,2.081a67.361,67.361,0,0,0,46.993,19l1.414-.014v-52.22H60.011l63.9-64.986,63.5,64.986H146.7v43.1A33.875,33.875,0,0,0,158.344,148c10.19,0,19.4-3.615,24.647-9.67l3.112-3.068h6.632A37.028,37.028,0,0,0,200.926,62l-3.7-.793-.58-3.741a61.395,61.395,0,0,0-109.5-27.783l-2.3,3.011-3.633-1.081a34.763,34.763,0,0,0-9.916-1.455A34.355,34.355,0,0,0,36.938,62.746l-.215,4.2-4.112.892a34.385,34.385,0,0,0,7.42,67.992,40.723,40.723,0,0,0,7.574-1.027Z" transform="translate(18.8 50.722)" fill="#656565"/>
+    </g>
+  </g>
+</svg>
