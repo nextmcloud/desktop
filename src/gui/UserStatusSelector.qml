@@ -12,13 +12,14 @@
  * for more details.
  */
 
-import QtQuick 2.6
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
-import QtQuick.Window 2.15
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick.Window
 
-import com.nextcloud.desktopclient 1.0 as NC
-import Style 1.0
+import com.nextcloud.desktopclient as NC
+import Style
 import "./tray"
 
 ColumnLayout {
@@ -129,20 +130,18 @@ ColumnLayout {
             Layout.fillWidth: true
             spacing: 0
 
-            UserStatusSelectorButton {
+            AbstractButton {
                 id: fieldButton
+
+                readonly property bool showBorder: hovered || checked || emojiDialog.visible
 
                 Layout.preferredWidth: userStatusMessageTextField.height
                 Layout.preferredHeight: userStatusMessageTextField.height
 
                 text: userStatusSelectorModel.userStatusEmoji
-
-                onClicked: emojiDialog.open()
-                onHeightChanged: topButtonsLayout.maxButtonHeight = Math.max(topButtonsLayout.maxButtonHeight, height)
-
-                primary: true
                 padding: 0
-                z: hovered ? 2 : 0 // Make sure highlight is seen on top of text field
+                z: showBorder ? 2 : 0 // Make sure highlight is seen on top of text field
+                hoverEnabled: true
 
                 property color borderColor: showBorder ? Style.ncBlue : palette.dark
 
@@ -174,6 +173,15 @@ ColumnLayout {
                         color: palette.button
                     }
                 }
+
+                contentItem: Label {
+                    text: fieldButton.text
+                    textFormat: Text.PlainText
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                onClicked: emojiDialog.open()
             }
 
             Popup {
@@ -185,7 +193,7 @@ ColumnLayout {
                 anchors.centerIn: Overlay.overlay
 
                 background: Rectangle {
-                    color: palette.toolTipBase
+                    color: palette.base
                     border.width: Style.normalBorderWidth
                     border.color: palette.dark
                     radius: Style.slightlyRoundedButtonRadius
@@ -210,7 +218,7 @@ ColumnLayout {
                 Layout.preferredHeight: contentHeight + (Style.smallSpacing * 2)
 
                 placeholderText: qsTr("What is your status?")
-                placeholderTextColor: palette.midlight
+                placeholderTextColor: palette.dark
                 text: userStatusSelectorModel.userStatusMessage
                 verticalAlignment: TextInput.AlignVCenter
                 selectByMouse: true

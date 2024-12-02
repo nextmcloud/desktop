@@ -438,8 +438,8 @@ void PropagateUploadFileCommon::slotStartUpload(const QByteArray &transmissionCh
 
 void PropagateUploadFileCommon::slotFolderUnlocked(const QByteArray &folderId, int httpReturnCode)
 {
-    qDebug() << "Failed to unlock encrypted folder" << folderId;
     if (_uploadStatus.status == SyncFileItem::NoStatus && httpReturnCode != 200) {
+        qDebug() << "Failed to unlock encrypted folder" << folderId;
         done(SyncFileItem::FatalError, tr("Failed to unlock encrypted folder."));
     } else {
         done(_uploadStatus.status, _uploadStatus.message);
@@ -532,7 +532,10 @@ qint64 UploadDevice::readData(char *data, qint64 maxlen)
     }
 
     auto c = _file.read(data, maxlen);
-    if (c < 0) {
+    if (c == 0) {
+        setErrorString({});
+        return c;
+    } else if (c < 0) {
         setErrorString(_file.errorString());
         return -1;
     }
@@ -719,13 +722,14 @@ void PropagateUploadFileCommon::commonErrorHandling(AbstractNetworkJob *job)
 void PropagateUploadFileCommon::adjustLastJobTimeout(AbstractNetworkJob *job, qint64 fileSize)
 {
     constexpr double threeMinutes = 3.0 * 60 * 1000;
+    constexpr qint64 thirtyMinutes = 30 * 60 * 1000;
 
     job->setTimeout(qBound(
-        job->timeoutMsec(),
         // Calculate 3 minutes for each gigabyte of data
-        qRound64(threeMinutes * fileSize / 1e9),
+        qMin(thirtyMinutes - 1, qRound64(threeMinutes * fileSize / 1e9)),
+        job->timeoutMsec(),
         // Maximum of 30 minutes
-        static_cast<qint64>(30 * 60 * 1000)));
+        thirtyMinutes));
 }
 
 void PropagateUploadFileCommon::slotJobDestroyed(QObject *job)

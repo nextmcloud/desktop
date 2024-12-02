@@ -58,6 +58,7 @@ void blacklistUpdate(SyncJournalDb *journal, SyncFileItem &item);
 class SyncJournalDb;
 class OwncloudPropagator;
 class PropagatorCompositeJob;
+class FolderMetadata;
 
 /**
  * @brief the base class of propagator jobs
@@ -245,6 +246,8 @@ public:
     QVector<PropagatorJob *> _runningJobs;
     SyncFileItem::Status _hasError = SyncFileItem::NoStatus; // NoStatus,  or NormalError / SoftError if there was an error
     quint64 _abortsCount = 0;
+    bool _isAnyCaseClashChild = false;
+    bool _isAnyInvalidCharChild = false;
 
     explicit PropagatorCompositeJob(OwncloudPropagator *propagator)
         : PropagatorJob(propagator)
@@ -411,6 +414,17 @@ public:
     void start() override;
 };
 
+class PropagateVfsUpdateMetadataJob : public PropagateItemJob
+{
+    Q_OBJECT
+public:
+    PropagateVfsUpdateMetadataJob(OwncloudPropagator *propagator, const SyncFileItemPtr &item)
+        : PropagateItemJob(propagator, item)
+    {
+    }
+    void start() override;
+};
+
 class PropagateUploadFileCommon;
 
 class OWNCLOUDSYNC_EXPORT OwncloudPropagator : public QObject
@@ -448,6 +462,8 @@ public:
                               QVector<PropagatorJob *> &directoriesToRemove,
                               QString &removedDirectory,
                               QString &maybeConflictDirectory);
+
+    void processE2eeMetadataMigration(const SyncFileItemPtr &item, QStack<QPair<QString, PropagateDirectory *>> &directories);
 
     [[nodiscard]] const SyncOptions &syncOptions() const;
     void setSyncOptions(const SyncOptions &syncOptions);
@@ -522,6 +538,8 @@ public:
      */
     Q_REQUIRED_RESULT QString fullRemotePath(const QString &tmp_file_name) const;
     [[nodiscard]] QString remotePath() const;
+
+    [[nodiscard]] QString fulllRemotePathToPathInSyncJournalDb(const QString &fullRemotePath) const;
 
     /** Creates the job for an item.
      */

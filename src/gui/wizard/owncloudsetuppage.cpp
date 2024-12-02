@@ -25,6 +25,8 @@
 #include <QPropertyAnimation>
 #include <QGraphicsPixmapItem>
 #include <QBuffer>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 #include "QProgressIndicator.h"
 
@@ -47,14 +49,28 @@ OwncloudSetupPage::OwncloudSetupPage(QWidget *parent)
 
     setupServerAddressDescriptionLabel();
 
-    Theme *theme = Theme::instance();
+    const auto theme = Theme::instance();
     if (theme->overrideServerUrl().isEmpty()) {
+        _ui.comboBox->hide();
         _ui.leUrl->setPostfix(theme->wizardUrlPostfix());
         _ui.leUrl->setPlaceholderText(theme->wizardUrlHint());
-    } else if (Theme::instance()->forceOverrideServerUrl()) {
-        _ui.leUrl->setEnabled(false);
-    }
+    } else if (theme->multipleOverrideServers() && theme->forceOverrideServerUrl()) {
+        _ui.leUrl->hide();
+        const auto overrideJsonUtf8 = theme->overrideServerUrl().toUtf8();
+        const auto serversJsonArray = QJsonDocument::fromJson(overrideJsonUtf8).array();
 
+        for (const auto &serverJson : serversJsonArray) {
+            const auto serverObject = serverJson.toObject();
+            const auto serverName = serverObject.value("name").toString();
+            const auto serverUrl = serverObject.value("url").toString();
+            _ui.comboBox->addItem(serverName, serverUrl);
+        }
+    } else if (theme->forceOverrideServerUrl()) {
+        _ui.comboBox->hide();
+        _ui.leUrl->setEnabled(false);
+    } else {
+        _ui.comboBox->hide();
+    }
 
     registerField(QLatin1String("OCUrl*"), _ui.leUrl);
 
@@ -165,7 +181,7 @@ void OwncloudSetupPage::slotUrlEditFinished()
 
 bool OwncloudSetupPage::isComplete() const
 {
-    return !_ui.leUrl->text().isEmpty() && !_checking;
+    return (!_ui.leUrl->text().isEmpty() || !_ui.comboBox->currentData().toString().isEmpty()) && !_checking;
 }
 
 void OwncloudSetupPage::initializePage()
@@ -192,7 +208,7 @@ void OwncloudSetupPage::initializePage()
         if (nextButton) {
             nextButton->setFocus();
         }
-    } else if (isServerUrlOverridden) {
+    } else if (isServerUrlOverridden && !Theme::instance()->multipleOverrideServers()) {
         // If the overwritten url is not empty and we force this overwritten url
         // we just check the server type and switch to next page
         // immediately.
@@ -213,6 +229,9 @@ int OwncloudSetupPage::nextId() const
         return WizardCommon::Page_Flow2AuthCreds;
 #ifdef WITH_WEBENGINE
     case DetermineAuthTypeJob::WebViewFlow:
+        if (this->useFlow2) {
+            return WizardCommon::Page_Flow2AuthCreds;
+        }
         return WizardCommon::Page_WebView;
 #endif // WITH_WEBENGINE
     case DetermineAuthTypeJob::NoAuthType:
@@ -223,8 +242,12 @@ int OwncloudSetupPage::nextId() const
 
 QString OwncloudSetupPage::url() const
 {
-    QString url = _ui.leUrl->fullText().simplified();
-    return url;
+    const auto theme = Theme::instance();
+    if (theme->multipleOverrideServers() && theme->forceOverrideServerUrl()) {
+        return _ui.comboBox->currentData().toString();
+    } else {
+        return _ui.leUrl->fullText().simplified();
+    }
 }
 
 bool OwncloudSetupPage::validatePage()
@@ -267,7 +290,8 @@ void OwncloudSetupPage::setErrorString(const QString &err, bool retryHTTPonly)
         _ui.errorLabel->setVisible(false);
     } else {
         if (retryHTTPonly) {
-            QUrl url(_ui.leUrl->fullText());
+            const auto urlString = url();
+            QUrl url(urlString);
             if (url.scheme() == "https") {
                 // Ask the user how to proceed when connecting to a https:// URL fails.
                 // It is possible that the server is secured with client-side TLS certificates,

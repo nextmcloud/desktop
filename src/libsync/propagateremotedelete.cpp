@@ -29,6 +29,7 @@ Q_LOGGING_CATEGORY(lcPropagateRemoteDelete, "nextcloud.sync.propagator.remotedel
 void PropagateRemoteDelete::start()
 {
     qCInfo(lcPropagateRemoteDelete) << "Start propagate remote delete job for" << _item->_file;
+    qCInfo(lcPermanentLog) << "delete" << _item->_file << _item->_discoveryResult;
 
     if (propagator()->_abortRequested)
         return;
@@ -39,7 +40,7 @@ void PropagateRemoteDelete::start()
         } else {
             _deleteEncryptedHelper = new PropagateRemoteDeleteEncryptedRootFolder(propagator(), _item, this);
         }
-        connect(_deleteEncryptedHelper, &AbstractPropagateRemoteDeleteEncrypted::finished, this, [this] (bool success) {
+        connect(_deleteEncryptedHelper, &BasePropagateRemoteDeleteEncrypted::finished, this, [this] (bool success) {
             if (!success) {
                 SyncFileItem::Status status = SyncFileItem::NormalError;
                 if (_deleteEncryptedHelper->networkError() != QNetworkReply::NoError && _deleteEncryptedHelper->networkError() != QNetworkReply::ContentNotFoundError) {
@@ -58,12 +59,19 @@ void PropagateRemoteDelete::start()
 
 void PropagateRemoteDelete::createDeleteJob(const QString &filename)
 {
-    qCInfo(lcPropagateRemoteDelete) << "Deleting file, local" << _item->_file << "remote" << filename;
+    Q_ASSERT(propagator());
+    auto remoteFilename = filename;
+    if (_item->_type == ItemType::ItemTypeVirtualFile) {
+        if (const auto vfs = propagator()->syncOptions()._vfs; vfs->mode() == Vfs::Mode::WithSuffix) {
+            // These are compile-time constants so no need to recreate each time
+            static constexpr auto suffixSize = std::string_view(APPLICATION_DOTVIRTUALFILE_SUFFIX).size();
+            remoteFilename.chop(suffixSize);
+        }
+    }
 
-    _job = new DeleteJob(propagator()->account(),
-        propagator()->fullRemotePath(filename),
-        this);
+    qCInfo(lcPropagateRemoteDelete) << "Deleting file, local" << _item->_file << "remote" << remoteFilename;
 
+    _job = new DeleteJob(propagator()->account(), propagator()->fullRemotePath(remoteFilename), this);
     connect(_job.data(), &DeleteJob::finishedSignal, this, &PropagateRemoteDelete::slotDeleteJobFinished);
     propagator()->_activeJobList.append(this);
     _job->start();

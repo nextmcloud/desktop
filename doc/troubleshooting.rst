@@ -67,7 +67,7 @@ See https://github.com/owncloud/client/issues/5226 for more discussion of this
 issue.
 
 "Connection closed" message when syncing files
----------------------
+----------------------------------------------
 
 This message can be caused by using chunks that are too big or time-outs that
 are set too liberally. You can configure the chunking behavior of the client in
@@ -79,7 +79,7 @@ the config file. For example, change these settings:
 +----------------------------------+--------------------------+--------------------------------------------------------------------------------------------------------+
 | ``minChunkSize``                 | ``1000000`` (1 MB)       | Specifies the minimum chunk size of uploaded files in bytes.                                           |
 +----------------------------------+--------------------------+--------------------------------------------------------------------------------------------------------+
-| ``maxChunkSize``                 | ``50000000`` (1000 MB) | Specifies the maximum chunk size of uploaded files in bytes.                                           |
+| ``maxChunkSize``                 | ``50000000`` (1000 MB)   | Specifies the maximum chunk size of uploaded files in bytes.                                           |
 +----------------------------------+--------------------------+--------------------------------------------------------------------------------------------------------+
 | ``targetChunkUploadDuration``    | ``6000`` (1 minute)      | Target duration in milliseconds for chunk uploads.                                                     |
 |                                  |                          | The client adjusts the chunk size until each chunk upload takes approximately this long.               |
@@ -91,6 +91,20 @@ individual chunk to about 50 mb. This causes additional overhead but
 might be required in some situations, for example behind CloudFlare which
 has been seen limiting upload chunks to 100mb. In other situations,
 limiting ``targetChunkUploadDuration`` can help to avoid time-outs.
+
+Connection issues with the macOS client on "insecure" connections
+-----------------------------------------------------------------
+When using macOS devices to connect to a Nextcloud server that uses a what maybe
+be classified as an insecure connection (i.e. connecting to a server with a
+self-signed certificate, or a certificate with what Apple may consider an
+insufficiently secure cipher), the macOS client may not connect to the server.
+This is because macOS requires a valid certificate to establish a connection.
+
+To resolve this issue, you must ensure the server is signed with a certificate
+that is accepted by Apple's App Transport Security requirements. More
+information on the requirements can be found in Apple's documentation pages.
+
+https://developer.apple.com/documentation/security/preventing-insecure-network-connections
 
 Isolating other issues
 ----------------------

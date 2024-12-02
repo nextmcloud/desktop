@@ -142,11 +142,14 @@ public:
 
     void setModTimeKeepEtag(const QString &relativePath, const QDateTime &modTime);
 
+    void setIsLivePhoto(const QString &relativePath, bool isLivePhoto);
+
     void modifyLockState(const QString &relativePath, LockState lockState, int lockType, const QString &lockOwner, const QString &lockOwnerId, const QString &lockEditorId, quint64 lockTime, quint64 lockTimeout) override;
 
     void setE2EE(const QString &relativepath, const bool enabled) override;
 
     FileInfo *find(PathComponents pathComponents, const bool invalidateEtags = false);
+    FileInfo findRecursive(PathComponents pathComponents, const bool invalidateEtags = false);
 
     FileInfo *createDir(const QString &relativePath);
 
@@ -187,6 +190,7 @@ public:
     quint64 lockTime = 0;
     quint64 lockTimeout = 0;
     bool isEncrypted = false;
+    bool isLivePhoto = false;
 
     // Sorted by name to be able to compare trees
     QMap<QString, FileInfo> children;
@@ -208,6 +212,29 @@ public:
 
     // useful to be public for testing
     using QNetworkReply::setRawHeader;
+};
+
+class FakeJsonReply : public FakeReply
+{
+    Q_OBJECT
+public:
+    FakeJsonReply(QNetworkAccessManager::Operation op,
+                  const QNetworkRequest &request,
+                  QObject *parent,
+                  int httpReturnCode,
+                  const QJsonDocument &reply = QJsonDocument());
+
+    Q_INVOKABLE virtual void respond();
+
+public slots:
+    void slotSetFinished();
+
+public:
+    void abort() override { }
+    qint64 readData(char *buf, qint64 max) override;
+    [[nodiscard]] qint64 bytesAvailable() const override;
+
+    QByteArray _body;
 };
 
 class FakePropfindReply : public FakeReply
@@ -497,10 +524,11 @@ protected:
 class FakeCredentials : public OCC::AbstractCredentials
 {
     QNetworkAccessManager *_qnam;
+    QString _userName = "admin";
 public:
     FakeCredentials(QNetworkAccessManager *qnam) : _qnam{qnam} { }
     [[nodiscard]] QString authType() const override { return "test"; }
-    [[nodiscard]] QString user() const override { return "admin"; }
+    [[nodiscard]] QString user() const override { return _userName; }
     [[nodiscard]] QString password() const override { return "password"; }
     [[nodiscard]] QNetworkAccessManager *createQNAM() const override { return _qnam; }
     [[nodiscard]] bool ready() const override { return true; }
@@ -510,6 +538,10 @@ public:
     void persist() override { }
     void invalidateToken() override { }
     void forgetSensitiveData() override { }
+    void setUserName(const QString &userName)
+    {
+        _userName = userName;
+    }
 };
 
 class FakeFolder

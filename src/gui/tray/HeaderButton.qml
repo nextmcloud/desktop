@@ -12,17 +12,16 @@
  * for more details.
  */
 
-import QtQml 2.15
-import QtQml.Models 2.15
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtGraphicalEffects 1.15
+import QtQml
+import QtQml.Models
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
 
 // Custom qml modules are in /theme (and included by resources.qrc)
-import Style 1.0
-import com.nextcloud.desktopclient 1.0
+import Style
+import com.nextcloud.desktopclient
 
 Button {
     id: root
@@ -33,14 +32,8 @@ Button {
 
     icon.width: Style.headerButtonIconSize
     icon.height: Style.headerButtonIconSize
-    icon.color: palette.brightText
 
     Layout.alignment: Qt.AlignRight
     Layout.preferredWidth:  Style.trayWindowHeaderHeight
     Layout.preferredHeight: Style.trayWindowHeaderHeight
-
-    background: Rectangle {
-        color: root.hovered || root.visualFocus ? Style.currentUserHeaderTextColor : "transparent"
-        opacity: 0.2
-    }
 }

@@ -226,19 +226,17 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
     };
 
     const auto generateIconPath = [&]() {
-        auto colorIconPath = role == DarkIconRole ? QStringLiteral("qrc:///client/theme/white/") : QStringLiteral("qrc:///client/theme/black/");
+        auto colorIconPath = role == DarkIconRole ? QStringLiteral("image://svgimage-custom-color/%1/white") : QStringLiteral("image://svgimage-custom-color/%1/black");
         if (a._type == Activity::NotificationType && !a._talkNotificationData.userAvatar.isEmpty()) {
-            return QStringLiteral("qrc:///client/theme/colored/talk-bordered.svg");
+            return QStringLiteral("image://svgimage-custom-color/talk-bordered.svg");
         } else if (a._type == Activity::SyncResultType) {
-            colorIconPath.append("state-error.svg");
-            return colorIconPath;
+            return colorIconPath.arg("state-error.svg");
         } else if (a._type == Activity::SyncFileItemType) {
             if (a._syncFileItemStatus == SyncFileItem::NormalError
                 || a._syncFileItemStatus == SyncFileItem::FatalError
                 || a._syncFileItemStatus == SyncFileItem::DetailError
                 || a._syncFileItemStatus == SyncFileItem::BlacklistedError) {
-                colorIconPath.append("state-error.svg");
-                return colorIconPath;
+                return colorIconPath.arg("state-error.svg");
             } else if (a._syncFileItemStatus == SyncFileItem::SoftError
                 || a._syncFileItemStatus == SyncFileItem::Conflict
                 || a._syncFileItemStatus == SyncFileItem::Restoration
@@ -246,29 +244,26 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
                 || a._syncFileItemStatus == SyncFileItem::FileNameInvalid
                 || a._syncFileItemStatus == SyncFileItem::FileNameInvalidOnServer
                 || a._syncFileItemStatus == SyncFileItem::FileNameClash) {
-                colorIconPath.append("state-warning.svg");
-                return colorIconPath;
+                return colorIconPath.arg("state-warning.svg");
             } else if (a._syncFileItemStatus == SyncFileItem::FileIgnored) {
-                colorIconPath.append("state-info.svg");
-                return colorIconPath;
+                return colorIconPath.arg("state-info.svg");
             } else {
                 // File sync successful
                 if (a._fileAction == "file_created") {
-                    return a._previews.empty() ? QStringLiteral("qrc:///client/theme/colored/add.svg")
-                                               : QStringLiteral("qrc:///client/theme/colored/add-bordered.svg");
+                    return a._previews.empty() ? QStringLiteral("image://svgimage-custom-color/add.svg/")
+                                               : QStringLiteral("image://svgimage-custom-color/add-bordered.svg/");
                 } else if (a._fileAction == "file_deleted") {
-                    return a._previews.empty() ? QStringLiteral("qrc:///client/theme/colored/delete.svg")
-                                               : QStringLiteral("qrc:///client/theme/colored/delete-bordered.svg");
+                    return a._previews.empty() ? QStringLiteral("image://svgimage-custom-color/delete.svg/")
+                                               : QStringLiteral("image://svgimage-custom-color/delete-bordered.svg/");
                 } else {
-                    return a._previews.empty() ? colorIconPath % QStringLiteral("change.svg")
-                                               : QStringLiteral("qrc:///client/theme/colored/change-bordered.svg");
+                    return a._previews.empty() ? colorIconPath.arg(QStringLiteral("change.svg"))
+                                               : QStringLiteral("image://svgimage-custom-color/change-bordered.svg/");
                 }
             }
         } else {
             // We have an activity
             if (a._icon.isEmpty()) {
-                colorIconPath.append("activity.svg");
-                return colorIconPath;
+                return colorIconPath.arg("activity.svg");
             }
 
             const QString basePath = QStringLiteral("image://tray-image-provider/") % a._icon % QStringLiteral("/");
@@ -280,9 +275,9 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
     case DisplayPathRole:
         return getDisplayPath();
     case PathRole:
-        return QFileInfo(getFilePath()).path();
+        return getFilePath();
     case OpenablePathRole:
-        return a._isMultiObjectActivity ? QFileInfo(getFilePath()).canonicalPath() : QFileInfo(getFilePath()).canonicalFilePath();
+        return getFilePath();
     case DisplayLocationRole:
         return displayLocation();
     case ActionsLinksRole: {
@@ -302,8 +297,9 @@ QVariant ActivityListModel::data(const QModelIndex &index, int role) const
     }
 
     case DarkIconRole:
-    case LightIconRole:
+    case LightIconRole: {
         return generateIconPath();
+    }
     case ObjectTypeRole:
         return a._objectType;
     case ObjectIdRole:
@@ -511,7 +507,7 @@ void ActivityListModel::insertOrRemoveDummyFetchingActivity()
         _dummyFetchingActivities._objectType = dummyFetchingActivityObjectType;
         _dummyFetchingActivities._subject = tr("Fetching activities …");
         _dummyFetchingActivities._dateTime = QDateTime::currentDateTime();
-        _dummyFetchingActivities._icon = QLatin1String("qrc:///client/theme/colored/change-bordered.svg");
+        _dummyFetchingActivities._icon = QLatin1String("image://svgimage-custom-color/change-bordered.svg/");
 
         addEntriesToActivityList({_dummyFetchingActivities});
     } else if (!_finalList.isEmpty() && _finalList.first()._objectType == dummyFetchingActivityObjectType) {
@@ -660,14 +656,8 @@ void ActivityListModel::removeActivityFromActivityList(int row)
 
 void ActivityListModel::removeActivityFromActivityList(const Activity &activity)
 {
-    qCInfo(lcActivity) << "Activity/Notification/Error successfully dismissed: " << activity._subject;
-    qCInfo(lcActivity) << "Trying to remove Activity/Notification/Error from view... ";
-
     const auto index = _finalList.indexOf(activity);
     if (index != -1) {
-        qCInfo(lcActivity) << "Activity/Notification/Error successfully removed from the list.";
-        qCInfo(lcActivity) << "Updating Activity/Notification/Error view.";
-
         beginRemoveRows({}, index, index);
         _finalList.removeAt(index);
         endRemoveRows();
@@ -688,7 +678,9 @@ void ActivityListModel::checkAndRemoveSeenActivities(const OCC::ActivityList &ne
 {
     ActivityList activitiesToRemove;
     for (const auto &activity : _finalList) {
-        if (activity._objectType == QStringLiteral("chat") && !newActivities.contains(activity)) {
+        const auto isTalkActiity = activity._objectType == QStringLiteral("chat") ||
+            activity._objectType == QStringLiteral("call");
+        if (isTalkActiity && !newActivities.contains(activity)) {
             activitiesToRemove.push_back(activity);
         }
     }
@@ -727,9 +719,12 @@ void ActivityListModel::slotTriggerDefaultAction(const int activityIndex)
         const auto fileLocation = activity._syncFileItemStatus == SyncFileItem::FileNameInvalidOnServer
             ? InvalidFilenameDialog::FileLocation::NewLocalFile
             : InvalidFilenameDialog::FileLocation::Default;
+        const auto invalidMode = activity._syncFileItemStatus == SyncFileItem::FileNameInvalidOnServer
+            ? InvalidFilenameDialog::InvalidMode::ServerInvalid
+            : InvalidFilenameDialog::InvalidMode::SystemInvalid;
 
         _currentInvalidFilenameDialog = new InvalidFilenameDialog(_accountState->account(), folder,
-            folderDir.filePath(activity._file), fileLocation);
+            folderDir.filePath(activity._file), fileLocation, invalidMode);
         connect(_currentInvalidFilenameDialog, &InvalidFilenameDialog::accepted, folder, [folder]() {
             folder->scheduleThisFolderSoon();
         });
@@ -838,9 +833,12 @@ void ActivityListModel::slotTriggerAction(const int activityIndex, const int act
     if (action._verb == "WEB") {
         Utility::openBrowser(QUrl(action._link));
         return;
-    } else if (action._verb == "FIX_CONFLICT_LOCALLY" &&
-               activity._type == Activity::SyncFileItemType &&
-               (activity._syncFileItemStatus == SyncFileItem::Conflict || activity._syncFileItemStatus == SyncFileItem::FileNameClash)) {
+    } else if (((action._verb == "FIX_CONFLICT_LOCALLY" || action._verb == "RENAME_LOCAL_FILE") &&
+                activity._type == Activity::SyncFileItemType &&
+                (activity._syncFileItemStatus == SyncFileItem::Conflict ||
+                 activity._syncFileItemStatus == SyncFileItem::FileNameClash ||
+                 activity._syncFileItemStatus == SyncFileItem::FileNameInvalid ||
+                 activity._syncFileItemStatus == SyncFileItem::FileNameInvalidOnServer))) {
         slotTriggerDefaultAction(activityIndex);
         return;
     } else if (action._verb == ActivityLink::WhitelistFolderVerb && !activity._file.isEmpty()) { // _folder == folder alias/name, _file == folder/file path
@@ -883,7 +881,9 @@ QVariantList ActivityListModel::convertLinksToActionButtons(const Activity &acti
 
         // Use the isDismissable model role to present custom dismiss button if needed
         // Also don't show "View chat" for talk activities, default action will open chat anyway
-        if (activityLink._verb == "DELETE" || (activityLink._verb == "WEB" && activity._objectType == "chat")) {
+        const auto isUseCustomDeleteAction = activityLink._verb == "DELETE"
+            && activity._objectType != QStringLiteral("remote_share");
+        if (isUseCustomDeleteAction || (activityLink._verb == "WEB" && activity._objectType == "chat")) {
             continue;
         }
 

@@ -32,30 +32,35 @@
 #ifndef _CSYNC_H
 #define _CSYNC_H
 
-#include "std/c_private.h"
-#include "ocsynclib.h"
-
-#include <sys/stat.h>
+#include <QByteArray>
+#include <QVariant>
+#include <QLoggingCategory>
 
 #include <cstdint>
+#include <sys/stat.h>
 #include <sys/types.h>
-#include <config_csync.h>
 #include <functional>
 #include <memory>
-#include <QByteArray>
+
+#include "ocsynclib.h"
+#include "config_csync.h"
+#include "std/c_private.h"
 #include "common/remotepermissions.h"
 
 namespace OCC {
+Q_DECLARE_LOGGING_CATEGORY(lcPermanentLog)
+
 class SyncJournalFileRecord;
 
 namespace EncryptionStatusEnums {
 
-Q_NAMESPACE
+OCSYNC_EXPORT Q_NAMESPACE
 
 enum class ItemEncryptionStatus : int {
     NotEncrypted = 0,
     Encrypted = 1,
     EncryptedMigratedV1_2 = 2,
+    EncryptedMigratedV2_0 = 3,
 };
 
 Q_ENUM_NS(ItemEncryptionStatus)
@@ -65,6 +70,7 @@ enum class JournalDbEncryptionStatus : int {
     Encrypted = 1,
     EncryptedMigratedV1_2Invalid = 2,
     EncryptedMigratedV1_2 = 3,
+    EncryptedMigratedV2_0 = 4,
 };
 
 Q_ENUM_NS(JournalDbEncryptionStatus)
@@ -72,6 +78,8 @@ Q_ENUM_NS(JournalDbEncryptionStatus)
 ItemEncryptionStatus fromDbEncryptionStatus(JournalDbEncryptionStatus encryptionStatus);
 
 JournalDbEncryptionStatus toDbEncryptionStatus(ItemEncryptionStatus encryptionStatus);
+
+ItemEncryptionStatus fromEndToEndEncryptionApiVersion(const double version);
 
 }
 
@@ -149,6 +157,7 @@ enum SyncInstructions {
     CSYNC_INSTRUCTION_UPDATE_METADATA     = 1 << 10, /* If the etag has been updated and need to be writen to the db,
                                                         but without any propagation (UPDATE|RECONCILE) */
     CSYNC_INSTRUCTION_CASE_CLASH_CONFLICT = 1 << 12, /* The file need to be downloaded because it is a case clash conflict (RECONCILE) */
+    CSYNC_INSTRUCTION_UPDATE_VFS_METADATA = 1 << 13, /* vfs item metadata are out of sync and we need to tell operating system about it */
 };
 
 Q_ENUM_NS(SyncInstructions)
@@ -208,6 +217,7 @@ struct OCSYNC_EXPORT csync_file_stat_s {
   bool is_hidden BITFIELD(1); // Not saved in the DB, only used during discovery for local files.
   bool isE2eEncrypted BITFIELD(1);
   bool is_metadata_missing BITFIELD(1); // Indicates the file has missing metadata, f.ex. the file is not a placeholder in case of vfs.
+  bool isPermissionsInvalid BITFIELD(1);
 
   QByteArray path;
   QByteArray rename_path;
@@ -235,6 +245,7 @@ struct OCSYNC_EXPORT csync_file_stat_s {
     , is_hidden(false)
     , isE2eEncrypted(false)
     , is_metadata_missing(false)
+    , isPermissionsInvalid(false)
   { }
 };
 

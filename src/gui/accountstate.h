@@ -82,21 +82,18 @@ public:
         ConfigurationError,
 
         /// We are currently asking the user for credentials
-        AskingCredentials
+        AskingCredentials,
+
+        /// Need to sign terms of service by going to web UI
+        NeedToSignTermsOfService,
     };
 
     /// The actual current connectivity status.
     using ConnectionStatus = ConnectionValidator::Status;
 
     /// Use the account as parent
-    explicit AccountState(AccountPtr account);
+    explicit AccountState(const AccountPtr &account);
     ~AccountState() override;
-
-    /** Creates an account state from settings and an Account object.
-     *
-     * Use from AccountManager with a prepared QSettings object only.
-     */
-    static AccountState *loadFromSettings(AccountPtr account, QSettings &settings);
 
     AccountPtr account() const;
 
@@ -198,6 +195,7 @@ signals:
     void hasFetchedNavigationApps();
     void statusChanged();
     void desktopNotificationsAllowedChanged();
+    void termsOfServiceChanged(OCC::AccountPtr account, AccountState::State state);
 
 protected Q_SLOTS:
     void slotConnectionValidatorResult(OCC::ConnectionValidator::Status status, const QStringList &errors);
@@ -229,6 +227,7 @@ private:
     bool _waitingForNewCredentials = false;
     QDateTime _timeOfLastETagCheck;
     QPointer<ConnectionValidator> _connectionValidator;
+    TermsOfServiceChecker _termsOfServiceChecker;
     QByteArray _notificationsEtagResponseHeader;
     QByteArray _navigationAppsEtagResponseHeader;
 

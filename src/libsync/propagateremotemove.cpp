@@ -18,6 +18,7 @@
 #include "account.h"
 #include "common/syncjournalfilerecord.h"
 #include "filesystem.h"
+#include "common/filesystembase.h"
 #include "common/asserts.h"
 #include <QFileInfo>
 #include <QFile>
@@ -216,7 +217,19 @@ void PropagateRemoteMove::slotMoveJobFinished()
             qCWarning(lcPropagateRemoteMove)
                 << "Could not MOVE file" << filePathOriginal << " to" << filePath
                 << " with error:" << _job->errorString() << " and successfully restored it.";
+
+            auto restoredItem = *_item;
+            restoredItem._renameTarget = _item->_originalFile;
+            const auto result = propagator()->updateMetadata(restoredItem);
+            if (!result) {
+                done(SyncFileItem::FatalError, tr("Error updating metadata: %1").arg(result.error()), ErrorCategory::GenericError);
+                return;
+            } else if (*result == Vfs::ConvertToPlaceholderResult::Locked) {
+                done(SyncFileItem::SoftError, tr("The file %1 is currently in use").arg(restoredItem._file), ErrorCategory::GenericError);
+                return;
+            }
         }
+
         done(status, _job->errorString(), ErrorCategory::GenericError);
         return;
     }
@@ -253,7 +266,7 @@ void PropagateRemoteMove::finalize()
 
     const auto targetFile = propagator()->fullLocalPath(_item->_renameTarget);
 
-    if (QFileInfo::exists(targetFile)) {
+    if (FileSystem::fileExists(targetFile)) {
         // Delete old db data.
         if (!propagator()->_journal->deleteFileRecord(_item->_originalFile)) {
             qCWarning(lcPropagateRemoteMove) << "could not delete file from local DB" << _item->_originalFile;
@@ -277,22 +290,17 @@ void PropagateRemoteMove::finalize()
         }
     }
 
-    if (!QFileInfo::exists(targetFile)) {
-        propagator()->_journal->commit("Remote Rename");
-        done(SyncFileItem::Success, {}, ErrorCategory::NoError);
-        return;
-    }
-
     const auto result = propagator()->updateMetadata(newItem);
-    if (!result) {
+    if (!result && QFileInfo::exists(targetFile)) {
         done(SyncFileItem::FatalError, tr("Error updating metadata: %1").arg(result.error()), ErrorCategory::GenericError);
         return;
     } else if (*result == Vfs::ConvertToPlaceholderResult::Locked) {
         done(SyncFileItem::SoftError, tr("The file %1 is currently in use").arg(newItem._file), ErrorCategory::GenericError);
         return;
     }
-    if (pinState && *pinState != PinState::Inherited
-        && !vfs->setPinState(newItem._renameTarget, *pinState)) {
+    if (pinState && *pinState != PinState::Inherited &&
+        !vfs->setPinState(newItem._renameTarget, *pinState) &&
+        QFileInfo::exists(targetFile)) {
         done(SyncFileItem::NormalError, tr("Error setting pin state"), ErrorCategory::GenericError);
         return;
     }

@@ -17,6 +17,13 @@ class TestUploadReset : public QObject
     Q_OBJECT
 
 private slots:
+    void initTestCase()
+    {
+        OCC::Logger::instance()->setLogFlush(true);
+        OCC::Logger::instance()->setLogDebug(true);
+
+        QStandardPaths::setTestModeEnabled(true);
+    }
 
     // Verify that the chunked transfer eventually gets reset with the new chunking
     void testFileUploadNg() {
@@ -26,7 +33,7 @@ private slots:
                 {"chunking", "1.0"},
                 {"httpErrorCodesThatResetFailingChunkedUploads", QVariantList{500} } } } });
 
-        const int size = 100 * 1000 * 1000; // 100 MB
+        const auto size = 200LL * 1024LL * 1024LL; // 200 MiB
         fakeFolder.localModifier().insert("A/a0", size);
         QDateTime modTime = QDateTime::currentDateTime();
         fakeFolder.localModifier().setModTime("A/a0", modTime);

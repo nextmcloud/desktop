@@ -12,6 +12,7 @@
 #include <common/constants.h>
 
 #include "clientsideencryption.h"
+#include "logger.h"
 
 using namespace OCC;
 
@@ -25,6 +26,14 @@ class TestClientSideEncryption : public QObject
     }
 
 private slots:
+    void initTestCase()
+    {
+        OCC::Logger::instance()->setLogFlush(true);
+        OCC::Logger::instance()->setLogDebug(true);
+
+        QStandardPaths::setTestModeEnabled(true);
+    }
+
     void shouldEncryptPrivateKeys()
     {
         // GIVEN
@@ -246,6 +255,26 @@ private slots:
         QVERIFY(chunkedOutputDecrypted.open(QBuffer::ReadOnly));
         QCOMPARE(generateHash(chunkedOutputDecrypted.readAll()), originalFileHash);
         chunkedOutputDecrypted.close();
+    }
+
+    void testGzipThenEncryptDataAndBack()
+    {
+        const auto metadataKeySize = 16;
+
+        const auto keyForEncryption = EncryptionHelper::generateRandom(metadataKeySize);
+        const auto inputData = QByteArrayLiteral("sample text for encryption test");
+        const auto initializationVector = EncryptionHelper::generateRandom(metadataKeySize);
+
+        QByteArray authenticationTag;
+        const auto gzippedThenEncryptData = EncryptionHelper::gzipThenEncryptData(keyForEncryption, inputData, initializationVector, authenticationTag);
+
+        QVERIFY(!gzippedThenEncryptData.isEmpty());
+
+        const auto decryptedThebGzipUnzippedData = EncryptionHelper::decryptThenUnGzipData(keyForEncryption, gzippedThenEncryptData, initializationVector);
+
+        QVERIFY(!decryptedThebGzipUnzippedData.isEmpty());
+
+        QCOMPARE(inputData, decryptedThebGzipUnzippedData);
     }
 };
 

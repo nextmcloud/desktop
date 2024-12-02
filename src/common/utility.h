@@ -50,14 +50,37 @@ Q_DECLARE_LOGGING_CATEGORY(lcUtility)
  *  @{
  */
 namespace Utility {
+    struct ProcessInfosForOpenFile {
+        ulong processId;
+        QString processName;
+    };
+    /**
+     * @brief Queries the OS for processes that are keeping the file open(using it)
+     *
+     * @param filePath absolute file path
+     * @return list of ProcessInfosForOpenFile
+     */
+    OCSYNC_EXPORT QVector<ProcessInfosForOpenFile> queryProcessInfosKeepingFileOpen(const QString &filePath);
+
     OCSYNC_EXPORT int rand();
     OCSYNC_EXPORT void sleep(int sec);
     OCSYNC_EXPORT void usleep(int usec);
     OCSYNC_EXPORT QString formatFingerprint(const QByteArray &, bool colonSeparated = true);
+    /**
+     * @brief Creates the Desktop.ini file which contains the folder IconResource shown as a favorite link
+     *
+     * @param folder absolute file path to folder
+     */
     OCSYNC_EXPORT void setupFavLink(const QString &folder);
+    /**
+     * @brief Removes the Desktop.ini file which contains the folder IconResource shown as a favorite link
+     *
+     * @param folder absolute file path to folder
+     */
     OCSYNC_EXPORT void removeFavLink(const QString &folder);
+
     OCSYNC_EXPORT bool writeRandomFile(const QString &fname, int size = -1);
-    OCSYNC_EXPORT QString octetsToString(qint64 octets);
+    OCSYNC_EXPORT QString octetsToString(const qint64 octets);
     OCSYNC_EXPORT QByteArray userAgentString();
     OCSYNC_EXPORT QByteArray friendlyUserAgentString();
     /**
@@ -70,7 +93,7 @@ namespace Utility {
       */
     OCSYNC_EXPORT bool hasSystemLaunchOnStartup(const QString &appName);
     OCSYNC_EXPORT bool hasLaunchOnStartup(const QString &appName);
-    OCSYNC_EXPORT void setLaunchOnStartup(const QString &appName, const QString &guiName, bool launch);
+    OCSYNC_EXPORT void setLaunchOnStartup(const QString &appName, const QString &guiName, const bool launch);
     OCSYNC_EXPORT uint convertSizeToUint(size_t &convertVar);
     OCSYNC_EXPORT int convertSizeToInt(size_t &convertVar);
 
@@ -129,11 +152,11 @@ namespace Utility {
     OCSYNC_EXPORT bool hasDarkSystray();
 
     // convenience OS detection methods
-    inline bool isWindows();
-    inline bool isMac();
-    inline bool isUnix();
-    inline bool isLinux(); // use with care
-    inline bool isBSD(); // use with care, does not match OS X
+    constexpr bool isWindows();
+    constexpr bool isMac();
+    constexpr bool isUnix();
+    constexpr bool isLinux(); // use with care
+    constexpr bool isBSD(); // use with care, does not match OS X
 
     OCSYNC_EXPORT QString platformName();
     // crash helper for --debug
@@ -254,9 +277,12 @@ namespace Utility {
      * @brief Registers the desktop app as a handler for a custom URI to enable local editing
      */
     OCSYNC_EXPORT void registerUriHandlerForLocalEditing();
-
+    
+    OCSYNC_EXPORT QString leadingSlashPath(const QString &path);
     OCSYNC_EXPORT QString trailingSlashPath(const QString &path);
     OCSYNC_EXPORT QString noLeadingSlashPath(const QString &path);
+    OCSYNC_EXPORT QString noTrailingSlashPath(const QString &path);
+    OCSYNC_EXPORT QString fullRemotePathToRemoteSyncRootRelative(const QString &fullRemotePath, const QString &remoteSyncRoot);
 
 #ifdef Q_OS_WIN
     OCSYNC_EXPORT bool registryKeyExists(HKEY hRootKey, const QString &subKey);
@@ -296,7 +322,7 @@ namespace Utility {
 }
 /** @} */ // \addtogroup
 
-inline bool Utility::isWindows()
+inline constexpr bool Utility::isWindows()
 {
 #ifdef Q_OS_WIN
     return true;
@@ -305,7 +331,7 @@ inline bool Utility::isWindows()
 #endif
 }
 
-inline bool Utility::isMac()
+inline constexpr bool Utility::isMac()
 {
 #ifdef Q_OS_MAC
     return true;
@@ -314,7 +340,7 @@ inline bool Utility::isMac()
 #endif
 }
 
-inline bool Utility::isUnix()
+inline constexpr bool Utility::isUnix()
 {
 #ifdef Q_OS_UNIX
     return true;
@@ -323,7 +349,7 @@ inline bool Utility::isUnix()
 #endif
 }
 
-inline bool Utility::isLinux()
+inline constexpr bool Utility::isLinux()
 {
 #if defined(Q_OS_LINUX)
     return true;
@@ -332,7 +358,7 @@ inline bool Utility::isLinux()
 #endif
 }
 
-inline bool Utility::isBSD()
+inline constexpr bool Utility::isBSD()
 {
 #if defined(Q_OS_FREEBSD) || defined(Q_OS_NETBSD) || defined(Q_OS_OPENBSD)
     return true;

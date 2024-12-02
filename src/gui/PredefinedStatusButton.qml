@@ -12,11 +12,11 @@
  * for more details.
  */
 
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
-import Style 1.0
+import Style
 import "./tray"
 
 AbstractButton {
@@ -35,8 +35,9 @@ AbstractButton {
     property string clearAtText: ""
 
     background: Rectangle {
-        color: root.hovered || root.checked ? palette.highlight : "transparent"
-        radius: Style.slightlyRoundedButtonRadius
+        color: root.hovered || root.checked ? palette.highlight : palette.base
+        // TODO: fix radius borders - they were showing for each item
+        // radius: Style.slightlyRoundedButtonRadius
     }
 
     contentItem: Row {

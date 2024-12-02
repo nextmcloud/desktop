@@ -1,10 +1,10 @@
-import QtQml 2.15
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtGraphicalEffects 1.15
-import Style 1.0
-import com.nextcloud.desktopclient 1.0
+import QtQml
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Style
+import Qt5Compat.GraphicalEffects
+import com.nextcloud.desktopclient
 
 RowLayout {
     id: root
@@ -104,7 +104,7 @@ RowLayout {
 
             cache: true
             fillMode: Image.PreserveAspectFit
-            source: Theme.darkMode ? model.darkIcon : model.lightIcon
+            source: Style.darkMode ? model.darkIcon : model.lightIcon
             sourceSize.height: 64
             sourceSize.width: 64
             mipmap: true // Addresses grainy downscale
@@ -123,8 +123,6 @@ RowLayout {
 
         RowLayout {
             Layout.fillWidth: true
-
-            spacing: Style.trayHorizontalMargin
 
             EnforcedPlainTextLabel {
                 id: activityTextTitle
@@ -153,65 +151,59 @@ RowLayout {
 
                 text: root.activityData.dateTime
                 font.pixelSize: Style.subLinePixelSize
-                color: palette.midlight
                 visible: text !== ""
             }
 
-            CustomButton {
-                id: fileDetailsButton
+            Row {
+                Layout.alignment: Qt.AlignVCenter | Qt.AlignHCenter
+                spacing: Style.extraSmallSpacing
 
-                Layout.preferredWidth: Style.dismissButtonSize
-                Layout.preferredHeight: Style.dismissButtonSize
-                Layout.alignment: Qt.AlignTop | Qt.AlignRight
+                Button {
+                    id: fileDetailsButton
 
-                icon.source: "image://svgimage-custom-color/more.svg/" + palette.buttonText
+                    width: Style.activityListButtonWidth
+                    height: Style.activityListButtonHeight
 
-                NCToolTip {
-                    text: qsTr("Open file details")
-                    visible: parent.hovered
+                    icon.source: "image://svgimage-custom-color/more.svg/" + palette.buttonText
+                    icon.width: Style.activityListButtonIconSize
+                    icon.height: Style.activityListButtonIconSize
+
+                    ToolTip {
+                        text: qsTr("Open file details")
+                        visible: parent.hovered
+                    }
+
+                    display: Button.IconOnly
+                    visible: model.showFileDetails
+                    onClicked: Systray.presentShareViewInTray(model.openablePath)
                 }
 
-                display: Button.IconOnly
-                leftPadding: 0
-                rightPadding: 0
-                bgColor: palette.mid
-                bgNormalOpacity:  0
+                Button {
+                    id: dismissActionButton
 
-                visible: model.showFileDetails
+                    width: Style.activityListButtonWidth
+                    height: Style.activityListButtonHeight
 
-                onClicked: Systray.presentShareViewInTray(model.openablePath)
-            }
+                    icon.source: "image://svgimage-custom-color/clear.svg/" + palette.buttonText
+                    icon.width: Style.activityListButtonIconSize
+                    icon.height: Style.activityListButtonIconSize
 
-            CustomButton {
-                id: dismissActionButton
+                    display: Button.IconOnly
 
-                Layout.preferredWidth: Style.dismissButtonSize
-                Layout.preferredHeight: Style.dismissButtonSize
-                Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+                    ToolTip {
+                        text: qsTr("Dismiss")
+                        visible: parent.hovered
+                    }
 
-                visible: root.showDismissButton && !fileDetailsButton.visible
-
-                icon.source: "image://svgimage-custom-color/clear.svg/" + palette.buttonText
-
-                display: Button.IconOnly
-                leftPadding: 0
-                rightPadding: 0
-                bgColor: palette.mid
-                bgNormalOpacity: 0
-
-                NCToolTip {
-                    text: qsTr("Dismiss")
-                    visible: parent.hovered
+                    visible: root.showDismissButton
+                    onClicked: root.dismissButtonClicked()
                 }
-
-                onClicked: root.dismissButtonClicked()
             }
         }
 
         RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: Style.trayHorizontalMargin
             visible: activityTextInfo.visible || talkReplyMessageSent.visible || activityActions.visible
 
             EnforcedPlainTextLabel {
@@ -249,7 +241,6 @@ RowLayout {
                 wrapMode: Text.Wrap
                 maximumLineCount: 2
                 font.pixelSize: Style.topLinePixelSize
-                color: palette.midlight
                 visible: text !== ""
             }
 

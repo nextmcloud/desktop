@@ -78,6 +78,11 @@ public:
     [[nodiscard]] SyncOptions syncOptions() const { return _syncOptions; }
     [[nodiscard]] bool ignoreHiddenFiles() const { return _ignore_hidden_files; }
 
+    [[nodiscard]] ProgressInfo *progressInfo() const
+    {
+        return _progressInfo.get();
+    }
+
     [[nodiscard]] ExcludedFiles &excludedFiles() const { return *_excludedFiles; }
     [[nodiscard]] SyncFileStatusTracker &syncFileStatusTracker() const { return *_syncFileStatusTracker; }
 
@@ -184,6 +189,10 @@ signals:
      */
     void aboutToRemoveAllFiles(OCC::SyncFileItem::Direction direction, std::function<void(bool)> f);
 
+    void aboutToRemoveRemnantsReadOnlyFolders(const QList<SyncFileItemPtr> &folders,
+                                              const QString &localPath,
+                                              std::function<void(bool)> f);
+
     // A new folder was discovered and was not synced because of the confirmation feature
     void newBigFolder(const QString &folder, bool isExternal);
 
@@ -194,6 +203,8 @@ signals:
      * Forwarded from OwncloudPropagator::seenLockedFile.
      */
     void seenLockedFile(const QString &fileName);
+
+    void lockFileDetected(const QString &lockFile);
 
 private slots:
     void slotFolderDiscovered(bool local, const QString &folder);
@@ -215,6 +226,7 @@ private slots:
     void slotPropagationFinished(SyncFileItem::Status status);
     void slotProgress(const OCC::SyncFileItem &item, qint64 current);
     void slotCleanPollsJobAborted(const QString &error, const OCC::ErrorCategory category);
+    void detectFileLock(const OCC::SyncFileItemPtr &item);
 
     /** Records that a file was touched by a job. */
     void slotAddTouchedFile(const QString &fn);
@@ -231,6 +243,8 @@ private slots:
     void slotScheduleFilesDelayedSync();
     void slotUnscheduleFilesDelayedSync();
     void slotCleanupScheduledSyncTimers();
+
+    void remnantReadOnlyFolderDiscovered(const OCC::SyncFileItemPtr &item);
 
 private:
     // Some files need a sync run to be executed at a specified time after
@@ -351,6 +365,17 @@ private:
      */
     void restoreOldFiles(SyncFileItemVector &syncItems);
 
+    void cancelSyncOrContinue(bool cancel);
+
+    void finishSync();
+
+    bool handleMassDeletion();
+
+    void handleRemnantReadOnlyFolders();
+
+    template <typename T>
+    void promptUserBeforePropagation(T &&lambda);
+
     // true if there is at least one file which was not changed on the server
     bool _hasNoneFiles = false;
 
@@ -396,6 +421,8 @@ private:
     QVector<QSharedPointer<ScheduledSyncTimer>> _scheduledSyncTimers;
 
     SingleItemDiscoveryOptions _singleItemDiscoveryOptions;
+
+    QList<SyncFileItemPtr> _remnantReadOnlyFolders;
 };
 }
 

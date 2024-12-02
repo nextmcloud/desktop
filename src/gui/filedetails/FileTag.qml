@@ -12,9 +12,9 @@
  * for more details.
  */
 
-import QtQuick 2.15
+import QtQuick
 
-import Style 1.0
+import Style
 import "../tray"
 
 EnforcedPlainTextLabel {
@@ -24,10 +24,9 @@ EnforcedPlainTextLabel {
         border.color: palette.dark
         border.width: Style.normalBorderWidth
         radius: Style.veryRoundedButtonRadius
-        color: "transparent"
+        color: palette.base
     }
 
-    color: palette.midlight
     elide: Text.ElideRight
     padding: Style.smallSpacing
 }

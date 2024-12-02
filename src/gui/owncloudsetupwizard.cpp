@@ -66,7 +66,7 @@ OwncloudSetupWizard::~OwncloudSetupWizard()
     _ocWizard->deleteLater();
 }
 
-static QPointer<OwncloudSetupWizard> wiz = nullptr;
+static QPointer<OwncloudSetupWizard> owncloudSetupWizard = nullptr;
 
 void OwncloudSetupWizard::runWizard(QObject *obj, const char *amember, QWidget *parent)
 {
@@ -78,24 +78,26 @@ void OwncloudSetupWizard::runWizard(QObject *obj, const char *amember, QWidget *
 
         Theme::instance()->setStartLoginFlowAutomatically(true);
     }
-    if (!wiz.isNull()) {
+    if (!owncloudSetupWizard.isNull()) {
         bringWizardToFrontIfVisible();
         return;
     }
 
-    wiz = new OwncloudSetupWizard(parent);
-    connect(wiz, SIGNAL(ownCloudWizardDone(int)), obj, amember);
+    owncloudSetupWizard = new OwncloudSetupWizard(parent);
+    connect(owncloudSetupWizard, SIGNAL(ownCloudWizardDone(int)), obj, amember);
+    connect(owncloudSetupWizard->_ocWizard, &OwncloudWizard::wizardClosed, obj, [] { owncloudSetupWizard.clear(); });
+
     FolderMan::instance()->setSyncEnabled(false);
-    wiz->startWizard();
+    owncloudSetupWizard->startWizard();
 }
 
 bool OwncloudSetupWizard::bringWizardToFrontIfVisible()
 {
-    if (wiz.isNull()) {
+    if (owncloudSetupWizard.isNull()) {
         return false;
     }
 
-    ownCloudGui::raiseDialog(wiz->_ocWizard);
+    ownCloudGui::raiseDialog(owncloudSetupWizard->_ocWizard);
     return true;
 }
 
@@ -103,7 +105,9 @@ void OwncloudSetupWizard::startWizard()
 {
     AccountPtr account = AccountManager::createAccount();
     account->setCredentials(CredentialsFactory::create("dummy"));
-    account->setUrl(Theme::instance()->overrideServerUrl());
+    const auto defaultUrl =
+        Theme::instance()->multipleOverrideServers() ? QString{} : Theme::instance()->overrideServerUrl();
+    account->setUrl(defaultUrl);
     _ocWizard->setAccount(account);
     _ocWizard->setOCUrl(account->url().toString());
 
@@ -162,7 +166,7 @@ void OwncloudSetupWizard::slotCheckServer(const QString &urlString)
 
     // And also reset the QSslConfiguration, for the same reason (#6832)
     // Here the client certificate is added, if any. Later it'll be in HttpCredentials
-    account->setSslConfiguration(QSslConfiguration());
+    account->setSslConfiguration(QSslConfiguration::defaultConfiguration());
     auto sslConfiguration = account->getOrCreateSslConfig(); // let Account set defaults
     if (!_ocWizard->_clientSslCertificate.isNull()) {
         sslConfiguration.setLocalCertificate(_ocWizard->_clientSslCertificate);
@@ -178,10 +182,10 @@ void OwncloudSetupWizard::slotCheckServer(const QString &urlString)
     account->networkAccessManager()->clearAccessCache();
 
     // Lookup system proxy in a thread https://github.com/owncloud/client/issues/2993
-    if (ClientProxy::isUsingSystemDefault()) {
+    if ((ClientProxy::isUsingSystemDefault() && account->networkProxySetting() == Account::AccountNetworkProxySetting::GlobalProxy)
+        || account->proxyType() == QNetworkProxy::DefaultProxy) {
         qCDebug(lcWizard) << "Trying to look up system proxy";
-        ClientProxy::lookupSystemProxyAsync(account->url(),
-            this, SLOT(slotSystemProxyLookupDone(QNetworkProxy)));
+        ClientProxy::lookupSystemProxyAsync(account->url(), this, SLOT(slotSystemProxyLookupDone(QNetworkProxy)));
     } else {
         // We want to reset the QNAM proxy so that the global proxy settings are used (via ClientProxy settings)
         account->networkAccessManager()->setProxy(QNetworkProxy(QNetworkProxy::DefaultProxy));
@@ -333,7 +337,9 @@ void OwncloudSetupWizard::slotConnectToOCUrl(const QString &url)
 {
     qCInfo(lcWizard) << "Connect to url: " << url;
     AbstractCredentials *creds = _ocWizard->getCredentials();
-    _ocWizard->account()->setCredentials(creds);
+    if (creds) {
+        _ocWizard->account()->setCredentials(creds);
+    }
 
     const auto fetchUserNameJob = new JsonApiJob(_ocWizard->account()->sharedFromThis(), QStringLiteral("/ocs/v1.php/cloud/user"));
     connect(fetchUserNameJob, &JsonApiJob::jsonReceived, this, [this, url](const QJsonDocument &json, int statusCode) {
@@ -695,7 +701,7 @@ void OwncloudSetupWizard::slotAssistantFinished(int result)
     }
 
     // notify others.
-    _ocWizard->done(QWizard::Accepted);
+    _ocWizard->done(result);
     emit ownCloudWizardDone(result);
 }
 
@@ -705,7 +711,10 @@ void OwncloudSetupWizard::slotSkipFolderConfiguration()
 
     disconnect(_ocWizard, &OwncloudWizard::basicSetupFinished,
         this, &OwncloudSetupWizard::slotAssistantFinished);
-    _ocWizard->close();
+
+    _ocWizard->done(QDialog::Rejected);
+
+    // Accept to check connectivity, only skip folder setup
     emit ownCloudWizardDone(QDialog::Accepted);
 }
 
@@ -722,7 +731,7 @@ AccountState *OwncloudSetupWizard::applyAccountChanges()
     auto manager = AccountManager::instance();
 
     auto newState = manager->addAccount(newAccount);
-    manager->save();
+    manager->saveAccount(newAccount.data());
     return newState;
 }
 

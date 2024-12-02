@@ -13,11 +13,12 @@
  */
 
 #include "capabilities.h"
+#include "configfile.h"
 
 #include <QVariantMap>
 #include <QLoggingCategory>
 #include <QUrl>
-
+#include <QVersionNumber>
 #include <QDebug>
 
 namespace OCC {
@@ -159,7 +160,7 @@ bool Capabilities::clientSideEncryptionAvailable() const
         return false;
     }
 
-    const auto capabilityAvailable = (major == 1 && minor >= 1);
+    const auto capabilityAvailable = (major >= 1 && minor >= 0);
     if (!capabilityAvailable) {
         qCInfo(lcServerCapabilities) << "Incompatible E2EE API version:" << version;
     }
@@ -176,10 +177,10 @@ double Capabilities::clientSideEncryptionVersion() const
     const auto properties = (*foundEndToEndEncryptionInCaps).toMap();
     const auto enabled = properties.value(QStringLiteral("enabled"), false).toBool();
     if (!enabled) {
-        return false;
+        return 0.0;
     }
 
-    return properties.value(QStringLiteral("api-version"), 1.0).toDouble();
+    return properties.value(QStringLiteral("api-version"), "1.0").toDouble();
 }
 
 bool Capabilities::notificationsAvailable() const
@@ -254,6 +255,11 @@ bool Capabilities::filesLockAvailable() const
     return _capabilities["files"].toMap()["locking"].toByteArray() >= "1.0";
 }
 
+bool Capabilities::filesLockTypeAvailable() const
+{
+    return _capabilities["files"].toMap()["api-feature-lock-type"].toByteArray() >= "1.0";
+}
+
 bool Capabilities::userStatus() const
 {
     if (!_capabilities.contains("user_status")) {
@@ -270,6 +276,25 @@ bool Capabilities::userStatusSupportsEmoji() const
     }
     const auto userStatusMap = _capabilities["user_status"].toMap();
     return userStatusMap.value("supports_emoji", false).toBool();
+}
+
+bool Capabilities::ncAssistantEnabled() const
+{
+    if (_capabilities.contains("assistant")
+        && _capabilities["assistant"].toMap()["enabled"].toBool()) {
+
+        const auto minimumVersion = QVersionNumber(1, 0, 9);
+        const auto versionString = _capabilities["assistant"].toMap()["version"].toString();
+
+        if (const auto currentVersion = QVersionNumber::fromString(versionString);
+            QVersionNumber::compare(currentVersion, minimumVersion) >= 0) {
+            return true;
+        }
+
+        qCInfo(lcServerCapabilities) << "The NC Assistant app only provides a direct link starting at 1.0.9.";
+    }
+
+    return false;
 }
 
 QColor Capabilities::serverColor() const
@@ -364,9 +389,39 @@ bool Capabilities::groupFoldersAvailable() const
     return _capabilities[QStringLiteral("groupfolders")].toMap().value(QStringLiteral("hasGroupFolders"), false).toBool();
 }
 
+bool Capabilities::serverHasValidSubscription() const
+{
+    return _capabilities[QStringLiteral("support")].toMap().value(QStringLiteral("hasValidSubscription"), false).toBool();
+}
+
+QString Capabilities::desktopEnterpriseChannel() const
+{
+    return _capabilities[QStringLiteral("support")].toMap().value(QStringLiteral("desktopEnterpriseChannel"), ConfigFile().defaultUpdateChannel()).toString();
+}
+
 QStringList Capabilities::blacklistedFiles() const
 {
     return _capabilities["files"].toMap()["blacklisted_files"].toStringList();
+}
+
+QStringList Capabilities::forbiddenFilenames() const
+{
+    return _capabilities["files"].toMap()["forbidden_filenames"].toStringList();
+}
+
+QStringList Capabilities::forbiddenFilenameCharacters() const
+{
+    return _capabilities["files"].toMap()["forbidden_filename_characters"].toStringList();
+}
+
+QStringList Capabilities::forbiddenFilenameBasenames() const
+{
+    return _capabilities["files"].toMap()["forbidden_filename_basenames"].toStringList();
+}
+
+QStringList Capabilities::forbiddenFilenameExtensions() const
+{
+    return _capabilities["files"].toMap()["forbidden_filename_extensions"].toStringList();
 }
 
 /*-------------------------------------------------------------------------------------*/

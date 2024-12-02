@@ -107,12 +107,10 @@ void SelectiveSyncWidget::refreshFolders()
 {
     _encryptedPaths.clear();
 
-    auto *job = new LsColJob(_account, _folderPath, this);
+    auto *job = new LsColJob(_account, _folderPath);
     auto props = QList<QByteArray>() << "resourcetype"
-                                     << "http://owncloud.org/ns:size";
-    if (_account->capabilities().clientSideEncryptionAvailable()) {
-        props << "http://nextcloud.org/ns:is-encrypted";
-    }
+                                     << "http://owncloud.org/ns:size"
+                                     << "http://nextcloud.org/ns:is-encrypted";
     job->setProperties(props);
     connect(job, &LsColJob::directoryListingSubfolders,
         this, &SelectiveSyncWidget::slotUpdateDirectories);
@@ -336,7 +334,7 @@ void SelectiveSyncWidget::slotItemExpanded(QTreeWidgetItem *item)
     if (!_folderPath.isEmpty()) {
         prefix = _folderPath + QLatin1Char('/');
     }
-    auto *job = new LsColJob(_account, prefix + dir, this);
+    auto *job = new LsColJob(_account, prefix + dir);
     job->setProperties(QList<QByteArray>() << "resourcetype"
                                            << "http://owncloud.org/ns:size");
     connect(job, &LsColJob::directoryListingSubfolders,
@@ -518,7 +516,8 @@ void SelectiveSyncDialog::accept()
 {
     if (_folder) {
         bool ok = false;
-        auto oldBlackListSet = _folder->journalDb()->getSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, &ok).toSet();
+        auto oldBlackList = _folder->journalDb()->getSelectiveSyncList(SyncJournalDb::SelectiveSyncBlackList, &ok);
+        auto oldBlackListSet = QSet<QString>{oldBlackList.begin(), oldBlackList.end()};
         if (!ok) {
             return;
         }
@@ -532,7 +531,7 @@ void SelectiveSyncDialog::accept()
 
         //The part that changed should not be read from the DB on next sync because there might be new folders
         // (the ones that are no longer in the blacklist)
-        auto blackListSet = blackList.toSet();
+        auto blackListSet = QSet<QString>{blackList.begin(), blackList.end()};
         auto changes = (oldBlackListSet - blackListSet) + (blackListSet - oldBlackListSet);
         foreach (const auto &it, changes) {
             _folder->journalDb()->schedulePathForRemoteDiscovery(it);

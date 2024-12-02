@@ -133,7 +133,7 @@ public:
 
     /** Creates a basic SyncFileItem from remote properties
      */
-    [[nodiscard]] static SyncFileItemPtr fromProperties(const QString &filePath, const QMap<QString, QString> &properties);
+    [[nodiscard]] static SyncFileItemPtr fromProperties(const QString &filePath, const QMap<QString, QString> &properties, RemotePermissions::MountedPermissionAlgorithm algorithm);
 
 
     SyncFileItem()
@@ -284,6 +284,8 @@ public:
     bool _isRestoration BITFIELD(1); // The original operation was forbidden, and this is a restoration
     bool _isSelectiveSync BITFIELD(1); // The file is removed or ignored because it is in the selective sync list
     EncryptionStatus _e2eEncryptionStatus = EncryptionStatus::NotEncrypted; // The file is E2EE or the content of the directory should be E2EE
+    EncryptionStatus _e2eEncryptionServerCapability = EncryptionStatus::NotEncrypted;
+    EncryptionStatus _e2eEncryptionStatusRemote = EncryptionStatus::NotEncrypted;
     quint16 _httpErrorCode = 0;
     RemotePermissions _remotePerm;
     QString _errorString; // Contains a string only in case of error
@@ -324,6 +326,7 @@ public:
     QString _lockEditorApp;
     qint64 _lockTime = 0;
     qint64 _lockTimeout = 0;
+    QString _lockToken;
 
     bool _isShared = false;
     time_t _lastShareStateFetchedTimestamp = 0;
@@ -333,6 +336,16 @@ public:
     bool _isFileDropDetected = false;
 
     bool _isEncryptedMetadataNeedUpdate = false;
+
+    bool _isAnyInvalidCharChild = false;
+    bool _isAnyCaseClashChild = false;
+
+    bool _isLivePhoto = false;
+    QString _livePhotoFile;
+
+    bool isPermissionsInvalid = false;
+
+    QString _discoveryResult;
 };
 
 inline bool operator<(const SyncFileItemPtr &item1, const SyncFileItemPtr &item2)

@@ -43,6 +43,14 @@ signals:
     void incomingShareDeleted();
 
 private slots:
+    void initTestCase()
+    {
+        OCC::Logger::instance()->setLogFlush(true);
+        OCC::Logger::instance()->setLogDebug(true);
+
+        QStandardPaths::setTestModeEnabled(true);
+    }
+
     void testDeleteEncryptedFiles()
     {
         FakeFolder fakeFolder{FileInfo::A12_B12_C12_S12()};
@@ -123,7 +131,7 @@ private slots:
         // the server, let's just manually set the encryption bool in the folder journal
         SyncJournalFileRecord rec;
         QVERIFY(folder->journalDb()->getFileRecord(QStringLiteral("encrypted"), &rec));
-        rec._e2eEncryptionStatus = SyncJournalFileRecord::EncryptionStatus::EncryptedMigratedV1_2;
+        rec._e2eEncryptionStatus = SyncJournalFileRecord::EncryptionStatus::EncryptedMigratedV2_0;
         rec._path = QStringLiteral("encrypted").toUtf8();
         rec._type = CSyncEnums::ItemTypeDirectory;
         QVERIFY(folder->journalDb()->setFileRecord(rec));

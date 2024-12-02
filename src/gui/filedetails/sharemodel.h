@@ -33,10 +33,16 @@ class ShareModel : public QAbstractListModel
     Q_PROPERTY(bool publicLinkSharesEnabled READ publicLinkSharesEnabled NOTIFY publicLinkSharesEnabledChanged)
     Q_PROPERTY(bool userGroupSharingEnabled READ userGroupSharingEnabled NOTIFY userGroupSharingEnabledChanged)
     Q_PROPERTY(bool canShare READ canShare NOTIFY sharePermissionsChanged)
+    Q_PROPERTY(bool isShareDisabledEncryptedFolder READ isShareDisabledEncryptedFolder NOTIFY isShareDisabledEncryptedFolderChanged)
     Q_PROPERTY(bool fetchOngoing READ fetchOngoing NOTIFY fetchOngoingChanged)
     Q_PROPERTY(bool hasInitialShareFetchCompleted READ hasInitialShareFetchCompleted NOTIFY hasInitialShareFetchCompletedChanged)
     Q_PROPERTY(bool serverAllowsResharing READ serverAllowsResharing NOTIFY serverAllowsResharingChanged)
     Q_PROPERTY(QVariantList sharees READ sharees NOTIFY shareesChanged)
+    Q_PROPERTY(bool displayShareOwner READ displayShareOwner NOTIFY displayShareOwnerChanged)
+    Q_PROPERTY(QString shareOwnerDisplayName READ shareOwnerDisplayName NOTIFY shareOwnerDisplayNameChanged)
+    Q_PROPERTY(QString shareOwnerAvatar READ shareOwnerAvatar NOTIFY shareOwnerAvatarChanged)
+    Q_PROPERTY(bool sharedWithMeExpires READ sharedWithMeExpires NOTIFY sharedWithMeExpiresChanged)
+    Q_PROPERTY(QString sharedWithMeRemainingTimeString READ sharedWithMeRemainingTimeString NOTIFY sharedWithMeRemainingTimeStringChanged)
 
 public:
     enum Roles {
@@ -118,11 +124,18 @@ public:
     [[nodiscard]] bool userGroupSharingEnabled() const;
     [[nodiscard]] bool canShare() const;
     [[nodiscard]] bool serverAllowsResharing() const;
+    [[nodiscard]] bool isShareDisabledEncryptedFolder() const;
 
     [[nodiscard]] bool fetchOngoing() const;
     [[nodiscard]] bool hasInitialShareFetchCompleted() const;
 
     [[nodiscard]] QVariantList sharees() const;
+
+    [[nodiscard]] bool displayShareOwner() const;
+    [[nodiscard]] QString shareOwnerDisplayName() const;
+    [[nodiscard]] QString shareOwnerAvatar() const;
+    [[nodiscard]] bool sharedWithMeExpires() const;
+    [[nodiscard]] QString sharedWithMeRemainingTimeString() const;
 
     [[nodiscard]] Q_INVOKABLE static QString generatePassword();
 
@@ -134,14 +147,20 @@ signals:
     void publicLinkSharesEnabledChanged();
     void userGroupSharingEnabledChanged();
     void sharePermissionsChanged();
+    void isShareDisabledEncryptedFolderChanged();
     void lockExpireStringChanged();
     void fetchOngoingChanged();
     void hasInitialShareFetchCompletedChanged();
     void shareesChanged();
     void internalLinkReady();
     void serverAllowsResharingChanged();
+    void displayShareOwnerChanged();
+    void shareOwnerDisplayNameChanged();
+    void shareOwnerAvatarChanged();
+    void sharedWithMeExpiresChanged();
+    void sharedWithMeRemainingTimeStringChanged();
 
-    void serverError(const int code, const QString &message);
+    void serverError(const int code, const QString &message) const;
     void passwordSetError(const QString &shareId, const int code, const QString &message);
     void requestPasswordForLinkShare();
     void requestPasswordForEmailSharee(const OCC::ShareePtr &sharee);
@@ -211,9 +230,10 @@ private slots:
     void slotShareNameSet(const QString &shareId);
     void slotShareLabelSet(const QString &shareId);
     void slotShareExpireDateSet(const QString &shareId);
+    void slotDeleteE2EeShare(const SharePtr &share) const;
 
 private:
-    [[nodiscard]] QString displayStringForShare(const SharePtr &share) const;
+    [[nodiscard]] QString displayStringForShare(const SharePtr &share, bool verbose = false) const;
     [[nodiscard]] QString iconUrlForShare(const SharePtr &share) const;
     [[nodiscard]] QString avatarUrlForShare(const SharePtr &share) const;
     [[nodiscard]] long long enforcedMaxExpireDateForShare(const SharePtr &share) const;
@@ -226,12 +246,13 @@ private:
     bool _hasInitialShareFetchCompleted = false;
     bool _sharePermissionsChangeInProgress = false;
     bool _hideDownloadEnabledChangeInProgress = false;
+    bool _isShareDisabledEncryptedFolder = false;
     SharePtr _placeholderLinkShare;
     SharePtr _internalLinkShare;
     SharePtr _secureFileDropPlaceholderLinkShare;
 
     QPointer<AccountState> _accountState;
-    QPointer<Folder> _folder;
+    QPointer<Folder> _synchronizationFolder;
 
     QString _localPath;
     QString _sharePath;
@@ -240,6 +261,12 @@ private:
     SharedItemType _sharedItemType = SharedItemType::SharedItemTypeUndefined;
     SyncJournalFileLockInfo _filelockState;
     QString _privateLinkUrl;
+    QByteArray _fileRemoteId;
+    bool _displayShareOwner = false;
+    QString _shareOwnerDisplayName;
+    QString _shareOwnerAvatar;
+    bool _sharedWithMeExpires = false;
+    QString _sharedWithMeRemainingTimeString;
 
     QSharedPointer<ShareManager> _manager;
 
@@ -247,6 +274,8 @@ private:
     QHash<QString, QPersistentModelIndex> _shareIdIndexHash;
     QHash<QString, QString> _shareIdRecentlySetPasswords;
     QVector<ShareePtr> _sharees;
+    // Buckets of sharees with the same display name
+    QHash<unsigned int, QSharedPointer<QSet<unsigned int>>> _duplicateDisplayNameShareIndices;
 };
 
 } // namespace OCC

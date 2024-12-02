@@ -25,7 +25,6 @@
 
 class QUrl;
 class QLocalSocket;
-class QStringList;
 class QFileInfo;
 
 namespace OCC
@@ -99,6 +98,8 @@ private:
         // Relative path of the file locally, without any vfs suffix
         [[nodiscard]] QString folderRelativePathNoVfsSuffix() const;
 
+        [[nodiscard]] bool isFolderEmpty() const;
+
         Folder *folder = nullptr;
         // Absolute path of the file locally. (May be a virtual file)
         QString localPath;
@@ -128,9 +129,7 @@ private:
     Q_INVOKABLE void command_ENCRYPT(const QString &localFile, OCC::SocketListener *listener);
     Q_INVOKABLE void command_SHARE(const QString &localFile, OCC::SocketListener *listener);
     Q_INVOKABLE void command_LEAVESHARE(const QString &localFile, OCC::SocketListener *listener);
-    Q_INVOKABLE void command_MANAGE_PUBLIC_LINKS(const QString &localFile, OCC::SocketListener *listener);
     Q_INVOKABLE void command_COPY_SECUREFILEDROP_LINK(const QString &localFile, OCC::SocketListener *listener);
-    Q_INVOKABLE void command_COPY_PUBLIC_LINK(const QString &localFile, OCC::SocketListener *listener);
     Q_INVOKABLE void command_COPY_PRIVATE_LINK(const QString &localFile, OCC::SocketListener *listener);
     Q_INVOKABLE void command_EMAIL_PRIVATE_LINK(const QString &localFile, OCC::SocketListener *listener);
     Q_INVOKABLE void command_OPEN_PRIVATE_LINK(const QString &localFile, OCC::SocketListener *listener);

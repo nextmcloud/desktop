@@ -17,7 +17,9 @@
 #define KEYCHAINCHUNK_H
 
 #include <QObject>
-#include <qt5keychain/keychain.h>
+
+#include <qt6keychain/keychain.h>
+
 #include "accountfwd.h"
 
 // We don't support insecure fallback

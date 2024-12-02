@@ -16,14 +16,16 @@
 #ifndef NETWORKJOBS_H
 #define NETWORKJOBS_H
 
-#include <QBuffer>
+#include "config.h"
 
 #include "abstractnetworkjob.h"
 
 #include "common/result.h"
 
+#include <QBuffer>
+#include <QUrlQuery>
+
 class QUrl;
-class QUrlQuery;
 class QJsonObject;
 class QJsonDocument;
 class QDomDocument;
@@ -140,8 +142,8 @@ class OWNCLOUDSYNC_EXPORT LsColJob : public AbstractNetworkJob
 {
     Q_OBJECT
 public:
-    explicit LsColJob(AccountPtr account, const QString &path, QObject *parent = nullptr);
-    explicit LsColJob(AccountPtr account, const QUrl &url, QObject *parent = nullptr);
+    explicit LsColJob(AccountPtr account, const QString &path);
+    explicit LsColJob(AccountPtr account, const QUrl &url);
     void start() override;
     QHash<QString, ExtraFolderInfo> _folderInfos;
 
@@ -549,6 +551,7 @@ private:
     bool _getDone = false;
     bool _propfindDone = false;
     bool _oldFlowDone = false;
+    bool useFlow2 = false;
 };
 
 /**

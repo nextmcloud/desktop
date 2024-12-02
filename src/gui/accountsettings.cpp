@@ -42,6 +42,7 @@
 #include "syncresult.h"
 #include "ignorelisttablewidget.h"
 #include "wizard/owncloudwizard.h"
+#include "networksettings.h"
 #include "ui_mnemonicdialog.h"
 
 #include <cmath>
@@ -59,6 +60,10 @@
 #include <QVariant>
 #include <QJsonDocument>
 #include <QToolTip>
+
+#ifdef BUILD_FILE_PROVIDER_MODULE
+#include "macOS/fileprovider.h"
+#endif
 
 #include "account.h"
 
@@ -169,12 +174,12 @@ protected:
 AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     : QWidget(parent)
     , _ui(new Ui::AccountSettings)
+    , _model(new FolderStatusModel)
     , _accountState(accountState)
     , _userInfo(accountState, false, true)
 {
     _ui->setupUi(this);
 
-    _model = new FolderStatusModel;
     _model->setAccountState(_accountState);
     _model->setParent(this);
     const auto delegate = new FolderStatusDelegate;
@@ -192,6 +197,31 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     _ui->_folderList->setMinimumWidth(300);
 #endif
     new ToolTipUpdater(_ui->_folderList);
+
+#if defined(BUILD_FILE_PROVIDER_MODULE)
+    if (Mac::FileProvider::fileProviderAvailable()) {
+        const auto fileProviderTab = _ui->fileProviderTab;
+        const auto fpSettingsLayout = new QVBoxLayout(fileProviderTab);
+        const auto fpAccountUserIdAtHost = _accountState->account()->userIdAtHostWithPort();
+        const auto fpSettingsController = Mac::FileProviderSettingsController::instance();
+        const auto fpSettingsWidget = fpSettingsController->settingsViewWidget(fpAccountUserIdAtHost, fileProviderTab);
+        fpSettingsLayout->addWidget(fpSettingsWidget);
+        fileProviderTab->setLayout(fpSettingsLayout);
+    }
+#else
+    const auto tabWidget = _ui->tabWidget;
+    const auto fileProviderTab = _ui->fileProviderTab;
+    if (const auto fileProviderWidgetTabIndex = tabWidget->indexOf(fileProviderTab); fileProviderWidgetTabIndex >= 0) {
+        tabWidget->removeTab(fileProviderWidgetTabIndex);
+    }
+    tabWidget->setCurrentIndex(0);
+#endif
+
+    const auto connectionSettingsTab = _ui->connectionSettingsTab;
+    const auto connectionSettingsLayout = new QVBoxLayout(connectionSettingsTab);
+    const auto networkSettings = new NetworkSettings(_accountState->account(), connectionSettingsTab);
+    connectionSettingsLayout->addWidget(networkSettings);
+    connectionSettingsTab->setLayout(connectionSettingsLayout);
 
     const auto mouseCursorChanger = new MouseCursorChanger(this);
     mouseCursorChanger->folderList = _ui->_folderList;
@@ -222,7 +252,7 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     addAction(syncNowAction);
 
     auto *syncNowWithRemoteDiscovery = new QAction(this);
-    syncNowWithRemoteDiscovery->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F6));
+    syncNowWithRemoteDiscovery->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_F6));
     connect(syncNowWithRemoteDiscovery, &QAction::triggered, this, &AccountSettings::slotScheduleCurrentFolderForceRemoteDiscovery);
     addAction(syncNowWithRemoteDiscovery);
 
@@ -425,7 +455,8 @@ void AccountSettings::slotMarkSubfolderEncrypted(FolderStatusModel::SubFolderInf
         Q_ASSERT(!path.startsWith('/') && path.endsWith('/'));
         // But EncryptFolderJob expects directory path Foo/Bar convention
         const auto choppedPath = path.chopped(1);
-        auto job = new OCC::EncryptFolderJob(accountsState()->account(), folder->journalDb(), choppedPath, fileId, this);
+        auto job = new OCC::EncryptFolderJob(accountsState()->account(), folder->journalDb(), choppedPath, choppedPath, folder->remotePath(), fileId);
+        job->setParent(this);
         job->setProperty(propertyFolder, QVariant::fromValue(folder));
         job->setProperty(propertyPath, QVariant::fromValue(path));
         connect(job, &OCC::EncryptFolderJob::finished, this, &AccountSettings::slotEncryptFolderFinished);
@@ -553,8 +584,9 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
 
         const auto isEncrypted = info->isEncrypted();
         const auto isParentEncrypted = _model->isAnyAncestorEncrypted(index);
+        const auto isTopFolder = index.parent().isValid() && !index.parent().parent().isValid();
 
-        if (!isEncrypted && !isParentEncrypted) {
+        if (!isEncrypted && !isParentEncrypted && isTopFolder) {
             ac = menu.addAction(tr("Encrypt"));
             connect(ac, &QAction::triggered, [this, info] { slotMarkSubfolderEncrypted(info); });
         } else {
@@ -842,7 +874,6 @@ void AccountSettings::slotRemoveCurrentFolder()
         messageBox->addButton(tr("Cancel"), QMessageBox::NoRole);
         connect(messageBox, &QMessageBox::finished, this, [messageBox, yesButton, folder, row, this]{
             if (messageBox->clickedButton() == yesButton) {
-                Utility::removeFavLink(folder->path());
                 FolderMan::instance()->removeFolder(folder);
                 _model->removeRow(row);
 
@@ -1104,10 +1135,10 @@ void AccountSettings::showConnectionLabel(const QString &message, QStringList er
         _ui->connectLabel->setStyleSheet({});
     } else {
         errors.prepend(message);
-        auto msg = errors.join(QLatin1String("\n"));
-        qCDebug(lcAccountSettings) << msg;
-        Theme::replaceLinkColorString(msg, QColor("#c1c8e6"));
-        _ui->connectLabel->setText(msg);
+        auto userFriendlyMsg = errors.join(QLatin1String("<br>"));
+        qCDebug(lcAccountSettings) << userFriendlyMsg;
+        Theme::replaceLinkColorString(userFriendlyMsg, QColor("#c1c8e6"));
+        _ui->connectLabel->setText(userFriendlyMsg);
         _ui->connectLabel->setToolTip({});
         _ui->connectLabel->setStyleSheet(errStyle);
     }
@@ -1275,9 +1306,9 @@ void AccountSettings::slotAccountStateChanged()
             break;
         }
         case AccountState::NetworkError:
-            showConnectionLabel(tr("No connection to %1 at %2.")
-                                    .arg(Utility::escape(Theme::instance()->appNameGUI()), server),
-                _accountState->connectionErrors());
+            showConnectionLabel(tr("Unable to connect to %1.")
+                                    .arg(Utility::escape(Theme::instance()->appNameGUI())),
+                                _accountState->connectionErrors());
             break;
         case AccountState::ConfigurationError:
             showConnectionLabel(tr("Server configuration error: %1 at %2.")
@@ -1287,6 +1318,9 @@ void AccountSettings::slotAccountStateChanged()
         case AccountState::Disconnected:
             // we can't end up here as the whole block is ifdeffed
             Q_UNREACHABLE();
+            break;
+        case AccountState::NeedToSignTermsOfService:
+            showConnectionLabel(tr("You need to accept the terms of service"));
             break;
         }
     } else {

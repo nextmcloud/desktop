@@ -12,46 +12,36 @@
  * for more details.
  */
 
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Layouts
 
 // Custom qml modules are in /theme (and included by resources.qrc)
-import Style 1.0
-import com.nextcloud.desktopclient 1.0
+import Style
+import com.nextcloud.desktopclient
 
 AbstractButton {
     id: userLine
 
     signal showUserStatusSelector(int id)
 
-    property variant dialog;
-    property variant comp;
 
     Accessible.role: Accessible.MenuItem
     Accessible.name: qsTr("Switch to account") + " " + model.name
 
     height: Style.trayWindowHeaderHeight
 
-    background: Rectangle {
-        anchors.fill: parent
-        anchors.margins: 1
-        color: (userLine.hovered || userLine.visualFocus) &&
-               !(userMoreButton.hovered || userMoreButton.visualFocus) ?
-                   palette.highlight : palette.base
-    }
-
     contentItem: RowLayout {
         id: userLineLayout
-        spacing: Style.userStatusSpacing
+        spacing: Style.userLineSpacing
 
         Image {
             id: accountAvatar
-            Layout.leftMargin: 7
+            Layout.leftMargin: Style.accountIconsMenuMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
-            source: model.avatar !== "" ? model.avatar : Theme.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
+            source: model.avatar !== "" ? model.avatar : Style.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
             Layout.preferredHeight: Style.accountAvatarSize
             Layout.preferredWidth: Style.accountAvatarSize
 
@@ -62,8 +52,7 @@ AbstractButton {
                 height: width
                 anchors.bottom: accountAvatar.bottom
                 anchors.right: accountAvatar.right
-                color: userLine.hovered || userLine.visualFocus ? "#f6f6f6" : "white"
-                radius: width*0.5
+                radius:  width * Style.trayFolderStatusIndicatorRadiusFactor
             }
 
             Image {
@@ -141,19 +130,13 @@ AbstractButton {
             Layout.fillHeight: true
             flat: true
 
-            icon.source: "qrc:///client/theme/more.svg"
-            icon.color: palette.buttonText
-
             Accessible.role: Accessible.ButtonMenu
             Accessible.name: qsTr("Account actions")
             Accessible.onPressAction: userMoreButtonMouseArea.clicked()
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
-            background: Rectangle {
-                anchors.fill: parent
-                anchors.margins: 1
-                color: userMoreButton.hovered || userMoreButton.visualFocus ? palette.highlight : "transparent"
-            }
+
+            icon.source: "image://svgimage-custom-color/more.svg/" + palette.windowText
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
@@ -164,29 +147,17 @@ AbstractButton {
                     height: visible ? implicitHeight : 0
                     text: qsTr("Set status")
                     font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
                     hoverEnabled: true
                     onClicked: showUserStatusSelector(index)
-                }
+               }
 
                 MenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
                     font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
                     hoverEnabled: true
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
-                    }
-
-                    background: Item {
-                        height: parent.height
-                        width: parent.menu.width
-                        Rectangle {
-                            anchors.fill: parent
-                            anchors.margins: 1
-                            color: parent.parent.hovered ? palette.highlight : "transparent"
-                        }
                     }
 
                     Accessible.role: Accessible.Button
@@ -200,33 +171,22 @@ AbstractButton {
                         }
                         accountMenu.close()
                     }
-                }
+               }
 
                 MenuItem {
                     id: removeAccountButton
                     text: qsTr("Remove account")
                     font.pixelSize: Style.topLinePixelSize
-                    palette.windowText: Style.ncTextColor
                     hoverEnabled: true
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()
                     }
 
-                    background: Item {
-                        height: parent.height
-                        width: parent.menu.width
-                        Rectangle {
-                            anchors.fill: parent
-                            anchors.margins: 1
-                            color: parent.parent.hovered ? palette.highlight : "transparent"
-                        }
-                    }
-
                     Accessible.role: Accessible.Button
                     Accessible.name: text
                     Accessible.onPressAction: removeAccountButton.clicked()
-                }
+               }
             }
         }
     }

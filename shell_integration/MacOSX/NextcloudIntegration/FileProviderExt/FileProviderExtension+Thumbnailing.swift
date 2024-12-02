@@ -12,51 +12,29 @@
  * for more details.
  */
 
-import Foundation
 import FileProvider
+import Foundation
 import NextcloudKit
+import NextcloudFileProviderKit
 import OSLog
 
 extension FileProviderExtension: NSFileProviderThumbnailing {
-    func fetchThumbnails(for itemIdentifiers: [NSFileProviderItemIdentifier],
-                         requestedSize size: CGSize,
-                         perThumbnailCompletionHandler: @escaping (NSFileProviderItemIdentifier,
-                                                                   Data?,
-                                                                   Error?) -> Void,
-                         completionHandler: @escaping (Error?) -> Void) -> Progress {
-
-        let progress = Progress(totalUnitCount: Int64(itemIdentifiers.count))
-        var progressCounter: Int64 = 0
-
-        func finishCurrent() {
-            progressCounter += 1
-
-            if progressCounter == progress.totalUnitCount {
-                completionHandler(nil)
-            }
-        }
-
-        for itemIdentifier in itemIdentifiers {
-            Logger.fileProviderExtension.debug("Fetching thumbnail for item with identifier:\(itemIdentifier.rawValue, privacy: .public)")
-            guard let metadata = NextcloudFilesDatabaseManager.shared.itemMetadataFromFileProviderItemIdentifier(itemIdentifier),
-                  let thumbnailUrl = metadata.thumbnailUrl(size: size) else {
-                Logger.fileProviderExtension.debug("Did not fetch thumbnail URL")
-                finishCurrent()
-                continue
-            }
-
-            Logger.fileProviderExtension.debug("Fetching thumbnail for file:\(metadata.fileName) at:\(thumbnailUrl.absoluteString, privacy: .public)")
-
-            self.ncKit.getPreview(url: thumbnailUrl) { _, data, error in
-                if error == .success && data != nil {
-                    perThumbnailCompletionHandler(itemIdentifier, data, nil)
-                } else {
-                    perThumbnailCompletionHandler(itemIdentifier, nil, NSFileProviderError(.serverUnreachable))
-                }
-                finishCurrent()
-            }
-        }
-
-        return progress
+    func fetchThumbnails(
+        for itemIdentifiers: [NSFileProviderItemIdentifier],
+        requestedSize size: CGSize,
+        perThumbnailCompletionHandler: @escaping (
+            NSFileProviderItemIdentifier,
+            Data?,
+            Error?
+        ) -> Void,
+        completionHandler: @escaping (Error?) -> Void
+    ) -> Progress {
+        return NextcloudFileProviderKit.fetchThumbnails(
+            for: itemIdentifiers,
+            requestedSize: size,
+            usingRemoteInterface: self.ncKit,
+            perThumbnailCompletionHandler: perThumbnailCompletionHandler,
+            completionHandler: completionHandler
+        )
     }
 }

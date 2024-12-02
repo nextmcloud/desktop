@@ -13,6 +13,7 @@
  */
 
 #include "accountstate.h"
+
 #include "accountmanager.h"
 #include "remotewipe.h"
 #include "account.h"
@@ -23,6 +24,7 @@
 #include "ocsnavigationappsjob.h"
 #include "ocsuserstatusconnector.h"
 #include "pushnotifications.h"
+#include "networkjobs.h"
 
 #include <QSettings>
 #include <QTimer>
@@ -32,6 +34,7 @@
 #include <QJsonArray>
 #include <QNetworkRequest>
 #include <QBuffer>
+#include <QRandomGenerator>
 
 #include <cmath>
 
@@ -39,12 +42,14 @@ namespace OCC {
 
 Q_LOGGING_CATEGORY(lcAccountState, "nextcloud.gui.account.state", QtInfoMsg)
 
-AccountState::AccountState(AccountPtr account)
+AccountState::AccountState(const AccountPtr &account)
     : QObject()
     , _account(account)
     , _state(AccountState::Disconnected)
     , _connectionStatus(ConnectionValidator::Undefined)
-    , _maintenanceToConnectedDelay(60000 + (qrand() % (4 * 60000))) // 1-5min delay
+    , _waitingForNewCredentials(false)
+    , _termsOfServiceChecker(_account)
+    , _maintenanceToConnectedDelay(60000 + (QRandomGenerator::global()->generate() % (4 * 60000))) // 1-5min delay
     , _remoteWipe(new RemoteWipe(_account))
     , _isDesktopNotificationsAllowed(true)
 {
@@ -60,6 +65,18 @@ AccountState::AccountState(AccountPtr account)
             this, &AccountState::slotPushNotificationsReady);
     connect(account.data(), &Account::serverUserStatusChanged, this,
         &AccountState::slotServerUserStatusChanged);
+    connect(&_termsOfServiceChecker, &TermsOfServiceChecker::done,
+            this, [this] ()
+            {
+                if (_termsOfServiceChecker.needToSign()) {
+                    slotConnectionValidatorResult(ConnectionValidator::NeedToSignTermsOfService, {});
+                }
+            });
+    connect(account.data(), &Account::termsOfServiceNeedToBeChecked,
+            this, [this] ()
+            {
+                _termsOfServiceChecker.start();
+            });
 
     connect(this, &AccountState::isConnectedChanged, [=]{
         // Get the Apps available on the server if we're now connected.
@@ -80,12 +97,6 @@ AccountState::AccountState(AccountPtr account)
 }
 
 AccountState::~AccountState() = default;
-
-AccountState *AccountState::loadFromSettings(AccountPtr account, QSettings & /*settings*/)
-{
-    auto accountState = new AccountState(account);
-    return accountState;
-}
 
 AccountPtr AccountState::account() const
 {
@@ -117,7 +128,6 @@ void AccountState::setState(State state)
 
         if (_state == SignedOut) {
             _connectionStatus = ConnectionValidator::Undefined;
-            _connectionErrors.clear();
         } else if (oldState == SignedOut && _state == Disconnected) {
             // If we stop being voluntarily signed-out, try to connect and
             // auth right now!
@@ -162,6 +172,8 @@ QString AccountState::stateString(State state)
         return tr("Configuration error");
     case AskingCredentials:
         return tr("Asking Credentials");
+    case NeedToSignTermsOfService:
+        return tr("Need the user to accept the terms of service");
     }
     return tr("Unknown account state");
 }
@@ -190,8 +202,10 @@ void AccountState::signOutByUi()
 
 void AccountState::freshConnectionAttempt()
 {
-    if (isConnected())
+    if (isConnected()) {
         setState(Disconnected);
+    }
+
     checkConnectivity();
 }
 
@@ -297,8 +311,9 @@ void AccountState::checkConnectivity()
         return;
     }
 
-    auto *conValidator = new ConnectionValidator(AccountStatePtr(this));
+    auto *conValidator = new ConnectionValidator(AccountStatePtr(this), _connectionErrors);
     _connectionValidator = conValidator;
+    _connectionErrors.clear();
     connect(conValidator, &ConnectionValidator::connectionResult,
         this, &AccountState::slotConnectionValidatorResult);
     if (isConnected()) {
@@ -319,7 +334,7 @@ void AccountState::checkConnectivity()
 
         // If we don't reset the ssl config a second CheckServerJob can produce a
         // ssl config that does not have a sensible certificate chain.
-        account()->setSslConfiguration(QSslConfiguration());
+        account()->setSslConfiguration(QSslConfiguration::defaultConfiguration());
         //#endif
         conValidator->checkServerAndAuth();
     }
@@ -346,6 +361,7 @@ void AccountState::slotConnectionValidatorResult(ConnectionValidator::Status sta
         return;
     }
 
+    const auto oldConnectionValidatorStatus = _lastConnectionValidatorStatus;
     _lastConnectionValidatorStatus = status;
 
     // Come online gradually from 503, captive portal(redirection) or maintenance mode
@@ -426,6 +442,15 @@ void AccountState::slotConnectionValidatorResult(ConnectionValidator::Status sta
         setState(NetworkError);
         updateRetryCount();
         break;
+    case ConnectionValidator::NeedToSignTermsOfService:
+        setState(NeedToSignTermsOfService);
+        break;
+    }
+
+    if ((oldConnectionValidatorStatus == ConnectionValidator::NeedToSignTermsOfService && status == ConnectionValidator::Connected) ||
+        (status == ConnectionValidator::NeedToSignTermsOfService && oldConnectionValidatorStatus != status)) {
+
+        emit termsOfServiceChanged(_account, status == ConnectionValidator::NeedToSignTermsOfService ? AccountState::NeedToSignTermsOfService : AccountState::Connected);
     }
 }
 

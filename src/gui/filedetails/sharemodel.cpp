@@ -25,12 +25,14 @@
 #include "folderman.h"
 #include "sharepermissions.h"
 #include "theme.h"
+#include "updatee2eefolderusersmetadatajob.h"
 
 namespace {
 
 static const auto placeholderLinkShareId = QStringLiteral("__placeholderLinkShareId__");
 static const auto internalLinkShareId = QStringLiteral("__internalLinkShareId__");
 static const auto secureFileDropPlaceholderLinkShareId = QStringLiteral("__secureFileDropPlaceholderLinkShareId__");
+
 }
 
 namespace OCC
@@ -88,7 +90,8 @@ QVariant ShareModel::data(const QModelIndex &index, const int role) const
 {
     Q_ASSERT(checkIndex(index, QAbstractItemModel::CheckIndexOption::IndexIsValid | QAbstractItemModel::CheckIndexOption::ParentIsInvalid));
 
-    const auto share = _shares.at(index.row());
+    const auto shareIdx = index.row();
+    const auto share = _shares.at(shareIdx);
 
     if (!share) {
         return {};
@@ -136,7 +139,7 @@ QVariant ShareModel::data(const QModelIndex &index, const int role) const
 
     switch (role) {
     case Qt::DisplayRole:
-        return displayStringForShare(share);
+        return displayStringForShare(share, _duplicateDisplayNameShareIndices.contains(shareIdx));
     case ShareRole:
         return QVariant::fromValue(share);
     case ShareTypeRole:
@@ -180,12 +183,14 @@ QVariant ShareModel::data(const QModelIndex &index, const int role) const
                 || (share->getShareType() == Share::TypeLink && _accountState->account()->capabilities().sharePublicLinkEnforcePassword()));
     case EditingAllowedRole:
         return share->getPermissions().testFlag(SharePermissionUpdate);
+
     case ResharingAllowedRole:
         return share->getPermissions().testFlag(SharePermissionShare);
 
     // Deal with roles that only return certain values for link or user/group share types
     case NoteEnabledRole:
     case ExpireDateEnabledRole:
+    case HideDownloadEnabledRole:
         return false;
     case LinkRole:
     case LinkShareNameRole:
@@ -204,7 +209,7 @@ void ShareModel::resetData()
 {
     beginResetModel();
 
-    _folder = nullptr;
+    _synchronizationFolder = nullptr;
     _sharePath.clear();
     _maxSharingPermissions = {};
     _numericFileId.clear();
@@ -215,11 +220,21 @@ void ShareModel::resetData()
     _fetchOngoing = false;
     _hasInitialShareFetchCompleted = false;
     _sharees.clear();
+    _displayShareOwner = false;
+    _shareOwnerDisplayName.clear();
+    _shareOwnerAvatar.clear();
+    _sharedWithMeExpires = false;
+    _sharedWithMeRemainingTimeString.clear();
 
     Q_EMIT sharePermissionsChanged();
     Q_EMIT fetchOngoingChanged();
     Q_EMIT hasInitialShareFetchCompletedChanged();
     Q_EMIT shareesChanged();
+    Q_EMIT displayShareOwnerChanged();
+    Q_EMIT shareOwnerDisplayNameChanged();
+    Q_EMIT shareOwnerAvatarChanged();
+    Q_EMIT sharedWithMeExpiresChanged();
+    Q_EMIT sharedWithMeRemainingTimeStringChanged();
 
     endResetModel();
 }
@@ -238,9 +253,9 @@ void ShareModel::updateData()
         return;
     }
 
-    _folder = FolderMan::instance()->folderForPath(_localPath);
+    _synchronizationFolder = FolderMan::instance()->folderForPath(_localPath);
 
-    if (!_folder) {
+    if (!_synchronizationFolder) {
         qCWarning(lcShareModel) << "Could not update share model data for" << _localPath << "no responsible folder found";
         resetData();
         return;
@@ -248,16 +263,22 @@ void ShareModel::updateData()
 
     qCDebug(lcShareModel) << "Updating share model data now.";
 
-    const auto relPath = _localPath.mid(_folder->cleanPath().length() + 1);
-    _sharePath = _folder->remotePathTrailingSlash() + relPath;
+    const auto relPath = _localPath.mid(_synchronizationFolder->cleanPath().length() + 1);
+    _sharePath = _synchronizationFolder->remotePathTrailingSlash() + relPath;
 
     SyncJournalFileRecord fileRecord;
     auto resharingAllowed = true; // lets assume the good
 
-    if (_folder->journalDb()->getFileRecord(relPath, &fileRecord) && fileRecord.isValid() && !fileRecord._remotePerm.isNull()
+    if (_synchronizationFolder->journalDb()->getFileRecord(relPath, &fileRecord) && fileRecord.isValid() && !fileRecord._remotePerm.isNull()
         && !fileRecord._remotePerm.hasPermission(RemotePermissions::CanReshare)) {
         qCInfo(lcShareModel) << "File record says resharing not allowed";
         resharingAllowed = false;
+    }
+
+    if (fileRecord.isVirtualFile() && _synchronizationFolder->vfs().mode() == Vfs::WithSuffix) {
+        if (const auto suffix = _synchronizationFolder->vfs().fileSuffix(); !suffix.isEmpty() && _sharePath.endsWith(suffix)) {
+            _sharePath.chop(suffix.length());
+        }
     }
 
     _maxSharingPermissions = resharingAllowed ? SharePermissions(_accountState->account()->capabilities().shareDefaultPermissions()) : SharePermissions({});
@@ -273,6 +294,14 @@ void ShareModel::updateData()
         }
     } else {
         _sharedItemType = fileRecord.isE2eEncrypted() ? SharedItemType::SharedItemTypeEncryptedFile : SharedItemType::SharedItemTypeFile;
+    }
+
+    const auto prevIsShareDisabledEncryptedFolder = _isShareDisabledEncryptedFolder;
+    _isShareDisabledEncryptedFolder = fileRecord.isE2eEncrypted()
+        && (_sharedItemType != SharedItemType::SharedItemTypeEncryptedTopLevelFolder
+            || fileRecord._e2eEncryptionStatus < SyncJournalFileRecord::EncryptionStatus::EncryptedMigratedV2_0);
+    if (prevIsShareDisabledEncryptedFolder != _isShareDisabledEncryptedFolder) {
+        emit isShareDisabledEncryptedFolderChanged();
     }
 
     // Will get added when shares are fetched if no link shares are fetched
@@ -300,7 +329,9 @@ void ShareModel::updateData()
     auto job = new PropfindJob(_accountState->account(), _sharePath);
     job->setProperties(QList<QByteArray>() << "http://open-collaboration-services.org/ns:share-permissions"
                                            << "http://owncloud.org/ns:fileid" // numeric file id for fallback private link generation
-                                           << "http://owncloud.org/ns:privatelink");
+                                           << "http://owncloud.org/ns:privatelink"
+                                           << "http://owncloud.org/ns:owner-id"
+                                           << "http://owncloud.org/ns:owner-display-name");
     job->setTimeout(10 * 1000);
     connect(job, &PropfindJob::result, this, &ShareModel::slotPropfindReceived);
     connect(job, &PropfindJob::finishedWithError, this, [&](const QNetworkReply *reply) {
@@ -435,14 +466,14 @@ void ShareModel::slotPropfindReceived(const QVariantMap &result)
     }
 
     const auto privateLinkUrl = result["privatelink"].toString();
-    const auto numericFileId = result["fileid"].toByteArray();
+    _fileRemoteId = result["fileid"].toByteArray();
 
     if (!privateLinkUrl.isEmpty()) {
         qCInfo(lcShareModel) << "Received private link url for" << _sharePath << privateLinkUrl;
         _privateLinkUrl = privateLinkUrl;
-    } else if (!numericFileId.isEmpty()) {
-        qCInfo(lcShareModel) << "Received numeric file id for" << _sharePath << numericFileId;
-        _privateLinkUrl = _accountState->account()->deprecatedPrivateLinkUrl(numericFileId).toString(QUrl::FullyEncoded);
+    } else if (!_fileRemoteId.isEmpty()) {
+        qCInfo(lcShareModel) << "Received numeric file id for" << _sharePath << _fileRemoteId;
+        _privateLinkUrl = _accountState->account()->deprecatedPrivateLinkUrl(_fileRemoteId).toString(QUrl::FullyEncoded);
     }
 
     setupInternalLinkShare();
@@ -458,14 +489,73 @@ void ShareModel::slotSharesFetched(const QList<SharePtr> &shares)
     qCInfo(lcSharing) << "Fetched" << shares.count() << "shares";
 
     for (const auto &share : shares) {
-        if (share.isNull() ||
-            share->account().isNull() ||
-            share->getUidOwner() != share->account()->davUser()) {
+        if (share.isNull()) {
+            continue;
+        } else if (const auto selfUserId = share->account()->davUser(); share->getUidOwner() != selfUserId) {
+            _displayShareOwner = true;
+            Q_EMIT displayShareOwnerChanged();
+            _shareOwnerDisplayName = share->getOwnerDisplayName();
+            Q_EMIT shareOwnerDisplayNameChanged();
+            _shareOwnerAvatar = "image://avatars/user-id="
+                + share->getUidOwner()
+                + "/local-account:"
+                + share->account()->displayName();
+            Q_EMIT shareOwnerAvatarChanged();
 
+            if (share->getShareType() == Share::TypeUser &&
+                share->getShareWith() &&
+                share->getShareWith()->shareWith() == selfUserId)
+            {
+                const auto userShare = share.objectCast<UserGroupShare>();
+                const auto expireDate = userShare->getExpireDate();
+                const auto daysToExpire = QDate::currentDate().daysTo(expireDate);
+                _sharedWithMeExpires = expireDate.isValid();
+                Q_EMIT sharedWithMeExpiresChanged();
+                _sharedWithMeRemainingTimeString = daysToExpire > 1
+                    ? tr("%1 days").arg(daysToExpire)
+                    :  daysToExpire > 0
+                        ? tr("1 day")
+                        : tr("Today");
+                Q_EMIT sharedWithMeRemainingTimeStringChanged();
+            }
+        } else {
+            slotAddShare(share);
+        }
+    }
+
+    // Perform forward pass on shares and check for duplicate display names; store these indeces so
+    // we can check for these and display the specific user identifier in the display string later
+    _duplicateDisplayNameShareIndices.clear();
+    const auto shareCount = _shares.count();
+    for (auto i = 0; i < shareCount; ++i) {
+        if (_duplicateDisplayNameShareIndices.contains(i)) {
             continue;
         }
 
-        slotAddShare(share);
+        const auto sharee = _shares.at(i)->getShareWith();
+        if (sharee == nullptr) {
+            continue;
+        }
+
+        const auto duplicateIndices = QSharedPointer<QSet<unsigned int>>::create();
+        const auto handleDuplicateIndex = [this, duplicateIndices](const unsigned int idx) {
+            duplicateIndices->insert(idx);
+            _duplicateDisplayNameShareIndices[idx] = duplicateIndices;
+            const auto targetIdx = index(idx);
+            dataChanged(targetIdx, targetIdx, {Qt::DisplayRole});
+        };
+
+        for (auto j = i + 1; j < shareCount; ++j) {
+            const auto otherSharee = _shares.at(j)->getShareWith();
+            if (otherSharee == nullptr || sharee->format() != otherSharee->format()) {
+                continue;
+            }
+            handleDuplicateIndex(j);
+        }
+
+        if (!duplicateIndices->isEmpty()) {
+            handleDuplicateIndex(i);
+        }
     }
 
     handleLinkShare();
@@ -593,9 +683,25 @@ void ShareModel::slotRemoveShareWithId(const QString &shareId)
     const auto sharee = share->getShareWith();
     slotRemoveSharee(sharee);
 
-    beginRemoveRows({}, shareIndex.row(), shareIndex.row());
-    _shares.removeAt(shareIndex.row());
+    const auto shareRow = shareIndex.row();
+    beginRemoveRows({}, shareRow, shareRow);
+    _shares.removeAt(shareRow);
     endRemoveRows();
+
+    // Handle display name duplicates now. First remove the index from the bucket it was in; then,
+    // check if this removal means the remaining index in the bucket is no longer a duplicate.
+    // If this is the case then handle the update for this item too.
+    const auto duplicateShares = _duplicateDisplayNameShareIndices.value(shareRow);
+    if (duplicateShares) {
+        duplicateShares->remove(shareRow);
+        if (duplicateShares->count() == 1) {
+            const auto noLongerDuplicateIndex = *(duplicateShares->begin());
+            _duplicateDisplayNameShareIndices.remove(noLongerDuplicateIndex);
+            const auto noLongerDuplicateModelIndex = index(noLongerDuplicateIndex);
+            Q_EMIT dataChanged(noLongerDuplicateModelIndex, noLongerDuplicateModelIndex, {Qt::DisplayRole});
+        }
+        _duplicateDisplayNameShareIndices.remove(shareRow);
+    }
 
     handleLinkShare();
 
@@ -624,7 +730,7 @@ void ShareModel::slotRemoveSharee(const ShareePtr &sharee)
     Q_EMIT shareesChanged();
 }
 
-QString ShareModel::displayStringForShare(const SharePtr &share) const
+QString ShareModel::displayStringForShare(const SharePtr &share, const bool verbose) const
 {
     if (const auto linkShare = share.objectCast<LinkShare>()) {
 
@@ -644,7 +750,8 @@ QString ShareModel::displayStringForShare(const SharePtr &share) const
     } else if (share->getShareType() == Share::TypeSecureFileDropPlaceholderLink) {
         return tr("Secure file drop");
     } else if (share->getShareWith()) {
-        return share->getShareWith()->format();
+        const auto sharee = share->getShareWith();
+        return verbose ? QString{"%1 (%2)"}.arg(sharee->format(), sharee->shareWith()) : sharee->format();
     }
 
     qCWarning(lcShareModel) << "Unable to provide good display string for share";
@@ -823,6 +930,47 @@ void ShareModel::slotShareExpireDateSet(const QString &shareId)
     const auto sharePersistentModelIndex = _shareIdIndexHash.value(shareId);
     const auto shareModelIndex = index(sharePersistentModelIndex.row());
     Q_EMIT dataChanged(shareModelIndex, shareModelIndex, { ExpireDateEnabledRole, ExpireDateRole });
+}
+
+void ShareModel::slotDeleteE2EeShare(const SharePtr &share) const
+{
+    const auto account = accountState()->account();
+    QString folderAlias;
+    for (const auto &f : FolderMan::instance()->map()) {
+        if (f->accountState()->account() != account) {
+            continue;
+        }
+        const auto folderPath = f->remotePath();
+        if (share->path().startsWith(folderPath) && (share->path() == folderPath || folderPath.endsWith('/') || share->path()[folderPath.size()] == '/')) {
+            folderAlias = f->alias();
+        }
+    }
+
+    auto folder = FolderMan::instance()->folder(folderAlias);
+    if (!folder || !folder->journalDb()) {
+        emit serverError(404, tr("Could not find local folder for %1").arg(share->path()));
+        return;
+    }
+
+    Q_ASSERT(folder->remotePath() == QStringLiteral("/")
+             || Utility::noLeadingSlashPath(share->path()).startsWith(Utility::noLeadingSlashPath(Utility::noTrailingSlashPath(folder->remotePath()))));
+
+    const auto removeE2eeShareJob = new UpdateE2eeFolderUsersMetadataJob(account,
+                                                                         folder->journalDb(),
+                                                                         folder->remotePath(),
+                                                                         UpdateE2eeFolderUsersMetadataJob::Remove,
+                                                                         share->path(),
+                                                                         share->getShareWith()->shareWith());
+    removeE2eeShareJob->setParent(_manager.data());
+    removeE2eeShareJob->start();
+    connect(removeE2eeShareJob, &UpdateE2eeFolderUsersMetadataJob::finished, this, [share, this](int code, const QString &message) {
+        if (code != 200) {
+            qCWarning(lcShareModel) << "Could not remove share from E2EE folder's metadata!";
+            emit serverError(code, message);
+            return;
+        }
+        share->deleteShare();
+    });
 }
 
 // ----------------------- Shares modification slots ----------------------- //
@@ -1099,11 +1247,15 @@ void ShareModel::createNewUserGroupShare(const ShareePtr &sharee)
         return;
     }
 
-    _manager->createShare(_sharePath,
-                          Share::ShareType(sharee->type()),
-                          sharee->shareWith(),
-                          _maxSharingPermissions,
-                          {});
+    if (isSecureFileDropSupportedFolder()) {
+        if (!_synchronizationFolder) {
+            qCWarning(lcShareModel) << "Could not share an E2EE folder" << _localPath << "no responsible folder found";
+            return;
+        }
+        _manager->createE2EeShareJob(_sharePath, sharee, _maxSharingPermissions, {});
+    } else {
+        _manager->createShare(_sharePath, Share::ShareType(sharee->type()), sharee->shareWith(), _maxSharingPermissions, {});
+    }
 }
 
 void ShareModel::createNewUserGroupShareWithPassword(const ShareePtr &sharee, const QString &password) const
@@ -1137,7 +1289,11 @@ void ShareModel::deleteShare(const SharePtr &share) const
         return;
     }
 
-    share->deleteShare();
+    if (isEncryptedItem() && Share::isShareTypeUserGroupEmailRoomOrRemote(share->getShareType())) {
+        slotDeleteE2EeShare(share);
+    } else {
+        share->deleteShare();
+    }
 }
 
 void ShareModel::deleteShareFromQml(const QVariant &share) const
@@ -1254,6 +1410,36 @@ bool ShareModel::serverAllowsResharing() const
         && _accountState->account()->capabilities().shareResharing();
 }
 
+bool ShareModel::isShareDisabledEncryptedFolder() const
+{
+    return _isShareDisabledEncryptedFolder;
+}
+
+bool ShareModel::displayShareOwner() const
+{
+    return _displayShareOwner;
+}
+
+QString ShareModel::shareOwnerDisplayName() const
+{
+    return _shareOwnerDisplayName;
+}
+
+QString ShareModel::shareOwnerAvatar() const
+{
+    return _shareOwnerAvatar;
+}
+
+QString ShareModel::sharedWithMeRemainingTimeString() const
+{
+    return _sharedWithMeRemainingTimeString;
+}
+
+bool ShareModel::sharedWithMeExpires() const
+{
+    return _sharedWithMeExpires;
+}
+
 QVariantList ShareModel::sharees() const
 {
     QVariantList returnSharees;
@@ -1297,7 +1483,7 @@ QString ShareModel::generatePassword()
 
     for (const auto newChar : unsignedCharArray) {
         // Ensure byte is within asciiRange
-        const auto byte = (newChar % (asciiRange + 1)) + asciiMin;
+        const auto byte = QChar((newChar % (asciiRange + 1)) + asciiMin);
         passwd.append(byte);
     }
 

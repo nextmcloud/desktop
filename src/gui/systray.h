@@ -15,12 +15,12 @@
 #ifndef SYSTRAY_H
 #define SYSTRAY_H
 
-#include <QSystemTrayIcon>
-
 #include "accountmanager.h"
 #include "tray/usermodel.h"
 
+#include <QSystemTrayIcon>
 #include <QQmlNetworkAccessManagerFactory>
+#include <QStringListModel>
 
 class QScreen;
 class QQmlApplicationEngine;
@@ -40,6 +40,7 @@ public:
 };
 
 #ifdef Q_OS_MACOS
+#if __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_14
 enum MacNotificationAuthorizationOptions {
     Default = 0,
     Provisional
@@ -52,6 +53,7 @@ bool canOsXSendUserNotification();
 void sendOsXUserNotification(const QString &title, const QString &message);
 void sendOsXUpdateNotification(const QString &title, const QString &message, const QUrl &webUrl);
 void sendOsXTalkNotification(const QString &title, const QString &message, const QString &token, const QString &replyTo, const AccountStatePtr accountState);
+#endif
 void setTrayWindowLevelAndVisibleOnAllSpaces(QWindow *window);
 double menuBarThickness();
 #endif
@@ -60,8 +62,7 @@ double menuBarThickness();
  * @brief The Systray class
  * @ingroup gui
  */
-class Systray
-    : public QSystemTrayIcon
+class Systray : public QSystemTrayIcon
 {
     Q_OBJECT
 
@@ -97,6 +98,8 @@ public:
 
     bool raiseDialogs();
 
+    [[nodiscard]] QQmlApplicationEngine* trayEngine() const;
+
 signals:
     void currentUserChanged();
     void openAccountWizard();
@@ -119,7 +122,6 @@ public slots:
     void showMessage(const QString &title, const QString &message, QSystemTrayIcon::MessageIcon icon = Information);
     void showUpdateMessage(const QString &title, const QString &message, const QUrl &webUrl);
     void showTalkMessage(const QString &title, const QString &message, const QString &replyTo, const QString &token, const OCC::AccountStatePtr &accountState);
-    void setToolTip(const QString &tip);
 
     void createCallDialog(const OCC::Activity &callNotification, const OCC::AccountStatePtr accountState);
     void createEditFileLocallyLoadingDialog(const QString &fileName);
@@ -149,6 +151,7 @@ public slots:
     void presentShareViewInTray(const QString &localPath);
 
 private slots:
+    void slotUpdateSyncPausedState();
     void slotUnpauseAllFolders();
     void slotPauseAllFolders();
 
@@ -165,18 +168,18 @@ private:
 
     [[nodiscard]] QScreen *currentScreen() const;
     [[nodiscard]] QRect currentScreenRect() const;
+    [[nodiscard]] QRect currentAvailableScreenRect() const;
     [[nodiscard]] QPoint computeWindowReferencePoint() const;
     [[nodiscard]] QPoint computeNotificationReferencePoint(int spacing = 20, NotificationPosition position = NotificationPosition::Default) const;
     [[nodiscard]] QPoint calcTrayIconCenter() const;
     [[nodiscard]] TaskBarPosition taskbarOrientation() const;
-    [[nodiscard]] QRect taskbarGeometry() const;
     [[nodiscard]] QRect computeWindowRect(int spacing, const QPoint &topLeft, const QPoint &bottomRight) const;
     [[nodiscard]] QPoint computeWindowPosition(int width, int height) const;
     [[nodiscard]] QPoint computeNotificationPosition(int width, int height, int spacing = 20, NotificationPosition position = NotificationPosition::Default) const;
 
     bool _isOpen = false;
     bool _syncIsPaused = true;
-    QPointer<QQmlApplicationEngine> _trayEngine;
+    std::unique_ptr<QQmlApplicationEngine> _trayEngine;
     QPointer<QMenu> _contextMenu;
     QSharedPointer<QQuickWindow> _trayWindow;
 
@@ -185,6 +188,8 @@ private:
     QSet<qlonglong> _callsAlreadyNotified;
     QPointer<QObject> _editFileLocallyLoadingDialog;
     QVector<QQuickWindow*> _fileDetailDialogs;
+
+    QStringListModel _fakeActivityModel;
 };
 
 } // namespace OCC

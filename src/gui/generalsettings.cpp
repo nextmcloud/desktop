@@ -31,6 +31,11 @@
 #endif
 #endif
 
+#ifdef BUILD_FILE_PROVIDER_MODULE
+#include "macOS/fileprovider.h"
+#include "macOS/fileprovidersettingscontroller.h"
+#endif
+
 #include "ignorelisteditor.h"
 #include "common/utility.h"
 #include "logger.h"
@@ -45,12 +50,6 @@
 #include <QMessageBox>
 
 #include <KZip>
-
-#define QTLEGACY (QT_VERSION < QT_VERSION_CHECK(5,9,0))
-
-#if !(QTLEGACY)
-#include <QOperatingSystemVersion>
-#endif
 
 namespace {
 struct ZipEntry {
@@ -73,11 +72,24 @@ ZipEntry fileInfoToLogZipEntry(const QFileInfo &info)
     return entry;
 }
 
-ZipEntry syncFolderToZipEntry(OCC::Folder *f)
+QVector<ZipEntry> syncFolderToDatabaseZipEntry(OCC::Folder *f)
 {
+    QVector<ZipEntry> result;
+
     const auto journalPath = f->journalDb()->databaseFilePath();
     const auto journalInfo = QFileInfo(journalPath);
-    return fileInfoToZipEntry(journalInfo);
+    const auto walJournalInfo = QFileInfo(journalPath + "-wal");
+    const auto shmJournalInfo = QFileInfo(journalPath + "-shm");
+
+    result += fileInfoToZipEntry(journalInfo);
+    if (walJournalInfo.exists()) {
+        result += fileInfoToZipEntry(walJournalInfo);
+    }
+    if (shmJournalInfo.exists()) {
+        result += fileInfoToZipEntry(shmJournalInfo);
+    }
+
+    return result;
 }
 
 QVector<ZipEntry> createDebugArchiveFileList()
@@ -100,15 +112,28 @@ QVector<ZipEntry> createDebugArchiveFileList()
     }
 
     const auto folders = OCC::FolderMan::instance()->map().values();
-    std::transform(std::cbegin(folders), std::cend(folders),
-                   std::back_inserter(list),
-                   syncFolderToZipEntry);
+    std::for_each(std::cbegin(folders), std::cend(folders),
+                  [&list] (auto &folderIt) {
+                      const auto &newEntries = syncFolderToDatabaseZipEntry(folderIt);
+                      std::copy(std::cbegin(newEntries), std::cend(newEntries), std::back_inserter(list));
+                  });
 
     return list;
 }
 
-void createDebugArchive(const QString &filename)
+bool createDebugArchive(const QString &filename)
 {
+    const auto fileInfo = QFileInfo(filename);
+    const auto dirInfo = QFileInfo(fileInfo.dir().absolutePath());
+    if (!dirInfo.isWritable()) {
+        QMessageBox::critical(
+            nullptr,
+            QObject::tr("Failed to create debug archive"),
+            QObject::tr("Could not create debug archive in selected location!")
+        );
+        return false;
+    }
+
     const auto entries = createDebugArchiveFileList();
 
     KZip zip(filename);
@@ -117,6 +142,27 @@ void createDebugArchive(const QString &filename)
     for (const auto &entry : entries) {
         zip.addLocalFile(entry.localFilename, entry.zipFilename);
     }
+
+#ifdef BUILD_FILE_PROVIDER_MODULE
+    const auto fileProvider = OCC::Mac::FileProvider::instance();
+    if (fileProvider && fileProvider->fileProviderAvailable()) {
+        const auto tempDir = QTemporaryDir();
+        const auto xpc = fileProvider->xpc();
+        const auto vfsAccounts = OCC::Mac::FileProviderSettingsController::instance()->vfsEnabledAccounts();
+        for (const auto &accountUserIdAtHost : vfsAccounts) {
+            const auto accountState = OCC::AccountManager::instance()->accountFromUserId(accountUserIdAtHost);
+            if (!accountState) {
+                qWarning() << "Could not find account for" << accountUserIdAtHost;
+                continue;
+            }
+            const auto account = accountState->account();
+            const auto vfsLogFilename = QStringLiteral("macOS_vfs_%1.log").arg(account->davUser());
+            const auto vfsLogPath = tempDir.filePath(vfsLogFilename);
+            xpc->createDebugArchiveForExtension(accountUserIdAtHost, vfsLogPath);
+            zip.addLocalFile(vfsLogPath, vfsLogFilename);
+        }
+    }
+#endif
 
     const auto clientParameters = QCoreApplication::arguments().join(' ').toUtf8();
     zip.prepareWriting("__nextcloud_client_parameters.txt", {}, {}, clientParameters.size());
@@ -127,7 +173,9 @@ void createDebugArchive(const QString &filename)
     zip.prepareWriting("__nextcloud_client_buildinfo.txt", {}, {}, buildInfo.size());
     zip.writeData(buildInfo, buildInfo.size());
     zip.finishWriting(buildInfo.size());
+    return true;
 }
+
 }
 
 namespace OCC {
@@ -142,6 +190,10 @@ GeneralSettings::GeneralSettings(QWidget *parent)
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
     _ui->serverNotificationsCheckBox->setToolTip(tr("Server notifications that require attention."));
 
+    connect(_ui->chatNotificationsCheckBox, &QAbstractButton::toggled,
+            this, &GeneralSettings::slotToggleChatNotifications);
+    _ui->chatNotificationsCheckBox->setToolTip(tr("Show chat notification dialogs."));
+
     connect(_ui->callNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleCallNotifications);
     _ui->callNotificationsCheckBox->setToolTip(tr("Show call notification dialogs."));
@@ -155,16 +207,13 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     _ui->showInExplorerNavigationPaneCheckBox->setText(txt);
 #endif
 
-    if(Utility::hasSystemLaunchOnStartup(Theme::instance()->appName())) {
-        _ui->autostartCheckBox->setChecked(true);
-        _ui->autostartCheckBox->setDisabled(true);
+    if(const auto hasSystemAutoStart = Utility::hasSystemLaunchOnStartup(Theme::instance()->appName())) {
+        _ui->autostartCheckBox->setChecked(hasSystemAutoStart);
+        _ui->autostartCheckBox->setDisabled(hasSystemAutoStart);
         _ui->autostartCheckBox->setToolTip(tr("You cannot disable autostart because system-wide autostart is enabled."));
-    } else {
-        const bool hasAutoStart = Utility::hasLaunchOnStartup(Theme::instance()->appName());
-        // make sure the binary location is correctly set
-        slotToggleLaunchOnStartup(hasAutoStart);
-        _ui->autostartCheckBox->setChecked(hasAutoStart);
+    } else {       
         connect(_ui->autostartCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::slotToggleLaunchOnStartup);
+        _ui->autostartCheckBox->setChecked(ConfigFile().launchOnSystemStartup());
     }
 
     // setup about section
@@ -180,8 +229,6 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     });
 
     loadMiscSettings();
-    // updater info now set in: customizeStyle
-    //slotUpdateInfo();
 
     // misc
     connect(_ui->monoIconsCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
@@ -200,11 +247,7 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     // Hide on non-Windows, or WindowsVersion < 10.
     // The condition should match the default value of ConfigFile::showInExplorerNavigationPane.
 #ifdef Q_OS_WIN
-    #if QTLEGACY
-        if (QSysInfo::windowsVersion() < QSysInfo::WV_WINDOWS10)
-    #else
         if (QOperatingSystemVersion::current() < QOperatingSystemVersion::Windows10)
-    #endif
             _ui->showInExplorerNavigationPaneCheckBox->setVisible(false);
 #else
     // Hide on non-Windows
@@ -231,6 +274,10 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     // accountAdded means the wizard was finished and the wizard might change some options.
     connect(AccountManager::instance(), &AccountManager::accountAdded, this, &GeneralSettings::loadMiscSettings);
 
+#if defined(BUILD_UPDATER)
+    loadUpdateChannelsList();
+#endif
+
     customizeStyle();
 }
 
@@ -254,7 +301,9 @@ void GeneralSettings::loadMiscSettings()
 
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
     _ui->serverNotificationsCheckBox->setChecked(cfgFile.optionalServerNotifications());
-    _ui->callNotificationsCheckBox->setEnabled(_ui->serverNotificationsCheckBox->isEnabled());
+    _ui->chatNotificationsCheckBox->setEnabled(cfgFile.optionalServerNotifications());
+    _ui->chatNotificationsCheckBox->setChecked(cfgFile.showChatNotifications());
+    _ui->callNotificationsCheckBox->setEnabled(cfgFile.optionalServerNotifications());
     _ui->callNotificationsCheckBox->setChecked(cfgFile.showCallNotifications());
     _ui->showInExplorerNavigationPaneCheckBox->setChecked(cfgFile.showInExplorerNavigationPane());
     _ui->crashreporterCheckBox->setChecked(cfgFile.crashReporter());
@@ -274,10 +323,24 @@ void GeneralSettings::loadMiscSettings()
 }
 
 #if defined(BUILD_UPDATER)
+void GeneralSettings::loadUpdateChannelsList() {
+    ConfigFile cfgFile;
+    const auto validUpdateChannels = cfgFile.validUpdateChannels();
+    if (_currentUpdateChannelList.isEmpty() || (_currentUpdateChannelList != validUpdateChannels && !cfgFile.serverHasValidSubscription())) {
+        _currentUpdateChannelList = validUpdateChannels;
+        _ui->updateChannel->clear();
+        _ui->updateChannel->addItems(_currentUpdateChannelList);
+        const auto currentUpdateChannelIndex = _currentUpdateChannelList.indexOf(cfgFile.currentUpdateChannel());
+        _ui->updateChannel->setCurrentIndex(currentUpdateChannelIndex != -1 ? currentUpdateChannelIndex : 0);
+        connect(_ui->updateChannel, &QComboBox::currentTextChanged, this, &GeneralSettings::slotUpdateChannelChanged);
+    }
+}
+
 void GeneralSettings::slotUpdateInfo()
 {
+    ConfigFile config;
     const auto updater = Updater::instance();
-    if (ConfigFile().skipUpdateCheck() || !updater) {
+    if (config.skipUpdateCheck() || !updater) {
         // updater disabled on compile
         _ui->updatesContainer->setVisible(false);
         return;
@@ -287,22 +350,20 @@ void GeneralSettings::slotUpdateInfo()
         connect(_ui->updateButton,
                 &QAbstractButton::clicked,
                 this,
-
                 &GeneralSettings::slotUpdateCheckNow,
                 Qt::UniqueConnection);
         connect(_ui->autoCheckForUpdatesCheckBox, &QAbstractButton::toggled, this,
                 &GeneralSettings::slotToggleAutoUpdateCheck, Qt::UniqueConnection);
-        _ui->autoCheckForUpdatesCheckBox->setChecked(ConfigFile().autoUpdateCheck());
+        _ui->autoCheckForUpdatesCheckBox->setChecked(config.autoUpdateCheck());
     }
 
     // Note: the sparkle-updater is not an OCUpdater
-    auto *ocupdater = qobject_cast<OCUpdater *>(updater);
+    const auto ocupdater = qobject_cast<OCUpdater *>(updater);
     if (ocupdater) {
         connect(ocupdater, &OCUpdater::downloadStateChanged, this, &GeneralSettings::slotUpdateInfo, Qt::UniqueConnection);
         connect(_ui->restartButton, &QAbstractButton::clicked, ocupdater, &OCUpdater::slotStartInstaller, Qt::UniqueConnection);
-        connect(_ui->restartButton, &QAbstractButton::clicked, qApp, &QApplication::quit, Qt::UniqueConnection);
 
-        QString status = ocupdater->statusString(OCUpdater::UpdateStatusStringFormat::Html);
+        auto status = ocupdater->statusString(OCUpdater::UpdateStatusStringFormat::Html);
         Theme::replaceLinkColorStringBackgroundAware(status);
 
         _ui->updateStateLabel->setOpenExternalLinks(false);
@@ -310,9 +371,7 @@ void GeneralSettings::slotUpdateInfo()
             Utility::openBrowser(QUrl(link));
         });
         _ui->updateStateLabel->setText(status);
-
         _ui->restartButton->setVisible(ocupdater->downloadState() == OCUpdater::DownloadComplete);
-
         _ui->updateButton->setEnabled(ocupdater->downloadState() != OCUpdater::CheckingServer &&
                                       ocupdater->downloadState() != OCUpdater::Downloading &&
                                       ocupdater->downloadState() != OCUpdater::DownloadComplete);
@@ -329,57 +388,72 @@ void GeneralSettings::slotUpdateInfo()
         _ui->updateButton->setEnabled(enableUpdateButton);
     }
 #endif
-
-    // Channel selection
-    _ui->updateChannel->setCurrentIndex(ConfigFile().updateChannel() == "beta" ? 1 : 0);
-    connect(_ui->updateChannel, &QComboBox::currentTextChanged,
-        this, &GeneralSettings::slotUpdateChannelChanged, Qt::UniqueConnection);
 }
 
 void GeneralSettings::slotUpdateChannelChanged()
 {
     const auto updateChannelToLocalized = [](const QString &channel) {
-        auto decodedTranslatedChannel = QString{};
-
         if (channel == QStringLiteral("stable")) {
-            decodedTranslatedChannel = tr("stable");
-        } else if (channel == QStringLiteral("beta")) {
-            decodedTranslatedChannel = tr("beta");
+            return tr("stable");
         }
 
-        return decodedTranslatedChannel;
+        if (channel == QStringLiteral("beta")) {
+            return tr("beta");
+        }
+
+        if (channel == QStringLiteral("daily")) {
+            return tr("daily");
+        }
+
+        if (channel == QStringLiteral("enterprise")) {
+            return tr("enterprise");
+        }
+
+        return QString{};
     };
 
     const auto updateChannelFromLocalized = [](const int index) {
-        if (index == 1) {
+        switch(index) {
+        case 1:
             return QStringLiteral("beta");
+            break;
+        case 2:
+            return QStringLiteral("daily");
+            break;
+        case 3:
+            return QStringLiteral("enterprise");
+            break;
+        default:
+            return QStringLiteral("stable");
         }
-
-        return QStringLiteral("stable");
     };
 
+    ConfigFile configFile;
     const auto channel = updateChannelFromLocalized(_ui->updateChannel->currentIndex());
-    if (channel == ConfigFile().updateChannel()) {
+    if (channel == configFile.currentUpdateChannel()) {
         return;
     }
 
+    const auto nonEnterpriseOptions = tr("- beta: contains versions with new features that may not be tested thoroughly\n"
+                                    "- daily: contains versions created daily only for testing and development\n"
+                                    "\n"
+                                    "Downgrading versions is not possible immediately: changing from beta to stable means waiting for the new stable version.",
+                                    "list of available update channels to non enterprise users and downgrading warning");
+    const auto enterpriseOptions = tr("- enterprise: contains stable versions for customers.\n"
+                                    "\n"
+                                    "Downgrading versions is not possible immediately: changing from stable to enterprise means waiting for the new enterprise version.",
+                                    "list of available update channels to enterprise users and downgrading warning");
+
     auto msgBox = new QMessageBox(
         QMessageBox::Warning,
-        tr("Change update channel?"),
-        tr("The update channel determines which client updates will be offered "
-           "for installation. The \"stable\" channel contains only upgrades that "
-           "are considered reliable, while the versions in the \"beta\" channel "
-           "may contain newer features and bugfixes, but have not yet been tested "
-           "thoroughly."
-           "\n\n"
-           "Note that this selects only what pool upgrades are taken from, and that "
-           "there are no downgrades: So going back from the beta channel to "
-           "the stable channel usually cannot be done immediately and means waiting "
-           "for a stable version that is newer than the currently installed beta "
-           "version."),
+        tr("Changing update channel?"),
+        tr("The channel determines which upgrades will be offered to install:\n"
+           "- stable: contains tested versions considered reliable\n",
+           "starts list of available update channels, stable is always available")
+            .append(configFile.validUpdateChannels().contains("enterprise") ? enterpriseOptions : nonEnterpriseOptions),
         QMessageBox::NoButton,
         this);
-    auto acceptButton = msgBox->addButton(tr("Change update channel"), QMessageBox::AcceptRole);
+    const auto acceptButton = msgBox->addButton(tr("Change update channel"), QMessageBox::AcceptRole);
     msgBox->addButton(tr("Cancel"), QMessageBox::RejectRole);
     connect(msgBox, &QMessageBox::finished, msgBox, [this, channel, msgBox, acceptButton, updateChannelToLocalized] {
         msgBox->deleteLater();
@@ -396,7 +470,7 @@ void GeneralSettings::slotUpdateChannelChanged()
             }
 #endif
         } else {
-            _ui->updateChannel->setCurrentText(updateChannelToLocalized(ConfigFile().updateChannel()));
+            _ui->updateChannel->setCurrentText(updateChannelToLocalized(ConfigFile().currentUpdateChannel()));
         }
     });
     msgBox->open();
@@ -456,7 +530,13 @@ void GeneralSettings::saveMiscSettings()
 
 void GeneralSettings::slotToggleLaunchOnStartup(bool enable)
 {
-    Theme *theme = Theme::instance();
+    const auto theme = Theme::instance();
+    if (enable == Utility::hasLaunchOnStartup(theme->appName())) {
+        return;
+    }
+
+    ConfigFile configFile;
+    configFile.setLaunchOnSystemStartup(enable);
     Utility::setLaunchOnStartup(theme->appName(), theme->appNameGUI(), enable);
 }
 
@@ -464,7 +544,14 @@ void GeneralSettings::slotToggleOptionalServerNotifications(bool enable)
 {
     ConfigFile cfgFile;
     cfgFile.setOptionalServerNotifications(enable);
+    _ui->chatNotificationsCheckBox->setEnabled(enable);
     _ui->callNotificationsCheckBox->setEnabled(enable);
+}
+
+void GeneralSettings::slotToggleChatNotifications(bool enable)
+{
+    ConfigFile cfgFile;
+    cfgFile.setShowChatNotifications(enable);
 }
 
 void GeneralSettings::slotToggleCallNotifications(bool enable)
@@ -495,13 +582,24 @@ void GeneralSettings::slotIgnoreFilesEditor()
 
 void GeneralSettings::slotCreateDebugArchive()
 {
-    const auto filename = QFileDialog::getSaveFileName(this, tr("Create Debug Archive"), QString(), tr("Zip Archives") + " (*.zip)");
+    const auto filename = QFileDialog::getSaveFileName(
+        this,
+        tr("Create Debug Archive"),
+        QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
+        tr("Zip Archives") + " (*.zip)"
+    );
+
     if (filename.isEmpty()) {
         return;
     }
 
-    createDebugArchive(filename);
-    QMessageBox::information(this, tr("Debug Archive Created"), tr("Debug archive is created at %1").arg(filename));
+    if (createDebugArchive(filename)) {
+        QMessageBox::information(
+            this,
+            tr("Debug Archive Created"),
+            tr("Debug archive is created at %1").arg(filename)
+        );
+    }
 }
 
 void GeneralSettings::slotShowLegalNotice()

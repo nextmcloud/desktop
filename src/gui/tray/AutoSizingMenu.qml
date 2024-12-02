@@ -1,6 +1,6 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.3
-import Style 1.0
+import QtQuick
+import QtQuick.Controls
+import Style
 
 Menu {
     width: {
@@ -8,7 +8,7 @@ Menu {
         var padding = 0;
         for (var i = 0; i < count; ++i) {
             var item = itemAt(i);
-            result = Math.max(item.contentItem.implicitWidth, result);
+            result = Math.max(item.implicitWidth, result);
             padding = Math.max(item.padding, padding);
         }
         return result + padding * 2;

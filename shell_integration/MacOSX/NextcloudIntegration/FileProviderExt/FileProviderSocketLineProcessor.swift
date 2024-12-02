@@ -24,33 +24,36 @@ class FileProviderSocketLineProcessor: NSObject, LineProcessor {
     }
 
     func process(_ line: String) {
-        if (line.contains("~")) { // We use this as the separator specifically in ACCOUNT_DETAILS
-            Logger.desktopClientConnection.debug("Processing file provider line with potentially sensitive user data")
+        if line.contains("~") {  // We use this as the separator specifically in ACCOUNT_DETAILS
+            Logger.desktopClientConnection.debug(
+                "Processing file provider line with potentially sensitive user data")
         } else {
-            Logger.desktopClientConnection.debug("Processing file provider line: \(line, privacy: .public)")
+            Logger.desktopClientConnection.debug(
+                "Processing file provider line: \(line, privacy: .public)")
         }
 
         let splitLine = line.split(separator: ":", maxSplits: 1)
         guard let commandSubsequence = splitLine.first else {
             Logger.desktopClientConnection.error("Input line did not have a first element")
-            return;
+            return
         }
-        let command = String(commandSubsequence);
+        let command = String(commandSubsequence)
 
         Logger.desktopClientConnection.debug("Received command: \(command, privacy: .public)")
-        if (command == "SEND_FILE_PROVIDER_DOMAIN_IDENTIFIER") {
+        if command == "SEND_FILE_PROVIDER_DOMAIN_IDENTIFIER" {
             delegate.sendFileProviderDomainIdentifier()
-        } else if (command == "ACCOUNT_NOT_AUTHENTICATED") {
+        } else if command == "ACCOUNT_NOT_AUTHENTICATED" {
             delegate.removeAccountConfig()
-        } else if (command == "ACCOUNT_DETAILS") {
+        } else if command == "ACCOUNT_DETAILS" {
             guard let accountDetailsSubsequence = splitLine.last else { return }
-            let splitAccountDetails = accountDetailsSubsequence.split(separator: "~", maxSplits: 2)
+            let splitAccountDetails = accountDetailsSubsequence.split(separator: "~", maxSplits: 3)
 
             let user = String(splitAccountDetails[0])
-            let serverUrl = String(splitAccountDetails[1])
-            let password = String(splitAccountDetails[2])
+            let userId = String(splitAccountDetails[1])
+            let serverUrl = String(splitAccountDetails[2])
+            let password = String(splitAccountDetails[3])
 
-            delegate.setupDomainAccount(user: user, serverUrl: serverUrl, password: password)
+            delegate.setupDomainAccount(user: user, userId: userId, serverUrl: serverUrl, password: password)
         }
     }
 }

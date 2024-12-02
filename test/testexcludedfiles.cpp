@@ -9,6 +9,7 @@
 #include <QTemporaryDir>
 
 #include "csync_exclude.h"
+#include "logger.h"
 
 using namespace OCC;
 
@@ -64,6 +65,14 @@ static auto check_dir_traversal(const char *path)
 
 
 private slots:
+    void initTestCase()
+    {
+        OCC::Logger::instance()->setLogFlush(true);
+        OCC::Logger::instance()->setLogDebug(true);
+
+        QStandardPaths::setTestModeEnabled(true);
+    }
+
     void testFun()
     {
         ExcludedFiles excluded;
@@ -85,8 +94,6 @@ private slots:
         QVERIFY(excluded.isExcluded("/a/foo_conflict-bar", "/a", keepHidden));
         QVERIFY(excluded.isExcluded("/a/foo (conflicted copy bar)", "/a", keepHidden));
         QVERIFY(excluded.isExcluded("/a/.b", "/a", excludeHidden));
-
-        QVERIFY(excluded.isExcluded("/a/#b#", "/a", keepHidden));
     }
 
     void check_csync_exclude_add()
@@ -594,8 +601,8 @@ private slots:
     {
         auto csync_is_windows_reserved_word = [](const char *fn) {
             QString s = QString::fromLatin1(fn);
-            extern bool csync_is_windows_reserved_word(const QStringRef &filename);
-            return csync_is_windows_reserved_word(&s);
+            extern bool csync_is_windows_reserved_word(const QStringView &filename);
+            return csync_is_windows_reserved_word(s);
         };
 
         QVERIFY(csync_is_windows_reserved_word("CON"));

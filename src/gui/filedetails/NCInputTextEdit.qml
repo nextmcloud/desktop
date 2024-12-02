@@ -12,17 +12,17 @@
  * for more details.
  */
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-import com.nextcloud.desktopclient 1.0
-import Style 1.0
+import com.nextcloud.desktopclient
+import Style
 
 TextEdit {
     id: root
 
-    readonly property color accentColor: Style.ncBlue
+    readonly property color accentColor: palette.highlight
     readonly property color secondaryColor: palette.dark
     readonly property alias submitButton: submitButton
 
@@ -35,7 +35,7 @@ TextEdit {
     Rectangle {
         id: textFieldBorder
         anchors.fill: parent
-        radius: Style.slightlyRoundedButtonRadius
+        radius: Style.trayWindowRadius
         border.width: Style.normalBorderWidth
         border.color: root.activeFocus ? root.accentColor : root.secondaryColor
         color: palette.base
@@ -51,11 +51,6 @@ TextEdit {
 
         width: height
         height: parent.height
-
-        background: Rectangle {
-            radius: width / 2
-            color: textFieldBorder.color
-        }
 
         flat: true
         icon.source: "image://svgimage-custom-color/confirm.svg" + "/" + root.secondaryColor

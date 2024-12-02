@@ -21,6 +21,7 @@
 #include "common/asserts.h"
 #include "encryptfolderjob.h"
 #include "filesystem.h"
+#include "csync/csync.h"
 
 #include <QFile>
 #include <QLoggingCategory>
@@ -138,10 +139,13 @@ void PropagateRemoteMkdir::finalizeMkColJob(QNetworkReply::NetworkError err, con
 
     propagator()->_activeJobList.append(this);
     auto propfindJob = new PropfindJob(propagator()->account(), jobPath, this);
-    propfindJob->setProperties({QByteArrayLiteral("http://owncloud.org/ns:share-types"), QByteArrayLiteral("http://owncloud.org/ns:permissions")});
+    propfindJob->setProperties({QByteArrayLiteral("http://owncloud.org/ns:share-types"), QByteArrayLiteral("http://owncloud.org/ns:permissions"), QByteArrayLiteral("http://nextcloud.org/ns:is-mount-root")});
     connect(propfindJob, &PropfindJob::result, this, [this, jobPath](const QVariantMap &result){
         propagator()->_activeJobList.removeOne(this);
-        _item->_remotePerm = RemotePermissions::fromServerString(result.value(QStringLiteral("permissions")).toString());
+        _item->_remotePerm = RemotePermissions::fromServerString(result.value(QStringLiteral("permissions")).toString(),
+                                                                 propagator()->account()->serverHasMountRootProperty() ? RemotePermissions::MountedPermissionAlgorithm::UseMountRootProperty : RemotePermissions::MountedPermissionAlgorithm::WildGuessMountedSubProperty,
+                                                                 result);
+
         _item->_sharedByMe = !result.value(QStringLiteral("share-types")).toString().isEmpty();
         _item->_isShared = _item->_remotePerm.hasPermission(RemotePermissions::IsShared) || _item->_sharedByMe;
         _item->_lastShareStateFetchedTimestamp = QDateTime::currentMSecsSinceEpoch();
@@ -156,7 +160,15 @@ void PropagateRemoteMkdir::finalizeMkColJob(QNetworkReply::NetworkError err, con
             // We're expecting directory path in /Foo/Bar convention...
             Q_ASSERT(jobPath.startsWith('/') && !jobPath.endsWith('/'));
             // But encryption job expect it in Foo/Bar/ convention
-            auto job = new OCC::EncryptFolderJob(propagator()->account(), propagator()->_journal, jobPath.mid(1), _item->_fileId, this);
+            auto job = new OCC::EncryptFolderJob(propagator()->account(),
+                                                 propagator()->_journal,
+                                                 jobPath.mid(1),
+                                                 _item->_file,
+                                                 propagator()->remotePath(),
+                                                 _item->_fileId,
+                                                 propagator(),
+                                                 _item);
+            job->setParent(this);
             connect(job, &OCC::EncryptFolderJob::finished, this, &PropagateRemoteMkdir::slotEncryptFolderFinished);
             job->start();
         }
@@ -222,6 +234,7 @@ void PropagateRemoteMkdir::slotMkcolJobFinished()
 
     _item->_fileId = _job->reply()->rawHeader("OC-FileId");
 
+    qCInfo(lcPropagateRemoteMkdir()) << "mkcol job error string:" << _item->_errorString << _job->errorString();
     _item->_errorString = _job->errorString();
 
     const auto jobHttpReasonPhraseString = _job->reply()->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
@@ -239,11 +252,19 @@ void PropagateRemoteMkdir::slotMkcolJobFinished()
     }
 }
 
-void PropagateRemoteMkdir::slotEncryptFolderFinished()
+void PropagateRemoteMkdir::slotEncryptFolderFinished(int status, EncryptionStatusEnums::ItemEncryptionStatus encryptionStatus)
 {
+    if (status != EncryptFolderJob::Success) {
+        done(SyncFileItem::FatalError, tr("Failed to encrypt a folder %1").arg(_item->_file), ErrorCategory::GenericError);
+        return;
+    }
     qCDebug(lcPropagateRemoteMkdir) << "Success making the new folder encrypted";
     propagator()->_activeJobList.removeOne(this);
-    _item->_e2eEncryptionStatus = SyncFileItem::EncryptionStatus::EncryptedMigratedV1_2;
+    _item->_e2eEncryptionStatus = encryptionStatus;
+    _item->_e2eEncryptionStatusRemote = encryptionStatus;
+    if (_item->isEncrypted()) {
+        _item->_e2eEncryptionServerCapability = EncryptionStatusEnums::fromEndToEndEncryptionApiVersion(propagator()->account()->capabilities().clientSideEncryptionVersion());
+    }
     success();
 }
 

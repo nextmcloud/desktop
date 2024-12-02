@@ -39,6 +39,7 @@ struct SyncJournalFileLockInfo {
     QString _lockEditorApp;
     qint64 _lockTime = 0;
     qint64 _lockTimeout = 0;
+    QString _lockToken;
 };
 
 /**
@@ -87,6 +88,8 @@ public:
     bool _isShared = false;
     qint64 _lastShareStateFetchedTimestamp = 0;
     bool _sharedByMe = false;
+    bool _isLivePhoto = false;
+    QString _livePhotoFile;
 };
 
 QDebug& operator<<(QDebug &stream, const SyncJournalFileRecord::EncryptionStatus status);

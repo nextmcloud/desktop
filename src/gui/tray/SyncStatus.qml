@@ -1,15 +1,16 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-import Style 1.0
+import Style
 
-import com.nextcloud.desktopclient 1.0 as NC
+import com.nextcloud.desktopclient as NC
 
 RowLayout {
     id: root
 
     property alias model: syncStatus
+    property color accentColor: Style.ncBlue
 
     spacing: Style.trayHorizontalMargin
 
@@ -26,15 +27,15 @@ RowLayout {
         Layout.preferredHeight: size
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        Layout.topMargin: 16
+        Layout.topMargin: Style.trayHorizontalMargin
         Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
-        Layout.bottomMargin: 16
+        Layout.bottomMargin: Style.trayHorizontalMargin
         Layout.leftMargin: Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
 
         padding: 0
 
         imageSource: syncStatus.syncIcon
-        running: syncStatus.syncing
+        running: false // hotfix for download speed slowdown when tray is open
     }
 
     ColumnLayout {
@@ -69,6 +70,7 @@ RowLayout {
             sourceComponent: NCProgressBar {
                 id: syncProgressBar
                 value: syncStatus.syncProgress
+                fillColor: root.accentColor
             }
         }
 
@@ -79,29 +81,19 @@ RowLayout {
 
             text: syncStatus.syncStatusDetailString
             visible: syncStatus.syncStatusDetailString !== ""
-            color: palette.midlight
             font.pixelSize: Style.subLinePixelSize
             wrapMode: Text.Wrap
         }
     }
 
-    CustomButton {
+    Button {
         id: syncNowButton
-
-        FontMetrics {
-            id: syncNowFm
-            font: syncNowButton.contentsFont
-        }
 
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Sync now")
 
         padding: Style.smallSpacing
-        textColor: Style.adjustedCurrentUserHeaderColor
-        textColorHovered: Style.currentUserHeaderTextColor
-        contentsFont.bold: true
-        bgColor: Style.currentUserHeaderColor
 
         visible: !activityModel.hasSyncConflicts &&
                  !syncStatus.syncing &&
@@ -115,18 +107,10 @@ RowLayout {
         }
     }
 
-    CustomButton {
-        Layout.preferredWidth: syncNowFm.boundingRect(text).width +
-                               leftPadding +
-                               rightPadding +
-                               Style.standardSpacing * 2
+    Button {
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Resolve conflicts")
-        textColor: Style.adjustedCurrentUserHeaderColor
-        textColorHovered: Style.currentUserHeaderTextColor
-        contentsFont.bold: true
-        bgColor: Style.currentUserHeaderColor
 
         visible: activityModel.hasSyncConflicts &&
                  !syncStatus.syncing &&

@@ -27,6 +27,10 @@
 #include "owncloudgui.h"
 #include "folderstatusmodel.h"
 
+#ifdef BUILD_FILE_PROVIDER_MODULE
+#include "macOS/fileprovidersettingscontroller.h"
+#endif
+
 class QModelIndex;
 class QNetworkReply;
 class QListWidgetItem;

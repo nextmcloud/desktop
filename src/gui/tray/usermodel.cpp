@@ -1,5 +1,6 @@
 #include "notificationhandler.h"
 #include "usermodel.h"
+#include "common/filesystembase.h"
 
 #include "accountmanager.h"
 #include "owncloudgui.h"
@@ -119,12 +120,12 @@ bool User::canShowNotification(const long notificationId)
             !notificationAlreadyShown(notificationId);
 }
 
-void User::checkAndRemoveSeenActivities(const ActivityList &list, const int numChatNotificationsReceived)
+void User::checkAndRemoveSeenActivities(const ActivityList &list, const int numTalkNotificationsReceived)
 {
-    if (numChatNotificationsReceived < _lastChatNotificationsReceivedCount) {
+    if (numTalkNotificationsReceived < _lastTalkNotificationsReceivedCount) {
         _activityModel->checkAndRemoveSeenActivities(list);
     }
-    _lastChatNotificationsReceivedCount = numChatNotificationsReceived;
+    _lastTalkNotificationsReceivedCount = numTalkNotificationsReceived;
 }
 
 void User::showDesktopNotification(const QString &title, const QString &message, const long notificationId)
@@ -154,7 +155,7 @@ void User::showDesktopNotification(const Activity &activity)
 
 void User::showDesktopNotification(const ActivityList &activityList)
 {
-    const auto subject = QStringLiteral("%1 notifications").arg(activityList.count());
+    const auto subject = tr("%1 notifications").arg(activityList.count());
     const auto notificationId = -static_cast<int>(qHash(subject));
 
     if (!canShowNotification(notificationId)) {
@@ -183,7 +184,7 @@ void User::showDesktopTalkNotification(const Activity &activity)
 {
     const auto notificationId = activity._id;
 
-    if (!canShowNotification(notificationId)) {
+    if (!canShowNotification(notificationId) || !ConfigFile().showChatNotifications()) {
         return;
     }
 
@@ -205,10 +206,11 @@ void User::showDesktopTalkNotification(const Activity &activity)
 
 void User::slotBuildNotificationDisplay(const ActivityList &list)
 {
-    const auto chatNotificationsReceivedCount = std::count_if(std::cbegin(list), std::cend(list), [](const auto &activity) {
-        return activity._objectType == QStringLiteral("chat");
+    const auto talkNotificationsReceivedCount = std::count_if(std::cbegin(list), std::cend(list), [](const auto &activity) {
+        return activity._objectType == QStringLiteral("chat") ||
+            activity._objectType == QStringLiteral("call");
     });
-    checkAndRemoveSeenActivities(list, chatNotificationsReceivedCount);
+    checkAndRemoveSeenActivities(list, talkNotificationsReceivedCount);
 
     ActivityList toNotifyList;
 
@@ -337,15 +339,22 @@ void User::parseNewGroupFolderPath(const QString &mountPoint)
     if (mountPoint.isEmpty()) {
         return;
     }
-    auto mountPointSplit = mountPoint.split(QLatin1Char('/'), Qt::SkipEmptyParts);
+
+    auto sanitisedMountPoint = mountPoint;
+    sanitisedMountPoint.replace("//", "/");
+    auto mountPointSplit = sanitisedMountPoint.split('/', Qt::SkipEmptyParts);
 
     if (mountPointSplit.isEmpty()) {
         return;
     }
 
     const auto groupFolderName = mountPointSplit.takeLast();
-    const auto parentPath = mountPointSplit.join(QLatin1Char('/'));
-    _trayFolderInfos.push_back(QVariant::fromValue(TrayFolderInfo{groupFolderName, parentPath, mountPoint, TrayFolderInfo::GroupFolder}));
+    const auto parentPath = mountPointSplit.join('/');
+    const auto folderInfo = TrayFolderInfo(
+        groupFolderName, parentPath, sanitisedMountPoint, TrayFolderInfo::GroupFolder
+    );
+    const auto folderInfoVariant = QVariant::fromValue(folderInfo);
+    _trayFolderInfos.push_back(folderInfoVariant);
 }
 
 void User::prePendGroupFoldersWithLocalFolder()
@@ -469,7 +478,7 @@ void User::slotRefreshNotifications()
 
 void User::slotRebuildNavigationAppList()
 {
-    emit serverHasTalkChanged();
+    emit featuredAppChanged();
     // Rebuild App list
     UserAppsModel::instance()->buildAppList();
 }
@@ -575,24 +584,24 @@ void User::slotProgressInfo(const QString &folder, const ProgressInfo &progress)
                 continue;
             }
 
-            if (activity._syncFileItemStatus == SyncFileItem::Conflict && !QFileInfo::exists(f->path() + activity._file)) {
+            if (activity._syncFileItemStatus == SyncFileItem::Conflict && !FileSystem::fileExists(f->path() + activity._file)) {
                 _activityModel->removeActivityFromActivityList(activity);
                 continue;
             }
 
-            if (activity._syncFileItemStatus == SyncFileItem::FileLocked && !QFileInfo::exists(f->path() + activity._file)) {
-                _activityModel->removeActivityFromActivityList(activity);
-                continue;
-            }
-
-
-            if (activity._syncFileItemStatus == SyncFileItem::FileIgnored && !QFileInfo::exists(f->path() + activity._file)) {
+            if (activity._syncFileItemStatus == SyncFileItem::FileLocked && !FileSystem::fileExists(f->path() + activity._file)) {
                 _activityModel->removeActivityFromActivityList(activity);
                 continue;
             }
 
 
-            if (!QFileInfo::exists(f->path() + activity._file)) {
+            if (activity._syncFileItemStatus == SyncFileItem::FileIgnored && !FileSystem::fileExists(f->path() + activity._file)) {
+                _activityModel->removeActivityFromActivityList(activity);
+                continue;
+            }
+
+
+            if (!FileSystem::fileExists(f->path() + activity._file)) {
                 _activityModel->removeActivityFromActivityList(activity);
                 continue;
             }
@@ -802,7 +811,7 @@ void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr 
     activity._fileAction = fileActionFromInstruction(item->_instruction);
 
     if (item->_status == SyncFileItem::NoStatus || item->_status == SyncFileItem::Success) {
-        qCWarning(lcActivity) << "Item " << item->_file << " retrieved successfully.";
+        qCDebug(lcActivity) << "Item " << item->_file << " retrieved successfully.";
 
         if (item->_direction != SyncFileItem::Up) {
             activity._message = QObject::tr("Synced %1").arg(fileName);
@@ -837,7 +846,7 @@ void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr 
 
         _activityModel->addSyncFileItemToActivityList(activity);
     } else {
-        qCWarning(lcActivity) << "Item " << item->_file << " retrieved resulted in error " << item->_errorString;
+        qCInfo(lcActivity) << "Item " << item->_file << " retrieved resulted in error " << item->_errorString;
 
         activity._subject = item->_errorString;
         activity._id = -static_cast<int>(qHash(activity._subject + activity._message));
@@ -846,7 +855,15 @@ void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr 
             _activityModel->addIgnoredFileToList(activity);
         } else {
             // add 'protocol error' to activity list
-            if (item->_status == SyncFileItem::Status::FileNameInvalid) {
+            if (item->_status == SyncFileItem::Status::FileNameInvalid || item->_status == SyncFileItem::Status::FileNameInvalidOnServer) {
+                ActivityLink buttonActivityLink;
+                buttonActivityLink._label = tr("Rename file");
+                buttonActivityLink._link = activity._link.toString();
+                buttonActivityLink._verb = "RENAME_LOCAL_FILE";
+                buttonActivityLink._primary = true;
+
+                activity._links = {buttonActivityLink};
+
                 showDesktopNotification(item->_file, activity._subject, activity._id);
             } else if (item->_status == SyncFileItem::Conflict || item->_status == SyncFileItem::FileNameClash) {
                 ActivityLink buttonActivityLink;
@@ -875,7 +892,7 @@ void User::slotItemCompleted(const QString &folder, const SyncFileItemPtr &item)
         return;
     }
 
-    qCWarning(lcActivity) << "Item " << item->_file << " retrieved resulted in " << item->_errorString;
+    qCDebug(lcActivity) << "Item " << item->_file << " retrieved resulted in " << item->_errorString;
     processCompletedSyncItem(folderInstance, item);
 }
 
@@ -896,7 +913,7 @@ void User::setCurrentUser(const bool &isCurrent)
 
 Folder *User::getFolder() const
 {
-    foreach (Folder *folder, FolderMan::instance()->map()) {
+    for (const auto &folder : FolderMan::instance()->map()) {
         if (folder->accountState() == _account.data()) {
             return folder;
         }
@@ -915,11 +932,9 @@ UnifiedSearchResultsListModel *User::getUnifiedSearchResultsListModel() const
     return _unifiedSearchResultsModel;
 }
 
-void User::openLocalFolder()
+void User::openLocalFolder() const
 {
-    const auto folder = getFolder();
-
-    if (folder) {
+    if (const auto folder = getFolder()) {
         QDesktopServices::openUrl(QUrl::fromLocalFile(folder->path()));
     }
 }
@@ -1035,6 +1050,22 @@ bool User::serverHasTalk() const
     return talkApp() != nullptr;
 }
 
+bool User::isFeaturedAppEnabled() const
+{
+    return isNcAssistantEnabled() || serverHasTalk();
+}
+
+QString User::featuredAppIcon() const
+{
+    return isNcAssistantEnabled() ? "image://svgimage-custom-color/nc-assistant-app.svg"
+                                  : "image://svgimage-custom-color/talk-app.svg";
+}
+
+QString User::featuredAppAccessibleName() const
+{
+    return isNcAssistantEnabled() ? tr("Open Nextcloud Assistant in browser") : tr("Open Nextcloud Talk in browser");
+}
+
 AccountApp *User::talkApp() const
 {
     return _account->findApp(QStringLiteral("spreed"));
@@ -1043,6 +1074,11 @@ AccountApp *User::talkApp() const
 bool User::hasActivities() const
 {
     return _account->account()->capabilities().hasActivities();
+}
+
+bool User::isNcAssistantEnabled() const
+{
+    return _account->account()->capabilities().ncAssistantEnabled();
 }
 
 QColor User::headerColor() const
@@ -1328,19 +1364,6 @@ void UserModel::openCurrentAccountLocalFolder()
     _users[_currentUserId]->openLocalFolder();
 }
 
-void UserModel::openCurrentAccountTalk()
-{
-    if (!currentUser())
-        return;
-
-    const auto talkApp = currentUser()->talkApp();
-    if (talkApp) {
-        Utility::openBrowser(talkApp->url());
-    } else {
-        qCWarning(lcActivity) << "The Talk app is not enabled on" << currentUser()->server();
-    }
-}
-
 void UserModel::openCurrentAccountServer()
 {
     if (_currentUserId < 0 || _currentUserId >= _users.size())
@@ -1362,6 +1385,30 @@ void UserModel::openCurrentAccountFolderFromTrayInfo(const QString &fullRemotePa
 
     _users[_currentUserId]->openFolderLocallyOrInBrowser(fullRemotePath);
 }
+
+void UserModel::openCurrentAccountFeaturedApp()
+{
+    if (!currentUser()) {
+        return;
+    }
+
+    if (!currentUser()->isFeaturedAppEnabled()) {
+        qCWarning(lcActivity) << "There is no feature app enabled on" << currentUser()->server();
+        return;
+    }
+
+    if (currentUser()->isNcAssistantEnabled()) {
+        auto serverUrl = currentUser()->server(false);
+        const auto assistanceUrl = serverUrl.append("/apps/assistant/");
+        QDesktopServices::openUrl(QUrl::fromUserInput(assistanceUrl));
+        return;
+    }
+
+    if (const auto talkApp = currentUser()->talkApp()) {
+        Utility::openBrowser(talkApp->url());
+    }
+}
+
 
 void UserModel::setCurrentUserId(const int id)
 {
@@ -1571,35 +1618,82 @@ int UserModel::findUserIdForAccount(AccountState *account) const
 }
 /*-------------------------------------------------------------------------------------*/
 
-ImageProvider::ImageProvider()
-    : QQuickImageProvider(QQuickImageProvider::Image)
+class ImageResponse : public QQuickImageResponse
 {
-}
+public:
+    ImageResponse(const QString &id, const QSize &requestedSize, QThreadPool *pool)
+    {
+        Q_UNUSED(pool)
 
-QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
-{
-    Q_UNUSED(size)
-    Q_UNUSED(requestedSize)
+        const auto makeIcon = [](const QString &path) {
+            QImage image(128, 128, QImage::Format_ARGB32);
+            image.fill(Qt::GlobalColor::transparent);
+            QPainter painter(&image);
+            QSvgRenderer renderer(path);
+            renderer.render(&painter);
+            return image;
+        };
 
-    const auto makeIcon = [](const QString &path) {
-        QImage image(128, 128, QImage::Format_ARGB32);
-        image.fill(Qt::GlobalColor::transparent);
-        QPainter painter(&image);
-        QSvgRenderer renderer(path);
-        renderer.render(&painter);
-        return image;
-    };
+        if (id == QLatin1String("fallbackWhite")) {
+            handleDone(makeIcon(QStringLiteral(":/client/theme/white/user.svg")));
+            return;
+        } else if (id == QLatin1String("fallbackBlack")) {
+            handleDone(makeIcon(QStringLiteral(":/client/theme/black/user.svg")));
+            return;
+        }
 
-    if (id == QLatin1String("fallbackWhite")) {
-        return makeIcon(QStringLiteral(":/client/theme/white/user.svg"));
+        if (id.startsWith("user-id=")) {
+            // Format is "image://avatars/user-id=avatar-requested-user/local-user-id:0"
+            const auto userIdsString = id.split('=');
+            const auto userIds = userIdsString.last().split("/local-account:");
+            const auto avatarUserId = userIds.first();
+            const auto accountString = userIds.last();
+            const auto accountState = AccountManager::instance()->account(accountString);
+            Q_ASSERT(accountState);
+            Q_ASSERT(accountState->account());
+            if (!accountState || !accountState->account()) {
+                qCWarning(lcActivity) << "Invalid account:" << accountString;
+                return;
+            }
+
+            const auto account = accountState->account();
+            const auto qnam = account->networkAccessManager();
+
+            QMetaObject::invokeMethod(qnam, [this, requestedSize, avatarUserId, account]() {
+                const auto avatarSize = requestedSize.width() > 0 ? requestedSize.width() : 64;
+                const auto avatarJob = new AvatarJob(account, avatarUserId, avatarSize);
+                connect(avatarJob, &AvatarJob::avatarPixmap, this, [&](const QImage &avatarImg) {
+                    QMetaObject::invokeMethod(this, [this, avatarImg] {
+                        handleDone(AvatarJob::makeCircularAvatar(avatarImg));
+                    });
+                });
+                avatarJob->start();
+            });
+            return;
+        }
+
+        handleDone(UserModel::instance()->avatarById(id.toInt()));
     }
 
-    if (id == QLatin1String("fallbackBlack")) {
-        return makeIcon(QStringLiteral(":/client/theme/black/user.svg"));
+    void handleDone(const QImage &image)
+    {
+        _image = image;
+        emit finished();
     }
 
-    const int uid = id.toInt();
-    return UserModel::instance()->avatarById(uid);
+    QQuickTextureFactory *textureFactory() const override
+    {
+        return QQuickTextureFactory::textureFactoryForImage(_image);
+    }
+
+private:
+    QImage _image;
+};
+
+QQuickImageResponse *ImageProvider::requestImageResponse(const QString &id, const QSize &requestedSize)
+{
+    const auto response = new class ImageResponse(id, requestedSize, &_pool);
+    return response;
 }
 
 /*-------------------------------------------------------------------------------------*/
@@ -1629,10 +1723,11 @@ void UserAppsModel::buildAppList()
 
     if (UserModel::instance()->appList().count() > 0) {
         const auto talkApp = UserModel::instance()->currentUser()->talkApp();
-        foreach (AccountApp *app, UserModel::instance()->appList()) {
+        for (const auto &app : UserModel::instance()->appList()) {
             // Filter out Talk because we have a dedicated button for it
-            if (talkApp && app->id() == talkApp->id())
+            if (talkApp && app->id() == talkApp->id() && !UserModel::instance()->currentUser()->isNcAssistantEnabled()) {
                 continue;
+            }
 
             beginInsertRows(QModelIndex(), rowCount(), rowCount());
             _apps << app;
@@ -1677,3 +1772,4 @@ QHash<int, QByteArray> UserAppsModel::roleNames() const
     return roles;
 }
 }
+

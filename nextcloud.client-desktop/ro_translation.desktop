@@ -9,6 +9,7 @@ Icon=@APPLICATION_ICON_NAME@
 Keywords=@APPLICATION_NAME@;syncing;file;sharing;
 X-GNOME-Autostart-Delay=3
 MimeType=application/vnd.@APPLICATION_EXECUTABLE@;x-scheme-handler/@APPLICATION_URI_HANDLER_SCHEME@;
+SingleMainWindow=true
 Actions=Quit;
 
 # Translations
@@ -23,5 +24,5 @@ Icon=@APPLICATION_EXECUTABLE@
 # Translations
 Name[ro]=@Numele_aplicației@ Client de sincronizare pentru PC
 Comment[ro]=@APPLICATION_NAME@ client de sincronizare pentru desktop
-GenericName[ro]=Sincronizare director
+GenericName[ro]=Sincronizare folder
 Icon[ro]=@APPLICATION_ICON_NAME@

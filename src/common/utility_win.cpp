@@ -22,6 +22,8 @@
 
 #include <comdef.h>
 #include <Lmcons.h>
+#include <psapi.h>
+#include <RestartManager.h>
 #include <shlguid.h>
 #include <shlobj.h>
 #include <string>
@@ -34,6 +36,7 @@
 #include <QLibrary>
 #include <QSettings>
 #include <QTemporaryFile>
+#include <QFileInfo>
 
 extern Q_CORE_EXPORT int qt_ntfs_permission_lookup;
 
@@ -42,7 +45,73 @@ static const char runPathC[] = R"(HKEY_CURRENT_USER\Software\Microsoft\Windows\C
 
 namespace OCC {
 
-static void setupFavLink_private(const QString &folder)
+QVector<Utility::ProcessInfosForOpenFile> Utility::queryProcessInfosKeepingFileOpen(const QString &filePath)
+{
+    QVector<ProcessInfosForOpenFile> results;
+
+    DWORD restartManagerSession = 0;
+    WCHAR restartManagerSessionKey[CCH_RM_SESSION_KEY + 1] = {0};
+    auto errorStatus = RmStartSession(&restartManagerSession, 0, restartManagerSessionKey);
+    if (errorStatus != ERROR_SUCCESS) {
+        return results;
+    }
+
+    LPCWSTR files[] = {reinterpret_cast<LPCWSTR>(filePath.utf16())};
+    errorStatus = RmRegisterResources(restartManagerSession, 1, files, 0, NULL, 0, NULL);
+    if (errorStatus != ERROR_SUCCESS) {
+        RmEndSession(restartManagerSession);
+        return results;
+    }
+
+    DWORD rebootReasons = 0;
+    UINT rmProcessInfosNeededCount = 0;
+    std::vector<RM_PROCESS_INFO> rmProcessInfos;
+    auto rmProcessInfosRequestedCount = static_cast<UINT>(rmProcessInfos.size());
+    errorStatus = RmGetList(restartManagerSession, &rmProcessInfosNeededCount, &rmProcessInfosRequestedCount, rmProcessInfos.data(), &rebootReasons);
+    
+    if (errorStatus == ERROR_MORE_DATA) {
+        rmProcessInfos.resize(rmProcessInfosNeededCount, {});
+        rmProcessInfosRequestedCount = static_cast<UINT>(rmProcessInfos.size());
+        errorStatus = RmGetList(restartManagerSession, &rmProcessInfosNeededCount, &rmProcessInfosRequestedCount, rmProcessInfos.data(), &rebootReasons);
+    }
+    
+    if (errorStatus != ERROR_SUCCESS || rmProcessInfos.empty()) {
+        RmEndSession(restartManagerSession);
+        return results;
+    }
+
+    for (size_t i = 0; i < rmProcessInfos.size(); ++i) {
+        const auto processHandle = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, rmProcessInfos[i].Process.dwProcessId);
+        if (!processHandle) {
+            continue;
+        }
+
+        FILETIME ftCreate, ftExit, ftKernel, ftUser;
+
+        if (!GetProcessTimes(processHandle, &ftCreate, &ftExit, &ftKernel, &ftUser)
+            || CompareFileTime(&rmProcessInfos[i].Process.ProcessStartTime, &ftCreate) != 0) {
+            CloseHandle(processHandle);
+            continue;
+        }
+
+        WCHAR processFullPath[MAX_PATH];
+        DWORD processFullPathLength = MAX_PATH;
+        if (QueryFullProcessImageNameW(processHandle, 0, processFullPath, &processFullPathLength) && processFullPathLength <= MAX_PATH) {
+            const auto processFullPathString = QDir::fromNativeSeparators(QString::fromWCharArray(processFullPath));
+            const QFileInfo fileInfoForProcess(processFullPathString);
+            const auto processName = fileInfoForProcess.fileName();
+            if (!processName.isEmpty()) {
+                results.push_back(Utility::ProcessInfosForOpenFile{rmProcessInfos[i].Process.dwProcessId, processName});
+            }
+        }
+        CloseHandle(processHandle);
+    }
+    RmEndSession(restartManagerSession);
+
+    return results;
+}
+
+void Utility::setupFavLink(const QString &folder)
 {
     // First create a Desktop.ini so that the folder and favorite link show our application's icon.
     QFile desktopIni(folder + QLatin1String("/Desktop.ini"));
@@ -70,24 +139,28 @@ static void setupFavLink_private(const QString &folder)
         SetFileAttributesW((wchar_t *)desktopIni.fileName().utf16(), FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM);
     }
 
-    // Windows Explorer: Place under "Favorites" (Links)
-    QString linkName;
-    QDir folderDir(QDir::fromNativeSeparators(folder));
-
     /* Use new WINAPI functions */
     PWSTR path;
-
-    if (SHGetKnownFolderPath(FOLDERID_Links, 0, nullptr, &path) == S_OK) {
-        QString links = QDir::fromNativeSeparators(QString::fromWCharArray(path));
-        linkName = QDir(links).filePath(folderDir.dirName() + QLatin1String(".lnk"));
-        CoTaskMemFree(path);
+    if (!SHGetKnownFolderPath(FOLDERID_Links, 0, nullptr, &path) == S_OK) {
+        qCWarning(lcUtility) << "SHGetKnownFolderPath for " << folder << "has failed.";
+        return;
     }
+
+    // Windows Explorer: Place under "Favorites" (Links)
+    const auto links = QDir::fromNativeSeparators(QString::fromWCharArray(path));
+    CoTaskMemFree(path);
+
+    const QDir folderDir(QDir::fromNativeSeparators(folder));
+    const QString filePath = folderDir.dirName() + QLatin1String(".lnk");
+    const auto linkName = QDir(links).filePath(filePath);
+
     qCInfo(lcUtility) << "Creating favorite link from" << folder << "to" << linkName;
-    if (!QFile::link(folder, linkName))
+    if (!QFile::link(folder, linkName)) {
         qCWarning(lcUtility) << "linking" << folder << "to" << linkName << "failed!";
+    }
 }
 
-static void removeFavLink_private(const QString &folder)
+void Utility::removeFavLink(const QString &folder)
 {
     const QDir folderDir(folder);
 
@@ -121,21 +194,21 @@ static void removeFavLink_private(const QString &folder)
     }
 }
 
-bool hasSystemLaunchOnStartup_private(const QString &appName)
+bool Utility::hasSystemLaunchOnStartup(const QString &appName)
 {
     QString runPath = QLatin1String(systemRunPathC);
     QSettings settings(runPath, QSettings::NativeFormat);
     return settings.contains(appName);
 }
 
-bool hasLaunchOnStartup_private(const QString &appName)
+bool Utility::hasLaunchOnStartup(const QString &appName)
 {
     QString runPath = QLatin1String(runPathC);
     QSettings settings(runPath, QSettings::NativeFormat);
     return settings.contains(appName);
 }
 
-void setLaunchOnStartup_private(const QString &appName, const QString &guiName, bool enable)
+void Utility::setLaunchOnStartup(const QString &appName, const QString &guiName, bool enable)
 {
     Q_UNUSED(guiName);
     QString runPath = QLatin1String(runPathC);
@@ -147,8 +220,7 @@ void setLaunchOnStartup_private(const QString &appName, const QString &guiName, 
     }
 }
 
-// TODO: Right now only detection on toggle/startup, not when windows theme is switched while nextcloud is running
-static inline bool hasDarkSystray_private()
+bool Utility::hasDarkSystray()
 {
     if(Utility::registryGetKeyValue(    HKEY_CURRENT_USER,
                                         QStringLiteral(R"(Software\Microsoft\Windows\CurrentVersion\Themes\Personalize)"),

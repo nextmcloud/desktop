@@ -11,11 +11,12 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  */
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
-import QtGraphicalEffects 1.0
-import Style 1.0
+pragma NativeMethodBehavior: AcceptThisObject
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import Style
 
 HeaderButton {
     id: root
@@ -26,6 +27,7 @@ HeaderButton {
 
     required property var currentUser
     property bool userHasGroupFolders: currentUser.groupFolders.length > 0
+    property color parentBackgroundColor: "transparent"
 
     function openMenu() {
         foldersMenuLoader.openMenu()
@@ -51,13 +53,14 @@ HeaderButton {
     Accessible.name: tooltip.text
     Accessible.onPressAction: root.clicked()
 
-    NCToolTip {
+    ToolTip {
         id: tooltip
         visible: root.hovered && !foldersMenuLoader.isMenuVisible
         text: root.userHasGroupFolders ? qsTr("Open local or group folders") : qsTr("Open local folder")
     }
 
-    contentItem: Item {
+
+    Item {
         id: rootContent
 
         anchors.fill: parent
@@ -89,19 +92,8 @@ HeaderButton {
                     id: folderStateIndicatorBackground
                     width: Style.folderStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
                     height: width
+                    color: root.parentBackgroundColor
                     anchors.centerIn: parent
-                    color: Style.currentUserHeaderColor
-                    radius: width * Style.trayFolderStatusIndicatorRadiusFactor
-                    z: -2
-                }
-
-                Rectangle {
-                    id: folderStateIndicatorBackgroundMouseHover
-                    width: Style.folderStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
-                    height: width
-                    anchors.centerIn: parent
-                    color: root.hovered ? Style.currentUserHeaderTextColor : "transparent"
-                    opacity: Style.trayFolderStatusIndicatorMouseHoverOpacityFactor
                     radius: width * Style.trayFolderStatusIndicatorRadiusFactor
                     z: -1
                 }
@@ -115,7 +107,7 @@ HeaderButton {
 
                 cache: true
 
-                source: "image://svgimage-custom-color/folder.svg/" + Style.currentUserHeaderTextColor
+                source: "image://svgimage-custom-color/folder.svg/" + palette.windowText
                 sourceSize {
                     width: imageWidth
                     height: imageHeight
@@ -124,7 +116,7 @@ HeaderButton {
                 width: imageWidth
                 height: imageHeight
 
-                anchors.verticalCenter: parent
+                anchors.verticalCenter: parent.verticalCenter
             }
 
 
@@ -145,8 +137,8 @@ HeaderButton {
 
                     cache: true
 
-                    source: "image://svgimage-custom-color/caret-down.svg/" + Style.currentUserHeaderTextColor
-                    sourceSize: {
+                    source: "image://svgimage-custom-color/caret-down.svg/" + palette.windowText
+                    sourceSize {
                         width: openLocalFolderButtonCaretIconLoader.imageWidth
                         height: openLocalFolderButtonCaretIconLoader.imageHeight
                     }
@@ -209,9 +201,9 @@ HeaderButton {
                         subline: model.modelData.parentPath
                         width: foldersMenuListView.width
                         height: Style.standardPrimaryButtonHeight
-                        backgroundIconSource: "image://svgimage-custom-color/folder.svg/" + palette.buttonText
+                        backgroundIconSource: "image://svgimage-custom-color/folder.svg/" + palette.windowText
                         iconSource: isGroupFolder
-                                    ? "image://svgimage-custom-color/account-group.svg/" + palette.brightText
+                                    ? "image://svgimage-custom-color/account-group.svg/" + palette.windowText
                                     : ""
 
                         onTriggered: {

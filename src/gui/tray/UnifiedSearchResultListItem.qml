@@ -12,11 +12,11 @@
  * for more details.
  */
 
-import QtQml 2.15
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import Style 1.0
-import com.nextcloud.desktopclient 1.0
+import QtQml
+import QtQuick
+import QtQuick.Controls
+import Style
+import com.nextcloud.desktopclient
 
 MouseArea {
     id: unifiedSearchResultMouseArea
@@ -38,7 +38,7 @@ MouseArea {
 
     height: Style.unifiedSearchItemHeight
 
-    NCToolTip {
+    ToolTip {
         visible: unifiedSearchResultMouseArea.containsMouse
         text: isFetchMoreTrigger ? qsTr("Load more results") : model.resultTitle + "\n\n" + model.subline
     }
@@ -46,7 +46,7 @@ MouseArea {
     Rectangle {
         id: unifiedSearchResultHoverBackground
         anchors.fill: parent
-        color: (parent.containsMouse ? palette.highlight : "transparent")
+        color: parent.containsMouse ? palette.highlight : "transparent"
     }
 
     Loader {
@@ -56,9 +56,9 @@ MouseArea {
             anchors.fill: parent
             title: model.resultTitle
             subline: model.subline
-            icons: Theme.darkMode ? model.darkIcons : model.lightIcons
-            iconsIsThumbnail: Theme.darkMode ? model.darkIconsIsThumbnail : model.lightIconsIsThumbnail
-            iconPlaceholder: Theme.darkMode ? model.darkImagePlaceholder : model.lightImagePlaceholder
+            icons: Style.darkMode ? model.darkIcons : model.lightIcons
+            iconsIsThumbnail: Style.darkMode ? model.darkIconsIsThumbnail : model.lightIconsIsThumbnail
+            iconPlaceholder: Style.darkMode ? model.darkImagePlaceholder : model.lightImagePlaceholder
             isRounded: model.isRounded && iconsIsThumbnail
         }
     }

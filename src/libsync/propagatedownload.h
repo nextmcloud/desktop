@@ -18,9 +18,14 @@
 #include "networkjobs.h"
 #include "clientsideencryption.h"
 #include <common/checksums.h>
+#include "foldermetadata.h"
 
 #include <QBuffer>
 #include <QFile>
+
+#if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
+#include <filesystem>
+#endif
 
 namespace OCC {
 class PropagateDownloadEncrypted;
@@ -136,10 +141,10 @@ public:
     // DOES NOT take ownership of the device.
     explicit GETEncryptedFileJob(AccountPtr account, const QString &path, QIODevice *device,
         const QMap<QByteArray, QByteArray> &headers, const QByteArray &expectedEtagForResume,
-        qint64 resumeStart, EncryptedFile encryptedInfo, QObject *parent = nullptr);
+        qint64 resumeStart, FolderMetadata::EncryptedFile encryptedInfo, QObject *parent = nullptr);
     explicit GETEncryptedFileJob(AccountPtr account, const QUrl &url, QIODevice *device,
         const QMap<QByteArray, QByteArray> &headers, const QByteArray &expectedEtagForResume,
-        qint64 resumeStart, EncryptedFile encryptedInfo, QObject *parent = nullptr);
+        qint64 resumeStart, FolderMetadata::EncryptedFile encryptedInfo, QObject *parent = nullptr);
     ~GETEncryptedFileJob() override = default;
 
 protected:
@@ -147,7 +152,7 @@ protected:
 
 private:
     QSharedPointer<EncryptionHelper::StreamingDecryptor> _decryptor;
-    EncryptedFile _encryptedFileInfo = {};
+    FolderMetadata::EncryptedFile _encryptedFileInfo = {};
     QByteArray _pendingBytes;
     qint64 _processedSoFar = 0;
 };
@@ -253,11 +258,16 @@ private:
     QFile _tmpFile;
     bool _deleteExisting = false;
     bool _isEncrypted = false;
-    EncryptedFile _encryptedInfo;
+    FolderMetadata::EncryptedFile _encryptedInfo;
     ConflictRecord _conflictRecord;
 
     QElapsedTimer _stopwatch;
 
     PropagateDownloadEncrypted *_downloadEncryptedHelper = nullptr;
+
+#if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
+    std::filesystem::path _parentPath;
+#endif
+    bool _needParentFolderRestorePermissions = false;
 };
 }

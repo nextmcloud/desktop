@@ -1,9 +1,9 @@
-import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-import com.nextcloud.desktopclient 1.0
-import Style 1.0
+import com.nextcloud.desktopclient
+import Style
 
 TextField {
     id: replyMessageTextField
@@ -17,12 +17,11 @@ TextField {
 
     onAccepted: sendReplyMessage()
 
+    verticalAlignment: Qt.AlignVCenter
     background: Rectangle {
-        id: replyMessageTextFieldBorder
-        radius: width / 2
-        border.width: Style.normalBorderWidth
-        border.color: replyMessageTextField.activeFocus ? UserModel.currentUser.accentColor : palette.dark
-        color: palette.window
+        border.color: palette.dark
+        radius: Style.trayWindowRadius
+        color: palette.base
     }
 
     Button {
@@ -47,7 +46,7 @@ TextField {
             top: replyMessageTextField.top
         }
 
-        NCToolTip {
+        ToolTip {
             visible: sendReplyMessageButton.hovered
             text:  qsTr("Send reply to chat message")
         }

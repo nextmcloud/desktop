@@ -12,31 +12,30 @@
  * for more details.
  */
 
-import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Window
+import QtQuick.Layouts
+import QtQuick.Controls
 
-import com.nextcloud.desktopclient 1.0
-import Style 1.0
+import com.nextcloud.desktopclient
+import Style
 import "../tray"
 
 TabButton {
     id: tabButton
 
     property string svgCustomColorSource: ""
-    property color accentColor: Style.ncBlue
 
     padding: Style.smallSpacing
     background: Rectangle {
         radius: Style.slightlyRoundedButtonRadius
-        color: tabButton.pressed ? palette.highlight : palette.window
+        color: tabButton.pressed ? palette.highlight : "transparent"
     }
 
     contentItem: ColumnLayout {
         id: tabButtonLayout
 
-        property var elementColors: tabButton.checked || tabButton.hovered ? palette.buttonText : palette.midlight
+        property var elementColors: tabButton.checked || tabButton.hovered ? palette.buttonText : palette.windowText
 
         // We'd like to just set the height of the Image, but this causes crashing.
         // So we use a wrapping Item and use anchors to adjust the size.
@@ -64,7 +63,6 @@ TabButton {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            color: tabButtonLayout.elementColors
             text: tabButton.text
             font.bold: tabButton.checked
         }
@@ -83,7 +81,7 @@ TabButton {
             implicitWidth: textWidth + Style.standardSpacing * 2
             implicitHeight: 2
 
-            color: tabButton.checked ? tabButton.accentColor : tabButton.hovered ? palette.highlight : "transparent"
+            color: tabButton.checked || tabButton.hovered ?  palette.highlight : palette.base
         }
     }
 }
