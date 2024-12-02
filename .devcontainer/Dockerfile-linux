@@ -1,0 +1,19 @@
+FROM --platform=linux/amd64 debian:bookworm-slim
+
+ARG qtpackage=https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz
+ARG sslpackage=https://www.openssl.org/source/openssl-3.2.0.tar.gz
+
+RUN apt-get -y update && \
+    apt-get -y install \
+        build-essential curl cmake python-is-python3 perl nano xz-utils freeglut3-dev gdb git iputils-ping libgl1-mesa-dev \
+        libglu1-mesa-dev libjpeg-dev libnss3-dev libopus-dev \
+        libpng-dev libsqlite3-dev libssl-dev libx11-xcb-dev libxcb-xinerama0-dev \
+        libxcb-xkb-dev libxcb1-dev libxcursor-dev libxi-dev libxml2-dev libxrender-dev \
+        libxslt-dev lzip mesa-common-dev valgrind wget zlib1g-dev libclang-dev  \
+        '^libxcb.*-dev' libxkbcommon-dev libxkbcommon-x11-dev libssl-dev qt6-base-dev \
+        qt6-tools-dev qt5keychain-dev pkg-config bear && \
+        rm -rf /var/lib/apt/lists/*
+
+# ENV PATH="${PATH}:/opt/win/qt/bin:/opt/win/qtkeychain:/opt/win/openssl/bin"
+
+CMD ["/bin/bash"]
