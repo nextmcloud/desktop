@@ -33,7 +33,7 @@ void OcsShareJob::getShares(const QString &path, const QMap<QString, QString> &p
     setVerb("GET");
 
     addParam(QString::fromLatin1("path"), path);
-    addParam(QString::fromLatin1("reshares"), QString("true"));
+    addParam(QString::fromLatin1("reshares"), QStringLiteral("true"));
 
     for (auto it = std::cbegin(params); it != std::cend(params); ++it) {
         addParam(it.key(), it.value());
@@ -207,10 +207,13 @@ void OcsShareJob::createShare(const QString &path,
     start();
 }
 
-void OcsShareJob::getSharedWithMe()
+void OcsShareJob::getSharedWithMe(const QString &path)
 {
     setVerb("GET");
-    addParam(QLatin1String("shared_with_me"), QLatin1String("true"));
+
+    addParam(QString::fromLatin1("path"), path);
+    addParam(QString::fromLatin1("shared_with_me"), QStringLiteral("true"));
+
     start();
 }
 

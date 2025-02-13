@@ -93,8 +93,27 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
     connect(_account->account().data(), &Account::capabilitiesChanged, this, &User::slotAccountCapabilitiesChangedRefreshGroupFolders);
 
     connect(_activityModel, &ActivityListModel::sendNotificationRequest, this, &User::slotSendNotificationRequest);
-    
+    connect(_activityModel, &ActivityListModel::showSettingsDialog,
+            Systray::instance(), &Systray::openSettings);
+
     connect(this, &User::sendReplyMessage, this, &User::slotSendReplyMessage);
+
+    connect(_account->account().data(), &Account::userCertificateNeedsMigrationChanged, this, [this] () {
+        auto certificateNeedMigration = Activity{};
+        certificateNeedMigration._type = Activity::OpenSettingsNotificationType;
+        certificateNeedMigration._subject = tr("End-to-end certificate needs to be migrated to a new one");
+        certificateNeedMigration._dateTime = QDateTime::fromString(QDateTime::currentDateTime().toString(), Qt::ISODate);
+        certificateNeedMigration._message = tr("Trigger the migration");
+        certificateNeedMigration._accName = _account->account()->displayName();
+        certificateNeedMigration._id = qHash("migrate-certificate");
+
+        _activityModel->removeActivityFromActivityList(certificateNeedMigration);
+
+        if (_account->account()->e2e()->userCertificateNeedsMigration()) {
+            _activityModel->addNotificationToActivityList(certificateNeedMigration);
+            showDesktopNotification(certificateNeedMigration);
+        }
+    });
 }
 
 void User::checkNotifiedNotifications()
@@ -184,7 +203,7 @@ void User::showDesktopTalkNotification(const Activity &activity)
 {
     const auto notificationId = activity._id;
 
-    if (!canShowNotification(notificationId)) {
+    if (!canShowNotification(notificationId) || !ConfigFile().showChatNotifications()) {
         return;
     }
 
@@ -236,7 +255,7 @@ void User::slotBuildNotificationDisplay(const ActivityList &list)
         return;
     }
 
-    for (const auto &activity : qAsConst(toNotifyList)) {
+    for (const auto &activity : std::as_const(toNotifyList)) {
         if (activity._objectType == QStringLiteral("chat")) {
             showDesktopTalkNotification(activity);
         } else {
@@ -1308,7 +1327,7 @@ QString UserModel::currentUserServer()
 void UserModel::addUser(AccountStatePtr &user, const bool &isCurrent)
 {
     bool containsUser = false;
-    for (const auto &u : qAsConst(_users)) {
+    for (const auto &u : std::as_const(_users)) {
         if (u->account() == user->account()) {
             containsUser = true;
             continue;
@@ -1424,7 +1443,7 @@ void UserModel::setCurrentUserId(const int id)
 
     const auto isCurrentUserChanged = !_users[id]->isCurrentUser();
     if (isCurrentUserChanged) {
-        for (const auto user : qAsConst(_users)) {
+        for (const auto user : std::as_const(_users)) {
             user->setCurrentUser(false);
         }
         _users[id]->setCurrentUser(true);
@@ -1618,35 +1637,82 @@ int UserModel::findUserIdForAccount(AccountState *account) const
 }
 /*-------------------------------------------------------------------------------------*/
 
-ImageProvider::ImageProvider()
-    : QQuickImageProvider(QQuickImageProvider::Image)
+class ImageResponse : public QQuickImageResponse
 {
-}
+public:
+    ImageResponse(const QString &id, const QSize &requestedSize, QThreadPool *pool)
+    {
+        Q_UNUSED(pool)
 
-QImage ImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
-{
-    Q_UNUSED(size)
-    Q_UNUSED(requestedSize)
+        const auto makeIcon = [](const QString &path) {
+            QImage image(128, 128, QImage::Format_ARGB32);
+            image.fill(Qt::GlobalColor::transparent);
+            QPainter painter(&image);
+            QSvgRenderer renderer(path);
+            renderer.render(&painter);
+            return image;
+        };
 
-    const auto makeIcon = [](const QString &path) {
-        QImage image(128, 128, QImage::Format_ARGB32);
-        image.fill(Qt::GlobalColor::transparent);
-        QPainter painter(&image);
-        QSvgRenderer renderer(path);
-        renderer.render(&painter);
-        return image;
-    };
+        if (id == QLatin1String("fallbackWhite")) {
+            handleDone(makeIcon(QStringLiteral(":/client/theme/white/user.svg")));
+            return;
+        } else if (id == QLatin1String("fallbackBlack")) {
+            handleDone(makeIcon(QStringLiteral(":/client/theme/black/user.svg")));
+            return;
+        }
 
-    if (id == QLatin1String("fallbackWhite")) {
-        return makeIcon(QStringLiteral(":/client/theme/white/user.svg"));
+        if (id.startsWith("user-id=")) {
+            // Format is "image://avatars/user-id=avatar-requested-user/local-user-id:0"
+            const auto userIdsString = id.split('=');
+            const auto userIds = userIdsString.last().split("/local-account:");
+            const auto avatarUserId = userIds.first();
+            const auto accountString = userIds.last();
+            const auto accountState = AccountManager::instance()->account(accountString);
+            Q_ASSERT(accountState);
+            Q_ASSERT(accountState->account());
+            if (!accountState || !accountState->account()) {
+                qCWarning(lcActivity) << "Invalid account:" << accountString;
+                return;
+            }
+
+            const auto account = accountState->account();
+            const auto qnam = account->networkAccessManager();
+
+            QMetaObject::invokeMethod(qnam, [this, requestedSize, avatarUserId, account]() {
+                const auto avatarSize = requestedSize.width() > 0 ? requestedSize.width() : 64;
+                const auto avatarJob = new AvatarJob(account, avatarUserId, avatarSize);
+                connect(avatarJob, &AvatarJob::avatarPixmap, this, [&](const QImage &avatarImg) {
+                    QMetaObject::invokeMethod(this, [this, avatarImg] {
+                        handleDone(AvatarJob::makeCircularAvatar(avatarImg));
+                    });
+                });
+                avatarJob->start();
+            });
+            return;
+        }
+
+        handleDone(UserModel::instance()->avatarById(id.toInt()));
     }
 
-    if (id == QLatin1String("fallbackBlack")) {
-        return makeIcon(QStringLiteral(":/client/theme/black/user.svg"));
+    void handleDone(const QImage &image)
+    {
+        _image = image;
+        emit finished();
     }
 
-    const int uid = id.toInt();
-    return UserModel::instance()->avatarById(uid);
+    QQuickTextureFactory *textureFactory() const override
+    {
+        return QQuickTextureFactory::textureFactoryForImage(_image);
+    }
+
+private:
+    QImage _image;
+};
+
+QQuickImageResponse *ImageProvider::requestImageResponse(const QString &id, const QSize &requestedSize)
+{
+    const auto response = new class ImageResponse(id, requestedSize, &_pool);
+    return response;
 }
 
 /*-------------------------------------------------------------------------------------*/
@@ -1725,3 +1791,4 @@ QHash<int, QByteArray> UserAppsModel::roleNames() const
     return roles;
 }
 }
+

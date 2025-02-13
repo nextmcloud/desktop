@@ -25,14 +25,14 @@ import com.nextcloud.desktopclient 1.0
 Page {
     id: root
 
-    property bool showBorder: true
+    property bool showBorder: false
     property var controller: FileProviderSettingsController
     property string accountUserIdAtHost: ""
 
     title: qsTr("Virtual files settings")
 
     background: Rectangle {
-        color: palette.window
+        color: palette.base
         border.width: root.showBorder ? Style.normalBorderWidth : 0
         border.color: root.palette.dark
     }
@@ -74,7 +74,7 @@ Page {
                 Rectangle {
                     Layout.fillWidth: true
                     height: Style.normalBorderWidth
-                    color: Style.ncSecondaryTextColor
+                    color: palette.dark
                 }
 
                 FileProviderSyncStatus {
@@ -149,14 +149,9 @@ Page {
                     elide: Text.ElideRight
                 }
 
-                CustomButton {
+                Button {
                     text: qsTr("Signal file provider domain")
                     onClicked: root.controller.signalFileProviderDomain(root.accountUserIdAtHost)
-                }
-
-                CustomButton {
-                    text: qsTr("Create debug archive")
-                    onClicked: root.controller.createDebugArchive(root.accountUserIdAtHost)
                 }
             }
         }

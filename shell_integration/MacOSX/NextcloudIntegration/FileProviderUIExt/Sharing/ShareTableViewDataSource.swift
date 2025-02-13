@@ -17,6 +17,8 @@ class ShareTableViewDataSource: NSObject, NSTableViewDataSource, NSTableViewDele
     private let shareItemViewNib = NSNib(nibNamed: "ShareTableItemView", bundle: nil)
     private let reattemptInterval: TimeInterval = 3.0
 
+    let kit = NextcloudKit.shared
+
     var uiDelegate: ShareViewDataSourceUIDelegate?
     var sharesTableView: NSTableView? {
         didSet {
@@ -28,23 +30,24 @@ class ShareTableViewDataSource: NSObject, NSTableViewDataSource, NSTableViewDele
         }
     }
     var capabilities: Capabilities?
-    var itemMetadata: NKFile?
 
-    private(set) var kit: NextcloudKit?
     private(set) var itemURL: URL?
     private(set) var itemServerRelativePath: String?
     private(set) var shares: [NKShare] = [] {
         didSet { Task { @MainActor in sharesTableView?.reloadData() } }
     }
-    private var account: Account? {
+    private(set) var account: Account? {
         didSet {
             guard let account = account else { return }
-            kit = NextcloudKit()
-            kit?.setup(
+            kit.appendSession(
+                account: account.ncKitAccount,
+                urlBase: account.serverUrl,
                 user: account.username,
                 userId: account.username,
                 password: account.password,
-                urlBase: account.serverUrl
+                userAgent: "Nextcloud-macOS/FileProviderUIExt",
+                nextcloudVersion: 25,
+                groupIdentifier: ""
             )
         }
     }
@@ -109,18 +112,24 @@ class ShareTableViewDataSource: NSObject, NSTableViewDataSource, NSTableViewDele
                 presentError("Server does not support shares.")
                 return
             }
-            guard let kit else {
-                presentError("NextcloudKit instance is unavailable, cannot reload data!")
+            guard let account else {
+                presentError("Account data is unavailable, cannot reload data!")
                 return
             }
-            itemMetadata = await fetchItemMetadata(itemRelativePath: serverPathString, kit: kit)
-            guard itemMetadata?.permissions.contains("R") == true else {
+            guard let itemMetadata = await fetchItemMetadata(
+                itemRelativePath: serverPathString, account: account, kit: kit
+            ) else {
+                presentError("Unable to retrieve file metadata...")
+                return
+            }
+            guard itemMetadata.permissions.contains("R") == true else {
                 presentError("This file cannot be shared.")
                 return
             }
             shares = await fetch(
                 itemIdentifier: itemIdentifier, itemRelativePath: serverPathString
             )
+            shares.append(Self.generateInternalShare(for: itemMetadata))
         } catch let error {
             presentError("Could not reload data: \(error), will try again.")
             reattempt()
@@ -136,15 +145,17 @@ class ShareTableViewDataSource: NSObject, NSTableViewDataSource, NSTableViewDele
         let rawIdentifier = itemIdentifier.rawValue
         Logger.sharesDataSource.info("Fetching shares for item \(rawIdentifier, privacy: .public)")
 
-        guard let kit = kit else {
-            self.presentError("NextcloudKit instance is unavailable, cannot fetch shares!")
+        guard let account else {
+            self.presentError("NextcloudKit instance or account is unavailable, cannot fetch shares!")
             return []
         }
 
         let parameter = NKShareParameter(path: itemRelativePath)
 
         return await withCheckedContinuation { continuation in
-            kit.readShares(parameters: parameter) { account, shares, data, error in
+            kit.readShares(
+                parameters: parameter, account: account.ncKitAccount
+            ) { account, shares, data, error in
                 let shareCount = shares?.count ?? 0
                 Logger.sharesDataSource.info("Received \(shareCount, privacy: .public) shares")
                 defer { continuation.resume(returning: shares ?? []) }
@@ -156,10 +167,26 @@ class ShareTableViewDataSource: NSObject, NSTableViewDataSource, NSTableViewDele
         }
     }
 
+    private static func generateInternalShare(for file: NKFile) -> NKShare {
+        let internalShare = NKShare()
+        internalShare.shareType = NKShare.ShareType.internalLink.rawValue
+        internalShare.url = file.urlBase +  "/index.php/f/" + file.fileId
+        internalShare.account = file.account
+        internalShare.displaynameOwner = file.ownerDisplayName
+        internalShare.displaynameFileOwner = file.ownerDisplayName
+        internalShare.path = file.path
+        return internalShare
+    }
+
     private func fetchCapabilities() async -> Capabilities? {
+        guard let account else {
+            self.presentError("Could not fetch capabilities as account is invalid.")
+            return nil
+        }
+
         return await withCheckedContinuation { continuation in
-            kit?.getCapabilities { account, capabilitiesJson, error in
-                guard error == .success, let capabilitiesJson = capabilitiesJson else {
+            kit.getCapabilities(account: account.ncKitAccount) { account, data, error in
+                guard error == .success, let capabilitiesJson = data?.data else {
                     self.presentError("Error getting server caps: \(error.errorDescription)")
                     continuation.resume(returning: nil)
                     return

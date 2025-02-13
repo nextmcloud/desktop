@@ -149,6 +149,7 @@ set(client_SRCS
     syncrunfilelog.cpp
     systray.h
     systray.cpp
+    EncryptionTokenSelectionWindow.qml
     thumbnailjob.h
     thumbnailjob.cpp
     userinfo.h
@@ -737,6 +738,9 @@ install(TARGETS nextcloud
         BUNDLE  DESTINATION "."
  )
 
+if (WIN32)
+    install(FILES $<TARGET_PDB_FILE:nextcloud> DESTINATION bin OPTIONAL)
+endif()
 
 # FIXME: The following lines are dup in src/gui and src/cmd because it needs to be done after both are installed
 #FIXME: find a nice solution to make the second if(BUILD_OWNCLOUD_OSX_BUNDLE) unnecessary

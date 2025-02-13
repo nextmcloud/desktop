@@ -41,7 +41,7 @@ bool expectConflict(FileInfo state, const QString path)
     auto base = state.find(pathComponents.parentDirComponents());
     if (!base)
         return false;
-    for (const auto &item : qAsConst(base->children)) {
+    for (const auto &item : std::as_const(base->children)) {
         if (item.name.startsWith(pathComponents.fileName()) && item.name.contains("(case clash from")) {
             return true;
         }
@@ -721,7 +721,7 @@ private slots:
         // Begin Test mismatch recalculation---------------------------------------------------------------------------------
 
         const auto prevServerVersion = fakeFolder.account()->serverVersion();
-        fakeFolder.account()->setServerVersion(QString("%1.0.0").arg(fakeFolder.account()->checksumRecalculateServerVersionMinSupportedMajor()));
+        fakeFolder.account()->setServerVersion(QStringLiteral("%1.0.0").arg(fakeFolder.account()->checksumRecalculateServerVersionMinSupportedMajor()));
 
         // Mismatched OC-Checksum and X-Recalculate-Hash is not supported -> sync must fail
         isChecksumRecalculateSupported = false;
@@ -860,6 +860,14 @@ private slots:
         {
             qCritical() << e.what() << e.path1().c_str() << e.path2().c_str() << e.code().message().c_str();
         }
+        catch (const std::system_error &e)
+        {
+            qCritical() << e.what() << e.code().message().c_str();
+        }
+        catch (...)
+        {
+            qCritical() << "exception unknown";
+        }
         QTextCodec::setCodecForLocale(utf8Locale);
 #endif
     }
@@ -984,15 +992,17 @@ private slots:
             if (op == QNetworkAccessManager::PostOperation) {
                 ++nPOST;
                 if (contentType.startsWith(QStringLiteral("multipart/related; boundary="))) {
-                    auto jsonReplyObject = fakeFolder.forEachReplyPart(outgoingData, contentType, [] (const QMap<QString, QByteArray> &allHeaders) -> QJsonObject {
+                    auto hasAnError = false;
+                    auto jsonReplyObject = fakeFolder.forEachReplyPart(outgoingData, contentType, [&hasAnError] (const QMap<QString, QByteArray> &allHeaders) -> QJsonObject {
                         auto reply = QJsonObject{};
-                        const auto fileName = allHeaders[QStringLiteral("X-File-Path")];
+                        const auto fileName = allHeaders[QStringLiteral("x-file-path")];
                         if (fileName.endsWith("A/big2") ||
                                 fileName.endsWith("A/big3") ||
                                 fileName.endsWith("A/big4") ||
                                 fileName.endsWith("A/big5") ||
                                 fileName.endsWith("A/big7") ||
                                 fileName.endsWith("B/big8")) {
+                            hasAnError = true;
                             reply.insert(QStringLiteral("error"), true);
                             reply.insert(QStringLiteral("etag"), {});
                             return reply;
@@ -1005,7 +1015,11 @@ private slots:
                     if (jsonReplyObject.size()) {
                         auto jsonReply = QJsonDocument{};
                         jsonReply.setObject(jsonReplyObject);
-                        return new FakeJsonErrorReply{op, request, this, 200, jsonReply};
+                        if (hasAnError) {
+                            return new FakeJsonErrorReply{op, request, this, 200, jsonReply};
+                        } else {
+                            return new FakeJsonReply{op, request, this, 200, jsonReply};
+                        }
                     }
                     return  nullptr;
                 }

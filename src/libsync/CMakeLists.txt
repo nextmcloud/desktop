@@ -12,6 +12,12 @@ if ( APPLE )
     )
 endif()
 
+if (WIN32)
+  list(APPEND OS_SPECIFIC_LINK_LIBRARIES
+    Crypt32
+  )
+endif()
+
 set(libsync_SRCS
     account.h
     account.cpp
@@ -123,6 +129,8 @@ set(libsync_SRCS
     clientsideencryptionjobs.cpp
     clientsideencryptionprimitives.h
     clientsideencryptionprimitives.cpp
+    clientsideencryptiontokenselector.h
+    clientsideencryptiontokenselector.cpp
     datetimeprovider.h
     datetimeprovider.cpp
     rootencryptedfolderinfo.h
@@ -205,6 +213,7 @@ target_link_libraries(nextcloudsync
   Nextcloud::csync
   OpenSSL::Crypto
   OpenSSL::SSL
+  PkgConfig::OPENSC-LIBP11
   ${OS_SPECIFIC_LINK_LIBRARIES}
   Qt::Core
   Qt::Network
@@ -271,5 +280,8 @@ else()
     install(TARGETS nextcloudsync DESTINATION ${OWNCLOUD_OSX_BUNDLE}/Contents/MacOS)
 endif()
 
+if (WIN32)
+    install(FILES $<TARGET_PDB_FILE:nextcloudsync> DESTINATION bin OPTIONAL)
+endif()
 
 add_subdirectory(vfs)
