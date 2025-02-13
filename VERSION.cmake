@@ -1,11 +1,11 @@
 set( MIRALL_VERSION_MAJOR 3 )
-set( MIRALL_VERSION_MINOR 14 )
+set( MIRALL_VERSION_MINOR 16 )
 set( MIRALL_VERSION_PATCH 50 )
-set( MIRALL_VERSION_YEAR  2024 )
+set( MIRALL_VERSION_YEAR  2025 )
 set( MIRALL_SOVERSION 0 )
 
 # Minimum supported server version according to https://docs.nextcloud.com/server/latest/admin_manual/release_schedule.html
-set(NEXTCLOUD_SERVER_VERSION_MIN_SUPPORTED_MAJOR 16)
+set(NEXTCLOUD_SERVER_VERSION_MIN_SUPPORTED_MAJOR 18)
 set(NEXTCLOUD_SERVER_VERSION_MIN_SUPPORTED_MINOR 0)
 set(NEXTCLOUD_SERVER_VERSION_MIN_SUPPORTED_PATCH 0)
 
@@ -38,4 +38,5 @@ if( MIRALL_VERSION_BUILD )
     set( MIRALL_VERSION_STRING "${MIRALL_VERSION_STRING} (build ${MIRALL_VERSION_BUILD})" )
 endif( MIRALL_VERSION_BUILD )
 
+# not used anymore. For brander, please maintain craftmaster.ini
 set(QT_MAJOR_VERSION 6)

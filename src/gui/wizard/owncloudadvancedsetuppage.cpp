@@ -355,8 +355,8 @@ void OwncloudAdvancedSetupPage::stopSpinner()
 
 QUrl OwncloudAdvancedSetupPage::serverUrl() const
 {
-    const QString urlString = dynamic_cast<OwncloudWizard *>(wizard())->ocUrl();
-    const QString user = dynamic_cast<OwncloudWizard *>(wizard())->getCredentials()->user();
+    const auto urlString = dynamic_cast<OwncloudWizard *>(wizard())->ocUrl();
+    const auto user = dynamic_cast<OwncloudWizard *>(wizard())->getCredentials()->user();
 
     QUrl url(urlString);
     url.setUserName(user);
@@ -393,9 +393,12 @@ bool OwncloudAdvancedSetupPage::isConfirmBigFolderChecked() const
 bool OwncloudAdvancedSetupPage::validatePage()
 {
     if (useVirtualFileSync()) {
-        const auto availability = Vfs::checkAvailability(localFolder());
+        const auto availability = Vfs::checkAvailability(localFolder(), bestAvailableVfsMode());
         if (!availability) {
-            auto msg = new QMessageBox(QMessageBox::Warning, tr("Virtual files are not available for the selected folder"), availability.error(), QMessageBox::Ok, this);
+            auto msg = new QMessageBox(QMessageBox::Warning,
+                                       tr("Virtual files are not supported at the selected location"),
+                                       availability.error(),
+                                       QMessageBox::Ok, this);
             msg->setAttribute(Qt::WA_DeleteOnClose);
             msg->open();
             return false;

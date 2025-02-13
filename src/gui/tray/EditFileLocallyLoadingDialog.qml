@@ -9,7 +9,10 @@ ApplicationWindow {
     id: root
     flags: Qt.Dialog | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
 
-    color: palette.window
+    color: palette.base
+
+    LayoutMirroring.enabled: Application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
 
     width: 320
     height: contentLayout.implicitHeight
@@ -30,7 +33,7 @@ ApplicationWindow {
 
     Rectangle {
         id: windowBackground
-        color: Style.backgroundColor
+        color: palette.base
         radius: Style.trayWindowRadius
         border.color: palette.dark
         anchors.fill: parent

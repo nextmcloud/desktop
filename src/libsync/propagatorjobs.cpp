@@ -117,7 +117,8 @@ void PropagateLocalRemove::start()
     }
 
     QString removeError;
-    if (_moveToTrash) {
+    const auto availability = propagator()->syncOptions()._vfs->availability(_item->_file, Vfs::AvailabilityRecursivity::RecursiveAvailability);
+    if (_moveToTrash && propagator()->syncOptions()._vfs->mode() != OCC::Vfs::WindowsCfApi) {
         if ((QDir(filename).exists() || FileSystem::fileExists(filename))
             && !FileSystem::moveToTrash(filename, &removeError)) {
             done(SyncFileItem::NormalError, removeError, ErrorCategory::GenericError);
@@ -216,6 +217,14 @@ void PropagateLocalMkdir::startLocalMkdir()
     {
         qCWarning(lcPropagateLocalMkdir) << "exception when checking parent folder access rights" << e.what() << e.path1().c_str() << e.path2().c_str();
     }
+    catch (const std::system_error &e)
+    {
+        qCWarning(lcPropagateLocalMkdir) << "exception when checking parent folder access rights" << e.what();
+    }
+    catch (...)
+    {
+        qCWarning(lcPropagateLocalMkdir) << "exception when checking parent folder access rights";
+    }
 #endif
 
     emit propagator()->touchedFile(newDirStr);
@@ -228,8 +237,6 @@ void PropagateLocalMkdir::startLocalMkdir()
 #if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
     if (!_item->_remotePerm.isNull() &&
         !_item->_remotePerm.hasPermission(RemotePermissions::CanAddFile) &&
-        !_item->_remotePerm.hasPermission(RemotePermissions::CanRename) &&
-        !_item->_remotePerm.hasPermission(RemotePermissions::CanMove) &&
         !_item->_remotePerm.hasPermission(RemotePermissions::CanAddSubDirectories)) {
         try {
             FileSystem::setFolderPermissions(newDirStr, FileSystem::FolderPermissions::ReadOnly);
@@ -238,6 +245,18 @@ void PropagateLocalMkdir::startLocalMkdir()
         {
             qCWarning(lcPropagateLocalMkdir) << "exception when checking parent folder access rights" << e.what() << e.path1().c_str() << e.path2().c_str();
             done(SyncFileItem::NormalError, tr("The folder %1 cannot be made read-only: %2").arg(_item->_file, e.what()), ErrorCategory::GenericError);
+            return;
+        }
+        catch (const std::system_error &e)
+        {
+            qCWarning(lcPropagateLocalMkdir) << "exception when checking parent folder access rights" << e.what();
+            done(SyncFileItem::NormalError, tr("The folder %1 cannot be made read-only: %2").arg(_item->_file, e.what()), ErrorCategory::GenericError);
+            return;
+        }
+        catch (...)
+        {
+            qCWarning(lcPropagateLocalMkdir) << "exception when checking parent folder access rights";
+            done(SyncFileItem::NormalError, tr("The folder %1 cannot be made read-only: %2").arg(_item->_file, tr("unknown exception")), ErrorCategory::GenericError);
             return;
         }
     }
@@ -251,6 +270,14 @@ void PropagateLocalMkdir::startLocalMkdir()
     catch (const std::filesystem::filesystem_error &e)
     {
         qCWarning(lcPropagateLocalMkdir) << "exception when checking parent folder access rights" << e.what() << e.path1().c_str() << e.path2().c_str();
+    }
+    catch (const std::system_error &e)
+    {
+        qCWarning(lcPropagateLocalMkdir) << "exception when checking parent folder access rights" << e.what();
+    }
+    catch (...)
+    {
+        qCWarning(lcPropagateLocalMkdir) << "exception when checking parent folder access rights";
     }
 #endif
 
@@ -350,6 +377,14 @@ void PropagateLocalRename::start()
         {
             qCWarning(lcPropagateLocalRename) << "exception when checking parent folder access rights" << e.what() << e.path1().c_str() << e.path2().c_str();
         }
+        catch (const std::system_error &e)
+        {
+            qCWarning(lcPropagateLocalRename) << "exception when checking parent folder access rights" << e.what();
+        }
+        catch (...)
+        {
+            qCWarning(lcPropagateLocalRename) << "exception when checking parent folder access rights";
+        }
 
         auto originParentFolderPath = std::filesystem::path{};
         auto originParentFolderWasReadOnly = false;
@@ -367,6 +402,14 @@ void PropagateLocalRename::start()
         {
             qCWarning(lcPropagateLocalRename) << "exception when checking parent folder access rights" << e.what() << e.path1().c_str() << e.path2().c_str();
         }
+        catch (const std::system_error &e)
+        {
+            qCWarning(lcPropagateLocalRename) << "exception when checking parent folder access rights" << e.what();
+        }
+        catch (...)
+        {
+            qCWarning(lcPropagateLocalRename) << "exception when checking parent folder access rights";
+        }
 
         const auto restoreTargetPermissions = [this] (const auto &parentFolderPath) {
             try {
@@ -376,6 +419,14 @@ void PropagateLocalRename::start()
             catch (const std::filesystem::filesystem_error &e)
             {
                 qCWarning(lcPropagateLocalRename) << "exception when checking parent folder access rights" << e.what() << e.path1().c_str() << e.path2().c_str();
+            }
+            catch (const std::system_error &e)
+            {
+                qCWarning(lcPropagateLocalRename) << "exception when checking parent folder access rights" << e.what();
+            }
+            catch (...)
+            {
+                qCWarning(lcPropagateLocalRename) << "exception when checking parent folder access rights";
             }
         };
 
@@ -409,15 +460,15 @@ void PropagateLocalRename::start()
 
     SyncJournalFileRecord oldRecord;
     if (!propagator()->_journal->getFileRecord(fileAlreadyMoved ? previousNameInDb : _item->_originalFile, &oldRecord)) {
-        qCWarning(lcPropagateLocalRename) << "could not get file from local DB" << _item->_originalFile;
-        done(SyncFileItem::NormalError, tr("could not get file %1 from local DB").arg(_item->_originalFile), ErrorCategory::GenericError);
+        qCWarning(lcPropagateLocalRename) << "Could not get file from local DB" << _item->_originalFile;
+        done(SyncFileItem::NormalError, tr("Could not get file %1 from local DB").arg(_item->_originalFile), ErrorCategory::GenericError);
         return;
     }
 
     if (fileAlreadyMoved && !deleteOldDbRecord(previousNameInDb)) {
         return;
     } else if (!deleteOldDbRecord(_item->_originalFile)) {
-        qCWarning(lcPropagateLocalRename) << "could not delete file from local DB" << _item->_originalFile;
+        qCWarning(lcPropagateLocalRename) << "Could not delete file from local DB" << _item->_originalFile;
         return;
     }
 
@@ -455,8 +506,8 @@ void PropagateLocalRename::start()
 
             SyncJournalFileRecord oldRecord;
             if (!propagator()->_journal->getFileRecord(oldFileName, &oldRecord)) {
-                qCWarning(lcPropagateLocalRename) << "could not get file from local DB" << oldFileName;
-                done(SyncFileItem::NormalError, tr("could not get file %1 from local DB").arg(oldFileNameString), OCC::ErrorCategory::GenericError);
+                qCWarning(lcPropagateLocalRename) << "Could not get file from local DB" << oldFileName;
+                done(SyncFileItem::NormalError, tr("Could not get file %1 from local DB").arg(oldFileNameString), OCC::ErrorCategory::GenericError);
                 return;
             }
             if (!propagator()->_journal->deleteFileRecord(oldFileName)) {
@@ -496,8 +547,8 @@ void PropagateLocalRename::start()
 bool PropagateLocalRename::deleteOldDbRecord(const QString &fileName)
 {
     if (SyncJournalFileRecord oldRecord; !propagator()->_journal->getFileRecord(fileName, &oldRecord)) {
-        qCWarning(lcPropagateLocalRename) << "could not get file from local DB" << fileName;
-        done(SyncFileItem::NormalError, tr("could not get file %1 from local DB").arg(fileName), OCC::ErrorCategory::GenericError);
+        qCWarning(lcPropagateLocalRename) << "Could not get file from local DB" << fileName;
+        done(SyncFileItem::NormalError, tr("Could not get file %1 from local DB").arg(fileName), OCC::ErrorCategory::GenericError);
         return false;
     }
     if (!propagator()->_journal->deleteFileRecord(fileName)) {

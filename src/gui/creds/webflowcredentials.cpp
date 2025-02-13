@@ -213,6 +213,7 @@ bool WebFlowCredentials::stillValid(QNetworkReply *reply) {
 void WebFlowCredentials::persist() {
     if (_user.isEmpty()) {
         // We don't even have a user nothing to see here move along
+        qCWarning(lcWebFlowCredentials) << "_user is unset, nothing to persist ...";
         return;
     }
 
@@ -355,7 +356,7 @@ void WebFlowCredentials::forgetSensitiveData() {
 
     _account->deleteAppPassword();
 
-    const QString kck = keychainKey(_account->url().toString(), _user, _account->id());
+    const auto kck = keychainKey(_account->url().toString(), _user, _account->id());
     if (kck.isEmpty()) {
         qCDebug(lcWebFlowCredentials()) << "InvalidateToken: User is empty, bailing out!";
         return;

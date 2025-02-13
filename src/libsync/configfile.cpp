@@ -58,6 +58,7 @@ static constexpr char deleteFilesThresholdC[] = "deleteFilesThreshold";
 static constexpr char crashReporterC[] = "crashReporter";
 static constexpr char optionalServerNotificationsC[] = "optionalServerNotifications";
 static constexpr char showCallNotificationsC[] = "showCallNotifications";
+static constexpr char showChatNotificationsC[] = "showChatNotifications";
 static constexpr char showInExplorerNavigationPaneC[] = "showInExplorerNavigationPane";
 static constexpr char skipUpdateCheckC[] = "skipUpdateCheck";
 static constexpr char autoUpdateCheckC[] = "autoUpdateCheck";
@@ -203,6 +204,19 @@ bool ConfigFile::optionalServerNotifications() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
     return settings.value(QLatin1String(optionalServerNotificationsC), true).toBool();
+}
+
+bool ConfigFile::showChatNotifications() const
+{
+    const QSettings settings(configFile(), QSettings::IniFormat);
+    return settings.value(QLatin1String(showChatNotificationsC), true).toBool() && optionalServerNotifications();
+}
+
+void ConfigFile::setShowChatNotifications(const bool show)
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.setValue(QLatin1String(showChatNotificationsC), show);
+    settings.sync();
 }
 
 bool ConfigFile::showCallNotifications() const
@@ -439,6 +453,17 @@ QString ConfigFile::excludeFileFromSystem()
     return fi.absoluteFilePath();
 }
 
+void OCC::ConfigFile::cleanUpdaterConfiguration()
+{
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.beginGroup("Updater");
+    settings.remove("autoUpdateAttempted");
+    settings.remove("updateTargetVersion");
+    settings.remove("updateTargetVersionString");
+    settings.remove("updateAvailable");
+    settings.sync();
+}
+
 QString ConfigFile::backup(const QString &fileName) const
 {
     const QString baseFilePath = configPath() + fileName;
@@ -449,7 +474,7 @@ QString ConfigFile::backup(const QString &fileName) const
     }
 
     QString backupFile =
-        QString("%1.backup_%2%3")
+        QStringLiteral("%1.backup_%2%3")
             .arg(baseFilePath)
             .arg(QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss"))
             .arg(versionString);
@@ -707,32 +732,25 @@ QString ConfigFile::defaultUpdateChannel() const
     if (serverHasValidSubscription() && !isBranded) {
         if (const auto serverChannel = desktopEnterpriseChannel();
             validUpdateChannels().contains(serverChannel)) {
-            qCWarning(lcConfigFile()) << "Enforcing update channel" << serverChannel << "because that is the desktop enterprise channel returned by the server.";
+            qCWarning(lcConfigFile()) << "Default update channel is" << serverChannel << "because that is the desktop enterprise channel returned by the server.";
             return serverChannel;
         }
     }
 
     if (const auto currentVersionSuffix = Theme::instance()->versionSuffix();
         validUpdateChannels().contains(currentVersionSuffix) && !isBranded) {
-        qCWarning(lcConfigFile()) << "Enforcing update channel" << currentVersionSuffix << "because of the version suffix of the current client.";
+        qCWarning(lcConfigFile()) << "Default update channel is" << currentVersionSuffix << "because of the version suffix of the current client.";
         return currentVersionSuffix;
     }
 
-    qCWarning(lcConfigFile()) << "Enforcing default update channel" << defaultUpdateChannelName;
+    qCWarning(lcConfigFile()) << "Default update channel is" << defaultUpdateChannelName;
     return defaultUpdateChannelName;
 }
 
 QString ConfigFile::currentUpdateChannel() const
 {
-    auto updateChannel = defaultUpdateChannel();
     QSettings settings(configFile(), QSettings::IniFormat);
-    if (const auto configUpdateChannel = settings.value(QLatin1String(updateChannelC), updateChannel).toString();
-        validUpdateChannels().contains(configUpdateChannel)) {
-        qCWarning(lcConfigFile()) << "Config file has a valid update channel:" << configUpdateChannel;
-        updateChannel = configUpdateChannel;
-    }
-
-    return updateChannel;
+    return settings.value(QLatin1String(updateChannelC), defaultUpdateChannel()).toString();
 }
 
 void ConfigFile::setUpdateChannel(const QString &channel)
@@ -1041,7 +1059,7 @@ bool ConfigFile::showMainDialogAsNormalWindow() const {
 bool ConfigFile::promptDeleteFiles() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(QLatin1String(promptDeleteC), true).toBool();
+    return settings.value(QLatin1String(promptDeleteC), false).toBool();
 }
 
 void ConfigFile::setPromptDeleteFiles(bool promptDeleteFiles)
@@ -1252,6 +1270,12 @@ void ConfigFile::setupDefaultExcludeFilePaths(ExcludedFiles &excludedFiles)
     const auto systemList = cfg.excludeFile(ConfigFile::SystemScope);
     const auto userList = cfg.excludeFile(ConfigFile::UserScope);
     const auto legacyList = cfg.excludeFile(ConfigFile::LegacyScope);
+
+    if (Theme::instance()->isBranded() && QFile::exists(systemList) && QFile::copy(systemList, userList)) {
+        qCInfo(lcConfigFile) << "Overwriting user list" << userList << "with system list" << systemList;
+        excludedFiles.addExcludeFilePath(systemList);
+        return;
+    }
 
     if (!QFile::exists(userList)) {
         qCInfo(lcConfigFile) << "User defined ignore list does not exist:" << userList;

@@ -85,6 +85,16 @@ void ProcessDirectoryJob::start()
 {
     qCInfo(lcDisco) << "STARTING" << _currentFolder._server << _queryServer << _currentFolder._local << _queryLocal;
 
+    if (isInsideEncryptedTree()) {
+        auto folderDbRecord = SyncJournalFileRecord{};
+        if (_discoveryData->_statedb->getFileRecord(_currentFolder._local, &folderDbRecord) && folderDbRecord.isValid()) {
+            if (_discoveryData->_account->encryptionCertificateFingerprint() != folderDbRecord._e2eCertificateFingerprint) {
+                qCDebug(lcDisco) << "encryption certificate needs update. Forcing full discovery";
+                _queryServer = NormalQuery;
+            }
+        }
+    }
+
     _discoveryData->_noCaseConflictRecordsInDb = _discoveryData->_statedb->caseClashConflictRecordPaths().isEmpty();
 
     if (_queryServer == NormalQuery) {
@@ -231,7 +241,7 @@ void ProcessDirectoryJob::process()
             continue;
 
         const auto isEncryptedFolderButE2eIsNotSetup = e.serverEntry.isValid() && e.serverEntry.isE2eEncrypted() &&
-            _discoveryData->_account->e2e() && !_discoveryData->_account->e2e()->_publicKey.isNull() && _discoveryData->_account->e2e()->_privateKey.isNull();
+            _discoveryData->_account->e2e() && !_discoveryData->_account->e2e()->isInitialized();
 
         if (isEncryptedFolderButE2eIsNotSetup) {
             checkAndUpdateSelectiveSyncListsForE2eeFolders(path._server + "/");
@@ -450,7 +460,7 @@ bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &ent
             if (containsForbiddenCharacters) {
                 reasonString = tr("Reason: the filename contains a forbidden character (%1).").arg(forbiddenCharMatch);
             }
-            item->_errorString = reasonString.isEmpty() ? errorString : QString("%1 %2").arg(errorString, reasonString);
+            item->_errorString = reasonString.isEmpty() ? errorString : QStringLiteral("%1 %2").arg(errorString, reasonString);
             item->_status = SyncFileItem::FileNameInvalidOnServer;
             break;
         }
@@ -547,6 +557,7 @@ void ProcessDirectoryJob::processFile(PathTuple path,
                            << " | e2eeMangledName: " << dbEntry.e2eMangledName() << "/" << serverEntry.e2eMangledName
                            << " | file lock: " << localFileIsLocked << "//" << serverFileIsLocked
                            << " | file lock type: " << localFileLockType << "//" << serverFileLockType
+                           << " | live photo: " << dbEntry._isLivePhoto << "//" << serverEntry.isLivePhoto
                            << " | metadata missing: /" << localEntry.isMetadataMissing << '/';
 
     qCInfo(lcDisco).nospace() << processingLog;
@@ -696,6 +707,7 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(const SyncFileItemPtr &it
     item->_e2eEncryptionStatus = serverEntry.isE2eEncrypted() ? SyncFileItem::EncryptionStatus::Encrypted : SyncFileItem::EncryptionStatus::NotEncrypted;
     if (serverEntry.isE2eEncrypted()) {
         item->_e2eEncryptionServerCapability = EncryptionStatusEnums::fromEndToEndEncryptionApiVersion(_discoveryData->_account->capabilities().clientSideEncryptionVersion());
+        item->_e2eCertificateFingerprint = serverEntry.e2eCertificateFingerprint;
     }
     item->_encryptedFileName = [=] {
         if (serverEntry.e2eMangledName.isEmpty()) {
@@ -717,6 +729,9 @@ void ProcessDirectoryJob::processFileAnalyzeRemoteInfo(const SyncFileItemPtr &it
     item->_lockTime = serverEntry.lockTime;
     item->_lockTimeout = serverEntry.lockTimeout;
     item->_lockToken = serverEntry.lockToken;
+
+    item->_isLivePhoto = serverEntry.isLivePhoto;
+    item->_livePhotoFile = serverEntry.livePhotoFile;
 
     // Check for missing server data
     {
@@ -1066,6 +1081,10 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
         if (_queryLocal != NormalQuery && _queryServer != NormalQuery)
             recurse = false;
 
+        if (localEntry.isPermissionsInvalid) {
+            recurse = true;
+        }
+
         if ((item->_direction == SyncFileItem::Down || item->_instruction == CSYNC_INSTRUCTION_CONFLICT || item->_instruction == CSYNC_INSTRUCTION_NEW || item->_instruction == CSYNC_INSTRUCTION_SYNC) &&
                 (item->_modtime <= 0 || item->_modtime >= 0xFFFFFFFF)) {
             item->_instruction = CSYNC_INSTRUCTION_ERROR;
@@ -1093,6 +1112,13 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
             }
         }
 
+        if (localEntry.isPermissionsInvalid && item->_instruction == CSyncEnums::CSYNC_INSTRUCTION_NONE) {
+            item->_instruction = CSYNC_INSTRUCTION_UPDATE_METADATA;
+            item->_direction = SyncFileItem::Down;
+        }
+
+        item->isPermissionsInvalid = localEntry.isPermissionsInvalid;
+
         auto recurseQueryLocal = _queryLocal == ParentNotChanged ? ParentNotChanged : localEntry.isDirectory || item->_instruction == CSYNC_INSTRUCTION_RENAME ? NormalQuery : ParentDontExist;
         processFileFinalize(item, path, recurse, recurseQueryLocal, recurseQueryServer);
     };
@@ -1119,6 +1145,12 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
                 qCWarning(lcDisco) << "Failed to delete a file record from the local DB" << path._original;
             }
             return;
+        } else if (dbEntry._isLivePhoto && QMimeDatabase().mimeTypeForFile(item->_file).inherits(QStringLiteral("video/quicktime"))) {
+            // This is a live photo's video file; the server won't allow deletion of this file
+            // so we need to *not* propagate the .mov deletion to the server and redownload the file
+            qCInfo(lcDisco) << "Live photo video file deletion detected, redownloading" << item->_file;
+            item->_direction = SyncFileItem::Down;
+            item->_instruction = CSYNC_INSTRUCTION_SYNC;
         } else if (!serverModified) {
             // Removed locally: also remove on the server.
             if (!dbEntry._serverHasIgnoredFiles) {
@@ -1140,7 +1172,10 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
 
     if (dbEntry.isValid()) {
         bool typeChange = localEntry.isDirectory != dbEntry.isDirectory();
-        if (!typeChange && localEntry.isVirtualFile) {
+        if (localEntry.isDirectory && dbEntry.isValid() && dbEntry.isE2eEncrypted() && dbEntry._e2eCertificateFingerprint != _discoveryData->_account->encryptionCertificateFingerprint()) {
+            item->_instruction = CSYNC_INSTRUCTION_UPDATE_ENCRYPTION_METADATA;
+            item->_direction = SyncFileItem::Up;
+        } else if (!typeChange && localEntry.isVirtualFile) {
             if (noServerEntry) {
                 item->_instruction = CSYNC_INSTRUCTION_REMOVE;
                 item->_direction = SyncFileItem::Down;
@@ -1172,11 +1207,7 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
                 item->_direction = SyncFileItem::Down;
                 item->_instruction = CSYNC_INSTRUCTION_SYNC;
                 const auto pinState = _discoveryData->_syncOptions._vfs->pinState(path._local);
-                if (FileSystem::isLnkFile(path._local) && !_discoveryData->_syncOptions._vfs->pinState(path._local).isValid()) {
-                    item->_type = ItemTypeVirtualFileDownload;
-                } else {
-                    item->_type = ItemTypeVirtualFileDehydration;
-                }
+                item->_type = ItemTypeVirtualFileDehydration;
             } else if (!serverModified
                 && (dbEntry._inode != localEntry.inode
                     || (localEntry.isMetadataMissing && item->_type == ItemTypeFile && !FileSystem::isLnkFile(item->_file))
@@ -1302,80 +1333,18 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
     }
 
     auto postProcessLocalNew = [item, localEntry, path, this]() {
-        // TODO: We may want to execute the same logic for non-VFS mode, as, moving/renaming the same folder by 2 or more clients at the same time is not possible in Web UI.
-        // Keeping it like this (for VFS files and folders only) just to fix a user issue.
-
-        if (!(_discoveryData && _discoveryData->_syncOptions._vfs && _discoveryData->_syncOptions._vfs->mode() != Vfs::Off)) {
-            // for VFS files and folders only
-            return;
-        }
-
-        if (!localEntry.isVirtualFile && !localEntry.isDirectory) {
-            return;
-        }
-
-        if (localEntry.isDirectory && _discoveryData->_syncOptions._vfs->mode() != Vfs::WindowsCfApi) {
-            // for VFS folders on Windows only
-            return;
-        }
-
-        Q_ASSERT(item->_instruction == CSYNC_INSTRUCTION_NEW);
-        if (item->_instruction != CSYNC_INSTRUCTION_NEW) {
-            qCWarning(lcDisco) << "Trying to wipe a virtual item" << path._local << " with item->_instruction" << item->_instruction;
-            return;
-        }
-
-        // must be a dehydrated placeholder
-        const bool isFilePlaceHolder = !localEntry.isDirectory && _discoveryData->_syncOptions._vfs->isDehydratedPlaceholder(_discoveryData->_localDir + path._local);
-
-        // either correct availability, or a result with error if the folder is new or otherwise has no availability set yet
-        const auto folderPlaceHolderAvailability = localEntry.isDirectory ? _discoveryData->_syncOptions._vfs->availability(path._local, Vfs::AvailabilityRecursivity::RecursiveAvailability) : Vfs::AvailabilityResult(Vfs::AvailabilityError::NoSuchItem);
-
-        const auto folderPinState = localEntry.isDirectory ? _discoveryData->_syncOptions._vfs->pinState(path._local) : Optional<PinState>(PinState::Unspecified);
-
-        if (!isFilePlaceHolder && !folderPlaceHolderAvailability.isValid() && !folderPinState.isValid()) {
-            // not a file placeholder and not a synced folder placeholder (new local folder)
-            return;
-        }
-
-        const auto isFolderPinStateOnlineOnly = (folderPinState.isValid() && *folderPinState == PinState::OnlineOnly);
-
-        const auto isfolderPlaceHolderAvailabilityOnlineOnly = (folderPlaceHolderAvailability.isValid() && *folderPlaceHolderAvailability == VfsItemAvailability::OnlineOnly);
-
-        // a folder is considered online-only if: no files are hydrated, or, if it's an empty folder
-        const auto isOnlineOnlyFolder = isfolderPlaceHolderAvailabilityOnlineOnly || (!folderPlaceHolderAvailability && isFolderPinStateOnlineOnly);
-
-        if (!isFilePlaceHolder && !isOnlineOnlyFolder) {
-            if (localEntry.isDirectory && folderPlaceHolderAvailability.isValid() && !isOnlineOnlyFolder) {
-                // a VFS folder but is not online-only (has some files hydrated)
-                qCInfo(lcDisco) << "Virtual directory without db entry for" << path._local << "but it contains hydrated file(s), so let's keep it and reupload.";
-                return;
+        if (localEntry.isVirtualFile) {
+            const bool isPlaceHolder = _discoveryData->_syncOptions._vfs->isDehydratedPlaceholder(_discoveryData->_localDir + path._local);
+            if (isPlaceHolder) {
+                qCWarning(lcDisco) << "Wiping virtual file without db entry for" << path._local;
+                item->_instruction = CSYNC_INSTRUCTION_REMOVE;
+                item->_direction = SyncFileItem::Down;
+            } else {
+                qCWarning(lcDisco) << "Virtual file without db entry for" << path._local
+                                   << "but looks odd, keeping";
+                item->_instruction = CSYNC_INSTRUCTION_IGNORE;
             }
-            qCWarning(lcDisco) << "Virtual file without db entry for" << path._local
-                               << "but looks odd, keeping";
-            item->_instruction = CSYNC_INSTRUCTION_IGNORE;
-
-            return;
         }
-
-        if (isOnlineOnlyFolder) {
-            // if we're wiping a folder, we will only get this function called once and will wipe a folder along with it's files and also display one error in GUI
-            qCInfo(lcDisco) << "Wiping virtual folder without db entry for" << path._local;
-            if (isfolderPlaceHolderAvailabilityOnlineOnly && folderPlaceHolderAvailability.isValid()) {
-                qCInfo(lcDisco) << "*folderPlaceHolderAvailability:" << *folderPlaceHolderAvailability;
-            }
-            if (isFolderPinStateOnlineOnly && folderPinState.isValid()) {
-                qCInfo(lcDisco) << "*folderPinState:" << *folderPinState;
-            }
-            emit _discoveryData->addErrorToGui(SyncFileItem::SoftError, tr("Conflict when uploading a folder. It's going to get cleared!"), path._local, ErrorCategory::GenericError);
-        } else {
-            qCInfo(lcDisco) << "Wiping virtual file without db entry for" << path._local;
-            emit _discoveryData->addErrorToGui(SyncFileItem::SoftError, tr("Conflict when uploading a file. It's going to get removed!"), path._local, ErrorCategory::GenericError);
-        }
-        item->_instruction = CSYNC_INSTRUCTION_REMOVE;
-        item->_direction = SyncFileItem::Down;
-        // this flag needs to be unset, otherwise a folder would get marked as new in the processSubJobs
-        _childModified = false;
     };
 
     // Check if it is a move
@@ -1455,6 +1424,7 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
             // base is a record in the SyncJournal database that contains the data about the being-renamed folder with it's old name and encryption information
             item->_e2eEncryptionStatus = EncryptionStatusEnums::fromDbEncryptionStatus(base._e2eEncryptionStatus);
             item->_e2eEncryptionServerCapability = EncryptionStatusEnums::fromEndToEndEncryptionApiVersion(_discoveryData->_account->capabilities().clientSideEncryptionVersion());
+            item->_e2eCertificateFingerprint = base._e2eCertificateFingerprint;
         }
         postProcessLocalNew();
         finalize();
@@ -1707,11 +1677,33 @@ void ProcessDirectoryJob::processFileFinalize(
         }
     }
 
-    if (_discoveryData->_syncOptions._vfs &&
+    if (_discoveryData->_syncOptions._vfs && _discoveryData->_syncOptions._vfs->mode() != OCC::Vfs::Off &&
         (item->_type == CSyncEnums::ItemTypeFile || item->_type == CSyncEnums::ItemTypeDirectory) &&
         item->_instruction == CSyncEnums::CSYNC_INSTRUCTION_NONE &&
         !_discoveryData->_syncOptions._vfs->isPlaceHolderInSync(_discoveryData->_localDir + path._local)) {
         item->_instruction = CSyncEnums::CSYNC_INSTRUCTION_UPDATE_VFS_METADATA;
+    }
+
+    if (_discoveryData->_syncOptions._vfs && _discoveryData->_syncOptions._vfs->mode() != OCC::Vfs::Off &&
+        (item->_type == CSyncEnums::ItemTypeFile || item->_type == CSyncEnums::ItemTypeDirectory) &&
+        item->_instruction == CSyncEnums::CSYNC_INSTRUCTION_NONE &&
+        FileSystem::isLnkFile((_discoveryData->_localDir + path._local)) &&
+        !_discoveryData->_syncOptions._vfs->isPlaceHolderInSync(_discoveryData->_localDir + path._local)) {
+        item->_instruction = CSyncEnums::CSYNC_INSTRUCTION_SYNC;
+        item->_direction = SyncFileItem::Down;
+        item->_type = CSyncEnums::ItemTypeVirtualFileDehydration;
+    }
+
+    if (item->_instruction == CSyncEnums::CSYNC_INSTRUCTION_NONE &&
+        !item->isDirectory() &&
+        _discoveryData->_syncOptions._vfs &&
+        _discoveryData->_syncOptions._vfs->mode() == OCC::Vfs::Off &&
+        (item->_type == CSyncEnums::ItemTypeVirtualFile ||
+         item->_type == CSyncEnums::ItemTypeVirtualFileDownload ||
+         item->_type == CSyncEnums::ItemTypeVirtualFileDehydration)) {
+        item->_instruction = CSyncEnums::CSYNC_INSTRUCTION_UPDATE_METADATA;
+        item->_direction = SyncFileItem::Down;
+        item->_type = CSyncEnums::ItemTypeFile;
     }
 
     if (path._original != path._target && (item->_instruction == CSYNC_INSTRUCTION_UPDATE_VFS_METADATA || item->_instruction == CSYNC_INSTRUCTION_UPDATE_METADATA || item->_instruction == CSYNC_INSTRUCTION_NONE)) {
@@ -1738,6 +1730,12 @@ void ProcessDirectoryJob::processFileFinalize(
         }
     }
 
+    if (item->_direction == SyncFileItem::Up && item->isEncrypted() && !_discoveryData->_account->e2e()->canEncrypt()) {
+        item->_instruction = CSYNC_INSTRUCTION_ERROR;
+        item->_errorString = tr("Cannot modify encrypted item because the selected certificate is not valid.");
+        item->_status = SyncFileItem::Status::NormalError;
+    }
+
     if (item->isDirectory() && item->_instruction == CSYNC_INSTRUCTION_SYNC)
         item->_instruction = CSYNC_INSTRUCTION_UPDATE_METADATA;
     bool removed = item->_instruction == CSYNC_INSTRUCTION_REMOVE;
@@ -1747,6 +1745,16 @@ void ProcessDirectoryJob::processFileFinalize(
     } else {
         recurse = false;
     }
+
+    if (!(item->isDirectory() ||
+          (!_discoveryData->_syncOptions._vfs || _discoveryData->_syncOptions._vfs->mode() != OCC::Vfs::Off) ||
+          item->_type != CSyncEnums::ItemTypeVirtualFile ||
+          item->_type != CSyncEnums::ItemTypeVirtualFileDownload ||
+          item->_type != CSyncEnums::ItemTypeVirtualFileDehydration)) {
+        qCCritical(lcDisco()) << "wong item type for" << item->_file << item->_type;
+        Q_ASSERT(false);
+    }
+
     if (recurse) {
         auto job = new ProcessDirectoryJob(path, item, recurseQueryLocal, recurseQueryServer,
             _lastSyncTimestamp, this);
@@ -1860,7 +1868,7 @@ bool ProcessDirectoryJob::checkPermissions(const OCC::SyncFileItemPtr &item)
         QString fileSlash = item->_file + '/';
         auto forbiddenIt = _discoveryData->_forbiddenDeletes.upperBound(fileSlash);
         if (forbiddenIt != _discoveryData->_forbiddenDeletes.begin())
-            forbiddenIt -= 1;
+            forbiddenIt = std::prev(forbiddenIt);
         if (forbiddenIt != _discoveryData->_forbiddenDeletes.end()
             && fileSlash.startsWith(forbiddenIt.key())) {
             item->_instruction = CSYNC_INSTRUCTION_NEW;
@@ -1894,7 +1902,7 @@ bool ProcessDirectoryJob::checkPermissions(const OCC::SyncFileItemPtr &item)
 
 bool ProcessDirectoryJob::isAnyParentBeingRestored(const QString &file) const
 {
-    for (const auto &directoryNameToRestore : qAsConst(_discoveryData->_directoryNamesToRestoreOnPropagation)) {
+    for (const auto &directoryNameToRestore : std::as_const(_discoveryData->_directoryNamesToRestoreOnPropagation)) {
         if (file.startsWith(QString(directoryNameToRestore + QLatin1Char('/')))) {
             qCWarning(lcDisco) << "File" << file << " is within the tree that's being restored" << directoryNameToRestore;
             return true;
@@ -2125,6 +2133,7 @@ DiscoverySingleDirectoryJob *ProcessDirectoryJob::startAsyncServerQuery()
                 const auto alreadyDownloaded = _discoveryData->_statedb->getFileRecord(_dirItem->_file, &record) && record.isValid();
                 // we need to make sure we first download all e2ee files/folders before migrating
                 _dirItem->_isEncryptedMetadataNeedUpdate = alreadyDownloaded && serverJob->encryptedMetadataNeedUpdate();
+                _dirItem->_e2eCertificateFingerprint = serverJob->certificateSha256Fingerprint();
                 _dirItem->_e2eEncryptionStatus = serverJob->currentEncryptionStatus();
                 _dirItem->_e2eEncryptionStatusRemote = serverJob->currentEncryptionStatus();
                 _dirItem->_e2eEncryptionServerCapability = serverJob->requiredEncryptionStatus();
@@ -2240,20 +2249,24 @@ void ProcessDirectoryJob::setupDbPinStateActions(SyncJournalFileRecord &record)
 {
     // Only suffix-vfs uses the db for pin states.
     // Other plugins will set localEntry._type according to the file's pin state.
-    if (!isVfsWithSuffix())
+    if (!isVfsWithSuffix()) {
         return;
+    }
 
     auto pin = _discoveryData->_statedb->internalPinStates().rawForPath(record._path);
-    if (!pin || *pin == PinState::Inherited)
+    if (!pin || *pin == PinState::Inherited) {
         pin = _pinState;
+    }
 
     // OnlineOnly hydrated files want to be dehydrated
-    if (record._type == ItemTypeFile && *pin == PinState::OnlineOnly)
+    if (record._type == ItemTypeFile && *pin == PinState::OnlineOnly) {
         record._type = ItemTypeVirtualFileDehydration;
+    }
 
     // AlwaysLocal dehydrated files want to be hydrated
-    if (record._type == ItemTypeVirtualFile && *pin == PinState::AlwaysLocal)
+    if (record._type == ItemTypeVirtualFile && *pin == PinState::AlwaysLocal) {
         record._type = ItemTypeVirtualFileDownload;
+    }
 }
 
 }

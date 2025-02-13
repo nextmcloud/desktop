@@ -11,6 +11,7 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  */
+pragma NativeMethodBehavior: AcceptThisObject
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -26,6 +27,7 @@ HeaderButton {
 
     required property var currentUser
     property bool userHasGroupFolders: currentUser.groupFolders.length > 0
+    property color parentBackgroundColor: "transparent"
 
     function openMenu() {
         foldersMenuLoader.openMenu()
@@ -90,17 +92,8 @@ HeaderButton {
                     id: folderStateIndicatorBackground
                     width: Style.folderStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
                     height: width
+                    color: root.parentBackgroundColor
                     anchors.centerIn: parent
-                    radius: width * Style.trayFolderStatusIndicatorRadiusFactor
-                    z: -2
-                }
-
-                Rectangle {
-                    id: folderStateIndicatorBackgroundMouseHover
-                    width: Style.folderStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
-                    height: width
-                    anchors.centerIn: parent
-                    opacity: Style.trayFolderStatusIndicatorMouseHoverOpacityFactor
                     radius: width * Style.trayFolderStatusIndicatorRadiusFactor
                     z: -1
                 }
@@ -178,12 +171,6 @@ HeaderButton {
             height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
             closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
-            background: Rectangle {
-                border.color: palette.dark
-                color: palette.window
-                radius: Style.trayWindowRadius
-            }
-
             contentItem: ScrollView {
                 id: foldersMenuScrollView
 
@@ -235,8 +222,8 @@ HeaderButton {
             }
 
             Component.onCompleted: {
-                foldersMenuLoader.openMenu = open
-                foldersMenuLoader.closeMenu = close
+                foldersMenuLoader.openMenu = function() { open() }
+                foldersMenuLoader.closeMenu = function() { close() }
             }
 
             Connections {

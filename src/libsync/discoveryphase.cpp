@@ -348,6 +348,7 @@ void DiscoverySingleLocalDirectoryJob::run() {
         i.isSymLink = dirent->type == ItemTypeSoftLink;
         i.isVirtualFile = dirent->type == ItemTypeVirtualFile || dirent->type == ItemTypeVirtualFileDownload;
         i.isMetadataMissing = dirent->is_metadata_missing;
+        i.isPermissionsInvalid = dirent->isPermissionsInvalid;
         i.type = dirent->type;
         results.push_back(i);
     }
@@ -400,7 +401,8 @@ void DiscoverySingleDirectoryJob::start()
           << "http://owncloud.org/ns:dDC"
           << "http://owncloud.org/ns:permissions"
           << "http://owncloud.org/ns:checksums"
-          << "http://nextcloud.org/ns:is-encrypted";
+          << "http://nextcloud.org/ns:is-encrypted"
+          << "http://nextcloud.org/ns:metadata-files-live-photo";
 
     if (_isRootPath)
         props << "http://owncloud.org/ns:data-fingerprint";
@@ -456,6 +458,11 @@ SyncFileItem::EncryptionStatus DiscoverySingleDirectoryJob::currentEncryptionSta
 SyncFileItem::EncryptionStatus DiscoverySingleDirectoryJob::requiredEncryptionStatus() const
 {
     return _encryptionStatusRequired;
+}
+
+QByteArray DiscoverySingleDirectoryJob::certificateSha256Fingerprint() const
+{
+    return _e2eCertificateFingerprint;
 }
 
 static void propertyMapToRemoteInfo(const QMap<QString, QString> &map, RemotePermissions::MountedPermissionAlgorithm algorithm, RemoteInfo &result)
@@ -549,6 +556,10 @@ static void propertyMapToRemoteInfo(const QMap<QString, QString> &map, RemotePer
         }
         if (property == "lock-token") {
             result.lockToken = value;
+        }
+        if (property == "metadata-files-live-photo") {
+            result.livePhotoFile = value;
+            result.isLivePhoto = true;
         }
     }
 
@@ -652,6 +663,10 @@ void DiscoverySingleDirectoryJob::lsJobFinishedWithErrorSlot(QNetworkReply *r)
         msg = tr("Server error: PROPFIND reply is not XML formatted!");
     }
 
+    if (r->error() == QNetworkReply::ContentAccessDenied) {
+        emit _account->termsOfServiceNeedToBeChecked();
+    }
+
     emit finished(HttpError{ httpCode, msg });
     deleteLater();
 }
@@ -718,6 +733,7 @@ void DiscoverySingleDirectoryJob::metadataReceived(const QJsonDocument &json, in
         }
         _isFileDropDetected = e2EeFolderMetadata->isFileDropPresent();
         _encryptedMetadataNeedUpdate = e2EeFolderMetadata->encryptedMetadataNeedUpdate();
+        _e2eCertificateFingerprint = e2EeFolderMetadata->certificateSha256Fingerprint();
         _encryptionStatusRequired = EncryptionStatusEnums::fromEndToEndEncryptionApiVersion(_account->capabilities().clientSideEncryptionVersion());
         _encryptionStatusCurrent = e2EeFolderMetadata->existingMetadataEncryptionStatus();
 

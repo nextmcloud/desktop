@@ -71,6 +71,7 @@ struct RemoteInfo
     bool _isE2eEncrypted = false;
     bool isFileDropDetected = false;
     QString e2eMangledName;
+    QByteArray e2eCertificateFingerprint;
     bool sharedByMe = false;
 
     [[nodiscard]] bool isValid() const { return !name.isNull(); }
@@ -87,6 +88,9 @@ struct RemoteInfo
     qint64 lockTime = 0;
     qint64 lockTimeout = 0;
     QString lockToken;
+
+    bool isLivePhoto = false;
+    QString livePhotoFile;
 };
 
 struct LocalInfo
@@ -103,6 +107,7 @@ struct LocalInfo
     bool isVirtualFile = false;
     bool isSymLink = false;
     bool isMetadataMissing = false;
+    bool isPermissionsInvalid = false;
     [[nodiscard]] bool isValid() const { return !name.isNull(); }
 };
 
@@ -158,6 +163,7 @@ public:
     void abort();
     [[nodiscard]] bool isFileDropDetected() const;
     [[nodiscard]] bool encryptedMetadataNeedUpdate() const;
+    [[nodiscard]] QByteArray certificateSha256Fingerprint() const;
     [[nodiscard]] SyncFileItem::EncryptionStatus currentEncryptionStatus() const;
     [[nodiscard]] SyncFileItem::EncryptionStatus requiredEncryptionStatus() const;
 
@@ -198,6 +204,8 @@ private:
     bool _isFileDropDetected = false;
     bool _encryptedMetadataNeedUpdate = false;
     SyncFileItem::EncryptionStatus _encryptionStatusRequired = SyncFileItem::EncryptionStatus::NotEncrypted;
+    QByteArray _e2eCertificateFingerprint;
+
     // If set, the discovery will finish with an error
     int64_t _size = 0;
     QString _error;

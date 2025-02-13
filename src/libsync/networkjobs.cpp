@@ -663,12 +663,9 @@ bool PropfindJob::finished()
     if (http_result_code == 207) {
         // Parse DAV response
         auto domDocument = QDomDocument();
-        auto errorMsg = QString();
-        auto errorLine = -1;
-        auto errorColumn = -1;
 
-        if (!domDocument.setContent(reply(), true, &errorMsg, &errorLine, &errorColumn)) {
-            qCWarning(lcPropfindJob) << "XML parser error: " << errorMsg << errorLine << errorColumn;
+        if (const auto res = domDocument.setContent(reply(), QDomDocument::ParseOption::UseNamespaceProcessing); !res) {
+            qCWarning(lcPropfindJob) << "XML parser error: " << res.errorMessage << res.errorLine << res.errorColumn;
             emit finishedWithError(reply());
 
         } else {
@@ -796,9 +793,9 @@ AvatarJob::AvatarJob(AccountPtr account, const QString &userId, int size, QObjec
     : AbstractNetworkJob(account, QString(), parent)
 {
     if (account->serverVersionInt() >= Account::makeServerVersion(10, 0, 0)) {
-        _avatarUrl = Utility::concatUrlPath(account->url(), QString("remote.php/dav/avatars/%1/%2.png").arg(userId, QString::number(size)));
+        _avatarUrl = Utility::concatUrlPath(account->url(), QStringLiteral("remote.php/dav/avatars/%1/%2.png").arg(userId, QString::number(size)));
     } else {
-        _avatarUrl = Utility::concatUrlPath(account->url(), QString("index.php/avatar/%1/%2").arg(userId, QString::number(size)));
+        _avatarUrl = Utility::concatUrlPath(account->url(), QStringLiteral("index.php/avatar/%1/%2").arg(userId, QString::number(size)));
     }
 }
 
@@ -1002,8 +999,9 @@ bool JsonApiJob::finished()
     }
 
     // save new ETag value
-    if(reply()->rawHeaderList().contains("ETag"))
-        emit etagResponseHeaderReceived(reply()->rawHeader("ETag"), statusCode);
+    if (const auto etagHeader = reply()->header(QNetworkRequest::ETagHeader); etagHeader.isValid()) {
+        emit etagResponseHeaderReceived(etagHeader.toByteArray(), statusCode);
+    }
 
     QJsonParseError error{};
     auto json = QJsonDocument::fromJson(jsonStr.toUtf8(), &error);
