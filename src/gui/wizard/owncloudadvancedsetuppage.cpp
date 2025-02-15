@@ -582,7 +582,7 @@ void OwncloudAdvancedSetupPage::customizeStyle()
 void OwncloudAdvancedSetupPage::styleLocalFolderLabel()
 {
     const auto backgroundColor = palette().window().color();
-    const auto folderIconFileName = Theme::instance()->isBranded() ? Theme::hidpiFileName("folder.png", backgroundColor)
+    const auto folderIconFileName = Theme::instance()->isBranded() ? Theme::hidpiFileName("computer-icon.png", backgroundColor)
                                                                    : Theme::hidpiFileName(":/client/theme/colored/folder.png");
     _ui.lLocal->setPixmap(folderIconFileName);
 }
