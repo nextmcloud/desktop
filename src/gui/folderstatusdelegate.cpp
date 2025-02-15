@@ -15,6 +15,7 @@
  */
 
 #include "folderstatusdelegate.h"
+#include "QtGui/qpainterpath.h"
 #include "folderstatusmodel.h"
 #include "folderstatusview.h"
 #include "folderman.h"
@@ -95,6 +96,9 @@ QSize FolderStatusDelegate::sizeHint(const QStyleOptionViewItem &option,
         }
     }
 
+    // Make sur its at least 76 Pixel height
+    h = std::max(h, 76);
+
     return {0, h};
 }
 
@@ -113,10 +117,89 @@ int FolderStatusDelegate::rootFolderHeightWithoutErrors(const QFontMetrics &fm, 
     return h;
 }
 
+QRect FolderStatusDelegate::moreRectPos(const QRect &rectIndex)
+{
+    if(rectIndex.isValid())
+    {
+        const int buttonWidth = 88;
+        const int buttonHeight = 32;
+
+        const int parentWidth = rectIndex.width();
+        const int parentHeight = rectIndex.height();
+        const int parentX = rectIndex.x();
+        const int parentY = rectIndex.y();
+
+        const int xMoreButton = (parentX + parentWidth - buttonWidth - 16);
+        const int yMoreButton = ((parentHeight - buttonHeight) / 2) + parentY;
+
+        return QRect(xMoreButton, yMoreButton, buttonWidth, buttonHeight);
+    }
+    return{};
+}
+
 void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (index.data(AddButton).toBool()) {
         const_cast<QStyleOptionViewItem &>(option).showDecorationSelected = false;
+    }
+
+    const QModelIndex parentIndex = index.parent(); //NMC customization
+    {
+        //NMC customization
+
+        painter->save();
+
+        //Make sure, we dont draw the "new folder" button, since we have a speccial button for it outside this widget
+        if(index.data(AddButton).toBool())
+        {
+            return;
+        }
+
+        const QRect leftRect(0, option.rect.y(), option.rect.x(), option.rect.height());
+
+        if (option.state & QStyle::State_MouseOver)
+        {
+            // Drawing the highlight color #e5e5e5
+            painter->fillRect(option.rect, QColor(0xe5, 0xe5, 0xe5));
+
+            //Now we need to paint the left side, what we disabled in folderstatusview.cpp (drawBranches() function)
+            painter->fillRect(leftRect, QColor(0xe5, 0xe5, 0xe5));
+        }
+
+        if (option.state & QStyle::State_Selected)
+        {
+            //Get selection background color
+            const QColor selectionColor = option.palette.color(QPalette::Highlight);
+            painter->fillRect(leftRect, selectionColor);
+        }
+
+        const QTreeView* treeView = qobject_cast<const QTreeView*>(option.widget);
+        if (treeView)
+        {
+            QIcon leftIcon;
+            QSize iconSize(16,16);
+
+            if (!parentIndex.isValid())
+            {
+                //We are in the root directory, make the icon bigger
+                iconSize.setHeight(24);
+                iconSize.setWidth(24);
+            }
+
+            if (index.isValid() && treeView->isExpanded(index))
+            {
+                // The parent item is expanded
+                leftIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/collapse-down.svg"));
+            }
+            else
+            {
+                // The parent item is not expanded
+                leftIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/collapse-right.svg"));
+            }
+            painter->drawPixmap(QPointF(leftRect.width() - iconSize.width(), leftRect.y() + leftRect.height() / 2 - iconSize.height()/2), leftIcon.pixmap(iconSize));
+        }
+
+        painter->restore();
     }
 
     QStyledItemDelegate::paint(painter, option, index);
@@ -136,6 +219,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     const auto aliasMargin = aliasFm.height() / 2;
     const auto margin = subFm.height() / 4;
 
+    //NMC Customization, we disabled it already
     if (index.data(AddButton).toBool()) {
         QStyleOptionButton opt;
         static_cast<QStyleOption &>(opt) = option;
@@ -197,7 +281,8 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     iconRect.setBottom(localPathRect.bottom());
     iconRect.setWidth(iconRect.height());
 
-    const auto nextToIcon = iconRect.right() + aliasMargin;
+    //NMC Customization, make sure we have at least 16 pixel for the status icon next to folder icon
+    const auto nextToIcon = iconRect.right() + std::max(aliasMargin, 16);
     aliasRect.setLeft(nextToIcon);
     localPathRect.setLeft(nextToIcon);
     remotePathRect.setLeft(nextToIcon);
@@ -206,8 +291,23 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     auto optionsButtonVisualRect = optionsButtonRect(option.rect, option.direction);
 
-    const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
-    painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), statusPixmap);
+    //NMC Customization
+    if(!parentIndex.isValid()){
+        QIcon nmcFolderIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/folderLogo.svg"));
+        const auto nmcFolderPixmap = nmcFolderIcon.pixmap(iconSize, iconSize, QIcon::Normal);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), nmcFolderPixmap);
+
+        const QSize statusIconSize(24,24);
+        const auto statusPixmap = statusIcon.pixmap(statusIconSize.width(), statusIconSize.height(), syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).right() - statusIconSize.width() * 0.6, iconRect.bottom() - statusIconSize.height() * 0.8, statusPixmap);
+    }
+    else{
+        const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), statusPixmap);
+    }
+
+    // const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+    // painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), statusPixmap);
 
     // only show the warning icon if the sync is running. Otherwise its
     // encoded in the status icon.
@@ -294,18 +394,23 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         drawTextBox(infoTexts, QColor(0x4d, 0x4d, 0xba));
     }
 
+    //NMC Customization, we need these infos already here to adjust the progress bar
+    const auto currentButtonRectPos = moreRectPos(option.rect);
+    const int nmcWidth = currentButtonRectPos.x() - nextToIcon - 8; //8 is margin to "More button"
+
     // Sync File Progress Bar: Show it if syncFile is not empty.
     if (showProgess) {
         const auto fileNameTextHeight = subFm.boundingRect(tr("File")).height();
         constexpr auto barHeight = 7; // same height as quota bar
         const auto overallWidth = option.rect.right() - aliasMargin - optionsButtonVisualRect.width() - nextToIcon;
+        Q_UNUSED(overallWidth)
 
         painter->save();
 
         // Overall Progress Bar.
         const auto progressBarRect = QRect(nextToIcon,
                                            remotePathRect.top(),
-                                           overallWidth - 2 * margin,
+                                           nmcWidth,
                                            barHeight);
 
         QStyleOptionProgressBar progressBarOpt;
@@ -335,8 +440,6 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         painter->restore();
     }
 
-    painter->restore();
-
     {
         QStyleOptionToolButton btnOpt;
         btnOpt.state = option.state;
@@ -344,12 +447,48 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         btnOpt.state |= QStyle::State_Raised;
         btnOpt.arrowType = Qt::NoArrow;
         btnOpt.subControls = QStyle::SC_ToolButton;
-        btnOpt.rect = optionsButtonVisualRect;
+
+        //NMC customization
+        btnOpt.rect = currentButtonRectPos;
+        //make sure the button is not too far away from the left border
+        btnOpt.rect.setRight(btnOpt.rect.x() + btnOpt.rect.width() + 4);
+
+        // Create QPainterPath with rounded corners
+        QPainterPath path;
+        path.addRoundedRect(btnOpt.rect, 4, 4);  // 4 ist der Radius für die abgerundeten Ecken
+
+        // Draw border line
+        QPen borderPen(QColor(0, 0, 0)); // Beispiel: Schwarzer Rand
+        borderPen.setWidth(1);
+        painter->setPen(borderPen);
+        painter->drawPath(path);
+
+        // Fill the rectangle
+        painter->fillPath(path, Qt::transparent);
+
+        // Draw the icon in rectangle
         btnOpt.icon = _iconMore;
         const auto buttonSize = QApplication::style()->pixelMetric(QStyle::PM_ButtonIconSize);
         btnOpt.iconSize = QSize(buttonSize, buttonSize);
-        QApplication::style()->drawComplexControl(QStyle::CC_ToolButton, &btnOpt, painter);
+
+        // Set icon position
+        int iconX = btnOpt.rect.x() + btnOpt.rect.width()/5;
+        int iconY = btnOpt.rect.y() + (btnOpt.rect.height() - btnOpt.iconSize.height()) / 2;
+
+        painter->drawPixmap(iconX, iconY, btnOpt.icon.pixmap(btnOpt.iconSize));
+
+        //Add text
+        const QString buttonText = QCoreApplication::translate("", "MORE");
+        painter->setFont(btnOpt.font);
+        int textX = iconX + btnOpt.iconSize.width() + 10;
+        int textY = iconY;
+        int textWidth = currentButtonRectPos.x() + currentButtonRectPos.width() - textX;
+        int textHeight = btnOpt.fontMetrics.height();
+
+        painter->drawText(QRect(textX, textY, textWidth, textHeight), Qt::AlignLeft | Qt::AlignVCenter, buttonText);
     }
+
+    painter->restore();
 }
 
 bool FolderStatusDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
