@@ -17,9 +17,9 @@
 
 #include "folderman.h"
 #include "theme.h"
-#include "generalsettings.h"
-#include "networksettings.h"
-#include "accountsettings.h"
+#include "nmcgui/nmcgeneralsettings.h"
+#include "nmcgui/nmcnetworksettings.h"
+#include "nmcgui/nmcaccountsettings.h"
 #include "configfile.h"
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
@@ -120,16 +120,16 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/settings.svg"), tr("General"));
     _actionGroup->addAction(generalAction);
     _toolBar->addAction(generalAction);
-    auto *generalSettings = new GeneralSettings;
+    auto *generalSettings = new NMCGeneralSettings;
     _ui->stack->addWidget(generalSettings);
 
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
-    connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettings::slotStyleChanged);
+    connect(this, &SettingsDialog::styleChanged, generalSettings, &NMCGeneralSettings::slotStyleChanged);
 
     QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
-    auto *networkSettings = new NetworkSettings;
+    auto *networkSettings = new NMCNetworkSettings;
     _ui->stack->addWidget(networkSettings);
 
     connect(_ui->stack, &QStackedWidget::currentChanged, this, &SettingsDialog::currentPageChanged);
@@ -243,7 +243,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     }
 
     _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
-    auto accountSettings = new AccountSettings(s, this);
+    auto accountSettings = new NMCAccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
     objectName += s->account()->displayName();
     accountSettings->setObjectName(objectName);
@@ -305,7 +305,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
 void SettingsDialog::accountRemoved(AccountState *s)
 {
     for (auto it = _actionGroupWidgets.begin(); it != _actionGroupWidgets.end(); ++it) {
-        auto as = qobject_cast<AccountSettings *>(*it);
+        auto as = qobject_cast<NMCAccountSettings *>(*it);
         if (!as) {
             continue;
         }

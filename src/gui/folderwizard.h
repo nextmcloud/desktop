@@ -22,8 +22,8 @@
 #include "folder.h"
 #include "accountfwd.h"
 
-#include "ui_folderwizardsourcepage.h"
-#include "ui_folderwizardtargetpage.h"
+#include "nmcgui/nmcfolderwizardsourcepage.h"
+#include "nmcgui/nmcfolderwizardtargetpage.h"
 
 class QCheckBox;
 
@@ -61,6 +61,11 @@ public:
 
     void setFolderMap(const Folder::Map &fm) { _folderMap = fm; }
 
+    NMCFolderWizardSourcePage getUi()
+    {
+        return _ui;
+    }
+
 protected:
     void changeEvent(QEvent *) override;
 
@@ -70,7 +75,7 @@ protected slots:
 private:
     void changeStyle();
 
-    Ui_FolderWizardSourcePage _ui{};
+    NMCFolderWizardSourcePage _ui{};
     Folder::Map _folderMap;
     AccountPtr _account;
 };
@@ -92,6 +97,10 @@ public:
 
     void initializePage() override;
     void cleanupPage() override;
+
+    NMCFolderWizardTargetPage getUi(){
+        return _ui;
+    };
 
 protected slots:
     void showWarn(const QString & = QString()) const;
@@ -119,7 +128,7 @@ private:
     LsColJob *runLsColJob(const QString &path);
     void recursiveInsert(QTreeWidgetItem *parent, QStringList pathTrail, QString path);
     bool selectByPath(QString path);
-    Ui_FolderWizardTargetPage _ui{};
+    NMCFolderWizardTargetPage _ui{};
     bool _warnWasVisible = false;
     AccountPtr _account;
     QTimer _lscolTimer;
@@ -170,7 +179,7 @@ public:
     bool eventFilter(QObject *watched, QEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 
-private:
+protected:
     FolderWizardLocalPath *_folderWizardSourcePage;
     FolderWizardRemotePath *_folderWizardTargetPage = nullptr;
     FolderWizardSelectiveSync *_folderWizardSelectiveSyncPage;
