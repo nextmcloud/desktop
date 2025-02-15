@@ -232,6 +232,10 @@ set(client_SRCS
     creds/webflowcredentials.cpp
     creds/webflowcredentialsdialog.h
     creds/webflowcredentialsdialog.cpp
+    nmcgui/nmcfolderstatusdelegate.h
+    nmcgui/nmcfolderstatusdelegate.cpp
+    nmcgui/nmcfolderstatusmodel.h
+    nmcgui/nmcfolderstatusmodel.cpp
     wizard/postfixlineedit.h
     wizard/postfixlineedit.cpp
     wizard/abstractcredswizardpage.h

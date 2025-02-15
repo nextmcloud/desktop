@@ -92,6 +92,7 @@
         <file>theme/white/folder.png</file>
         <file>theme/white/folder@2x.png</file>
         <file>theme/colored/folder.png</file>
+        <file>theme/colored/folder.svg</file>
         <file>theme/colored/folder@2x.png</file>
         <file>theme/black/confirm.svg</file>
         <file>theme/black/control-next.svg</file>
@@ -186,6 +187,7 @@
         <file>theme/black/external@2x.png</file>
         <file>theme/colored/external.png</file>
         <file>theme/colored/external@2x.png</file>
+        <file>theme/colored/circle-add-magenta.svg</file>
         <file>theme/white/folder.svg</file>
         <file>theme/white/more-apps.svg</file>
         <file>theme/white/talk-app.svg</file>
