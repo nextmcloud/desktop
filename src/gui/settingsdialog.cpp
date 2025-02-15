@@ -11,7 +11,9 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  */
-
+// begin nmc customzations
+#include "nmcgui/nmcnetworksettings.h"
+// end nmc customzations
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 
@@ -130,7 +132,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
-    auto *networkSettings = new NetworkSettings;
+    auto *networkSettings = new NMCNetworkSettings;
     _ui->stack->addWidget(networkSettings);
 
     _actionGroupWidgets.insert(generalAction, generalSettings);
