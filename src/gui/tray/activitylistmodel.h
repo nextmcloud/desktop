@@ -102,8 +102,9 @@ public:
 
     [[nodiscard]] bool canFetchMore(const QModelIndex &) const override;
 
-    ActivityList activityList() { return _finalList; }
+    ActivityList activityList() const { return _finalList; }
     ActivityList errorsList() { return _notificationErrorsLists; }
+    ActivityList &notificationList() { return _notificationLists; }
 
     [[nodiscard]] AccountState *accountState() const;
 
@@ -130,7 +131,7 @@ public slots:
     void slotTriggerAction(const int activityIndex, const int actionIndex);
     void slotTriggerDismiss(const int activityIndex);
 
-    void addNotificationToActivityList(const OCC::Activity &activity);
+    virtual void addNotificationToActivityList(const OCC::Activity &activity);
     void addErrorToActivityList(const OCC::Activity &activity, const OCC::ActivityListModel::ErrorType type);
     void addIgnoredFileToList(const OCC::Activity &newActivity);
     void addSyncFileItemToActivityList(const OCC::Activity &activity);
@@ -162,11 +163,11 @@ protected slots:
     void setDoneFetching(bool value);
     void setHideOldActivities(bool value);
     void setDisplayActions(bool value);
+    void addEntriesToActivityList(const OCC::ActivityList &activityList);
 
     virtual void startFetchJob();
 
 private slots:
-    void addEntriesToActivityList(const OCC::ActivityList &activityList);
     void accountStateHasChanged();
     void ingestActivities(const QJsonArray &activities);
     void appendMoreActivitiesAvailableEntry();

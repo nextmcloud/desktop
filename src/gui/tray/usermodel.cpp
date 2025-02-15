@@ -1,3 +1,4 @@
+#include "nmcgui/nmcactivitylistmodel.h"
 #include "notificationhandler.h"
 #include "usermodel.h"
 
@@ -54,7 +55,7 @@ User::User(AccountStatePtr &account, const bool &isCurrent, QObject *parent)
     : QObject(parent)
     , _account(account)
     , _isCurrentUser(isCurrent)
-    , _activityModel(new ActivityListModel(_account.data(), this))
+    , _activityModel(new NMCActivityListModel(_account.data(), this))
     , _unifiedSearchResultsModel(new UnifiedSearchResultsListModel(_account.data(), this))
 {
     connect(ProgressDispatcher::instance(), &ProgressDispatcher::progressInfo,
