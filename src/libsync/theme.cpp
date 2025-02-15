@@ -552,7 +552,6 @@ QString Theme::aboutInfo() const
     //: Example text: "<p>Nextcloud Desktop Client</p>"   (%1 is the application name)
     auto devString = QString(tr("<p>%1 Desktop Client</p><p>Version %1. For more information please click <a href='%2'>here</a>.</p>") + QStringLiteral(" (%3)"))
             .arg(APPLICATION_NAME, QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)), helpUrl(), osName);
-                      
 
     devString += tr("<p><small>Using virtual files plugin: %1</small></p>").arg(Vfs::modeToString(bestAvailableVfsMode()));
     devString += QStringLiteral("<br>%1").arg(QSysInfo::productType() % QLatin1Char('-') % QSysInfo::kernelVersion());
@@ -818,7 +817,8 @@ double Theme::getColorDarkness(const QColor &color)
 
 bool Theme::isDarkColor(const QColor &color)
 {
-    return getColorDarkness(color) > 0.5;
+    Q_UNUSED(color)
+    return false;
 }
 
 QColor Theme::getBackgroundAwareLinkColor(const QColor &backgroundColor)
@@ -942,19 +942,7 @@ QPalette Theme::systemPalette()
 
 bool Theme::darkMode()
 {
-    connectToPaletteSignal();
-// Windows: Check registry for dark mode
-#if defined(Q_OS_WIN)
-    const auto darkModeSubkey = QStringLiteral("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
-    if (Utility::registryKeyExists(HKEY_CURRENT_USER, darkModeSubkey) &&
-        !Utility::registryGetKeyValue(HKEY_CURRENT_USER, darkModeSubkey, QStringLiteral("AppsUseLightTheme")).toBool()) {
-        return true;
-    }
-
     return false;
-#else
-    return Theme::isDarkColor(QGuiApplication::palette().window().color());
-#endif
 }
 
 void Theme::setOverrideServerUrl(const QString &overrideServerUrl)
