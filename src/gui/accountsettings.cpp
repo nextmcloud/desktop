@@ -1042,6 +1042,7 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
     QDialog widget;
     Ui_Dialog ui{};
     ui.setupUi(&widget);
+    widget.setWindowFlags(widget.windowFlags() & ~Qt::WindowContextHelpButtonHint);
     widget.setWindowTitle(tr("End-to-end encryption mnemonic"));
     ui.label->setText(
         tr("To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. "
@@ -1057,12 +1058,12 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
 
     ui.lineEdit->focusWidget();
     ui.lineEdit->selectAll();
-    ui.lineEdit->setAlignment(Qt::AlignCenter);
+    ui.lineEdit->setAlignment(Qt::AlignTop);
 
     const QFont font(QStringLiteral(""), 0);
     QFontMetrics fm(font);
     ui.lineEdit->setFixedWidth(fm.horizontalAdvance(mnemonic));
-    widget.resize(widget.sizeHint());
+    widget.setFixedSize(widget.sizeHint().width(), 300);
     widget.exec();
 }
 
