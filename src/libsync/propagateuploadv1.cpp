@@ -115,7 +115,7 @@ void PropagateUploadFileV1::startNextChunk()
         // XOR with chunk size to make sure everything goes well if chunk size changes between runs
         uint transid = _transferId ^ uint(chunkSize());
         qCInfo(lcPropagateUploadV1) << "Upload chunk" << sendingChunk << "of" << _chunkCount << "transferid(remote)=" << transid;
-        path += QString("-chunking-%1-%2-%3").arg(transid).arg(_chunkCount).arg(sendingChunk);
+        path += QStringLiteral("-chunking-%1-%2-%3").arg(transid).arg(_chunkCount).arg(sendingChunk);
 
         headers[QByteArrayLiteral("OC-Chunked")] = QByteArrayLiteral("1");
 
@@ -299,7 +299,8 @@ void PropagateUploadFileV1::slotPutFinished()
         SyncJournalDb::UploadInfo pi;
         pi._valid = true;
         auto currentChunk = job->_chunk;
-        foreach (auto *job, _jobs) {
+
+        for (auto *job : std::as_const(_jobs)) {
             // Take the minimum finished one
             if (auto putJob = qobject_cast<PUTFileJob *>(job)) {
                 currentChunk = qMin(currentChunk, putJob->_chunk - 1);
@@ -373,7 +374,7 @@ void PropagateUploadFileV1::slotUploadProgress(qint64 sent, qint64 total)
     sender()->setProperty("byteWritten", sent);
     if (_jobs.count() > 1) {
         amount -= (_jobs.count() - 1) * chunkSize();
-        foreach (QObject *j, _jobs) {
+        for (QObject *j : std::as_const(_jobs)) {
             amount += j->property("byteWritten").toULongLong();
         }
     } else {

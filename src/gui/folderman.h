@@ -29,6 +29,7 @@
 class TestFolderMan;
 class TestCfApiShellExtensionsIPC;
 class TestShareModel;
+class TestFolderStatusModel;
 class ShareTestHelper;
 class EndToEndTestHelper;
 class TestSyncConflictsModel;
@@ -101,7 +102,7 @@ public:
     Folder *addFolder(AccountState *accountState, const FolderDefinition &folderDefinition);
 
     /** Removes a folder */
-    void removeFolder(Folder *);
+    void removeFolder(Folder *folderToRemove);
 
     /** Returns the folder which the file or directory stored in path is in */
     Folder *folderForPath(const QString &path);
@@ -231,6 +232,11 @@ public:
     /** removes current user from the share **/
     void leaveShare(const QString &localFile);
 
+    /** Whether or not vfs is supported in the location. */
+    [[nodiscard]] bool checkVfsAvailability(const QString &path, Vfs::Mode mode = bestAvailableVfsMode()) const;
+
+    /** If the folder configuration is no longer supported this will return an error string */
+    [[nodiscard]] Result<void, QString> unsupportedConfiguration(const QString &path) const;
 signals:
     /**
       * signal to indicate a folder has changed its sync state.
@@ -408,6 +414,7 @@ private:
     friend class ::TestCfApiShellExtensionsIPC;
     friend class ::ShareTestHelper;
     friend class ::EndToEndTestHelper;
+    friend class ::TestFolderStatusModel;
 };
 
 } // namespace OCC

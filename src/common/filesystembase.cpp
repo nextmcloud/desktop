@@ -121,16 +121,25 @@ void FileSystem::setFileReadOnly(const QString &filename, bool readonly)
             std::filesystem::perms allWritePermissions = std::filesystem::perms::_All_write;
             static std::filesystem::perms defaultWritePermissions = std::filesystem::perms::others_write;
 
-            std::filesystem::permissions(filename.toStdString(), allWritePermissions, std::filesystem::perm_options::remove);
+            std::filesystem::permissions(filename.toStdWString(), allWritePermissions, std::filesystem::perm_options::remove);
 
             if (!readonly) {
-                std::filesystem::permissions(filename.toStdString(), defaultWritePermissions, std::filesystem::perm_options::add);
+                std::filesystem::permissions(filename.toStdWString(), defaultWritePermissions, std::filesystem::perm_options::add);
             }
         }
-        catch (std::filesystem::filesystem_error e)
+        catch (const std::filesystem::filesystem_error &e)
         {
             qCWarning(lcFileSystem()) << filename << (readonly ? "readonly" : "read write") << e.what();
         }
+        catch (const std::system_error &e)
+        {
+            qCWarning(lcFileSystem()) << filename << e.what();
+        }
+        catch (...)
+        {
+            qCWarning(lcFileSystem()) << filename;
+        }
+        return;
     }
 #endif
     QFile file(filename);
@@ -171,9 +180,17 @@ bool FileSystem::setFileReadOnlyWeak(const QString &filename, bool readonly)
             setFileReadOnly(filename, readonly);
             return true;
         }
-        catch (std::filesystem::filesystem_error e)
+        catch (const std::filesystem::filesystem_error &e)
         {
             qCWarning(lcFileSystem()) << filename << (readonly ? "readonly" : "read write") << e.what();
+        }
+        catch (const std::system_error &e)
+        {
+            qCWarning(lcFileSystem()) << filename << e.what();
+        }
+        catch (...)
+        {
+            qCWarning(lcFileSystem()) << filename;
         }
         return false;
     }
@@ -353,7 +370,7 @@ bool FileSystem::openAndSeekFileSharedRead(QFile *file, QString *errorOrNull, qi
 #ifdef Q_OS_WIN
 std::filesystem::perms FileSystem::filePermissionsWin(const QString &filename)
 {
-    return std::filesystem::status(filename.toStdString()).permissions();
+    return std::filesystem::status(filename.toStdWString()).permissions();
 }
 
 void FileSystem::setFilePermissionsWin(const QString &filename, const std::filesystem::perms &perms)
@@ -361,7 +378,7 @@ void FileSystem::setFilePermissionsWin(const QString &filename, const std::files
     if (!fileExists(filename)) {
         return;
     }
-    std::filesystem::permissions(filename.toStdString(), perms);
+    std::filesystem::permissions(filename.toStdWString(), perms);
 }
 
 static bool fileExistsWin(const QString &filename)
@@ -463,9 +480,17 @@ bool FileSystem::isWritable(const QString &filename, const QFileInfo &fileInfo)
             const auto permissions = filePermissionsWin(filename);
             return static_cast<bool>((permissions & std::filesystem::perms::owner_write));
         }
-        catch (std::filesystem::filesystem_error e)
+        catch (const std::filesystem::filesystem_error &e)
         {
             qCWarning(lcFileSystem()) << filename << e.what();
+        }
+        catch (const std::system_error &e)
+        {
+            qCWarning(lcFileSystem()) << filename << e.what();
+        }
+        catch (...)
+        {
+            qCWarning(lcFileSystem()) << filename;
         }
         return false;
     }
@@ -489,9 +514,17 @@ bool FileSystem::isReadable(const QString &filename, const QFileInfo &fileInfo)
             const auto permissions = filePermissionsWin(filename);
             return static_cast<bool>((permissions & std::filesystem::perms::owner_read));
         }
-        catch (std::filesystem::filesystem_error e)
+        catch (const std::filesystem::filesystem_error &e)
         {
             qCWarning(lcFileSystem()) << filename << e.what();
+        }
+        catch (const std::system_error &e)
+        {
+            qCWarning(lcFileSystem()) << filename << e.what();
+        }
+        catch (...)
+        {
+            qCWarning(lcFileSystem()) << filename;
         }
         return false;
     }

@@ -60,7 +60,7 @@ struct Build: ParsableCommand {
 
     @Option(name: [.long], help: "Sparkle download URL.")
     var sparkleDownloadUrl =
-        "https://github.com/sparkle-project/Sparkle/releases/download/1.27.3/Sparkle-1.27.3.tar.xz"
+        "https://github.com/sparkle-project/Sparkle/releases/download/2.6.4/Sparkle-2.6.4.tar.xz"
 
     @Option(name: [.long], help: "Git clone command; include options such as depth.")
     var gitCloneCommand = "git clone --depth=1"
@@ -109,6 +109,9 @@ struct Build: ParsableCommand {
 
     @Flag(help: "Create an installer package.")
     var package = false
+
+    @Flag(help: "Build in developer mode.")
+    var dev = false
 
     mutating func run() throws {
         print("Configuring build tooling.")
@@ -177,6 +180,11 @@ struct Build: ParsableCommand {
         if let overrideServerUrl {
             craftOptions.append("\(craftBlueprintName).overrideServerUrl=\(overrideServerUrl)")
             craftOptions.append("\(craftBlueprintName).forceOverrideServerUrl=\(forceOverrideServerUrl ? "True" : "False")")
+        }
+
+        if dev {
+            appName += "Dev"
+            craftOptions.append("\(craftBlueprintName).devMode=True")
         }
 
         if !disableAutoUpdater {
@@ -267,7 +275,10 @@ struct Codesign: ParsableCommand {
     var codeSignIdentity: String
 
     mutating func run() throws {
-        try codesignClientAppBundle(at: appBundlePath, withCodeSignIdentity: codeSignIdentity)
+        let absolutePath = appBundlePath.hasPrefix("/")
+            ? appBundlePath
+            : "\(FileManager.default.currentDirectoryPath)/\(appBundlePath)"
+        try codesignClientAppBundle(at: absolutePath, withCodeSignIdentity: codeSignIdentity)
     }
 }
 

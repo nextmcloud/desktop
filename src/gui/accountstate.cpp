@@ -48,6 +48,7 @@ AccountState::AccountState(const AccountPtr &account)
     , _state(AccountState::Disconnected)
     , _connectionStatus(ConnectionValidator::Undefined)
     , _waitingForNewCredentials(false)
+    , _termsOfServiceChecker(_account)
     , _maintenanceToConnectedDelay(60000 + (QRandomGenerator::global()->generate() % (4 * 60000))) // 1-5min delay
     , _remoteWipe(new RemoteWipe(_account))
     , _isDesktopNotificationsAllowed(true)
@@ -64,6 +65,18 @@ AccountState::AccountState(const AccountPtr &account)
             this, &AccountState::slotPushNotificationsReady);
     connect(account.data(), &Account::serverUserStatusChanged, this,
         &AccountState::slotServerUserStatusChanged);
+    connect(&_termsOfServiceChecker, &TermsOfServiceChecker::done,
+            this, [this] ()
+            {
+                if (_termsOfServiceChecker.needToSign()) {
+                    slotConnectionValidatorResult(ConnectionValidator::NeedToSignTermsOfService, {});
+                }
+            });
+    connect(account.data(), &Account::termsOfServiceNeedToBeChecked,
+            this, [this] ()
+            {
+                _termsOfServiceChecker.start();
+            });
 
     connect(this, &AccountState::isConnectedChanged, [=]{
         // Get the Apps available on the server if we're now connected.
@@ -159,6 +172,8 @@ QString AccountState::stateString(State state)
         return tr("Configuration error");
     case AskingCredentials:
         return tr("Asking Credentials");
+    case NeedToSignTermsOfService:
+        return tr("Need the user to accept the terms of service");
     }
     return tr("Unknown account state");
 }
@@ -187,8 +202,10 @@ void AccountState::signOutByUi()
 
 void AccountState::freshConnectionAttempt()
 {
-    if (isConnected())
+    if (isConnected()) {
         setState(Disconnected);
+    }
+
     checkConnectivity();
 }
 
@@ -203,6 +220,11 @@ void AccountState::signIn()
 bool AccountState::isConnected() const
 {
     return _state == Connected;
+}
+
+bool AccountState::needsToSignTermsOfService() const
+{
+    return _state == NeedToSignTermsOfService;
 }
 
 void AccountState::tagLastSuccessfullETagRequest(const QDateTime &tp)
@@ -299,7 +321,7 @@ void AccountState::checkConnectivity()
     _connectionErrors.clear();
     connect(conValidator, &ConnectionValidator::connectionResult,
         this, &AccountState::slotConnectionValidatorResult);
-    if (isConnected()) {
+    if (isConnected() || needsToSignTermsOfService()) {
         // Use a small authed propfind as a minimal ping when we're
         // already connected.
         conValidator->checkAuthentication();
@@ -344,6 +366,7 @@ void AccountState::slotConnectionValidatorResult(ConnectionValidator::Status sta
         return;
     }
 
+    const auto oldConnectionValidatorStatus = _lastConnectionValidatorStatus;
     _lastConnectionValidatorStatus = status;
 
     // Come online gradually from 503, captive portal(redirection) or maintenance mode
@@ -424,6 +447,15 @@ void AccountState::slotConnectionValidatorResult(ConnectionValidator::Status sta
         setState(NetworkError);
         updateRetryCount();
         break;
+    case ConnectionValidator::NeedToSignTermsOfService:
+        setState(NeedToSignTermsOfService);
+        break;
+    }
+
+    if ((oldConnectionValidatorStatus == ConnectionValidator::NeedToSignTermsOfService && status == ConnectionValidator::Connected) ||
+        (status == ConnectionValidator::NeedToSignTermsOfService && oldConnectionValidatorStatus != status)) {
+
+        emit termsOfServiceChanged(_account, status == ConnectionValidator::NeedToSignTermsOfService ? AccountState::NeedToSignTermsOfService : AccountState::Connected);
     }
 }
 

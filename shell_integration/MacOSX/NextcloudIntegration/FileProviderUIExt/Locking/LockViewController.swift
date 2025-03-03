@@ -7,6 +7,7 @@
 
 import AppKit
 import FileProvider
+import NextcloudCapabilitiesKit
 import NextcloudFileProviderKit
 import NextcloudKit
 import OSLog
@@ -74,6 +75,20 @@ class LockViewController: NSViewController {
         Logger.lockViewController.error("Error: \(error, privacy: .public)")
         descriptionLabel.stringValue = "Error: \(error)"
         stopIndicatingLoading()
+    }
+
+    private func fetchCapabilities(account: Account, kit: NextcloudKit) async -> Capabilities? {
+        return await withCheckedContinuation { continuation in
+            kit.getCapabilities(account: account.ncKitAccount) { account, data, error in
+                guard error == .success, let capabilitiesJson = data?.data else {
+                    self.presentError("Error getting server caps: \(error.errorDescription)")
+                    continuation.resume(returning: nil)
+                    return
+                }
+                Logger.lockViewController.info("Successfully retrieved server share capabilities")
+                continuation.resume(returning: Capabilities(data: capabilitiesJson))
+            }
+        }
     }
 
     private func processItemIdentifier(_ itemIdentifier: NSFileProviderItemIdentifier) async {
@@ -157,16 +172,25 @@ class LockViewController: NSViewController {
                 return
             }
             let serverPathString = serverPath as String
-            let kit = NextcloudKit()
-            kit.setup(
+            let kit = NextcloudKit.shared
+            kit.appendSession(
+                account: account.ncKitAccount,
+                urlBase: account.serverUrl,
                 user: account.username,
-                userId: account.username,
+                userId: account.id,
                 password: account.password,
-                urlBase: account.serverUrl
+                userAgent: "Nextcloud-macOS/FileProviderUIExt",
+                nextcloudVersion: 25,
+                groupIdentifier: ""
             )
-            // guard let capabilities = await fetchCapabilities() else {
+            guard let capabilities = await fetchCapabilities(account: account, kit: kit),
+                  capabilities.files?.locking != nil
+            else {
+                presentError("Server does not have the ability to lock files.")
+                return
+            }
             guard let itemMetadata = await fetchItemMetadata(
-                itemRelativePath: serverPathString, kit: kit
+                itemRelativePath: serverPathString, account: account, kit: kit
             ) else {
                 presentError("Could not get item metadata.")
                 return
@@ -200,7 +224,8 @@ class LockViewController: NSViewController {
                 kit.lockUnlockFile(
                     serverUrlFileName: serverUrlFileName,
                     shouldLock: locking,
-                    completion: { _, error in
+                    account: account.ncKitAccount,
+                    completion: { _, _, error in
                         continuation.resume(returning: error)
                     }
                 )
