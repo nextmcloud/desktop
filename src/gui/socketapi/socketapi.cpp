@@ -575,11 +575,6 @@ void SocketApi::processEncryptRequest(const QString &localFile)
             );
             Q_UNUSED(ret)
         } else {
-            // const int ret = QMessageBox::information(nullptr,
-            //                                          tr("Folder encrypted successfully").arg(fileData.folderRelativePath),
-            //                                          tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
-            // Q_UNUSED(ret)
-
             // NMC customization
             const auto messageBox = new QMessageBox;
             messageBox->setAttribute(Qt::WA_DeleteOnClose);
@@ -1186,6 +1181,22 @@ void SocketApi::sendSharingContextMenuOptions(const FileData &fileData, SocketLi
     if (record._isShared && !record._sharedByMe) {
         listener->sendMessage(QLatin1String("MENU_ITEM:LEAVESHARE") + flagString + tr("Leave this share"));
     }
+
+    // If sharing is globally disabled, do not show any sharing entries.
+    // If there is no permission to share for this file, add a disabled entry saying so
+    if (isOnTheServer && !record._remotePerm.isNull() && !record._remotePerm.hasPermission(RemotePermissions::CanReshare)) {
+        listener->sendMessage(QLatin1String("MENU_ITEM:DISABLED:d:") + (!record.isDirectory() ? tr("Resharing this file is not allowed") : tr("Resharing this folder is not allowed")));
+    } else {
+        listener->sendMessage(QLatin1String("MENU_ITEM:SHARE") + flagString + tr("Share options"));
+    }
+
+    if (itemEncryptionFlag == SharingContextItemEncryptedFlag::NotEncryptedItem) {
+        listener->sendMessage(QLatin1String("MENU_ITEM:COPY_PRIVATE_LINK") + flagString + tr("Copy internal link"));
+    }
+
+    // Disabled: only providing email option for private links would look odd,
+    // and the copy option is more general.
+    //listener->sendMessage(QLatin1String("MENU_ITEM:EMAIL_PRIVATE_LINK") + flagString + tr("Send private link by email …"));
 }
 
 void SocketApi::sendEncryptFolderCommandMenuEntries(const QFileInfo &fileInfo,
@@ -1355,9 +1366,9 @@ void SocketApi::command_GET_MENU_ITEMS(const QString &argument, OCC::SocketListe
         const QFileInfo fileInfo(fileData.localPath);
         sendLockFileInfoMenuEntries(fileInfo, syncFolder, fileData, listener, record);
 
-        // if (!FileSystem::isDir(fileData.localPath)) {
-        //     listener->sendMessage(QLatin1String("MENU_ITEM:ACTIVITY") + flagString + tr("Activity"));
-        // }
+        if (!FileSystem::isDir(fileData.localPath)) {
+            listener->sendMessage(QLatin1String("MENU_ITEM:ACTIVITY") + flagString + tr("Activity"));
+        }
 
         DirectEditor* editor = getDirectEditorForLocalFile(fileData.localPath);
         if (editor) {
