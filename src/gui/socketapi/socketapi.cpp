@@ -1186,19 +1186,6 @@ void SocketApi::sendSharingContextMenuOptions(const FileData &fileData, SocketLi
     if (record._isShared && !record._sharedByMe) {
         listener->sendMessage(QLatin1String("MENU_ITEM:LEAVESHARE") + flagString + tr("Leave this share"));
     }
-
-    // If sharing is globally disabled, do not show any sharing entries.
-    // If there is no permission to share for this file, add a disabled entry saying so
-
-    // if (isOnTheServer && !record._remotePerm.isNull() && !record._remotePerm.hasPermission(RemotePermissions::CanReshare)) {
-        // listener->sendMessage(QLatin1String("MENU_ITEM:DISABLED:d:") + (!record.isDirectory() ? tr("Resharing this file is not allowed") : tr("Resharing this folder is not allowed")));
-    // } else {
-        // listener->sendMessage(QLatin1String("MENU_ITEM:SHARE") + flagString + tr("Share options"));
-    // }
-
-    // if (itemEncryptionFlag == SharingContextItemEncryptedFlag::NotEncryptedItem) {
-        // listener->sendMessage(QLatin1String("MENU_ITEM:COPY_PRIVATE_LINK") + flagString + tr("Copy internal link"));
-    // }
 }
 
 void SocketApi::sendEncryptFolderCommandMenuEntries(const QFileInfo &fileInfo,
