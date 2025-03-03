@@ -41,7 +41,7 @@ bool expectConflict(FileInfo state, const QString path)
     auto base = state.find(pathComponents.parentDirComponents());
     if (!base)
         return false;
-    for (const auto &item : qAsConst(base->children)) {
+    for (const auto &item : std::as_const(base->children)) {
         if (item.name.startsWith(pathComponents.fileName()) && item.name.contains("(case clash from")) {
             return true;
         }
@@ -721,7 +721,7 @@ private slots:
         // Begin Test mismatch recalculation---------------------------------------------------------------------------------
 
         const auto prevServerVersion = fakeFolder.account()->serverVersion();
-        fakeFolder.account()->setServerVersion(QString("%1.0.0").arg(fakeFolder.account()->checksumRecalculateServerVersionMinSupportedMajor()));
+        fakeFolder.account()->setServerVersion(QStringLiteral("%1.0.0").arg(fakeFolder.account()->checksumRecalculateServerVersionMinSupportedMajor()));
 
         // Mismatched OC-Checksum and X-Recalculate-Hash is not supported -> sync must fail
         isChecksumRecalculateSupported = false;
@@ -860,6 +860,14 @@ private slots:
         {
             qCritical() << e.what() << e.path1().c_str() << e.path2().c_str() << e.code().message().c_str();
         }
+        catch (const std::system_error &e)
+        {
+            qCritical() << e.what() << e.code().message().c_str();
+        }
+        catch (...)
+        {
+            qCritical() << "exception unknown";
+        }
         QTextCodec::setCodecForLocale(utf8Locale);
 #endif
     }
@@ -984,15 +992,17 @@ private slots:
             if (op == QNetworkAccessManager::PostOperation) {
                 ++nPOST;
                 if (contentType.startsWith(QStringLiteral("multipart/related; boundary="))) {
-                    auto jsonReplyObject = fakeFolder.forEachReplyPart(outgoingData, contentType, [] (const QMap<QString, QByteArray> &allHeaders) -> QJsonObject {
+                    auto hasAnError = false;
+                    auto jsonReplyObject = fakeFolder.forEachReplyPart(outgoingData, contentType, [&hasAnError] (const QMap<QString, QByteArray> &allHeaders) -> QJsonObject {
                         auto reply = QJsonObject{};
-                        const auto fileName = allHeaders[QStringLiteral("X-File-Path")];
+                        const auto fileName = allHeaders[QStringLiteral("x-file-path")];
                         if (fileName.endsWith("A/big2") ||
                                 fileName.endsWith("A/big3") ||
                                 fileName.endsWith("A/big4") ||
                                 fileName.endsWith("A/big5") ||
                                 fileName.endsWith("A/big7") ||
                                 fileName.endsWith("B/big8")) {
+                            hasAnError = true;
                             reply.insert(QStringLiteral("error"), true);
                             reply.insert(QStringLiteral("etag"), {});
                             return reply;
@@ -1005,7 +1015,11 @@ private slots:
                     if (jsonReplyObject.size()) {
                         auto jsonReply = QJsonDocument{};
                         jsonReply.setObject(jsonReplyObject);
-                        return new FakeJsonErrorReply{op, request, this, 200, jsonReply};
+                        if (hasAnError) {
+                            return new FakeJsonErrorReply{op, request, this, 200, jsonReply};
+                        } else {
+                            return new FakeJsonReply{op, request, this, 200, jsonReply};
+                        }
                     }
                     return  nullptr;
                 }
@@ -1102,6 +1116,84 @@ private slots:
         QCOMPARE(nPUT, 9);
         QCOMPARE(nPOST, 0);
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+    }
+
+    void testNetworkErrorsWithSmallerBatchSizes()
+    {
+        FakeFolder fakeFolder{ FileInfo::A12_B12_C12_S12() };
+        fakeFolder.syncEngine().account()->setCapabilities({ { "dav", QVariantMap{ {"bulkupload", "1.0"} } } });
+
+        int nPUT = 0;
+        int nPOST = 0;
+        fakeFolder.setServerOverride([&](QNetworkAccessManager::Operation op, const QNetworkRequest &request, QIODevice *outgoingData) -> QNetworkReply * {
+            auto contentType = request.header(QNetworkRequest::ContentTypeHeader).toString();
+            if (op == QNetworkAccessManager::PostOperation) {
+                ++nPOST;
+                if (contentType.startsWith(QStringLiteral("multipart/related; boundary="))) {
+                    auto jsonReplyObject = fakeFolder.forEachReplyPart(outgoingData, contentType, [] (const QMap<QString, QByteArray> &allHeaders) -> QJsonObject {
+                        auto reply = QJsonObject{};
+                        const auto fileName = allHeaders[QStringLiteral("X-File-Path")];
+                        if(fileName.endsWith("B/small30") ||
+                            fileName.endsWith("B/small60") ||
+                            fileName.endsWith("B/big30") ||
+                            fileName.endsWith("B/big60")) {
+                            reply.insert(QStringLiteral("error"), true);
+                            reply.insert(QStringLiteral("etag"), {});
+                            return reply;
+                        } else {
+                            reply.insert(QStringLiteral("error"), false);
+                            reply.insert(QStringLiteral("etag"), {});
+                        }
+                        return reply;
+                    });
+                    if (jsonReplyObject.size()) {
+                        auto jsonReply = QJsonDocument{};
+                        jsonReply.setObject(jsonReplyObject);
+                        return new FakeJsonErrorReply{op, request, this, 200, jsonReply};
+                    }
+                    return  nullptr;
+                }
+            } else if (op == QNetworkAccessManager::PutOperation) {
+                ++nPUT;
+                const auto fileName = getFilePathFromUrl(request.url());
+                if (fileName.endsWith("B/small30") ||
+                    fileName.endsWith("B/small60") ||
+                    fileName.endsWith("B/big30") ||
+                    fileName.endsWith("B/big60")) {
+                    return new FakeErrorReply(op, request, this, 504);
+                }
+                return  nullptr;
+            }
+            return  nullptr;
+        });
+
+        const auto smallSize = 0.5 * 1000 * 1000;
+        const auto bigSize = 10 * 1000 * 1000;
+
+        for(auto i = 0 ; i < 120; ++i) {
+            fakeFolder.localModifier().insert(QString("A/small%1").arg(i), smallSize);
+        }
+
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(nPUT, 0);
+        QCOMPARE(nPOST, 2);
+        nPUT = 0;
+        nPOST = 0;
+
+        for(auto i = 0 ; i < 120; ++i) {
+            fakeFolder.localModifier().insert(QString("B/small%1").arg(i), smallSize);
+            fakeFolder.localModifier().insert(QString("B/big%1").arg(i), bigSize);
+        }
+
+        QVERIFY(!fakeFolder.syncOnce());
+        QCOMPARE(nPUT, 120);
+        QCOMPARE(nPOST, 2);
+        nPUT = 0;
+        nPOST = 0;
+
+        QVERIFY(!fakeFolder.syncOnce());
+        QCOMPARE(nPUT, 0);
+        QCOMPARE(nPOST, 0);
     }
 
     void testRemoteMoveFailedInsufficientStorageLocalMoveRolledBack()
@@ -2020,6 +2112,80 @@ private slots:
         fakeFolder.remoteModifier().find("abcdefabcdefabcdefabcdefabcdefabcd/abcdef abcdef abcdef a/abcdef abcdef/abcdef acbdef abcd/123abcdefabcdef1/123123abcdef123 abcdef1/12abcabc/12abcabd/this is a long long long long long long long long long long long long long long long long l.docx - Sh.lnk")->permissions = RemotePermissions::fromServerString("S");
 
         QVERIFY(fakeFolder.syncOnce());
+    }
+
+    void testCreateFileWithTrailingLeadingSpaces_local_automatedRenameBeforeUpload()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+        fakeFolder.enableEnforceWindowsFileNameCompatibility();
+
+        fakeFolder.syncEngine().setLocalDiscoveryEnforceWindowsFileNameCompatibility(true);
+
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        const QString fileWithSpaces1(" foo");
+        const QString fileWithSpaces2(" bar ");
+        const QString fileWithSpaces3("bla ");
+        const QString fileWithSpaces4("A/ foo");
+        const QString fileWithSpaces5("A/ bar ");
+        const QString fileWithSpaces6("A/bla ");
+        const auto extraFileNameWithSpaces = QStringLiteral(" with spaces ");
+        const QString fileWithoutSpaces1("foo");
+        const QString fileWithoutSpaces2("bar");
+        const QString fileWithoutSpaces3("bla");
+        const QString fileWithoutSpaces4("A/foo");
+        const QString fileWithoutSpaces5("A/bar");
+        const QString fileWithoutSpaces6("A/bla");
+        const auto extraFileNameWithoutSpaces = QStringLiteral("with spaces");
+
+        fakeFolder.localModifier().insert(fileWithSpaces1);
+        fakeFolder.localModifier().insert(fileWithSpaces2);
+        fakeFolder.localModifier().insert(fileWithSpaces3);
+        fakeFolder.localModifier().mkdir("A");
+        fakeFolder.localModifier().insert(fileWithSpaces4);
+        fakeFolder.localModifier().insert(fileWithSpaces5);
+        fakeFolder.localModifier().insert(fileWithSpaces6);
+        fakeFolder.localModifier().mkdir(extraFileNameWithSpaces);
+
+        ItemCompletedSpy completeSpy(fakeFolder);
+        completeSpy.clear();
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QCOMPARE(completeSpy.findItem(fileWithSpaces1)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces2)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces3)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces4)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces5)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces6)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(extraFileNameWithSpaces)->_status, SyncFileItem::Status::FileNameInvalid);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces1)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces2)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces3)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces4)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces5)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces6)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(extraFileNameWithoutSpaces)->_status, SyncFileItem::Status::NoStatus);
+
+        completeSpy.clear();
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(LocalDiscoveryStyle::DatabaseAndFilesystem, {QStringLiteral("foo"), QStringLiteral("bar"), QStringLiteral("bla"), QStringLiteral("A/foo"), QStringLiteral("A/bar"), QStringLiteral("A/bla")});
+        QVERIFY(fakeFolder.syncOnce());
+
+        QCOMPARE(completeSpy.findItem(fileWithSpaces1)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces2)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces3)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces4)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces5)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithSpaces6)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(extraFileNameWithSpaces)->_status, SyncFileItem::Status::NoStatus);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces1)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces2)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces3)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces4)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces5)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(fileWithoutSpaces6)->_status, SyncFileItem::Status::Success);
+        QCOMPARE(completeSpy.findItem(extraFileNameWithoutSpaces)->_status, SyncFileItem::Status::Success);
     }
 };
 

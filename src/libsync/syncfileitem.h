@@ -286,6 +286,7 @@ public:
     EncryptionStatus _e2eEncryptionStatus = EncryptionStatus::NotEncrypted; // The file is E2EE or the content of the directory should be E2EE
     EncryptionStatus _e2eEncryptionServerCapability = EncryptionStatus::NotEncrypted;
     EncryptionStatus _e2eEncryptionStatusRemote = EncryptionStatus::NotEncrypted;
+    QByteArray _e2eCertificateFingerprint;
     quint16 _httpErrorCode = 0;
     RemotePermissions _remotePerm;
     QString _errorString; // Contains a string only in case of error
@@ -339,6 +340,11 @@ public:
 
     bool _isAnyInvalidCharChild = false;
     bool _isAnyCaseClashChild = false;
+
+    bool _isLivePhoto = false;
+    QString _livePhotoFile;
+
+    bool isPermissionsInvalid = false;
 
     QString _discoveryResult;
 };

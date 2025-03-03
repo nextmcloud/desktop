@@ -27,7 +27,7 @@ configure_file(${CMAKE_SOURCE_DIR}/${NMC_RCC_FILE} "${BIN_OUTPUT_DIRECTORY}/${NM
 include(${CMAKE_SOURCE_DIR}/NEXTCLOUD.cmake)
 
 set(QT_VERSION_MAJOR "6")
-set(REQUIRED_QT_VERSION "6.0.0")
+set(REQUIRED_QT_VERSION "6.8.0")
 
 # CfAPI Shell Extensions
 set( CFAPI_SHELL_EXTENSIONS_LIB_NAME CfApiShellExtensions )
@@ -58,10 +58,16 @@ else()
     set(APPLICATION_REV_DOMAIN_INSTALLER ${APPLICATION_REV_DOMAIN})
 endif()
 
+option( APPLICATION_DISPLAY_LEGACY_IMPORT_DIALOG "Display legacy import dialog" ON )
+
 # For usage in XML files we preprocess
 string(REPLACE "&" "&amp;" APPLICATION_NAME_XML_ESCAPED "${APPLICATION_NAME}")
 string(REPLACE "<" "&lt;" APPLICATION_NAME_XML_ESCAPED "${APPLICATION_NAME_XML_ESCAPED}")
 string(REPLACE ">" "&gt;" APPLICATION_NAME_XML_ESCAPED "${APPLICATION_NAME_XML_ESCAPED}")
+
+string(REPLACE "&" "&amp;" APPLICATION_VENDOR_XML_ESCAPED "${APPLICATION_VENDOR}")
+string(REPLACE "<" "&lt;" APPLICATION_VENDOR_XML_ESCAPED "${APPLICATION_VENDOR_XML_ESCAPED}")
+string(REPLACE ">" "&gt;" APPLICATION_VENDOR_XML_ESCAPED "${APPLICATION_VENDOR_XML_ESCAPED}")
 
 if (NOT DEFINED LINUX_PACKAGE_SHORTNAME)
     set(LINUX_PACKAGE_SHORTNAME "${APPLICATION_SHORTNAME}")
@@ -230,20 +236,25 @@ if(BUILD_CLIENT)
     find_package(Sphinx)
     find_package(PdfLatex)
     find_package(OpenSSL 1.1 REQUIRED )
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(OPENSC-LIBP11 libp11 REQUIRED IMPORTED_TARGET)
 
-   find_package(ZLIB REQUIRED)
-   find_package(SQLite3 3.9.0 REQUIRED)
+    set(ENCRYPTION_HARDWARE_TOKEN_DRIVER_PATH "" CACHE PATH "Path to the driver for end-to-end encryption token")
+    option(CLIENTSIDEENCRYPTION_ENFORCE_USB_TOKEN "Enforce use of an hardware token for end-to-end encryption" false)
 
-   if(NOT WIN32 AND NOT APPLE)
-      find_package(PkgConfig REQUIRED)
-      pkg_check_modules(CLOUDPROVIDERS cloudproviders IMPORTED_TARGET)
+    find_package(ZLIB REQUIRED)
+    find_package(SQLite3 3.9.0 REQUIRED)
 
-      if(CLOUDPROVIDERS_FOUND)
-        pkg_check_modules(DBUS-1 REQUIRED dbus-1 IMPORTED_TARGET)
-        pkg_check_modules(GIO REQUIRED gio-2.0 IMPORTED_TARGET)
-        pkg_check_modules(GLIB2 REQUIRED glib-2.0 IMPORTED_TARGET)
-      endif()
-   endif()
+    if(NOT WIN32 AND NOT APPLE)
+        find_package(PkgConfig REQUIRED)
+        pkg_check_modules(CLOUDPROVIDERS cloudproviders IMPORTED_TARGET)
+
+        if(CLOUDPROVIDERS_FOUND)
+            pkg_check_modules(DBUS-1 REQUIRED dbus-1 IMPORTED_TARGET)
+            pkg_check_modules(GIO REQUIRED gio-2.0 IMPORTED_TARGET)
+            pkg_check_modules(GLIB2 REQUIRED glib-2.0 IMPORTED_TARGET)
+        endif()
+    endif()
 endif()
 
 option(BUILD_WITH_WEBENGINE "BUILD_WITH_WEBENGINE" ON)

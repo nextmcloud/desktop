@@ -215,7 +215,7 @@ void SyncEngine::deleteStaleDownloadInfos(const SyncFileItemVector &syncItems)
 {
     // Find all downloadinfo paths that we want to preserve.
     QSet<QString> download_file_paths;
-    foreach (const SyncFileItemPtr &it, syncItems) {
+    for (const SyncFileItemPtr &it : syncItems) {
         if (it->_direction == SyncFileItem::Down
             && it->_type == ItemTypeFile
             && isFileTransferInstruction(it->_instruction)) {
@@ -226,7 +226,7 @@ void SyncEngine::deleteStaleDownloadInfos(const SyncFileItemVector &syncItems)
     // Delete from journal and from filesystem.
     const QVector<SyncJournalDb::DownloadInfo> deleted_infos =
         _journal->getAndDeleteStaleDownloadInfos(download_file_paths);
-    foreach (const SyncJournalDb::DownloadInfo &deleted_info, deleted_infos) {
+    for (const SyncJournalDb::DownloadInfo &deleted_info : deleted_infos) {
         const QString tmppath = _propagator->fullLocalPath(deleted_info._tmpfile);
         qCInfo(lcEngine) << "Deleting stale temporary file: " << tmppath;
         FileSystem::remove(tmppath);
@@ -237,7 +237,7 @@ void SyncEngine::deleteStaleUploadInfos(const SyncFileItemVector &syncItems)
 {
     // Find all blacklisted paths that we want to preserve.
     QSet<QString> upload_file_paths;
-    foreach (const SyncFileItemPtr &it, syncItems) {
+    for (const SyncFileItemPtr &it: syncItems) {
         if (it->_direction == SyncFileItem::Up
             && it->_type == ItemTypeFile
             && isFileTransferInstruction(it->_instruction)) {
@@ -250,7 +250,7 @@ void SyncEngine::deleteStaleUploadInfos(const SyncFileItemVector &syncItems)
 
     // Delete the stales chunk on the server.
     if (account()->capabilities().chunkingNg()) {
-        foreach (uint transferId, ids) {
+        for (uint transferId : std::as_const(ids)) {
             if (!transferId)
                 continue; // Was not a chunked upload
             QUrl url = Utility::concatUrlPath(account()->url(), QLatin1String("remote.php/dav/uploads/") + account()->davUser() + QLatin1Char('/') + QString::number(transferId));
@@ -263,7 +263,7 @@ void SyncEngine::deleteStaleErrorBlacklistEntries(const SyncFileItemVector &sync
 {
     // Find all blacklisted paths that we want to preserve.
     QSet<QString> blacklist_file_paths;
-    foreach (const SyncFileItemPtr &it, syncItems) {
+    for (const SyncFileItemPtr &it : syncItems) {
         if (it->_hasBlacklistEntry)
             blacklist_file_paths.insert(it->_file);
     }
@@ -292,7 +292,7 @@ void SyncEngine::conflictRecordMaintenance()
     //
     // This happens when the conflicts table is new or when conflict files
     // are downloaded but the server doesn't send conflict headers.
-    for (const auto &path : qAsConst(_seenConflictFiles)) {
+    for (const auto &path : std::as_const(_seenConflictFiles)) {
         ASSERT(Utility::isConflictFile(path));
 
         auto bapath = path.toUtf8();
@@ -363,6 +363,10 @@ void OCC::SyncEngine::slotItemDiscovered(const OCC::SyncFileItemPtr &item)
                 const bool isReadOnly = !item->_remotePerm.isNull() && !item->_remotePerm.hasPermission(RemotePermissions::CanWrite);
                 modificationHappened = FileSystem::setFileReadOnlyWeak(filePath, isReadOnly);
             }
+            if (item->isPermissionsInvalid) {
+                const auto isReadOnly = !item->_remotePerm.isNull() && !item->_remotePerm.hasPermission(RemotePermissions::CanWrite);
+                FileSystem::setFileReadOnly(filePath, isReadOnly);
+            }
 
             modificationHappened |= item->_size != prev._fileSize;
 
@@ -417,6 +421,10 @@ void OCC::SyncEngine::slotItemDiscovered(const OCC::SyncFileItemPtr &item)
                     emit itemCompleted(item, ErrorCategory::GenericError);
                     return;
                 }
+            }
+
+            if (rec.isE2eEncrypted()) {
+                rec._e2eCertificateFingerprint = _account->encryptionCertificateFingerprint();
             }
 
             // Updating the db happens on success
@@ -509,9 +517,13 @@ void SyncEngine::startSync()
             for (const auto &e2EeLockedFolder : e2EeLockedFolders) {
                 const auto folderId = e2EeLockedFolder.first;
                 qCInfo(lcEngine()) << "start unlock job for folderId:" << folderId;
-                const auto folderToken = EncryptionHelper::decryptStringAsymmetric(_account->e2e()->_privateKey, e2EeLockedFolder.second);
+                const auto folderToken = EncryptionHelper::decryptStringAsymmetric(_account->e2e()->getCertificateInformation(), _account->e2e()->paddingMode(), *_account->e2e(), e2EeLockedFolder.second);
+                if (!folderToken) {
+                    qCWarning(lcEngine()) << "decrypt failed";
+                    return;
+                }
                 // TODO: We need to rollback changes done to metadata in case we have an active lock, this needs to be implemented on the server first
-                const auto unlockJob = new OCC::UnlockEncryptFolderApiJob(_account, folderId, folderToken, _journal, this);
+                const auto unlockJob = new OCC::UnlockEncryptFolderApiJob(_account, folderId, *folderToken, _journal, this);
                 unlockJob->setShouldRollbackMetadataChanges(true);
                 unlockJob->start();
             }
@@ -537,7 +549,7 @@ void SyncEngine::startSync()
 
     _progressInfo->reset();
 
-    if (!QDir(_localPath).exists()) {
+    if (!QFileInfo::exists(_localPath)) {
         _anotherSyncNeeded = DelayedFollowUp;
         // No _tr, it should only occur in non-mirall
         Q_EMIT syncError(QStringLiteral("Unable to find local sync folder."), ErrorCategory::GenericError);
@@ -633,7 +645,7 @@ void SyncEngine::startSync()
 
     _remnantReadOnlyFolders.clear();
 
-    _discoveryPhase.reset(new DiscoveryPhase);
+    _discoveryPhase = std::make_unique<DiscoveryPhase>();
     _discoveryPhase->_leadingAndTrailingSpacesFilesAllowed = _leadingAndTrailingSpacesFilesAllowed;
     _discoveryPhase->_account = _account;
     _discoveryPhase->_excludes = _excludedFiles.data();
@@ -659,6 +671,28 @@ void SyncEngine::startSync()
         return;
     }
 
+    const auto accountCaps = _account->capabilities();
+    const auto forbiddenFilenames = accountCaps.forbiddenFilenames();
+    const auto forbiddenBasenames = accountCaps.forbiddenFilenameBasenames();
+    const auto forbiddenExtensions = accountCaps.forbiddenFilenameExtensions();
+    const auto forbiddenChars = accountCaps.forbiddenFilenameCharacters();
+
+    _discoveryPhase->_forbiddenFilenames = forbiddenFilenames;
+    _discoveryPhase->_forbiddenBasenames = forbiddenBasenames;
+    _discoveryPhase->_forbiddenExtensions = forbiddenExtensions;
+    _discoveryPhase->_forbiddenChars = forbiddenChars;
+    if (!forbiddenFilenames.isEmpty() &&
+        !forbiddenBasenames.isEmpty() &&
+        !forbiddenExtensions.isEmpty() &&
+        !forbiddenChars.isEmpty()) {
+        _shouldEnforceWindowsFileNameCompatibility = true;
+        _discoveryPhase->_shouldEnforceWindowsFileNameCompatibility = _shouldEnforceWindowsFileNameCompatibility;
+    }
+#if defined Q_OS_WINDOWS
+    _shouldEnforceWindowsFileNameCompatibility = true;
+    _discoveryPhase->_shouldEnforceWindowsFileNameCompatibility = _shouldEnforceWindowsFileNameCompatibility;
+#endif
+
     // Check for invalid character in old server version
     QString invalidFilenamePattern = _account->capabilities().invalidFilenameRegex();
     if (invalidFilenamePattern.isNull()
@@ -675,17 +709,17 @@ void SyncEngine::startSync()
     _discoveryPhase->_serverBlacklistedFiles = _account->capabilities().blacklistedFiles();
     _discoveryPhase->_ignoreHiddenFiles = ignoreHiddenFiles();
 
-    connect(_discoveryPhase.data(), &DiscoveryPhase::itemDiscovered, this, &SyncEngine::slotItemDiscovered);
-    connect(_discoveryPhase.data(), &DiscoveryPhase::newBigFolder, this, &SyncEngine::newBigFolder);
-    connect(_discoveryPhase.data(), &DiscoveryPhase::existingFolderNowBig, this, &SyncEngine::existingFolderNowBig);
-    connect(_discoveryPhase.data(), &DiscoveryPhase::fatalError, this, [this](const QString &errorString, ErrorCategory errorCategory) {
+    connect(_discoveryPhase.get(), &DiscoveryPhase::itemDiscovered, this, &SyncEngine::slotItemDiscovered);
+    connect(_discoveryPhase.get(), &DiscoveryPhase::newBigFolder, this, &SyncEngine::newBigFolder);
+    connect(_discoveryPhase.get(), &DiscoveryPhase::existingFolderNowBig, this, &SyncEngine::existingFolderNowBig);
+    connect(_discoveryPhase.get(), &DiscoveryPhase::fatalError, this, [this](const QString &errorString, ErrorCategory errorCategory) {
         Q_EMIT syncError(errorString, errorCategory);
         finalize(false);
     });
-    connect(_discoveryPhase.data(), &DiscoveryPhase::finished, this, &SyncEngine::slotDiscoveryFinished);
-    connect(_discoveryPhase.data(), &DiscoveryPhase::silentlyExcluded,
+    connect(_discoveryPhase.get(), &DiscoveryPhase::finished, this, &SyncEngine::slotDiscoveryFinished);
+    connect(_discoveryPhase.get(), &DiscoveryPhase::silentlyExcluded,
         _syncFileStatusTracker.data(), &SyncFileStatusTracker::slotAddSilentlyExcluded);
-    connect(_discoveryPhase.data(), &DiscoveryPhase::remnantReadOnlyFolderDiscovered, this, &SyncEngine::remnantReadOnlyFolderDiscovered);
+    connect(_discoveryPhase.get(), &DiscoveryPhase::remnantReadOnlyFolderDiscovered, this, &SyncEngine::remnantReadOnlyFolderDiscovered);
 
     ProcessDirectoryJob *discoveryJob = nullptr;
 
@@ -720,27 +754,27 @@ void SyncEngine::startSync()
         }();
 
         discoveryJob = new ProcessDirectoryJob(
-            _discoveryPhase.data(),
+            _discoveryPhase.get(),
             pinState,
             path,
             singleItemDiscoveryOptions().discoveryDirItem,
             {},
             localQueryMode,
             _journal->keyValueStoreGetInt("last_sync", 0),
-            _discoveryPhase.data()
+            _discoveryPhase.get()
         );
     } else {
         discoveryJob = new ProcessDirectoryJob(
-            _discoveryPhase.data(),
+            _discoveryPhase.get(),
             PinState::AlwaysLocal,
             _journal->keyValueStoreGetInt("last_sync", 0),
-            _discoveryPhase.data()
+            _discoveryPhase.get()
         );
     }
     
     _discoveryPhase->startJob(discoveryJob);
     connect(discoveryJob, &ProcessDirectoryJob::etag, this, &SyncEngine::slotRootEtagReceived);
-    connect(_discoveryPhase.data(), &DiscoveryPhase::addErrorToGui, this, &SyncEngine::addErrorToGui);
+    connect(_discoveryPhase.get(), &DiscoveryPhase::addErrorToGui, this, &SyncEngine::addErrorToGui);
 }
 
 void SyncEngine::slotFolderDiscovered(bool local, const QString &folder)
@@ -906,7 +940,7 @@ void SyncEngine::finalize(bool success)
     _stopWatch.stop();
 
     if (_discoveryPhase) {
-        _discoveryPhase.take()->deleteLater();
+        _discoveryPhase.release()->deleteLater();
     }
     s_anySyncRunning = false;
     _syncRunning = false;
@@ -960,7 +994,7 @@ void SyncEngine::restoreOldFiles(SyncFileItemVector &syncItems)
        upload the client file. But we still downloaded the old file in a conflict file just in case
     */
 
-    for (const auto &syncItem : qAsConst(syncItems)) {
+    for (const auto &syncItem : std::as_const(syncItems)) {
         if (syncItem->_direction != SyncFileItem::Down || syncItem->_isSelectiveSync) {
             continue;
         }
@@ -1019,7 +1053,7 @@ void SyncEngine::finishSync()
     }
 
     if (_discoveryPhase && _discoveryPhase->_hasDownloadRemovedItems && _discoveryPhase->_hasUploadErrorItems) {
-        for (const auto &item : qAsConst(_syncItems)) {
+        for (const auto &item : std::as_const(_syncItems)) {
             if (item->_instruction == CSYNC_INSTRUCTION_ERROR && item->_direction == SyncFileItem::Up) {
                 // item->_instruction = CSYNC_INSTRUCTION_IGNORE;
             }
@@ -1099,7 +1133,7 @@ bool SyncEngine::handleMassDeletion()
     const auto allFilesDeleted = !_hasNoneFiles && _hasRemoveFile;
 
     auto deletionCounter = 0;
-    for (const auto &oneItem : qAsConst(_syncItems)) {
+    for (const auto &oneItem : std::as_const(_syncItems)) {
         if (oneItem->_instruction == CSYNC_INSTRUCTION_REMOVE) {
             if (oneItem->isDirectory()) {
                 const auto result = _journal->listFilesInPath(oneItem->_file.toUtf8(), [&deletionCounter] (const auto &oneRecord) {
@@ -1120,7 +1154,7 @@ bool SyncEngine::handleMassDeletion()
     if ((allFilesDeleted || filesDeletedThresholdExceeded) && displayDialog) {
         qCWarning(lcEngine) << "Many files are going to be deleted, asking the user";
         int side = 0; // > 0 means more deleted on the server.  < 0 means more deleted on the client
-        for (const auto &it : qAsConst(_syncItems)) {
+        for (const auto &it : std::as_const(_syncItems)) {
             if (it->_instruction == CSYNC_INSTRUCTION_REMOVE) {
                 side += it->_direction == SyncFileItem::Down ? 1 : -1;
             }
@@ -1196,13 +1230,18 @@ void SyncEngine::addAcceptedInvalidFileName(const QString& filePath)
     _leadingAndTrailingSpacesFilesAllowed.append(filePath);
 }
 
+void SyncEngine::setLocalDiscoveryEnforceWindowsFileNameCompatibility(bool value)
+{
+    _shouldEnforceWindowsFileNameCompatibility = value;
+}
+
 bool SyncEngine::wasFileTouched(const QString &fn) const
 {
     // Start from the end (most recent) and look for our path. Check the time just in case.
     auto begin = _touchedFiles.constBegin();
     for (auto it = _touchedFiles.constEnd(); it != begin; --it) {
-        if ((it-1).value() == fn)
-            return std::chrono::milliseconds((it-1).key().elapsed()) <= s_touchedFilesMaxAgeMs;
+        if (const auto prevIt = std::prev(it); prevIt.value() == fn)
+            return std::chrono::milliseconds(prevIt.key().elapsed()) <= s_touchedFilesMaxAgeMs;
     }
     return false;
 }
@@ -1212,12 +1251,14 @@ void SyncEngine::setLocalDiscoveryOptions(LocalDiscoveryStyle style, std::set<QS
     _localDiscoveryStyle = style;
     _localDiscoveryPaths = std::move(paths);
 
-    const auto allPaths = std::accumulate(_localDiscoveryPaths.begin(), _localDiscoveryPaths.end(), QString{}, [] (auto first, auto second) -> QString {
-                              first += ", " + second;
-                              return first;
-    });
-
-    qCInfo(lcEngine()) << "paths to discover locally" << allPaths;
+    if (lcEngine().isDebugEnabled() && !_localDiscoveryPaths.empty()) {
+        // only execute if logging is enabled
+        auto debug = qDebug(lcEngine);
+        debug << "paths to discover locally";
+        for (auto path : _localDiscoveryPaths) {
+            debug << path;
+        }
+    }
 
     // Normalize to make sure that no path is a contained in another.
     // Note: for simplicity, this code consider anything less than '/' as a path separator, so for
@@ -1269,12 +1310,12 @@ bool SyncEngine::shouldDiscoverLocally(const QString &path) const
         if (it != _localDiscoveryPaths.begin() && path.startsWith(*(--it))) {
             result = it->endsWith('/') || (path.size() > it->size() && path.at(it->size()) <= '/');
             if (!result) {
-                qCInfo(lcEngine()) << path << "no local discovery needed";
+                qCDebug(lcEngine()) << path << "no local discovery needed";
             }
             return result;
         }
         result = false;
-        qCInfo(lcEngine()) << path << "no local discovery needed";
+        qCDebug(lcEngine()) << path << "no local discovery needed";
         return result;
     }
 
@@ -1294,12 +1335,12 @@ bool SyncEngine::shouldDiscoverLocally(const QString &path) const
         ++it;
         if (it == _localDiscoveryPaths.end() || !it->startsWith(path)) {
             result = false;
-            qCInfo(lcEngine()) << path << "no local discovery needed";
+            qCDebug(lcEngine()) << path << "no local discovery needed";
             return result;
         }
     }
 
-    qCInfo(lcEngine()) << path << "no local discovery needed";
+    qCDebug(lcEngine()) << path << "no local discovery needed";
     return result;
 }
 
@@ -1365,8 +1406,8 @@ void SyncEngine::abort()
     } else if (_discoveryPhase) {
         // Delete the discovery and all child jobs after ensuring
         // it can't finish and start the propagator
-        disconnect(_discoveryPhase.data(), nullptr, this, nullptr);
-        _discoveryPhase.take()->deleteLater();
+        disconnect(_discoveryPhase.get(), nullptr, this, nullptr);
+        _discoveryPhase.release()->deleteLater();
         qCInfo(lcEngine) << "Aborting sync in discovery...";
         finalize(false);
     }
@@ -1451,7 +1492,7 @@ void SyncEngine::slotScheduleFilesDelayedSync()
         newTimer->callOnTimeout(this, [this, newTimer] {
             qCInfo(lcEngine) << "Rescanning now that delayed sync run is scheduled for:" << newTimer->files;
 
-            for (const auto &file : qAsConst(newTimer->files)) {
+            for (const auto &file : std::as_const(newTimer->files)) {
                 this->_filesScheduledForLaterSync.remove(file);
             }
 
@@ -1582,7 +1623,7 @@ void SyncEngine::slotUnscheduleFilesDelayedSync()
         return;
     }
 
-    for (const auto &file : qAsConst(_discoveryPhase->_filesUnscheduleSync)) {
+    for (const auto &file : std::as_const(_discoveryPhase->_filesUnscheduleSync)) {
         const auto fileSyncRunTimer = _filesScheduledForLaterSync.value(file);
 
         if (fileSyncRunTimer) {

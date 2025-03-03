@@ -33,6 +33,8 @@
 #include "clientsideencryption.h"
 #include "ocsuserstatusconnector.h"
 
+#include "config.h"
+
 #include <QLoggingCategory>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
@@ -80,6 +82,9 @@ Account::Account(QObject *parent)
 
     _pushNotificationsReconnectTimer.setInterval(pushNotificationsReconnectInterval);
     connect(&_pushNotificationsReconnectTimer, &QTimer::timeout, this, &Account::trySetupPushNotifications);
+
+    connect(&_e2e, &ClientSideEncryption::userCertificateNeedsMigrationChanged,
+            this, &Account::userCertificateNeedsMigrationChanged);
 }
 
 AccountPtr Account::create()
@@ -135,9 +140,12 @@ QString Account::davUser() const
 
 void Account::setDavUser(const QString &newDavUser)
 {
-    if (_davUser == newDavUser)
+    if (_davUser == newDavUser) {
         return;
+    }
+
     _davUser = newDavUser;
+
     emit wantsAccountSaved(this);
     emit prettyNameChanged();
 }
@@ -156,13 +164,19 @@ void Account::setAvatar(const QImage &img)
 
 QString Account::displayName() const
 {
-    QString dn = QString("%1@%2").arg(credentials()->user(), _url.host());
-    int port = url().port();
-    if (port > 0 && port != 80 && port != 443) {
-        dn.append(QLatin1Char(':'));
-        dn.append(QString::number(port));
+    auto credentialsUser = _davUser;
+    if (_credentials && !_credentials->user().isEmpty()) {
+        credentialsUser = _credentials->user();
     }
-    return dn;
+
+    auto displayName = QStringLiteral("%1@%2").arg(credentialsUser, _url.host());
+    const auto port = url().port();
+    if (port > 0 && port != 80 && port != 443) {
+        displayName.append(QLatin1Char(':'));
+        displayName.append(QString::number(port));
+    }
+
+    return displayName;
 }
 
 QString Account::userIdAtHostWithPort() const
@@ -178,12 +192,12 @@ QString Account::userIdAtHostWithPort() const
 
 QString Account::davDisplayName() const
 {
-    return _displayName;
+    return _davDisplayName;
 }
 
 void Account::setDavDisplayName(const QString &newDisplayName)
 {
-    _displayName = newDisplayName;
+    _davDisplayName = newDisplayName;
     emit accountChangedDisplayName();
     emit prettyNameChanged();
 }
@@ -222,7 +236,7 @@ QColor Account::accentColor() const
 
     auto darknessAdjustment = static_cast<int>((1 - Theme::getColorDarkness(accentColor)) * effectMultiplier);
     darknessAdjustment *= darknessAdjustment; // Square the value to pronounce the darkness more in lighter colours
-    const auto baseAdjustment = 125;
+    constexpr auto baseAdjustment = 125;
     const auto adjusted = Theme::isDarkColor(accentColor) ? accentColor : accentColor.darker(baseAdjustment + darknessAdjustment);
     return adjusted;
 }
@@ -243,14 +257,14 @@ void Account::setCredentials(AbstractCredentials *cred)
     QNetworkCookieJar *jar = nullptr;
     QNetworkProxy proxy;
 
-    if (_am) {
-        jar = _am->cookieJar();
+    if (_networkAccessManager) {
+        jar = _networkAccessManager->cookieJar();
         jar->setParent(nullptr);
 
         // Remember proxy (issue #2108)
-        proxy = _am->proxy();
+        proxy = _networkAccessManager->proxy();
 
-        _am = QSharedPointer<QNetworkAccessManager>();
+        _networkAccessManager = QSharedPointer<QNetworkAccessManager>();
     }
 
     // The order for these two is important! Reading the credential's
@@ -261,17 +275,17 @@ void Account::setCredentials(AbstractCredentials *cred)
     // Note: This way the QNAM can outlive the Account and Credentials.
     // This is necessary to avoid issues with the QNAM being deleted while
     // processing slotHandleSslErrors().
-    _am = QSharedPointer<QNetworkAccessManager>(_credentials->createQNAM(), &QObject::deleteLater);
+    _networkAccessManager = QSharedPointer<QNetworkAccessManager>(_credentials->createQNAM(), &QObject::deleteLater);
 
     if (jar) {
-        _am->setCookieJar(jar);
+        _networkAccessManager->setCookieJar(jar);
     }
     if (proxy.type() != QNetworkProxy::DefaultProxy) {
-        _am->setProxy(proxy);
+        _networkAccessManager->setProxy(proxy);
     }
-    connect(_am.data(), &QNetworkAccessManager::sslErrors,
+    connect(_networkAccessManager.data(), &QNetworkAccessManager::sslErrors,
         this, &Account::slotHandleSslErrors);
-    connect(_am.data(), &QNetworkAccessManager::proxyAuthenticationRequired,
+    connect(_networkAccessManager.data(), &QNetworkAccessManager::proxyAuthenticationRequired,
         this, &Account::proxyAuthenticationRequired);
     connect(_credentials.data(), &AbstractCredentials::fetched,
         this, &Account::slotCredentialsFetched);
@@ -358,10 +372,9 @@ QUrl Account::deprecatedPrivateLinkUrl(const QByteArray &numericFileId) const
  */
 void Account::clearCookieJar()
 {
-    auto jar = qobject_cast<CookieJar *>(_am->cookieJar());
+    const auto jar = qobject_cast<CookieJar *>(_networkAccessManager->cookieJar());
     ASSERT(jar);
     jar->setAllCookies(QList<QNetworkCookie>());
-    emit wantsAccountSaved(this);
 }
 
 /*! This shares our official cookie jar (containing all the tasty
@@ -369,7 +382,7 @@ void Account::clearCookieJar()
     of not losing its ownership. */
 void Account::lendCookieJarTo(QNetworkAccessManager *guest)
 {
-    auto jar = _am->cookieJar();
+    auto jar = _networkAccessManager->cookieJar();
     auto oldParent = jar->parent();
     guest->setCookieJar(jar); // takes ownership of our precious cookie jar
     jar->setParent(oldParent); // takes it back
@@ -382,35 +395,35 @@ QString Account::cookieJarPath()
 
 void Account::resetNetworkAccessManager()
 {
-    if (!_credentials || !_am) {
+    if (!_credentials || !_networkAccessManager) {
         return;
     }
 
     qCDebug(lcAccount) << "Resetting QNAM";
-    QNetworkCookieJar *jar = _am->cookieJar();
-    QNetworkProxy proxy = _am->proxy();
+    QNetworkCookieJar *jar = _networkAccessManager->cookieJar();
+    QNetworkProxy proxy = _networkAccessManager->proxy();
 
     // Use a QSharedPointer to allow locking the life of the QNAM on the stack.
     // Make it call deleteLater to make sure that we can return to any QNAM stack frames safely.
-    _am = QSharedPointer<QNetworkAccessManager>(_credentials->createQNAM(), &QObject::deleteLater);
+    _networkAccessManager = QSharedPointer<QNetworkAccessManager>(_credentials->createQNAM(), &QObject::deleteLater);
 
-    _am->setCookieJar(jar); // takes ownership of the old cookie jar
-    _am->setProxy(proxy);   // Remember proxy (issue #2108)
+    _networkAccessManager->setCookieJar(jar); // takes ownership of the old cookie jar
+    _networkAccessManager->setProxy(proxy);   // Remember proxy (issue #2108)
 
-    connect(_am.data(), &QNetworkAccessManager::sslErrors,
+    connect(_networkAccessManager.data(), &QNetworkAccessManager::sslErrors,
         this, &Account::slotHandleSslErrors);
-    connect(_am.data(), &QNetworkAccessManager::proxyAuthenticationRequired,
+    connect(_networkAccessManager.data(), &QNetworkAccessManager::proxyAuthenticationRequired,
         this, &Account::proxyAuthenticationRequired);
 }
 
 QNetworkAccessManager *Account::networkAccessManager()
 {
-    return _am.data();
+    return _networkAccessManager.data();
 }
 
 QSharedPointer<QNetworkAccessManager> Account::sharedNetworkAccessManager()
 {
-    return _am;
+    return _networkAccessManager;
 }
 
 QNetworkReply *Account::sendRawRequest(const QByteArray &verb, const QUrl &url, QNetworkRequest req, QIODevice *data)
@@ -418,17 +431,17 @@ QNetworkReply *Account::sendRawRequest(const QByteArray &verb, const QUrl &url, 
     req.setUrl(url);
     req.setSslConfiguration(this->getOrCreateSslConfig());
     if (verb == "HEAD" && !data) {
-        return _am->head(req);
+        return _networkAccessManager->head(req);
     } else if (verb == "GET" && !data) {
-        return _am->get(req);
+        return _networkAccessManager->get(req);
     } else if (verb == "POST") {
-        return _am->post(req, data);
+        return _networkAccessManager->post(req, data);
     } else if (verb == "PUT") {
-        return _am->put(req, data);
+        return _networkAccessManager->put(req, data);
     } else if (verb == "DELETE" && !data) {
-        return _am->deleteResource(req);
+        return _networkAccessManager->deleteResource(req);
     }
-    return _am->sendCustomRequest(req, verb, data);
+    return _networkAccessManager->sendCustomRequest(req, verb, data);
 }
 
 QNetworkReply *Account::sendRawRequest(const QByteArray &verb, const QUrl &url, QNetworkRequest req, const QByteArray &data)
@@ -436,17 +449,17 @@ QNetworkReply *Account::sendRawRequest(const QByteArray &verb, const QUrl &url, 
     req.setUrl(url);
     req.setSslConfiguration(this->getOrCreateSslConfig());
     if (verb == "HEAD" && data.isEmpty()) {
-        return _am->head(req);
+        return _networkAccessManager->head(req);
     } else if (verb == "GET" && data.isEmpty()) {
-        return _am->get(req);
+        return _networkAccessManager->get(req);
     } else if (verb == "POST") {
-        return _am->post(req, data);
+        return _networkAccessManager->post(req, data);
     } else if (verb == "PUT") {
-        return _am->put(req, data);
+        return _networkAccessManager->put(req, data);
     } else if (verb == "DELETE" && data.isEmpty()) {
-        return _am->deleteResource(req);
+        return _networkAccessManager->deleteResource(req);
     }
-    return _am->sendCustomRequest(req, verb, data);
+    return _networkAccessManager->sendCustomRequest(req, verb, data);
 }
 
 QNetworkReply *Account::sendRawRequest(const QByteArray &verb, const QUrl &url, QNetworkRequest req, QHttpMultiPart *data)
@@ -454,11 +467,11 @@ QNetworkReply *Account::sendRawRequest(const QByteArray &verb, const QUrl &url, 
     req.setUrl(url);
     req.setSslConfiguration(this->getOrCreateSslConfig());
     if (verb == "PUT") {
-        return _am->put(req, data);
+        return _networkAccessManager->put(req, data);
     } else if (verb == "POST") {
-        return _am->post(req, data);
+        return _networkAccessManager->post(req, data);
     }
-    return _am->sendCustomRequest(req, verb, data);
+    return _networkAccessManager->sendCustomRequest(req, verb, data);
 }
 
 SimpleNetworkJob *Account::sendRequest(const QByteArray &verb, const QUrl &url, QNetworkRequest req, QIODevice *data)
@@ -530,11 +543,12 @@ void Account::setUserVisibleHost(const QString &host)
 QVariant Account::credentialSetting(const QString &key) const
 {
     if (_credentials) {
-        QString prefix = _credentials->authType();
-        QVariant value = _settingsMap.value(prefix + "_" + key);
+        const auto prefix = _credentials->authType();
+        auto value = _settingsMap.value(prefix + "_" + key);
         if (value.isNull()) {
             value = _settingsMap.value(key);
         }
+
         return value;
     }
     return QVariant();
@@ -553,7 +567,7 @@ void Account::slotHandleSslErrors(QNetworkReply *reply, QList<QSslError> errors)
     NetworkJobTimeoutPauser pauser(reply);
     QString out;
     QDebug(&out) << "SSL-Errors happened for url " << reply->url().toString();
-    foreach (const QSslError &error, errors) {
+    for (const auto &error : errors) {
         QDebug(&out) << "\tError in " << error.certificate() << ":"
                      << error.errorString() << "(" << error.error() << ")"
                      << "\n";
@@ -563,7 +577,7 @@ void Account::slotHandleSslErrors(QNetworkReply *reply, QList<QSslError> errors)
     qCInfo(lcAccount()) << reply->sslConfiguration().peerCertificateChain();
 
     bool allPreviouslyRejected = true;
-    foreach (const QSslError &error, errors) {
+    for (const auto &error : errors) {
         if (!_rejectedCertificates.contains(error.certificate())) {
             allPreviouslyRejected = false;
         }
@@ -585,7 +599,7 @@ void Account::slotHandleSslErrors(QNetworkReply *reply, QList<QSslError> errors)
     // the deleteLater() of the QNAM before we have the chance of unwinding our stack.
     // Keep a ref here on our stackframe to make sure that it doesn't get deleted before
     // handleErrors returns.
-    QSharedPointer<QNetworkAccessManager> qnamLock = _am;
+    QSharedPointer<QNetworkAccessManager> qnamLock = _networkAccessManager;
     QPointer<QObject> guard = reply;
 
     if (_sslErrorHandler->handleErrors(errors, reply->sslConfiguration(), &approvedCerts, sharedFromThis())) {
@@ -610,7 +624,7 @@ void Account::slotHandleSslErrors(QNetworkReply *reply, QList<QSslError> errors)
             return;
 
         // Mark all involved certificates as rejected, so we don't ask the user again.
-        foreach (const QSslError &error, errors) {
+        for (const auto &error : errors) {
             if (!_rejectedCertificates.contains(error.certificate())) {
                 _rejectedCertificates.append(error.certificate());
             }
@@ -661,7 +675,7 @@ void Account::handleInvalidCredentials()
 
 void Account::clearQNAMCache()
 {
-    _am->clearAccessCache();
+    _networkAccessManager->clearAccessCache();
 }
 
 const Capabilities &Account::capabilities() const
@@ -829,9 +843,10 @@ void Account::writeAppPasswordOnce(QString appPassword){
 }
 
 void Account::retrieveAppPassword(){
+    const QString key = credentials()->user() + app_password;
     const QString kck = AbstractCredentials::keychainKey(
                 url().toString(),
-                credentials()->user() + app_password,
+                key,
                 id()
     );
 
@@ -922,9 +937,9 @@ void Account::fetchDirectEditors(const QUrl &directEditingURL, const QString &di
 void Account::slotDirectEditingRecieved(const QJsonDocument &json)
 {
     auto data = json.object().value("ocs").toObject().value("data").toObject();
-    auto editors = data.value("editors").toObject();
+    const auto editors = data.value("editors").toObject();
 
-    foreach (auto editorKey, editors.keys()) {
+    for (const auto &editorKey : editors.keys()) {
         auto editor = editors.value(editorKey).toObject();
 
         const QString id = editor.value("id").toString();
@@ -936,11 +951,11 @@ void Account::slotDirectEditingRecieved(const QJsonDocument &json)
 
             auto *directEditor = new DirectEditor(id, name);
 
-            foreach(auto mimeType, mimeTypes) {
+            for (const auto &mimeType : mimeTypes) {
                 directEditor->addMimetype(mimeType.toString().toLatin1());
             }
 
-            foreach(auto optionalMimeType, optionalMimeTypes) {
+            for (const auto &optionalMimeType : optionalMimeTypes) {
                 directEditor->addOptionalMimetype(optionalMimeType.toString().toLatin1());
             }
 
@@ -973,6 +988,7 @@ std::shared_ptr<UserStatusConnector> Account::userStatusConnector() const
 void Account::setLockFileState(const QString &serverRelativePath,
                                const QString &remoteSyncPathWithTrailingSlash,
                                const QString &localSyncPath,
+                               const QString &etag,
                                SyncJournalDb * const journal,
                                const SyncFileItem::LockStatus lockStatus,
                                const SyncFileItem::LockOwnerType lockOwnerType)
@@ -983,7 +999,7 @@ void Account::setLockFileState(const QString &serverRelativePath,
         return;
     }
     lockStatusJobInProgress.push_back(lockStatus);
-    auto job = std::make_unique<LockFileJob>(sharedFromThis(), journal, serverRelativePath, remoteSyncPathWithTrailingSlash, localSyncPath, lockStatus, lockOwnerType);
+    auto job = std::make_unique<LockFileJob>(sharedFromThis(), journal, serverRelativePath, remoteSyncPathWithTrailingSlash, localSyncPath, etag, lockStatus, lockOwnerType);
     connect(job.get(), &LockFileJob::finishedWithoutError, this, [this, serverRelativePath, lockStatus]() {
         removeLockStatusChangeInprogress(serverRelativePath, lockStatus);
         Q_EMIT lockFileSuccess();
@@ -1069,19 +1085,67 @@ bool Account::askUserForMnemonic() const
     return _e2eAskUserForMnemonic;
 }
 
+bool Account::enforceUseHardwareTokenEncryption() const
+{
+#if defined CLIENTSIDEENCRYPTION_ENFORCE_USB_TOKEN
+    return CLIENTSIDEENCRYPTION_ENFORCE_USB_TOKEN;
+#else
+    return false;
+#endif
+}
+
+QString Account::encryptionHardwareTokenDriverPath() const
+{
+#if defined ENCRYPTION_HARDWARE_TOKEN_DRIVER_PATH
+    return ENCRYPTION_HARDWARE_TOKEN_DRIVER_PATH;
+#else
+    return {};
+#endif
+}
+
+QByteArray Account::encryptionCertificateFingerprint() const
+{
+    return _encryptionCertificateFingerprint;
+}
+
+void Account::setEncryptionCertificateFingerprint(const QByteArray &fingerprint)
+{
+    if (_encryptionCertificateFingerprint == fingerprint) {
+        return;
+    }
+
+    _encryptionCertificateFingerprint = fingerprint;
+    _e2e.usbTokenInformation()->setSha256Fingerprint(fingerprint);
+    Q_EMIT encryptionCertificateFingerprintChanged();
+    Q_EMIT wantsAccountSaved(this);
+}
+
 void Account::setAskUserForMnemonic(const bool ask)
 {
     _e2eAskUserForMnemonic = ask;
     emit askUserForMnemonicChanged();
 }
 
+bool Account::serverHasValidSubscription() const
+{
+    return _serverHasValidSubscription;
+}
+
+void Account::setServerHasValidSubscription(bool valid)
+{
+    _serverHasValidSubscription = valid;
+}
+
 void Account::updateServerSubcription()
 {
     ConfigFile currentConfig;
-    if (const auto serverHasValidSubscription = _capabilities.serverHasValidSubscription();
-        serverHasValidSubscription != currentConfig.serverHasValidSubscription()) {
-        currentConfig.setServerHasValidSubscription(serverHasValidSubscription);
+    const auto capabilityValidSubscription = _capabilities.serverHasValidSubscription();
+    const auto configValidSubscription = currentConfig.serverHasValidSubscription();
+    if (capabilityValidSubscription != configValidSubscription && !configValidSubscription) {
+        currentConfig.setServerHasValidSubscription(capabilityValidSubscription);
     }
+
+    setServerHasValidSubscription(capabilityValidSubscription);
 }
 
 void Account::updateDesktopEnterpriseChannel()
@@ -1106,16 +1170,16 @@ void Account::setNetworkProxySetting(const AccountNetworkProxySetting setting)
 
     _networkProxySetting = setting;
     if (setting == AccountNetworkProxySetting::AccountSpecificProxy) {
-        auto proxy = _am->proxy();
+        auto proxy = _networkAccessManager->proxy();
         proxy.setType(proxyType());
         proxy.setHostName(proxyHostName());
         proxy.setPort(proxyPort());
         proxy.setUser(proxyUser());
         proxy.setPassword(proxyPassword());
-        _am->setProxy(proxy);
+        _networkAccessManager->setProxy(proxy);
     } else {
         const auto proxy = QNetworkProxy::applicationProxy();
-        _am->setProxy(proxy);
+        _networkAccessManager->setProxy(proxy);
         setProxyType(proxy.type());
         setProxyHostName(proxy.hostName());
         setProxyPort(proxy.port());
@@ -1139,9 +1203,9 @@ void Account::setProxyType(QNetworkProxy::ProxyType proxyType)
     _proxyType = proxyType;
 
     if (networkProxySetting() == AccountNetworkProxySetting::AccountSpecificProxy) {
-        auto proxy = _am->proxy();
+        auto proxy = _networkAccessManager->proxy();
         proxy.setType(proxyType);
-        _am->setProxy(proxy);
+        _networkAccessManager->setProxy(proxy);
     }
 
     emit proxyTypeChanged();
@@ -1161,9 +1225,9 @@ void Account::setProxyHostName(const QString &hostName)
     _proxyHostName = hostName;
 
     if (networkProxySetting() == AccountNetworkProxySetting::AccountSpecificProxy) {
-        auto proxy = _am->proxy();
+        auto proxy = _networkAccessManager->proxy();
         proxy.setHostName(hostName);
-        _am->setProxy(proxy);
+        _networkAccessManager->setProxy(proxy);
     }
 
     emit proxyHostNameChanged();
@@ -1183,9 +1247,9 @@ void Account::setProxyPort(const int port)
     _proxyPort = port;
 
     if (networkProxySetting() == AccountNetworkProxySetting::AccountSpecificProxy) {
-        auto proxy = _am->proxy();
+        auto proxy = _networkAccessManager->proxy();
         proxy.setPort(port);
-        _am->setProxy(proxy);
+        _networkAccessManager->setProxy(proxy);
     }
 
     emit proxyPortChanged();
@@ -1220,9 +1284,9 @@ void Account::setProxyUser(const QString &user)
     _proxyUser = user;
 
     if (networkProxySetting() == AccountNetworkProxySetting::AccountSpecificProxy) {
-        auto proxy = _am->proxy();
+        auto proxy = _networkAccessManager->proxy();
         proxy.setUser(user);
-        _am->setProxy(proxy);
+        _networkAccessManager->setProxy(proxy);
     }
 
     emit proxyUserChanged();
@@ -1242,9 +1306,9 @@ void Account::setProxyPassword(const QString &password)
     _proxyPassword = password;
 
     if (networkProxySetting() == AccountNetworkProxySetting::AccountSpecificProxy) {
-        auto proxy = _am->proxy();
+        auto proxy = _networkAccessManager->proxy();
         proxy.setPassword(password);
-        _am->setProxy(proxy);
+        _networkAccessManager->setProxy(proxy);
     }
 
     emit proxyPasswordChanged();

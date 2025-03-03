@@ -23,7 +23,7 @@ TextField {
     id: root
 
     readonly property color accentColor: Style.ncBlue
-    readonly property color secondaryColor: palette.dark
+    readonly property color secondaryColor: palette.placeholderText
     readonly property alias submitButton: submitButton
     property bool validInput: true
 
@@ -54,10 +54,5 @@ TextField {
     }
 
     verticalAlignment: Qt.AlignVCenter
-    background: Rectangle {
-        border.color: palette.dark
-        radius: Style.trayWindowRadius
-        color: palette.window
-    }
 }
 
