@@ -99,16 +99,14 @@ void NavigationPaneHelper::updateCloudStorageRegistry()
                 const QString clsidPathWow64 = QString() % R"(Software\Classes\Wow6432Node\CLSID\)" % clsidStr;
                 const QString namespacePath = QString() % R"(Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\)" % clsidStr;
 
-                auto title = folder->shortGuiRemotePathOrAppName();
-
+                QString title = folder->shortGuiRemotePathOrAppName();
                 title = title % " - " % folder->accountState()->account()->prettyName(); // NMC Customization
                 // Write the account name in the sidebar only when using more than one account.
                 // if (AccountManager::instance()->accounts().size() > 1) {
-                    // title = title % " - " % folder->accountState()->account()->prettyName();
+                //     title = title % " - " % folder->accountState()->account()->prettyName();
                 // }
-
-                const auto iconPath = QDir::toNativeSeparators(qApp->applicationFilePath());
-                const auto targetFolderPath = QDir::toNativeSeparators(folder->cleanPath());
+                QString iconPath = QDir::toNativeSeparators(qApp->applicationFilePath());
+                QString targetFolderPath = QDir::toNativeSeparators(folder->cleanPath());
 
                 qCInfo(lcNavPane) << "Explorer Cloud storage provider: saving path" << targetFolderPath << "to CLSID" << clsidStr;
 #ifdef Q_OS_WIN
