@@ -32,6 +32,11 @@
 #include <QPainter>
 #include <QJsonDocument>
 #include <QJsonArray>
+#include <QLoggingCategory>
+
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
 
 #include "nextcloudtheme.h"
 
@@ -62,9 +67,17 @@ bool shouldPreferSvg()
     return QByteArray(APPLICATION_ICON_SET).toUpper() == QByteArrayLiteral("SVG");
 }
 
+#ifdef Q_OS_WIN
+bool isWindows11OrGreater() {
+    return QOperatingSystemVersion::current().version() >= QOperatingSystemVersion::Windows11.version();
+}
+#endif
+
 }
 
 namespace OCC {
+
+Q_LOGGING_CATEGORY(lcTheme, "nextcloud.gui.theme", QtInfoMsg)
 
 Theme *Theme::_instance = nullptr;
 
@@ -201,7 +214,7 @@ QString Theme::version() const
 
 QString Theme::versionSuffix() const
 {
-    return QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION_SUFFIX));
+    return QString::fromLatin1(MIRALL_VERSION_SUFFIX);
 }
 
 QString Theme::configFileName() const
@@ -264,7 +277,7 @@ QIcon Theme::themeIcon(const QString &name, bool sysTray) const
             if (qgetenv("DESKTOP_SESSION") == "ubuntu") {
                 QBitmap mask = px.createMaskFromColor(Qt::white, Qt::MaskOutColor);
                 QPainter p(&px);
-                p.setPen(QColor("#dfdbd2"));
+                p.setPen(QColor(0xdfdbd2));
                 p.drawPixmap(px.rect(), mask, mask.rect());
             }
             cached.addPixmap(px);
@@ -354,38 +367,59 @@ Theme::Theme()
 #if defined(Q_OS_WIN)
     // Windows does not provide a dark theme for Win32 apps so let's come up with a palette
     // Credit to https://github.com/Jorgen-VikingGod/Qt-Frameless-Window-DarkStyle
-
-    reserveDarkPalette.setColor(QPalette::Window, QColor(53, 53, 53));
     reserveDarkPalette.setColor(QPalette::WindowText, Qt::white);
-    reserveDarkPalette.setColor(QPalette::Disabled, QPalette::WindowText,
-                                QColor(127, 127, 127));
+    reserveDarkPalette.setColor(QPalette::Button, QColor(127, 127, 127));
+    reserveDarkPalette.setColor(QPalette::Light, QColor(20, 20, 20));
+    reserveDarkPalette.setColor(QPalette::Midlight, QColor(78, 78, 78));
+    reserveDarkPalette.setColor(QPalette::Dark, QColor(191, 191, 191));
+    reserveDarkPalette.setColor(QPalette::Mid, QColor(95, 95, 95));
+    reserveDarkPalette.setColor(QPalette::Text, Qt::white);
+    reserveDarkPalette.setColor(QPalette::BrightText, Qt::red);
+    reserveDarkPalette.setColor(QPalette::ButtonText, Qt::white);
     reserveDarkPalette.setColor(QPalette::Base, QColor(42, 42, 42));
+    reserveDarkPalette.setColor(QPalette::Window, QColor(53, 53, 53));
+    reserveDarkPalette.setColor(QPalette::Shadow, QColor(20, 20, 20));
+    reserveDarkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+    reserveDarkPalette.setColor(QPalette::HighlightedText, Qt::white);
+    reserveDarkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
+    reserveDarkPalette.setColor(QPalette::LinkVisited, QColor(42, 130, 218));
     reserveDarkPalette.setColor(QPalette::AlternateBase, QColor(66, 66, 66));
+    reserveDarkPalette.setColor(QPalette::NoRole, QColor(127, 127, 127));
     reserveDarkPalette.setColor(QPalette::ToolTipBase, Qt::white);
     reserveDarkPalette.setColor(QPalette::ToolTipText, QColor(53, 53, 53));
-    reserveDarkPalette.setColor(QPalette::Text, Qt::white);
+    reserveDarkPalette.setColor(QPalette::PlaceholderText, QColor(44, 44, 44));
+    reserveDarkPalette.setColor(QPalette::Accent, QColor(127, 127, 200));
+
     reserveDarkPalette.setColor(QPalette::Disabled, QPalette::Text, QColor(127, 127, 127));
-    reserveDarkPalette.setColor(QPalette::Dark, QColor(35, 35, 35));
-    reserveDarkPalette.setColor(QPalette::Shadow, QColor(20, 20, 20));
-    reserveDarkPalette.setColor(QPalette::Button, QColor(53, 53, 53));
-    reserveDarkPalette.setColor(QPalette::ButtonText, Qt::white);
     reserveDarkPalette.setColor(QPalette::Disabled, QPalette::ButtonText,
                                 QColor(127, 127, 127));
-    reserveDarkPalette.setColor(QPalette::BrightText, Qt::red);
-    reserveDarkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
-    reserveDarkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
     reserveDarkPalette.setColor(QPalette::Disabled, QPalette::Highlight, QColor(80, 80, 80));
-    reserveDarkPalette.setColor(QPalette::HighlightedText, Qt::white);
     reserveDarkPalette.setColor(QPalette::Disabled, QPalette::HighlightedText,
                                 QColor(127, 127, 127));
+    reserveDarkPalette.setColor(QPalette::Disabled, QPalette::WindowText,
+                                QColor(127, 127, 127));
 #endif
+
+    connectToPaletteSignal();
 
 #ifdef APPLICATION_SERVER_URL_ENFORCE
     _forceOverrideServerUrl = true;
 #endif
 #ifdef APPLICATION_SERVER_URL
-    setOverrideServerUrl(QString::fromLatin1(APPLICATION_SERVER_URL));
+    setOverrideServerUrl(QString::fromUtf8(APPLICATION_SERVER_URL));
 #endif
+}
+
+QString Theme::developerStringInfo() const
+{
+    // Shorten Qt's OS name: "macOS Mojave (10.14)" -> "macOS"
+    const auto osStringList = Utility::platformName().split(QLatin1Char(' '));
+    const auto osName = osStringList.at(0);
+
+    const auto devString = QString(tr("%1 Desktop Client Version %2 (%3)", "%1 is application name. %2 is the human version string. %3 is the operating system name."))
+    .arg(APPLICATION_NAME, QString::fromLatin1(MIRALL_HUMAN_VERSION_STRING), osName);
+
+    return devString;
 }
 
 // If this option returns true, the client only supports one folder to sync.
@@ -410,7 +444,7 @@ QString Theme::helpUrl() const
 #ifdef APPLICATION_HELP_URL
     return QString::fromLatin1(APPLICATION_HELP_URL);
 #else
-    return QString::fromLatin1("https://docs.nextcloud.com/desktop/%1.%2/").arg(MIRALL_VERSION_MAJOR).arg(MIRALL_VERSION_MINOR);
+    return QString::fromLatin1("https://docs.nextcloud.com/server/latest/user_manual/en/desktop/index.html");
 #endif
 }
 
@@ -570,13 +604,8 @@ QString Theme::gitSHA1() const
 
 QString Theme::aboutInfo() const
 {
-    // Shorten Qt's OS name: "macOS Mojave (10.14)" -> "macOS"
-    QStringList osStringList = Utility::platformName().split(QLatin1Char(' '));
-    QString osName = osStringList.at(0);
-
     //: Example text: "<p>Nextcloud Desktop Client</p>"   (%1 is the application name)
-    auto devString = QString(tr("<p>%1 Desktop Client</p><p>Version %1. For more information please click <a href='%2'>here</a>.</p>") + QStringLiteral(" (%3)"))
-            .arg(APPLICATION_NAME, QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)), helpUrl(), osName);
+    auto devString = developerStringInfo();
                       
 
     devString += tr("<p><small>Using virtual files plugin: %1</small></p>").arg(Vfs::modeToString(bestAvailableVfsMode()));
@@ -587,12 +616,7 @@ QString Theme::aboutInfo() const
 
 QString Theme::about() const
 {
-    // Shorten Qt's OS name: "macOS Mojave (10.14)" -> "macOS"
-    QStringList osStringList = Utility::platformName().split(QLatin1Char(' '));
-    QString osName = osStringList.at(0);
-
-    //: Example text: "<p>Nextcloud Desktop Client</p>"   (%1 is the application name)
-    const auto devString = tr("<p>%1 desktop client %2</p>").arg(APPLICATION_NAME, QString::fromLatin1(MIRALL_STRINGIFY(MIRALL_VERSION)));
+    const auto devString = developerStringInfo();
 
     return devString;
 }
@@ -600,9 +624,7 @@ QString Theme::about() const
 QString Theme::aboutDetails() const
 {
     QString devString;
-    devString = tr("<p>Version %1. For more information please click <a href='%2'>here</a>.</p>")
-              .arg(MIRALL_VERSION_STRING)
-              .arg(helpUrl());
+    devString = developerStringInfo();
 
     devString += tr("<p>This release was supplied by %1.</p>")
               .arg(APPLICATION_VENDOR);
@@ -848,7 +870,7 @@ bool Theme::isDarkColor(const QColor &color)
 
 QColor Theme::getBackgroundAwareLinkColor(const QColor &backgroundColor)
 {
-    return {(isDarkColor(backgroundColor) ? QColor("#6193dc") : QGuiApplication::palette().color(QPalette::Link))};
+    return {(isDarkColor(backgroundColor) ? QColor(0x6193dc) : QGuiApplication::palette().color(QPalette::Link))};
 }
 
 QColor Theme::getBackgroundAwareLinkColor()
@@ -943,30 +965,84 @@ QColor Theme::defaultColor()
     return QColor{NEXTCLOUD_BACKGROUND_COLOR};
 }
 
-void Theme::connectToPaletteSignal()
+void Theme::connectToPaletteSignal() const
 {
-    if (!_paletteSignalsConnected) {
-        if (const auto ptr = qobject_cast<QGuiApplication *>(QGuiApplication::instance())) {
-            connect(ptr->styleHints(), &QStyleHints::colorSchemeChanged, this, &Theme::darkModeChanged);
-            _paletteSignalsConnected = true;
-        }
+    if (const auto ptr = qobject_cast<QGuiApplication*>(qApp)) {
+        connect(ptr->styleHints(), &QStyleHints::colorSchemeChanged, this, &Theme::darkModeChanged, Qt::UniqueConnection);
     }
 }
 
-bool Theme::darkMode()
+QVariantMap Theme::systemPalette() const
+{
+    auto systemPalette = QGuiApplication::palette();
+#if defined(Q_OS_WIN)
+    if (darkMode() && !isWindows11OrGreater()) {
+        systemPalette = reserveDarkPalette;
+        qApp->setPalette(reserveDarkPalette);
+    }
+#else
+
+#endif
+
+    return QVariantMap {
+        { QStringLiteral("base"), systemPalette.base().color() },
+        { QStringLiteral("alternateBase"), systemPalette.alternateBase().color() },
+        { QStringLiteral("text"), systemPalette.text().color() },
+        { QStringLiteral("toolTipBase"), systemPalette.toolTipBase().color() },
+        { QStringLiteral("toolTipText"), systemPalette.toolTipText().color() },
+        { QStringLiteral("brightText"), systemPalette.brightText().color() },
+        { QStringLiteral("buttonText"), systemPalette.buttonText().color() },
+        { QStringLiteral("button"), systemPalette.button().color() },
+        { QStringLiteral("highlightedText"), systemPalette.highlightedText().color() },
+        { QStringLiteral("placeholderText"), systemPalette.placeholderText().color() },
+        { QStringLiteral("windowText"), systemPalette.windowText().color() },
+        { QStringLiteral("window"), systemPalette.window().color() },
+        { QStringLiteral("dark"), systemPalette.dark().color() },
+        { QStringLiteral("highlight"), systemPalette.highlight().color() },
+        { QStringLiteral("light"), systemPalette.light().color() },
+        { QStringLiteral("link"), systemPalette.link().color() },
+        { QStringLiteral("midlight"), systemPalette.midlight().color() },
+        { QStringLiteral("mid"), systemPalette.mid().color() },
+        { QStringLiteral("linkVisited"), systemPalette.linkVisited().color() },
+        { QStringLiteral("shadow"), systemPalette.shadow().color() },
+    };
+}
+
+bool Theme::darkMode() const
 {
     connectToPaletteSignal();
-    switch (qGuiApp->styleHints()->colorScheme())
-    {
-    case Qt::ColorScheme::Dark:
-        return true;
-    case Qt::ColorScheme::Light:
-        return false;
-    case Qt::ColorScheme::Unknown:
-        return Theme::isDarkColor(QGuiApplication::palette().window().color());
-    }
+    const auto isDarkFromStyle = [] {
+        switch (qGuiApp->styleHints()->colorScheme())
+        {
+        case Qt::ColorScheme::Dark:
+            return true;
+        case Qt::ColorScheme::Light:
+            return false;
+        case Qt::ColorScheme::Unknown:
+            return Theme::isDarkColor(QGuiApplication::palette().window().color());
+        }
 
+        return false;
+    };
+
+#ifdef Q_OS_WIN
+    static const auto darkModeSubkey = QStringLiteral("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
+    if (!isWindows11OrGreater() &&
+        Utility::registryKeyExists(HKEY_CURRENT_USER, darkModeSubkey) &&
+        !Utility::registryGetKeyValue(HKEY_CURRENT_USER, darkModeSubkey, QStringLiteral("AppsUseLightTheme")).toBool()) {
+        return true;
+    }
+#endif
+    return isDarkFromStyle();
+}
+
+bool Theme::displayLegacyImportDialog() const
+{
+#if defined APPLICATION_DISPLAY_LEGACY_IMPORT_DIALOG && APPLICATION_DISPLAY_LEGACY_IMPORT_DIALOG
+    return true;
+#else
     return false;
+#endif
 }
 
 void Theme::setOverrideServerUrl(const QString &overrideServerUrl)
@@ -1008,6 +1084,16 @@ void Theme::setStartLoginFlowAutomatically(bool startLoginFlowAuto)
         _startLoginFlowAutomatically = startLoginFlowAuto;
         emit startLoginFlowAutomaticallyChanged();
     }
+}
+
+void Theme::systemPaletteHasChanged()
+{
+    qCInfo(lcTheme()) << "system palette changed";
+#ifdef Q_OS_WIN
+    if (darkMode() && !isWindows11OrGreater()) {
+        qApp->setPalette(reserveDarkPalette);
+    }
+#endif
 }
 
 } // end namespace client

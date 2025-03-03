@@ -21,7 +21,6 @@
 #include <account.h>
 #include <theme.h>
 
-#include <QFileIconProvider>
 #include <QVarLengthArray>
 #include <set>
 
@@ -194,7 +193,7 @@ QVariant FolderStatusModel::data(const QModelIndex &index, int role) const
             } else if (subfolderInfo._size > 0 && isAnyAncestorEncrypted(index)) {
                 return QIcon(QLatin1String(":/client/theme/lock-broken.svg"));
             }
-            return QFileIconProvider().icon(subfolderInfo._isExternal ? QFileIconProvider::Network : QFileIconProvider::Folder);
+            return _fileIconProvider.icon(subfolderInfo._isExternal ? QFileIconProvider::Network : QFileIconProvider::Folder);
         }
         case Qt::ForegroundRole:
             if (subfolderInfo._isUndecided || (subfolderInfo._isNonDecryptable && subfolderInfo._checked)) {
@@ -219,7 +218,7 @@ QVariant FolderStatusModel::data(const QModelIndex &index, int role) const
         case Qt::DisplayRole:
             if (folderInfo->_hasError) {
                 return {tr("Error while loading the list of folders from the server.")
-                        + QString("\n")
+                        + QStringLiteral("\n")
                         + folderInfo->_lastErrorString};
             } else {
                 return tr("Fetching folder list from server …");
@@ -250,8 +249,15 @@ QVariant FolderStatusModel::data(const QModelIndex &index, int role) const
         return (folder->syncResult().hasUnresolvedConflicts())
             ? QStringList(tr("There are unresolved conflicts. Click for details."))
             : QStringList();
-    case FolderStatusDelegate::FolderErrorMsg:
-        return folder->syncResult().errorStrings();
+    case FolderStatusDelegate::FolderErrorMsg: {
+        auto errors = folder->syncResult().errorStrings();
+        const auto legacyError = FolderMan::instance()->unsupportedConfiguration(folder->path());
+        if (!legacyError) {
+            // the error message might contain new lines, the delegate only expect multiple single line values
+            errors.append(legacyError.error().split(QLatin1Char('\n')));
+        }
+        return errors;
+    }
     case FolderStatusDelegate::FolderInfoMsg:
         return folder->virtualFilesEnabled() && folder->vfs().mode() != Vfs::Mode::WindowsCfApi
             ? QStringList(tr("Virtual file support is enabled."))
@@ -758,8 +764,7 @@ void FolderStatusModel::slotUpdateDirectories(const QStringList &list)
 
         newInfo._isNonDecryptable = newInfo.isEncrypted()
             && _accountState->account()->e2e()
-            && !_accountState->account()->e2e()->_publicKey.isNull()
-            && _accountState->account()->e2e()->_privateKey.isNull();
+            && !_accountState->account()->e2e()->isInitialized();
 
         SyncJournalFileRecord rec;
         if (!parentInfo->_folder->journalDb()->getFileRecordByE2eMangledName(removeTrailingSlash(relativePath), &rec)) {
@@ -826,7 +831,7 @@ void FolderStatusModel::slotUpdateDirectories(const QStringList &list)
         endInsertRows();
     }
 
-    for (const auto undecidedIndex : qAsConst(undecidedIndexes)) {
+    for (const auto undecidedIndex : std::as_const(undecidedIndexes)) {
         emit suggestExpand(index(undecidedIndex, 0, parentIdx));
     }
     /* Try to remove from the undecided lists the items that are not on the server. */
@@ -909,7 +914,7 @@ void FolderStatusModel::slotUpdateFolderState(Folder *folder)
 
 void FolderStatusModel::slotApplySelectiveSync()
 {
-    for (const auto &folderInfo : qAsConst(_folders)) {
+    for (const auto &folderInfo : std::as_const(_folders)) {
         if (!folderInfo._fetched) {
             folderInfo._folder->journalDb()->setSelectiveSyncList(SyncJournalDb::SelectiveSyncUndecidedList, QStringList());
             continue;

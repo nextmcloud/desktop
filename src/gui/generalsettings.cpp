@@ -21,6 +21,7 @@
 #include "owncloudsetupwizard.h"
 #include "accountmanager.h"
 #include "guiutility.h"
+#include "capabilities.h"
 
 #if defined(BUILD_UPDATER)
 #include "updater/updater.h"
@@ -29,6 +30,11 @@
 // FIXME We should unify those, but Sparkle does everything behind the scene transparently
 #include "updater/sparkleupdater.h"
 #endif
+#endif
+
+#ifdef BUILD_FILE_PROVIDER_MODULE
+#include "macOS/fileprovider.h"
+#include "macOS/fileprovidersettingscontroller.h"
 #endif
 
 #include "ignorelisteditor.h"
@@ -45,6 +51,7 @@
 #include <QMessageBox>
 
 #include <KZip>
+#include <chrono>
 
 namespace {
 struct ZipEntry {
@@ -124,7 +131,8 @@ bool createDebugArchive(const QString &filename)
         QMessageBox::critical(
             nullptr,
             QObject::tr("Failed to create debug archive"),
-            QObject::tr("Could not create debug archive in selected location!")
+            QObject::tr("Could not create debug archive in selected location!"),
+            QMessageBox::Ok
         );
         return false;
     }
@@ -137,6 +145,27 @@ bool createDebugArchive(const QString &filename)
     for (const auto &entry : entries) {
         zip.addLocalFile(entry.localFilename, entry.zipFilename);
     }
+
+#ifdef BUILD_FILE_PROVIDER_MODULE
+    const auto fileProvider = OCC::Mac::FileProvider::instance();
+    if (fileProvider && fileProvider->fileProviderAvailable()) {
+        const auto tempDir = QTemporaryDir();
+        const auto xpc = fileProvider->xpc();
+        const auto vfsAccounts = OCC::Mac::FileProviderSettingsController::instance()->vfsEnabledAccounts();
+        for (const auto &accountUserIdAtHost : vfsAccounts) {
+            const auto accountState = OCC::AccountManager::instance()->accountFromUserId(accountUserIdAtHost);
+            if (!accountState) {
+                qWarning() << "Could not find account for" << accountUserIdAtHost;
+                continue;
+            }
+            const auto account = accountState->account();
+            const auto vfsLogFilename = QStringLiteral("macOS_vfs_%1.log").arg(account->davUser());
+            const auto vfsLogPath = tempDir.filePath(vfsLogFilename);
+            xpc->createDebugArchiveForExtension(accountUserIdAtHost, vfsLogPath);
+            zip.addLocalFile(vfsLogPath, vfsLogFilename);
+        }
+    }
+#endif
 
     const auto clientParameters = QCoreApplication::arguments().join(' ').toUtf8();
     zip.prepareWriting("__nextcloud_client_parameters.txt", {}, {}, clientParameters.size());
@@ -160,9 +189,15 @@ GeneralSettings::GeneralSettings(QWidget *parent)
 {
     _ui->setupUi(this);
 
+    updatePollIntervalVisibility();
+    
     connect(_ui->serverNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleOptionalServerNotifications);
     _ui->serverNotificationsCheckBox->setToolTip(tr("Server notifications that require attention."));
+
+    connect(_ui->chatNotificationsCheckBox, &QAbstractButton::toggled,
+            this, &GeneralSettings::slotToggleChatNotifications);
+    _ui->chatNotificationsCheckBox->setToolTip(tr("Show chat notification dialogs."));
 
     connect(_ui->callNotificationsCheckBox, &QAbstractButton::toggled,
         this, &GeneralSettings::slotToggleCallNotifications);
@@ -209,7 +244,8 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     connect(_ui->stopExistingFolderNowBigSyncCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
     connect(_ui->newExternalStorage, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
     connect(_ui->moveFilesToTrashCheckBox, &QAbstractButton::toggled, this, &GeneralSettings::saveMiscSettings);
-
+    connect(_ui->remotePollIntervalSpinBox, &QSpinBox::valueChanged, this, &GeneralSettings::slotRemotePollIntervalChanged);
+    
 #ifndef WITH_CRASHREPORTER
     _ui->crashreporterCheckBox->setVisible(false);
 #endif
@@ -244,6 +280,10 @@ GeneralSettings::GeneralSettings(QWidget *parent)
     // accountAdded means the wizard was finished and the wizard might change some options.
     connect(AccountManager::instance(), &AccountManager::accountAdded, this, &GeneralSettings::loadMiscSettings);
 
+#if defined(BUILD_UPDATER)
+    loadUpdateChannelsList();
+#endif
+
     customizeStyle();
 }
 
@@ -267,7 +307,9 @@ void GeneralSettings::loadMiscSettings()
 
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
     _ui->serverNotificationsCheckBox->setChecked(cfgFile.optionalServerNotifications());
-    _ui->callNotificationsCheckBox->setEnabled(_ui->serverNotificationsCheckBox->isEnabled());
+    _ui->chatNotificationsCheckBox->setEnabled(cfgFile.optionalServerNotifications());
+    _ui->chatNotificationsCheckBox->setChecked(cfgFile.showChatNotifications());
+    _ui->callNotificationsCheckBox->setEnabled(cfgFile.optionalServerNotifications());
     _ui->callNotificationsCheckBox->setChecked(cfgFile.showCallNotifications());
     _ui->showInExplorerNavigationPaneCheckBox->setChecked(cfgFile.showInExplorerNavigationPane());
     _ui->crashreporterCheckBox->setChecked(cfgFile.crashReporter());
@@ -285,17 +327,31 @@ void GeneralSettings::loadMiscSettings()
     _ui->newExternalStorage->setChecked(cfgFile.confirmExternalStorage());
     _ui->monoIconsCheckBox->setChecked(cfgFile.monoIcons());
 
-#if defined(BUILD_UPDATER)
-    const auto validUpdateChannels = cfgFile.validUpdateChannels();
-    _ui->updateChannel->clear();
-    _ui->updateChannel->addItems(validUpdateChannels);
-    const auto currentUpdateChannelIndex = validUpdateChannels.indexOf(cfgFile.currentUpdateChannel());
-    _ui->updateChannel->setCurrentIndex(currentUpdateChannelIndex != -1? currentUpdateChannelIndex : 0);
-    connect(_ui->updateChannel, &QComboBox::currentTextChanged, this, &GeneralSettings::slotUpdateChannelChanged);
-#endif
+    const auto interval = cfgFile.remotePollInterval(); 
+    _ui->remotePollIntervalSpinBox->setValue(static_cast<int>(interval.count() / 1000));
+    updatePollIntervalVisibility(); 
 }
 
 #if defined(BUILD_UPDATER)
+void GeneralSettings::loadUpdateChannelsList() {
+    ConfigFile cfgFile;
+    if (cfgFile.serverHasValidSubscription()) {
+        _ui->updateChannel->hide();
+        _ui->updateChannelLabel->hide();
+        return;
+    }
+
+    const auto validUpdateChannels = cfgFile.validUpdateChannels();
+    if (_currentUpdateChannelList.isEmpty() || _currentUpdateChannelList != validUpdateChannels){
+        _currentUpdateChannelList = validUpdateChannels;
+        _ui->updateChannel->clear();
+        _ui->updateChannel->addItems(_currentUpdateChannelList);
+        const auto currentUpdateChannelIndex = _currentUpdateChannelList.indexOf(cfgFile.currentUpdateChannel());
+        _ui->updateChannel->setCurrentIndex(currentUpdateChannelIndex != -1 ? currentUpdateChannelIndex : 0);
+        connect(_ui->updateChannel, &QComboBox::currentTextChanged, this, &GeneralSettings::slotUpdateChannelChanged);
+    }
+}
+
 void GeneralSettings::slotUpdateInfo()
 {
     ConfigFile config;
@@ -504,7 +560,14 @@ void GeneralSettings::slotToggleOptionalServerNotifications(bool enable)
 {
     ConfigFile cfgFile;
     cfgFile.setOptionalServerNotifications(enable);
+    _ui->chatNotificationsCheckBox->setEnabled(enable);
     _ui->callNotificationsCheckBox->setEnabled(enable);
+}
+
+void GeneralSettings::slotToggleChatNotifications(bool enable)
+{
+    ConfigFile cfgFile;
+    cfgFile.setShowChatNotifications(enable);
 }
 
 void GeneralSettings::slotToggleCallNotifications(bool enable)
@@ -583,6 +646,34 @@ void GeneralSettings::customizeStyle()
 #else
     _ui->updatesContainer->setVisible(false);
 #endif
+}
+
+void GeneralSettings::slotRemotePollIntervalChanged(int seconds) 
+{
+    if (_currentlyLoading) {
+        return;
+    }
+
+    ConfigFile cfgFile;
+    std::chrono::milliseconds interval(seconds * 1000);
+    cfgFile.setRemotePollInterval(interval);
+}
+
+void GeneralSettings::updatePollIntervalVisibility() 
+{
+    const auto accounts = AccountManager::instance()->accounts();
+    const auto pushAvailable = std::any_of(accounts.cbegin(), accounts.cend(), [](const AccountStatePtr &accountState) -> bool {
+        if (!accountState) {
+            return false;
+        }
+        const auto accountPtr = accountState->account();
+        if (!accountPtr) {
+            return false;
+        }
+        return accountPtr->capabilities().availablePushNotifications().testFlag(PushNotificationType::Files);
+    });
+
+    _ui->horizontalLayoutWidget_remotePollInterval->setVisible(!pushAvailable);
 }
 
 } // namespace OCC
