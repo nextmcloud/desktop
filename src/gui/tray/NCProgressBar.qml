@@ -16,18 +16,18 @@ import QtQuick
 import QtQuick.Controls
 import Style
 
+// TODO: the current style does not support customization of this control
 ProgressBar {
     id: control
+
+    property color fillColor: Style.ncBlue
 
     background: Rectangle {
         implicitWidth: Style.progressBarWidth
         implicitHeight: Style.progressBarBackgroundHeight
-        // radius: Style.progressBarRadius
-        // color: Style.progressBarBackgroundColor
         radius: Style.nmcStandardRadius
         color: Style.nmcTrayWindowHeaderHighlightColor
-        border.color: Style.progressBarBackgroundBorderColor
-        // border.width: Style.progressBarBackgroundBorderWidth
+        border.color: palette.dark
         border.width: 0
     }
 
@@ -39,10 +39,8 @@ ProgressBar {
             width: control.visualPosition * parent.width
             height: parent.height
             radius: Style.progressBarRadius
-            // color: Style.progressBarContentColor
             color: Style.nmcTelekomMagentaColor
-            border.color: Style.progressBarContentBorderColor
-            // border.width: Style.progressBarContentBorderWidth
+            border.color: palette.dark
             border.width: 0
         }
     }

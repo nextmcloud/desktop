@@ -32,12 +32,15 @@ import com.nextcloud.desktopclient
 ApplicationWindow {
     id:         trayWindow
 
+    LayoutMirroring.enabled: Application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
+
     title:      Systray.windowTitle
     // If the main dialog is displayed as a regular window we want it to be quadratic
     width:      Systray.useNormalWindow ? Style.trayWindowHeight : Style.trayWindowWidth
     height:     Style.trayWindowHeight
     flags:      Systray.useNormalWindow ? Qt.Window : Qt.Dialog | Qt.FramelessWindowHint
-    color: 'transparent'
+    color: "transparent"
 
     readonly property int maxMenuHeight: Style.trayWindowHeight - Style.trayWindowHeaderHeight - 2 * Style.trayWindowBorderWidth
 
@@ -55,9 +58,9 @@ ApplicationWindow {
 
     onVisibleChanged: {
         // HACK: reload account Instantiator immediately by restting it - could be done better I guess
-        // see also id:accountMenu below
-        userLineInstantiator.active = false;
-        userLineInstantiator.active = true;
+        // see also id:trayWindowHeader.currentAccountHeaderButton.accountMenu below
+        trayWindowHeader.currentAccountHeaderButton.userLineInstantiator.active = false;
+        trayWindowHeader.currentAccountHeaderButton.userLineInstantiator.active = true;
         syncStatus.model.load();
     }
 
@@ -71,7 +74,7 @@ ApplicationWindow {
     Connections {
         target: UserModel
         function onCurrentUserChanged() {
-            accountMenu.close();
+            trayWindowHeader.currentAccountHeaderButton.accountMenu.close();
             syncStatus.model.load();
         }
     }
@@ -96,10 +99,10 @@ ApplicationWindow {
             userStatusDrawer.close()
             fileDetailsDrawer.close();
 
-            if(Systray.isOpen) {
-                accountMenu.close();
-                appsMenu.close();
-                openLocalFolderButton.closeMenu()
+            if (Systray.isOpen) {
+                trayWindowHeader.currentAccountHeaderButton.accountMenu.close();
+                trayWindowHeader.appsMenu.close();
+                trayWindowHeader.openLocalFolderButton.closeMenu()
             }
         }
 
@@ -141,7 +144,7 @@ ApplicationWindow {
             radius: Systray.useNormalWindow ? 0.0 : Style.trayWindowRadius
             border.width: Style.trayWindowBorderWidth
             border.color: palette.dark
-            color: palette.window
+            color: Style.colorWithoutTransparency(palette.base)
         }
 
         property int userIndex: 0
@@ -178,7 +181,7 @@ ApplicationWindow {
             radius: Systray.useNormalWindow ? 0.0 : Style.trayWindowRadius
             border.width: Style.trayWindowBorderWidth
             border.color: palette.dark
-            color: palette.window
+            color: Style.colorWithoutTransparency(palette.base)
         }
 
         property var folderAccountState: ({})
@@ -213,7 +216,7 @@ ApplicationWindow {
                 height: parent.height
 
                 backgroundsVisible: false
-                accentColor: Style.currentUserHeaderColor
+                accentColor: Style.accentColor
                 accountState: fileDetailsDrawer.folderAccountState
                 localPath: fileDetailsDrawer.fileLocalPath
                 showCloseButton: true
@@ -223,17 +226,21 @@ ApplicationWindow {
         }
     }
 
-    Item {
+    Rectangle {
         id: trayWindowMainItem
 
         property bool isUnifiedSearchActive: unifiedSearchResultsListViewSkeletonLoader.active
                                              || unifiedSearchResultNothingFound.visible
                                              || unifiedSearchResultsErrorLabel.visible
                                              || unifiedSearchResultsListView.visible
+                                             || trayWindowUnifiedSearchInputContainer.activateSearchFocus
 
         anchors.fill: parent
         anchors.margins: Style.trayWindowBorderWidth
         clip: true
+
+        radius: Systray.useNormalWindow ? 0.0 : Style.trayWindowRadius
+        color: Style.colorWithoutTransparency(palette.base)
 
         Accessible.role: Accessible.Grouping
         Accessible.name: qsTr("Nextcloud desktop main dialog")
@@ -721,6 +728,20 @@ ApplicationWindow {
             }
         }   // Rectangle trayWindowHeaderBackground
 
+        MouseArea {
+            anchors.fill: parent
+            onClicked: forceActiveFocus()
+        }
+
+        TrayWindowHeader {
+            id: trayWindowHeader
+
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: Style.trayWindowHeaderHeight
+        }
+
         Rectangle {
             id: separator
             color: Style.nmcTrayWindowHeaderSeparatorColor
@@ -735,35 +756,35 @@ ApplicationWindow {
             height: Math.max(Style.talkReplyTextFieldPreferredHeight, contentHeight)
             visible: false
 
-            anchors {
-                top: trayWindowHeaderBackground.bottom
-                left: trayWindowMainItem.left
-                right: trayWindowMainItem.right
+            property bool activateSearchFocus: activeFocus
 
-                // topMargin: Style.trayHorizontalMargin + controlRoot.padding
-                topMargin: Style.nmcTrayWindowStandardMargin
-                leftMargin: Style.trayHorizontalMargin + controlRoot.padding
-                rightMargin: Style.trayHorizontalMargin + controlRoot.padding
-            }
+            anchors.top: trayWindowHeader.bottom
+            anchors.left: trayWindowMainItem.left
+            anchors.right: trayWindowMainItem.right
+            anchors.topMargin: Style.trayHorizontalMargin
+            anchors.leftMargin: Style.trayHorizontalMargin
+            anchors.rightMargin: Style.trayHorizontalMargin
 
             text: UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
             readOnly: !UserModel.currentUser.isConnected || UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
             isSearchInProgress: UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress
             onTextEdited: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = trayWindowUnifiedSearchInputContainer.text }
             onClearText: { UserModel.currentUser.unifiedSearchResultsListModel.searchTerm = "" }
+            onActiveFocusChanged: activateSearchFocus = activeFocus && focusReason !== Qt.TabFocusReason && focusReason !== Qt.BacktabFocusReason
+            Keys.onEscapePressed: activateSearchFocus = false
+        }
 
-            // TODO: consult designers, this line looks weird atm
-            // Rectangle {
-            //     id: bottomUnifiedSearchInputSeparator
+        Rectangle {
+            id: bottomUnifiedSearchInputSeparator
 
-            //     anchors.left: parent.left
-            //     anchors.right: parent.right
-            //     anchors.bottom: parent.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.topMargin: Style.trayHorizontalMargin
 
-            //     height: 1
-            //     color: Style.menuBorder
-            //     visible: trayWindowMainItem.isUnifiedSearchActive
-            // }
+            height: 1
+            color: palette.dark
+            visible: trayWindowMainItem.isUnifiedSearchActive
         }
 
         ErrorBox {
@@ -777,9 +798,19 @@ ApplicationWindow {
             anchors.margins: Style.trayHorizontalMargin
         }
 
+        UnifiedSearchPlaceholderView {
+            id: unifiedSearchPlaceholderView
+            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.left: trayWindowMainItem.left
+            anchors.right: trayWindowMainItem.right
+            anchors.bottom: trayWindowMainItem.bottom
+            anchors.topMargin: Style.trayHorizontalMargin
+
+            visible: trayWindowUnifiedSearchInputContainer.activateSearchFocus && !UserModel.currentUser.unifiedSearchResultsListModel.searchTerm
+        }
+
         UnifiedSearchResultNothingFound {
             id: unifiedSearchResultNothingFound
-
             // anchors.top: trayWindowUnifiedSearchInputContainer.bottom
             anchors.top: trayWindowUnifiedSearchInputContainer.visible ? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
@@ -798,7 +829,6 @@ ApplicationWindow {
 
         Loader {
             id: unifiedSearchResultsListViewSkeletonLoader
-
             // anchors.top: trayWindowUnifiedSearchInputContainer.bottom
             anchors.top: trayWindowUnifiedSearchInputContainer.visible ? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
@@ -869,23 +899,23 @@ ApplicationWindow {
 
         SyncStatus {
             id: syncStatus
-
+            accentColor: Style.accentColor
             visible: !trayWindowMainItem.isUnifiedSearchActive
 
             // anchors.top: trayWindowUnifiedSearchInputContainer.bottom
             anchors.top: trayWindowUnifiedSearchInputContainer.visible ? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
+        }
 
-            Rectangle {
-                id: syncStatusSeparator
-
-                Layout.fillWidth: true
-                Layout.preferredHeight: 1
-
-                height: 1
-                color: Style.menuBorder
-            }
+        Rectangle {
+            id: syncStatusSeparator
+            anchors.left: syncStatus.left
+            anchors.right: syncStatus.right
+            anchors.bottom: syncStatus.bottom
+            height: 1
+            color: palette.dark
+            visible: !trayWindowMainItem.isUnifiedSearchActive
         }
 
         Loader {
@@ -902,7 +932,7 @@ ApplicationWindow {
 
             active: false
 
-            sourceComponent: CustomButton {
+            sourceComponent: Button {
                 id: newActivitiesButton
                 hoverEnabled: true
                 padding: Style.smallSpacing
@@ -930,9 +960,9 @@ ApplicationWindow {
 
                 OpacityAnimator {
                     id: fadeoutActivitiesButtonDisappear
-                    target: newActivitiesButton;
-                    from: 1;
-                    to: 0;
+                    target: newActivitiesButton
+                    from: 1
+                    to: 0
                     duration: Style.newActivityButtonDisappearFadeTimeout
                     loops: 1
                     running: false

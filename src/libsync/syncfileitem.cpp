@@ -118,6 +118,7 @@ SyncJournalFileRecord SyncFileItem::toSyncJournalFileRecordWithInode(const QStri
     rec._checksumHeader = _checksumHeader;
     rec._e2eMangledName = _encryptedFileName.toUtf8();
     rec._e2eEncryptionStatus = EncryptionStatusEnums::toDbEncryptionStatus(_e2eEncryptionStatus);
+    rec._e2eCertificateFingerprint = _e2eCertificateFingerprint;
     rec._lockstate._locked = _locked == LockStatus::LockedItem;
     rec._lockstate._lockOwnerDisplayName = _lockOwnerDisplayName;
     rec._lockstate._lockOwnerId = _lockOwnerId;
@@ -126,6 +127,8 @@ SyncJournalFileRecord SyncFileItem::toSyncJournalFileRecordWithInode(const QStri
     rec._lockstate._lockTime = _lockTime;
     rec._lockstate._lockTimeout = _lockTimeout;
     rec._lockstate._lockToken = _lockToken;
+    rec._isLivePhoto = _isLivePhoto;
+    rec._livePhotoFile = _livePhotoFile;
 
     // Update the inode if possible
     rec._inode = _inode;
@@ -156,6 +159,7 @@ SyncFileItemPtr SyncFileItem::fromSyncJournalFileRecord(const SyncJournalFileRec
     item->_encryptedFileName = rec.e2eMangledName();
     item->_e2eEncryptionStatus = EncryptionStatusEnums::fromDbEncryptionStatus(rec._e2eEncryptionStatus);
     item->_e2eEncryptionServerCapability = item->_e2eEncryptionStatus;
+    item->_e2eCertificateFingerprint = rec._e2eCertificateFingerprint;
     item->_locked = rec._lockstate._locked ? LockStatus::LockedItem : LockStatus::UnlockedItem;
     item->_lockOwnerDisplayName = rec._lockstate._lockOwnerDisplayName;
     item->_lockOwnerId = rec._lockstate._lockOwnerId;
@@ -167,6 +171,8 @@ SyncFileItemPtr SyncFileItem::fromSyncJournalFileRecord(const SyncJournalFileRec
     item->_sharedByMe = rec._sharedByMe;
     item->_isShared = rec._isShared;
     item->_lastShareStateFetchedTimestamp = rec._lastShareStateFetchedTimestamp;
+    item->_isLivePhoto = rec._isLivePhoto;
+    item->_livePhotoFile = rec._livePhotoFile;
     return item;
 }
 
@@ -235,6 +241,11 @@ SyncFileItemPtr SyncFileItem::fromProperties(const QString &filePath, const QMap
 
     if (properties.contains(QStringLiteral("checksums"))) {
         item->_checksumHeader = findBestChecksum(properties.value("checksums").toUtf8());
+    }
+
+    if (properties.contains(QStringLiteral("metadata-files-live-photo"))) {
+        item->_isLivePhoto = true;
+        item->_livePhotoFile = properties.value(QStringLiteral("metadata-files-live-photo"));
     }
 
     // direction and instruction are decided later

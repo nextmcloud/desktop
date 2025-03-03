@@ -9,6 +9,7 @@ doc/_build/*
 *.kdev4
 admin/win/nsi/l10n/pofiles/*.po
 *.swp
+*.swo
 *~$
 build*
 cscope.*
@@ -145,7 +146,7 @@ AppPackages/
 
 # Others
 sql/
-*.Cache
+*.[Cc]ache
 ClientBin/
 [Ss]tyle[Cc]op.*
 ~$*
@@ -190,3 +191,4 @@ convert.exe
 *-w10startmenu.png
 *state-*.png
 theme.qrc
+*.AppImage

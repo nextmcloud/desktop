@@ -37,7 +37,7 @@ class TestFolderMan: public QObject
 {
     Q_OBJECT
 
-    FolderMan _fm;
+    std::unique_ptr<FolderMan> _fm;
 
 signals:
     void incomingShareDeleted();
@@ -53,6 +53,9 @@ private slots:
 
     void testDeleteEncryptedFiles()
     {
+        _fm.reset({});
+        _fm.reset(new FolderMan{});
+
         FakeFolder fakeFolder{FileInfo::A12_B12_C12_S12()};
         QCOMPARE(fakeFolder.currentLocalState().children.count(), 4);
 
@@ -154,6 +157,9 @@ private slots:
 
     void testLeaveShare()
     {
+        _fm.reset({});
+        _fm.reset(new FolderMan{});
+
         QTemporaryDir dir;
         ConfigFile::setConfDir(dir.path()); // we don't want to pollute the user's config file
 
@@ -182,7 +188,7 @@ private slots:
         secondShare->permissions.setPermission(OCC::RemotePermissions::IsShared);
 
         FolderMan *folderman = FolderMan::instance();
-        QCOMPARE(folderman, &_fm);
+        QCOMPARE(folderman, _fm.get());
         OCC::AccountState *accountState = OCC::AccountManager::instance()->accounts().first().data();
         const auto folder = folderman->addFolder(accountState, folderDefinition(fakeFolder.localPath()));
         QVERIFY(folder);
@@ -252,6 +258,9 @@ private slots:
 
     void testCheckPathValidityForNewFolder()
     {
+        _fm.reset({});
+        _fm.reset(new FolderMan{});
+
 #ifdef Q_OS_WIN
         Utility::NtfsPermissionLookupRAII ntfs_perm;
 #endif
@@ -278,7 +287,7 @@ private slots:
 
         AccountStatePtr newAccountState(new AccountState(account));
         FolderMan *folderman = FolderMan::instance();
-        QCOMPARE(folderman, &_fm);
+        QCOMPARE(folderman, _fm.get());
         QVERIFY(folderman->addFolder(newAccountState.data(), folderDefinition(dirPath + "/sub/ownCloud1")));
         QVERIFY(folderman->addFolder(newAccountState.data(), folderDefinition(dirPath + "/ownCloud2")));
 
@@ -287,7 +296,6 @@ private slots:
         for (const auto &folder : folderList) {
             QVERIFY(!folder->isSyncRunning());
         }
-
 
         // those should be allowed
         // QString FolderMan::checkPathValidityForNewFolder(const QString& path, const QUrl &serverUrl, bool forNewDirectory).second
@@ -311,15 +319,15 @@ private slots:
         QVERIFY(!folderman->checkPathValidityForNewFolder(dirPath + "/sub/ownCloud1", url2).second.isNull());
         QVERIFY(!folderman->checkPathValidityForNewFolder(dirPath + "/ownCloud2/", url2).second.isNull());
 
-        // Now it will work because the account is different
+        // The following both fail because they are already sync folders even if for another account
         QUrl url3("http://anotherexample.org");
         url3.setUserName("dummy");
-        QCOMPARE(folderman->checkPathValidityForNewFolder(dirPath + "/sub/ownCloud1", url3).second, QString());
-        QCOMPARE(folderman->checkPathValidityForNewFolder(dirPath + "/ownCloud2/", url3).second, QString());
+        QCOMPARE(folderman->checkPathValidityForNewFolder(dirPath + "/sub/ownCloud1", url3).second, QString("Please choose a different location. %1 is already being used as a sync folder.").arg(QDir::toNativeSeparators(dirPath + "/sub/ownCloud1")));
+        QCOMPARE(folderman->checkPathValidityForNewFolder(dirPath + "/ownCloud2", url3).second, QString("Please choose a different location. %1 is already being used as a sync folder.").arg(QDir::toNativeSeparators(dirPath + "/ownCloud2")));
 
         QVERIFY(!folderman->checkPathValidityForNewFolder(dirPath).second.isNull());
         QVERIFY(!folderman->checkPathValidityForNewFolder(dirPath + "/sub/ownCloud1/folder").second.isNull());
-        QVERIFY(!folderman->checkPathValidityForNewFolder(dirPath + "/sub/ownCloud1/folder/f").second.isNull());
+        QVERIFY(!folderman->checkPathValidityForNewFolder(dirPath + "/sub/ownCloud1/f").second.isNull());
 
 #ifndef Q_OS_WIN // no links on windows, no permissions
         // make a bunch of links
@@ -338,7 +346,7 @@ private slots:
         // link 3 points to an existing sync folder. To make it fail, the account must be the same
         QVERIFY(!folderman->checkPathValidityForNewFolder(dirPath + "/link3", url2).second.isNull());
         // while with a different account, this is fine
-        QCOMPARE(folderman->checkPathValidityForNewFolder(dirPath + "/link3", url3).second, QString());
+        QCOMPARE(folderman->checkPathValidityForNewFolder(dirPath + "/link3", url3).second, QString("Please choose a different location. %1 is already being used as a sync folder.").arg(dirPath + "/link3"));
 
         QVERIFY(!folderman->checkPathValidityForNewFolder(dirPath + "/link4").second.isNull());
         QVERIFY(!folderman->checkPathValidityForNewFolder(dirPath + "/link3/folder").second.isNull());
@@ -383,6 +391,9 @@ private slots:
 
     void testFindGoodPathForNewSyncFolder()
     {
+        _fm.reset({});
+        _fm.reset(new FolderMan{});
+
         // SETUP
 
         QTemporaryDir dir;
@@ -406,7 +417,7 @@ private slots:
 
         AccountStatePtr newAccountState(new AccountState(account));
         FolderMan *folderman = FolderMan::instance();
-        QCOMPARE(folderman, &_fm);
+        QCOMPARE(folderman, _fm.get());
         QVERIFY(folderman->addFolder(newAccountState.data(), folderDefinition(dirPath + "/sub/ownCloud/")));
         QVERIFY(folderman->addFolder(newAccountState.data(), folderDefinition(dirPath + "/ownCloud2/")));
 

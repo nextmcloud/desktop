@@ -532,7 +532,10 @@ qint64 UploadDevice::readData(char *data, qint64 maxlen)
     }
 
     auto c = _file.read(data, maxlen);
-    if (c < 0) {
+    if (c == 0) {
+        setErrorString({});
+        return c;
+    } else if (c < 0) {
         setErrorString(_file.errorString());
         return -1;
     }
@@ -803,6 +806,10 @@ void PropagateUploadFileCommon::finalize()
     if (quotaIt != propagator()->_folderQuota.end())
         quotaIt.value() -= _fileToUpload._size;
 
+    if (_item->isEncrypted() && _uploadingEncrypted) {
+        _item->_e2eCertificateFingerprint = propagator()->account()->encryptionCertificateFingerprint();
+    }
+
     // Update the database entry
     const auto result = propagator()->updateMetadata(*_item, Vfs::DatabaseMetadata);
     if (!result) {
@@ -858,7 +865,7 @@ void PropagateUploadFileCommon::abortNetworkJobs(
     };
 
     // Abort all running jobs, except for explicitly excluded ones
-    foreach (AbstractNetworkJob *job, _jobs) {
+    for (const auto job : std::as_const(_jobs)) {
         auto reply = job->reply();
         if (!reply || !reply->isRunning())
             continue;

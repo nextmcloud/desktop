@@ -139,9 +139,38 @@ ColumnLayout {
         }
     }
 
+    RowLayout {
+        Layout.fillWidth: true
+        Layout.leftMargin: root.horizontalPadding
+        Layout.rightMargin: root.horizontalPadding
+
+        Image {
+            Layout.preferredWidth: 32
+            Layout.preferredHeight: 32
+            source: shareModel.shareOwnerAvatar
+        }
+
+        ColumnLayout {
+            EnforcedPlainTextLabel {
+                Layout.fillWidth: true
+                visible: shareModel.displayShareOwner
+                text: qsTr("Shared with you by %1").arg(shareModel.shareOwnerDisplayName)
+                font.bold: true
+            }
+            EnforcedPlainTextLabel {
+                Layout.fillWidth: true
+                visible: shareModel.sharedWithMeExpires
+                text: qsTr("Expires in %1").arg(shareModel.sharedWithMeRemainingTimeString)
+            }
+        }
+
+        visible: shareModel.displayShareOwner
+    }
+
     ShareeSearchField {
         id: shareeSearchField
         Layout.fillWidth: true
+        Layout.topMargin: Style.smallSpacing
         Layout.leftMargin: root.horizontalPadding
         Layout.rightMargin: root.horizontalPadding
 
@@ -234,7 +263,6 @@ ColumnLayout {
                     onToggleHideDownload: shareModel.toggleHideDownloadFromQml(model.share, enable)
                     onTogglePasswordProtect: shareModel.toggleSharePasswordProtectFromQml(model.share, enable)
                     onToggleExpirationDate: shareModel.toggleShareExpirationDateFromQml(model.share, enable)
-                    onToggleNoteToRecipient: shareModel.toggleShareNoteToRecipientFromQml(model.share, enable)
                     onPermissionModeChanged: shareModel.changePermissionModeFromQml(model.share, permissionMode)
 
                     onSetLinkShareLabel: shareModel.setLinkShareLabelFromQml(model.share, label)
@@ -250,12 +278,13 @@ ColumnLayout {
                     z: Infinity
 
                     sourceComponent: Rectangle {
-                        color: palette.window
+                        color: palette.base
+                        radius: Style.progressBarRadius
                         opacity: 0.5
 
                         NCBusyIndicator {
                             anchors.centerIn: parent
-                            color: palette.midlight
+                            color: palette.dark
                         }
                     }
                 }

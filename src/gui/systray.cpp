@@ -301,20 +301,47 @@ void Systray::createResolveConflictsDialog(const OCC::ActivityList &allConflicts
 
     // This call dialog gets deallocated on close conditions
     // by a call from the QML side to the destroyDialog slot
-    auto dialog = QScopedPointer(conflictsDialog->createWithInitialProperties(initialProperties));
+    auto dialog = std::unique_ptr<QObject>(conflictsDialog->createWithInitialProperties(initialProperties));
     if (!dialog) {
         return;
     }
     dialog->setParent(QGuiApplication::instance());
 
-    auto dialogWindow = qobject_cast<QQuickWindow*>(dialog.data());
+    auto dialogWindow = qobject_cast<QQuickWindow*>(dialog.release());
     if (!dialogWindow) {
         return;
     }
     dialogWindow->show();
     dialogWindow->raise();
     dialogWindow->requestActivate();
-    dialog.take();
+}
+
+void Systray::createEncryptionTokenDiscoveryDialog()
+{
+    if (_encryptionTokenDiscoveryDialog) {
+        return;
+    }
+
+    qCDebug(lcSystray) << "Opening an encryption token discovery dialog...";
+
+    const auto encryptionTokenDiscoveryDialog = new QQmlComponent(_trayEngine.get(), QStringLiteral("qrc:/qml/src/gui/tray/EncryptionTokenDiscoveryDialog.qml"));
+
+    if (encryptionTokenDiscoveryDialog->isError()) {
+        qCWarning(lcSystray) << encryptionTokenDiscoveryDialog->errorString();
+        return;
+    }
+
+    _encryptionTokenDiscoveryDialog = encryptionTokenDiscoveryDialog->createWithInitialProperties(QVariantMap{});
+}
+
+void Systray::destroyEncryptionTokenDiscoveryDialog()
+{
+    if (!_encryptionTokenDiscoveryDialog) {
+        return;
+    }
+    qCDebug(lcSystray) << "Closing an encryption token discovery dialog...";
+    _encryptionTokenDiscoveryDialog->deleteLater();
+    _encryptionTokenDiscoveryDialog = nullptr;
 }
 
 bool Systray::raiseDialogs()
@@ -589,11 +616,18 @@ void Systray::setSyncIsPaused(const bool syncIsPaused)
 
 void Systray::positionWindowAtTray(QQuickWindow *window) const
 {
-    if (!useNormalWindow()) {
-        window->setScreen(currentScreen());
-        const auto position = computeWindowPosition(window->width(), window->height());
-        window->setPosition(position);
+    if (useNormalWindow()) {
+        return;
     }
+
+    // need to store the current window size before moving the window to another screen,
+    // otherwise it is being incorrectly resized by the OS or Qt when switching to a screen
+    // with a different DPI setting
+    const auto initialSize = window->size();
+    const auto position = computeWindowPosition(initialSize.width(), initialSize.height());
+    window->setPosition(position);
+    window->setScreen(currentScreen());
+    window->resize(initialSize);
 }
 
 void Systray::positionWindowAtScreenCenter(QQuickWindow *window) const

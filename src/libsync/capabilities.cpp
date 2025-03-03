@@ -210,8 +210,9 @@ bool Capabilities::isClientStatusReportingEnabled() const
 
 QList<QByteArray> Capabilities::supportedChecksumTypes() const
 {
-    QList<QByteArray> list;
-    foreach (const auto &t, _capabilities["checksums"].toMap()["supportedTypes"].toList()) {
+    const auto supportedTypes = _capabilities["checksums"].toMap()["supportedTypes"].toList();
+    QList<QByteArray> list(supportedTypes.count());
+    for (const auto &t : supportedTypes) {
         list.push_back(t.toByteArray());
     }
     return list;
@@ -243,6 +244,16 @@ bool Capabilities::chunkingNg() const
     if (chunkng == "1")
         return true;
     return _capabilities["dav"].toMap()["chunking"].toByteArray() >= "1.0";
+}
+
+qint64 Capabilities::maxChunkSize() const
+{
+    return _capabilities["files"].toMap()["chunked_upload"].toMap()["max_size"].toLongLong();
+}
+
+int Capabilities::maxConcurrentChunkUploads() const
+{
+    return _capabilities["files"].toMap()["chunked_upload"].toMap()["max_parallel_count"].toInt();
 }
 
 bool Capabilities::bulkUpload() const
@@ -362,8 +373,9 @@ bool Capabilities::privateLinkPropertyAvailable() const
 
 QList<int> Capabilities::httpErrorCodesThatResetFailingChunkedUploads() const
 {
-    QList<int> list;
-    foreach (const auto &t, _capabilities["dav"].toMap()["httpErrorCodesThatResetFailingChunkedUploads"].toList()) {
+    const auto httpErrorCodes = _capabilities["dav"].toMap()["httpErrorCodesThatResetFailingChunkedUploads"].toList();
+    QList<int> list(httpErrorCodes.count());
+    for (const auto &t : httpErrorCodes) {
         list.push_back(t.toInt());
     }
     return list;
@@ -435,7 +447,7 @@ void Capabilities::addDirectEditor(DirectEditor* directEditor)
 
 DirectEditor* Capabilities::getDirectEditorForMimetype(const QMimeType &mimeType)
 {
-    foreach(DirectEditor* editor, _directEditors) {
+    for (const auto editor : std::as_const(_directEditors)) {
         if(editor->hasMimetype(mimeType))
             return editor;
     }
@@ -445,7 +457,7 @@ DirectEditor* Capabilities::getDirectEditorForMimetype(const QMimeType &mimeType
 
 DirectEditor* Capabilities::getDirectEditorForOptionalMimetype(const QMimeType &mimeType)
 {
-    foreach(DirectEditor* editor, _directEditors) {
+    for (const auto editor : std::as_const(_directEditors)) {
         if(editor->hasOptionalMimetype(mimeType))
             return editor;
     }

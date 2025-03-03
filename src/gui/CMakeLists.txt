@@ -46,6 +46,7 @@ set(client_UI_SRCS
     wizard/owncloudconnectionmethoddialog.ui
     wizard/owncloudhttpcredspage.ui
     wizard/owncloudsetupnocredspage.ui
+    wizard/termsofservicecheckwidget.ui
     wizard/webview.ui
     wizard/welcomepage.ui
 )
@@ -149,6 +150,7 @@ set(client_SRCS
     syncrunfilelog.cpp
     systray.h
     systray.cpp
+    EncryptionTokenSelectionWindow.qml
     thumbnailjob.h
     thumbnailjob.cpp
     userinfo.h
@@ -242,6 +244,10 @@ set(client_SRCS
     wizard/flow2authwidget.cpp
     wizard/owncloudsetuppage.h
     wizard/owncloudsetuppage.cpp
+    wizard/termsofservicecheckwidget.h
+    wizard/termsofservicecheckwidget.cpp
+    wizard/termsofservicewizardpage.h
+    wizard/termsofservicewizardpage.cpp
     wizard/owncloudwizardcommon.h
     wizard/owncloudwizardcommon.cpp
     wizard/owncloudwizard.h
@@ -737,6 +743,9 @@ install(TARGETS nextcloud
         BUNDLE  DESTINATION "."
  )
 
+if (WIN32)
+    install(FILES $<TARGET_PDB_FILE:nextcloud> DESTINATION bin OPTIONAL)
+endif()
 
 # FIXME: The following lines are dup in src/gui and src/cmd because it needs to be done after both are installed
 #FIXME: find a nice solution to make the second if(BUILD_OWNCLOUD_OSX_BUNDLE) unnecessary

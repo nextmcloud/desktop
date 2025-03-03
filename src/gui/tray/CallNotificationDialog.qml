@@ -24,7 +24,7 @@ import Qt5Compat.GraphicalEffects
 
 ApplicationWindow {
     id: root
-    color: palette.window
+    color: "transparent"
     flags: Qt.Dialog | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint
 
     readonly property int windowSpacing: 10
@@ -51,6 +51,9 @@ ApplicationWindow {
 
         Systray.destroyDialog(root);
     }
+
+    LayoutMirroring.enabled: Application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
 
     width: root.windowWidth
     height: rootBackground.height
@@ -86,7 +89,7 @@ ApplicationWindow {
         width: parent.width
         height: contentLayout.height + (root.windowSpacing * 2)
         radius: Systray.useNormalWindow ? 0.0 : Style.trayWindowRadius
-        color: Style.backgroundColor
+        color: Style.colorWithoutTransparency(palette.base)
         border.width: Style.trayWindowBorderWidth
         border.color: palette.dark
         clip: true
@@ -163,7 +166,7 @@ ApplicationWindow {
                     cache: true
 
                     source: root.usingUserAvatar ? root.talkNotificationData.userAvatar :
-                                                   Theme.darkMode ? root.talkIcon + palette.windowText : root.talkIcon + Style.ncBlue
+                                                   Style.darkMode ? root.talkIcon + palette.windowText : root.talkIcon + Style.ncBlue
                     sourceSize.width: Style.accountAvatarSize
                     sourceSize.height: Style.accountAvatarSize
 
@@ -210,7 +213,7 @@ ApplicationWindow {
                     id: linksRepeater
                     model: root.links
 
-                    CustomButton {
+                    Button {
                         id: answerCall
                         readonly property string verb: modelData.verb
                         readonly property bool isAnswerCallButton: verb === "WEB"
@@ -219,13 +222,12 @@ ApplicationWindow {
                         text: modelData.label
 
                         icon.source: root.talkIcon + palette.brightText
-                        imageSourceHover: root.talkIcon + palette.brightText
 
                         Layout.fillWidth: true
                         Layout.preferredHeight: Style.callNotificationPrimaryButtonMinHeight
 
                         onClicked: {
-                            Qt.openUrlExternally(root.link);
+                            Qt.openUrlExternally(modelData.link);
                             root.closeNotification();
                         }
 
@@ -233,15 +235,13 @@ ApplicationWindow {
                         Accessible.name: qsTr("Answer Talk call notification")
                         Accessible.onPressAction: answerCall.clicked()
                     }
-
                 }
 
-                CustomButton {
+                Button {
                     id: declineCall
                     text: qsTr("Decline")
 
                     icon.source: root.deleteIcon + "white"
-                    imageSourceHover: root.deleteIcon + "white"
 
                     Layout.fillWidth: true
                     Layout.preferredHeight: Style.callNotificationPrimaryButtonMinHeight
