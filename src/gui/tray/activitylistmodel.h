@@ -51,8 +51,7 @@ class ActivityListModel : public QAbstractListModel
 
 public:
     enum DataRole {
-        DarkIconRole = Qt::UserRole + 1,
-        LightIconRole,
+        IconRole = Qt::UserRole + 1,
         AccountRole,
         ObjectTypeRole,
         ObjectIdRole,
@@ -152,6 +151,8 @@ signals:
     void sendNotificationRequest(const QString &accountName, const QString &link, const QByteArray &verb, int row);
 
     void interactiveActivityReceived();
+
+    void showSettingsDialog();
 
 protected:
     [[nodiscard]] bool currentlyFetching() const;

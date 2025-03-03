@@ -82,7 +82,10 @@ public:
         ConfigurationError,
 
         /// We are currently asking the user for credentials
-        AskingCredentials
+        AskingCredentials,
+
+        /// Need to sign terms of service by going to web UI
+        NeedToSignTermsOfService,
     };
 
     /// The actual current connectivity status.
@@ -123,6 +126,8 @@ public:
     void signIn();
 
     bool isConnected() const;
+
+    bool needsToSignTermsOfService() const;
 
     /** Returns a new settings object for this account, already in the right groups. */
     std::unique_ptr<QSettings> settings();
@@ -192,6 +197,7 @@ signals:
     void hasFetchedNavigationApps();
     void statusChanged();
     void desktopNotificationsAllowedChanged();
+    void termsOfServiceChanged(OCC::AccountPtr account, AccountState::State state);
 
 protected Q_SLOTS:
     void slotConnectionValidatorResult(OCC::ConnectionValidator::Status status, const QStringList &errors);
@@ -223,6 +229,7 @@ private:
     bool _waitingForNewCredentials = false;
     QDateTime _timeOfLastETagCheck;
     QPointer<ConnectionValidator> _connectionValidator;
+    TermsOfServiceChecker _termsOfServiceChecker;
     QByteArray _notificationsEtagResponseHeader;
     QByteArray _navigationAppsEtagResponseHeader;
 

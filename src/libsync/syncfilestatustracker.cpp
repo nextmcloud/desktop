@@ -235,7 +235,7 @@ void SyncFileStatusTracker::slotAboutToPropagate(SyncFileItemVector &items)
     ProblemsMap oldProblems;
     std::swap(_syncProblems, oldProblems);
 
-    foreach (const SyncFileItemPtr &item, items) {
+    for (const auto &item : std::as_const(items)) {
         qCInfo(lcStatusTracker) << "Investigating" << item->destination() << item->_status << item->_instruction << item->_direction;
         _dirtyPaths.remove(item->destination());
 
@@ -268,7 +268,7 @@ void SyncFileStatusTracker::slotAboutToPropagate(SyncFileItemVector &items)
     // Swap into a copy since fileStatus() reads _dirtyPaths to determine the status
     QSet<QString> oldDirtyPaths;
     std::swap(_dirtyPaths, oldDirtyPaths);
-    for (const auto &oldDirtyPath : qAsConst(oldDirtyPaths))
+    for (const auto &oldDirtyPath : std::as_const(oldDirtyPaths))
         emit fileStatusChanged(getSystemDestination(oldDirtyPath), fileStatus(oldDirtyPath));
 
     // Make sure to push any status that might have been resolved indirectly since the last sync

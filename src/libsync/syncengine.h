@@ -159,6 +159,7 @@ public slots:
      */
     void setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle style, std::set<QString> paths = {});
     void addAcceptedInvalidFileName(const QString& filePath);
+    void setLocalDiscoveryEnforceWindowsFileNameCompatibility(bool value);
 
 signals:
     // During update, before reconcile
@@ -339,7 +340,7 @@ private:
     QString _remotePath;
     QByteArray _remoteRootEtag;
     SyncJournalDb *_journal;
-    QScopedPointer<DiscoveryPhase> _discoveryPhase;
+    std::unique_ptr<DiscoveryPhase> _discoveryPhase;
     QSharedPointer<OwncloudPropagator> _propagator;
 
     QSet<QString> _bulkUploadBlackList;
@@ -409,6 +410,7 @@ private:
     std::set<QString> _localDiscoveryPaths;
 
     QStringList _leadingAndTrailingSpacesFilesAllowed;
+    bool _shouldEnforceWindowsFileNameCompatibility = false;
 
     // Hash of files we have scheduled for later sync runs, along with a
     // pointer to the timer which will trigger the sync run for it.

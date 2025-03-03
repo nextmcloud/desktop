@@ -87,7 +87,6 @@ Page {
     readonly property bool isFolderItem: shareModelData.sharedItemType === ShareModel.SharedItemTypeFolder
     readonly property bool isEncryptedItem: shareModelData.sharedItemType === ShareModel.SharedItemTypeEncryptedFile || shareModelData.sharedItemType === ShareModel.SharedItemTypeEncryptedFolder || shareModelData.sharedItemType === ShareModel.SharedItemTypeEncryptedTopLevelFolder
 
-    property bool waitingForNoteEnabledChange: false
     property bool waitingForExpireDateEnabledChange: false
     property bool waitingForPasswordProtectEnabledChange: false
     property bool waitingForExpireDateChange: false
@@ -101,7 +100,7 @@ Page {
     }
 
     function resetNoteField() {
-        noteTextEdit.text = note;
+        noteTextArea.text = note;
         waitingForNoteChange = false;
     }
 
@@ -133,7 +132,7 @@ Page {
 
     function resetNoteEnabledField() {
         noteEnabledMenuItem.checked = noteEnabled;
-        waitingForNoteEnabledChange = false;
+        waitingForNoteChange = false;
     }
 
     function resetExpireDateEnabledField() {
@@ -175,7 +174,7 @@ Page {
     padding: Style.standardSpacing * 2
 
     background: Rectangle {
-        color: palette.window
+        color: palette.base
         visible: root.backgroundsVisible
     }
 
@@ -220,7 +219,7 @@ Page {
                 elide: Text.ElideRight
             }
 
-            CustomButton {
+            Button {
                 id: closeButton
 
                 Layout.rowSpan: headerGridLayout.rows
@@ -232,8 +231,6 @@ Page {
                 icon.source: "image://svgimage-custom-color/clear.svg" + "/" + palette.buttonText
                 icon.width: Style.activityListButtonIconSize
                 icon.height: Style.activityListButtonIconSize
-                toolTipText: qsTr("Dismiss")
-
                 onClicked: root.closeShareDetails()
             }
 
@@ -262,6 +259,7 @@ Page {
             readonly property int itemPadding: Style.smallSpacing
 
             width: parent.width
+            spacing: Style.smallSpacing
 
             RowLayout {
                 Layout.fillWidth: true
@@ -278,7 +276,7 @@ Page {
                     horizontalAlignment: Image.AlignHCenter
                     fillMode: Image.Pad
 
-                    source: "image://svgimage-custom-color/edit.svg/" + palette.dark
+                    source: "image://svgimage-custom-color/edit.svg/" + palette.windowText
                     sourceSize.width: scrollContentsColumn.rowIconWidth
                     sourceSize.height: scrollContentsColumn.rowIconWidth
                 }
@@ -315,7 +313,8 @@ Page {
                 visible: active
                 sourceComponent: CheckBox {
                     spacing: scrollContentsColumn.indicatorSpacing
-                    padding: scrollContentsColumn.itemPadding
+                    leftPadding: scrollContentsColumn.itemPadding
+                    rightPadding: scrollContentsColumn.itemPadding
                     indicator.width: scrollContentsColumn.indicatorItemWidth
                     indicator.height: scrollContentsColumn.indicatorItemWidth
 
@@ -341,7 +340,7 @@ Page {
                 visible: active
                 sourceComponent: ColumnLayout {
                     id: permissionRadioButtonsLayout
-                    spacing: 0
+                    spacing: Layout.smallSpacing
                     width: parent.width
 
                     ButtonGroup {
@@ -356,7 +355,8 @@ Page {
                         checked: root.currentPermissionMode === permissionMode
                         text: qsTr("View only")
                         spacing: scrollContentsColumn.indicatorSpacing
-                        padding: scrollContentsColumn.itemPadding
+                        leftPadding: scrollContentsColumn.itemPadding
+                        rightPadding: scrollContentsColumn.itemPadding
                         onClicked: root.permissionModeChanged(permissionMode)
                     }
 
@@ -368,7 +368,8 @@ Page {
                         checked: root.currentPermissionMode === permissionMode
                         text: qsTr("Allow upload and editing")
                         spacing: scrollContentsColumn.indicatorSpacing
-                        padding: scrollContentsColumn.itemPadding
+                        leftPadding: scrollContentsColumn.itemPadding
+                        rightPadding: scrollContentsColumn.itemPadding
                         onClicked: root.permissionModeChanged(permissionMode)
                     }
 
@@ -380,7 +381,8 @@ Page {
                         checked: root.currentPermissionMode === permissionMode
                         text: qsTr("File drop (upload only)")
                         spacing: scrollContentsColumn.indicatorSpacing
-                        padding: scrollContentsColumn.itemPadding
+                        leftPadding: scrollContentsColumn.itemPadding
+                        rightPadding: scrollContentsColumn.itemPadding
                         onClicked: root.permissionModeChanged(permissionMode)
                     }
 
@@ -390,7 +392,8 @@ Page {
                         Layout.fillWidth: true
 
                         spacing: scrollContentsColumn.indicatorSpacing
-                        padding: scrollContentsColumn.itemPadding
+                        leftPadding: scrollContentsColumn.itemPadding
+                        rightPadding: scrollContentsColumn.itemPadding
                         indicator.width: scrollContentsColumn.indicatorItemWidth
                         indicator.height: scrollContentsColumn.indicatorItemWidth
 
@@ -429,7 +432,8 @@ Page {
                         anchors.right: parent.right
 
                         spacing: scrollContentsColumn.indicatorSpacing
-                        padding: scrollContentsColumn.itemPadding
+                        leftPadding: scrollContentsColumn.itemPadding
+                        rightPadding: scrollContentsColumn.itemPadding
                         indicator.width: scrollContentsColumn.indicatorItemWidth
                         indicator.height: scrollContentsColumn.indicatorItemWidth
 
@@ -454,13 +458,14 @@ Page {
                 Layout.fillWidth: true
 
                 spacing: scrollContentsColumn.indicatorSpacing
-                padding: scrollContentsColumn.itemPadding
+                leftPadding: scrollContentsColumn.itemPadding
+                rightPadding: scrollContentsColumn.itemPadding
                 indicator.width: scrollContentsColumn.indicatorItemWidth
                 indicator.height: scrollContentsColumn.indicatorItemWidth
 
                 checkable: true
                 checked: root.passwordProtectEnabled
-                text: qsTr("Password protect")
+                text: qsTr("Password protection")
                 visible: root.shareSupportsPassword
                 enabled: visible && 
                          !root.waitingForPasswordProtectEnabledChange && 
@@ -495,7 +500,7 @@ Page {
                     horizontalAlignment: Image.AlignHCenter
                     fillMode: Image.Pad
 
-                    source: "image://svgimage-custom-color/lock-https.svg/" + palette.dark
+                    source: "image://svgimage-custom-color/lock-https.svg/" + palette.windowText
                     sourceSize.width: scrollContentsColumn.rowIconWidth
                     sourceSize.height: scrollContentsColumn.rowIconWidth
                 }
@@ -563,7 +568,8 @@ Page {
                 Layout.fillWidth: true
 
                 spacing: scrollContentsColumn.indicatorSpacing
-                padding: scrollContentsColumn.itemPadding
+                leftPadding: scrollContentsColumn.itemPadding
+                rightPadding: scrollContentsColumn.itemPadding
                 indicator.width: scrollContentsColumn.indicatorItemWidth
                 indicator.height: scrollContentsColumn.indicatorItemWidth
 
@@ -600,7 +606,7 @@ Page {
                     horizontalAlignment: Image.AlignHCenter
                     fillMode: Image.Pad
 
-                    source: "image://svgimage-custom-color/calendar.svg/" + palette.dark
+                    source: "image://svgimage-custom-color/calendar.svg/" + palette.windowText
                     sourceSize.width: scrollContentsColumn.rowIconWidth
                     sourceSize.height: scrollContentsColumn.rowIconWidth
                 }
@@ -647,23 +653,26 @@ Page {
                 Layout.fillWidth: true
 
                 spacing: scrollContentsColumn.indicatorSpacing
-                padding: scrollContentsColumn.itemPadding
+                leftPadding: scrollContentsColumn.itemPadding
+                rightPadding: scrollContentsColumn.itemPadding
                 indicator.width: scrollContentsColumn.indicatorItemWidth
                 indicator.height: scrollContentsColumn.indicatorItemWidth
 
                 checkable: true
                 checked: root.noteEnabled
                 text: qsTr("Note to recipient")
-                enabled: !root.waitingForNoteEnabledChange
+                enabled: !root.waitingForNoteChange
 
                 onClicked: {
-                    root.toggleNoteToRecipient(checked);
-                    root.waitingForNoteEnabledChange = true;
+                    if (!checked && root.note !== "") {
+                        root.setNote("");
+                        root.waitingForNoteChange = true;
+                    }
                 }
 
                 NCBusyIndicator {
                     anchors.fill: parent
-                    visible: root.waitingForNoteEnabledChange
+                    visible: root.waitingForNoteChange && !noteEnabledMenuItem.checked
                     running: visible
                     z: 1
                 }
@@ -674,7 +683,7 @@ Page {
                 height: visible ? implicitHeight : 0
                 spacing: scrollContentsColumn.indicatorSpacing
 
-                visible: root.noteEnabled
+                visible: noteEnabledMenuItem.checked
 
                 Image {
                     Layout.preferredWidth: scrollContentsColumn.indicatorItemWidth
@@ -684,58 +693,51 @@ Page {
                     horizontalAlignment: Image.AlignHCenter
                     fillMode: Image.Pad
 
-                    source: "image://svgimage-custom-color/edit.svg/" + palette.dark
+                    source: "image://svgimage-custom-color/edit.svg/" + palette.windowText
                     sourceSize.width: scrollContentsColumn.rowIconWidth
                     sourceSize.height: scrollContentsColumn.rowIconWidth
                 }
 
-                NCInputTextEdit {
-                    id: noteTextEdit
+                NCInputTextArea {
+                    id: noteTextArea
 
                     Layout.fillWidth: true
-                    height: visible ? Math.max(Style.talkReplyTextFieldPreferredHeight, contentHeight) : 0
+                    // no height here -- let the textarea figure it out how much it needs
                     submitButton.height: Math.min(Style.talkReplyTextFieldPreferredHeight, height - 2)
 
                     text: root.note
-                    enabled: root.noteEnabled &&
-                             !root.waitingForNoteChange &&
-                             !root.waitingForNoteEnabledChange
+                    placeholderText: qsTr("Enter a note for the recipient")
+                    enabled: noteEnabledMenuItem.checked && !root.waitingForNoteChange
 
-                    onEditingFinished: if(text !== root.note) {
+                    onEditingFinished: if (text !== "" && text !== root.note) {
                         root.setNote(text);
                         root.waitingForNoteChange = true;
                     }
 
                     NCBusyIndicator {
                         anchors.fill: parent
-                        visible: root.waitingForNoteChange ||
-                                 root.waitingForNoteEnabledChange
+                        visible: root.waitingForNoteChange && noteEnabledMenuItem.checked
                         running: visible
                         z: 1
                     }
                 }
             }
 
-            CustomButton {
+            Button {
                 height: Style.standardPrimaryButtonHeight
-
-                icon.source: "image://svgimage-custom-color/close.svg/" + Style.errorBoxBackgroundColor
-                imageSourceHover: "image://svgimage-custom-color/close.svg/" + palette.brightText
+                icon.source: "image://svgimage-custom-color/close.svg/" + palette.buttonText
+                icon.height: Style.extraSmallIconSize
                 text: qsTr("Unshare")
-
                 onClicked: root.deleteShare()
             }
 
-            CustomButton {
+            Button {
                 height: Style.standardPrimaryButtonHeight
-
-                icon.source: "image://svgimage-custom-color/add.svg/" + root.accentColor
-                imageSourceHover: "image://svgimage-custom-color/add.svg/" + palette.brightText
+                icon.source: "image://svgimage-custom-color/add.svg/" + palette.buttonText
+                icon.height: Style.extraSmallIconSize
                 text: qsTr("Add another link")
-
                 visible: root.isLinkShare && root.canCreateLinkShares
                 enabled: visible
-
                 onClicked: root.createNewLinkShare()
             }
         }
@@ -750,7 +752,9 @@ Page {
         contentWidth: (contentItem as ListView).contentWidth
         visible: copyShareLinkButton.visible
 
-        CustomButton {
+        background: Rectangle { color: "transparent" }
+
+        Button {
             id: copyShareLinkButton
 
             function copyShareLink() {
@@ -779,15 +783,6 @@ Page {
             enabled: visible
 
             onClicked: copyShareLink()
-
-            // TODO
-            // Behavior on bgColor {
-            //     ColorAnimation { duration: Style.shortAnimationDuration }
-            // }
-
-            // Behavior on bgHoverOpacity {
-            //     NumberAnimation { duration: Style.shortAnimationDuration }
-            // }
 
             Behavior on Layout.preferredWidth {
                 SmoothedAnimation { duration: Style.shortAnimationDuration }

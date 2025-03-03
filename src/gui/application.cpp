@@ -59,6 +59,7 @@
 #include <libcrashreporter-handler/Handler.h>
 #endif
 
+#include <QLocale>
 #include <QTranslator>
 #include <QMenu>
 #include <QMessageBox>
@@ -100,7 +101,8 @@ namespace {
         "  --isvfsenabled             : whether to set a VFS or non-VFS folder (1 for 'yes' or 0 for 'no') when creating an account via command-line.\n"
         "  --remotedirpath            : (optional) path to a remote subfolder when creating an account via command-line.\n"
         "  --serverurl                : a server URL to use when creating an account via command-line.\n"
-        "  --forcelegacyconfigimport  : forcefully import account configurations from legacy clients (if available).\n";
+        "  --forcelegacyconfigimport  : forcefully import account configurations from legacy clients (if available).\n"
+        "  --reverse            : use a reverse layout direction.\n";
 
     QString applicationTrPath()
     {
@@ -126,21 +128,6 @@ namespace {
 
 // ----------------------------------------------------------------------------------
 
-#ifdef Q_OS_WIN
-class WindowsNativeEventFilter : public QAbstractNativeEventFilter {
-public:
-    bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override {
-        const auto msg = static_cast<MSG *>(message);
-        if(msg->message == WM_SYSCOLORCHANGE || msg->message == WM_SETTINGCHANGE) {
-            if (const auto ptr = qobject_cast<QGuiApplication *>(QGuiApplication::instance())) {
-                emit ptr->paletteChanged(ptr->palette());
-            }
-        }
-        return false;
-    }
-};
-#endif
-
 bool Application::configVersionMigration()
 {
     QStringList deleteKeys, ignoreKeys;
@@ -156,6 +143,11 @@ bool Application::configVersionMigration()
     const auto versionChanged = previousVersion != currentVersion;
     const auto downgrading = previousVersion > currentVersion;
 
+    if (versionChanged) {
+        qCInfo(lcApplication) << "Version changed. Removing updater settings from config.";
+        configFile.cleanUpdaterConfiguration();
+    }
+
     if (!versionChanged && !(!deleteKeys.isEmpty() || (!ignoreKeys.isEmpty() && versionChanged))) {
         return true;
     }
@@ -164,6 +156,9 @@ bool Application::configVersionMigration()
     const auto theme = Theme::instance();
     configFile.setLaunchOnSystemStartup(configFile.launchOnSystemStartup());
     Utility::setLaunchOnStartup(theme->appName(), theme->appNameGUI(), configFile.launchOnSystemStartup());
+
+    // default is now off to displaying dialog warning user of too many files deletion
+    configFile.setPromptDeleteFiles(false);
 
     // back up all old config files
     QStringList backupFilesList;
@@ -204,13 +199,16 @@ bool Application::configVersionMigration()
             QTimer::singleShot(0, qApp, &QCoreApplication::quit);
             return false;
         }
+    }
 
+    if (!deleteKeys.isEmpty()) {
         auto settings = ConfigFile::settingsWithGroup("foo");
         settings->endGroup();
 
         // Wipe confusing keys from the future, ignore the others
-        for (const auto &badKey : qAsConst(deleteKeys)) {
+        for (const auto &badKey : std::as_const(deleteKeys)) {
             settings->remove(badKey);
+            qCInfo(lcApplication) << "Migration: removed" << badKey << "key from settings.";
         }
     }
 
@@ -232,33 +230,45 @@ Application::Application(int &argc, char **argv)
 
 #ifdef Q_OS_WIN
     // Ensure OpenSSL config file is only loaded from app directory
-    QString opensslConf = QCoreApplication::applicationDirPath() + QString("/openssl.cnf");
+    QString opensslConf = QCoreApplication::applicationDirPath() + QStringLiteral("/openssl.cnf");
     qputenv("OPENSSL_CONF", opensslConf.toLocal8Bit());
 
-    // Set up event listener for Windows theme changing
-    installNativeEventFilter(new WindowsNativeEventFilter());
+    const auto shouldDisableGraphicsAcceleration = [&]() {
+        if (qEnvironmentVariableIsSet("VMWARE")) {
+            return true;
+        }
+
+        if (qEnvironmentVariableIsSet("SESSIONNAME") && qEnvironmentVariable("SESSIONNAME").startsWith("RDP-")) {
+            return true;
+        }
+
+        return false;
+    };
+
+    if (shouldDisableGraphicsAcceleration()) {
+        qputenv("SVGA_ALLOW_LLVMPIPE", 0);
+        qCInfo(lcApplication) << "Disabling graphics acceleration, application might be running in a virtual or in a remote desktop.";
+    }
 #endif
 
     // TODO: Can't set this without breaking current config paths
     //    setOrganizationName(QLatin1String(APPLICATION_VENDOR));
     setOrganizationDomain(QLatin1String(APPLICATION_REV_DOMAIN));
 
-    QString desktopFileName = QString(QLatin1String(LINUX_APPLICATION_ID)
-                                        + QLatin1String(".desktop"));
-    setDesktopFileName(desktopFileName);
+    setDesktopFileName(QString(LINUX_APPLICATION_ID));
 
     setApplicationName(_theme->appName());
     setWindowIcon(_theme->applicationIcon());
 
     if (!ConfigFile().exists()) {
-        // Migrate from version <= 2.4
         setApplicationName(_theme->appNameGUI());
-        // We need to use the deprecated QDesktopServices::storageLocation because of its Qt4
-        // behavior of adding "data" to the path
-        QString oldDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/data/" + organizationName() + "/" + applicationName();
-        if (oldDir.endsWith('/')) oldDir.chop(1); // macOS 10.11.x does not like trailing slash for rename/move.
+        QString legacyDir = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/" + APPLICATION_CONFIG_NAME;
+
+        if (legacyDir.endsWith('/')) {
+            legacyDir.chop(1); // macOS 10.11.x does not like trailing slash for rename/move.
+        }
         setApplicationName(_theme->appName());
-        if (QFileInfo(oldDir).isDir()) {
+        if (QFileInfo(legacyDir).isDir()) {
             auto confDir = ConfigFile().configPath();
 
             // macOS 10.11.x does not like trailing slash for rename/move.
@@ -266,17 +276,17 @@ Application::Application(int &argc, char **argv)
                 confDir.chop(1);
             }
 
-            qCInfo(lcApplication) << "Migrating old config from" << oldDir << "to" << confDir;
+            qCInfo(lcApplication) << "Migrating old config from" << legacyDir << "to" << confDir;
 
-            if (!QFile::rename(oldDir, confDir)) {
-                qCWarning(lcApplication) << "Failed to move the old config directory to its new location (" << oldDir << "to" << confDir << ")";
+            if (!QFile::rename(legacyDir, confDir)) {
+                qCWarning(lcApplication) << "Failed to move the old config directory to its new location (" << legacyDir << "to" << confDir << ")";
 
                 // Try to move the files one by one
                 if (QFileInfo(confDir).isDir() || QDir().mkdir(confDir)) {
-                    const QStringList filesList = QDir(oldDir).entryList(QDir::Files);
+                    const QStringList filesList = QDir(legacyDir).entryList(QDir::Files);
                     qCInfo(lcApplication) << "Will move the individual files" << filesList;
                     for (const auto &name : filesList) {
-                        if (!QFile::rename(oldDir + "/" + name,  confDir + "/" + name)) {
+                        if (!QFile::rename(legacyDir + "/" + name,  confDir + "/" + name)) {
                             qCWarning(lcApplication) << "Fallback move of " << name << "also failed";
                         }
                     }
@@ -284,7 +294,7 @@ Application::Application(int &argc, char **argv)
             } else {
 #ifndef Q_OS_WIN
                 // Create a symbolic link so a downgrade of the client would still find the config.
-                QFile::link(confDir, oldDir);
+                QFile::link(confDir, legacyDir);
 #endif
             }
         }
@@ -380,7 +390,9 @@ Application::Application(int &argc, char **argv)
     }
 
     _theme->setSystrayUseMonoIcons(ConfigFile().monoIcons());
-    connect(_theme, &Theme::systrayUseMonoIconsChanged, this, &Application::slotUseMonoIconsChanged);
+    connect(_theme, &Theme::systrayUseMonoIconsChanged, _gui, &ownCloudGui::slotComputeOverallSyncStatus);
+    connect(this, &Application::systemPaletteChanged,
+            _theme, &Theme::systemPaletteHasChanged);
 
 #if defined(Q_OS_WIN)
     _shellExtensionsServer.reset(new ShellExtensionsServer);
@@ -495,23 +507,31 @@ void Application::setupAccountsAndFolders()
     if (const auto accounts = AccountManager::instance()->accounts();
         accountsRestoreResult == AccountManager::AccountsRestoreSuccessFromLegacyVersion
         && !accounts.isEmpty()) {
+
         const auto accountsListSize = accounts.size();
-        const auto accountsRestoreMessage = accountsListSize > 1
-            ? tr("%1 accounts", "number of accounts imported").arg(QString::number(accountsListSize))
-            : tr("1 account");
-        const auto foldersRestoreMessage = foldersListSize > 1
-            ? tr("%1 folders", "number of folders imported").arg(QString::number(foldersListSize))
-            : tr("1 folder");
-        const auto messageBox = new QMessageBox(QMessageBox::Information,
-                                                tr("Legacy import"),
-                                                tr("Imported %1 and %2 from a legacy desktop client.\n%3",
-                                                   "number of accounts and folders imported. list of users.")
-                                                    .arg(accountsRestoreMessage,
-                                                         foldersRestoreMessage,
-                                                         prettyNamesList(accounts))
-                                                );
-        messageBox->setWindowModality(Qt::NonModal);
-        messageBox->open();
+        if (Theme::instance()->displayLegacyImportDialog()) {
+            const auto accountsRestoreMessage = accountsListSize > 1
+                ? tr("%1 accounts", "number of accounts imported").arg(QString::number(accountsListSize))
+                : tr("1 account");
+            const auto foldersRestoreMessage = foldersListSize > 1
+                ? tr("%1 folders", "number of folders imported").arg(QString::number(foldersListSize))
+                : tr("1 folder");
+            const auto messageBox = new QMessageBox(QMessageBox::Information,
+                                                    tr("Legacy import"),
+                                                    tr("Imported %1 and %2 from a legacy desktop client.\n%3",
+                                                       "number of accounts and folders imported. list of users.")
+                                                        .arg(accountsRestoreMessage,
+                                                             foldersRestoreMessage,
+                                                             prettyNamesList(accounts))
+                                                    );
+            messageBox->setWindowModality(Qt::NonModal);
+            messageBox->open();
+        }
+
+        qCWarning(lcApplication) << "Migration result AccountManager::AccountsRestoreResult:" << accountsRestoreResult;
+        qCWarning(lcApplication) << "Folders migrated: " << foldersListSize;
+        qCWarning(lcApplication) << accountsListSize << "account(s) were migrated:" << prettyNamesList(accounts);
+
     } else {
         qCWarning(lcApplication) << "Migration result AccountManager::AccountsRestoreResult: " << accountsRestoreResult;
         qCWarning(lcApplication) << "Folders migrated: " << foldersListSize;
@@ -591,7 +611,8 @@ AccountManager::AccountsRestoreResult Application::restoreLegacyAccount()
                 tr("There was an error while accessing the configuration "
                    "file at %1. Please make sure the file can be accessed by your system account.")
                     .arg(ConfigFile().configFile()),
-                tr("Quit %1").arg(Theme::instance()->appNameGUI()));
+                QMessageBox::Ok
+            );
             QTimer::singleShot(0, qApp, &QCoreApplication::quit);
         }
     }
@@ -602,7 +623,7 @@ void Application::slotAccountStateRemoved(AccountState *accountState)
 {
     if (_gui) {
         disconnect(accountState, &AccountState::stateChanged,
-            _gui.data(), &ownCloudGui::slotAccountStateChanged);
+            _gui.data(), &ownCloudGui::slotComputeOverallSyncStatus);
         disconnect(accountState->account().data(), &Account::serverVersionChanged,
             _gui.data(), &ownCloudGui::slotTrayMessageIfServerUnsupported);
     }
@@ -624,9 +645,11 @@ void Application::slotAccountStateRemoved(AccountState *accountState)
 void Application::slotAccountStateAdded(AccountState *accountState)
 {
     connect(accountState, &AccountState::stateChanged,
-        _gui.data(), &ownCloudGui::slotAccountStateChanged);
+        _gui.data(), &ownCloudGui::slotComputeOverallSyncStatus);
     connect(accountState->account().data(), &Account::serverVersionChanged,
         _gui.data(), &ownCloudGui::slotTrayMessageIfServerUnsupported);
+    connect(accountState, &AccountState::termsOfServiceChanged,
+            _gui.data(), &ownCloudGui::slotNeedToAcceptTermsOfService);
     connect(accountState, &AccountState::stateChanged,
         _folderManager.data(), &FolderMan::slotAccountStateChanged);
     connect(accountState->account().data(), &Account::serverVersionChanged,
@@ -727,11 +750,6 @@ void Application::setupLogging()
     qCInfo(lcApplication) << "Arguments:" << qApp->arguments();
 }
 
-void Application::slotUseMonoIconsChanged(bool)
-{
-    _gui->slotComputeOverallSyncStatus();
-}
-
 void Application::slotParseMessage(const QString &msg, QObject *)
 {
     if (msg.startsWith(QLatin1String("MSG_PARSEOPTIONS:"))) {
@@ -829,6 +847,8 @@ void Application::parseOptions(const QStringList &options)
             _backgroundMode = true;
         } else if (option == QLatin1String("--version") || option == QLatin1String("-v")) {
             _versionOnly = true;
+        } else if (option == QLatin1String("--reverse")) {
+            setLayoutDirection(layoutDirection() == Qt::LeftToRight ? Qt::RightToLeft : Qt::LeftToRight);
         } else if (option.endsWith(QStringLiteral(APPLICATION_DOTVIRTUALFILE_SUFFIX))) {
             // virtual file, open it after the Folder were created (if the app is not terminated)
             QTimer::singleShot(0, this, [this, option] { openVirtualFile(option); });
@@ -983,70 +1003,60 @@ QString substLang(const QString &lang)
 
 void Application::setupTranslations()
 {
-    QStringList uiLanguages;
-    uiLanguages = QLocale::system().uiLanguages();
-
-    QString enforcedLocale = Theme::instance()->enforcedLocale();
-    if (!enforcedLocale.isEmpty()) {
-        uiLanguages.prepend(enforcedLocale);
-    }
+    const auto enforcedLocale = Theme::instance()->enforcedLocale();
+    const auto lang = substLang(!enforcedLocale.isEmpty() ? enforcedLocale : QLocale::system().uiLanguages(QLocale::TagSeparator::Underscore).first());
 
     auto *translator = new QTranslator(this);
     auto *qtTranslator = new QTranslator(this);
     auto *qtkeychainTranslator = new QTranslator(this);
 
-    for (QString lang : qAsConst(uiLanguages)) {
-        lang.replace(QLatin1Char('-'), QLatin1Char('_')); // work around QTBUG-25973
-        lang = substLang(lang);
-        const auto trPath = applicationTrPath();
-        const auto trFolder = QDir{trPath};
-        if (!trFolder.exists()) {
-            qCWarning(lcApplication()) << trPath << "folder containing translations is missing. Impossible to load translations";
-            break;
-        }
-        const QString trFile = QLatin1String("client_") + lang;
-        qCDebug(lcApplication()) << "trying to load" << lang << "in" << trFile << "from" << trPath;
-        if (translator->load(trFile, trPath) || lang.startsWith(QLatin1String("en"))) {
-            // Permissive approach: Qt and keychain translations
-            // may be missing, but Qt translations must be there in order
-            // for us to accept the language. Otherwise, we try with the next.
-            // "en" is an exception as it is the default language and may not
-            // have a translation file provided.
-            qCInfo(lcApplication) << "Using" << lang << "translation";
-            setProperty("ui_lang", lang);
-            const QString qtTrPath = QLibraryInfo::location(QLibraryInfo::TranslationsPath);
-            const QString qtTrFile = QLatin1String("qt_") + lang;
-            const QString qtBaseTrFile = QLatin1String("qtbase_") + lang;
-            if (!qtTranslator->load(qtTrFile, qtTrPath)) {
-                if (!qtTranslator->load(qtTrFile, trPath)) {
-                    if (!qtTranslator->load(qtBaseTrFile, qtTrPath)) {
-                        if (!qtTranslator->load(qtBaseTrFile, trPath)) {
-                            qCDebug(lcApplication()) << "impossible to load Qt translation catalog" << qtBaseTrFile;
-                        }
+    const auto trPath = applicationTrPath();
+    const auto trFolder = QDir{trPath};
+    if (!trFolder.exists()) {
+        qCWarning(lcApplication()) << trPath << "folder containing translations is missing. Impossible to load translations";
+        return;
+    }
+    const QString trFile = QLatin1String("client_") + lang;
+    qCDebug(lcApplication()) << "trying to load" << lang << "in" << trFile << "from" << trPath;
+    if (translator->load(trFile, trPath) || lang.startsWith(QLatin1String("en"))) {
+        // Permissive approach: Qt and keychain translations
+        // may be missing, but Qt translations must be there in order
+        // for us to accept the language. Otherwise, we try with the next.
+        // "en" is an exception as it is the default language and may not
+        // have a translation file provided.
+        qCInfo(lcApplication) << "Using" << lang << "translation";
+        setProperty("ui_lang", lang);
+        const QString qtTrPath = QLibraryInfo::path(QLibraryInfo::TranslationsPath);
+        const QString qtTrFile = QLatin1String("qt_") + lang;
+        const QString qtBaseTrFile = QLatin1String("qtbase_") + lang;
+        if (!qtTranslator->load(qtTrFile, qtTrPath)) {
+            if (!qtTranslator->load(qtTrFile, trPath)) {
+                if (!qtTranslator->load(qtBaseTrFile, qtTrPath)) {
+                    if (!qtTranslator->load(qtBaseTrFile, trPath)) {
+                        qCDebug(lcApplication()) << "impossible to load Qt translation catalog" << qtBaseTrFile;
                     }
                 }
             }
-            const QString qtkeychainTrFile = QLatin1String("qtkeychain_") + lang;
-            if (!qtkeychainTranslator->load(qtkeychainTrFile, qtTrPath)) {
-                if (!qtkeychainTranslator->load(qtkeychainTrFile, trPath)) {
-                    qCDebug(lcApplication()) << "impossible to load QtKeychain translation catalog" << qtkeychainTrFile;
-                }
+        }
+        const QString qtkeychainTrFile = QLatin1String("qtkeychain_") + lang;
+        if (!qtkeychainTranslator->load(qtkeychainTrFile, qtTrPath)) {
+            if (!qtkeychainTranslator->load(qtkeychainTrFile, trPath)) {
+                qCDebug(lcApplication()) << "impossible to load QtKeychain translation catalog" << qtkeychainTrFile;
             }
-            if (!translator->isEmpty())
-                installTranslator(translator);
-            if (!qtTranslator->isEmpty())
-                installTranslator(qtTranslator);
-            if (!qtkeychainTranslator->isEmpty())
-                installTranslator(qtkeychainTranslator);
-            break;
-        } else {
-            qCWarning(lcApplication()) << "translation catalog failed to load";
-            const auto folderContent = trFolder.entryList();
-            qCDebug(lcApplication()) << "folder content" << folderContent.join(QStringLiteral(", "));
         }
-        if (property("ui_lang").isNull()) {
-            setProperty("ui_lang", "C");
-        }
+        if (!translator->isEmpty())
+            installTranslator(translator);
+        if (!qtTranslator->isEmpty())
+            installTranslator(qtTranslator);
+        if (!qtkeychainTranslator->isEmpty())
+            installTranslator(qtkeychainTranslator);
+    } else {
+        qCWarning(lcApplication()) << "translation catalog failed to load";
+        const auto folderContent = trFolder.entryList();
+        qCDebug(lcApplication()) << "folder content" << folderContent.join(QStringLiteral(", "));
+    }
+    if (property("ui_lang").isNull()) {
+        setProperty("ui_lang", "C");
     }
 }
 
@@ -1122,6 +1132,9 @@ bool Application::event(QEvent *event)
             qCInfo(lcApplication) << errorParsingLocalFileEditingUrl;
             showHint(errorParsingLocalFileEditingUrl.toStdString());
         }
+    } else if (event->type() == QEvent::ApplicationPaletteChange) {
+        qCInfo(lcApplication) << "application palette changed";
+        emit systemPaletteChanged();
     }
     return SharedTools::QtSingleApplication::event(event);
 }

@@ -42,8 +42,8 @@ Flow2AuthWidget::Flow2AuthWidget(QWidget *parent)
     WizardCommon::initErrorLabel(_ui.errorLabel);
     _ui.errorLabel->setTextFormat(Qt::RichText);
 
-    connect(_ui.openLinkLabel, &LinkLabel::clicked, this, &Flow2AuthWidget::slotOpenBrowser);
-    connect(_ui.copyLinkLabel, &LinkLabel::clicked, this, &Flow2AuthWidget::slotCopyLinkToClipboard);
+    connect(_ui.openLinkButton, &QPushButton::clicked, this, &Flow2AuthWidget::slotOpenBrowser);
+    connect(_ui.copyLinkButton, &QPushButton::clicked, this, &Flow2AuthWidget::slotCopyLinkToClipboard);
 
     auto sizePolicy = _progressIndi->sizePolicy();
     sizePolicy.setRetainSizeWhenHidden(true);
@@ -65,19 +65,20 @@ void Flow2AuthWidget::setLogo()
 
 void Flow2AuthWidget::startAuth(Account *account)
 {
-    Flow2Auth *oldAuth = _asyncAuth.take();
-    if(oldAuth)
+    const auto oldAuth = _asyncAuth.release();
+    if (oldAuth) {
         oldAuth->deleteLater();
+    }
 
     _statusUpdateSkipCount = 0;
 
     if(account) {
         _account = account;
 
-        _asyncAuth.reset(new Flow2Auth(_account, this));
-        connect(_asyncAuth.data(), &Flow2Auth::result, this, &Flow2AuthWidget::slotAuthResult, Qt::QueuedConnection);
-        connect(_asyncAuth.data(), &Flow2Auth::statusChanged, this, &Flow2AuthWidget::slotStatusChanged);
-        connect(this, &Flow2AuthWidget::pollNow, _asyncAuth.data(), &Flow2Auth::slotPollNow);
+        _asyncAuth = std::make_unique<Flow2Auth>(_account, this);
+        connect(_asyncAuth.get(), &Flow2Auth::result, this, &Flow2AuthWidget::slotAuthResult, Qt::QueuedConnection);
+        connect(_asyncAuth.get(), &Flow2Auth::statusChanged, this, &Flow2AuthWidget::slotStatusChanged);
+        connect(this, &Flow2AuthWidget::pollNow, _asyncAuth.get(), &Flow2Auth::slotPollNow);
         _asyncAuth->start();
     }
 }
@@ -122,7 +123,7 @@ void Flow2AuthWidget::setError(const QString &error) {
 
 Flow2AuthWidget::~Flow2AuthWidget() {
     // Forget sensitive data
-    _asyncAuth.reset();
+    _asyncAuth.reset(nullptr);
 }
 
 void Flow2AuthWidget::slotOpenBrowser()
@@ -157,7 +158,7 @@ void Flow2AuthWidget::slotStatusChanged(Flow2Auth::PollStatus status, int second
             _statusUpdateSkipCount--;
             break;
         }
-        _ui.statusLabel->setText(tr("Waiting for authorization") + QString("… (%1)").arg(secondsLeft));
+        _ui.statusLabel->setText(tr("Waiting for authorization") + QStringLiteral("… (%1)").arg(secondsLeft));
         stopSpinner(true);
         break;
     case Flow2Auth::statusPollNow:
@@ -185,8 +186,8 @@ void Flow2AuthWidget::startSpinner()
     _progressIndi->setVisible(true);
     _progressIndi->startAnimation();
 
-    _ui.openLinkLabel->setEnabled(false);
-    _ui.copyLinkLabel->setEnabled(false);
+    _ui.openLinkButton->setEnabled(false);
+    _ui.copyLinkButton->setEnabled(false);
 }
 
 void Flow2AuthWidget::stopSpinner(bool showStatusLabel)
@@ -196,8 +197,8 @@ void Flow2AuthWidget::stopSpinner(bool showStatusLabel)
     _progressIndi->setVisible(false);
     _progressIndi->stopAnimation();
 
-    _ui.openLinkLabel->setEnabled(_statusUpdateSkipCount == 0);
-    _ui.copyLinkLabel->setEnabled(_statusUpdateSkipCount == 0);
+    _ui.openLinkButton->setEnabled(_statusUpdateSkipCount == 0);
+    _ui.copyLinkButton->setEnabled(_statusUpdateSkipCount == 0);
 }
 
 void Flow2AuthWidget::slotStyleChanged()
@@ -218,11 +219,9 @@ void Flow2AuthWidget::customizeStyle()
         }
     }
 
-    _ui.openLinkLabel->setText(tr("Reopen Browser"));
-    _ui.openLinkLabel->setAlignment(Qt::AlignCenter);
+    _ui.openLinkButton->setText(tr("Open Browser"));
 
-    _ui.copyLinkLabel->setText(tr("Copy Link"));
-    _ui.copyLinkLabel->setAlignment(Qt::AlignCenter);
+    _ui.copyLinkButton->setText(tr("Copy Link"));
 
     WizardCommon::customizeHintLabel(_ui.statusLabel);
 }

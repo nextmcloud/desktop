@@ -223,6 +223,13 @@ void FileInfo::setModTimeKeepEtag(const QString &relativePath, const QDateTime &
     file->lastModified = modTime;
 }
 
+void FileInfo::setIsLivePhoto(const QString &relativePath, const bool isLivePhoto)
+{
+    const auto file = find(relativePath);
+    Q_ASSERT(file);
+    file->isLivePhoto = isLivePhoto;
+}
+
 void FileInfo::modifyLockState(const QString &relativePath, LockState lockState, int lockType, const QString &lockOwner, const QString &lockOwnerId, const QString &lockEditorId, quint64 lockTime, quint64 lockTimeout)
 {
     FileInfo *file = findInvalidatingEtags(relativePath);
@@ -411,6 +418,7 @@ FakePropfindReply::FakePropfindReply(FileInfo &remoteRootFileInfo, QNetworkAcces
         xml.writeTextElement(ncUri, QStringLiteral("lock-time"), QString::number(fileInfo.lockTime));
         xml.writeTextElement(ncUri, QStringLiteral("lock-timeout"), QString::number(fileInfo.lockTimeout));
         xml.writeTextElement(ncUri, QStringLiteral("is-encrypted"), fileInfo.isEncrypted ? QString::number(1) : QString::number(0));
+        xml.writeTextElement(ncUri, QStringLiteral("metadata-files-live-photo"), fileInfo.isLivePhoto ? QString::number(1) : QString::number(0));
         buffer.write(fileInfo.extraDavProperties);
         xml.writeEndElement(); // prop
         xml.writeTextElement(davUri, QStringLiteral("status"), QStringLiteral("HTTP/1.1 200 OK"));
@@ -493,7 +501,7 @@ FileInfo *FakePutReply::perform(FileInfo &remoteRootFileInfo, const QNetworkRequ
         fileInfo->contentChar = putPayload.at(0);
     } else {
         // Assume that the file is filled with the same character
-        fileInfo = remoteRootFileInfo.create(fileName, putPayload.size(), putPayload.at(0));
+        fileInfo = remoteRootFileInfo.create(fileName, putPayload.size(), putPayload.isEmpty() ? ' ' : putPayload.at(0));
     }
     fileInfo->lastModified = OCC::Utility::qDateTimeFromTime_t(request.rawHeader("X-OC-Mtime").toLongLong());
     remoteRootFileInfo.find(fileName, /*invalidateEtags=*/true);
@@ -544,12 +552,12 @@ QVector<FileInfo *> FakePutMultiFileReply::performMultiPart(FileInfo &remoteRoot
         auto onePartBody = onePart.mid(headerEndPosition + 4, onePart.size() - headerEndPosition - 6);
         auto onePartHeaders = onePartHeaderPart.split(QStringLiteral("\r\n"));
         QMap<QString, QString> allHeaders;
-        for(auto oneHeader : onePartHeaders) {
+        for(const auto &oneHeader : onePartHeaders) {
             auto headerParts = oneHeader.split(QStringLiteral(": "));
-            allHeaders[headerParts.at(0)] = headerParts.at(1);
+            allHeaders[headerParts.at(0).toLower()] = headerParts.at(1);
         }
-        const auto fileName = allHeaders[QStringLiteral("X-File-Path")];
-        const auto modtime = allHeaders[QByteArrayLiteral("X-File-Mtime")].toLongLong();
+        const auto fileName = allHeaders[QStringLiteral("x-file-path")];
+        const auto modtime = allHeaders[QByteArrayLiteral("x-file-mtime")].toLongLong();
         Q_ASSERT(!fileName.isEmpty());
         Q_ASSERT(modtime > 0);
         FileInfo *fileInfo = remoteRootFileInfo.find(fileName);
@@ -560,7 +568,7 @@ QVector<FileInfo *> FakePutMultiFileReply::performMultiPart(FileInfo &remoteRoot
             // Assume that the file is filled with the same character
             fileInfo = remoteRootFileInfo.create(fileName, onePartBody.size(), onePartBody.at(0).toLatin1());
         }
-        fileInfo->lastModified = OCC::Utility::qDateTimeFromTime_t(request.rawHeader("X-OC-Mtime").toLongLong());
+        fileInfo->lastModified = OCC::Utility::qDateTimeFromTime_t(request.rawHeader("x-oc-mtime").toLongLong());
         remoteRootFileInfo.find(fileName, /*invalidateEtags=*/true);
         result.push_back(fileInfo);
     }
@@ -577,7 +585,7 @@ void FakePutMultiFileReply::respond()
         totalSize += fileInfo->size;
     });
 
-    for(auto fileInfo : qAsConst(_allFileInfo)) {
+    for(auto fileInfo : std::as_const(_allFileInfo)) {
         QJsonObject fileInfoReply;
         fileInfoReply.insert("error", QStringLiteral("false"));
         fileInfoReply.insert("etag", QLatin1String{fileInfo->etag});
@@ -1037,20 +1045,20 @@ QJsonObject FakeQNAM::forEachReplyPart(QIODevice *outgoingData,
     const QString boundaryValue = QStringLiteral("--") + contentType.mid(boundaryPosition, contentType.length() - boundaryPosition - 1) + QStringLiteral("\r\n");
     auto stringPutPayloadRef = QString{stringPutPayload}.left(stringPutPayload.size() - 2 - boundaryValue.size());
     auto allParts = stringPutPayloadRef.split(boundaryValue, Qt::SkipEmptyParts);
-    for (const auto &onePart : qAsConst(allParts)) {
+    for (const auto &onePart : std::as_const(allParts)) {
         auto headerEndPosition = onePart.indexOf(QStringLiteral("\r\n\r\n"));
         auto onePartHeaderPart = onePart.left(headerEndPosition);
         auto onePartHeaders = onePartHeaderPart.split(QStringLiteral("\r\n"));
         QMap<QString, QByteArray> allHeaders;
-        for(const auto &oneHeader : qAsConst(onePartHeaders)) {
+        for(const auto &oneHeader : std::as_const(onePartHeaders)) {
             auto headerParts = oneHeader.split(QStringLiteral(": "));
-            allHeaders[headerParts.at(0)] = headerParts.at(1).toLatin1();
+            allHeaders[headerParts.at(0).toLower()] = headerParts.at(1).toLatin1();
         }
 
         auto reply = replyFunction(allHeaders);
         if (reply.contains(QStringLiteral("error")) &&
                 reply.contains(QStringLiteral("etag"))) {
-            fullReply.insert(allHeaders[QStringLiteral("X-File-Path")], reply);
+            fullReply.insert(allHeaders[QStringLiteral("x-file-path")], reply);
         }
     }
 
@@ -1197,6 +1205,81 @@ void FakeFolder::switchToVfs(QSharedPointer<OCC::Vfs> vfs)
     });
 
     vfs->start(vfsParams);
+}
+
+void FakeFolder::enableEnforceWindowsFileNameCompatibility()
+{
+    syncEngine().account()->setCapabilities(QVariantMap{
+        {
+            "files",
+            QVariantMap{
+                {
+                    "forbidden_filename_basenames",
+                    QStringList{"con",
+                        "prn",
+                        "aux",
+                        "nul",
+                        "com0",
+                        "com1",
+                        "com2",
+                        "com3",
+                        "com4",
+                        "com5",
+                        "com6",
+                        "com7",
+                        "com8",
+                        "com9",
+                        "com¹",
+                        "com²",
+                        "com³",
+                        "lpt0",
+                        "lpt1",
+                        "lpt2",
+                        "lpt3",
+                        "lpt4",
+                        "lpt5",
+                        "lpt6",
+                        "lpt7",
+                        "lpt8",
+                        "lpt9",
+                        "lpt¹",
+                        "lpt²",
+                        "lpt³"
+                    }
+                },
+                {
+                    "forbidden_filename_characters",
+                    QStringList{"\\",
+                        "/",
+                        "<",
+                        ">",
+                        ":",
+                        "\"",
+                        "|",
+                        "?",
+                        "*",
+                        "\\",
+                        "/"
+                    }
+                },
+                {
+                    "forbidden_filename_extensions",
+                    QStringList{" ",
+                        ".",
+                        ".filepart",
+                        ".part",
+                        ".part"
+                    }
+                },
+                {
+                    "forbidden_filenames",
+                    QStringList{"\\",
+                        ".htaccess"
+                    }
+                }
+            }
+        }
+    });
 }
 
 FileInfo FakeFolder::currentLocalState()
@@ -1404,4 +1487,47 @@ FakeFileLockReply::FakeFileLockReply(FileInfo &remoteRootFileInfo,
     xml.writeTextElement(ncUri, QStringLiteral("lock-timeout"), QString::number(1800));
     xml.writeEndElement(); // prop
     xml.writeEndDocument();
+}
+
+FakeJsonReply::FakeJsonReply(QNetworkAccessManager::Operation op,
+                             const QNetworkRequest &request,
+                             QObject *parent,
+                             int httpReturnCode,
+                             const QJsonDocument &reply)
+    : FakeReply{parent}
+    , _body{reply.toJson()}
+{
+    setRequest(request);
+    setUrl(request.url());
+    setOperation(op);
+    open(QIODevice::ReadOnly);
+    setAttribute(QNetworkRequest::HttpStatusCodeAttribute, httpReturnCode);
+    QMetaObject::invokeMethod(this, &FakeJsonReply::respond, Qt::QueuedConnection);
+}
+
+void FakeJsonReply::respond()
+{
+    emit metaDataChanged();
+    emit readyRead();
+    // finishing can come strictly after readyRead was called
+    QTimer::singleShot(5, this, &FakeJsonReply::slotSetFinished);
+}
+
+void FakeJsonReply::slotSetFinished()
+{
+    setFinished(true);
+    emit finished();
+}
+
+qint64 FakeJsonReply::readData(char *buf, qint64 max)
+{
+    max = qMin<qint64>(max, _body.size());
+    memcpy(buf, _body.constData(), max);
+    _body = _body.mid(max);
+    return max;
+}
+
+qint64 FakeJsonReply::bytesAvailable() const
+{
+    return _body.size();
 }
