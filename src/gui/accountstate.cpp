@@ -202,8 +202,10 @@ void AccountState::signOutByUi()
 
 void AccountState::freshConnectionAttempt()
 {
-    if (isConnected())
+    if (isConnected()) {
         setState(Disconnected);
+    }
+
     checkConnectivity();
 }
 
@@ -218,6 +220,11 @@ void AccountState::signIn()
 bool AccountState::isConnected() const
 {
     return _state == Connected;
+}
+
+bool AccountState::needsToSignTermsOfService() const
+{
+    return _state == NeedToSignTermsOfService;
 }
 
 void AccountState::tagLastSuccessfullETagRequest(const QDateTime &tp)
@@ -314,7 +321,7 @@ void AccountState::checkConnectivity()
     _connectionErrors.clear();
     connect(conValidator, &ConnectionValidator::connectionResult,
         this, &AccountState::slotConnectionValidatorResult);
-    if (isConnected()) {
+    if (isConnected() || needsToSignTermsOfService()) {
         // Use a small authed propfind as a minimal ping when we're
         // already connected.
         conValidator->checkAuthentication();

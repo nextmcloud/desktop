@@ -114,6 +114,28 @@ ScrollView {
             }
         }
 
+        Button {
+            id: scrollToTopButton
+
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+
+            hoverEnabled: true
+            padding: Style.smallSpacing
+
+            Accessible.role: Accessible.Button
+            Accessible.name: qsTr("Scroll to top")
+            Accessible.onPressAction: scrollToTopButton.clicked()
+
+            icon.source: "image://svgimage-custom-color/chevron-double-up.svg/" + palette.buttonText
+            icon.width: Style.activityListButtonIconSize
+            icon.height: Style.activityListButtonIconSize
+
+            onClicked: controlRoot.scrollToTop()
+
+            visible: !controlRoot.atYBeginning && controlRoot.contentHeight > controlRoot.height
+        }
+
         Column {
             id: placeholderColumn
             width: parent.width * 0.8
@@ -126,7 +148,7 @@ ScrollView {
                 verticalAlignment: Image.AlignVCenter
                 horizontalAlignment: Image.AlignHCenter
                 fillMode: Image.PreserveAspectFit
-                source: "image://svgimage-custom-color/activity.svg/" + palette.midlight
+                source: "image://svgimage-custom-color/activity.svg/" + palette.windowText
             }
 
             EnforcedPlainTextLabel {

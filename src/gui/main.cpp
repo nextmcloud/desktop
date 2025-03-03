@@ -35,19 +35,26 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QQuickStyle>
+#include <QStyle>
+#include <QStyleFactory>
 #include <QQuickWindow>
 #include <QSurfaceFormat>
+#include <QOperatingSystemVersion>
 
 using namespace OCC;
 
 void warnSystray()
 {
-    QMessageBox::critical(nullptr, qApp->translate("main.cpp", "System Tray not available"),
+    QMessageBox::critical(
+        nullptr,
+        qApp->translate("main.cpp", "System Tray not available"),
         qApp->translate("main.cpp", "%1 requires on a working system tray. "
                                     "If you are running XFCE, please follow "
                                     "<a href=\"http://docs.xfce.org/xfce/xfce4-panel/systray\">these instructions</a>. "
                                     "Otherwise, please install a system tray application such as \"trayer\" and try again.")
-            .arg(Theme::instance()->appNameGUI()));
+            .arg(Theme::instance()->appNameGUI()),
+        QMessageBox::Ok
+    );
 }
 
 int main(int argc, char **argv)
@@ -79,18 +86,29 @@ int main(int argc, char **argv)
 
     QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
 
-    auto style = QStringLiteral("Fusion");
+    auto qmlStyle = QStringLiteral("Fusion");
+    auto widgetsStyle = QStringLiteral("");
 
 #if defined Q_OS_MAC
-    style = QStringLiteral("macOS");
+    qmlStyle = QStringLiteral("macOS");
 #elif defined Q_OS_WIN
-    style = QStringLiteral("Fusion");
+    if (QOperatingSystemVersion::current().version() < QOperatingSystemVersion::Windows11.version()) {
+        qmlStyle = QStringLiteral("Universal");
+        widgetsStyle = QStringLiteral("Fusion");
+    } else {
+        qmlStyle = QStringLiteral("FluentWinUI3");
+        widgetsStyle = QStringLiteral("windows11");
+    }
 #endif
 
-    QQuickStyle::setStyle(style);
+    QQuickStyle::setStyle(qmlStyle);
     QQuickStyle::setFallbackStyle(QStringLiteral("Fusion"));
 
     OCC::Application app(argc, argv);
+
+    if (!widgetsStyle.isEmpty()) {
+        QApplication::setStyle(QStyleFactory::create(widgetsStyle));
+    }
 
 #ifndef Q_OS_WIN
     signal(SIGPIPE, SIG_IGN);

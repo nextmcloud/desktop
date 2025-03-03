@@ -30,6 +30,9 @@ ApplicationWindow {
     flags: Qt.Window | Qt.Dialog
     visible: true
 
+    LayoutMirroring.enabled: Application.layoutDirection === Qt.RightToLeft
+    LayoutMirroring.childrenInherit: true
+
     width: Style.minimumWidthResolveConflictsDialog
     height: Style.minimumHeightResolveConflictsDialog
     minimumWidth: Style.minimumWidthResolveConflictsDialog
@@ -43,10 +46,10 @@ ApplicationWindow {
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.leftMargin: 20
-        anchors.rightMargin: 20
-        anchors.bottomMargin: 20
-        anchors.topMargin: 20
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+        anchors.bottomMargin: 5
+        anchors.topMargin: 10
         spacing: 15
         z: 2
 
@@ -67,7 +70,7 @@ ApplicationWindow {
 
         RowLayout {
             Layout.fillWidth: true
-            Layout.topMargin: 15
+            Layout.topMargin: 5
 
             CheckBox {
                 id: selectExisting
@@ -167,7 +170,7 @@ ApplicationWindow {
     }
 
     Rectangle {
-        color: Style.backgroundColor
+        color: palette.base
         anchors.fill: parent
         z: 1
     }
