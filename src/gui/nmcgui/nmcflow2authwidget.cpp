@@ -103,7 +103,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     leftSideVerticalLayout->insertSpacerItem(4, spacer5);
 
     getUi().label->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
-    getUi().verticalLayout_3->removeWidget(getUi().label);
     leftSideVerticalLayout->insertWidget(5, getUi().label);
     getUi().label->setText("Wechseln Sie bitte zu ihrem Browser und melden Sie sich dort an um ihr Konto zu verbinden.");
     getUi().label->setFixedWidth(282);
@@ -133,13 +132,9 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     QSpacerItem *spacer2 = new QSpacerItem(0,1, QSizePolicy::Fixed, QSizePolicy::Fixed);
     subMainHorizontalLayout->addSpacerItem(spacer2);
 
-
-    getUi().verticalLayout_3->removeWidget(getUi().errorLabel);
     mainVerticalLayout->addWidget(getUi().errorLabel);
 
-    getUi().verticalLayout_3->removeWidget(getUi().statusLabel);
     getUi().statusLabel->setFixedSize(0,0);
-
 
     //Delete previous installed layout, or you can not apply the new one.
     QLayout* layout = this->layout ();
