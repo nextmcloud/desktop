@@ -29,8 +29,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 
     //setFixedSize(700,502);
 
-    getUi().copyLinkLabel->setVisible(false);
-    getUi().openLinkLabel->setVisible(false);
     auto progressInd = getProgressIndicator();
     getUi().progressLayout->removeWidget(progressInd);
     progressInd->setVisible(false);
@@ -74,7 +72,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     //Create a horizontal Logo and label layout
     auto hLogoAndLabelLayout = new QHBoxLayout(this);
     hLogoAndLabelLayout->setContentsMargins(0,0,0,0);
-    getUi().verticalLayout_3->removeWidget(getUi().logoLabel);
     getUi().logoLabel->setFixedSize(36,36);
     getUi().logoLabel->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/tlogocarrier.svg")).pixmap(36,36));
 
