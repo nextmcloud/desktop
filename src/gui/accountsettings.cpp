@@ -164,7 +164,7 @@ protected:
             const auto index = folderList->indexAt(pos);
             if (model->classify(index) == FolderStatusModel::RootFolder &&
                 (FolderStatusDelegate::errorsListRect(folderList->visualRect(index)).contains(pos) ||
-                    FolderStatusDelegate::optionsButtonRect(folderList->visualRect(index),folderList->layoutDirection()).contains(pos))) {
+                    FolderStatusDelegate::moreRectPos(folderList->visualRect(index)).contains(pos))) {
                 shape = Qt::PointingHandCursor;
             }
             folderList->setCursor(shape);
@@ -612,9 +612,6 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         }
     }
 
-    ac = menu.addAction(tr("Edit Ignored Files"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
-
     ac = menu.addAction(tr("Create new folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
     ac->setEnabled(QFile::exists(fileName));
@@ -682,9 +679,6 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
     auto ac = menu->addAction(tr("Open folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentFolder);
 
-    ac = menu->addAction(tr("Edit Ignored Files"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
-
     ac = menu->addAction(tr("Create new folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
     ac->setEnabled(QFile::exists(folder->path()));
@@ -725,52 +719,16 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
     }
 
-    if (const auto mode = bestAvailableVfsMode();
-        Theme::instance()->showVirtualFilesOption()
-        && !folder->virtualFilesEnabled() && Vfs::checkAvailability(folder->path(), mode)) {
-        if (mode == Vfs::WindowsCfApi || ConfigFile().showExperimentalOptions()) {
-            ac = menu->addAction(tr("Enable virtual file support %1 …").arg(mode == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
-            // TODO: remove when UX decision is made
-            ac->setEnabled(!Utility::isPathWindowsDrivePartitionRoot(folder->path()));
-            //
-            connect(ac, &QAction::triggered, this, &AccountSettings::slotEnableVfsCurrentFolder);
-        }
-    }
-
-
     menu->popup(treeView->mapToGlobal(pos));
 }
 
 void AccountSettings::slotFolderListClicked(const QModelIndex &indx)
 {
-    if (indx.data(FolderStatusDelegate::AddButton).toBool()) {
-        // "Add Folder Sync Connection"
-        const auto treeView = _ui->_folderList;
-        const auto pos = treeView->mapFromGlobal(QCursor::pos());
-        QStyleOptionViewItem opt;
-        opt.initFrom(treeView);
-        const auto btnRect = treeView->visualRect(indx);
-        const auto btnSize = treeView->itemDelegateForIndex(indx)->sizeHint(opt, indx);
-        const auto actual = QStyle::visualRect(opt.direction, btnRect, QRect(btnRect.topLeft(), btnSize));
-        if (!actual.contains(pos)) {
-            return;
-        }
-
-        if (indx.flags() & Qt::ItemIsEnabled) {
-            slotAddFolder();
-        } else {
-            QToolTip::showText(
-                QCursor::pos(),
-                _model->data(indx, Qt::ToolTipRole).toString(),
-                this);
-        }
-        return;
-    }
     if (_model->classify(indx) == FolderStatusModel::RootFolder) {
         // tries to find if we clicked on the '...' button.
         const auto treeView = _ui->_folderList;
         const auto pos = treeView->mapFromGlobal(QCursor::pos());
-        if (FolderStatusDelegate::optionsButtonRect(treeView->visualRect(indx), layoutDirection()).contains(pos)) {
+        if (FolderStatusDelegate::moreRectPos(treeView->visualRect(indx)).contains(pos)) {
             slotCustomContextMenuRequested(pos);
             return;
         }
