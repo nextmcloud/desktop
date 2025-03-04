@@ -29,8 +29,8 @@ RowLayout {
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
         Layout.topMargin: Style.trayHorizontalMargin
         Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
-        Layout.bottomMargin: Style.trayHorizontalMargin
-        Layout.leftMargin: Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
+        Layout.bottomMargin: 16
+        Layout.leftMargin: Style.nmcListViewLeftPadding
 
         padding: 0
 
@@ -45,6 +45,7 @@ RowLayout {
         Layout.topMargin: 8
         Layout.rightMargin: Style.trayHorizontalMargin
         Layout.bottomMargin: 8
+        Layout.leftMargin: Style.nmcProgressFieldTextOffset
         Layout.fillWidth: true
         Layout.fillHeight: true
 
@@ -55,7 +56,7 @@ RowLayout {
 
             text: syncStatus.syncStatusString
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Style.topLinePixelSize
+            font.pixelSize: Style.nmcFontSizeSyncText
             font.bold: true
             wrapMode: Text.Wrap
         }
@@ -80,7 +81,7 @@ RowLayout {
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusDetailString
-            visible: syncStatus.syncStatusDetailString !== ""
+            visible: false
             font.pixelSize: Style.subLinePixelSize
             wrapMode: Text.Wrap
         }
@@ -94,6 +95,8 @@ RowLayout {
         text: qsTr("Sync now")
 
         padding: Style.smallSpacing
+        textColor: Style.nmcTextInButtonColor
+        textColorHovered: Style.nmcTextInButtonColor
 
         visible: !activityModel.hasSyncConflicts &&
                  !syncStatus.syncing &&
@@ -105,12 +108,27 @@ RowLayout {
                 NC.UserModel.currentUser.forceSyncNow();
             }
         }
+
+        HoverHandler {
+            id: mouseSync
+            acceptedDevices: PointerDevice.Mouse
+        }
+
+        background: Rectangle {
+            color: mouseSync.hovered? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
+        }
     }
 
     Button {
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Resolve conflicts")
+
+        padding: Style.smallSpacing
+        textColor: Style.nmcTextInButtonColor
+        textColorHovered: Style.nmcTextInButtonColor
 
         visible: activityModel.hasSyncConflicts &&
                  !syncStatus.syncing &&
@@ -129,5 +147,16 @@ RowLayout {
         enabled: visible
 
         onClicked: NC.UserModel.openCurrentAccountServer()
+
+        HoverHandler {
+            id: mouseConflict
+            acceptedDevices: PointerDevice.Mouse
+        }
+
+        background: Rectangle {
+            color: mouseConflict.hovered? Style.nmcConflictHoverColor : Style.nmcConflictColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
+        }
     }
 }
