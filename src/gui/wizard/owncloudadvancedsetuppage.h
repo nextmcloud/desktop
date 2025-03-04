@@ -51,6 +51,16 @@ public:
     void setMultipleFoldersExist(bool exist);
     void directoriesCreated();
 
+    QScopedPointer<ElidedLabel> &getFilePathLabel()
+    {
+        return _filePathLabel;
+    }
+
+    OwncloudWizard *ocWizard() const
+    {
+        return _ocWizard;
+    }
+
 signals:
     void createLocalAndRemoteFolders(const QString &, const QString &);
 
@@ -65,6 +75,12 @@ private slots:
     void slotVirtualFileSyncClicked();
     void slotQuotaRetrieved(const QVariantMap &result);
     void slotQuotaRetrievedWithError(QNetworkReply *reply);
+
+protected:
+    Ui_OwncloudAdvancedSetupPage &getUi()
+    {
+        return _ui;
+    }
 
 private:
     void setRadioChecked(QRadioButton *radio);
