@@ -18,6 +18,7 @@ import QtQuick.Layouts
 
 import "../"
 import "../filedetails/"
+import "../nmcgui"
 
 import Style
 import com.nextcloud.desktopclient
@@ -29,24 +30,52 @@ Rectangle {
     readonly property alias openLocalFolderButton: openLocalFolderButton
     readonly property alias appsMenu: appsMenu
 
-    color: Style.currentUserHeaderColor
+    color: Style.nmcTrayWindowHeaderBackgroundColor
+    height: Style.nmcTrayWindowHeaderHeight
 
     palette {
         text: Style.currentUserHeaderTextColor
         windowText: Style.currentUserHeaderTextColor
         buttonText: Style.currentUserHeaderTextColor
+    }    
+    
+    Rectangle {
+        id: whiteMargin
+        anchors.top: root.top
+        anchors.left: root.left
+        width: 10
+        height: 64
+        color: Style.nmcTrayWindowHeaderBackgroundColor
+    }
+
+    Rectangle {
+        id: tLogo
+        anchors.top: root.top
+        anchors.left: whiteMargin.right
+        width: Style.nmcTrayWindowLogoWidth
+        height: Style.nmcTrayWindowLogoWidth
+
+        Image {
+            anchors.fill: parent
+            cache: false
+            source: Style.nmcTLogoPath
+            fillMode: Image.Stretch
+        }
     }
 
     RowLayout {
         id: trayWindowHeaderLayout
 
         spacing: 0
-        anchors.fill: parent
+        anchors {
+            left: tLogo.right
+            top: root.top
+            right: root.right
+        }
 
         CurrentAccountHeaderButton {
             id: currentAccountHeaderButton
             parentBackgroundColor: root.color
-            Layout.preferredWidth:  Style.currentAccountButtonWidth
             Layout.fillHeight: true
         }
 
@@ -55,9 +84,58 @@ Rectangle {
             Layout.fillWidth: true
         }
 
+        Rectangle {
+            id: trayWindowWebsiteButtonContainer
+            width: 92
+            height: Style.nmcTrayWindowHeaderHeight
+
+            NMCHeaderButton {
+                id: trayWindowWebsiteButton
+                iconSource: "qrc:///client/theme/NMCIcons/website.svg"
+                iconText: qsTranslate("", "OPEN_WEBSITE")
+            }
+
+            HoverHandler {
+                id: websiteHover
+                acceptedDevices: PointerDevice.Mouse
+                onHoveredChanged: trayWindowWebsiteButtonContainer.color = hovered ? Style.nmcTrayWindowHeaderHighlightColor : "transparent"
+            }
+
+            TapHandler {
+                onTapped: UserModel.openCurrentAccountServer()
+            }
+        }
+
+        Rectangle {
+            id: trayWindowLocalButtonContainer
+            width: 92
+            height: Style.nmcTrayWindowHeaderHeight
+
+            NMCHeaderButton {
+                id: trayWindowLocalButton
+                iconSource: "qrc:///client/theme/black/folder.svg"
+                iconText: qsTranslate("", "LOCAL_FOLDER")
+            }
+
+            HoverHandler {
+                id: localHover
+                acceptedDevices: PointerDevice.Mouse
+                onHoveredChanged: trayWindowLocalButtonContainer.color = hovered ? Style.nmcTrayWindowHeaderHighlightColor : "transparent"
+            }
+
+            TapHandler {
+                onTapped: UserModel.openCurrentAccountLocalFolder()
+            }
+        }
+
+        Rectangle {
+            width: 10
+            color: Style.nmcTrayWindowHeaderBackgroundColor
+        }
+
         TrayFoldersMenuButton {
             id: openLocalFolderButton
-
+            visible: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
@@ -77,7 +155,7 @@ Rectangle {
 
         HeaderButton {
             id: trayWindowFeaturedAppButton
-
+            visible: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
@@ -93,6 +171,7 @@ Rectangle {
 
         HeaderButton {
             id: trayWindowAppsButton
+            visible: false
             icon.source: "image://svgimage-custom-color/more-apps.svg/" + palette.windowText
 
             onClicked: {

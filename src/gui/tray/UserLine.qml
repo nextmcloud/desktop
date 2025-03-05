@@ -16,8 +16,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtGraphicalEffects 1.0
-
+import QtQuick.Effects 6.0 
 import "../nmcgui/"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
@@ -35,14 +34,6 @@ AbstractButton {
 
     height: Style.trayWindowHeaderHeight
 
-    background: Rectangle {
-        anchors.fill: parent
-        anchors.margins: 1
-        color: (userLine.hovered || userLine.visualFocus) ?
-                   palette.highlight : palette.window
-        radius: Style.halfTrayWindowRadius
-    }
-
     contentItem: RowLayout {
         id: userLineLayout
         spacing: Style.userLineSpacing
@@ -55,8 +46,7 @@ AbstractButton {
             source: Style.nmcAccountAvatarIcon
             Layout.preferredHeight: Style.accountAvatarSize
             Layout.preferredWidth: Style.accountAvatarSize
-
-            // NMC Customization: These changes sharpen the image
+            visible: false
             sourceSize.width: Style.nmcTrayWindowIconWidth
             sourceSize.height: Style.nmcTrayWindowIconWidth
 
@@ -83,6 +73,17 @@ AbstractButton {
                 Accessible.role: Accessible.Indicator
                 Accessible.name: model.desktopNotificationsAllowed ? qsTr("Current account status is online") : qsTr("Current account status is do not disturb")
             }
+        }
+
+        // this is added to add a hover effect on the account avatar image
+        ColorOverlay {
+            cached: true
+            color: Style.ncTextColor
+            width: source.width
+            height: source.height
+            source: accountAvatar
+            anchors.leftMargin: 16
+            Layout.leftMargin: 16
         }
 
         ColumnLayout {
@@ -146,34 +147,17 @@ AbstractButton {
             Layout.fillHeight: true
             flat: true
 
-            icon.source: "qrc:///client/theme/more.svg"
-            icon.color: Style.ncTextColor
-
             Accessible.role: Accessible.ButtonMenu
             Accessible.name: qsTr("Account actions")
             Accessible.onPressAction: userMoreButtonMouseArea.clicked()
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
+            icon.source: "qrc:///client/theme/more.svg" + palette.windowText
+
             AutoSizingMenu {
                 id: userMoreButtonMenu
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-                height: Math.min(implicitHeight, maxMenuHeight)
-                width: 170
-
-                background: Rectangle {
-                    border.color: palette.dark
-                    radius: Style.nmcStandardRadius
-                    color: palette.base
-                    layer.enabled: true
-                    layer.effect: DropShadow {
-                        transparentBorder: true
-                        horizontalOffset: 0
-                        verticalOffset: 0
-                        radius: 6
-                        color: "#40000000"
-                    }
-                }
 
                 MenuItem {
                     visible: model.isConnected && model.serverHasUserStatus
@@ -227,19 +211,7 @@ AbstractButton {
                     Accessible.role: Accessible.Button
                     Accessible.name: text
                     Accessible.onPressAction: removeAccountButton.clicked()
-
-                    background: Rectangle {
-                        radius: Style.halfTrayWindowRadius
-                        color: parent.hovered ? palette.highlight : palette.window
-                    }
                }
-
-                // NMC customization: spacer at the bottom of the menu
-                Rectangle {
-                    height: 8
-                    color: "white"
-                    radius: Style.nmcStandardRadius
-                }
             }
         }
     }

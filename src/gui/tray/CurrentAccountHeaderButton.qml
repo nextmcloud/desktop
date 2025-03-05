@@ -31,6 +31,10 @@ Button {
 
     display: AbstractButton.IconOnly
     flat: true
+    hoverEnabled: true
+
+    Layout.preferredWidth:  Style.nmcCurrentAccountButtonWidth
+    Layout.preferredHeight: trayWindowHeader.height
 
     Accessible.role: Accessible.ButtonMenu
     Accessible.name: qsTr("Current account")
@@ -52,10 +56,10 @@ Button {
 
         // x coordinate grows towards the right
         // y coordinate grows towards the bottom
-        x: (root.x + 2)
-        y: (root.y + Style.trayWindowHeaderHeight + 2)
+        x: (0 - tLogo.width)
+        y: (root.y + Style.nmcTrayWindowHeaderHeight - Style.nmcTrayWindowMenuOverlayMargin)
 
-        width: (Style.rootWidth - 2)
+        width: (Style.nmcCurrentAccountButtonWidth + tLogo.width + 30)
         height: Math.min(implicitHeight, maxMenuHeight)
         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
@@ -102,36 +106,70 @@ Button {
 
         MenuSeparator {}
 
-        MenuItem {
+        NMCMenuItem {
             id: syncPauseButton
-            font.pixelSize: Style.topLinePixelSize
-            hoverEnabled: true
+            icon.source: Style.nmcPauseIcon
+            icon.height: Style.nmcTrayWindowIconWidth
+            icon.width: Style.nmcTrayWindowIconWidth
+            icon.color: Style.ncTextColor
+            leftPadding: Style.nmcMenuSubItemLeftPadding
+            height: Style.nmcMenuSubItemHeight
+
+            Text {
+                color: Style.nmcTrayWindowHeaderTextColor
+            }
+
             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
             Accessible.role: Accessible.MenuItem
             Accessible.name: Systray.syncIsPaused ? qsTr("Resume sync for all") : qsTr("Pause sync for all")
             Accessible.onPressAction: syncPauseButton.clicked()
         }
 
-        MenuItem {
+        NMCMenuItem {
             id: settingsButton
             text: qsTr("Settings")
-            font.pixelSize: Style.topLinePixelSize
-            hoverEnabled: true
+            icon.source: Style.nmcSettingsIcon
+            icon.height: Style.nmcTrayWindowIconWidth
+            icon.width: Style.nmcTrayWindowIconWidth
+            icon.color: Style.ncTextColor
+            leftPadding: Style.nmcMenuSubItemLeftPadding
+            height: Style.nmcMenuSubItemHeight
+
+            Text {
+                color: Style.nmcTrayWindowHeaderTextColor
+            }
+
             onClicked: Systray.openSettings()
             Accessible.role: Accessible.MenuItem
             Accessible.name: text
             Accessible.onPressAction: settingsButton.clicked()
         }
 
-        MenuItem {
+        NMCMenuItem {
             id: exitButton
             text: qsTr("Exit");
-            font.pixelSize: Style.topLinePixelSize
-            hoverEnabled: true
+            icon.source: Style.nmcCloseIcon
+            icon.height: Style.nmcTrayWindowIconWidth
+            icon.width: Style.nmcTrayWindowIconWidth
+            icon.color: Style.ncTextColor
+            leftPadding: Style.nmcMenuSubItemLeftPadding
+            height: Style.nmcMenuSubItemHeight
+
+            Text {
+                color: Style.nmcTrayWindowHeaderTextColor
+            }
+
             onClicked: Systray.shutdown()
             Accessible.role: Accessible.MenuItem
             Accessible.name: text
             Accessible.onPressAction: exitButton.clicked() 
+        }
+
+        // NMC customization: spacer at the bottom of the menu
+        Rectangle {
+            height: 8
+            color: "white"
+            radius: Style.nmcStandardRadius
         }
     }
 
@@ -139,7 +177,7 @@ Button {
         id: accountControlRowLayout
 
         height: Style.trayWindowHeaderHeight
-        width:  Style.rootWidth
+        width:  Style.nmcCurrentAccountButtonWidth
         spacing: 0
 
         Image {
@@ -148,9 +186,9 @@ Button {
             Layout.leftMargin: Style.trayHorizontalMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
-            source: (UserModel.currentUser && UserModel.currentUser.avatar !== "") ? UserModel.currentUser.avatar : "image://avatars/fallbackWhite"
-            Layout.preferredHeight: Style.accountAvatarSize
-            Layout.preferredWidth: Style.accountAvatarSize
+            source: Style.nmcAccountAvatarIcon
+            Layout.preferredHeight: Style.nmcTrayWindowIconWidth
+            Layout.preferredWidth: Style.nmcTrayWindowIconWidth
 
             Accessible.role: Accessible.Graphic
             Accessible.name: qsTr("Current account avatar")

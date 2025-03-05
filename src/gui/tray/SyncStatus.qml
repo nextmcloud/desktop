@@ -96,7 +96,7 @@ RowLayout {
 
         padding: Style.smallSpacing
         textColor: Style.nmcTextInButtonColor
-        textColorHovered: Style.nmcTextInButtonColor
+        textColorHovered: Style.currentUserHeaderTextColor
 
         visible: !activityModel.hasSyncConflicts &&
                  !syncStatus.syncing &&
@@ -111,11 +111,11 @@ RowLayout {
 
         HoverHandler {
             id: mouseSync
-            acceptedDevices: PointerDevice.Mouse
+            acceptedDevices: PointerDevice.AllPointerTypes
         }
 
         background: Rectangle {
-            color: mouseSync.hovered? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
+            color: mouseSync.hovered ? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
             radius: Style.nmcStandardRadius
             height: Style.nmcTraySyncButtonHeight
         }
@@ -150,11 +150,11 @@ RowLayout {
 
         HoverHandler {
             id: mouseConflict
-            acceptedDevices: PointerDevice.Mouse
+            acceptedDevices: PointerDevice.AllPointerTypes
         }
 
         background: Rectangle {
-            color: mouseConflict.hovered? Style.nmcConflictHoverColor : Style.nmcConflictColor
+            color: mouseConflict.hovered ? Style.nmcConflictHoverColor : Style.nmcConflictColor
             radius: Style.nmcStandardRadius
             height: Style.nmcTraySyncButtonHeight
         }

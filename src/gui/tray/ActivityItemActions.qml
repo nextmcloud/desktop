@@ -51,11 +51,11 @@ Repeater {
 
         HoverHandler {
             id: mouse
-            acceptedDevices: PointerDevice.Mouse
+            acceptedDevices: PointerDevice.AllPointerTypes
         }
 
         background: Rectangle {
-            color: mouse.hovered? Style.nmcConflictHoverColor : Style.nmcConflictColor
+            color: mouse.hovered ? Style.nmcConflictHoverColor : Style.nmcConflictColor
             radius: Style.nmcStandardRadius
             height: Style.nmcTraySyncButtonHeight
         }
