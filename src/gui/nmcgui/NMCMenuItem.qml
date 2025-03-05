@@ -12,15 +12,17 @@
  * for more details.
  */
 
-import QtQml 2.15
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQml 6.5
+import QtQuick 6.5
+import QtQuick.Controls 6.5
 
 import Style 1.0
 
 MenuItem {
     icon.color: hovered ? Style.ncBlue : Style.ncTextColor
-    palette.windowText: hovered ? Style.nmcTrayWindowHeaderTextColor : Style.nmcTrayWindowHeaderTextColor
-    hoverEnabled: true
-    font.pixelSize: Style.topLinePixelSize
+    contentItem: Text {
+        text: parent.text
+        color: hovered ? Style.nmcTrayWindowHeaderTextColor : Style.nmcTrayWindowHeaderTextColor
+        font.pixelSize: Style.topLinePixelSize
+    }
 }
