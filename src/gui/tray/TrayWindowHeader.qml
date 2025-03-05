@@ -29,7 +29,8 @@ Rectangle {
     readonly property alias openLocalFolderButton: openLocalFolderButton
     readonly property alias appsMenu: appsMenu
 
-    color: Style.currentUserHeaderColor
+    color: Style.nmcTrayWindowHeaderBackgroundColor
+    height: Style.nmcTrayWindowHeaderHeight
 
     palette {
         text: Style.currentUserHeaderTextColor
@@ -57,7 +58,7 @@ Rectangle {
 
         TrayFoldersMenuButton {
             id: openLocalFolderButton
-
+            visible: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
@@ -77,7 +78,7 @@ Rectangle {
 
         HeaderButton {
             id: trayWindowFeaturedAppButton
-
+            visible: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
@@ -93,6 +94,7 @@ Rectangle {
 
         HeaderButton {
             id: trayWindowAppsButton
+            visible: false
             icon.source: "image://svgimage-custom-color/more-apps.svg/" + palette.windowText
 
             onClicked: {
