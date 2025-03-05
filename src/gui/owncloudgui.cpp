@@ -43,6 +43,7 @@
 #include "tray/syncstatussummary.h"
 #include "tray/unifiedsearchresultslistmodel.h"
 #include "filesystem.h"
+#include "nmcgui/nmcsortedactivitylistmodel.h"
 
 #ifdef WITH_LIBCLOUDPROVIDERS
 #include "cloudproviders/cloudprovidermanager.h"
@@ -143,6 +144,7 @@ ownCloudGui::ownCloudGui(Application *parent)
     qmlRegisterType<ShareeModel>("com.nextcloud.desktopclient", 1, 0, "ShareeModel");
     qmlRegisterType<SortedShareModel>("com.nextcloud.desktopclient", 1, 0, "SortedShareModel");
     qmlRegisterType<SyncConflictsModel>("com.nextcloud.desktopclient", 1, 0, "SyncConflictsModel");
+    qmlRegisterType<NMCSortedActivityListModel>("com.nextcloud.desktopclient", 1, 0, "NMCSortedActivityListModel");
 
     qmlRegisterUncreatableType<QAbstractItemModel>("com.nextcloud.desktopclient", 1, 0, "QAbstractItemModel", "QAbstractItemModel");
     qmlRegisterUncreatableType<Activity>("com.nextcloud.desktopclient", 1, 0, "Activity", "Activity");
