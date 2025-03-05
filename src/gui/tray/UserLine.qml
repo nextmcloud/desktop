@@ -16,6 +16,8 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Effects 6.0 
+import "../nmcgui/"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
@@ -41,9 +43,12 @@ AbstractButton {
             Layout.leftMargin: Style.accountIconsMenuMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
-            source: model.avatar !== "" ? model.avatar : Style.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
+            source: Style.nmcAccountAvatarIcon
             Layout.preferredHeight: Style.accountAvatarSize
             Layout.preferredWidth: Style.accountAvatarSize
+            visible: false
+            sourceSize.width: Style.nmcTrayWindowIconWidth
+            sourceSize.height: Style.nmcTrayWindowIconWidth
 
             Rectangle {
                 id: accountStatusIndicatorBackground
@@ -70,6 +75,17 @@ AbstractButton {
             }
         }
 
+        // this is added to add a hover effect on the account avatar image
+        ColorOverlay {
+            cached: true
+            color: Style.ncTextColor
+            width: source.width
+            height: source.height
+            source: accountAvatar
+            anchors.leftMargin: 16
+            Layout.leftMargin: 16
+        }
+
         ColumnLayout {
             id: accountLabels
             Layout.leftMargin: Style.accountLabelsSpacing
@@ -84,7 +100,7 @@ AbstractButton {
                 text: name
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
-                font.bold: true
+                font.bold: false
             }
 
             RowLayout {
@@ -121,6 +137,7 @@ AbstractButton {
                 text: server
                 elide: Text.ElideRight
                 font.pixelSize: Style.subLinePixelSize
+                visible: false
             }
         }
 
@@ -136,7 +153,7 @@ AbstractButton {
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
-            icon.source: "image://svgimage-custom-color/more.svg/" + palette.windowText
+            icon.source: "qrc:///client/theme/more.svg" + palette.windowText
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
@@ -151,10 +168,14 @@ AbstractButton {
                     onClicked: showUserStatusSelector(index)
                }
 
-                MenuItem {
+                NMCMenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
-                    font.pixelSize: Style.topLinePixelSize
-                    hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+                    icon.source: Style.nmcLogOutIcon
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
@@ -173,11 +194,15 @@ AbstractButton {
                     }
                }
 
-                MenuItem {
+                NMCMenuItem {
                     id: removeAccountButton
                     text: qsTr("Remove account")
-                    font.pixelSize: Style.topLinePixelSize
-                    hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+                    icon.source: Style.nmcRemoveIcon
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()
