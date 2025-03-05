@@ -44,6 +44,20 @@ Repeater {
 
         onClicked: isTalkReplyButton ? root.showReplyField() : root.triggerAction(model.index)
 
+        textColor: Style.nmcTextInButtonColor
+        textColorHovered: Style.nmcTextInButtonColor
+
         visible: verb !== "REPLY" || (verb === "REPLY" && root.talkReplyButtonVisible)
+
+        HoverHandler {
+            id: mouse
+            acceptedDevices: PointerDevice.AllPointerTypes
+        }
+
+        background: Rectangle {
+            color: mouse.hovered ? Style.nmcConflictHoverColor : Style.nmcConflictColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
+        }
     }
 }
