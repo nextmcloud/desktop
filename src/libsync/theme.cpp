@@ -865,7 +865,8 @@ double Theme::getColorDarkness(const QColor &color)
 
 bool Theme::isDarkColor(const QColor &color)
 {
-    return getColorDarkness(color) > 0.5;
+    Q_UNUSED(color)
+    return false;
 }
 
 QColor Theme::getBackgroundAwareLinkColor(const QColor &backgroundColor)
@@ -1012,16 +1013,6 @@ bool Theme::darkMode() const
 {
     connectToPaletteSignal();
     const auto isDarkFromStyle = [] {
-        switch (qGuiApp->styleHints()->colorScheme())
-        {
-        case Qt::ColorScheme::Dark:
-            return true;
-        case Qt::ColorScheme::Light:
-            return false;
-        case Qt::ColorScheme::Unknown:
-            return Theme::isDarkColor(QGuiApplication::palette().window().color());
-        }
-
         return false;
     };
 
