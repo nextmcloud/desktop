@@ -26,10 +26,9 @@ Rectangle {
     id: root
 
     readonly property alias currentAccountHeaderButton: currentAccountHeaderButton
-    readonly property alias openLocalFolderButton: openLocalFolderButton
-    readonly property alias appsMenu: appsMenu
 
     color: Style.currentUserHeaderColor
+    height: Style.nmcTrayWindowHeaderHeight
 
     palette {
         text: Style.currentUserHeaderTextColor
