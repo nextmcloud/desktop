@@ -29,7 +29,8 @@ Rectangle {
     readonly property alias openLocalFolderButton: openLocalFolderButton
     readonly property alias appsMenu: appsMenu
 
-    color: Style.currentUserHeaderColor
+    color: Style.nmcTrayWindowHeaderBackgroundColor
+    height: Style.nmcTrayWindowHeaderHeight
 
     palette {
         text: Style.currentUserHeaderTextColor
@@ -37,16 +38,41 @@ Rectangle {
         buttonText: Style.currentUserHeaderTextColor
     }
 
+    Rectangle {
+        id: whiteMargin
+        anchors.top: root.top
+        anchors.left: root.left
+        width: 10
+        height: 64
+        color: Style.nmcTrayWindowHeaderBackgroundColor
+    }
+
+    Rectangle {
+        id: tLogo
+        anchors.top: root.top
+        anchors.left: whiteMargin.right
+        width: Style.nmcTrayWindowLogoWidth
+        height: Style.nmcTrayWindowLogoWidth
+
+        Image {
+            anchors.fill: parent
+            cache: false
+            source: Style.nmcTLogoPath
+            fillMode: Image.Stretch
+        }
+    }
+
     RowLayout {
         id: trayWindowHeaderLayout
 
         spacing: 0
-        anchors.fill: parent
+        anchors.left: tLogo.right
+        anchors.top: root.top
+        anchors.right: root.right
 
         CurrentAccountHeaderButton {
             id: currentAccountHeaderButton
             parentBackgroundColor: root.color
-            Layout.preferredWidth:  Style.currentAccountButtonWidth
             Layout.fillHeight: true
         }
 
@@ -57,12 +83,11 @@ Rectangle {
 
         TrayFoldersMenuButton {
             id: openLocalFolderButton
-
+            visible: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
 
-            visible: currentUser.hasLocalFolder
             currentUser: UserModel.currentUser
             parentBackgroundColor: root.color
 
@@ -77,12 +102,11 @@ Rectangle {
 
         HeaderButton {
             id: trayWindowFeaturedAppButton
-
+            visible: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
 
-            visible: UserModel.currentUser.isFeaturedAppEnabled
             icon.source: UserModel.currentUser.featuredAppIcon + "/" + palette.windowText
             onClicked: UserModel.openCurrentAccountFeaturedApp()
 
@@ -94,7 +118,7 @@ Rectangle {
         HeaderButton {
             id: trayWindowAppsButton
             icon.source: "image://svgimage-custom-color/more-apps.svg/" + palette.windowText
-
+            visible: false
             onClicked: {
                 if(appsMenu.count <= 0) {
                     UserModel.openCurrentAccountServer()
