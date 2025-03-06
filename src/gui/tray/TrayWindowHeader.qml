@@ -57,7 +57,7 @@ Rectangle {
 
         TrayFoldersMenuButton {
             id: openLocalFolderButton
-
+            visible: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
@@ -77,7 +77,7 @@ Rectangle {
 
         HeaderButton {
             id: trayWindowFeaturedAppButton
-
+            visible: false
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
@@ -94,7 +94,7 @@ Rectangle {
         HeaderButton {
             id: trayWindowAppsButton
             icon.source: "image://svgimage-custom-color/more-apps.svg/" + palette.windowText
-
+            visible: false
             onClicked: {
                 if(appsMenu.count <= 0) {
                     UserModel.openCurrentAccountServer()
