@@ -710,10 +710,6 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
 
         ac = availabilityMenu->addAction(Utility::vfsFreeSpaceActionText());
         connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::OnlineOnly); });
-
-        ac = menu->addAction(tr("Disable virtual file support …"));
-        connect(ac, &QAction::triggered, this, &AccountSettings::slotDisableVfsCurrentFolder);
-        ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
     }
 
     menu->popup(treeView->mapToGlobal(pos));
