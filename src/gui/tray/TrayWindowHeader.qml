@@ -62,7 +62,6 @@ Rectangle {
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
 
-            visible: currentUser.hasLocalFolder
             currentUser: UserModel.currentUser
             parentBackgroundColor: root.color
 
@@ -82,7 +81,6 @@ Rectangle {
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
 
-            visible: UserModel.currentUser.isFeaturedAppEnabled
             icon.source: UserModel.currentUser.featuredAppIcon + "/" + palette.windowText
             onClicked: UserModel.openCurrentAccountFeaturedApp()
 
