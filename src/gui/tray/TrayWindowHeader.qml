@@ -73,7 +73,6 @@ Rectangle {
         CurrentAccountHeaderButton {
             id: currentAccountHeaderButton
             parentBackgroundColor: root.color
-            Layout.preferredWidth:  Style.currentAccountButtonWidth
             Layout.fillHeight: true
         }
 

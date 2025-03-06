@@ -258,7 +258,7 @@ ApplicationWindow {
 
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
-
+            visible: false
             property bool activateSearchFocus: activeFocus
 
             anchors.top: trayWindowHeader.bottom
