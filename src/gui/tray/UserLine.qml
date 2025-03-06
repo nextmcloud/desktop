@@ -16,6 +16,8 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Effects
+import "../nmcgui/"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
@@ -38,6 +40,7 @@ AbstractButton {
 
         Image {
             id: accountAvatar
+            visible: false
             Layout.leftMargin: Style.accountIconsMenuMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
@@ -70,6 +73,15 @@ AbstractButton {
             }
         }
 
+        // this is added to add a hover effect on the account avatar image
+        Rectangle {
+            width: Style.nmcTrayWindowIconWidth
+            height: Style.nmcTrayWindowIconWidth
+            color: Style.ncTextColor
+            anchors.leftMargin: 16
+            Layout.leftMargin: 16
+        }
+
         ColumnLayout {
             id: accountLabels
             Layout.leftMargin: Style.accountLabelsSpacing
@@ -84,7 +96,7 @@ AbstractButton {
                 text: name
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
-                font.bold: true
+                font.bold: false
             }
 
             RowLayout {
@@ -115,6 +127,7 @@ AbstractButton {
 
             EnforcedPlainTextLabel {
                 id: accountServer
+                visible: false
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop
                 verticalAlignment: Text.AlignTop
@@ -136,7 +149,7 @@ AbstractButton {
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
-            icon.source: "image://svgimage-custom-color/more.svg/" + palette.windowText
+            icon.source: "qrc:///client/theme/more.svg" + palette.windowText
 
             AutoSizingMenu {
                 id: userMoreButtonMenu

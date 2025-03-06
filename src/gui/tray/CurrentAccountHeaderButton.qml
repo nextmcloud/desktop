@@ -31,6 +31,10 @@ Button {
 
     display: AbstractButton.IconOnly
     flat: true
+    hoverEnabled: true
+
+    Layout.preferredWidth:  Style.nmcCurrentAccountButtonWidth
+    Layout.preferredHeight: trayWindowHeader.height
 
     Accessible.role: Accessible.ButtonMenu
     Accessible.name: qsTr("Current account")
@@ -52,10 +56,10 @@ Button {
 
         // x coordinate grows towards the right
         // y coordinate grows towards the bottom
-        x: (root.x + 2)
-        y: (root.y + Style.trayWindowHeaderHeight + 2)
+        x: (0 - tLogo.width)
+        y: (root.y + Style.nmcTrayWindowHeaderHeight - Style.nmcTrayWindowMenuOverlayMargin)
 
-        width: (Style.rootWidth - 2)
+        width: (Style.nmcCurrentAccountButtonWidth + tLogo.width + 30)
         height: Math.min(implicitHeight, maxMenuHeight)
         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 

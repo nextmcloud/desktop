@@ -100,8 +100,6 @@ ApplicationWindow {
 
             if (Systray.isOpen) {
                 trayWindowHeader.currentAccountHeaderButton.accountMenu.close();
-                trayWindowHeader.appsMenu.close();
-                trayWindowHeader.openLocalFolderButton.closeMenu()
             }
         }
 
@@ -260,7 +258,7 @@ ApplicationWindow {
 
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
-
+            visible: false
             property bool activateSearchFocus: activeFocus
 
             anchors.top: trayWindowHeader.bottom
