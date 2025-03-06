@@ -29,7 +29,8 @@ Rectangle {
     readonly property alias openLocalFolderButton: openLocalFolderButton
     readonly property alias appsMenu: appsMenu
 
-    color: Style.currentUserHeaderColor
+    color: Style.nmcTrayWindowHeaderBackgroundColor
+    height: Style.nmcTrayWindowHeaderHeight
 
     palette {
         text: Style.currentUserHeaderTextColor
@@ -37,11 +38,37 @@ Rectangle {
         buttonText: Style.currentUserHeaderTextColor
     }
 
+    Rectangle {
+        id: whiteMargin
+        anchors.top: root.top
+        anchors.left: root.left
+        width: 10
+        height: 64
+        color: Style.nmcTrayWindowHeaderBackgroundColor
+    }
+
+    Rectangle {
+        id: tLogo
+        anchors.top: root.top
+        anchors.left: whiteMargin.right
+        width: Style.nmcTrayWindowLogoWidth
+        height: Style.nmcTrayWindowLogoWidth
+
+        Image {
+            anchors.fill: parent
+            cache: false
+            source: Style.nmcTLogoPath
+            fillMode: Image.Stretch
+        }
+    }
+
     RowLayout {
         id: trayWindowHeaderLayout
 
         spacing: 0
-        anchors.fill: parent
+        anchors.left: tLogo.right
+        anchors.top: root.top
+        anchors.right: root.right
 
         CurrentAccountHeaderButton {
             id: currentAccountHeaderButton
