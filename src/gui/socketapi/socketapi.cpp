@@ -45,6 +45,7 @@
 #endif
 
 #include <array>
+#include <memory>
 #include <QBitArray>
 #include <QUrl>
 #include <QMetaMethod>
@@ -59,7 +60,6 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QFileDialog>
-
 
 #include <QAction>
 #include <QJsonArray>
@@ -576,16 +576,17 @@ void SocketApi::processEncryptRequest(const QString &localFile)
             Q_UNUSED(ret)
         } else {
             // NMC customization
-            const auto messageBox = new QMessageBox;
+            auto messageBox = std::make_unique<QMessageBox>();
             messageBox->setAttribute(Qt::WA_DeleteOnClose);
-            messageBox->setWindowTitle(tr("Folder encrypted successfully").arg(fileData.folderRelativePath));
+            messageBox->setWindowTitle(tr("Folder encrypted successfully"));
             messageBox->setText(tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
-            
-            const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/lock.svg"));
 
+            const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/lock.svg"));
             QPixmap pixmap = avatarIcon.pixmap(QSize(24, 24));
             messageBox->setIconPixmap(pixmap);
-            messageBox->addButton(QMessageBox::NoButton);
+
+            // Set default button (prevents empty UI)
+            messageBox->addButton(QMessageBox::Ok);
             messageBox->show();
         }
     });
