@@ -14,18 +14,18 @@
 
 #include "nmcsortedactivitylistmodel.h"
 
-
 namespace OCC {
 
 NMCSortedActivityListModel::NMCSortedActivityListModel(QObject *parent)
     : SortedActivityListModel(parent)
 {
-    sort(0, Qt::DescendingOrder);
+    setSortRole(Qt::DescendingOrder);  // Qt6-konforme Sortierung
 }
 
 bool NMCSortedActivityListModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     Q_UNUSED(sourceParent)
-    return sourceRow <  _maxEntries ? true : false;
+    return sourceRow < _maxEntries;  // Vereinfachte Rückgabelogik
 }
-}
+
+} // namespace OCC

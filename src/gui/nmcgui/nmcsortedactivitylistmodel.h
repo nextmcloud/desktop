@@ -24,14 +24,13 @@ class NMCSortedActivityListModel : public SortedActivityListModel
 
 public:
     explicit NMCSortedActivityListModel(QObject *parent = nullptr);
-    ~NMCSortedActivityListModel() = default;
+    ~NMCSortedActivityListModel() override = default;
 
 protected:
-    bool filterAcceptsRow(int sourceRow,const QModelIndex &sourceParent) const override;
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 private:
-    int _maxEntries = 30;
-
+    int _maxEntries{30};  // Standardwert direkt setzen
 };
 
-}
+} // namespace OCC
