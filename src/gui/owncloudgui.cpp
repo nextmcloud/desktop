@@ -209,16 +209,23 @@ void ownCloudGui::slotOpenSettingsDialog()
     } else {
         qCInfo(lcApplication) << "No configured folders yet, starting setup wizard";
 
-        if (_advertWidget == nullptr) {
+        if (!_advertWidget) {
             _advertWidget = new NMCAdvertWidget();
             _advertWidget->setAttribute(Qt::WA_DeleteOnClose);
-            connect(_advertWidget, &NMCAdvertWidget::destroyed, this, [this](){
+            connect(_advertWidget, &QObject::destroyed, this, [this]() {
+                _advertWidget = nullptr;
                 slotNewAccountWizard();
             });
             _advertWidget->show();
         } else {
             if (_advertWidget->isVisible()) {
-                _advertWidget->raise();
+                if (auto window = _advertWidget->windowHandle()) {
+                    window->raise();
+                    window->requestActivate();
+                } else {
+                    _advertWidget->raise();
+                    _advertWidget->activateWindow();
+                }
             } else {
                 _advertWidget->show();
             }
