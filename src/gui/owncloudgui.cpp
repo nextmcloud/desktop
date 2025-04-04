@@ -60,9 +60,9 @@
 #include <QAbstractItemModel>
 #include <QQmlEngine>
 #include <QQmlComponent>
-#include <QQmlApplicationEngine>
 #include <QQuickItem>
 #include <QQmlContext>
+#include <QWindow>
 
 #ifdef Q_OS_MAC
 #include "foregroundbackground_interface.h"
