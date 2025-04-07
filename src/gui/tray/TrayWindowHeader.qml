@@ -63,7 +63,7 @@ Rectangle {
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
 
-            visible: currentUser.hasLocalFolder
+            visible: false
             currentUser: UserModel.currentUser
             parentBackgroundColor: root.color
 
@@ -83,7 +83,7 @@ Rectangle {
             Layout.preferredWidth:  Style.trayWindowHeaderHeight
             Layout.fillHeight: true
 
-            visible: UserModel.currentUser.isFeaturedAppEnabled
+            visible: false
             icon.source: UserModel.currentUser.featuredAppIcon + "/" + palette.windowText
             onClicked: UserModel.openCurrentAccountFeaturedApp()
 
@@ -94,6 +94,7 @@ Rectangle {
 
         HeaderButton {
             id: trayWindowAppsButton
+            visible: false
             icon.source: "image://svgimage-custom-color/more-apps.svg/" + palette.windowText
 
             onClicked: {

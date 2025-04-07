@@ -174,7 +174,7 @@ RowLayout {
                     }
 
                     display: Button.IconOnly
-                    visible: model.showFileDetails
+                    visible: false
                     onClicked: Systray.presentShareViewInTray(model.openablePath)
                 }
 

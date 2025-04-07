@@ -38,6 +38,7 @@ AbstractButton {
 
         Image {
             id: accountAvatar
+            visible: false
             Layout.leftMargin: Style.accountIconsMenuMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
@@ -116,6 +117,7 @@ AbstractButton {
 
             EnforcedPlainTextLabel {
                 id: accountServer
+                visible: false
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop
                 verticalAlignment: Text.AlignTop
