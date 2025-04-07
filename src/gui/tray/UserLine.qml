@@ -16,6 +16,8 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Effects
+import "../nmcgui/"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
@@ -86,7 +88,7 @@ AbstractButton {
                 text: name
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
-                font.bold: true
+                font.bold: false
             }
 
             RowLayout {
@@ -139,7 +141,7 @@ AbstractButton {
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
-            icon.source: "image://svgimage-custom-color/more.svg/" + palette.windowText
+            icon.source: "qrc:///client/theme/more.svg" + palette.windowText
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
@@ -154,7 +156,7 @@ AbstractButton {
                     onClicked: showUserStatusSelector(index)
                }
 
-                MenuItem {
+                NMCMenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
                     font.pixelSize: Style.topLinePixelSize
                     hoverEnabled: true
@@ -176,7 +178,7 @@ AbstractButton {
                     }
                }
 
-                MenuItem {
+                NMCMenuItem {
                     id: removeAccountButton
                     text: qsTr("Remove account")
                     font.pixelSize: Style.topLinePixelSize
