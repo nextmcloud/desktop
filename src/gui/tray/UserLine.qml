@@ -156,7 +156,7 @@ AbstractButton {
                     onClicked: showUserStatusSelector(index)
                }
 
-                NMCMenuItem {
+                MenuItem {
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
                     font.pixelSize: Style.topLinePixelSize
                     hoverEnabled: true
@@ -178,7 +178,7 @@ AbstractButton {
                     }
                }
 
-                NMCMenuItem {
+                MenuItem {
                     id: removeAccountButton
                     text: qsTr("Remove account")
                     font.pixelSize: Style.topLinePixelSize
