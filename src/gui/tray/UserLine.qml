@@ -16,8 +16,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Effects
-import NMCGui 1.0
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
@@ -141,7 +139,7 @@ AbstractButton {
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
-            icon.source: "qrc:///client/theme/more.svg" + palette.windowText
+            icon.source: "image://svgimage-custom-color/more.svg/" + palette.windowText
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
