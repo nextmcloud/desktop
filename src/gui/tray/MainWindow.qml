@@ -258,6 +258,19 @@ ApplicationWindow {
             height: Style.trayWindowHeaderHeight
         }
 
+        Rectangle {
+            id: separator
+            height: 1
+            color: Style.nmcTrayWindowHeaderSeparatorColor
+            pixelAligned: true
+
+            anchors {
+                top: trayWindowHeader.bottom
+                left: trayWindowMainItem.left
+                right: trayWindowMainItem.right
+            }
+        }
+
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
             visible: false
@@ -482,6 +495,8 @@ ApplicationWindow {
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
+
+            ScrollBar.vertical.visible: contentHeight > activityList.height
 
             activeFocusOnTab: true
             model: activityModel

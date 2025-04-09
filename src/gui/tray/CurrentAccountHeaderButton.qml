@@ -147,13 +147,23 @@ Button {
             Accessible.name: text
             Accessible.onPressAction: exitButton.clicked() 
         }
+
+        // NMC customization: spacer at the bottom of the menu
+        Rectangle {
+            width: parent.width
+            height: 8
+            color: Style.nmcTrayWindowHeaderBackgroundColor
+            radius: Style.nmcStandardRadius
+
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
     }
 
     RowLayout {
         id: accountControlRowLayout
 
         height: Style.trayWindowHeaderHeight
-        width:  Style.rootWidth
+        width:  Style.nmcCurrentAccountButtonWidth
         spacing: 0
 
         Image {
