@@ -12,40 +12,46 @@
  * for more details.
  */
 
- #ifndef MIRALL_NETWORKSETTINGSMAGENTA_H
- #define MIRALL_NETWORKSETTINGSMAGENTA_H
- 
- #include "networksettings.h"
- 
- namespace OCC {
- 
- /**
-  * @brief The NMCNetworkSettings class
-  * @ingroup gui
-  * @brief Derived class for network settings specific to NMC (Magenta) in the ownCloud client.
-  */
- class NMCNetworkSettings : public NetworkSettings
- {
-     Q_OBJECT
- 
- public:
-     /**
-      * @brief Constructs an NMCNetworkSettings object.
-      * @param parent Pointer to the parent QWidget.
-      */
-     explicit NMCNetworkSettings(const AccountPtr &account = {}, QWidget *parent = nullptr);
- 
-     /**
-      * @brief Destructor for NMCNetworkSettings.
-      */
-     ~NMCNetworkSettings() = default;
- 
- private:
-     /**
-      * @brief Sets the layout for the network settings specific to NMC (Magenta).
-      */
-     void setLayout();
- };
- 
- } // namespace OCC
- #endif // MIRALL_NETWORKSETTINGSMAGENTA_H
+#ifndef MIRALL_NETWORKSETTINGSMAGENTA_H
+#define MIRALL_NETWORKSETTINGSMAGENTA_H
+
+#include "networksettings.h"
+
+QT_BEGIN_NAMESPACE
+class QWidget;
+QT_END_NAMESPACE
+
+namespace OCC {
+
+/**
+ * @class NMCNetworkSettings
+ * @ingroup gui
+ * @brief Derived class for network settings specific to NMC (Magenta) in the ownCloud client.
+ */
+class NMCNetworkSettings : public NetworkSettings
+{
+    Q_OBJECT
+
+    public:
+        /**
+         * @brief Constructor
+         * @param account Account pointer used to configure settings
+         * @param parent Parent widget
+         */
+        explicit NMCNetworkSettings(const AccountPtr &account = {}, QWidget *parent = nullptr);
+
+        /**
+         * @brief Destructor
+         */
+        ~NMCNetworkSettings() override = default;
+
+    private:
+        /**
+         * @brief Initializes and sets the custom layout
+         */
+        void setLayout();
+    };
+
+} // namespace OCC
+
+#endif // MIRALL_NETWORKSETTINGSMAGENTA_H
