@@ -41,8 +41,6 @@ Repeater {
 
         onClicked: isTalkReplyButton ? root.showReplyField() : root.triggerAction(model.index)
 
-        color: mouse.hovered ? Style.nmcTextInButtonColorHovered : Style.nmcTextInButtonColor
-
         visible: verb !== "REPLY" || (verb === "REPLY" && root.talkReplyButtonVisible)
 
         HoverHandler {
@@ -58,7 +56,6 @@ Repeater {
 
         contentItem: Text {
             text: activityActionButton.text
-            color: mouse.hovered ? Style.nmcTextInButtonColorHovered : Style.nmcTextInButtonColor
             font.pixelSize: Style.fontSizeSmall
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
