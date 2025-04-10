@@ -262,7 +262,6 @@ ApplicationWindow {
             id: separator
             height: 1
             color: Style.nmcTrayWindowHeaderSeparatorColor
-            pixelAligned: true
 
             anchors {
                 top: trayWindowHeader.bottom
