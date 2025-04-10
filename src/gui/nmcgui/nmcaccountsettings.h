@@ -15,98 +15,71 @@
  #ifndef MIRALL_ACCOUNTSETTINGSMAGENTA_H
  #define MIRALL_ACCOUNTSETTINGSMAGENTA_H
  
- #include "QtWidgets/qpushbutton.h"
- #include <accountsettings.h>
  #include <QPushButton>
  #include <QIcon>
  #include <QPainter>
+ #include <QLabel>
+ 
+ #include <accountsettings.h>
  
  namespace OCC {
  
  /**
-  * @brief The CustomButton class is a QPushButton with an additional left icon.
-  * @ingroup gui
+  * @brief A QPushButton with a custom left icon margin.
   */
  class CustomButton : public QPushButton {
+     Q_OBJECT
+ 
  public:
-     /**
-      * @brief Constructs a CustomButton.
-      * @param text The button text.
-      * @param icon The button icon.
-      * @param parent The parent widget.
-      */
      explicit CustomButton(const QString &text, const QIcon &icon, QWidget *parent = nullptr)
          : QPushButton(text, parent)
-         , icon_(icon)
+         , _icon(icon)
      {
          setIconSize(QSize(24, 24));
      }
  
-     /**
-      * @brief Sets the left margin for the icon.
-      * @param margin The left margin for the icon.
-      */
-     void setLeftIconMargin(int margin){
-         m_leftMargin = margin;
-     }
+     void setLeftIconMargin(int margin) { _leftMargin = margin; }
  
  protected:
      void paintEvent(QPaintEvent *event) override {
          QPushButton::paintEvent(event);
- 
-         //Its an icon within the button, but we disable it for now, because the text occupies to much space, and the button shod be increased in size to fir the size,
-         //but we dont want to change the button size for cosmetic reasons.
- 
-         // if (!icon_.isNull()) {
-         //     QRect iconRect = QRect(m_leftMargin, // left margin
-         //                            (height() - iconSize().height()) / 2, // vertical center
-         //                            iconSize().width(),
-         //                            iconSize().height());
- 
+         // Optionale benutzerdefinierte Icon-Darstellung – aktuell deaktiviert
+         // if (!_icon.isNull()) {
+         //     QRect iconRect(_leftMargin,
+         //                    (height() - iconSize().height()) / 2,
+         //                    iconSize().width(),
+         //                    iconSize().height());
          //     QPainter painter(this);
-         //     painter.drawPixmap(iconRect, icon_.pixmap(iconSize()));
+         //     painter.drawPixmap(iconRect, _icon.pixmap(iconSize()));
          // }
      }
  
  private:
-     QIcon icon_;
-     int m_leftMargin = 4;
+     QIcon _icon;
+     int _leftMargin = 4;
  };
  
  /**
-  * @brief The NMCAccountSettings class represents the account settings for a specific type.
-  * @ingroup gui
+  * @brief Erweiterte AccountSettings-Ansicht für Magenta.
   */
- class NMCAccountSettings : public AccountSettings
- {
+ class NMCAccountSettings : public AccountSettings {
      Q_OBJECT
  
  public:
-     /**
-      * @brief Constructs NMCAccountSettings.
-      * @param accountState The account state associated with the settings.
-      * @param parent The parent widget.
-      */
      explicit NMCAccountSettings(AccountState *accountState, QWidget *parent = nullptr);
-     ~NMCAccountSettings() = default;
+     ~NMCAccountSettings() override = default;
  
  private:
-     /**
-      * @brief Sets default settings for NMCAccountSettings.
-      */
      void setDefaultSettings();
- 
-     /**
-      * @brief Sets the layout for NMCAccountSettings.
-      */
      void setLayout();
  
- private:
-     CustomButton *m_liveAccountButton = nullptr;
-     QLabel *m_liveTitle = nullptr;
-     QLabel *m_liveDescription = nullptr;
-     QLabel *m_folderSync = nullptr;
+     CustomButton *_liveAccountButton = nullptr;
+     QLabel *_liveTitle = nullptr;
+     QLabel *_liveDescription = nullptr;
+     QLabel *_folderSync = nullptr;
  };
  
  } // namespace OCC
+ 
  #endif // MIRALL_ACCOUNTSETTINGSMAGENTA_H
+ 
