@@ -97,14 +97,17 @@ void KMessageWidgetPrivate::init(KMessageWidget *q_ptr)
     QObject::connect(textLabel, &QLabel::linkActivated, q, &KMessageWidget::linkActivated);
     QObject::connect(textLabel, &QLabel::linkHovered, q, &KMessageWidget::linkHovered);
 
+    // Titel-Label konfigurieren
     titleLabel = new QLabel(content);
     titleLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     titleLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION"));
     titleLabel->setStyleSheet("font-size: 13px; font-weight: 600;");
 
+    // Icon-Label konfigurieren
     titelIcon = new QLabel(content);
-    titelIcon->setFixedSize(24,24);
-    titelIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/cloud-security.svg")).pixmap(24,24));
+    titelIcon->setFixedSize(24, 24);
+    titelIcon->setPixmap(QIcon(QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg")).pixmap(24, 24));
+    titelIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     auto *closeAction = new QAction(q);
     closeAction->setText(KMessageWidget::tr("&Close"));
@@ -142,24 +145,27 @@ void KMessageWidgetPrivate::createLayout()
     // NMC customization: make sure we always enter the first case
     if (true) {
         auto *layout = new QGridLayout(content);
-
-        layout->setContentsMargins(8,4,8,4);
+        layout->setContentsMargins(8, 4, 8, 4);
         layout->setSpacing(0);
         content->setFixedHeight(84);
-
-        auto *titleLayout = new QHBoxLayout(content);
+    
+        auto *titleLayout = new QHBoxLayout();
         titleLayout->setSpacing(8);
-        titleLayout->setContentsMargins(0,0,0,0);
+        titleLayout->setContentsMargins(0, 0, 0, 0);
+    
+        // Reihenfolge beachten: erst hinzufügen, dann evtl. Eigenschaften setzen
         titleLayout->addWidget(titleLabel);
         titleLayout->addWidget(titelIcon);
-
-        layout->addLayout(titleLayout, 0, 0, 1, 1, Qt::AlignLeft | Qt::AlignCenter);
-
-        // Set alignment to make sure icon does not move down if text wraps
-        layout->addWidget(textLabel, 1, 0);
+    
+        layout->addLayout(titleLayout, 0, 0, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
+    
+        // Qt::AlignCenter ist für Layouts meist nicht sinnvoll mit Qt::AlignLeft kombiniert
+        // Qt::AlignVCenter statt AlignCenter sorgt dafür, dass die Höhe konsistent bleibt
+    
         textLabel->setWordWrap(true);
-
-        QSpacerItem *spacerItem = new QSpacerItem(1, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
+        layout->addWidget(textLabel, 1, 0);
+    
+        auto *spacerItem = new QSpacerItem(1, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
         layout->addItem(spacerItem, 2, 0);
 
         if (buttons.isEmpty()) {
@@ -303,23 +309,29 @@ int KMessageWidgetPrivate::bestContentHeight() const
 
 void KMessageWidgetPrivate::applyNMCStylesheets() const
 {
-    //Set button color and size
-    if(!buttons.empty()){
-        QString stylesheet = QString("QToolButton{width: 180px; height: 32px; border-radius: 4px; font-size: %1px; color: %2; background-color: %3;} QToolButton:hover { background-color: %4;}");
+    // Set button color and size
+    if (!buttons.empty()) {
+        const QString stylesheet = QStringLiteral(
+            "QToolButton{width: 180px; height: 32px; border-radius: 4px; font-size: %1px; color: %2; background-color: %3;} "
+            "QToolButton:hover { background-color: %4;}"
+        );
+
         switch (messageType) {
         case KMessageWidget::Positive:
-            Q_FOREACH (QToolButton *button, buttons) {
+            for (QToolButton *button : buttons) {
                 button->setStyleSheet(stylesheet.arg("13", "white", "#00b367", "#00a461"));
             }
             break;
         case KMessageWidget::Information:
-            Q_FOREACH (QToolButton *button, buttons) {
+            for (QToolButton *button : buttons) {
                 button->setStyleSheet(stylesheet.arg("13", "white", "#216bff", "#0819bd"));
             }
             break;
         case KMessageWidget::Warning:
+            // Optional: Add styling here if needed
             break;
         case KMessageWidget::Error:
+            // Optional: Add styling here if needed
             break;
         }
     }
