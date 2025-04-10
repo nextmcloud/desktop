@@ -70,7 +70,7 @@ NMCNetworkSettings::NMCNetworkSettings(const AccountPtr &account, QWidget *paren
         ui->downloadBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
 
         auto *downLayout = qobject_cast<QGridLayout *>(ui->downloadBox->layout());
-        auto proxyLabel = new QLabel(QCoreApplication::translate("", "DOWNLOAD_BANDWIDTH"));
+        auto downLabel = new QLabel(QCoreApplication::translate("", "DOWNLOAD_BANDWIDTH"));
         downLabel->setStyleSheet("QLabel { font-size: 12px; font-weight: bold; }");
 
         downLayout->addWidget(downLabel, 0, 0);
@@ -98,10 +98,10 @@ NMCNetworkSettings::NMCNetworkSettings(const AccountPtr &account, QWidget *paren
         ui->uploadBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
 
         auto *upLayout = qobject_cast<QGridLayout *>(ui->uploadBox->layout());
-        auto proxyLabel = new QLabel(QCoreApplication::translate("", "DOWNLOAD_BANDWIDTH"));
-        uploadLabel->setStyleSheet("QLabel { font-size: 12px; font-weight: bold; }");
+        auto upLabel = new QLabel(QCoreApplication::translate("", "DOWNLOAD_BANDWIDTH"));
+        upLabel->setStyleSheet("QLabel { font-size: 12px; font-weight: bold; }");
 
-        upLayout->addWidget(uploadLabel, 0, 0);
+        upLayout->addWidget(upLabel, 0, 0);
         upLayout->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed), 1, 0);
         upLayout->addWidget(ui->noUploadLimitRadioButton, 2, 0);
         upLayout->addWidget(ui->autoUploadLimitRadioButton, 3, 0);
