@@ -33,30 +33,30 @@
  public:
      explicit CustomButton(const QString &text, const QIcon &icon, QWidget *parent = nullptr)
          : QPushButton(text, parent)
-         , _icon(icon)
+         , m_icon(icon)
      {
          setIconSize(QSize(24, 24));
      }
  
-     void setLeftIconMargin(int margin) { _leftMargin = margin; }
+     void setLeftIconMargin(int margin) { m_leftMargin = margin; }
  
  protected:
      void paintEvent(QPaintEvent *event) override {
          QPushButton::paintEvent(event);
-         // Optionale benutzerdefinierte Icon-Darstellung – aktuell deaktiviert
-         // if (!_icon.isNull()) {
-         //     QRect iconRect(_leftMargin,
+         // Optional icon rendering (currently disabled)
+         // if (!m_icon.isNull()) {
+         //     QRect iconRect(m_leftMargin,
          //                    (height() - iconSize().height()) / 2,
          //                    iconSize().width(),
          //                    iconSize().height());
          //     QPainter painter(this);
-         //     painter.drawPixmap(iconRect, _icon.pixmap(iconSize()));
+         //     painter.drawPixmap(iconRect, m_icon.pixmap(iconSize()));
          // }
      }
  
  private:
-     QIcon _icon;
-     int _leftMargin = 4;
+     QIcon m_icon;
+     int m_leftMargin = 4;
  };
  
  /**
@@ -73,10 +73,10 @@
      void setDefaultSettings();
      void setLayout();
  
-     CustomButton *_liveAccountButton = nullptr;
-     QLabel *_liveTitle = nullptr;
-     QLabel *_liveDescription = nullptr;
-     QLabel *_folderSync = nullptr;
+     CustomButton *m_liveAccountButton = nullptr;
+     QLabel *m_liveTitle = nullptr;
+     QLabel *m_liveDescription = nullptr;
+     QLabel *m_folderSync = nullptr;
  };
  
  } // namespace OCC
