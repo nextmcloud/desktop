@@ -191,7 +191,7 @@ void SelectiveSyncWidget::recursiveInsert(QTreeWidgetItem *parent, QStringList p
     }
 }
 
-void SelectiveSyncWidget::slotUpdateDirectories(const QStringList &list)
+void SelectiveSyncWidget::slotUpdateDirectories(QStringList list)
 {
     auto job = qobject_cast<LsColJob *>(sender());
     QScopedValueRollback<bool> isInserting(_inserting);
