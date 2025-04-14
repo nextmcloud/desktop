@@ -50,6 +50,9 @@ public:
      * @brief Changes the layout of the NMCFolderWizardSourcePage.
      */
     void changeLayout();
+
+
+    NMCFolderWizardSourcePage &getUi() { return *this; }
 };
 
 } // namespace OCC

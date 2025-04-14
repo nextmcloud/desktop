@@ -50,6 +50,8 @@ public:
      * @brief Sets the layout for the NMCFolderWizardTargetPage.
      */
     void setLayout();
+
+    NMCFolderWizardTargetPage &getUi() { return *this; }
 };
 
 } // namespace OCC
