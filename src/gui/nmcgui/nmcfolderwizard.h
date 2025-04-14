@@ -12,39 +12,40 @@
  * for more details.
  */
 
-#ifndef MIRALL_NMCFolderWizard_H
-#define MIRALL_NMCFolderWizard_H
+#ifndef MIRALL_NMCFOLDERWIZARD_H
+#define MIRALL_NMCFOLDERWIZARD_H
 
 #include "folderwizard.h"
+
+#include <memory>  // falls du std::shared_ptr o.ä. in anderen Kontexten nutzt
 
 /**
  * @brief The NMCFolderWizard class represents a specific folder wizard for the NMC application.
  * @ingroup gui
  *
- * The NMCFolderWizard class is derived from the FolderWizard class and provides additional functionality
- * specific to the NMC (replace with the actual application name) application.
+ * Derived from FolderWizard, this class provides NMC-specific behavior
+ * for the folder synchronization wizard.
  */
-
 namespace OCC {
 
 class NMCFolderWizard : public FolderWizard
 {
     Q_OBJECT
+
 public:
     /**
      * @brief Constructs an instance of NMCFolderWizard.
      * @param account The account associated with the wizard.
-     * @param parent The parent widget (default is nullptr).
+     * @param parent The parent widget (optional).
      */
     explicit NMCFolderWizard(OCC::AccountPtr account, QWidget *parent = nullptr);
 
     /**
-     * @brief Destroys the NMCFolderWizard instance.
+     * @brief Destructor.
      */
-    ~NMCFolderWizard() = default;
+    ~NMCFolderWizard() override = default;
 };
 
 } // namespace OCC
 
-#endif
-
+#endif // MIRALL_NMCFOLDERWIZARD_H 

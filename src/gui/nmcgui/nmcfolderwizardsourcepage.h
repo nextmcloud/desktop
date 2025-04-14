@@ -12,24 +12,22 @@
  * for more details.
  */
 
-#ifndef MIRALL_NMCFolderWizardSourcePage_H
-#define MIRALL_NMCFolderWizardSourcePage_H
+#ifndef MIRALL_NMCFOLDERWIZARDSOURCEPAGE_H
+#define MIRALL_NMCFOLDERWIZARDSOURCEPAGE_H
 
 #include "ui_folderwizardsourcepage.h"
 
-/**
- * @brief The NMCFolderWizardSourcePage class represents a source page for the NMCFolderWizard.
- * @ingroup gui
- *
- * The NMCFolderWizardSourcePage class is derived from the Ui::FolderWizardSourcePage class and provides
- * additional functionality specific to the NMCFolderWizard in the NMC application (replace with the actual application name).
- */
-
 namespace OCC {
 
+/**
+ * @brief The NMCFolderWizardSourcePage class represents a customized source page
+ *        for the NMCFolderWizard used in the NMC application.
+ *
+ * This class extends the UI generated class FolderWizardSourcePage and allows for
+ * layout and style modifications specific to the NMC branding.
+ */
 class NMCFolderWizardSourcePage : public ::Ui::FolderWizardSourcePage
 {
-
 public:
     /**
      * @brief Constructs an instance of NMCFolderWizardSourcePage.
@@ -37,21 +35,21 @@ public:
     explicit NMCFolderWizardSourcePage();
 
     /**
-     * @brief Destroys the NMCFolderWizardSourcePage instance.
+     * @brief Virtual destructor.
      */
-    ~NMCFolderWizardSourcePage() = default;
+    ~NMCFolderWizardSourcePage() override = default;
 
     /**
-     * @brief Sets default settings for the NMCFolderWizardSourcePage.
+     * @brief Applies the default visibility and behavior settings.
      */
     void setDefaultSettings();
 
     /**
-     * @brief Changes the layout of the NMCFolderWizardSourcePage.
+     * @brief Modifies the layout to match NMC design guidelines.
      */
     void changeLayout();
 };
 
 } // namespace OCC
 
-#endif
+#endif // MIRALL_NMCFOLDERWIZARDSOURCEPAGE_H 

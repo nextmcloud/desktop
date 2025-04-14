@@ -13,29 +13,28 @@
  */
 
 #pragma once
+
 #include "selectivesyncdialog.h"
 
 namespace OCC {
 
 /**
- * @brief The NMCSelectiveSyncWidget class represents a widget containing a folder tree with labels specific to the NMC application.
- * @ingroup gui
+ * @brief Widget für die selektive Synchronisation, angepasst für NMC.
  *
- * The NMCSelectiveSyncWidget class is derived from the SelectiveSyncWidget class and provides additional functionality
- * specific to the NMC (replace with the actual application name) application. It contains a folder tree with labels.
+ * Der NMCSelectiveSyncWidget erweitert den SelectiveSyncWidget um spezielle Darstellung
+ * und Texte für die NMC-Anwendung.
  */
-
 class NMCSelectiveSyncWidget : public SelectiveSyncWidget
 {
     Q_OBJECT
+
 public:
     /**
-     * @brief Constructs an instance of NMCSelectiveSyncWidget.
-     * @param account The account associated with the widget.
-     * @param parent The parent widget (default is nullptr).
+     * @brief Konstruktor.
+     * @param account Das zugehörige Account-Objekt.
+     * @param parent Das Parent-Widget (optional).
      */
     explicit NMCSelectiveSyncWidget(AccountPtr account, QWidget *parent = nullptr);
 };
 
-} // namespace OCC
-
+} // namespace OCC 

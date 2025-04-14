@@ -12,8 +12,8 @@
  * for more details.
  */
 
-#ifndef MIRALL_NMCFolderWizardTargetPage_H
-#define MIRALL_NMCFolderWizardTargetPage_H
+#ifndef MIRALL_NMCFOLDERWIZARDTARGETPAGE_H
+#define MIRALL_NMCFOLDERWIZARDTARGETPAGE_H
 
 #include "ui_folderwizardtargetpage.h"
 
@@ -21,15 +21,14 @@
  * @brief The NMCFolderWizardTargetPage class represents a target page for the NMCFolderWizard.
  * @ingroup gui
  *
- * The NMCFolderWizardTargetPage class is derived from the Ui::FolderWizardTargetPage class and provides
- * additional functionality specific to the NMCFolderWizard in the NMC application (replace with the actual application name).
+ * The NMCFolderWizardTargetPage class is derived from Ui::FolderWizardTargetPage and provides
+ * layout and behavior customizations specific to the NMCFolderWizard in the NMC application.
  */
 
 namespace OCC {
 
-class NMCFolderWizardTargetPage : public ::Ui::FolderWizardTargetPage
+class NMCFolderWizardTargetPage : public Ui::FolderWizardTargetPage
 {
-
 public:
     /**
      * @brief Constructs an instance of NMCFolderWizardTargetPage.
@@ -37,21 +36,21 @@ public:
     explicit NMCFolderWizardTargetPage();
 
     /**
-     * @brief Destroys the NMCFolderWizardTargetPage instance.
+     * @brief Destructor.
      */
     ~NMCFolderWizardTargetPage() = default;
 
     /**
-     * @brief Sets default settings for the NMCFolderWizardTargetPage.
+     * @brief Sets default visibility or behavior settings.
      */
     void setDefaultSettings();
 
     /**
-     * @brief Sets the layout for the NMCFolderWizardTargetPage.
+     * @brief Applies the custom layout and styling to the target page.
      */
     void setLayout();
 };
 
 } // namespace OCC
 
-#endif
+#endif // MIRALL_NMCFOLDERWIZARDTARGETPAGE_H 

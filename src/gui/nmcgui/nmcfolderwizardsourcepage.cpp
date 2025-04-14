@@ -15,12 +15,17 @@
 #include "nmcfolderwizardsourcepage.h"
 #include "theme.h"
 
+#include <QLabel>
+#include <QGridLayout>
+#include <QSizePolicy>
+#include <QCoreApplication>
+#include <QWidget>
+
 namespace OCC {
 
 NMCFolderWizardSourcePage::NMCFolderWizardSourcePage()
-    :FolderWizardSourcePage()
+    : FolderWizardSourcePage()
 {
-
 }
 
 void NMCFolderWizardSourcePage::setDefaultSettings()
@@ -32,27 +37,21 @@ void NMCFolderWizardSourcePage::changeLayout()
 {
     gridLayout_2->setContentsMargins(0, 0, 0, 0);
 
-    QLabel *stepLabel = new QLabel();
-    stepLabel->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_HEADLINE"));
+    auto *stepLabel = new QLabel(QCoreApplication::translate("", "ADD_LIVE_BACKUP_HEADLINE"));
     stepLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    stepLabel->setStyleSheet("QLabel{color: black; font-size: 13px; font-weight: bold;}");
-
+    stepLabel->setStyleSheet("QLabel { color: black; font-size: 13px; font-weight: bold; }");
     gridLayout_2->addWidget(stepLabel, 0, 0, Qt::AlignTop | Qt::AlignLeft);
 
-    QWidget *mainLayoutWidget = new QWidget();
-    mainLayoutWidget->setStyleSheet("");
-
-    auto *whiteLayout = new QGridLayout;
+    auto *mainLayoutWidget = new QWidget();
     mainLayoutWidget->setObjectName("mainLayoutWidget");
-    mainLayoutWidget->setStyleSheet("QWidget#mainLayoutWidget { background-color: white; border-radius: 4px;}");
-    mainLayoutWidget->setLayout(whiteLayout);
+    mainLayoutWidget->setStyleSheet("QWidget#mainLayoutWidget { background-color: white; border-radius: 4px; }");
 
-    QLabel *textLabel = new QLabel();
-    textLabel->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PAGE1_DESCRIPTION"));
+    auto *whiteLayout = new QGridLayout(mainLayoutWidget);
+
+    auto *textLabel = new QLabel(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PAGE1_DESCRIPTION"));
     textLabel->setWordWrap(true);
     textLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-    whiteLayout->addWidget(textLabel, 0, 0);
+    whiteLayout->addWidget(textLabel, 0, 0, 1, 2);
 
     gridLayout_2->removeWidget(localFolderLineEdit);
     localFolderLineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -61,21 +60,16 @@ void NMCFolderWizardSourcePage::changeLayout()
     localFolderChooseBtn->setAutoDefault(true);
     localFolderChooseBtn->setDefault(true);
     localFolderChooseBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    //localFolderChooseBtn->setFixedHeight(10);
     whiteLayout->addWidget(localFolderChooseBtn, 1, 1);
 
     gridLayout_2->addWidget(mainLayoutWidget, 1, 0, 1, 3);
 
     gridLayout_2->removeWidget(warnLabel);
+    warnLabel->setStyleSheet("border: 0px; border-radius: 4px; background-color: #fee2d0;");
     gridLayout_2->addWidget(warnLabel, 2, 0, 1, 3);
-
-    warnLabel->setStyleSheet("border: 0px; border-radius: 4px; background-color: #fee2d0");
 
     gridLayout_2->removeItem(verticalSpacer);
     gridLayout_2->addItem(verticalSpacer, 3, 0, 1, 3);
 }
 
-} // end namespace
-
-
-
+} // namespace OCC 

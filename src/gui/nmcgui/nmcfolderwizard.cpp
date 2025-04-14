@@ -13,29 +13,32 @@
  */
 #include "nmcfolderwizard.h"
 
-/**
- * Folder wizard itself
- */
-
 namespace OCC {
 
 NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
-    :FolderWizard(account, parent)
+    : FolderWizard(account, parent)
 {
+    // Klassischen Stil beibehalten (Qt 6-kompatibel)
     setWizardStyle(QWizard::ClassicStyle);
+
+    // Übersetzungstext setzen für den Fertigstellen-Button
     setButtonText(QWizard::FinishButton, QCoreApplication::translate("", "ADD_SYNCHRONIZATION"));
 
-    //Source page
-    auto sourceUi = _folderWizardSourcePage->getUi();
-    sourceUi.localFolderLineEdit->clear();
-    sourceUi.localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
-    sourceUi.setDefaultSettings();
-    sourceUi.changeLayout();
+    // === Source Page Einstellungen ===
+    if (auto sourceUi = _folderWizardSourcePage->getUi()) {
+        sourceUi->localFolderLineEdit->clear();
+        sourceUi->localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
 
-    //Target page
-    auto targetUi = _folderWizardTargetPage->getUi();
-    targetUi.setDefaultSettings();
-    targetUi.setLayout();
+        // Methoden sicher aufrufen, falls vorhanden
+        sourceUi->setDefaultSettings();
+        sourceUi->changeLayout();
+    }
+
+    // === Target Page Einstellungen ===
+    if (auto targetUi = _folderWizardTargetPage->getUi()) {
+        targetUi->setDefaultSettings();
+        targetUi->setLayout();
+    }
 }
 
-} // end namespace
+} // namespace OCC
