@@ -19,12 +19,13 @@
 namespace OCC {
 
 NMCFolderWizardTargetPage::NMCFolderWizardTargetPage()
-    :FolderWizardTargetPage()
+    : FolderWizardTargetPage()
 {
 }
 
 void NMCFolderWizardTargetPage::setDefaultSettings()
 {
+    // Falls warnFrame, groupBox Objekte sind, dann den .-Operator verwenden
     warnFrame->setVisible(false);
     groupBox->setVisible(false);
 }

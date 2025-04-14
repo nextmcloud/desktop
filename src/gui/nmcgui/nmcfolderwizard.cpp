@@ -25,27 +25,15 @@ NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
     // Übersetzungstext setzen für den Fertigstellen-Button
     setButtonText(QWizard::FinishButton, QCoreApplication::translate("", "ADD_SYNCHRONIZATION"));
 
-    // === Source Page Einstellungen ===
-    if (_folderWizardSourcePage) {
-        auto sourceUi = _folderWizardSourcePage->getUi();
-        if (sourceUi) {  // Sicherstellen, dass sourceUi gültig ist
-            sourceUi->localFolderLineEdit->clear();
-            sourceUi->localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
-
-            // Methoden sicher aufrufen, falls vorhanden
-            sourceUi->setDefaultSettings();
-            sourceUi->changeLayout();
-        }
-    }
-
-    // === Target Page Einstellungen ===
-    if (_folderWizardTargetPage) {
-        auto targetUi = _folderWizardTargetPage->getUi();
-        if (targetUi) {  // Sicherstellen, dass targetUi gültig ist
-            targetUi->setDefaultSettings();
-            targetUi->setLayout();
-        }
-    }
+    auto &sourceUi = _folderWizardSourcePage->getUi();
+    sourceUi.localFolderLineEdit->clear();
+    sourceUi.localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
+    sourceUi.setDefaultSettings();
+    sourceUi.changeLayout();
+    
+    auto &targetUi = _folderWizardTargetPage->getUi();
+    targetUi.setDefaultSettings();
+    targetUi.setLayout();
 }
 
 } // namespace OCC 
