@@ -16,8 +16,10 @@
 
 namespace OCC {
 
-NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
-    : FolderWizard(account, parent)
+NMCFolderWizard::NMCFolderWizard(OCC::AccountPtr account, QWidget *parent)
+    : FolderWizard(account, parent), // Basisklasse initialisieren
+      _folderWizardSourcePage(new NMCFolderWizardSourcePage()),
+      _folderWizardTargetPage(new NMCFolderWizardTargetPage())
 {
     // Klassischen Stil beibehalten (Qt 6-kompatibel)
     setWizardStyle(QWizard::ClassicStyle);
