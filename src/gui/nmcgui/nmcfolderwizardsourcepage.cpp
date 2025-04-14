@@ -75,9 +75,4 @@ void NMCFolderWizardSourcePage::changeLayout()
     gridLayout_2->addItem(verticalSpacer, 3, 0, 1, 3);
 }
 
-NMCFolderWizardSourcePage &NMCFolderWizardSourcePage::getUi()
-{
-    return *this;
-}
-
 } // end namespace

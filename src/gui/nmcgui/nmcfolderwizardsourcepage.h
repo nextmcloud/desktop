@@ -51,7 +51,7 @@ public:
      */
     void changeLayout();
 
-
+    NMCFolderWizardSourcePage &getUi() { return *this; }
     const NMCFolderWizardSourcePage &getUi() const { return *this; }
 };
 

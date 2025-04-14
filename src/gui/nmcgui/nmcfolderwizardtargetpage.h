@@ -51,6 +51,7 @@ public:
      */
     void setLayout();
 
+    NMCFolderWizardTargetPage &getUi() { return *this; }
     const NMCFolderWizardTargetPage &getUi() const { return *this; }
 };
 
