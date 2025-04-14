@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Mauro Mura
+ * Copyright (C) by Eugen Fischer
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,26 +15,43 @@
 #ifndef MIRALL_NMCFolderWizardSourcePage_H
 #define MIRALL_NMCFolderWizardSourcePage_H
 
-#include <QWidget>
 #include "ui_folderwizardsourcepage.h"
+
+/**
+ * @brief The NMCFolderWizardSourcePage class represents a source page for the NMCFolderWizard.
+ * @ingroup gui
+ *
+ * The NMCFolderWizardSourcePage class is derived from the Ui::FolderWizardSourcePage class and provides
+ * additional functionality specific to the NMCFolderWizard in the NMC application (replace with the actual application name).
+ */
 
 namespace OCC {
 
-class NMCFolderWizardSourcePage : public QWidget
+class NMCFolderWizardSourcePage : public ::Ui::FolderWizardSourcePage
 {
-    Q_OBJECT
 
 public:
-    explicit NMCFolderWizardSourcePage(QWidget *parent = nullptr);
+    /**
+     * @brief Constructs an instance of NMCFolderWizardSourcePage.
+     */
+    explicit NMCFolderWizardSourcePage();
+
+    /**
+     * @brief Destroys the NMCFolderWizardSourcePage instance.
+     */
     ~NMCFolderWizardSourcePage() = default;
 
+    /**
+     * @brief Sets default settings for the NMCFolderWizardSourcePage.
+     */
     void setDefaultSettings();
-    void changeLayout();
 
-private:
-    Ui::FolderWizardSourcePage ui;
+    /**
+     * @brief Changes the layout of the NMCFolderWizardSourcePage.
+     */
+    void changeLayout();
 };
 
 } // namespace OCC
 
-#endif // MIRALL_NMCFolderWizardSourcePage_H
+#endif

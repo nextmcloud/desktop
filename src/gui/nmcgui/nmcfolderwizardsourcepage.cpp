@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Mauro Mura
+ * Copyright (C) by Eugen Fischer
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,67 +15,64 @@
 #include "nmcfolderwizardsourcepage.h"
 #include "theme.h"
 
-#include <QCoreApplication>
-#include <QLabel>
-#include <QSizePolicy>
-#include <QGridLayout>
-#include <QSpacerItem>
-
 namespace OCC {
 
-NMCFolderWizardSourcePage::NMCFolderWizardSourcePage(QWidget *parent)
-    : QWidget(parent)
+NMCFolderWizardSourcePage::NMCFolderWizardSourcePage()
+    :FolderWizardSourcePage()
 {
-    ui.setupUi(this);
+
 }
 
 void NMCFolderWizardSourcePage::setDefaultSettings()
 {
-    ui.groupBox->setVisible(false);
+    groupBox->setVisible(false);
 }
 
 void NMCFolderWizardSourcePage::changeLayout()
 {
-    ui.gridLayout_2->setContentsMargins(0, 0, 0, 0);
+    gridLayout_2->setContentsMargins(0, 0, 0, 0);
 
-    auto *stepLabel = new QLabel(this);
+    QLabel *stepLabel = new QLabel();
     stepLabel->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_HEADLINE"));
     stepLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     stepLabel->setStyleSheet("QLabel{color: black; font-size: 13px; font-weight: bold;}");
 
-    ui.gridLayout_2->addWidget(stepLabel, 0, 0, Qt::AlignTop | Qt::AlignLeft);
+    gridLayout_2->addWidget(stepLabel, 0, 0, Qt::AlignTop | Qt::AlignLeft);
 
-    auto *mainLayoutWidget = new QWidget(this);
+    QWidget *mainLayoutWidget = new QWidget();
+    mainLayoutWidget->setStyleSheet("");
+
+    auto *whiteLayout = new QGridLayout;
     mainLayoutWidget->setObjectName("mainLayoutWidget");
     mainLayoutWidget->setStyleSheet("QWidget#mainLayoutWidget { background-color: white; border-radius: 4px;}");
-
-    auto *whiteLayout = new QGridLayout(mainLayoutWidget);
     mainLayoutWidget->setLayout(whiteLayout);
 
-    auto *textLabel = new QLabel(this);
+    QLabel *textLabel = new QLabel();
     textLabel->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PAGE1_DESCRIPTION"));
     textLabel->setWordWrap(true);
     textLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     whiteLayout->addWidget(textLabel, 0, 0);
 
-    ui.gridLayout_2->removeWidget(ui.localFolderLineEdit);
-    ui.localFolderLineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    whiteLayout->addWidget(ui.localFolderLineEdit, 1, 0);
+    gridLayout_2->removeWidget(localFolderLineEdit);
+    localFolderLineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    whiteLayout->addWidget(localFolderLineEdit, 1, 0);
 
-    ui.localFolderChooseBtn->setAutoDefault(true);
-    ui.localFolderChooseBtn->setDefault(true);
-    ui.localFolderChooseBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    whiteLayout->addWidget(ui.localFolderChooseBtn, 1, 1);
+    localFolderChooseBtn->setAutoDefault(true);
+    localFolderChooseBtn->setDefault(true);
+    localFolderChooseBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    //localFolderChooseBtn->setFixedHeight(10);
+    whiteLayout->addWidget(localFolderChooseBtn, 1, 1);
 
-    ui.gridLayout_2->addWidget(mainLayoutWidget, 1, 0, 1, 3);
+    gridLayout_2->addWidget(mainLayoutWidget, 1, 0, 1, 3);
 
-    ui.gridLayout_2->removeWidget(ui.warnLabel);
-    ui.gridLayout_2->addWidget(ui.warnLabel, 2, 0, 1, 3);
-    ui.warnLabel->setStyleSheet("border: 0px; border-radius: 4px; background-color: #fee2d0");
+    gridLayout_2->removeWidget(warnLabel);
+    gridLayout_2->addWidget(warnLabel, 2, 0, 1, 3);
 
-    ui.gridLayout_2->removeItem(ui.verticalSpacer);
-    ui.gridLayout_2->addItem(ui.verticalSpacer, 3, 0, 1, 3);
+    warnLabel->setStyleSheet("border: 0px; border-radius: 4px; background-color: #fee2d0");
+
+    gridLayout_2->removeItem(verticalSpacer);
+    gridLayout_2->addItem(verticalSpacer, 3, 0, 1, 3);
 }
 
-} // namespace OCC
+} // end namespace
