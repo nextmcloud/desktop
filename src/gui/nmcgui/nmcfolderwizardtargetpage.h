@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Eugen Fischer
+ * Copyright (C) by Mauro Mura
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,43 +15,26 @@
  #ifndef MIRALL_NMCFolderWizardTargetPage_H
  #define MIRALL_NMCFolderWizardTargetPage_H
  
+ #include <QWidget>
  #include "ui_folderwizardtargetpage.h"
- 
- /**
-  * @brief The NMCFolderWizardTargetPage class represents a target page for the NMCFolderWizard.
-  * @ingroup gui
-  *
-  * The NMCFolderWizardTargetPage class is derived from the Ui::FolderWizardTargetPage class and provides
-  * additional functionality specific to the NMCFolderWizard in the NMC application (replace with the actual application name).
-  */
  
  namespace OCC {
  
- class NMCFolderWizardTargetPage : public ::Ui::FolderWizardTargetPage
+ class NMCFolderWizardTargetPage : public QWidget
  {
+     Q_OBJECT
  
  public:
-     /**
-      * @brief Constructs an instance of NMCFolderWizardTargetPage.
-      */
-     explicit NMCFolderWizardTargetPage();
+     explicit NMCFolderWizardTargetPage(QWidget *parent = nullptr);
+     ~NMCFolderWizardTargetPage() override = default;
  
-     /**
-      * @brief Destroys the NMCFolderWizardTargetPage instance.
-      */
-     ~NMCFolderWizardTargetPage() = default;
- 
-     /**
-      * @brief Sets default settings for the NMCFolderWizardTargetPage.
-      */
      void setDefaultSettings();
- 
-     /**
-      * @brief Sets the layout for the NMCFolderWizardTargetPage.
-      */
      void setLayout();
+ 
+ private:
+     Ui::FolderWizardTargetPage ui;
  };
  
  } // namespace OCC
  
- #endif
+ #endif // MIRALL_NMCFolderWizardTargetPage_ 
