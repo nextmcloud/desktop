@@ -15,42 +15,30 @@
 #ifndef MIRALL_NMCFOLDERWIZARDTARGETPAGE_H
 #define MIRALL_NMCFOLDERWIZARDTARGETPAGE_H
 
+#include <QWizardPage>
 #include "ui_folderwizardtargetpage.h"
-
-/**
- * @brief The NMCFolderWizardTargetPage class represents a target page for the NMCFolderWizard.
- * @ingroup gui
- *
- * The NMCFolderWizardTargetPage class is derived from Ui::FolderWizardTargetPage and provides
- * layout and behavior customizations specific to the NMCFolderWizard in the NMC application.
- */
 
 namespace OCC {
 
-class NMCFolderWizardTargetPage : public ::Ui::FolderWizardTargetPage
+/**
+ * @brief Customized target page for NMC folder wizard.
+ */
+class NMCFolderWizardTargetPage : public QWizardPage
 {
+    Q_OBJECT
 public:
-    /**
-     * @brief Constructs an instance of NMCFolderWizardTargetPage.
-     */
-    explicit NMCFolderWizardTargetPage();
+    explicit NMCFolderWizardTargetPage(QWidget *parent = nullptr);
+    ~NMCFolderWizardTargetPage() override = default;
 
-    /**
-     * @brief Destructor.
-     */
-    ~NMCFolderWizardTargetPage() = default;
-
-    /**
-     * @brief Sets default visibility or behavior settings.
-     */
     void setDefaultSettings();
-
-    /**
-     * @brief Applies the custom layout and styling to the target page.
-     */
     void setLayout();
+
+    Ui::FolderWizardTargetPage *getUi();
+
+private:
+    Ui::FolderWizardTargetPage _ui;
 };
 
 } // namespace OCC
 
-#endif // MIRALL_NMCFOLDERWIZARDTARGETPAGE_H 
+#endif // MIRALL_NMCFOLDERWIZARDTARGETPAGE_H

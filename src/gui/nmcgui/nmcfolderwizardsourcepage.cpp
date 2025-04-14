@@ -23,24 +23,25 @@
 
 namespace OCC {
 
-NMCFolderWizardSourcePage::NMCFolderWizardSourcePage()
-    : FolderWizardSourcePage()
+NMCFolderWizardSourcePage::NMCFolderWizardSourcePage(QWidget *parent)
+    : QWizardPage(parent)
 {
+    _ui.setupUi(this);
 }
 
 void NMCFolderWizardSourcePage::setDefaultSettings()
 {
-    groupBox->setVisible(false);
+    _ui.groupBox->setVisible(false);
 }
 
 void NMCFolderWizardSourcePage::changeLayout()
 {
-    gridLayout_2->setContentsMargins(0, 0, 0, 0);
+    _ui.gridLayout_2->setContentsMargins(0, 0, 0, 0);
 
     auto *stepLabel = new QLabel(QCoreApplication::translate("", "ADD_LIVE_BACKUP_HEADLINE"));
     stepLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     stepLabel->setStyleSheet("QLabel { color: black; font-size: 13px; font-weight: bold; }");
-    gridLayout_2->addWidget(stepLabel, 0, 0, Qt::AlignTop | Qt::AlignLeft);
+    _ui.gridLayout_2->addWidget(stepLabel, 0, 0, Qt::AlignTop | Qt::AlignLeft);
 
     auto *mainLayoutWidget = new QWidget();
     mainLayoutWidget->setObjectName("mainLayoutWidget");
@@ -53,23 +54,29 @@ void NMCFolderWizardSourcePage::changeLayout()
     textLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     whiteLayout->addWidget(textLabel, 0, 0, 1, 2);
 
-    gridLayout_2->removeWidget(localFolderLineEdit);
-    localFolderLineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    whiteLayout->addWidget(localFolderLineEdit, 1, 0);
+    _ui.gridLayout_2->removeWidget(_ui.localFolderLineEdit);
+    _ui.localFolderLineEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    whiteLayout->addWidget(_ui.localFolderLineEdit, 1, 0);
 
-    localFolderChooseBtn->setAutoDefault(true);
-    localFolderChooseBtn->setDefault(true);
-    localFolderChooseBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    whiteLayout->addWidget(localFolderChooseBtn, 1, 1);
+    _ui.localFolderChooseBtn->setAutoDefault(true);
+    _ui.localFolderChooseBtn->setDefault(true);
+    _ui.localFolderChooseBtn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    whiteLayout->addWidget(_ui.localFolderChooseBtn, 1, 1);
 
-    gridLayout_2->addWidget(mainLayoutWidget, 1, 0, 1, 3);
+    _ui.gridLayout_2->addWidget(mainLayoutWidget, 1, 0, 1, 3);
 
-    gridLayout_2->removeWidget(warnLabel);
-    warnLabel->setStyleSheet("border: 0px; border-radius: 4px; background-color: #fee2d0;");
-    gridLayout_2->addWidget(warnLabel, 2, 0, 1, 3);
+    _ui.gridLayout_2->removeWidget(_ui.warnLabel);
+    _ui.warnLabel->setStyleSheet("border: 0px; border-radius: 4px; background-color: #fee2d0;");
+    _ui.gridLayout_2->addWidget(_ui.warnLabel, 2, 0, 1, 3);
 
-    gridLayout_2->removeItem(verticalSpacer);
-    gridLayout_2->addItem(verticalSpacer, 3, 0, 1, 3);
+    _ui.gridLayout_2->removeItem(_ui.verticalSpacer);
+    _ui.gridLayout_2->addItem(_ui.verticalSpacer, 3, 0, 1, 3);
 }
 
-} // namespace OCC 
+Ui::FolderWizardSourcePage *NMCFolderWizardSourcePage::getUi()
+{
+    return &_ui;
+}
+
+} // namespace OCC
+ 
