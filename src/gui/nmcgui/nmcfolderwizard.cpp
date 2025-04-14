@@ -21,15 +21,12 @@ NMCFolderWizard::NMCFolderWizard(OCC::AccountPtr account, QWidget *parent)
       _folderWizardSourcePage(new NMCFolderWizardSourcePage()),
       _folderWizardTargetPage(new NMCFolderWizardTargetPage())
 {
-    // Klassischen Stil beibehalten (Qt 6-kompatibel)
     setWizardStyle(QWizard::ClassicStyle);
-
-    // Übersetzungstext setzen für den Fertigstellen-Button
     setButtonText(QWizard::FinishButton, QCoreApplication::translate("", "ADD_SYNCHRONIZATION"));
 
     auto *sourceUi = _folderWizardSourcePage;
     sourceUi->localFolderLineEdit->clear();
-    sourceUi->localFolderLineEdit->setPlaceholderText(...);
+    sourceUi->localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
     sourceUi->setDefaultSettings();
     sourceUi->changeLayout();
     
