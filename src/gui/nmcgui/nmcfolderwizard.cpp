@@ -26,20 +26,26 @@ NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
     setButtonText(QWizard::FinishButton, QCoreApplication::translate("", "ADD_SYNCHRONIZATION"));
 
     // === Source Page Einstellungen ===
-    if (auto sourceUi = _folderWizardSourcePage->getUi()) {
-        sourceUi.localFolderLineEdit->clear();
-        sourceUi.localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
+    if (_folderWizardSourcePage) {
+        auto sourceUi = _folderWizardSourcePage->getUi();
+        if (sourceUi) {  // Sicherstellen, dass sourceUi gültig ist
+            sourceUi->localFolderLineEdit->clear();
+            sourceUi->localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
 
-        // Methoden sicher aufrufen, falls vorhanden
-        sourceUi.setDefaultSettings();
-        sourceUi.changeLayout();
+            // Methoden sicher aufrufen, falls vorhanden
+            sourceUi->setDefaultSettings();
+            sourceUi->changeLayout();
+        }
     }
 
     // === Target Page Einstellungen ===
-    if (auto targetUi = _folderWizardTargetPage->getUi()) {
-        targetUi.setDefaultSettings();
-        targetUi.setLayout();
+    if (_folderWizardTargetPage) {
+        auto targetUi = _folderWizardTargetPage->getUi();
+        if (targetUi) {  // Sicherstellen, dass targetUi gültig ist
+            targetUi->setDefaultSettings();
+            targetUi->setLayout();
+        }
     }
 }
 
-} // namespace OCC
+} // namespace OCC 
