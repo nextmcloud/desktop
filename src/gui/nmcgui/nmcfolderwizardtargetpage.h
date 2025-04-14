@@ -27,7 +27,7 @@
 
 namespace OCC {
 
-class NMCFolderWizardTargetPage : public Ui::FolderWizardTargetPage
+class NMCFolderWizardTargetPage : public ::Ui::FolderWizardTargetPage
 {
 public:
     /**

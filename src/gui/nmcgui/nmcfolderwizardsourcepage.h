@@ -37,7 +37,7 @@ public:
     /**
      * @brief Virtual destructor.
      */
-    ~NMCFolderWizardSourcePage() override = default;
+    ~NMCFolderWizardSourcePage() = default;
 
     /**
      * @brief Applies the default visibility and behavior settings.
