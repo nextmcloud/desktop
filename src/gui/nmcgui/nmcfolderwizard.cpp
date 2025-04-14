@@ -11,6 +11,7 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  */
+
 #include "nmcfolderwizard.h"
 
 namespace OCC {
@@ -26,18 +27,18 @@ NMCFolderWizard::NMCFolderWizard(AccountPtr account, QWidget *parent)
 
     // === Source Page Einstellungen ===
     if (auto sourceUi = _folderWizardSourcePage->getUi()) {
-        sourceUi->localFolderLineEdit->clear();
-        sourceUi->localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
+        sourceUi.localFolderLineEdit->clear();
+        sourceUi.localFolderLineEdit->setPlaceholderText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PLACEHOLDER_TEXT"));
 
         // Methoden sicher aufrufen, falls vorhanden
-        sourceUi->setDefaultSettings();
-        sourceUi->changeLayout();
+        sourceUi.setDefaultSettings();
+        sourceUi.changeLayout();
     }
 
     // === Target Page Einstellungen ===
     if (auto targetUi = _folderWizardTargetPage->getUi()) {
-        targetUi->setDefaultSettings();
-        targetUi->setLayout();
+        targetUi.setDefaultSettings();
+        targetUi.setLayout();
     }
 }
 
