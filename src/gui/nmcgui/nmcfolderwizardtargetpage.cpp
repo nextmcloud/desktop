@@ -75,4 +75,9 @@ void NMCFolderWizardTargetPage::setLayout()
     warnFrame->setStyleSheet("border: 0px; border-radius: 4px; background-color: #fee2d0");
 }
 
+NMCFolderWizardTargetPage &NMCFolderWizardTargetPage::getUi()
+{
+    return *this;
+}
+
 } // end namespace
