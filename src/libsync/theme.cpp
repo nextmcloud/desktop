@@ -1,16 +1,16 @@
 /*
- * Copyright (C) by Klaas Freitag <freitag@owncloud.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
- */
+* Copyright (C) by Klaas Freitag <freitag@owncloud.com>
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful, but
+* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+* or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+* for more details.
+*/
 
 #include "theme.h"
 #include "config.h"
@@ -230,9 +230,9 @@ QIcon Theme::applicationIcon() const
 }
 
 /*
- * helper to load a icon from either the icon theme the desktop provides or from
- * the apps Qt resources.
- */
+* helper to load a icon from either the icon theme the desktop provides or from
+* the apps Qt resources.
+*/
 QIcon Theme::themeIcon(const QString &name, bool sysTray) const
 {
     QString flavor;
@@ -267,7 +267,7 @@ QIcon Theme::themeIcon(const QString &name, bool sysTray) const
 
         const auto useSvg = shouldPreferSvg();
         const auto sizes = useSvg ? QVector<int>{ 16, 32, 64, 128, 256 }
-                                  : QVector<int>{ 16, 22, 32, 48, 64, 128, 256, 512, 1024 };
+                                : QVector<int>{ 16, 22, 32, 48, 64, 128, 256, 512, 1024 };
         for (int size : sizes) {
             auto px = useSvg ? createPixmapFromSvg(size) : loadPixmap(size);
             if (px.isNull()) {
@@ -606,7 +606,7 @@ QString Theme::aboutInfo() const
 {
     //: Example text: "<p>Nextcloud Desktop Client</p>"   (%1 is the application name)
     auto devString = developerStringInfo();
-                      
+                    
 
     devString += tr("<p><small>Using virtual files plugin: %1</small></p>").arg(Vfs::modeToString(bestAvailableVfsMode()));
     devString += QStringLiteral("<br>%1").arg(QSysInfo::productType() % QLatin1Char('-') % QSysInfo::kernelVersion());
@@ -627,7 +627,7 @@ QString Theme::aboutDetails() const
     devString = developerStringInfo();
 
     devString += tr("<p>This release was supplied by %1.</p>")
-              .arg(APPLICATION_VENDOR);
+            .arg(APPLICATION_VENDOR);
 
     devString += gitSHA1();
 
@@ -841,8 +841,8 @@ QString Theme::versionSwitchOutput() const
     QString helpText;
     QTextStream stream(&helpText);
     stream << appName()
-           << QLatin1String(" version ")
-           << version() << Qt::endl;
+        << QLatin1String(" version ")
+        << version() << Qt::endl;
 #ifdef GIT_SHA1
     stream << "Git revision " << GIT_SHA1 << Qt::endl;
 #endif
@@ -866,7 +866,7 @@ double Theme::getColorDarkness(const QColor &color)
 bool Theme::isDarkColor(const QColor &color)
 {
     Q_UNUSED(color)
-    return false;
+     return false;
 }
 
 QColor Theme::getBackgroundAwareLinkColor(const QColor &backgroundColor)
@@ -961,6 +961,11 @@ bool Theme::enforceVirtualFilesSyncFolder() const
     return ENFORCE_VIRTUAL_FILES_SYNC_FOLDER && vfsMode != OCC::Vfs::Off;
 }
 
+bool Theme::disableVirtualFilesSyncFolder() const
+{
+    return DISABLE_VIRTUAL_FILES_SYNC_FOLDER;
+}
+
 QColor Theme::defaultColor()
 {
     return QColor{NEXTCLOUD_BACKGROUND_COLOR};
@@ -1011,6 +1016,11 @@ QVariantMap Theme::systemPalette() const
 
 bool Theme::darkMode() const
 {
+    connectToPaletteSignal();
+    const auto isDarkFromStyle = [] {
+        return false;
+    };
+
     return false;
 }
 
