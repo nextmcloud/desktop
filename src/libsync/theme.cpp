@@ -1017,10 +1017,6 @@ QVariantMap Theme::systemPalette() const
 bool Theme::darkMode() const
 {
     connectToPaletteSignal();
-    const auto isDarkFromStyle = [] {
-        return false;
-    };
-
     return false;
 }
 
