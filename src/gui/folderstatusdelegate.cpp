@@ -276,25 +276,18 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
     auto optionsButtonVisualRect = optionsButtonRect(option.rect, option.direction);
 
-    // NMC customization
+    // NMC Customization
     if (!parentIndex.isValid()) {
-        QIcon nmcFolderIcon = QIcon(QStringLiteral(":/client/theme/NMCIcons/folderLogo.svg"));
-        const auto nmcFolderPixmap = nmcFolderIcon.pixmap(iconSize, QIcon::Normal);
-    
-        QRect visualIconRect = QStyle::visualRect(option.direction, option.rect, iconRect);
-        painter->drawPixmap(visualIconRect.left(), iconRect.top(), nmcFolderPixmap);
-    
-        const QSize statusIconSize(24, 24);
-        const auto statusPixmap = statusIcon.pixmap(statusIconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
-    
-        painter->drawPixmap(visualIconRect.right() - static_cast<int>(statusIconSize.width() * 0.6),
-                            iconRect.bottom() - static_cast<int>(statusIconSize.height() * 0.8),
-                            statusPixmap);
+        QIcon nmcFolderIcon = QIcon(QLatin1String(":/client/theme/NMCIcons/folderLogo.svg"));
+        const auto nmcFolderPixmap = nmcFolderIcon.pixmap(iconSize, iconSize, QIcon::Normal);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), nmcFolderPixmap);
+
+        const QSize statusIconSize(24,24);
+        const auto statusPixmap = statusIcon.pixmap(statusIconSize.width(), statusIconSize.height(), syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).right() - statusIconSize.width() * 0.6, iconRect.bottom() - statusIconSize.height() * 0.8, statusPixmap);
     } else {
-        const auto statusPixmap = statusIcon.pixmap(iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
-        
-        QRect visualIconRect = QStyle::visualRect(option.direction, option.rect, iconRect);
-        painter->drawPixmap(visualIconRect.left(), iconRect.top(), statusPixmap);
+        const auto statusPixmap = statusIcon.pixmap(iconSize, iconSize, syncEnabled ? QIcon::Normal : QIcon::Disabled);
+        painter->drawPixmap(QStyle::visualRect(option.direction, option.rect, iconRect).left(), iconRect.top(), statusPixmap);
     }
 
     // only show the warning icon if the sync is running. Otherwise its
@@ -438,44 +431,47 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         btnOpt.arrowType = Qt::NoArrow;
         btnOpt.subControls = QStyle::SC_ToolButton;
 
-        // NMC customization
+        //NMC customization
         btnOpt.rect = currentButtonRectPos;
-        btnOpt.rect.setWidth(btnOpt.rect.width() + 4); // Ensure the button is not too far from the left border
+        //make sure the button is not too far away from the left border
+        btnOpt.rect.setRight(btnOpt.rect.x() + btnOpt.rect.width() + 4);
 
+        // Create QPainterPath with rounded corners
         QPainterPath path;
-        path.addRoundedRect(btnOpt.rect, 4, 4);  // 4 is the radius for rounded corners
+        path.addRoundedRect(btnOpt.rect, 4, 4);  // 4 ist der Radius für die abgerundeten Ecken
 
-        QPen borderPen(QColor(0, 0, 0));
+        // Draw border line
+        QPen borderPen(QColor(0, 0, 0)); // Beispiel: Schwarzer Rand
         borderPen.setWidth(1);
-        borderPen.setCosmetic(true);  // Ensures the border width remains consistent regardless of scaling
         painter->setPen(borderPen);
         painter->drawPath(path);
-        painter->fillPath(path, QColor(0, 0, 0, 0));  // Ensures proper transparency
 
+        // Fill the rectangle
+        painter->fillPath(path, Qt::transparent);
+
+        // Draw the icon in rectangle
         btnOpt.icon = _iconMore;
         const auto buttonSize = QApplication::style()->pixelMetric(QStyle::PM_ButtonIconSize);
         btnOpt.iconSize = QSize(buttonSize, buttonSize);
-        QApplication::style()->drawComplexControl(QStyle::CC_ToolButton, &btnOpt, painter);
 
         // Set icon position
-        QPointF iconPos(btnOpt.rect.x() + btnOpt.rect.width() / 5,
-                        btnOpt.rect.y() + (btnOpt.rect.height() - btnOpt.iconSize.height()) / 2);
+        int iconX = btnOpt.rect.x() + btnOpt.rect.width()/5;
+        int iconY = btnOpt.rect.y() + (btnOpt.rect.height() - btnOpt.iconSize.height()) / 2;
 
-        painter->drawPixmap(iconPos, btnOpt.icon.pixmap(btnOpt.iconSize));
+        painter->drawPixmap(iconX, iconY, btnOpt.icon.pixmap(btnOpt.iconSize));
 
-        // Add text
-        const QString buttonText = QStringLiteral("MORE");
+        //Add text
+        const QString buttonText = QCoreApplication::translate("", "MORE");
         painter->setFont(btnOpt.font);
+        int textX = iconX + btnOpt.iconSize.width() + 10;
+        int textY = iconY;
+        int textWidth = currentButtonRectPos.x() + currentButtonRectPos.width() - textX;
+        int textHeight = btnOpt.fontMetrics.height();
 
-        QFontMetrics fm(btnOpt.font);
-        QPointF textPos(iconPos.x() + btnOpt.iconSize.width() + 10, iconPos.y());
-
-        // Define text rectangle for proper alignment
-        QRectF textRect(textPos, QSizeF(currentButtonRectPos.x() + currentButtonRectPos.width() - textPos.x(),
-                                        fm.height()));
-
-        painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, buttonText);
+        painter->drawText(QRect(textX, textY, textWidth, textHeight), Qt::AlignLeft | Qt::AlignVCenter, buttonText);
     }
+
+    painter->restore();
 }
 
 bool FolderStatusDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
