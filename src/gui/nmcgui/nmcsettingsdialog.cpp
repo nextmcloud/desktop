@@ -13,9 +13,9 @@
  */
 
 #include "nmcsettingsdialog.h"
-#include "QtWidgets/qboxlayout.h"
-#include "QtWidgets/qlabel.h"
-#include "QtWidgets/qtoolbar.h"
+#include <QBoxLayout>
+#include <QLabel>
+#include <QToolBar>
 #include "settingsdialog.h"
 
 namespace OCC {
