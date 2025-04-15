@@ -56,6 +56,7 @@ Repeater {
 
         contentItem: Text {
             text: activityActionButton.text
+            color: mouse.hovered ? Style.nmcTextInButtonColor : Style.nmcTextInButtonColor
             font.pixelSize: Style.fontSizeSmall
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
