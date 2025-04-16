@@ -865,7 +865,9 @@ double Theme::getColorDarkness(const QColor &color)
 
 bool Theme::isDarkColor(const QColor &color)
 {
-    return getColorDarkness(color) > 0.5;
+    // return getColorDarkness(color) > 0.5;
+    Q_UNUSED(color)
+    return false;
 }
 
 QColor Theme::getBackgroundAwareLinkColor(const QColor &backgroundColor)
@@ -1016,30 +1018,7 @@ QVariantMap Theme::systemPalette() const
 bool Theme::darkMode() const
 {
     connectToPaletteSignal();
-    const auto isDarkFromStyle = [] {
-        switch (qGuiApp->styleHints()->colorScheme())
-        {
-        case Qt::ColorScheme::Dark:
-            return true;
-        case Qt::ColorScheme::Light:
-            return false;
-        case Qt::ColorScheme::Unknown:
-            return Theme::isDarkColor(QGuiApplication::palette().window().color());
-        }
-
-        return false;
-    };
-
-#ifdef Q_OS_WIN
-    static const auto darkModeSubkey = QStringLiteral("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
-    if (!isWindows11OrGreater() && Utility::registryKeyExists(HKEY_CURRENT_USER, darkModeSubkey)) {
-        if (const auto keyVariant = Utility::registryGetKeyValue(HKEY_CURRENT_USER, darkModeSubkey, QStringLiteral("AppsUseLightTheme"));
-            keyVariant.isValid() && !keyVariant.toBool()) {
-            return true;
-        }
-    }
-#endif
-    return isDarkFromStyle();
+    return false;;
 }
 
 bool Theme::displayLegacyImportDialog() const
