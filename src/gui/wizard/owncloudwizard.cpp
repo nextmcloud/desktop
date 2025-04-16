@@ -374,7 +374,9 @@ void OwncloudWizard::displayError(const QString &msg, bool retryHTTPonly)
     switch (static_cast<WizardCommon::Pages>(currentId())) {
     case WizardCommon::Page_Welcome:
     case WizardCommon::Page_Flow2AuthCreds:
+#ifdef WITH_WEBENGINE
     case WizardCommon::Page_WebView:
+#endif // WITH_WEBENGINE
     case WizardCommon::Page_TermsOfService:
         break;
 
@@ -471,6 +473,11 @@ void OwncloudWizard::bringToTop()
 
 void OwncloudWizard::askExperimentalVirtualFilesFeature(QWidget *receiver, const std::function<void(bool enable)> &callback)
 {
+#ifdef BUILD_FILE_PROVIDER_MODULE
+    callback(true);
+    return;
+#endif
+
     const auto bestVfsMode = bestAvailableVfsMode();
     QMessageBox *msgBox = nullptr;
     QPushButton *acceptButton = nullptr;

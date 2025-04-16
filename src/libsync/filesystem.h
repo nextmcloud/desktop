@@ -122,15 +122,14 @@ namespace FileSystem {
      * errors are collected in errors.
      */
     bool OWNCLOUDSYNC_EXPORT removeRecursively(const QString &path,
-        const std::function<void(const QString &path, bool isDir)> &onDeleted = nullptr,
-        QStringList *errors = nullptr);
+                                               const std::function<void(const QString &path, bool isDir)> &onDeleted = nullptr,
+                                               QStringList *errors = nullptr,
+                                               const std::function<void(const QString &path, bool isDir)> &onError = nullptr);
 
     bool OWNCLOUDSYNC_EXPORT setFolderPermissions(const QString &path,
                                                   FileSystem::FolderPermissions permissions) noexcept;
 
-#if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
     bool OWNCLOUDSYNC_EXPORT isFolderReadOnly(const std::filesystem::path &path) noexcept;
-#endif
 }
 
 /** @} */

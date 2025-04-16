@@ -228,7 +228,6 @@ void SyncEngine::deleteStaleDownloadInfos(const SyncFileItemVector &syncItems)
         _journal->getAndDeleteStaleDownloadInfos(download_file_paths);
     for (const SyncJournalDb::DownloadInfo &deleted_info : deleted_infos) {
         const QString tmppath = _propagator->fullLocalPath(deleted_info._tmpfile);
-        qCInfo(lcEngine) << "Deleting stale temporary file: " << tmppath;
         FileSystem::remove(tmppath);
     }
 }
@@ -254,7 +253,7 @@ void SyncEngine::deleteStaleUploadInfos(const SyncFileItemVector &syncItems)
             if (!transferId)
                 continue; // Was not a chunked upload
             QUrl url = Utility::concatUrlPath(account()->url(), QLatin1String("remote.php/dav/uploads/") + account()->davUser() + QLatin1Char('/') + QString::number(transferId));
-            (new DeleteJob(account(), url, this))->start();
+            (new DeleteJob(account(), url, {}, this))->start();
         }
     }
 }
@@ -841,7 +840,6 @@ void SyncEngine::slotDiscoveryFinished()
 
     if (!_remnantReadOnlyFolders.isEmpty()) {
         handleRemnantReadOnlyFolders();
-        return;
     }
 
     finishSync();
@@ -1170,9 +1168,29 @@ bool SyncEngine::handleMassDeletion()
 
 void SyncEngine::handleRemnantReadOnlyFolders()
 {
-    promptUserBeforePropagation([this](auto &&callback) {
-                                    emit aboutToRemoveRemnantsReadOnlyFolders(_remnantReadOnlyFolders, _localPath, callback);
-                                });
+    auto listOfFolders = QStringList{};
+    for (const auto &oneFolder : std::as_const(_remnantReadOnlyFolders)) {
+        listOfFolders.push_back(oneFolder->_file);
+    }
+
+    qCInfo(lcEngine()) << "will delete invalid read-only folders:" << listOfFolders.join(", ");
+
+    for(const auto &oneFolder : std::as_const(_remnantReadOnlyFolders)) {
+        const auto fileInfo = QFileInfo{_localPath + oneFolder->_file};
+        const auto parentFolderPath = fileInfo.dir().absolutePath();
+        slotAddTouchedFile(parentFolderPath);
+        const auto parentPermissionsHandler = FileSystem::FilePermissionsRestore{parentFolderPath, FileSystem::FolderPermissions::ReadWrite};
+        slotAddTouchedFile(_localPath + oneFolder->_file);
+
+        if (oneFolder->_type == ItemType::ItemTypeDirectory) {
+            const auto deletionCallback = [this] (const QString &deleteItem, bool) {
+                slotAddTouchedFile(deleteItem);
+            };
+            FileSystem::removeRecursively(_localPath + oneFolder->_file, deletionCallback, nullptr, deletionCallback);
+        } else {
+            FileSystem::remove(_localPath + oneFolder->_file);
+        }
+    }
 }
 
 template <typename T>

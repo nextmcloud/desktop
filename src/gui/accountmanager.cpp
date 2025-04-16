@@ -23,6 +23,7 @@
 #include "libsync/configfile.h"
 #include "libsync/cookiejar.h"
 #include "libsync/theme.h"
+#include "libsync/clientproxy.h"
 
 #include <QSettings>
 #include <QDir>
@@ -60,7 +61,6 @@ constexpr auto networkDownloadLimitSettingC = "networkDownloadLimitSetting";
 constexpr auto networkUploadLimitC = "networkUploadLimit";
 constexpr auto networkDownloadLimitC = "networkDownloadLimit";
 constexpr auto encryptionCertificateSha256FingerprintC = "encryptionCertificateSha256Fingerprint";
-constexpr auto generalC = "General";
 
 constexpr auto dummyAuthTypeC = "dummy";
 constexpr auto httpAuthTypeC = "http";
@@ -82,6 +82,8 @@ constexpr auto maxAccountsVersion = 13;
 constexpr auto maxAccountVersion = 13;
 
 constexpr auto serverHasValidSubscriptionC = "serverHasValidSubscription";
+
+constexpr auto generalC = "General";
 }
 
 
@@ -251,6 +253,16 @@ bool AccountManager::restoreFromLegacySettings()
         }
     }
 
+    ConfigFile configFile;
+    configFile.setVfsEnabled(settings->value(configFile.isVfsEnabledC).toBool());
+    configFile.setLaunchOnSystemStartup(settings->value(configFile.launchOnSystemStartupC).toBool());
+    configFile.setOptionalServerNotifications(settings->value(configFile.optionalServerNotificationsC).toBool());
+    configFile.setPromptDeleteFiles(settings->value(configFile.promptDeleteC).toBool());
+    configFile.setShowCallNotifications(settings->value(configFile.showCallNotificationsC).toBool());
+    configFile.setShowChatNotifications(settings->value(configFile.showChatNotificationsC).toBool());
+    configFile.setShowInExplorerNavigationPane(settings->value(configFile.showInExplorerNavigationPaneC).toBool());
+    ClientProxy().saveProxyConfigurationFromSettings(*settings);
+
     // Try to load the single account.
     if (!settings->childKeys().isEmpty()) {
         settings->beginGroup(accountsC);
@@ -280,7 +292,7 @@ void AccountManager::save(bool saveCredentials)
     settings->setValue(QLatin1String(versionC), maxAccountsVersion);
     for (const auto &acc : std::as_const(_accounts)) {
         settings->beginGroup(acc->account()->id());
-        saveAccountHelper(acc->account().data(), *settings, saveCredentials);
+        saveAccountHelper(acc->account(), *settings, saveCredentials);
         settings->endGroup();
     }
 
@@ -288,7 +300,7 @@ void AccountManager::save(bool saveCredentials)
     qCInfo(lcAccountManager) << "Saved all account settings, status:" << settings->status();
 }
 
-void AccountManager::saveAccount(Account *newAccountData)
+void AccountManager::saveAccount(const AccountPtr &newAccountData)
 {
     qCDebug(lcAccountManager) << "Saving account" << newAccountData->url().toString();
     const auto settings = ConfigFile::settingsWithGroup(QLatin1String(accountsC));
@@ -311,7 +323,7 @@ void AccountManager::saveAccountState(AccountState *a)
     qCDebug(lcAccountManager) << "Saved account state settings, status:" << settings->status();
 }
 
-void AccountManager::saveAccountHelper(Account *account, QSettings &settings, bool saveCredentials)
+void AccountManager::saveAccountHelper(const AccountPtr &account, QSettings &settings, bool saveCredentials)
 {
     qCDebug(lcAccountManager) << "Saving settings to" << settings.fileName();
     settings.setValue(QLatin1String(versionC), maxAccountVersion);

@@ -960,6 +960,11 @@ bool Theme::enforceVirtualFilesSyncFolder() const
     return ENFORCE_VIRTUAL_FILES_SYNC_FOLDER && vfsMode != OCC::Vfs::Off;
 }
 
+bool Theme::disableVirtualFilesSyncFolder() const
+{
+    return DISABLE_VIRTUAL_FILES_SYNC_FOLDER;
+}
+
 QColor Theme::defaultColor()
 {
     return QColor{NEXTCLOUD_BACKGROUND_COLOR};
@@ -1027,10 +1032,11 @@ bool Theme::darkMode() const
 
 #ifdef Q_OS_WIN
     static const auto darkModeSubkey = QStringLiteral("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize");
-    if (!isWindows11OrGreater() &&
-        Utility::registryKeyExists(HKEY_CURRENT_USER, darkModeSubkey) &&
-        !Utility::registryGetKeyValue(HKEY_CURRENT_USER, darkModeSubkey, QStringLiteral("AppsUseLightTheme")).toBool()) {
-        return true;
+    if (!isWindows11OrGreater() && Utility::registryKeyExists(HKEY_CURRENT_USER, darkModeSubkey)) {
+        if (const auto keyVariant = Utility::registryGetKeyValue(HKEY_CURRENT_USER, darkModeSubkey, QStringLiteral("AppsUseLightTheme"));
+            keyVariant.isValid() && !keyVariant.toBool()) {
+            return true;
+        }
     }
 #endif
     return isDarkFromStyle();

@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QCoreApplication>
 
+#include <filesystem>
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -586,17 +587,32 @@ bool FileSystem::remove(const QString &fileName, QString *errorString)
 #ifdef Q_OS_WIN
     // You cannot delete a read-only file on windows, but we want to
     // allow that.
-    if (!isWritable(fileName)) {
-        setFileReadOnly(fileName, false);
-    }
+    setFileReadOnly(fileName, false);
 #endif
-    QFile f(fileName);
-    if (!f.remove()) {
+
+    try {
+        if (!std::filesystem::remove(std::filesystem::path{fileName.toUtf8().data()})) {
+            if (errorString) {
+                *errorString = QObject::tr("File is already deleted");
+            }
+            return false;
+        }
+    }
+    catch (const std::filesystem::filesystem_error &e)
+    {
         if (errorString) {
-            *errorString = f.errorString();
+            *errorString = QString::fromLatin1(e.what());
         }
         return false;
     }
+    catch (...)
+    {
+        if (errorString) {
+            *errorString = QObject::tr("Error deleting the file");
+        }
+        return false;
+    }
+
     return true;
 }
 

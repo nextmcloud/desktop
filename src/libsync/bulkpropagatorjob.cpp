@@ -58,7 +58,6 @@ QByteArray getHeaderFromJsonReply(const QJsonObject &reply, const QByteArray &he
     return reply.value(headerName).toString().toLatin1();
 }
 
-constexpr auto batchSize = 100;
 constexpr auto parallelJobsMaximumCount = 1;
 
 }
@@ -70,9 +69,10 @@ Q_LOGGING_CATEGORY(lcBulkPropagatorJob, "nextcloud.sync.propagator.bulkupload", 
 BulkPropagatorJob::BulkPropagatorJob(OwncloudPropagator *propagator, const std::deque<SyncFileItemPtr> &items)
     : PropagatorJob(propagator)
     , _items(items)
+    , _currentBatchSize(_items.size())
 {
-    _filesToUpload.reserve(batchSize);
-    _pendingChecksumFiles.reserve(batchSize);
+    _filesToUpload.reserve(_items.size());
+    _pendingChecksumFiles.reserve(_items.size());
 }
 
 bool BulkPropagatorJob::scheduleSelfOrChild()
@@ -83,10 +83,14 @@ bool BulkPropagatorJob::scheduleSelfOrChild()
 
     _state = Running;
 
-    for(auto i = 0; i < batchSize && !_items.empty(); ++i) {
+    qCDebug(lcBulkPropagatorJob()) << "max chunk size" << PropagatorJob::propagator()->syncOptions().maxChunkSize();
+
+    for(auto batchDataSize = 0; batchDataSize <= PropagatorJob::propagator()->syncOptions().maxChunkSize() && !_items.empty(); ) {
         const auto currentItem = _items.front();
         _items.pop_front();
         _pendingChecksumFiles.insert(currentItem->_file);
+
+        batchDataSize += currentItem->_size;
 
         QMetaObject::invokeMethod(this, [this, currentItem] {
             UploadFileInfo fileToUpload;
@@ -105,6 +109,29 @@ bool BulkPropagatorJob::scheduleSelfOrChild()
     }
 
     return _items.empty() && _filesToUpload.empty();
+}
+
+bool BulkPropagatorJob::handleBatchSize()
+{
+    // no error, no batch size to change
+    if (_finalStatus == SyncFileItem::Success || _finalStatus == SyncFileItem::NoStatus) {
+        qCDebug(lcBulkPropagatorJob) << "No error, no need to change the bulk upload batch size!";
+        return true;
+    }
+
+    // change batch size before trying it again
+    const auto halfBatchSize = static_cast<int>(_items.size() / 2);
+
+    // we already tried to upload with half of the batch size
+    if(_currentBatchSize == halfBatchSize) {
+        qCDebug(lcBulkPropagatorJob) << "There was another error, stop syncing now!";
+        return false;
+    }
+
+    // try to upload with half of the batch size
+    _currentBatchSize = halfBatchSize;
+    qCDebug(lcBulkPropagatorJob) << "There was an error, sync again with bulk upload batch size cut to half!";
+    return true;
 }
 
 PropagatorJob::JobParallelism BulkPropagatorJob::parallelism() const
@@ -129,7 +156,8 @@ void BulkPropagatorJob::startUploadFile(SyncFileItemPtr item, UploadFileInfo fil
 
 void BulkPropagatorJob::doStartUpload(SyncFileItemPtr item,
                                       UploadFileInfo fileToUpload,
-                                      QByteArray transmissionChecksumHeader)
+                                      QByteArray transmissionChecksumHeader,
+                                      QByteArray md5ChecksumHeader)
 {
     if (propagator()->_abortRequested) {
         return;
@@ -171,22 +199,31 @@ void BulkPropagatorJob::doStartUpload(SyncFileItemPtr item,
 
         item->_modtime = FileSystem::getModTime(newFilePathAbsolute);
         if (item->_modtime <= 0) {
-            _pendingChecksumFiles.remove(item->_file);
-            slotOnErrorStartFolderUnlock(item, SyncFileItem::NormalError, tr("File %1 has invalid modified time. Do not upload to the server.").arg(QDir::toNativeSeparators(item->_file)), ErrorCategory::GenericError);
-            checkPropagationIsDone();
-            return;
+            const auto now = QDateTime::currentSecsSinceEpoch();
+            qCInfo(lcPropagateUpload) << "File" << item->_file << "has invalid modification time of" << item->_modtime << "-- trying to update it to" << now;
+            if (FileSystem::setModTime(newFilePathAbsolute, now)) {
+                item->_modtime = now;
+            } else {
+                qCWarning(lcPropagateUpload) << "Could not update modification time for" << item->_file;
+                _pendingChecksumFiles.remove(item->_file);
+                slotOnErrorStartFolderUnlock(item, SyncFileItem::NormalError, tr("File %1 has invalid modified time. Do not upload to the server.").arg(QDir::toNativeSeparators(item->_file)), ErrorCategory::GenericError);
+                checkPropagationIsDone();
+                return;
+            }
         }
     }
 
     const auto remotePath = propagator()->fullRemotePath(fileToUpload._file);
 
-    currentHeaders["X-File-MD5"] = transmissionChecksumHeader;
+    if (!md5ChecksumHeader.isEmpty()) {
+        currentHeaders["X-File-MD5"] = md5ChecksumHeader;
+    }
+    currentHeaders[checkSumHeaderC] = transmissionChecksumHeader;
 
     BulkUploadItem newUploadFile{propagator()->account(), item, fileToUpload,
                 remotePath, fileToUpload._path,
                 fileToUpload._size, currentHeaders};
 
-    qCInfo(lcBulkPropagatorJob) << remotePath << "transmission checksum" << transmissionChecksumHeader << fileToUpload._path;
     _filesToUpload.push_back(std::move(newUploadFile));
     _pendingChecksumFiles.remove(item->_file);
 
@@ -254,13 +291,16 @@ void BulkPropagatorJob::checkPropagationIsDone()
             // just wait for the other job to finish.
             return;
         }
-
-        qCInfo(lcBulkPropagatorJob) << "final status" << _finalStatus;
-        emit finished(_finalStatus);
-        propagator()->scheduleNextJob();
     } else {
-        scheduleSelfOrChild();
+        if (handleBatchSize()) {
+            scheduleSelfOrChild();
+            return;
+        }
     }
+
+    qCInfo(lcBulkPropagatorJob) << "final status" << _finalStatus;
+    emit finished(_finalStatus);
+    propagator()->scheduleNextJob();
 }
 
 void BulkPropagatorJob::slotComputeTransmissionChecksum(SyncFileItemPtr item,
@@ -268,11 +308,35 @@ void BulkPropagatorJob::slotComputeTransmissionChecksum(SyncFileItemPtr item,
 {
     // Compute the transmission checksum.
     const auto computeChecksum = new ComputeChecksum(this);
-    const auto checksumType = uploadChecksumEnabled() ? "MD5" : "";
+    const auto checksumType = uploadChecksumEnabled() ? propagator()->account()->capabilities().preferredUploadChecksumType() : QByteArray{""};
     computeChecksum->setChecksumType(checksumType);
 
     connect(computeChecksum, &ComputeChecksum::done, this, [this, item, fileToUpload] (const QByteArray &contentChecksumType, const QByteArray &contentChecksum) {
-        slotStartUpload(item, fileToUpload, contentChecksumType, contentChecksum);
+        if (propagator()->account()->bulkUploadNeedsLegacyChecksumHeader()) {
+            slotComputeMd5Checksum(item, fileToUpload, contentChecksumType, contentChecksum);
+        } else {
+            slotStartUpload(item, fileToUpload, contentChecksumType, contentChecksum, {});
+        }
+    });
+    connect(computeChecksum, &ComputeChecksum::done, computeChecksum, &QObject::deleteLater);
+
+    computeChecksum->start(fileToUpload._path);
+}
+
+void BulkPropagatorJob::slotComputeMd5Checksum(SyncFileItemPtr item,
+                                               UploadFileInfo fileToUpload,
+                                               const QByteArray &transmissionChecksumType,
+                                               const QByteArray &transmissionChecksum)
+{
+    // Compute the transmission checksum.
+    const auto computeChecksum = new ComputeChecksum(this);
+    const auto checksumType = QByteArray{"MD5"};
+    computeChecksum->setChecksumType(checksumType);
+
+    connect(computeChecksum, &ComputeChecksum::done, this, [this, item, fileToUpload, transmissionChecksumType, transmissionChecksum] (const QByteArray &contentChecksumType, const QByteArray &contentChecksum) {
+        Q_UNUSED(contentChecksumType)
+
+        slotStartUpload(item, fileToUpload, transmissionChecksumType, transmissionChecksum, contentChecksum);
     });
     connect(computeChecksum, &ComputeChecksum::done, computeChecksum, &QObject::deleteLater);
 
@@ -282,7 +346,8 @@ void BulkPropagatorJob::slotComputeTransmissionChecksum(SyncFileItemPtr item,
 void BulkPropagatorJob::slotStartUpload(SyncFileItemPtr item,
                                         UploadFileInfo fileToUpload,
                                         const QByteArray &transmissionChecksumType,
-                                        const QByteArray &transmissionChecksum)
+                                        const QByteArray &transmissionChecksum,
+                                        const QByteArray &md5Checksum)
 {
     const auto transmissionChecksumHeader = makeChecksumHeader(transmissionChecksumType, transmissionChecksum);
 
@@ -298,18 +363,26 @@ void BulkPropagatorJob::slotStartUpload(SyncFileItemPtr item,
         return;
     }
 
-    const auto prevModtime = item->_modtime; // the _item value was set in PropagateUploadFile::start()
+    const auto prevModtime = item->_modtime; // the item value was set in PropagateUploadFile::start()
     // but a potential checksum calculation could have taken some time during which the file could
     // have been changed again, so better check again here.
 
     item->_modtime = FileSystem::getModTime(originalFilePath);
+    qCDebug(lcPropagateUpload) << "fullFilePath" << fullFilePath << "originalFilePath" << originalFilePath << "prevModtime" << prevModtime << "item->_modtime" << item->_modtime;
     if (item->_modtime <= 0) {
-        _pendingChecksumFiles.remove(item->_file);
-        slotOnErrorStartFolderUnlock(item, SyncFileItem::NormalError, tr("File %1 has invalid modification time. Do not upload to the server.").arg(QDir::toNativeSeparators(item->_file)), ErrorCategory::GenericError);
-        checkPropagationIsDone();
-        return;
+        const auto now = QDateTime::currentSecsSinceEpoch();
+        qCInfo(lcPropagateUpload) << "File" << item->_file << "has invalid modification time of" << item->_modtime << "-- trying to update it to" << now;
+        if (FileSystem::setModTime(originalFilePath, now)) {
+            item->_modtime = now;
+        } else {
+            qCWarning(lcPropagateUpload) << "Could not update modification time for" << item->_file;
+            _pendingChecksumFiles.remove(item->_file);
+            slotOnErrorStartFolderUnlock(item, SyncFileItem::NormalError, tr("File %1 has invalid modification time. Do not upload to the server.").arg(QDir::toNativeSeparators(item->_file)), ErrorCategory::GenericError);
+            checkPropagationIsDone();
+            return;
+        }
     }
-    if (prevModtime != item->_modtime) {
+    if (prevModtime > 0 && prevModtime != item->_modtime) {
         propagator()->_anotherSyncNeeded = true;
         _pendingChecksumFiles.remove(item->_file);
 
@@ -336,7 +409,7 @@ void BulkPropagatorJob::slotStartUpload(SyncFileItemPtr item,
         return;
     }
 
-    doStartUpload(item, fileToUpload, transmissionChecksum);
+    doStartUpload(item, fileToUpload, transmissionChecksumHeader, md5Checksum);
 }
 
 void BulkPropagatorJob::slotOnErrorStartFolderUnlock(SyncFileItemPtr item,
@@ -373,6 +446,9 @@ void BulkPropagatorJob::slotPutFinishedOneFile(const BulkUploadItem &singleFile,
     }
 
     singleFile._item->_status = SyncFileItem::Success;
+
+    // upload succeeded, so remove from black list
+    propagator()->removeFromBulkUploadBlackList(singleFile._item->_file);
 
     // Check the file again post upload.
     // Two cases must be considered separately: If the upload is finished,
@@ -509,7 +585,7 @@ void BulkPropagatorJob::finalizeOneFile(const BulkUploadItem &oneFile)
 
 void BulkPropagatorJob::finalize(const QJsonObject &fullReply)
 {
-    qCDebug(lcBulkPropagatorJob) << "Received a full reply" << fullReply;
+    qCDebug(lcBulkPropagatorJob) << "Received a full reply" << QJsonDocument::fromVariant(fullReply).toJson();
 
     for(auto singleFileIt = std::begin(_filesToUpload); singleFileIt != std::end(_filesToUpload); ) {
         const auto &singleFile = *singleFileIt;

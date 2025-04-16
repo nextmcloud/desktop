@@ -869,9 +869,7 @@ void User::processCompletedSyncItem(const Folder *folder, const SyncFileItemPtr 
         activity._subject = item->_errorString;
         activity._id = -static_cast<int>(qHash(activity._subject + activity._message));
 
-        if (item->_status == SyncFileItem::Status::FileIgnored) {
-            _activityModel->addIgnoredFileToList(activity);
-        } else {
+        if (item->_status != SyncFileItem::Status::FileIgnored) {
             // add 'protocol error' to activity list
             if (item->_status == SyncFileItem::Status::FileNameInvalid || item->_status == SyncFileItem::Status::FileNameInvalidOnServer) {
                 ActivityLink buttonActivityLink;
@@ -1349,8 +1347,9 @@ void UserModel::addUser(AccountStatePtr &user, const bool &isCurrent)
         });
 
         connect(u, &User::statusChanged, this, [this, row] {
-            emit dataChanged(index(row, 0), index(row, 0), {UserModel::StatusIconRole, 
-			    				    UserModel::StatusEmojiRole,     
+            emit dataChanged(index(row, 0), index(row, 0), {UserModel::StatusRole,
+                                                            UserModel::StatusIconRole,
+                                                            UserModel::StatusEmojiRole,
                                                             UserModel::StatusMessageRole});
         });
         
@@ -1542,6 +1541,8 @@ QVariant UserModel::data(const QModelIndex &index, int role) const
         return _users[index.row()]->server();
     } else if (role == ServerHasUserStatusRole) {
         return _users[index.row()]->serverHasUserStatus();
+    } else if (role == StatusRole) {
+        return QVariant::fromValue(_users[index.row()]->status());
     } else if (role == StatusIconRole) {
         return _users[index.row()]->statusIcon();
     } else if (role == StatusEmojiRole) {
@@ -1568,6 +1569,7 @@ QHash<int, QByteArray> UserModel::roleNames() const
     roles[NameRole] = "name";
     roles[ServerRole] = "server";
     roles[ServerHasUserStatusRole] = "serverHasUserStatus";
+    roles[StatusRole] = "status";
     roles[StatusIconRole] = "statusIcon";
     roles[StatusEmojiRole] = "statusEmoji";
     roles[StatusMessageRole] = "statusMessage";

@@ -196,10 +196,7 @@ time_t FileSystem::getModTime(const QString &filename)
 
 bool FileSystem::setModTime(const QString &filename, time_t modTime)
 {
-    struct timeval times[2];
-    times[0].tv_sec = times[1].tv_sec = modTime;
-    times[0].tv_usec = times[1].tv_usec = 0;
-    int rc = c_utimes(filename, times);
+    int rc = c_utimes(filename, modTime);
     if (rc != 0) {
         qCWarning(lcFileSystem) << "Error setting mtime for" << filename
                                 << "failed: rc" << rc << ", errno:" << errno;
@@ -257,8 +254,14 @@ qint64 FileSystem::getSize(const QString &filename)
 }
 
 // Code inspired from Qt5's QDir::removeRecursively
-bool FileSystem::removeRecursively(const QString &path, const std::function<void(const QString &path, bool isDir)> &onDeleted, QStringList *errors)
+bool FileSystem::removeRecursively(const QString &path, const std::function<void(const QString &path, bool isDir)> &onDeleted, QStringList *errors, const std::function<void(const QString &path, bool isDir)> &onError)
 {
+    if (!FileSystem::setFolderPermissions(path, FileSystem::FolderPermissions::ReadWrite)) {
+        if (onError) {
+            onError(path, true);
+        }
+    }
+
     bool allRemoved = true;
     QDirIterator di(path, QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot);
 
@@ -270,15 +273,13 @@ bool FileSystem::removeRecursively(const QString &path, const std::function<void
         // we never want to go into this branch for .lnk files
         bool isDir = FileSystem::isDir(fi.absoluteFilePath()) && !FileSystem::isSymLink(fi.absoluteFilePath()) && !FileSystem::isJunction(fi.absoluteFilePath());
         if (isDir) {
-            removeOk = removeRecursively(path + QLatin1Char('/') + di.fileName(), onDeleted, errors); // recursive
+            removeOk = removeRecursively(path + QLatin1Char('/') + di.fileName(), onDeleted, errors, onError); // recursive
         } else {
             QString removeError;
 
-#if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
             const auto fileInfo = QFileInfo{di.filePath()};
             const auto parentFolderPath = fileInfo.dir().absolutePath();
             const auto parentPermissionsHandler = FileSystem::FilePermissionsRestore{parentFolderPath, FileSystem::FolderPermissions::ReadWrite};
-#endif
             removeOk = FileSystem::remove(di.filePath(), &removeError);
             if (removeOk) {
                 if (onDeleted)
@@ -288,6 +289,9 @@ bool FileSystem::removeRecursively(const QString &path, const std::function<void
                     errors->append(QCoreApplication::translate("FileSystem", "Error removing \"%1\": %2")
                                        .arg(QDir::toNativeSeparators(di.filePath()), removeError));
                 }
+                if (onError) {
+                    onError(di.filePath(), false);
+                }
                 qCWarning(lcFileSystem) << "Error removing " << di.filePath() << ':' << removeError;
             }
         }
@@ -295,12 +299,10 @@ bool FileSystem::removeRecursively(const QString &path, const std::function<void
             allRemoved = false;
     }
     if (allRemoved) {
-#if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
         const auto fileInfo = QFileInfo{path};
         const auto parentFolderPath = fileInfo.dir().absolutePath();
         const auto parentPermissionsHandler = FileSystem::FilePermissionsRestore{parentFolderPath, FileSystem::FolderPermissions::ReadWrite};
         FileSystem::setFolderPermissions(path, FileSystem::FolderPermissions::ReadWrite);
-#endif
         allRemoved = QDir().rmdir(path);
         if (allRemoved) {
             if (onDeleted)
@@ -309,6 +311,9 @@ bool FileSystem::removeRecursively(const QString &path, const std::function<void
             if (errors) {
                 errors->append(QCoreApplication::translate("FileSystem", "Could not remove folder \"%1\"")
                                    .arg(QDir::toNativeSeparators(path)));
+            }
+            if (onError) {
+                onError(di.filePath(), false);
             }
             qCWarning(lcFileSystem) << "Error removing folder" << path;
         }
@@ -326,7 +331,6 @@ bool FileSystem::getInode(const QString &filename, quint64 *inode)
     return false;
 }
 
-#if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
 bool FileSystem::setFolderPermissions(const QString &path,
                                       FileSystem::FolderPermissions permissions) noexcept
 {
@@ -540,8 +544,8 @@ FileSystem::FilePermissionsRestore::FilePermissionsRestore(const QString &path, 
         _initialPermissions = FileSystem::isFolderReadOnly(stdStrPath) ? OCC::FileSystem::FolderPermissions::ReadOnly : OCC::FileSystem::FolderPermissions::ReadWrite;
         if (_initialPermissions != temporaryPermissions) {
             _rollbackNeeded = true;
-            FileSystem::setFolderPermissions(_path, temporaryPermissions);
         }
+        FileSystem::setFolderPermissions(_path, temporaryPermissions);
     }
     catch (const std::filesystem::filesystem_error &e)
     {
@@ -563,7 +567,5 @@ FileSystem::FilePermissionsRestore::~FilePermissionsRestore()
         FileSystem::setFolderPermissions(_path, _initialPermissions);
     }
 }
-
-#endif
 
 } // namespace OCC

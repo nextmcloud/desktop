@@ -427,8 +427,6 @@ std::unique_ptr<PropagateUploadFileCommon> OwncloudPropagator::createUploadJob(S
 
     job->setDeleteExisting(deleteExisting);
 
-    removeFromBulkUploadBlackList(item->_file);
-
     return job;
 }
 
@@ -1093,29 +1091,9 @@ Result<Vfs::ConvertToPlaceholderResult, QString> OwncloudPropagator::staticUpdat
 
 bool OwncloudPropagator::isDelayedUploadItem(const SyncFileItemPtr &item) const
 {
-    const auto checkFileShouldBeEncrypted = [this] (const SyncFileItemPtr &item) -> bool {
-        const auto path = item->_file;
-        const auto slashPosition = path.lastIndexOf('/');
-        const auto parentPath = slashPosition >= 0 ? path.left(slashPosition) : QString();
+    Q_UNUSED(item)
 
-        SyncJournalFileRecord parentRec;
-        bool ok = _journal->getFileRecord(parentPath, &parentRec);
-        if (!ok) {
-            return false;
-        }
-
-        const auto accountPtr = account();
-
-        if (!parentRec.isValid() ||
-            !parentRec.isE2eEncrypted()) {
-            return false;
-        }
-
-        return true;
-    };
-
-    return account()->capabilities().bulkUpload() && !_scheduleDelayedTasks && !item->isEncrypted() && _syncOptions.minChunkSize() > item->_size
-        && !isInBulkUploadBlackList(item->_file) && !checkFileShouldBeEncrypted(item);
+    return false;
 }
 
 void OwncloudPropagator::setScheduleDelayedTasks(bool active)
@@ -1269,7 +1247,9 @@ bool PropagatorCompositeJob::scheduleSelfOrChild()
         _tasksToDo.remove(0);
         PropagatorJob *job = propagator()->createJob(nextTask);
         if (!job) {
-            qCWarning(lcDirectory) << "Useless task found for file" << nextTask->destination() << "instruction" << nextTask->_instruction;
+            if (!propagator()->isDelayedUploadItem(nextTask)) {
+                qCWarning(lcDirectory) << "Useless task found for file" << nextTask->destination() << "instruction" << nextTask->_instruction;
+            }
             continue;
         }
         appendJob(job);
@@ -1338,8 +1318,9 @@ void PropagatorCompositeJob::finalize()
 {
     // The propagator will do parallel scheduling and this could be posted
     // multiple times on the event loop, ignore the duplicate calls.
-    if (_state == Finished)
+    if (_state == Finished) {
         return;
+    }
 
     _state = Finished;
     emit finished(_hasError == SyncFileItem::NoStatus ? SyncFileItem::Success : _hasError);
@@ -1465,7 +1446,6 @@ void PropagateDirectory::slotSubJobsFinished(SyncFileItem::Status status)
             || _item->_instruction == CSYNC_INSTRUCTION_NEW
             || _item->_instruction == CSYNC_INSTRUCTION_UPDATE_METADATA) {
 
-#if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
             if (!_item->_remotePerm.isNull() &&
                 !_item->_remotePerm.hasPermission(RemotePermissions::CanAddFile) &&
                 !_item->_remotePerm.hasPermission(RemotePermissions::CanAddSubDirectories)) {
@@ -1530,7 +1510,6 @@ void PropagateDirectory::slotSubJobsFinished(SyncFileItem::Status status)
                     _item->_errorString = tr("The folder %1 cannot be made read-only: %2").arg("", tr("unknown exception"));
                 }
             }
-#endif
             if (!_item->_isAnyCaseClashChild && !_item->_isAnyInvalidCharChild) {
                 if (_item->isEncrypted()) {
                     _item->_e2eCertificateFingerprint = propagator()->account()->encryptionCertificateFingerprint();
