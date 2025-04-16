@@ -22,7 +22,7 @@ import Qt.labs.platform as NativeDialogs
 
 import "../"
 import "../filedetails/"
-import "../nmcgui"
+import "qrc:/qml/NMCGui"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style

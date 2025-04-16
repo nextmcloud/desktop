@@ -17,7 +17,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "../nmcgui/"
+import "qrc:/qml/NMCGui"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
