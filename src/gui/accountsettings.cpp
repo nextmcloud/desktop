@@ -228,7 +228,6 @@ const auto tabWidget = _ui->tabWidget;
     connectionSettingsLayout->addWidget(networkSettings);
     connectionSettingsTab->setLayout(connectionSettingsLayout);
 
-    const auto connectionSettingsTab = _ui->connectionSettingsTab;
     if (const auto connectionSettingsTabIndex = tabWidget->indexOf(connectionSettingsTab); connectionSettingsTabIndex >= 0) {
         tabWidget->removeTab(connectionSettingsTabIndex);
     }
