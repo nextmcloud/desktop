@@ -62,7 +62,9 @@ FolderMan *FolderMan::_instance = nullptr;
 FolderMan::FolderMan(QObject *parent)
     : QObject(parent)
     , _lockWatcher(new LockWatcher)
+#ifdef Q_OS_WIN
     , _navigationPaneHelper(this)
+#endif
 {
     ASSERT(!_instance);
     _instance = this;
@@ -980,7 +982,7 @@ void FolderMan::slotStartScheduledFolderSync()
     }
 }
 
-bool FolderMan::pushNotificationsFilesReady(Account *account)
+bool FolderMan::pushNotificationsFilesReady(const AccountPtr &account)
 {
     const auto pushNotifications = account->pushNotifications();
     const auto pushFilesAvailable = account->capabilities().availablePushNotifications() & PushNotificationType::Files;
@@ -991,7 +993,8 @@ bool FolderMan::pushNotificationsFilesReady(Account *account)
 bool FolderMan::isSwitchToVfsNeeded(const FolderDefinition &folderDefinition) const
 {
     auto result = false;
-    if (ENFORCE_VIRTUAL_FILES_SYNC_FOLDER &&
+    if (!DISABLE_VIRTUAL_FILES_SYNC_FOLDER &&
+            ENFORCE_VIRTUAL_FILES_SYNC_FOLDER &&
             folderDefinition.virtualFilesMode != bestAvailableVfsMode() &&
             folderDefinition.virtualFilesMode == Vfs::Off &&
             OCC::Theme::instance()->showVirtualFilesOption()) {
@@ -1014,7 +1017,7 @@ void FolderMan::slotEtagPollTimerTimeout()
     // Some folders need not to be checked because they use the push notifications
     std::copy_if(folderMapValues.begin(), folderMapValues.end(), std::back_inserter(foldersToRun), [this](Folder *folder) -> bool {
         const auto account = folder->accountState()->account();
-        return !pushNotificationsFilesReady(account.data());
+        return !pushNotificationsFilesReady(account);
     });
 
     qCInfo(lcFolderMan) << "Number of folders that don't use push notifications:" << foldersToRun.size();
@@ -1056,7 +1059,7 @@ void FolderMan::runEtagJobIfPossible(Folder *folder)
         return;
     }
     // When not using push notifications, make sure polltime is reached
-    if (!pushNotificationsFilesReady(folder->accountState()->account().data())) {
+    if (!pushNotificationsFilesReady(folder->accountState()->account())) {
         if (folder->msecSinceLastSync() < polltime) {
             qCInfo(lcFolderMan) << "Can not run etag job: Polltime not reached";
             return;
@@ -1104,7 +1107,7 @@ void FolderMan::slotForwardFolderSyncStateChange()
     }
 }
 
-void FolderMan::slotServerVersionChanged(Account *account)
+void FolderMan::slotServerVersionChanged(const OCC::AccountPtr &account)
 {
     // Pause folders if the server version is unsupported
     if (account->serverVersionUnsupported()) {
@@ -1256,7 +1259,9 @@ Folder *FolderMan::addFolder(AccountState *accountState, const FolderDefinition 
         emit folderListChanged(_folderMap);
     }
 
+#ifdef Q_OS_WIN
     _navigationPaneHelper.scheduleUpdateCloudStorageRegistry();
+#endif
     return folder;
 }
 
@@ -1276,10 +1281,12 @@ Folder *FolderMan::addFolderInternal(
 
     auto folder = new Folder(folderDefinition, accountState, std::move(vfs), this);
 
+#ifdef Q_OS_WIN
     if (_navigationPaneHelper.showInExplorerNavigationPane() && folderDefinition.navigationPaneClsid.isNull()) {
         folder->setNavigationPaneClsid(QUuid::createUuid());
         folder->saveToSettings();
     }
+#endif
 
     qCInfo(lcFolderMan) << "Adding folder to Folder Map " << folder << folder->alias();
     _folderMap[folder->alias()] = folder;
@@ -1413,7 +1420,9 @@ void FolderMan::removeFolder(Folder *folderToRemove)
         delete folderToRemove;
     }
 
+#ifdef Q_OS_WIN
     _navigationPaneHelper.scheduleUpdateCloudStorageRegistry();
+#endif
 
     emit folderListChanged(_folderMap);
 }
@@ -1550,7 +1559,9 @@ void FolderMan::slotWipeFolderForAccount(AccountState *accountState)
             delete f;
         }
 
+#ifdef Q_OS_WIN
         _navigationPaneHelper.scheduleUpdateCloudStorageRegistry();
+#endif
     }
 
     emit folderListChanged(_folderMap);
@@ -2048,7 +2059,7 @@ void FolderMan::slotSetupPushNotifications(const Folder::Map &folderMap)
         // See if the account already provides the PushNotifications object and if yes connect to it.
         // If we can't connect at this point, the signals will be connected in slotPushNotificationsReady()
         // after the PushNotification object emitted the ready signal
-        slotConnectToPushNotifications(account.data());
+        slotConnectToPushNotifications(account);
         connect(account.data(), &Account::pushNotificationsReady, this, &FolderMan::slotConnectToPushNotifications, Qt::UniqueConnection);
     }
 }
@@ -2068,7 +2079,7 @@ void FolderMan::slotProcessFilesPushNotification(Account *account)
     }
 }
 
-void FolderMan::slotConnectToPushNotifications(Account *account)
+void FolderMan::slotConnectToPushNotifications(const AccountPtr &account)
 {
     const auto pushNotifications = account->pushNotifications();
 

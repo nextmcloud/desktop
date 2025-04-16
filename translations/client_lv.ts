@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/gui/tray/ActivityItem.qml" line="24"/>
         <source>Open %1 locally</source>
-        <translation>Atvērt %1 lokāli</translation>
+        <translation>Atvērt %1 vietēji</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/ActivityItem.qml" line="29"/>
@@ -155,7 +155,7 @@
     <message>
         <location filename="../src/gui/ConflictDelegate.qml" line="62"/>
         <source>Local version</source>
-        <translation>Lokālā versija</translation>
+        <translation>Vietējā versija</translation>
     </message>
     <message>
         <location filename="../src/gui/ConflictDelegate.qml" line="77"/>
@@ -171,54 +171,54 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="42"/>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="111"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="49"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="121"/>
         <source>Resume sync for all</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="42"/>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="111"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="49"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="121"/>
         <source>Pause sync for all</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="95"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="102"/>
         <source>Add account</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="99"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="106"/>
         <source>Add new account</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="117"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="127"/>
         <source>Settings</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="128"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="138"/>
         <source>Exit</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="156"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="166"/>
         <source>Current account avatar</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="182"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="196"/>
         <source>Current account status is online</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="182"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="196"/>
         <source>Current account status is do not disturb</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="253"/>
+        <location filename="../src/gui/tray/CurrentAccountHeaderButton.qml" line="271"/>
         <source>Account switcher and settings menu</source>
         <translation type="unfinished"/>
     </message>
@@ -303,7 +303,17 @@
     <name>FileProviderEvictionDialog</name>
     <message>
         <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="36"/>
+        <source>Remove local copies</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="36"/>
         <source>Evict materialised files</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderEvictionDialog.qml" line="52"/>
+        <source>Local copies</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -355,16 +365,6 @@
         <source>Enable virtual files</source>
         <translation type="unfinished"/>
     </message>
-    <message>
-        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="146"/>
-        <source>Advanced</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="153"/>
-        <source>Signal file provider domain</source>
-        <translation type="unfinished"/>
-    </message>
 </context>
 <context>
     <name>FileProviderStorageInfo</name>
@@ -380,6 +380,11 @@
     </message>
     <message>
         <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="59"/>
+        <source>Free up space …</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderStorageInfo.qml" line="59"/>
         <source>Evict local copies …</source>
         <translation type="unfinished"/>
     </message>
@@ -387,25 +392,36 @@
 <context>
     <name>FileProviderSyncStatus</name>
     <message>
-        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="57"/>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="58"/>
         <source>Syncing</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="57"/>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="58"/>
         <source>All synced!</source>
         <translation>Viss ir sinhronizēts.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="71"/>
+        <source>Request sync</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSyncStatus.qml" line="78"/>
+        <source>Request a sync of changes for the VFS environment.
+macOS may ignore or delay this request.</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>FileSystem</name>
     <message>
-        <location filename="../src/libsync/filesystem.cpp" line="288"/>
+        <location filename="../src/libsync/filesystem.cpp" line="289"/>
         <source>Error removing &quot;%1&quot;: %2</source>
         <translation>Kļūda, noņemot &quot;%1&quot;: %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/filesystem.cpp" line="310"/>
+        <location filename="../src/libsync/filesystem.cpp" line="312"/>
         <source>Could not remove folder &quot;%1&quot;</source>
         <translation>Nevarēja noņemt mapi &quot;%1&quot;</translation>
     </message>
@@ -430,7 +446,7 @@
     <message>
         <location filename="../src/gui/wizard/flow2authwidget.ui" line="229"/>
         <source>An error occurred while connecting. Please try again.</source>
-        <translation> Izveidojot savienojumu radās kļūda. Lūdzu mēģini vēlreiz.</translation>
+        <translation>Atgadījās kļūda savienojuma izveidošanas laikā. Lūgums mēģināt vēlreiz.</translation>
     </message>
 </context>
 <context>
@@ -508,17 +524,17 @@
 <context>
     <name>OCC::Account</name>
     <message>
-        <location filename="../src/libsync/account.cpp" line="1013"/>
+        <location filename="../src/libsync/account.cpp" line="1018"/>
         <source>File %1 is already locked by %2.</source>
         <translation>Datni %1 jau bloķēja %2.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="1015"/>
+        <location filename="../src/libsync/account.cpp" line="1020"/>
         <source>Lock operation on %1 failed with error %2</source>
         <translation>Aizslēgšana neizdevās %1 ar kļūdu %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="1017"/>
+        <location filename="../src/libsync/account.cpp" line="1022"/>
         <source>Unlock operation on %1 failed with error %2</source>
         <translation>Atslēgšana neizdevās %1 ar kļūdu %2</translation>
     </message>
@@ -526,37 +542,37 @@
 <context>
     <name>OCC::AccountManager</name>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="230"/>
+        <location filename="../src/gui/accountmanager.cpp" line="232"/>
         <source>%1 accounts were detected from a legacy desktop client.
 Should the accounts be imported?</source>
         <translation>%1 konti tika konstatēti no vecāka tipa darbvirsmas klienta.
 Vai konti jāimportē?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="232"/>
+        <location filename="../src/gui/accountmanager.cpp" line="234"/>
         <source>1 account was detected from a legacy desktop client.
 Should the account be imported?</source>
         <translation>1 konts tika konstatēts no vecāka tipa darbvirsmas klienta.
 Vai konts jāimportē?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="234"/>
-        <location filename="../src/gui/accountmanager.cpp" line="270"/>
+        <location filename="../src/gui/accountmanager.cpp" line="236"/>
+        <location filename="../src/gui/accountmanager.cpp" line="282"/>
         <source>Legacy import</source>
         <translation>Mantojuma imports</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="235"/>
+        <location filename="../src/gui/accountmanager.cpp" line="237"/>
         <source>Import</source>
         <translation>Importēt</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="236"/>
+        <location filename="../src/gui/accountmanager.cpp" line="238"/>
         <source>Skip</source>
         <translation>Izlaist</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="271"/>
+        <location filename="../src/gui/accountmanager.cpp" line="283"/>
         <source>Could not import accounts from legacy client configuration.</source>
         <translation>Nevarēja importēt kontus no vecākā klienta konfigurācijas.</translation>
     </message>
@@ -575,8 +591,8 @@ Vai konts jāimportē?</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="124"/>
-        <location filename="../src/gui/accountsettings.cpp" line="892"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1010"/>
+        <location filename="../src/gui/accountsettings.cpp" line="894"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1014"/>
         <source>Cancel</source>
         <translation>Atcelt</translation>
     </message>
@@ -623,12 +639,12 @@ Vai konts jāimportē?</translation>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="100"/>
         <source>End-to-end Encryption with Virtual Files</source>
-        <translation>End-to-end šifrēšana ar virtuālām datnēm</translation>
+        <translation>Pilnīga šifrēšana ar virtuālām datnēm</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="101"/>
         <source>You seem to have the Virtual Files feature enabled on this folder. At the moment, it is not possible to implicitly download virtual files that are end-to-end encrypted. To get the best experience with virtual files and end-to-end encryption, make sure the encrypted folder is marked with &quot;Make always available locally&quot;.</source>
-        <translation>Šķiet, ka šai mapei ir iespējota virtuālo datņu funkcija. Šobrīd nav iespējams lejupielādēt virtuālās datnes, kas ir end-to-end šifrētas. Lai iegūtu labāko pieredzi ar virtuālām datnēm un end-to-end šifrēšanu, pārliecinieties, ka šifrētā mape ir atzīmēta ar &quot;Vienmēr pieejams lokāli&quot;.</translation>
+        <translation>Šķiet, ka šai mapei ir iespējota virtuālo datņu iespēja. Šobrīd nav iespējams lejupielādēt virtuālās datnes, kas ir pilnībā šifrētas. Lai iegūtu labāko pieredzi ar virtuālām datnēm un pilnīgu šifrēšanu, jāpārliecinās, ka šifrētā mape ir atzīmēta ar &quot;Vienmēr pieejama vietēji&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="109"/>
@@ -645,7 +661,7 @@ Vai konts jāimportē?</translation>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="122"/>
         <source>End-to-end Encryption</source>
-        <translation>End-to-end šifrēšana</translation>
+        <translation>Pilnīga šifrēšana</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="125"/>
@@ -672,7 +688,7 @@ Vai konts jāimportē?</translation>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="323"/>
         <source>End-to-end encryption has been enabled for this account</source>
-        <translation>End-to-end šifrēšana ir iespējota šim kontam</translation>
+        <translation>Pilnīga šifrēšana tika iespējota šim kontam</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="356"/>
@@ -698,8 +714,8 @@ Vai konts jāimportē?</translation>
         <location filename="../src/gui/accountsettings.cpp" line="417"/>
         <source>End-to-end encryption is not configured on this device. Once it is configured, you will be able to encrypt this folder.
 Would you like to set up end-to-end encryption?</source>
-        <translation>End-to-end šifrēšana nav konfigurēta uz šīs ierīces. Kad tā būs konfigurēta, jūs varēsiet šifrēt šo mapi.
-Vai vēlaties iestatīt end-to-end šifrēšanu?</translation>
+        <translation>Šajā ierīcē nav konfigurēta pilnīga šifrēšana. Tiklīdz tā būs konfigurēta, būs iespējams šifrēt šo mapi.
+Vai iestatīt pilnīgu šifrēšanu?</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="442"/>
@@ -800,30 +816,30 @@ Jāgaida jauna sinhronizēšana, tad tā jāšifrē.</translation>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="827"/>
         <source>&lt;p&gt;Could not create local folder &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Nevarēja izveidot lokālo mapi &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Nevarēja izveidot vietējo mapi &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="884"/>
+        <location filename="../src/gui/accountsettings.cpp" line="886"/>
         <source>Confirm Folder Sync Connection Removal</source>
         <translation>Apstiprināt mapes sinhronizēšanas savienojuma noņemšanu</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="885"/>
+        <location filename="../src/gui/accountsettings.cpp" line="887"/>
         <source>&lt;p&gt;Do you really want to stop syncing the folder &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Vai tiešām vēlaties apturēt mapes &lt;i&gt;%1&lt;/i&gt; sinhronizēšanu?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Piezīme:&lt;/b&gt; Tas &lt;b&gt;neveiks&lt;/b&gt; nekādu datņu dzēšanu.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="891"/>
+        <location filename="../src/gui/accountsettings.cpp" line="893"/>
         <source>Remove Folder Sync Connection</source>
         <translation>Noņemt mapes sinhronizēšanas savienojumu</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1001"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1005"/>
         <source>Disable virtual file support?</source>
         <translation>Atspējot virtuālo datņu atbalstu?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1002"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1006"/>
         <source>This action will disable virtual file support. As a consequence contents of folders that are currently marked as &quot;available online only&quot; will be downloaded.
 
 The only advantage of disabling virtual file support is that the selective sync feature will become available again.
@@ -836,162 +852,162 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
 Šī darbība pārtrauks jebkuru pašlaik notiekošo sinhronizēšanu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1009"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1013"/>
         <source>Disable support</source>
         <translation>Atspējot atbalstu</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1094"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1100"/>
         <source>End-to-end encryption mnemonic</source>
-        <translation>End-to-end šifrēšanas mnemonika</translation>
+        <translation>Pilnīgas šifrēšanas mnemonika</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1096"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1102"/>
         <source>To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. Please note these down and keep them safe. They will be needed to add other devices to your account (like your mobile phone or laptop).</source>
         <translation>Lai aizsargātu jūsu kriptogrāfiskās identitātes, mēs to šifrējam ar 12 vārdu mnemoniku no vārdnīcas. Lūdzu, ierakstiet tos un glabājiet drošībā. Tie būs nepieciešami, lai pievienotu citas ierīces savam kontam (piemēram, mobilais telefons vai klēpjdators).</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1121"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1127"/>
         <source>Disable end-to-end encryption</source>
-        <translation>Atspējot no end-to-end šifrēšanu</translation>
+        <translation>Atspējot pilnīgu šifrēšanu</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1122"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1128"/>
         <source>Disable end-to-end encryption for %1?</source>
-        <translation>Atspējot end-to-end šifrēšanu %1?</translation>
+        <translation>Atspējot pilnīgu šifrēšanu %1?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1123"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1129"/>
         <source>Removing end-to-end encryption will remove locally-synced files that are encrypted.&lt;br&gt;Encrypted files will remain on the server.</source>
-        <translation>Noņemot end-to-end šifrēšanu, tiks noņemti lokālās sinhronizētās datnes, kas ir šifrētas.&lt;br&gt;Šifrētās datnes paliks serverī.</translation>
+        <translation>Pēc pilnīgās šifrēšanas noņemšanas tiks noņemtas vietēji sinhronizētās šifrētās datnes.&lt;br&gt;Šifrētās datnes paliks serverī.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1195"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1201"/>
         <source>Sync Running</source>
         <translation>Notiek sinhronizēšana</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1196"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1202"/>
         <source>The syncing operation is running.&lt;br/&gt;Do you want to terminate it?</source>
         <translation>Pašlaik notiek sinhronizēšana.&lt;br/&gt;Vai to izbeigt?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1268"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1274"/>
         <source>%1 (%3%) of %2 in use. Some folders, including network mounted or shared folders, might have different limits.</source>
         <translation>%1 (%3%) no %2 izmantots. Dažas mapes, tajā skaitā montētas no tīkla vai koplietotas, var saturēt dažādus ierobežojumus.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1269"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1275"/>
         <source>%1 of %2 in use</source>
         <translation>%1 no %2 izmantots</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1278"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1284"/>
         <source>Currently there is no storage usage information available.</source>
         <translation>Pašlaik nav pieejama diska vietas informācija.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1281"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1287"/>
         <source>%1 in use</source>
         <translation>%1 tiek lietots</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1308"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1314"/>
         <source>%1 as %2</source>
         <translation>%1 kā %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1315"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1321"/>
         <source>The server version %1 is unsupported! Proceed at your own risk.</source>
-        <translation>Servera versija %1 nav atbalstīta! Turpiniet uz savu risku.</translation>
+        <translation>Servera versija %1 nav atbalstīta. Turpināt uz savu atbildību.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1317"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1323"/>
         <source>Connected to %1.</source>
         <translation>Savienots ar %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1321"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1327"/>
         <source>Server %1 is temporarily unavailable.</source>
         <translation>Serveris %1 ir īslaicīgi nepiejams.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1324"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1330"/>
         <source>Server %1 is currently in maintenance mode.</source>
         <translation>Serveris %1 pašlaik ir uzturēšanas režīmā</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1327"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1333"/>
         <source>Server %1 is currently being redirected, or your connection is behind a captive portal.</source>
         <translation>Server %1 pašlaik tiek novirzīts vai jūsu savienojums atrodas aiz aizslēgta portāla.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1330"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1336"/>
         <source>Signed out from %1.</source>
         <translation>Izrakstījies no %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1333"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1339"/>
         <source>Connecting to %1 …</source>
         <translation>Savienojas ar %1 ...</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1337"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1343"/>
         <source>Unable to connect to %1.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1342"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1348"/>
         <source>Server configuration error: %1 at %2.</source>
         <translation>Servera konfigurācijas kļūda: %1 pie %2.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1351"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1357"/>
         <source>You need to accept the terms of service at %1.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1356"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1362"/>
         <source>No %1 connection configured.</source>
         <translation>Nav %1 savienojums konfigurēts.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1535"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1541"/>
         <source>Migrate certificate to a new one</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1629"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1635"/>
         <source>There are folders that were not synchronized because they are too big: </source>
         <translation>Šīs mapes netika sinhronizētas, jo tās ir pārāk lielas:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1630"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1636"/>
         <source>There are folders that were not synchronized because they are external storages: </source>
         <translation>Šīs mapes netika sinhronizētas, jo tās atrodas ārējās krātuvēs:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1631"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1637"/>
         <source>There are folders that were not synchronized because they are too big or external storages: </source>
         <translation>Šīs mapes netika sinhronizētas, jo tās ir pārāk lielas, vai atrodas ārējās krātuvēs:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1642"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1648"/>
         <source>There are folders that have grown in size beyond %1MB: %2</source>
         <translation>Ir mapes, kas ir palielinājušās izmērā pāri %1MB: %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1693"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1699"/>
         <source>End-to-end encryption has been enabled on this account with another device.&lt;br&gt;It can be enabled on this device by entering your mnemonic.&lt;br&gt;This will enable synchronisation of existing encrypted folders.</source>
-        <translation>End-to-end šifrēšana ir iespējota šajā kontā ar citu ierīci.&lt;br&gt;To var iespējot šajā ierīcē, ievadot savu mnemoniku.&lt;br&gt;Tas ļaus sinhronizēt esošās šifrētās mapes.</translation>
+        <translation>Pilnīga šifrēšana šajā kontā tika iespējota ar citu ierīci.&lt;br&gt;To var iespējot šajā ierīcē ar savas mnemonikas ievadīšanu.&lt;br&gt;Tas ļaus sinhronizēt esošās šifrētās mapes.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1752"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1758"/>
         <source>This account supports end-to-end encryption</source>
-        <translation>Šis konts atbalsta end-to-end šifrēšanu.</translation>
+        <translation>Šis konts atbalsta pilnīgu šifrēšanu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1756"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1762"/>
         <source>Set up encryption</source>
         <translation>Iestatīt šifrēšanu</translation>
     </message>
@@ -1089,11 +1105,6 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
         <source>Network error occurred: client will retry syncing.</source>
         <translation>Atgadījās tīkla kļūda: klients mēģinās atkārtot sinhronizēšanu.</translation>
     </message>
-    <message>
-        <location filename="../src/gui/tray/activitylistmodel.cpp" line="607"/>
-        <source>Files from the ignore list as well as symbolic links are not synced.</source>
-        <translation>Datnes no izņēmumu saraksta, kā arī simboliskās saites netiek sinhronizētas.</translation>
-    </message>
 </context>
 <context>
     <name>OCC::AddCertificateDialog</name>
@@ -1178,34 +1189,34 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
         <translation>Turpināt</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="514"/>
+        <location filename="../src/gui/application.cpp" line="483"/>
         <source>%1 accounts</source>
         <comment>number of accounts imported</comment>
         <translation>%1 konti</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="515"/>
+        <location filename="../src/gui/application.cpp" line="484"/>
         <source>1 account</source>
         <translation>1 konts</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="517"/>
+        <location filename="../src/gui/application.cpp" line="486"/>
         <source>%1 folders</source>
         <comment>number of folders imported</comment>
         <translation>%1 mapes</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="518"/>
+        <location filename="../src/gui/application.cpp" line="487"/>
         <source>1 folder</source>
         <translation>1 mape</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="520"/>
+        <location filename="../src/gui/application.cpp" line="489"/>
         <source>Legacy import</source>
         <translation>Mantojuma imports</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="521"/>
+        <location filename="../src/gui/application.cpp" line="490"/>
         <source>Imported %1 and %2 from a legacy desktop client.
 %3</source>
         <comment>number of accounts and folders imported. list of users.</comment>
@@ -1213,12 +1224,12 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
 %3</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="610"/>
+        <location filename="../src/gui/application.cpp" line="580"/>
         <source>Error accessing the configuration file</source>
         <translation>Kļūda piekļūstot konfigurācijas datnei</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="611"/>
+        <location filename="../src/gui/application.cpp" line="581"/>
         <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your system account.</source>
         <translation>Notika kļūda, piekļūstot konfigurācijas datnei %1. Lūdzu, pārliecinieties, vai datne ir pieejama jūsu sistēmas kontam.</translation>
     </message>
@@ -1262,58 +1273,58 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
 <context>
     <name>OCC::BulkPropagatorJob</name>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="123"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="150"/>
         <source>File %1 cannot be uploaded because another file with the same name, differing only in case, exists</source>
         <translation>Datni %1 nevar augšupielādēt, jo pastāv datne ar tādu pašu nosaukumu. Atšķiras tikai lielie/mazie burti. </translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="175"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="209"/>
         <source>File %1 has invalid modified time. Do not upload to the server.</source>
         <translation>Datnei %1 ir nederīgs modificēšanas laiks. Neaugšupielādēt uz serveri.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="296"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="361"/>
         <source>File Removed (start upload) %1</source>
         <translation>Datne noņemta (sākt augšupielādi) %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="308"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="380"/>
         <source>File %1 has invalid modification time. Do not upload to the server.</source>
         <translation>Datnei %1 ir nederīgs modificēšanas laiks. Neaugšupielādēt uz serveri.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="320"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="393"/>
         <source>Local file changed during syncing. It will be resumed.</source>
-        <translation>Lokālā datne mainīta sinhronizēšanas laikā. Tas tiks turpināts.</translation>
+        <translation>Vietējā datne sinhronizēšanas laikā tika izmainīta. Tā tiks atsākta.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="334"/>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="678"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="407"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="754"/>
         <source>Local file changed during sync.</source>
-        <translation>Lokālā datne mainīta sinhronizēšanas laikā.</translation>
+        <translation>Vietējā datne sinhronizēšanas laikā tika izmainīta.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="441"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="517"/>
         <source>Network error: %1</source>
         <translation>Tīkla kļūda: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="487"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="563"/>
         <source>Error updating metadata: %1</source>
         <translation>Kļūda atjaunojot metadatus: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="490"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="566"/>
         <source>The file %1 is currently in use</source>
         <translation>Datne %1 pašlaik tiek izmantota</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="660"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="736"/>
         <source>The local file was removed during sync.</source>
         <translation>Vietējā datne tika noņemta sinhronizēšanas laikā.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="708"/>
+        <location filename="../src/libsync/bulkpropagatorjob.cpp" line="784"/>
         <source>Restoration failed: %1</source>
         <translation>Atjaunošana neizdevās: %1</translation>
     </message>
@@ -1471,7 +1482,7 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
 <context>
     <name>OCC::CleanupPollsJob</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1731"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1710"/>
         <source>Error writing metadata to the database</source>
         <translation>Kļūda rakstot metadatus datubāzē</translation>
     </message>
@@ -1480,7 +1491,8 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
     <name>OCC::ClientSideEncryption</name>
     <message>
         <location filename="../src/libsync/clientsideencryption.cpp" line="1147"/>
-        <source>PIN needed to login to token</source>
+        <source>Input PIN code</source>
+        <comment>Please keep it short and shorter than &quot;Enter Certificate USB Token PIN:&quot;</comment>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1525,12 +1537,12 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
     <message>
         <location filename="../src/gui/conflictdialog.ui" line="32"/>
         <source>Which version of the file do you want to keep?&lt;br/&gt;If you select both versions, the local file will have a number added to its name.</source>
-        <translation>Kuru datnes versiju vēlaties saglabāt?&lt;br/&gt;Ja izvēlaties abas versijas, lokālai datnei tiks pievienots numurs tās nosaukumā.</translation>
+        <translation>Kuru datnes versiju paturēt?&lt;br/&gt;Ja atlasa abas versijas, vietējās datnes nosaukumam tiks pievienots skaitlis.</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.ui" line="46"/>
         <source>Local version</source>
-        <translation>Lokālā versija</translation>
+        <translation>Vietējā versija</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.ui" line="57"/>
@@ -1553,12 +1565,12 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
     <message>
         <location filename="../src/gui/conflictdialog.ui" line="110"/>
         <source>&lt;a href=&quot;%1&quot;&gt;Open local version&lt;/a&gt;</source>
-        <translation>&lt;a href=&quot;%1&quot;&gt;Atvērt lokālo versiju&lt;/a&gt;</translation>
+        <translation>&lt;a href=&quot;%1&quot;&gt;Atvērt vietējo versiju&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.ui" line="154"/>
         <source>Server version</source>
-        <translation>Server version</translation>
+        <translation>Servera versija</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.ui" line="218"/>
@@ -1574,7 +1586,7 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
     <message>
         <location filename="../src/gui/conflictdialog.cpp" line="150"/>
         <source>Open local version</source>
-        <translation>Atvērt lokālo versiju</translation>
+        <translation>Atvērt vietējo versiju</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.cpp" line="158"/>
@@ -1589,12 +1601,12 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
     <message>
         <location filename="../src/gui/conflictdialog.cpp" line="177"/>
         <source>Keep local version</source>
-        <translation>Saglabāt lokālo versiju</translation>
+        <translation>Saglabāt vietējo versiju</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictdialog.cpp" line="178"/>
         <source>Keep server version</source>
-        <translation>Saglabāt servera versiju</translation>
+        <translation>Paturēt servera versiju</translation>
     </message>
 </context>
 <context>
@@ -1602,12 +1614,12 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
     <message>
         <location filename="../src/gui/conflictsolver.cpp" line="89"/>
         <source>Do you want to delete the directory &lt;i&gt;%1&lt;/i&gt; and all its contents permanently?</source>
-        <translation>Vai vēlaties neatgriezeniski dzēst mapi &lt;i&gt;%1&lt;/i&gt; un visu tās saturu?</translation>
+        <translation>Vai neatgriezeniski izdzēst mapi &lt;i&gt;%1&lt;/i&gt; un visu tās saturu?</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictsolver.cpp" line="90"/>
         <source>Do you want to delete the file &lt;i&gt;%1&lt;/i&gt; permanently?</source>
-        <translation>Vai vēlaties neatgriezeniski dzēst datni &lt;i&gt;%1&lt;/i&gt;?</translation>
+        <translation>Vai neatgriezeniski izdzēst datni &lt;i&gt;%1&lt;/i&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/conflictsolver.cpp" line="91"/>
@@ -1680,19 +1692,19 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
 <context>
     <name>OCC::DiscoverySingleDirectoryJob</name>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="630"/>
-        <location filename="../src/libsync/discoveryphase.cpp" line="663"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="653"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="686"/>
         <source>Server error: PROPFIND reply is not XML formatted!</source>
         <translation>Servera kļūda: PROPFIND atbilde nav XML formātā!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="693"/>
-        <location filename="../src/libsync/discoveryphase.cpp" line="730"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="716"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="753"/>
         <source>Encrypted metadata setup error!</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="717"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="740"/>
         <source>Encrypted metadata setup error: initial signature from server is empty.</source>
         <translation type="unfinished"/>
     </message>
@@ -1700,27 +1712,27 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
 <context>
     <name>OCC::DiscoverySingleLocalDirectoryJob</name>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="302"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="325"/>
         <source>Error while opening directory %1</source>
         <translation>Kļūda, atverot mapi %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="304"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="327"/>
         <source>Directory not accessible on client, permission denied</source>
         <translation>Mape klientam nav pieejama, atļauja liegta</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="308"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="331"/>
         <source>Directory not found: %1</source>
         <translation>Mape nav atrasta: %1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="339"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="362"/>
         <source>Filename encoding is not valid</source>
         <translation>Datnes nosaukuma kodējums nav derīgs</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discoveryphase.cpp" line="360"/>
+        <location filename="../src/libsync/discoveryphase.cpp" line="383"/>
         <source>Error while reading directory %1</source>
         <translation>Kļūda lasot mapi %1</translation>
     </message>
@@ -1743,7 +1755,7 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
         <location filename="../src/gui/editlocallyjob.cpp" line="47"/>
         <location filename="../src/gui/editlocallyjob.cpp" line="323"/>
         <source>An error occurred during setup.</source>
-        <translation>Radās kļūda uzstādīšanas gaitā.</translation>
+        <translation>Atgadījās kļūda uzstādīšanas gaitā.</translation>
     </message>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="53"/>
@@ -1785,7 +1797,7 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="435"/>
         <source>Invalid local file path.</source>
-        <translation>Nederīgs lokālās datnes ceļš.</translation>
+        <translation>Nederīgs vietējās datnes ceļš.</translation>
     </message>
     <message>
         <location filename="../src/gui/editlocallyjob.cpp" line="445"/>
@@ -1870,7 +1882,7 @@ Vienīgā priekšrocība virtuālo datņu atbalsta atspējošanai ir tā, ka atk
 <context>
     <name>OCC::EncryptFolderJob</name>
     <message>
-        <location filename="../src/libsync/encryptfolderjob.cpp" line="127"/>
+        <location filename="../src/libsync/encryptfolderjob.cpp" line="129"/>
         <source>Could not generate the metadata for encryption, Unlocking the folder.
 This can be an issue with your OpenSSL libraries.</source>
         <translation>Nevarēja ģenerēt metadatus šifrēšanai, atslēdz mapi.
@@ -1924,7 +1936,7 @@ Varētu būt problēma ar jūsu OpenSSL bibliotēkām.</translation>
         <location filename="../src/gui/filedetails/filedetails.cpp" line="128"/>
         <source>%1 minute(s) ago</source>
         <comment>minutes elapsed since file last modified</comment>
-        <translation><numerusform>pirms %1 minūtēm</numerusform><numerusform>pirms %1 minūtes</numerusform><numerusform>pirms %1 minūtēm</numerusform></translation>
+        <translation><numerusform>pirms %1 minūtēm</numerusform><numerusform>pirms %1 minūtes</numerusform><numerusform>pirms %1 minūtes/ēm</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/filedetails/filedetails.cpp" line="131"/>
@@ -1954,7 +1966,7 @@ Varētu būt problēma ar jūsu OpenSSL bibliotēkām.</translation>
         <location filename="../src/gui/filedetails/filedetails.cpp" line="172"/>
         <source>Locked by %1 - Expires in %2 minute(s)</source>
         <comment>remaining time before lock expires</comment>
-        <translation><numerusform>Bloķēja %1 - beigsies pēc %2 minūtēm</numerusform><numerusform>Bloķēja %1 - beigsies pēc %2 minūtes</numerusform><numerusform>Bloķēja %1 - beigsies pēc %2 minūtēm</numerusform></translation>
+        <translation><numerusform>Bloķēja %1 - beigsies pēc %2 minūtēm</numerusform><numerusform>Bloķēja %1 - beigsies pēc %2 minūtes</numerusform><numerusform> %1 aizslēdza - beigsies pēc %2 minūtes/ēm</numerusform></translation>
     </message>
 </context>
 <context>
@@ -1962,6 +1974,11 @@ Varētu būt problēma ar jūsu OpenSSL bibliotēkām.</translation>
     <message>
         <location filename="../src/gui/creds/flow2auth.cpp" line="102"/>
         <source>The polling URL does not start with HTTPS despite the login URL started with HTTPS. Login will not be possible because this might be a security issue. Please contact your administrator.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/creds/flow2auth.cpp" line="219"/>
+        <source>The returned server URL does not start with HTTPS despite the login URL started with HTTPS. Login will not be possible because this might be a security issue. Please contact your administrator.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1989,8 +2006,8 @@ Varētu būt problēma ar jūsu OpenSSL bibliotēkām.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/creds/flow2auth.cpp" line="219"/>
-        <source>The returned server URL does not start with HTTPS despite the login URL started with HTTPS. Login will not be possible because this might be a security issue. Please contact your administrator.</source>
+        <location filename="../src/gui/creds/flow2auth.cpp" line="268"/>
+        <source>The reply from the server did not contain all expected fields: &lt;br&gt;&lt;em&gt;%1&lt;/em&gt;</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -1999,7 +2016,7 @@ Varētu būt problēma ar jūsu OpenSSL bibliotēkām.</translation>
     <message>
         <location filename="../src/gui/wizard/flow2authwidget.cpp" line="98"/>
         <source>Unable to open the Browser, please copy the link to your Browser.</source>
-        <translation type="unfinished"/>
+        <translation>Nav iespējams atvērt pārlūku. Lūgums ielīmēt saiti savā pārlūkā.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/flow2authwidget.cpp" line="161"/>
@@ -2035,171 +2052,171 @@ Varētu būt problēma ar jūsu OpenSSL bibliotēkām.</translation>
 <context>
     <name>OCC::Folder</name>
     <message>
-        <location filename="../src/gui/folder.cpp" line="200"/>
+        <location filename="../src/gui/folder.cpp" line="198"/>
         <source>Please choose a different location. The folder %1 doesn&apos;t exist.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="202"/>
+        <location filename="../src/gui/folder.cpp" line="200"/>
         <source>Please choose a different location. %1 isn&apos;t a valid folder.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="204"/>
+        <location filename="../src/gui/folder.cpp" line="202"/>
         <source>Please choose a different location. %1 isn&apos;t a readable folder.</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/folder.cpp" line="452"/>
+        <location filename="../src/gui/folder.cpp" line="450"/>
         <source>%1 and %n other file(s) have been removed.</source>
         <translation><numerusform>%1 un %n citas datne(s) tika noņemtas.</numerusform><numerusform>%1 un %n citas datne(s) tika noņemtas.</numerusform><numerusform>%1 un %n citas datne(s) tika noņemtas.</numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="454"/>
+        <location filename="../src/gui/folder.cpp" line="452"/>
         <source>%1 has been removed.</source>
         <comment>%1 names a file.</comment>
         <translation>%1 tika noņemta.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/folder.cpp" line="459"/>
+        <location filename="../src/gui/folder.cpp" line="457"/>
         <source>%1 and %n other file(s) have been added.</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="461"/>
+        <location filename="../src/gui/folder.cpp" line="459"/>
         <source>%1 has been added.</source>
         <comment>%1 names a file.</comment>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/folder.cpp" line="466"/>
+        <location filename="../src/gui/folder.cpp" line="464"/>
         <source>%1 and %n other file(s) have been updated.</source>
         <translation><numerusform>%1 un %n citas datne(s) tika atjaunotas.</numerusform><numerusform>%1 un %n citas datne(s) tika atjaunotas.</numerusform><numerusform>%1 un %n citas datne(s) tika atjaunotas.</numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="468"/>
+        <location filename="../src/gui/folder.cpp" line="466"/>
         <source>%1 has been updated.</source>
         <comment>%1 names a file.</comment>
         <translation>%1 ir atjaunināts.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/folder.cpp" line="473"/>
+        <location filename="../src/gui/folder.cpp" line="471"/>
         <source>%1 has been renamed to %2 and %n other file(s) have been renamed.</source>
-        <translation><numerusform>%1 tika pārsaukta uz %2 un %n citas datne(s) tika pārsauktas.</numerusform><numerusform>%1 tika pārsaukta uz %2 un %n citas datne(s) tika pārsauktas.</numerusform><numerusform>%1 tika pārsaukta uz %2 un %n citas datne(s) tika pārsauktas.</numerusform></translation>
+        <translation><numerusform>%1 tika pārdēvēta par %2 un %n citu datņu tika pārdēvētas.</numerusform><numerusform>%1 tika pārdēvēta par %2 un %n cita datne tika pārdēvēta.</numerusform><numerusform>%1 tika pārdēvēta par %2 un %n citas datnes tika pārdēvētas.</numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="475"/>
+        <location filename="../src/gui/folder.cpp" line="473"/>
         <source>%1 has been renamed to %2.</source>
         <comment>%1 and %2 name files.</comment>
-        <translation>%1 ir pārsaukts par %2.</translation>
+        <translation>%1 tika pārdēvēta par %2.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/folder.cpp" line="480"/>
+        <location filename="../src/gui/folder.cpp" line="478"/>
         <source>%1 has been moved to %2 and %n other file(s) have been moved.</source>
         <translation><numerusform>%1 tika pārvietota uz %2 un %n citas datne(s) tika pārvietotas.</numerusform><numerusform>%1 tika pārvietota uz %2 un %n citas datne(s) tika pārvietotas.</numerusform><numerusform>%1 tika pārvietota uz %2 un %n citas datne(s) tika pārvietotas.</numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="482"/>
+        <location filename="../src/gui/folder.cpp" line="480"/>
         <source>%1 has been moved to %2.</source>
         <translation>%1 tika pārvietota uz %2.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/folder.cpp" line="487"/>
+        <location filename="../src/gui/folder.cpp" line="485"/>
         <source>%1 has and %n other file(s) have sync conflicts.</source>
         <translation><numerusform>%1 un %n citām datnēm ir sinhronizācijas konflikts.</numerusform><numerusform>%1 un %n citām datnēm ir sinhronizācijas konflikts.</numerusform><numerusform>%1 un %n citām datnēm ir sinhronizēšanas nesaderības.</numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="489"/>
+        <location filename="../src/gui/folder.cpp" line="487"/>
         <source>%1 has a sync conflict. Please check the conflict file!</source>
         <translation>%1 ir sinhronizēšanas nesaderība. Lūgums pārbaudīt nesaderīgo datni.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/folder.cpp" line="494"/>
+        <location filename="../src/gui/folder.cpp" line="492"/>
         <source>%1 and %n other file(s) could not be synced due to errors. See the log for details.</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="496"/>
+        <location filename="../src/gui/folder.cpp" line="494"/>
         <source>%1 could not be synced due to an error. See the log for details.</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/folder.cpp" line="501"/>
+        <location filename="../src/gui/folder.cpp" line="499"/>
         <source>%1 and %n other file(s) are currently locked.</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="503"/>
+        <location filename="../src/gui/folder.cpp" line="501"/>
         <source>%1 is currently locked.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="511"/>
+        <location filename="../src/gui/folder.cpp" line="509"/>
         <source>Sync Activity</source>
         <translation>Sinhronizēšanas darbība</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1091"/>
+        <location filename="../src/gui/folder.cpp" line="1092"/>
         <source>Could not read system exclude file</source>
         <translation>Nevarēja nolasīt sistēmas izņēmumu datni.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1387"/>
+        <location filename="../src/gui/folder.cpp" line="1388"/>
         <source>A new folder larger than %1 MB has been added: %2.
 </source>
         <translation>Jauna mape lielāka par %1 MB ir tikusi pievienota: %2.
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1390"/>
+        <location filename="../src/gui/folder.cpp" line="1391"/>
         <source>A folder from an external storage has been added.
 </source>
         <translation>Mape no ārējās krātuves ir tikusi pievienota.
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1391"/>
+        <location filename="../src/gui/folder.cpp" line="1392"/>
         <source>Please go in the settings to select it if you wish to download it.</source>
         <translation>Lūgums doties uz iestatījumiem, lai atlasītu to, ja ir vēlme to lejupielādēt.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1448"/>
+        <location filename="../src/gui/folder.cpp" line="1449"/>
         <source>A folder has surpassed the set folder size limit of %1MB: %2.
 %3</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1459"/>
+        <location filename="../src/gui/folder.cpp" line="1460"/>
         <source>Keep syncing</source>
         <translation>Turpināt sinhronizēšanu</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1467"/>
+        <location filename="../src/gui/folder.cpp" line="1468"/>
         <source>Stop syncing</source>
         <translation>Pārtraukt sinhronizēšanu</translation>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1478"/>
+        <location filename="../src/gui/folder.cpp" line="1479"/>
         <source>The folder %1 has surpassed the set folder size limit of %2MB.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1479"/>
+        <location filename="../src/gui/folder.cpp" line="1480"/>
         <source>Would you like to stop syncing this folder?</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1554"/>
+        <location filename="../src/gui/folder.cpp" line="1555"/>
         <source>The folder %1 was created but was excluded from synchronization previously. Data inside it will not be synchronized.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1557"/>
+        <location filename="../src/gui/folder.cpp" line="1558"/>
         <source>The file %1 was created but was excluded from synchronization previously. It will not be synchronized.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1568"/>
+        <location filename="../src/gui/folder.cpp" line="1569"/>
         <source>Changes in synchronized folders could not be tracked reliably.
 
 This means that the synchronization client might not upload local changes immediately and will instead only scan for local changes and upload them occasionally (every two hours by default).
@@ -2208,41 +2225,41 @@ This means that the synchronization client might not upload local changes immedi
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1606"/>
+        <location filename="../src/gui/folder.cpp" line="1607"/>
         <source>Virtual file download failed with code &quot;%1&quot;, status &quot;%2&quot; and error message &quot;%3&quot;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1700"/>
+        <location filename="../src/gui/folder.cpp" line="1701"/>
         <source>A large number of files in the server have been deleted.
 Please confirm if you'd like to proceed with these deletions.
 Alternatively, you can restore all deleted files by uploading from &apos;%1&apos; folder to the server.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1701"/>
+        <location filename="../src/gui/folder.cpp" line="1702"/>
         <source>A large number of files in your local '%1' folder have been deleted.
 Please confirm if you'd like to proceed with these deletions.
 Alternatively, you can restore all deleted files by downloading them from the server.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1702"/>
+        <location filename="../src/gui/folder.cpp" line="1703"/>
         <source>Remove all files?</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1706"/>
+        <location filename="../src/gui/folder.cpp" line="1707"/>
         <source>Proceed with Deletion</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1707"/>
+        <location filename="../src/gui/folder.cpp" line="1708"/>
         <source>Restore Files to Server</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folder.cpp" line="1707"/>
+        <location filename="../src/gui/folder.cpp" line="1708"/>
         <source>Restore Files from Server</source>
         <translation type="unfinished"/>
     </message>
@@ -2278,146 +2295,146 @@ Alternatively, you can restore all deleted files by downloading them from the se
 <context>
     <name>OCC::FolderMan</name>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="425"/>
+        <location filename="../src/gui/folderman.cpp" line="427"/>
         <source>Could not reset folder state</source>
         <translation>Nevarēja atiestatīt mapju statusu</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="426"/>
+        <location filename="../src/gui/folderman.cpp" line="428"/>
         <source>An old sync journal &quot;%1&quot; was found, but could not be removed. Please make sure that no application is currently using it.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1429"/>
+        <location filename="../src/gui/folderman.cpp" line="1438"/>
         <source> (backup)</source>
         <translation>(dublējums)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1434"/>
+        <location filename="../src/gui/folderman.cpp" line="1443"/>
         <source> (backup %1)</source>
         <translation>(dublējums %1)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1772"/>
+        <location filename="../src/gui/folderman.cpp" line="1783"/>
         <source>Undefined state.</source>
         <translation>Nedefinēts stāvoklis.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1775"/>
+        <location filename="../src/gui/folderman.cpp" line="1786"/>
         <source>Waiting to start syncing.</source>
         <translation>Gaida sinhronizēšanas uzsākšanu.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1778"/>
+        <location filename="../src/gui/folderman.cpp" line="1789"/>
         <source>Preparing for sync.</source>
         <translation>Gatavojas sinhronizēšanai.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1788"/>
+        <location filename="../src/gui/folderman.cpp" line="1799"/>
         <source>Syncing %1 of %2 (A few seconds left)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1791"/>
+        <location filename="../src/gui/folderman.cpp" line="1802"/>
         <source>Syncing %1 of %2 (%3 left)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1794"/>
+        <location filename="../src/gui/folderman.cpp" line="1805"/>
         <source>Syncing %1 of %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1800"/>
+        <location filename="../src/gui/folderman.cpp" line="1811"/>
         <source>Syncing %1 (A few seconds left)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1802"/>
+        <location filename="../src/gui/folderman.cpp" line="1813"/>
         <source>Syncing %1 (%2 left)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1805"/>
+        <location filename="../src/gui/folderman.cpp" line="1816"/>
         <source>Syncing %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1810"/>
+        <location filename="../src/gui/folderman.cpp" line="1821"/>
         <source>Sync is running.</source>
         <translation>Notiek sinhronizēšana.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1815"/>
+        <location filename="../src/gui/folderman.cpp" line="1826"/>
         <source>Sync finished with unresolved conflicts.</source>
         <translation>Sinhronizēšana pabeigta ar neatrisinātām nesaderībām.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1817"/>
+        <location filename="../src/gui/folderman.cpp" line="1828"/>
         <source>Last sync was successful.</source>
         <translation>Pēdējā sinhronizēšana bija sekmīga.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1823"/>
+        <location filename="../src/gui/folderman.cpp" line="1834"/>
         <source>Setup error.</source>
         <translation>Iestatīšanas kļūda.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1826"/>
+        <location filename="../src/gui/folderman.cpp" line="1837"/>
         <source>Sync request was cancelled.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1829"/>
+        <location filename="../src/gui/folderman.cpp" line="1840"/>
         <source>Sync is paused.</source>
         <translation>Sinhronizēšana ir apturēta.</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1835"/>
+        <location filename="../src/gui/folderman.cpp" line="1846"/>
         <source>%1 (Sync is paused)</source>
         <translation>%1 (Sinhronizēšana ir apturēta)</translation>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1843"/>
+        <location filename="../src/gui/folderman.cpp" line="1854"/>
         <source>Please choose a different location. The selected folder isn&apos;t valid.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1851"/>
-        <location filename="../src/gui/folderman.cpp" line="1930"/>
+        <location filename="../src/gui/folderman.cpp" line="1862"/>
+        <location filename="../src/gui/folderman.cpp" line="1941"/>
         <source>Please choose a different location. %1 is already being used as a sync folder.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1860"/>
+        <location filename="../src/gui/folderman.cpp" line="1871"/>
         <source>Please choose a different location. The path %1 doesn&apos;t exist.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1864"/>
+        <location filename="../src/gui/folderman.cpp" line="1875"/>
         <source>Please choose a different location. The path %1 isn&apos;t a folder.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1872"/>
-        <location filename="../src/gui/folderman.cpp" line="1877"/>
+        <location filename="../src/gui/folderman.cpp" line="1883"/>
+        <location filename="../src/gui/folderman.cpp" line="1888"/>
         <source>Please choose a different location. You don&apos;t have enough permissions to write to %1.</source>
         <comment>folder location</comment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1937"/>
+        <location filename="../src/gui/folderman.cpp" line="1948"/>
         <source>Please choose a different location. %1 is already contained in a folder used as a sync folder.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="1952"/>
+        <location filename="../src/gui/folderman.cpp" line="1963"/>
         <source>Please choose a different location. %1 is already being used as a sync folder for %2.</source>
         <comment>folder location, server url</comment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/folderman.cpp" line="2089"/>
+        <location filename="../src/gui/folderman.cpp" line="2100"/>
         <source>The folder %1 is linked to multiple accounts.
 This setup can cause data loss and it is no longer supported.
 To resolve this issue: please remove %1 from one of the accounts and create a new sync folder.
@@ -2474,7 +2491,7 @@ For advanced users: this issue might be related to multiple sync database files 
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="250"/>
         <source>There are unresolved conflicts. Click for details.</source>
-        <translation type="unfinished"/>
+        <translation>Ir neatrisinātas nesaderības. Klikšķināt, lai uzzinātu vairāk.</translation>
     </message>
     <message>
         <location filename="../src/gui/folderstatusmodel.cpp" line="263"/>
@@ -2840,7 +2857,7 @@ For advanced users: this issue might be related to multiple sync database files 
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="295"/>
-        <location filename="../src/gui/generalsettings.cpp" line="603"/>
+        <location filename="../src/gui/generalsettings.cpp" line="606"/>
         <source>Create Debug Archive</source>
         <translation>Izveidot atkļūdošanas arhīvu</translation>
     </message>
@@ -2897,7 +2914,7 @@ For advanced users: this issue might be related to multiple sync database files 
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="204"/>
         <source>Show call notification dialogs.</source>
-        <translation>Rādīt zvanu paziņojumu dialogus.</translation>
+        <translation>Rādīt zvanu paziņojumu lodziņus.</translation>
     </message>
     <message>
         <location filename="../src/gui/generalsettings.cpp" line="218"/>
@@ -2965,17 +2982,17 @@ Downgrading versions is not possible immediately: changing from stable to enterp
         <translation>Atcelt</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="605"/>
+        <location filename="../src/gui/generalsettings.cpp" line="608"/>
         <source>Zip Archives</source>
         <translation>Zip arhīvi</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="615"/>
+        <location filename="../src/gui/generalsettings.cpp" line="618"/>
         <source>Debug Archive Created</source>
         <translation>Atkļūdošanas arhīvs izveidots</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="616"/>
+        <location filename="../src/gui/generalsettings.cpp" line="619"/>
         <source>Debug archive is created at %1</source>
         <translation>Atkļūdošanas arhīvs ir izveidots %1</translation>
     </message>
@@ -3090,9 +3107,9 @@ Downgrading versions is not possible immediately: changing from stable to enterp
         <source>Files or folders matching a pattern will not be synchronized.
 
 Items where deletion is allowed will be deleted if they prevent a directory from being removed. This is useful for meta data.</source>
-        <translation>Datnes vai mapes, kas atbilst šablonam, netiks sinhronizētas.
+        <translation>Datnes vai mapes, kas atbilst paraugam, netiks sinhronizētas.
 
-Vienības, kurām ir atļauta dzēšana, tiks dzēstas, ja tās novērš mapi no dzēšanas. Tas ir noderīgi metadatiem.</translation>
+Vienumi, kuriem ir atļauta izdzēšana, tiks izdzēsti, ja tie novērš mapes izdzēšanu. Tas ir noderīgi metadatiem.</translation>
     </message>
     <message>
         <location filename="../src/gui/ignorelisttablewidget.cpp" line="93"/>
@@ -3155,7 +3172,7 @@ Vienības, kurām ir atļauta dzēšana, tiks dzēstas, ja tās novērš mapi no
     <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="100"/>
         <source>The following characters are not allowed on the system: * &quot; | &amp; ? , ; : \ / ~ &lt; &gt; leading/trailing spaces</source>
-        <translation type="unfinished"/>
+        <translation>Šīs rakstzīmes sistēmā nav atļautas: * &quot; | &amp; ? , ; : \ / ~ &lt; &gt; atstarpes sākumā/beigās</translation>
     </message>
     <message>
         <location filename="../src/gui/invalidfilenamedialog.cpp" line="103"/>
@@ -3290,7 +3307,7 @@ Note that using any logging command line options will override this setting.</so
     <message>
         <location filename="../src/gui/logbrowser.cpp" line="77"/>
         <source>Open folder</source>
-        <translation type="unfinished"/>
+        <translation>Atvērt mapi</translation>
     </message>
 </context>
 <context>
@@ -3570,66 +3587,67 @@ Note that using any logging command line options will override this setting.</so
 <context>
     <name>OCC::OwncloudAdvancedSetupPage</name>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="70"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="75"/>
         <source>Connect</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="104"/>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="263"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="112"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="284"/>
         <source>(experimental)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="104"/>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="263"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="127"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="286"/>
         <source>Use &amp;virtual files instead of downloading content immediately %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="259"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="278"/>
         <source>Virtual files are not supported for Windows partition roots as local folder. Please choose a valid subfolder under drive letter.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="296"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="319"/>
         <source>%1 folder &quot;%2&quot; is synced to local folder &quot;%3&quot;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="299"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="322"/>
         <source>Sync the folder &quot;%1&quot;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="304"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="327"/>
         <source>Warning: The local folder is not empty. Pick a resolution!</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="314"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="340"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="658"/>
         <source>%1 free space</source>
         <comment>%1 gets replaced with the size and a matching unit. Example: 3 MB or 5 GB</comment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="400"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="428"/>
         <source>Virtual files are not supported at the selected location</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="462"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="491"/>
         <source>Local Sync Folder</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="505"/>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="546"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="534"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="575"/>
         <source>(%1)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="572"/>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="601"/>
         <source>There isn&apos;t enough free space in the local folder!</source>
         <translation type="unfinished"/>
     </message>
@@ -3693,8 +3711,8 @@ Note that using any logging command line options will override this setting.</so
 <context>
     <name>OCC::OwncloudPropagator</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="939"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1016"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="937"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1014"/>
         <source>Impossible to get modification time for file in conflict %1</source>
         <translation type="unfinished"/>
     </message>
@@ -3705,7 +3723,7 @@ Note that using any logging command line options will override this setting.</so
         <location filename="../src/gui/wizard/owncloudsetuppage.cpp" line="102"/>
         <source>The link to your %1 web interface when you open it in the browser.</source>
         <comment>%1 will be replaced with the application name</comment>
-        <translation type="unfinished"/>
+        <translation>Saite uz %1 tīmekļa saskarni, kad tā tiek atvērta pārlūkā.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudsetuppage.cpp" line="217"/>
@@ -3878,7 +3896,7 @@ Note that using any logging command line options will override this setting.</so
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/owncloudsetupwizard.cpp" line="720"/>
+        <location filename="../src/gui/owncloudsetupwizard.cpp" line="745"/>
         <source>&lt;font color=&quot;green&quot;&gt;&lt;b&gt;Local sync folder %1 successfully created!&lt;/b&gt;&lt;/font&gt;</source>
         <translation type="unfinished"/>
     </message>
@@ -3901,12 +3919,12 @@ Note that using any logging command line options will override this setting.</so
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="484"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="491"/>
         <source>Enable experimental feature?</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="485"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="492"/>
         <source>When the &quot;virtual files&quot; mode is enabled no files will be downloaded initially. Instead, a tiny &quot;%1&quot; file will be created for each file that exists on the server. The contents can be downloaded by running these files or by using their context menu.
 
 The virtual files mode is mutually exclusive with selective sync. Currently unselected folders will be translated to online-only folders and your selective sync settings will be reset.
@@ -3917,12 +3935,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="499"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="506"/>
         <source>Enable experimental placeholder mode</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="500"/>
+        <location filename="../src/gui/wizard/owncloudwizard.cpp" line="507"/>
         <source>Stay safe</source>
         <translation type="unfinished"/>
     </message>
@@ -3943,7 +3961,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PollJob</name>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="140"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="149"/>
         <source>Invalid JSON reply from the poll URL</source>
         <translation type="unfinished"/>
     </message>
@@ -3951,210 +3969,210 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::ProcessDirectoryJob</name>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="393"/>
+        <location filename="../src/libsync/discovery.cpp" line="399"/>
         <source>Symbolic links are not supported in syncing.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="401"/>
+        <location filename="../src/libsync/discovery.cpp" line="407"/>
         <source>File is listed on the ignore list.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="405"/>
+        <location filename="../src/libsync/discovery.cpp" line="411"/>
         <source>File names ending with a period are not supported on this file system.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="415"/>
+        <location filename="../src/libsync/discovery.cpp" line="421"/>
         <source>Folder</source>
         <comment>name of folder entity to use when warning about invalid name</comment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="415"/>
+        <location filename="../src/libsync/discovery.cpp" line="421"/>
         <source>File</source>
         <comment>name of folder entity to use when warning about invalid name</comment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="417"/>
+        <location filename="../src/libsync/discovery.cpp" line="423"/>
         <source>%1 name containing the character &quot;%2&quot; is not supported on this file system.</source>
         <comment>folder or file impossible to sync due to an invalid name, placeholders will be file or folder and the invalid character</comment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="419"/>
+        <location filename="../src/libsync/discovery.cpp" line="425"/>
         <source>%1 name contains at least one invalid character</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="421"/>
+        <location filename="../src/libsync/discovery.cpp" line="427"/>
         <source>%1 name is a reserved name on this file system.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="427"/>
+        <location filename="../src/libsync/discovery.cpp" line="433"/>
         <source>Filename contains trailing spaces.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="430"/>
-        <location filename="../src/libsync/discovery.cpp" line="437"/>
-        <location filename="../src/libsync/discovery.cpp" line="444"/>
-        <location filename="../src/libsync/discovery.cpp" line="486"/>
+        <location filename="../src/libsync/discovery.cpp" line="436"/>
+        <location filename="../src/libsync/discovery.cpp" line="443"/>
+        <location filename="../src/libsync/discovery.cpp" line="450"/>
+        <location filename="../src/libsync/discovery.cpp" line="492"/>
         <source>Cannot be renamed or uploaded.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="434"/>
+        <location filename="../src/libsync/discovery.cpp" line="440"/>
         <source>Filename contains leading spaces.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="441"/>
+        <location filename="../src/libsync/discovery.cpp" line="447"/>
         <source>Filename contains leading and trailing spaces.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="448"/>
+        <location filename="../src/libsync/discovery.cpp" line="454"/>
         <source>Filename is too long.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="452"/>
+        <location filename="../src/libsync/discovery.cpp" line="458"/>
         <source>File/Folder is ignored because it&apos;s hidden.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="455"/>
+        <location filename="../src/libsync/discovery.cpp" line="461"/>
         <source>Stat failed.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="458"/>
+        <location filename="../src/libsync/discovery.cpp" line="464"/>
         <source>Conflict: Server version downloaded, local copy renamed and not uploaded.</source>
-        <translation type="unfinished"/>
+        <translation>Nesaderība: lejupielādēta versija no servera, vietējā kopija pārdēvēta un nav augšupielādēta</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="462"/>
+        <location filename="../src/libsync/discovery.cpp" line="468"/>
         <source>Case Clash Conflict: Server file downloaded and renamed to avoid clash.</source>
-        <translation type="unfinished"/>
+        <translation>Reģistrjutīga nesaderība: servera datne lejupielādēta un pārdēvēta, lai izvairītos no sakritības.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="466"/>
+        <location filename="../src/libsync/discovery.cpp" line="472"/>
         <source>The filename cannot be encoded on your file system.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="469"/>
+        <location filename="../src/libsync/discovery.cpp" line="475"/>
         <source>The filename is blacklisted on the server.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="472"/>
+        <location filename="../src/libsync/discovery.cpp" line="478"/>
         <source>Reason: the entire filename is forbidden.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="475"/>
+        <location filename="../src/libsync/discovery.cpp" line="481"/>
         <source>Reason: the filename has a forbidden base name (filename start).</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="478"/>
+        <location filename="../src/libsync/discovery.cpp" line="484"/>
         <source>Reason: the file has a forbidden extension (.%1).</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="481"/>
+        <location filename="../src/libsync/discovery.cpp" line="487"/>
         <source>Reason: the filename contains a forbidden character (%1).</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="622"/>
+        <location filename="../src/libsync/discovery.cpp" line="634"/>
         <source>File has extension reserved for virtual files.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="763"/>
+        <location filename="../src/libsync/discovery.cpp" line="775"/>
         <source>size</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="765"/>
+        <location filename="../src/libsync/discovery.cpp" line="777"/>
         <source>permission</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="769"/>
+        <location filename="../src/libsync/discovery.cpp" line="781"/>
         <source>file id</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="773"/>
+        <location filename="../src/libsync/discovery.cpp" line="785"/>
         <source>Server reported no %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1114"/>
+        <location filename="../src/libsync/discovery.cpp" line="1127"/>
         <source>Cannot sync due to invalid modification time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1124"/>
+        <location filename="../src/libsync/discovery.cpp" line="1137"/>
         <source>Could not upload file, because it is open in &quot;%1&quot;.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1167"/>
+        <location filename="../src/libsync/discovery.cpp" line="1180"/>
         <source>Error while deleting file record %1 from the database</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1440"/>
-        <location filename="../src/libsync/discovery.cpp" line="1900"/>
+        <location filename="../src/libsync/discovery.cpp" line="1458"/>
+        <location filename="../src/libsync/discovery.cpp" line="1914"/>
         <source>Moved to invalid target, restoring</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1758"/>
+        <location filename="../src/libsync/discovery.cpp" line="1776"/>
         <source>Cannot modify encrypted item because the selected certificate is not valid.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1819"/>
+        <location filename="../src/libsync/discovery.cpp" line="1838"/>
         <source>Ignored because of the &quot;choose what to sync&quot; blacklist</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1853"/>
-        <location filename="../src/libsync/discovery.cpp" line="2061"/>
+        <location filename="../src/libsync/discovery.cpp" line="1872"/>
+        <location filename="../src/libsync/discovery.cpp" line="2075"/>
         <source>Not allowed because you don&apos;t have permission to add subfolders to that folder</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1864"/>
+        <location filename="../src/libsync/discovery.cpp" line="1878"/>
         <source>Not allowed because you don&apos;t have permission to add files in that folder</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1878"/>
+        <location filename="../src/libsync/discovery.cpp" line="1892"/>
         <source>Not allowed to upload this file because it is read-only on the server, restoring</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1914"/>
+        <location filename="../src/libsync/discovery.cpp" line="1928"/>
         <source>Not allowed to remove, restoring</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2108"/>
+        <location filename="../src/libsync/discovery.cpp" line="2118"/>
         <source>Error while reading the database</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2193"/>
+        <location filename="../src/libsync/discovery.cpp" line="2203"/>
         <source>Server replied with an error while reading directory &quot;%1&quot; : %2</source>
         <translation type="unfinished"/>
     </message>
@@ -4162,38 +4180,38 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateDirectory</name>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1439"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1420"/>
         <source>Could not delete file %1 from local DB</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1453"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1434"/>
         <source>Error updating metadata due to invalid modification time</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1484"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1490"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1496"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1518"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1524"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1530"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1464"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1470"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1476"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1498"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1504"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1510"/>
         <source>The folder %1 cannot be made read-only: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1496"/>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1530"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1476"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1510"/>
         <source>unknown exception</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1541"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1520"/>
         <source>Error updating metadata: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/owncloudpropagator.cpp" line="1545"/>
+        <location filename="../src/libsync/owncloudpropagator.cpp" line="1524"/>
         <source>File is currently in use</source>
         <translation type="unfinished"/>
     </message>
@@ -4212,13 +4230,13 @@ This is a new, experimental mode. If you decide to use it, please report any iss
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="497"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1330"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1326"/>
         <source>File has changed since discovery</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/libsync/propagatedownload.cpp" line="518"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1382"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1376"/>
         <source>Could not delete file record %1 from local DB</source>
         <translation type="unfinished"/>
     </message>
@@ -4238,38 +4256,38 @@ This is a new, experimental mode. If you decide to use it, please report any iss
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="872"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="868"/>
         <source>File was deleted from server</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="944"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="940"/>
         <source>The file could not be downloaded completely.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="951"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="947"/>
         <source>The downloaded file is empty, but the server said it should have been %1.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1214"/>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1228"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1210"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1224"/>
         <source>File %1 has invalid modified time reported by server. Do not save it.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1301"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1297"/>
         <source>File %1 downloaded but it resulted in a local file name clash!</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1414"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1408"/>
         <source>Error updating metadata: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatedownload.cpp" line="1417"/>
+        <location filename="../src/libsync/propagatedownload.cpp" line="1411"/>
         <source>The file %1 is currently in use</source>
         <translation type="unfinished"/>
     </message>
@@ -4290,39 +4308,39 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateLocalMkdir</name>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="184"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="171"/>
         <source>could not delete file %1, error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="199"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="186"/>
         <source>Folder %1 cannot be created because of a local file or folder name clash!</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="233"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="218"/>
         <source>Could not create folder %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="247"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="253"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="259"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="231"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="237"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="243"/>
         <source>The folder %1 cannot be made read-only: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="259"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="243"/>
         <source>unknown exception</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="293"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="276"/>
         <source>Error updating metadata: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="296"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="279"/>
         <source>The file %1 is currently in use</source>
         <translation type="unfinished"/>
     </message>
@@ -4330,12 +4348,19 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateLocalRemove</name>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="115"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="105"/>
         <source>Could not remove %1 because of a local file name clash</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="152"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="113"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="119"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="130"/>
+        <source>Temporary error when removing local item removed from server.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="139"/>
         <source>Could not delete file record %1 from local DB</source>
         <translation type="unfinished"/>
     </message>
@@ -4343,52 +4368,52 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateLocalRename</name>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="350"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="333"/>
         <source>Folder %1 cannot be renamed because of a local file or folder name clash!</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="358"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="341"/>
         <source>File %1 downloaded but it resulted in a local file name clash!</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="464"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="510"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="551"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="441"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="487"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="528"/>
         <source>Could not get file %1 from local DB</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="477"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="538"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="454"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="515"/>
         <source>Error setting pin state</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="490"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="523"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="467"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="500"/>
         <source>Error updating metadata: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="493"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="470"/>
         <source>The file %1 is currently in use</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="515"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="556"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="492"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="533"/>
         <source>Could not delete file record %1 from local DB</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="528"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="505"/>
         <source>Failed to propagate directory rename in hierarchy</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="533"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="510"/>
         <source>Failed to rename file</source>
         <translation type="unfinished"/>
     </message>
@@ -4396,12 +4421,12 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateRemoteDelete</name>
     <message>
-        <location filename="../src/libsync/propagateremotedelete.cpp" line="119"/>
+        <location filename="../src/libsync/propagateremotedelete.cpp" line="124"/>
         <source>Wrong HTTP code returned by server. Expected 204, but received &quot;%1 %2&quot;.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotedelete.cpp" line="127"/>
+        <location filename="../src/libsync/propagateremotedelete.cpp" line="132"/>
         <source>Could not delete file record %1 from local DB</source>
         <translation type="unfinished"/>
     </message>
@@ -4417,22 +4442,22 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateRemoteMkdir</name>
     <message>
-        <location filename="../src/libsync/propagateremotemkdir.cpp" line="134"/>
+        <location filename="../src/libsync/propagateremotemkdir.cpp" line="135"/>
         <source>Wrong HTTP code returned by server. Expected 201, but received &quot;%1 %2&quot;.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemkdir.cpp" line="258"/>
+        <location filename="../src/libsync/propagateremotemkdir.cpp" line="259"/>
         <source>Failed to encrypt a folder %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemkdir.cpp" line="282"/>
+        <location filename="../src/libsync/propagateremotemkdir.cpp" line="283"/>
         <source>Error writing metadata to the database: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateremotemkdir.cpp" line="285"/>
+        <location filename="../src/libsync/propagateremotemkdir.cpp" line="286"/>
         <source>The file %1 is currently in use</source>
         <translation type="unfinished"/>
     </message>
@@ -4485,60 +4510,60 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::PropagateUploadFileCommon</name>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="243"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="252"/>
         <source>Failed to upload encrypted file.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="276"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="287"/>
         <source>File %1 cannot be uploaded because another file with the same name, differing only in case, exists</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="287"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="708"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="298"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="729"/>
         <source>Upload of %1 exceeds the quota for the folder</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="324"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="399"/>
-        <location filename="../src/libsync/propagateupload.cpp" line="412"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="342"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="418"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="431"/>
         <source>File %1 has invalid modification time. Do not upload to the server.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="396"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="415"/>
         <source>File Removed (start upload) %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="422"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="441"/>
         <source>Local file changed during syncing. It will be resumed.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="433"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="452"/>
         <source>Local file changed during sync.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="443"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="462"/>
         <source>Failed to unlock encrypted folder.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="714"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="735"/>
         <source>Unable to upload an item with invalid characters</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="816"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="837"/>
         <source>Error updating metadata: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/propagateupload.cpp" line="819"/>
+        <location filename="../src/libsync/propagateupload.cpp" line="840"/>
         <source>The file %1 is currently in use</source>
         <translation type="unfinished"/>
     </message>
@@ -4709,7 +4734,7 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::ShareManager</name>
     <message>
-        <location filename="../src/gui/sharemanager.cpp" line="704"/>
+        <location filename="../src/gui/sharemanager.cpp" line="716"/>
         <source>Error</source>
         <translation type="unfinished"/>
     </message>
@@ -4717,47 +4742,47 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <context>
     <name>OCC::ShareModel</name>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="577"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="580"/>
         <source>%1 days</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="579"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="582"/>
         <source>1 day</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="580"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="583"/>
         <source>Today</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="754"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="757"/>
         <source>Secure file drop link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="754"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="757"/>
         <source>Share link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="762"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="765"/>
         <source>Link share</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="764"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="767"/>
         <source>Internal link</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="766"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="769"/>
         <source>Secure file drop</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/filedetails/sharemodel.cpp" line="966"/>
+        <location filename="../src/gui/filedetails/sharemodel.cpp" line="969"/>
         <source>Could not find local folder for %1</source>
         <translation type="unfinished"/>
     </message>
@@ -4908,12 +4933,12 @@ Server replied with error: %2</source>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1370"/>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1372"/>
         <source>Open in browser</source>
-        <translation type="unfinished"/>
+        <translation>Atvērt pārlūkā</translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1399"/>
         <source>Resolve conflict …</source>
-        <translation type="unfinished"/>
+        <translation>Atrisināt nesaderību…</translation>
     </message>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1403"/>
@@ -4938,7 +4963,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/socketapi/socketapi.cpp" line="1415"/>
         <source>Delete</source>
-        <translation>Dzēst</translation>
+        <translation>Izdzēst</translation>
     </message>
 </context>
 <context>
@@ -5048,7 +5073,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/sslbutton.cpp" line="191"/>
         <source>Server version: %1</source>
-        <translation type="unfinished"/>
+        <translation>Servera versija: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/sslbutton.cpp" line="205"/>
@@ -5157,68 +5182,68 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="384"/>
+        <location filename="../src/libsync/syncengine.cpp" line="383"/>
         <source>Could not update file: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="413"/>
+        <location filename="../src/libsync/syncengine.cpp" line="412"/>
         <source>Could not update virtual file metadata: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="420"/>
+        <location filename="../src/libsync/syncengine.cpp" line="419"/>
         <source>Could not update file metadata: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="434"/>
+        <location filename="../src/libsync/syncengine.cpp" line="433"/>
         <source>Could not set file record to local DB: %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="466"/>
+        <location filename="../src/libsync/syncengine.cpp" line="465"/>
         <source>Unresolved conflict.</source>
-        <translation type="unfinished"/>
+        <translation>Neatrisināta nesaderība.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="568"/>
+        <location filename="../src/libsync/syncengine.cpp" line="567"/>
         <source>Only %1 are available, need at least %2 to start</source>
         <comment>Placeholders are postfixed with file sizes using Utility::octetsToString()</comment>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="601"/>
+        <location filename="../src/libsync/syncengine.cpp" line="600"/>
         <source>Unable to open or create the local sync database. Make sure you have write access in the sync folder.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="617"/>
+        <location filename="../src/libsync/syncengine.cpp" line="616"/>
         <source>Using virtual files with suffix, but suffix is not set</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="629"/>
+        <location filename="../src/libsync/syncengine.cpp" line="628"/>
         <source>Unable to read the blacklist from the local database</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="669"/>
+        <location filename="../src/libsync/syncengine.cpp" line="668"/>
         <source>Unable to read from the sync journal.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="825"/>
+        <location filename="../src/libsync/syncengine.cpp" line="824"/>
         <source>Cannot open the sync journal</source>
         <translation>Nevar atvērt sinhronizēšanas žurnālu</translation>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1428"/>
+        <location filename="../src/libsync/syncengine.cpp" line="1446"/>
         <source>Disk space is low: Downloads that would reduce free space below %1 were skipped.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/syncengine.cpp" line="1435"/>
+        <location filename="../src/libsync/syncengine.cpp" line="1453"/>
         <source>There is insufficient space available on the server for some uploads.</source>
         <translation type="unfinished"/>
     </message>
@@ -5251,7 +5276,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/syncstatussummary.cpp" line="152"/>
         <source>See below for errors</source>
-        <translation type="unfinished"/>
+        <translation>Kļūdas skatīt zemāk</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/syncstatussummary.cpp" line="160"/>
@@ -5271,12 +5296,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/syncstatussummary.cpp" line="179"/>
         <source>Some files could not be synced!</source>
-        <translation type="unfinished"/>
+        <translation>Dažas datnes nevarēja sinhronizēt.</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/syncstatussummary.cpp" line="180"/>
         <source>See below for warnings</source>
-        <translation type="unfinished"/>
+        <translation>Brīdinājumus skatīt zemāk</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/syncstatussummary.cpp" line="221"/>
@@ -5307,49 +5332,49 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="182"/>
+        <location filename="../src/gui/systray.cpp" line="185"/>
         <source>Add account</source>
         <translation>Pievienot kontu</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="184"/>
+        <location filename="../src/gui/systray.cpp" line="187"/>
         <source>Open main dialog</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="187"/>
-        <location filename="../src/gui/systray.cpp" line="197"/>
+        <location filename="../src/gui/systray.cpp" line="190"/>
+        <location filename="../src/gui/systray.cpp" line="200"/>
         <source>Pause sync</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="188"/>
-        <location filename="../src/gui/systray.cpp" line="203"/>
+        <location filename="../src/gui/systray.cpp" line="191"/>
+        <location filename="../src/gui/systray.cpp" line="206"/>
         <source>Resume sync</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="189"/>
+        <location filename="../src/gui/systray.cpp" line="192"/>
         <source>Settings</source>
         <translation>Iestatījumi</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="190"/>
+        <location filename="../src/gui/systray.cpp" line="193"/>
         <source>Help</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="191"/>
+        <location filename="../src/gui/systray.cpp" line="194"/>
         <source>Exit %1</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="197"/>
+        <location filename="../src/gui/systray.cpp" line="200"/>
         <source>Pause sync for all</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="203"/>
+        <location filename="../src/gui/systray.cpp" line="206"/>
         <source>Resume sync for all</source>
         <translation type="unfinished"/>
     </message>
@@ -5481,43 +5506,43 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::User</name>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="104"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="103"/>
         <source>End-to-end certificate needs to be migrated to a new one</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="106"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="105"/>
         <source>Trigger the migration</source>
         <translation type="unfinished"/>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/tray/usermodel.cpp" line="177"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="176"/>
         <source>%n notification(s)</source>
         <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform><numerusform></numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="674"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="673"/>
         <source>Retry all uploads</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="725"/>
-        <location filename="../src/gui/tray/usermodel.cpp" line="889"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="724"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="886"/>
         <source>Resolve conflict</source>
-        <translation type="unfinished"/>
+        <translation>Atrisināt nesaderību</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="879"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="876"/>
         <source>Rename file</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1085"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1082"/>
         <source>Open Nextcloud Assistant in browser</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1085"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1082"/>
         <source>Open Nextcloud Talk in browser</source>
         <translation type="unfinished"/>
     </message>
@@ -5525,22 +5550,22 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::UserModel</name>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1489"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1487"/>
         <source>Confirm Account Removal</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1490"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1488"/>
         <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1494"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1492"/>
         <source>Remove connection</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1495"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1493"/>
         <source>Cancel</source>
         <translation>Atcelt</translation>
     </message>
@@ -5762,22 +5787,22 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/wizard/welcomepage.cpp" line="69"/>
         <source>Secure collaboration &amp; file exchange</source>
-        <translation type="unfinished"/>
+        <translation>Droša sadarbošanās un datņu apmaiņa</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/welcomepage.cpp" line="70"/>
         <source>Easy-to-use web mail, calendaring &amp; contacts</source>
-        <translation type="unfinished"/>
+        <translation>Viegli izmantojams tīmekļa pasts, kalendārs un kontaktpersonu saraksts</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/welcomepage.cpp" line="71"/>
         <source>Screensharing, online meetings &amp; web conferences</source>
-        <translation type="unfinished"/>
+        <translation>Ekrāna kopīgošana, tiešsaistes sapulces un tīmekļa apspriešanās</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/welcomepage.cpp" line="111"/>
         <source>Host your own server</source>
-        <translation type="unfinished"/>
+        <translation>Mitināt savu serveri</translation>
     </message>
 </context>
 <context>
@@ -5790,7 +5815,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="272"/>
         <source>The server on account %1 runs an unsupported version %2. Using this client with unsupported server versions is untested and potentially dangerous. Proceed at your own risk.</source>
-        <translation type="unfinished"/>
+        <translation>Konta %1 serveris darbojas ar neatbalstītu versiju %2. Šī klienta izmantošana ar neatbalstītām servera versijām nav pārbaudīta un ir iespējami bīstama. Turpināt uz savu atbildību.</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="284"/>
@@ -5874,7 +5899,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="77"/>
         <source>&amp;Local Folder</source>
-        <translation>Lokālā mape</translation>
+        <translation>&amp;Vietēja mape</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/owncloudadvancedsetuppage.ui" line="98"/>
@@ -5977,7 +6002,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/wizard/owncloudsetupnocredspage.ui" line="262"/>
         <source>This is the link to your %1 web interface when you open it in the browser.</source>
-        <translation type="unfinished"/>
+        <translation>Tā ir saite uz %1 tīmekļa saskarni, kad tā tiek atvērta pārlūkā.</translation>
     </message>
 </context>
 <context>
@@ -5998,29 +6023,39 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="806"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="805"/>
         <source>You renamed %1</source>
         <translation>Jūs pārdēvējāt %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="808"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="807"/>
         <source>You deleted %1</source>
-        <translation>Tika izdzēsta %1</translation>
+        <translation>Tu izdzēsi %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="810"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="809"/>
         <source>You created %1</source>
         <translation>Jūs izveidojāt %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="812"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="811"/>
         <source>You changed %1</source>
         <translation>Tu mainīji %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="836"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="835"/>
         <source>Synced %1</source>
         <translation>Sinhronizēta %1</translation>
+    </message>
+    <message>
+        <location filename="../src/common/filesystembase.cpp" line="596"/>
+        <source>File is already deleted</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/common/filesystembase.cpp" line="611"/>
+        <source>Error deleting the file</source>
+        <translation type="unfinished"/>
     </message>
     <message numerus="yes">
         <location filename="../src/common/utility.cpp" line="440"/>
@@ -6089,12 +6124,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="64"/>
         <source>Choose if you want to keep the local version, server version, or both. If you choose both, the local file will have a number added to its name.</source>
-        <translation>Izvēlieties, vai vēlaties saglabāt lokālo versiju, servera versiju vai abas. Ja izvēlaties abas, lokālām datnēm tiks pievienots numurs tā nosaukumā.</translation>
+        <translation>Jāizvēlas, vai paturēt vietējo vai servera versiju vai abas. Ja izvēlas abas, vietējās datnes nosaukumam tiks pievienots skaitlis.</translation>
     </message>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="80"/>
         <source>All local versions</source>
-        <translation>Visas lokālās versijas</translation>
+        <translation>Visas vietējās versijas</translation>
     </message>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="98"/>
@@ -6104,7 +6139,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="153"/>
         <source>Resolve conflicts</source>
-        <translation>Risināt konfliktus</translation>
+        <translation>Atrisināt nesaderības</translation>
     </message>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="157"/>
@@ -6135,7 +6170,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="291"/>
         <source>Share label</source>
-        <translation>koplietošanas etiķete</translation>
+        <translation>Koplietojuma iezīme</translation>
     </message>
     <message>
         <location filename="../src/gui/filedetails/ShareDetailsPage.qml" line="323"/>
@@ -6273,7 +6308,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/tray/SyncStatus.qml" line="113"/>
         <source>Resolve conflicts</source>
-        <translation>Risināt konfliktus</translation>
+        <translation>Atrisināt nesaderības</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/SyncStatus.qml" line="126"/>
@@ -6315,12 +6350,12 @@ Server replied with error: %2</source>
 <context>
     <name>TrayWindowHeader</name>
     <message>
-        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="74"/>
+        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="75"/>
         <source>Open local or group folders</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="109"/>
+        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="110"/>
         <source>More apps</source>
         <translation type="unfinished"/>
     </message>
@@ -6394,39 +6429,39 @@ Server replied with error: %2</source>
         <translation>Pārslēgties uz kontu</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="69"/>
+        <location filename="../src/gui/tray/UserLine.qml" line="70"/>
         <source>Current account status is online</source>
         <translation>Pašreizējais konta statuss ir tiešsaistē</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="69"/>
+        <location filename="../src/gui/tray/UserLine.qml" line="70"/>
         <source>Current account status is do not disturb</source>
         <translation>Pašreizējais konta statuss ir netraucēt</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="134"/>
+        <location filename="../src/gui/tray/UserLine.qml" line="135"/>
         <source>Account actions</source>
         <translation>Konta darbības</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="148"/>
+        <location filename="../src/gui/tray/UserLine.qml" line="149"/>
         <source>Set status</source>
         <translation>Iestatīt stāvokli</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="155"/>
-        <location filename="../src/gui/tray/UserLine.qml" line="164"/>
+        <location filename="../src/gui/tray/UserLine.qml" line="156"/>
+        <location filename="../src/gui/tray/UserLine.qml" line="165"/>
         <source>Log out</source>
         <translation>Iziet</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="155"/>
-        <location filename="../src/gui/tray/UserLine.qml" line="164"/>
+        <location filename="../src/gui/tray/UserLine.qml" line="156"/>
+        <location filename="../src/gui/tray/UserLine.qml" line="165"/>
         <source>Log in</source>
         <translation>Pieteikties</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/UserLine.qml" line="178"/>
+        <location filename="../src/gui/tray/UserLine.qml" line="179"/>
         <source>Remove account</source>
         <translation>Noņemt kontu</translation>
     </message>
@@ -6474,29 +6509,29 @@ Server replied with error: %2</source>
         <translation>Statusa ziņojums</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="220"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="194"/>
         <source>What is your status?</source>
         <translation>Kāds ir jūsu statuss?</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="292"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="238"/>
         <source>Clear status message after</source>
         <translation>Notīrīt statusa ziņojumu pēc</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="329"/>
+        <location filename="../src/gui/UserStatusSelector.qml" line="271"/>
         <source>Cancel</source>
         <translation>Atcelts</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="336"/>
-        <source>Clear status message</source>
-        <translation>Notīrīt statusa ziņojumu</translation>
+        <location filename="../src/gui/UserStatusSelector.qml" line="278"/>
+        <source>Clear</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSelector.qml" line="345"/>
-        <source>Set status message</source>
-        <translation>Iestatīt stāvokļa ziņojumu</translation>
+        <location filename="../src/gui/UserStatusSelector.qml" line="283"/>
+        <source>Apply</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -6590,7 +6625,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/main.cpp" line="51"/>
         <source>%1 requires on a working system tray. If you are running XFCE, please follow &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;these instructions&lt;/a&gt;. Otherwise, please install a system tray application such as &quot;trayer&quot; and try again.</source>
-        <translation>%1 prasa darboties sistēmas ikonjoslā. Ja izmantojat XFCE, lūdzu, ievērojiet &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;šos norādījumus&lt;/a&gt;. Pretējā gadījumā, lūdzu, instalējiet sistēmas ikonjoslas lietotni, piemēram, &quot;trayer&quot;, un mēģiniet vēlreiz.</translation>
+        <translation>%1 ir nepieciešama strādājoša sistēmas ikonjosla. Ja tiek izmantots XFCE, lūgums ievērot &lt;a href=&quot;http://docs.xfce.org/xfce/xfce4-panel/systray&quot;&gt;šos norādījumus&lt;/a&gt;. Pārējos gadījumos lūgums uzstādīt sistēmas ikonjoslas lietotni, piemēram, &quot;trayer&quot;, un mēģināt vēlreiz.</translation>
     </message>
 </context>
 <context>
@@ -6626,12 +6661,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="43"/>
         <source>Server version downloaded, copied changed local file into conflict file</source>
-        <translation>Servera versija lejupielādēta, kopēta izmainīta lokālā datne uz konfliktēto datni</translation>
+        <translation>Lejupielādēta servera versija, izmainītā vietējā datne iekopēta nesaderību datnē</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="45"/>
         <source>Server version downloaded, copied changed local file into case conflict conflict file</source>
-        <translation>Lejupielādēta servera versija, nokopēta mainītā lokālā datne gadījuma konflikta konflikta datnē</translation>
+        <translation>Lejupielādēta servera versija, vietējā izmainītā datne iekopēta reģistrjutības nesaderības datnē</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="47"/>
@@ -6662,7 +6697,7 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="58"/>
         <source>Updated local metadata</source>
-        <translation>Atjaunoti lokālie metadati</translation>
+        <translation>Atjaunināti vietējie metadati</translation>
     </message>
     <message>
         <location filename="../src/libsync/progressdispatcher.cpp" line="60"/>
@@ -6799,12 +6834,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="85"/>
         <source>Always available locally</source>
-        <translation>Vienmēr pieejams lokāli</translation>
+        <translation>Vienmēr pieejama vietēji</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="87"/>
         <source>Currently available locally</source>
-        <translation>Pašlaik pieejams lokāli</translation>
+        <translation>Pašlaik pieejama vietēji</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="89"/>
@@ -6819,12 +6854,12 @@ Server replied with error: %2</source>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="99"/>
         <source>Make always available locally</source>
-        <translation>Nodrošināt vienmēr pieejamu lokāli</translation>
+        <translation>Padarīt vienmēr pieejamu vietēji</translation>
     </message>
     <message>
         <location filename="../src/gui/guiutility.cpp" line="104"/>
         <source>Free up local space</source>
-        <translation>Atbrīvojiet lokālo vietu</translation>
+        <translation>Atbrīvot vietējo vietu</translation>
     </message>
 </context>
 </TS>

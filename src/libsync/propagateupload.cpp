@@ -64,18 +64,27 @@ void PUTFileJob::start()
 
     req.setPriority(QNetworkRequest::LowPriority); // Long uploads must not block non-propagation jobs.
 
+    auto requestID = QByteArray{};
+
     if (_url.isValid()) {
-        sendRequest("PUT", _url, req, _device);
+        const auto reply = sendRequest("PUT", _url, req, _device);
+        requestID = reply->request().rawHeader("X-Request-ID");
     } else {
-        sendRequest("PUT", makeDavUrl(path()), req, _device);
+        const auto reply = sendRequest("PUT", makeDavUrl(path()), req, _device);
+        requestID = reply->request().rawHeader("X-Request-ID");
     }
 
     if (reply()->error() != QNetworkReply::NoError) {
         qCWarning(lcPutJob) << " Network error: " << reply()->errorString();
     }
 
+    connect(reply(), &QNetworkReply::uploadProgress, this, [requestID] (qint64 bytesSent, qint64 bytesTotal) {
+        qCDebug(lcPutJob()) << requestID << "upload progress" << bytesSent << bytesTotal;
+    });
+
     connect(reply(), &QNetworkReply::uploadProgress, this, &PUTFileJob::uploadProgress);
     connect(this, &AbstractNetworkJob::networkActivity, account().data(), &Account::propagatorNetworkActivity);
+
     _requestTimer.start();
     AbstractNetworkJob::start();
 }
@@ -249,6 +258,8 @@ void PropagateUploadFileCommon::setupEncryptedFile(const QString& path, const QS
 {
     qCDebug(lcPropagateUpload) << "Starting to upload encrypted file" << path << filename << size;
     _uploadingEncrypted = true;
+    _item->_e2eEncryptionStatus = EncryptionStatusEnums::ItemEncryptionStatus::EncryptedMigratedV2_0;
+    Q_ASSERT(_item->isEncrypted());
     _fileToUpload._path = path;
     _fileToUpload._file = filename;
     _fileToUpload._size = size;
@@ -297,8 +308,9 @@ void PropagateUploadFileCommon::startUploadFile() {
 
     qDebug() << "Deleting the current";
     auto job = new DeleteJob(propagator()->account(),
-        propagator()->fullRemotePath(_fileToUpload._file),
-        this);
+                             propagator()->fullRemotePath(_fileToUpload._file),
+                             {},
+                             this);
     _jobs.append(job);
     connect(job, &DeleteJob::finishedSignal, this, &PropagateUploadFileCommon::slotComputeContentChecksum);
     connect(job, &QObject::destroyed, this, &PropagateUploadFileCommon::slotJobDestroyed);
@@ -321,8 +333,15 @@ void PropagateUploadFileCommon::slotComputeContentChecksum()
     // probably temporary one.
     _item->_modtime = FileSystem::getModTime(filePath);
     if (_item->_modtime <= 0) {
-        slotOnErrorStartFolderUnlock(SyncFileItem::NormalError, tr("File %1 has invalid modification time. Do not upload to the server.").arg(QDir::toNativeSeparators(_item->_file)));
-        return;
+        const auto now = QDateTime::currentSecsSinceEpoch();
+        qCInfo(lcPropagateUpload) << "File" << _item->_file << "has invalid modification time of" << _item->_modtime << "-- trying to update it to" << now;
+        if (FileSystem::setModTime(filePath, now)) {
+            _item->_modtime = now;
+        } else {
+            qCWarning(lcPropagateUpload) << "Could not update modification time for" << _item->_file;
+            slotOnErrorStartFolderUnlock(SyncFileItem::NormalError, tr("File %1 has invalid modification time. Do not upload to the server.").arg(QDir::toNativeSeparators(_item->_file)));
+            return;
+        }
     }
 
     const QByteArray checksumType = propagator()->account()->capabilities().preferredUploadChecksumType();
@@ -449,6 +468,8 @@ void PropagateUploadFileCommon::slotFolderUnlocked(const QByteArray &folderId, i
 void PropagateUploadFileCommon::slotOnErrorStartFolderUnlock(SyncFileItem::Status status, const QString &errorString)
 {
     if (_uploadingEncrypted) {
+        Q_ASSERT(_item->isEncrypted());
+
         _uploadStatus = { status, errorString };
         connect(_uploadEncryptedHelper, &PropagateUploadEncrypted::folderUnlocked, this, &PropagateUploadFileCommon::slotFolderUnlocked);
         _uploadEncryptedHelper->unlockFolder();
@@ -838,6 +859,8 @@ void PropagateUploadFileCommon::finalize()
     propagator()->_journal->commit("upload file start");
 
     if (_uploadingEncrypted) {
+        Q_ASSERT(_item->isEncrypted());
+
         _uploadStatus = { SyncFileItem::Success, QString() };
         connect(_uploadEncryptedHelper, &PropagateUploadEncrypted::folderUnlocked, this, &PropagateUploadFileCommon::slotFolderUnlocked);
         _uploadEncryptedHelper->unlockFolder();

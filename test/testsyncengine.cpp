@@ -150,7 +150,43 @@ private slots:
     }
 
     void testDirUploadWithDelayedAlgorithm() {
+        QSKIP("bulk upload is disabled");
+
         FakeFolder fakeFolder{FileInfo::A12_B12_C12_S12()};
+        fakeFolder.syncEngine().account()->setCapabilities({ { "dav", QVariantMap{ {"bulkupload", "1.0"} } } });
+
+        ItemCompletedSpy completeSpy(fakeFolder);
+        fakeFolder.localModifier().mkdir("Y");
+        fakeFolder.localModifier().insert("Y/d0");
+        fakeFolder.localModifier().mkdir("Z");
+        fakeFolder.localModifier().insert("Z/d0");
+        fakeFolder.localModifier().insert("A/a0");
+        fakeFolder.localModifier().insert("B/b0");
+        fakeFolder.localModifier().insert("r0");
+        fakeFolder.localModifier().insert("r1");
+        fakeFolder.syncOnce();
+        QVERIFY(itemDidCompleteSuccessfullyWithExpectedRank(completeSpy, "Y", 0));
+        QVERIFY(itemDidCompleteSuccessfullyWithExpectedRank(completeSpy, "Z", 1));
+        QVERIFY(itemDidCompleteSuccessfully(completeSpy, "Y/d0"));
+        QVERIFY(itemSuccessfullyCompletedGetRank(completeSpy, "Y/d0") > 1);
+        QVERIFY(itemDidCompleteSuccessfully(completeSpy, "Z/d0"));
+        QVERIFY(itemSuccessfullyCompletedGetRank(completeSpy, "Z/d0") > 1);
+        QVERIFY(itemDidCompleteSuccessfully(completeSpy, "A/a0"));
+        QVERIFY(itemSuccessfullyCompletedGetRank(completeSpy, "A/a0") > 1);
+        QVERIFY(itemDidCompleteSuccessfully(completeSpy, "B/b0"));
+        QVERIFY(itemSuccessfullyCompletedGetRank(completeSpy, "B/b0") > 1);
+        QVERIFY(itemDidCompleteSuccessfully(completeSpy, "r0"));
+        QVERIFY(itemSuccessfullyCompletedGetRank(completeSpy, "r0") > 1);
+        QVERIFY(itemDidCompleteSuccessfully(completeSpy, "r1"));
+        QVERIFY(itemSuccessfullyCompletedGetRank(completeSpy, "r1") > 1);
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+    }
+
+    void testDirUploadWithDelayedAlgorithmWithNewChecksum() {
+        QSKIP("bulk upload is disabled");
+
+        FakeFolder fakeFolder{FileInfo::A12_B12_C12_S12()};
+        fakeFolder.setServerVersion(QStringLiteral("32.0.0"));
         fakeFolder.syncEngine().account()->setCapabilities({ { "dav", QVariantMap{ {"bulkupload", "1.0"} } } });
 
         ItemCompletedSpy completeSpy(fakeFolder);
@@ -977,6 +1013,8 @@ private slots:
      */
     void testErrorsWithBulkUpload()
     {
+        QSKIP("bulk upload is disabled");
+
         FakeFolder fakeFolder{ FileInfo::A12_B12_C12_S12() };
         fakeFolder.syncEngine().account()->setCapabilities({ { "dav", QVariantMap{ {"bulkupload", "1.0"} } } });
 
@@ -1072,6 +1110,8 @@ private slots:
      */
     void testNetworkErrorsWithBulkUpload()
     {
+        QSKIP("bulk upload is disabled");
+
         FakeFolder fakeFolder{ FileInfo::A12_B12_C12_S12() };
         fakeFolder.syncEngine().account()->setCapabilities({ { "dav", QVariantMap{ {"bulkupload", "1.0"} } } });
 
@@ -1116,6 +1156,86 @@ private slots:
         QCOMPARE(nPUT, 9);
         QCOMPARE(nPOST, 0);
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+    }
+
+    void testNetworkErrorsWithSmallerBatchSizes()
+    {
+        QSKIP("bulk upload is disabled");
+
+        FakeFolder fakeFolder{ FileInfo::A12_B12_C12_S12() };
+        fakeFolder.syncEngine().account()->setCapabilities({ { "dav", QVariantMap{ {"bulkupload", "1.0"} } } });
+
+        int nPUT = 0;
+        int nPOST = 0;
+        fakeFolder.setServerOverride([&](QNetworkAccessManager::Operation op, const QNetworkRequest &request, QIODevice *outgoingData) -> QNetworkReply * {
+            auto contentType = request.header(QNetworkRequest::ContentTypeHeader).toString();
+            if (op == QNetworkAccessManager::PostOperation) {
+                ++nPOST;
+                if (contentType.startsWith(QStringLiteral("multipart/related; boundary="))) {
+                    auto jsonReplyObject = fakeFolder.forEachReplyPart(outgoingData, contentType, [] (const QMap<QString, QByteArray> &allHeaders) -> QJsonObject {
+                        auto reply = QJsonObject{};
+                        const auto fileName = allHeaders[QStringLiteral("X-File-Path")];
+                        if(fileName.endsWith("B/small30") ||
+                            fileName.endsWith("B/small60") ||
+                            fileName.endsWith("B/big30") ||
+                            fileName.endsWith("B/big60")) {
+                            reply.insert(QStringLiteral("error"), true);
+                            reply.insert(QStringLiteral("etag"), {});
+                            return reply;
+                        } else {
+                            reply.insert(QStringLiteral("error"), false);
+                            reply.insert(QStringLiteral("etag"), {});
+                        }
+                        return reply;
+                    });
+                    if (jsonReplyObject.size()) {
+                        auto jsonReply = QJsonDocument{};
+                        jsonReply.setObject(jsonReplyObject);
+                        return new FakeJsonErrorReply{op, request, this, 200, jsonReply};
+                    }
+                    return  nullptr;
+                }
+            } else if (op == QNetworkAccessManager::PutOperation) {
+                ++nPUT;
+                const auto fileName = getFilePathFromUrl(request.url());
+                if (fileName.endsWith("B/small30") ||
+                    fileName.endsWith("B/small60") ||
+                    fileName.endsWith("B/big30") ||
+                    fileName.endsWith("B/big60")) {
+                    return new FakeErrorReply(op, request, this, 504);
+                }
+                return  nullptr;
+            }
+            return  nullptr;
+        });
+
+        const auto smallSize = 0.5 * 1000 * 1000;
+        const auto bigSize = 10 * 1000 * 1000;
+
+        for(auto i = 0 ; i < 120; ++i) {
+            fakeFolder.localModifier().insert(QString("A/small%1").arg(i), smallSize);
+        }
+
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(nPUT, 0);
+        QCOMPARE(nPOST, 1);
+        nPUT = 0;
+        nPOST = 0;
+
+        for(auto i = 0 ; i < 120; ++i) {
+            fakeFolder.localModifier().insert(QString("B/small%1").arg(i), smallSize);
+            fakeFolder.localModifier().insert(QString("B/big%1").arg(i), bigSize);
+        }
+
+        QVERIFY(!fakeFolder.syncOnce());
+        QCOMPARE(nPUT, 120);
+        QCOMPARE(nPOST, 1);
+        nPUT = 0;
+        nPOST = 0;
+
+        QVERIFY(!fakeFolder.syncOnce());
+        QCOMPARE(nPUT, 0);
+        QCOMPARE(nPOST, 0);
     }
 
     void testRemoteMoveFailedInsufficientStorageLocalMoveRolledBack()
@@ -1331,6 +1451,73 @@ private slots:
 
         auto expectedState = fakeFolder.currentLocalState();
         QCOMPARE(fakeFolder.currentRemoteState(), expectedState);
+    }
+
+    void testLocalInvalidMtimeCorrection()
+    {
+        const auto INVALID_MTIME = QDateTime::fromSecsSinceEpoch(0);
+        const auto RECENT_MTIME = QDateTime::fromSecsSinceEpoch(1743004783); // 2025-03-26T16:59:43+0100
+
+        FakeFolder fakeFolder{FileInfo{}};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        fakeFolder.localModifier().insert(QStringLiteral("invalid"));
+        fakeFolder.localModifier().setModTime("invalid", INVALID_MTIME);
+        fakeFolder.localModifier().insert(QStringLiteral("recent"));
+        fakeFolder.localModifier().setModTime("recent", RECENT_MTIME);
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        // "invalid" file had a mtime of 0, so it's been updated to the current time during testing
+        const auto currentMtime = fakeFolder.currentLocalState().find("invalid")->lastModified;
+        QCOMPARE_GT(currentMtime, RECENT_MTIME);
+        QCOMPARE_GT(fakeFolder.currentRemoteState().find("invalid")->lastModified, RECENT_MTIME);
+
+        // "recent" file had a mtime of RECENT_MTIME, so it shouldn't have been changed
+        QCOMPARE(fakeFolder.currentLocalState().find("recent")->lastModified, RECENT_MTIME);
+        QCOMPARE(fakeFolder.currentRemoteState().find("recent")->lastModified, RECENT_MTIME);
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        // verify that the mtime of "invalid" hasn't changed since the last sync that fixed it
+        QCOMPARE(fakeFolder.currentLocalState().find("invalid")->lastModified, currentMtime);
+
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+    }
+
+    void testLocalInvalidMtimeCorrectionBulkUpload()
+    {
+        QSKIP("bulk upload is disabled");
+
+        const auto INVALID_MTIME = QDateTime::fromSecsSinceEpoch(0);
+        const auto RECENT_MTIME = QDateTime::fromSecsSinceEpoch(1743004783); // 2025-03-26T16:59:43+0100
+
+        FakeFolder fakeFolder{FileInfo{}};
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+        fakeFolder.syncEngine().account()->setCapabilities({ { "dav", QVariantMap{ {"bulkupload", "1.0"} } } });
+
+        fakeFolder.localModifier().insert(QStringLiteral("invalid"));
+        fakeFolder.localModifier().setModTime("invalid", INVALID_MTIME);
+        fakeFolder.localModifier().insert(QStringLiteral("recent"));
+        fakeFolder.localModifier().setModTime("recent", RECENT_MTIME);
+
+        QVERIFY(fakeFolder.syncOnce()); // this will use the BulkPropagatorJob
+
+        // "invalid" file had a mtime of 0, so it's been updated to the current time during testing
+        const auto currentMtime = fakeFolder.currentLocalState().find("invalid")->lastModified;
+        QCOMPARE_GT(currentMtime, RECENT_MTIME);
+        QCOMPARE_GT(fakeFolder.currentRemoteState().find("invalid")->lastModified, RECENT_MTIME);
+
+        // "recent" file had a mtime of RECENT_MTIME, so it shouldn't have been changed
+        QCOMPARE(fakeFolder.currentLocalState().find("recent")->lastModified, RECENT_MTIME);
+        QCOMPARE(fakeFolder.currentRemoteState().find("recent")->lastModified, RECENT_MTIME);
+
+        QVERIFY(fakeFolder.syncOnce()); // this will not propagate anything
+
+        // verify that the mtime of "invalid" hasn't changed since the last sync that fixed it
+        QCOMPARE(fakeFolder.currentLocalState().find("invalid")->lastModified, currentMtime);
+
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
     }
 
     void testServerUpdatingMTimeShouldNotCreateConflicts()
@@ -1848,12 +2035,6 @@ private slots:
             conflictSolverCaseClashForFolder.solveConflict("testfolder1");
             QVERIFY(conflictSolverCaseClashForFolderDone.wait());
             QVERIFY(fakeFolder.syncOnce());
-
-            // verify no case clash conflicts folder items are found
-            caseClashConflictFolderItemLower = completeSpy.findItem(diverseConflictsFolderPath + "/" + testLowerCaseFolder);
-            caseClashConflictFolderItemUpper = completeSpy.findItem(diverseConflictsFolderPath + "/" + testUpperCaseFolder);
-            QVERIFY((!caseClashConflictFolderItemLower || caseClashConflictFolderItemLower->_file.isEmpty())
-                    && (!caseClashConflictFolderItemUpper || caseClashConflictFolderItemUpper->_file.isEmpty()));
 
             // veriy invalid filename conflict folder item is still present
             invalidFilenameConflictFolderItem = completeSpy.findItem(diverseConflictsFolderPath + "/" + testInvalidCharFolder);

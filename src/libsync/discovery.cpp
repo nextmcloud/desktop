@@ -236,9 +236,7 @@ void ProcessDirectoryJob::process()
         // For windows, the hidden state is also discovered within the vio
         // local stat function.
         // Recall file shall not be ignored (#4420)
-        bool isHidden = e.localEntry.isHidden || (!f.first.isEmpty() && f.first[0] == '.' && f.first != QLatin1String(".sys.admin#recall#"));
-        if (handleExcluded(path._target, e, entries, isHidden))
-            continue;
+        const auto isHidden = e.localEntry.isHidden || (!f.first.isEmpty() && f.first[0] == '.' && f.first != QLatin1String(".sys.admin#recall#"));
 
         const auto isEncryptedFolderButE2eIsNotSetup = e.serverEntry.isValid() && e.serverEntry.isE2eEncrypted() &&
             _discoveryData->_account->e2e() && !_discoveryData->_account->e2e()->isInitialized();
@@ -247,7 +245,15 @@ void ProcessDirectoryJob::process()
             checkAndUpdateSelectiveSyncListsForE2eeFolders(path._server + "/");
         }
 
-        if (_queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original) || isEncryptedFolderButE2eIsNotSetup) {
+        const auto isBlacklisted = _queryServer == InBlackList || _discoveryData->isInSelectiveSyncBlackList(path._original) || isEncryptedFolderButE2eIsNotSetup;
+
+        const auto willBeExcluded = handleExcluded(path._target, e, entries, isHidden, isBlacklisted);
+
+        if (willBeExcluded) {
+            continue;
+        }
+
+        if (isBlacklisted) {
             processBlacklisted(path, e.localEntry, e.dbEntry);
             continue;
         }
@@ -264,7 +270,7 @@ void ProcessDirectoryJob::process()
     QTimer::singleShot(0, _discoveryData, &DiscoveryPhase::scheduleMoreJobs);
 }
 
-bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &entries, const std::map<QString, Entries> &allEntries, bool isHidden)
+bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &entries, const std::map<QString, Entries> &allEntries, const bool isHidden, const bool isBlacklisted)
 {
     const auto isDirectory = entries.localEntry.isDirectory || entries.serverEntry.isDirectory;
 
@@ -495,7 +501,13 @@ bool ProcessDirectoryJob::handleExcluded(const QString &path, const Entries &ent
     }
 
     _childIgnored = true;
-    emit _discoveryData->itemDiscovered(item);
+
+    if (isBlacklisted) {
+        emit _discoveryData->silentlyExcluded(path);
+    } else {
+        emit _discoveryData->itemDiscovered(item);
+    }
+
     return true;
 }
 
@@ -1109,6 +1121,7 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
         }
 
         if ((item->_direction == SyncFileItem::Down || item->_instruction == CSYNC_INSTRUCTION_CONFLICT || item->_instruction == CSYNC_INSTRUCTION_NEW || item->_instruction == CSYNC_INSTRUCTION_SYNC) &&
+                item->_direction != SyncFileItem::Up &&
                 (item->_modtime <= 0 || item->_modtime >= 0xFFFFFFFF)) {
             item->_instruction = CSYNC_INSTRUCTION_ERROR;
             item->_errorString = tr("Cannot sync due to invalid modification time");
@@ -1432,6 +1445,11 @@ void ProcessDirectoryJob::processFileAnalyzeLocalInfo(
     const auto isCfApiVfsMode = _discoveryData->_syncOptions._vfs && _discoveryData->_syncOptions._vfs->mode() == Vfs::WindowsCfApi;
     const bool isOnlineOnlyItem = isCfApiVfsMode && (localEntry.isDirectory || _discoveryData->_syncOptions._vfs->isDehydratedPlaceholder(_discoveryData->_localDir + path._local));
     const auto isE2eeMoveOnlineOnlyItemWithCfApi = isE2eeMove && isOnlineOnlyItem;
+
+    if (isE2eeMove) {
+        qCInfo(lcDisco) << "requesting permanent deletion for" << originalPath;
+        _discoveryData->_permanentDeletionRequests.insert(originalPath);
+    }
 
     if (isE2eeMoveOnlineOnlyItemWithCfApi) {
         item->_instruction = CSYNC_INSTRUCTION_NEW;
@@ -1784,6 +1802,7 @@ void ProcessDirectoryJob::processFileFinalize(
         job->setInsideEncryptedTree(isInsideEncryptedTree() || item->isEncrypted());
         if (removed) {
             job->setParent(_discoveryData);
+            _discoveryData->_deletedItem[path._original] = item;
             _discoveryData->enqueueDirectoryToDelete(path._original, job);
         } else {
             connect(job, &ProcessDirectoryJob::finished, this, &ProcessDirectoryJob::subJobFinished);
@@ -1848,19 +1867,14 @@ bool ProcessDirectoryJob::checkPermissions(const OCC::SyncFileItemPtr &item)
             // No permissions set
             return true;
         } else if (item->isDirectory() && !perms.hasPermission(RemotePermissions::CanAddSubDirectories)) {
-            qCWarning(lcDisco) << "checkForPermission: ERROR" << item->_file;
-            item->_instruction = CSYNC_INSTRUCTION_ERROR;
+            qCWarning(lcDisco) << "checkForPermission: Not allowed because you don't have permission to add subfolders to that folder:" << item->_file;
+            item->_instruction = CSYNC_INSTRUCTION_IGNORE;
             item->_errorString = tr("Not allowed because you don't have permission to add subfolders to that folder");
-            const auto localPath = QString{_discoveryData->_localDir + item->_file};
-#if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
-            qCWarning(lcDisco) << "unexpected new folder in a read-only folder will be made read-write" << localPath;
-            FileSystem::setFolderPermissions(localPath, FileSystem::FolderPermissions::ReadWrite);
             emit _discoveryData->remnantReadOnlyFolderDiscovered(item);
-#endif
             return false;
         } else if (!item->isDirectory() && !perms.hasPermission(RemotePermissions::CanAddFile)) {
-            qCWarning(lcDisco) << "checkForPermission: ERROR" << item->_file;
-            item->_instruction = CSYNC_INSTRUCTION_ERROR;
+            qCWarning(lcDisco) << "checkForPermission: Not allowed because you don't have permission to add files in that folder:" << item->_file;
+            item->_instruction = CSYNC_INSTRUCTION_IGNORE;
             item->_errorString = tr("Not allowed because you don't have permission to add files in that folder");
             emit _discoveryData->remnantReadOnlyFolderDiscovered(item);
             return false;
@@ -2056,15 +2070,11 @@ int ProcessDirectoryJob::processSubJobs(int nbJobs)
                 if (perms.isNull()) {
                     // No permissions set
                 } else if (_dirItem->isDirectory() && !perms.hasPermission(RemotePermissions::CanAddSubDirectories)) {
-                    qCWarning(lcDisco) << "checkForPermission: ERROR" << _dirItem->_file;
-                    _dirItem->_instruction = CSYNC_INSTRUCTION_ERROR;
+                    qCWarning(lcDisco) << "checkForPermission: Not allowed because you don't have permission to add subfolders to that folder: " << _dirItem->_file;
+                    _dirItem->_instruction = CSYNC_INSTRUCTION_IGNORE;
                     _dirItem->_errorString = tr("Not allowed because you don't have permission to add subfolders to that folder");
                     const auto localPath = QString{_discoveryData->_localDir + _dirItem->_file};
-#if !defined(Q_OS_MACOS) || __MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_15
-                    qCWarning(lcDisco) << "unexpected new folder in a read-only folder will be made read-write" << localPath;
-                    FileSystem::setFolderPermissions(localPath, FileSystem::FolderPermissions::ReadWrite);
                     emit _discoveryData->remnantReadOnlyFolderDiscovered(_dirItem);
-#endif
                 }
 
                 _dirItem->_direction = _dirItem->_direction == SyncFileItem::Up ? SyncFileItem::Down : SyncFileItem::Up;
