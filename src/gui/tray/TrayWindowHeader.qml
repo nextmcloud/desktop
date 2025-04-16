@@ -18,6 +18,7 @@ import QtQuick.Layouts
 
 import "../"
 import "../filedetails/"
+import "../nmcgui"
 
 import Style
 import com.nextcloud.desktopclient
@@ -89,6 +90,55 @@ Rectangle {
         // Add space between items
         Item {
             Layout.fillWidth: true
+        }
+
+        Rectangle {
+            id: trayWindowWebsiteButtonContainer
+            width: 92
+            height: Style.nmcTrayWindowHeaderHeight
+            color: websiteHover.hovered ? Style.nmcTrayWindowHeaderHighlightColor : "transparent"
+
+            NMCHeaderButton {
+                id: trayWindowWebsiteButton
+                iconSource: "qrc:///client/theme/NMCIcons/website.svg"
+                iconText: qsTranslate("", "OPEN_WEBSITE")
+            }
+
+            HoverHandler {
+                id: websiteHover
+                acceptedDevices: PointerDevice.Mouse
+            }
+
+            TapHandler {
+                onTapped: UserModel.openCurrentAccountServer()
+            }
+        }
+
+        Rectangle {
+            id: trayWindowLocalButtonContainer
+            width: 92
+            height: Style.nmcTrayWindowHeaderHeight
+            color: localHover.hovered ? Style.nmcTrayWindowHeaderHighlightColor : "transparent"
+
+            NMCHeaderButton {
+                id: trayWindowLocalButton
+                iconSource: "qrc:///client/theme/black/folder.svg"
+                iconText: qsTranslate("", "LOCAL_FOLDER")
+            }
+
+            HoverHandler {
+                id: localHover
+                acceptedDevices: PointerDevice.Mouse
+            }
+
+            TapHandler {
+                onTapped: UserModel.openCurrentAccountLocalFolder()
+            }
+        }
+
+        Rectangle {
+            width: 10
+            color: Style.nmcTrayWindowHeaderBackgroundColor
         }
 
         TrayFoldersMenuButton {

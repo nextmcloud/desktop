@@ -17,6 +17,8 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import "../nmcgui/"
+
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
 import com.nextcloud.desktopclient
@@ -139,7 +141,7 @@ AbstractButton {
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
-            icon.source: "image://svgimage-custom-color/more.svg/" + palette.windowText
+            icon.source: "qrc:///client/theme/more.svg" + palette.windowText
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
@@ -154,33 +156,40 @@ AbstractButton {
                     onClicked: showUserStatusSelector(index)
                }
 
-                MenuItem {
+                NMCMenuItem {
+                    id: loginLogoutButton
+
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
-                    font.pixelSize: Style.topLinePixelSize
-                    hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+
+                    icon.source: Style.nmcLogOutIcon
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
+
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
                     }
 
                     Accessible.role: Accessible.Button
-                    Accessible.name: model.isConnected ? qsTr("Log out") : qsTr("Log in")
+                    Accessible.name: text
+                    Accessible.onPressAction: clicked()
+                }
 
-                    onPressed: {
-                        if (model.isConnected) {
-                            UserModel.logout(index)
-                        } else {
-                            UserModel.login(index)
-                        }
-                        accountMenu.close()
-                    }
-               }
-
-                MenuItem {
+                NMCMenuItem {
                     id: removeAccountButton
+
                     text: qsTr("Remove account")
-                    font.pixelSize: Style.topLinePixelSize
-                    hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+
+                    icon.source: Style.nmcRemoveIcon
+                    icon.color: Style.ncTextColor
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
+
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()
@@ -188,8 +197,8 @@ AbstractButton {
 
                     Accessible.role: Accessible.Button
                     Accessible.name: text
-                    Accessible.onPressAction: removeAccountButton.clicked()
-               }
+                    Accessible.onPressAction: clicked()
+                }
             }
         }
     }
