@@ -245,6 +245,12 @@ void SettingsDialog::showIssuesList(AccountState *account)
 
 void SettingsDialog::accountAdded(AccountState *s)
 {
+    auto spacer = new QWidget(this);
+    spacer->setFixedWidth(8);
+    auto spacerAction = new QWidgetAction(this);
+    spacerAction->setDefaultWidget(spacer);
+    _toolBar->insertAction(_toolBar->actions().at(0), spacerAction);
+
     auto height = _toolBar->sizeHint().height();
     bool brandingSingleAccount = !Theme::instance()->multiAccount();
 
