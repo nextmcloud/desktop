@@ -243,7 +243,6 @@ Button {
                 color: Style.currentUserHeaderTextColor
                 text: UserModel.currentUser ? UserModel.currentUser.server : ""
                 elide: Text.ElideRight
-                visible: UserModel.numUsers() > 1
             }
 
             RowLayout {
