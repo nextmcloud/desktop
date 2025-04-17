@@ -219,7 +219,6 @@ Button {
             spacing: 0
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             Layout.leftMargin: Style.userStatusSpacing
-            Layout.fillHeight: true
             Layout.fillWidth: true
 
             EnforcedPlainTextLabel {
