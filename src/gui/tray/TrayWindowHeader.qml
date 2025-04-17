@@ -74,6 +74,8 @@ Rectangle {
         id: trayWindowHeaderLayout
 
         spacing: 0
+        height: Style.nmcTrayWindowHeaderHeight
+
         anchors {
             top: parent.top
             left: tLogo.right
@@ -137,8 +139,15 @@ Rectangle {
         }
 
         Rectangle {
+            id: whiteMarginRight
             width: 10
+            height: 64
             color: Style.nmcTrayWindowHeaderBackgroundColor
+
+            anchors {
+                top: parent.top
+                right: parent.right
+            }
         }
 
         TrayFoldersMenuButton {

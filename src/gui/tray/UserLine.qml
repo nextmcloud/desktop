@@ -94,7 +94,7 @@ AbstractButton {
             RowLayout {
                 id: statusLayout
                 Layout.fillWidth: true
-                height: visible ? implicitHeight : 0
+                Layout.preferredHeight: visible ? implicitHeight : 0
                 visible: model.isConnected &&
                          model.serverHasUserStatus &&
                          (model.statusEmoji !== "" || model.statusMessage !== "")
@@ -146,6 +146,12 @@ AbstractButton {
             AutoSizingMenu {
                 id: userMoreButtonMenu
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+
+                palette {
+                    button: Style.nmcTrayWindowHeaderBackgroundColor
+                    buttonText: Style.nmcTrayWindowHeaderTextColor
+                    windowText: Style.nmcTrayWindowHeaderTextColor
+                }
 
                 MenuItem {
                     visible: model.isConnected && model.serverHasUserStatus

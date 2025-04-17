@@ -252,11 +252,13 @@ ApplicationWindow {
 
         TrayWindowHeader {
             id: trayWindowHeader
-
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
             height: Style.trayWindowHeaderHeight
+
+            anchors {
+                top: parent.top
+                left: parent.right
+                right: parent.right
+            }
         }
 
         Rectangle {

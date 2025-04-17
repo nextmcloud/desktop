@@ -34,7 +34,7 @@ Button {
     hoverEnabled: true
 
     Layout.preferredWidth:  Style.nmcCurrentAccountButtonWidth
-    Layout.preferredHeight: trayWindowHeader.height
+    Layout.preferredHeight: Style.nmcTrayWindowHeaderHeight
 
     Accessible.role: Accessible.ButtonMenu
     Accessible.name: qsTr("Current account")
@@ -69,6 +69,12 @@ Button {
         width: (Style.nmcCurrentAccountButtonWidth + tLogo.width + 30)
         height: Math.min(implicitHeight, maxMenuHeight)
         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
+
+        palette {
+            button: Style.nmcTrayWindowHeaderBackgroundColor
+            buttonText: Style.nmcTrayWindowHeaderTextColor
+            windowText: Style.nmcTrayWindowHeaderTextColor
+        }
 
         onClosed: {
             // HACK: reload account Instantiator immediately by restting it - could be done better I guess
@@ -153,7 +159,6 @@ Button {
             width: parent.width
             height: 8
             color: Style.nmcTrayWindowHeaderBackgroundColor
-            radius: Style.nmcStandardRadius
 
             anchors.horizontalCenter: parent.horizontalCenter
         }
@@ -211,6 +216,25 @@ Button {
             }
         }
 
+        // NMC Customization
+        ShaderEffect {
+            width: accountAvatar.width
+            height: accountAvatar.height
+
+            property color overlayColor: Style.ncTextColor
+            property variant source: accountAvatar
+
+            fragmentShader: "
+                uniform sampler2D source;
+                uniform lowp vec4 overlayColor;
+                varying highp vec2 qt_TexCoord0;
+                void main() {
+                    lowp vec4 tex = texture2D(source, qt_TexCoord0);
+                    gl_FragColor = vec4(overlayColor.rgb, tex.a);
+                }
+            "
+        }
+
         Column {
             id: accountLabels
             spacing: 0
@@ -228,7 +252,8 @@ Button {
                 elide: Text.ElideRight
 
                 font.pixelSize: Style.topLinePixelSize
-                font.bold: true
+                font.bold: false
+                palette.windowText: Style.ncTextColor
             }
 
             EnforcedPlainTextLabel {
