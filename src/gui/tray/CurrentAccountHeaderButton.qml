@@ -216,25 +216,6 @@ Button {
             }
         }
 
-        // NMC Customization
-        ShaderEffect {
-            width: accountAvatar.width
-            height: accountAvatar.height
-
-            property color overlayColor: Style.ncTextColor
-            property variant source: accountAvatar
-
-            fragmentShader: "
-                uniform sampler2D source;
-                uniform lowp vec4 overlayColor;
-                varying highp vec2 qt_TexCoord0;
-                void main() {
-                    lowp vec4 tex = texture2D(source, qt_TexCoord0);
-                    gl_FragColor = vec4(overlayColor.rgb, tex.a);
-                }
-            "
-        }
-
         Column {
             id: accountLabels
             spacing: 0

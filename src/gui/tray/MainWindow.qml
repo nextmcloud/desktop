@@ -256,7 +256,7 @@ ApplicationWindow {
 
             anchors {
                 top: parent.top
-                left: parent.right
+                left: parent.left
                 right: parent.right
             }
         }
