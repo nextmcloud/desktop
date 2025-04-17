@@ -63,10 +63,10 @@ Button {
 
         // x coordinate grows towards the right
         // y coordinate grows towards the bottom
-        x: (0 - tLogo.width)
+        x: (0 - Style.nmcTrayWindowLogoWidth)
         y: (root.y + Style.nmcTrayWindowHeaderHeight - Style.nmcTrayWindowMenuOverlayMargin)
 
-        width: (Style.nmcCurrentAccountButtonWidth + tLogo.width + 30)
+        width: (Style.nmcCurrentAccountButtonWidth + Style.nmcTrayWindowLogoWidth + 30)
         height: Math.min(implicitHeight, maxMenuHeight)
         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
@@ -105,7 +105,7 @@ Button {
         MenuItem {
             id: addAccountButton
             hoverEnabled: true
-            visible: Systray.enableAddAccount
+            visible: false
 
             icon.source: "image://svgimage-custom-color/add.svg/" + palette.windowText
             icon.width: Style.accountAvatarSize
@@ -177,9 +177,8 @@ Button {
             Layout.leftMargin: Style.trayHorizontalMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
+            visible: false
             source: Style.nmcAccountAvatarIcon
-            Layout.preferredHeight: Style.nmcTrayWindowIconWidth
-            Layout.preferredWidth: Style.nmcTrayWindowIconWidth
 
             Accessible.role: Accessible.Graphic
             Accessible.name: qsTr("Current account avatar")
@@ -190,7 +189,7 @@ Button {
                          && UserModel.currentUser.serverHasUserStatus
                          && UserModel.currentUser.status !== UserStatus.Invisible
                          && UserModel.currentUser.status !== UserStatus.Offline
-                width: Style.accountAvatarStateIndicatorSize +  + Style.trayFolderStatusIndicatorSizeOffset
+                width: Style.accountAvatarStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
                 height: width
                 color: root.parentBackgroundColor
                 anchors.bottom: currentAccountAvatar.bottom

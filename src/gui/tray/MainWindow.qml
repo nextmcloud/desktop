@@ -252,7 +252,7 @@ ApplicationWindow {
 
         TrayWindowHeader {
             id: trayWindowHeader
-            height: Style.trayWindowHeaderHeight
+            height: Style.nmcTrayWindowHeaderHeight
 
             anchors {
                 top: parent.top
