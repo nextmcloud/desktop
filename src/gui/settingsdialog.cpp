@@ -93,6 +93,12 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     layout()->setMenuBar(_toolBar);
 
+    // Adds space
+    auto *spacer3 = new QWidget();
+    spacer3->setFixedWidth(8);
+    spacer3->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _toolBar->addWidget(spacer3);
+
     // People perceive this as a Window, so also make Ctrl+W work
     auto *closeWindowAction = new QAction(this);
     closeWindowAction->setShortcut(QKeySequence("Ctrl+W"));
@@ -245,12 +251,6 @@ void SettingsDialog::showIssuesList(AccountState *account)
 
 void SettingsDialog::accountAdded(AccountState *s)
 {
-    auto spacer = new QWidget(this);
-    spacer->setFixedWidth(8);
-    auto spacerAction = new QWidgetAction(this);
-    spacerAction->setDefaultWidget(spacer);
-    _toolBar->insertAction(_toolBar->actions().at(0), spacerAction);
-
     auto height = _toolBar->sizeHint().height();
     bool brandingSingleAccount = !Theme::instance()->multiAccount();
 
