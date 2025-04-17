@@ -177,7 +177,6 @@ Button {
             Layout.leftMargin: Style.trayHorizontalMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
-            visible: false
             source: Style.nmcAccountAvatarIcon
 
             Accessible.role: Accessible.Graphic
@@ -233,11 +232,12 @@ Button {
 
                 font.pixelSize: Style.topLinePixelSize
                 font.bold: false
-                palette.windowText: Style.ncTextColor
+                palette.windowText: Style.nmcTrayWindowHeaderTextColor
             }
 
             EnforcedPlainTextLabel {
                 id: currentAccountServer
+                visible: false
                 Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
                 width: Style.currentAccountLabelWidth
                 color: Style.currentUserHeaderTextColor
