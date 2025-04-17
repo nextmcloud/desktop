@@ -232,6 +232,7 @@ const auto tabWidget = _ui->tabWidget;
         tabWidget->removeTab(connectionSettingsTabIndex);
     }
     tabWidget->setCurrentIndex(0);
+    tabWidget->tabBar()->hide();
 
     const auto mouseCursorChanger = new MouseCursorChanger(this);
     mouseCursorChanger->folderList = _ui->_folderList;
