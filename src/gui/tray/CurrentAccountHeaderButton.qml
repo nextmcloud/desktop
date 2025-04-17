@@ -41,10 +41,10 @@ Button {
     Accessible.onPressAction: root.clicked()
 
     palette {
-        text: Style.currentUserHeaderTextColor
-        windowText: Style.currentUserHeaderTextColor
-        buttonText: Style.currentUserHeaderTextColor
-        button: Style.adjustedCurrentUserHeaderColor
+        button: Style.nmcTrayWindowHeaderBackgroundColor
+        buttonText: Style.nmcTrayWindowHeaderTextColor
+        windowText: Style.nmcTrayWindowHeaderTextColor
+        text: Style.nmcTrayWindowHeaderTextColor
     }
 
     // We call open() instead of popup() because we want to position it

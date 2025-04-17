@@ -43,7 +43,7 @@ Rectangle {
     Rectangle {
         id: whiteMargin
         width: 10
-        height: 64
+        height: Style.nmcTrayWindowHeaderHeight
         color: Style.nmcTrayWindowHeaderBackgroundColor
 
         anchors {
@@ -55,7 +55,7 @@ Rectangle {
     Rectangle {
         id: tLogo
         width: Style.nmcTrayWindowLogoWidth
-        height: Style.nmcTrayWindowLogoWidth
+        height: Style.nmcTrayWindowHeaderHeight
 
         anchors {
             top: parent.top
@@ -72,7 +72,6 @@ Rectangle {
 
     RowLayout {
         id: trayWindowHeaderLayout
-
         spacing: 0
         height: Style.nmcTrayWindowHeaderHeight
 
@@ -82,22 +81,28 @@ Rectangle {
             right: parent.right
         }
 
+        Rectangle {
+            id: whiteMarginLeft1
+            Layout.preferredWidth: 10
+            Layout.fillHeight: true
+            color: Style.nmcTrayWindowHeaderBackgroundColor
+        }
+
         CurrentAccountHeaderButton {
             id: currentAccountHeaderButton
             parentBackgroundColor: root.color
-            Layout.preferredWidth:  Style.currentAccountButtonWidth
+            Layout.preferredWidth: Style.currentAccountButtonWidth
             Layout.fillHeight: true
         }
 
-        // Add space between items
         Item {
             Layout.fillWidth: true
         }
 
         Rectangle {
             id: trayWindowWebsiteButtonContainer
-            width: 92
-            height: Style.nmcTrayWindowHeaderHeight
+            Layout.preferredWidth: 92
+            Layout.fillHeight: true
             color: websiteHover.hovered ? Style.nmcTrayWindowHeaderHighlightColor : "transparent"
 
             NMCHeaderButton {
@@ -117,9 +122,16 @@ Rectangle {
         }
 
         Rectangle {
+            id: whiteMarginRight1
+            Layout.preferredWidth: 10
+            Layout.fillHeight: true
+            color: Style.nmcTrayWindowHeaderBackgroundColor
+        }
+
+        Rectangle {
             id: trayWindowLocalButtonContainer
-            width: 92
-            height: Style.nmcTrayWindowHeaderHeight
+            Layout.preferredWidth: 92
+            Layout.fillHeight: true
             color: localHover.hovered ? Style.nmcTrayWindowHeaderHighlightColor : "transparent"
 
             NMCHeaderButton {
@@ -139,97 +151,11 @@ Rectangle {
         }
 
         Rectangle {
-            id: whiteMarginRight
-            width: 10
-            height: 64
+            id: whiteMarginRight2
+            Layout.preferredWidth: 10
+            Layout.fillHeight: true
             color: Style.nmcTrayWindowHeaderBackgroundColor
-
-            anchors {
-                top: parent.top
-                right: parent.right
-            }
-        }
-
-        TrayFoldersMenuButton {
-            id: openLocalFolderButton
-
-            Layout.alignment: Qt.AlignRight
-            Layout.preferredWidth:  Style.trayWindowHeaderHeight
-            Layout.fillHeight: true
-
-            visible: false
-            currentUser: UserModel.currentUser
-            parentBackgroundColor: root.color
-
-            onClicked: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder()
-
-            onFolderEntryTriggered: isGroupFolder ? UserModel.openCurrentAccountFolderFromTrayInfo(fullFolderPath) : UserModel.openCurrentAccountLocalFolder()
-
-            Accessible.role: Accessible.Graphic
-            Accessible.name: qsTr("Open local or group folders")
-            Accessible.onPressAction: openLocalFolderButton.userHasGroupFolders ? openLocalFolderButton.toggleMenuOpen() : UserModel.openCurrentAccountLocalFolder() 
-        }
-
-        HeaderButton {
-            id: trayWindowFeaturedAppButton
-
-            Layout.alignment: Qt.AlignRight
-            Layout.preferredWidth:  Style.trayWindowHeaderHeight
-            Layout.fillHeight: true
-
-            visible: false
-            icon.source: UserModel.currentUser.featuredAppIcon + "/" + palette.windowText
-            onClicked: UserModel.openCurrentAccountFeaturedApp()
-
-            Accessible.role: Accessible.Button
-            Accessible.name: UserModel.currentUser.featuredAppAccessibleName
-            Accessible.onPressAction: trayWindowFeaturedAppButton.clicked() 
-        }
-
-        HeaderButton {
-            id: trayWindowAppsButton
-            visible: false
-            icon.source: "image://svgimage-custom-color/more-apps.svg/" + palette.windowText
-
-            onClicked: {
-                if(appsMenu.count <= 0) {
-                    UserModel.openCurrentAccountServer()
-                } else if (appsMenu.visible) {
-                    appsMenu.close()
-                } else {
-                    appsMenu.open()
-                }
-            }
-
-            Accessible.role: Accessible.ButtonMenu
-            Accessible.name: qsTr("More apps")
-            Accessible.onPressAction: trayWindowAppsButton.clicked()
-
-            Menu {
-                id: appsMenu
-                x: Style.trayWindowMenuOffsetX
-                y: (trayWindowAppsButton.y + trayWindowAppsButton.height + Style.trayWindowMenuOffsetY)
-                width: Style.trayWindowWidth * Style.trayWindowMenuWidthFactor
-                height: implicitHeight + y > Style.trayWindowHeight ? Style.trayWindowHeight - y : implicitHeight
-                closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-
-                Repeater { 
-                    model: UserAppsModel
-                    delegate: MenuItem {
-                        id: appEntry
-                        // HACK: Without creating our own component (and killing native styling)
-                        // HACK: we do not have a way to adjust the text and icon spacing.
-                        text: "  " + model.appName
-                        font.pixelSize: Style.topLinePixelSize
-                        icon.source: model.appIconUrl
-                        icon.color: palette.windowText
-                        onTriggered: UserAppsModel.openAppUrl(appUrl)
-                        Accessible.role: Accessible.MenuItem
-                        Accessible.name: qsTr("Open %1 in browser").arg(model.appName)
-                        Accessible.onPressAction: appEntry.triggered()
-                    }
-                }
-            }
         }
     }
+
 }
