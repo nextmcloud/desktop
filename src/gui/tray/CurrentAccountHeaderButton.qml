@@ -219,14 +219,15 @@ Button {
             spacing: 0
             Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
             Layout.leftMargin: Style.userStatusSpacing
+            Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.maximumWidth: parent.width
 
             EnforcedPlainTextLabel {
                 id: currentAccountUser
                 Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
+                Layout.fillWidth: true
                 width: Style.currentAccountLabelWidth
-                color: Style.currentUserHeaderTextColor
+                color: Style.nmcTrayWindowHeaderTextColor
                 text: UserModel.currentUser ? UserModel.currentUser.name : ""
                 elide: Text.ElideRight
 

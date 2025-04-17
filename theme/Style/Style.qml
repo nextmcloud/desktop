@@ -33,6 +33,8 @@ QtObject {
     readonly property color nmcTextInButtonColor: "white"
 
     // NMC measurements
+    readonly property int nmcTrayWindowWidth: variableSize(480)
+    readonly property int nmcTrayWindowHeight: variableSize(520)
     readonly property int nmcTrayWindowAddAccountButtonHeight: 56
     readonly property int nmcTrayWindowHeaderHeight: 64
     readonly property int nmcTrayWindowItemsHeight: 48
