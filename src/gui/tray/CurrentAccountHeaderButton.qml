@@ -33,6 +33,11 @@ Button {
     flat: true
     hoverEnabled: true
 
+    background: Rectangle {
+        color: root.hovered ? Style.nmcTrayWindowHeaderHighlightColor : "transparent"
+        radius: 4
+    }
+
     Layout.preferredWidth:  Style.nmcCurrentAccountButtonWidth
     Layout.preferredHeight: Style.nmcTrayWindowHeaderHeight
 
@@ -70,10 +75,16 @@ Button {
         height: Math.min(implicitHeight, maxMenuHeight)
         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
+        background: Rectangle {
+            color: Style.nmcTrayWindowHeaderBackgroundColor
+            radius: Style.nmcStandardRadius
+        }
+
         palette {
             button: Style.nmcTrayWindowHeaderBackgroundColor
             buttonText: Style.nmcTrayWindowHeaderTextColor
             windowText: Style.nmcTrayWindowHeaderTextColor
+            text: Style.nmcTrayWindowHeaderTextColor
         }
 
         onClosed: {
