@@ -32,7 +32,7 @@ AbstractButton {
     Accessible.role: Accessible.MenuItem
     Accessible.name: qsTr("Switch to account") + " " + model.name
 
-    implicitHeight: Math.max(contentItem.implicitHeight, Style.trayWindowHeaderHeight)
+    height: Style.trayWindowHeaderHeight
 
     contentItem: RowLayout {
         id: userLineLayout
@@ -146,11 +146,6 @@ AbstractButton {
             AutoSizingMenu {
                 id: userMoreButtonMenu
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-
-                background: Rectangle {
-                    color: Style.nmcTrayWindowHeaderBackgroundColor
-                    radius: Style.nmcStandardRadius
-                }
 
                 palette {
                     button: Style.nmcTrayWindowHeaderBackgroundColor
