@@ -20,8 +20,10 @@
  #include <QLabel>
  #include <QGraphicsView>
  #include <QGraphicsScene>
+ #include <QGraphicsPixmapItem>
  #include <QPushButton>
  #include <QList>
+ #include <QResizeEvent>
  
  class QWheelEvent;
  class QMouseEvent;
@@ -80,11 +82,16 @@
      void setArrows();
      void loadPicture(bool next = true);
      void selectTextByID();
+     void clearScene();
+     void onArrowLeftClicked();
+     void onArrowRightClicked();
+     void resizeEvent(QResizeEvent *event) override;
  
  private:
      NMCCustomGraphicsView *m_graphicsView = nullptr;
      QGraphicsScene m_graphicsScene;
      QList<QPixmap> m_pixmapList;
+     QGraphicsPixmapItem *m_pixmapItem = nullptr;
      QTimer m_animationTimer;
      int m_currentImageId = 0;
  
@@ -94,6 +101,10 @@
      QLabel *m_header = nullptr;
      NMCClickableLabel *m_arrow_left = nullptr;
      NMCClickableLabel *m_arrow_right = nullptr;
+ 
+     static constexpr int kButtonWidth = 200;
+     static constexpr int kButtonHeight = 40;
+     static constexpr int kArrowOffset = 60;
  };
  
  #endif // NMCADVERTWIDGET_H
