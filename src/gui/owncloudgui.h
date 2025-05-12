@@ -124,10 +124,10 @@ private:
     QAction *_actionSettings = nullptr;
     QAction *_actionEstimate = nullptr;
 
-
     QList<QAction *> _recentItemsActions;
     Application *_app;
-    NMCAdvertWidget *_advertWidget = nullptr;
+
+    QPointer<NMCAdvertWidget> _advertWidget;
 };
 
 } // namespace OCC

@@ -212,23 +212,25 @@ void ownCloudGui::slotOpenSettingsDialog()
         if (!_advertWidget) {
             _advertWidget = new NMCAdvertWidget();
             _advertWidget->setAttribute(Qt::WA_DeleteOnClose);
+        
             connect(_advertWidget, &QObject::destroyed, this, [this]() {
-                _advertWidget = nullptr;
                 slotNewAccountWizard();
             });
+        
             _advertWidget->show();
-        } else {
-            if (_advertWidget->isVisible()) {
-                if (auto window = _advertWidget->windowHandle()) {
-                    window->raise();
-                    window->requestActivate();
-                } else {
-                    _advertWidget->raise();
-                    _advertWidget->activateWindow();
-                }
+            return;
+        }
+        
+        if (_advertWidget->isVisible()) {
+            if (auto *window = _advertWidget->windowHandle()) {
+                window->raise();
+                window->requestActivate();
             } else {
-                _advertWidget->show();
+                _advertWidget->raise();
+                _advertWidget->activateWindow();
             }
+        } else {
+            _advertWidget->show();
         }
     }
 }
