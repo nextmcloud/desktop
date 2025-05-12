@@ -17,6 +17,9 @@
 #include <QBoxLayout>
 #include <QIcon>
 #include <QCoreApplication>
+#include <QGraphicsView>
+#include <QMouseEvent>
+#include <QDebug>
 
 NMCAdvertWidget::NMCAdvertWidget(QWidget *parent)
     : QWidget(parent),
@@ -229,4 +232,32 @@ void NMCAdvertWidget::onArrowRightClicked()
     m_animationTimer.stop();
     loadPicture(true);
 }
- 
+
+// Definition von NMCCustomGraphicsView
+NMCCustomGraphicsView::NMCCustomGraphicsView(QWidget *parent)
+    : QGraphicsView(parent)
+{
+    setStyleSheet(QStringLiteral("background: transparent"));
+    setFrameStyle(QFrame::NoFrame);
+}
+
+void NMCCustomGraphicsView::wheelEvent(QWheelEvent *event)
+{
+    // Unterdrücke Scrollen
+    event->ignore();
+}
+
+// Definition von NMCClickableLabel
+NMCClickableLabel::NMCClickableLabel(QWidget *parent)
+    : QLabel(parent)
+{
+    setCursor(Qt::PointingHandCursor);
+}
+
+void NMCClickableLabel::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        emit clicked();
+    }
+    QLabel::mousePressEvent(event);
+}
