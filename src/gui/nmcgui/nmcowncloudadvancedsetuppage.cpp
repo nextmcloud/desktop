@@ -57,7 +57,7 @@ void OCC::NMCOwncloudAdvancedSetupPage::cleanUpElements()
 
 NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizard)
     : OwncloudAdvancedSetupPage(wizard),
-    _tLogoLbl(new QLabel(this))
+      _tLogoLbl(new QLabel(this))
 {
     cleanUpElements();
 
@@ -99,11 +99,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     mainVerticalLayout->addLayout(leftSideVerticalLayout);
 
-    if (!layout()) {
-        setLayout(mainVerticalLayout);
-    } else {
-        layout()->addLayout(mainVerticalLayout);
-    }
+    setLayout(mainVerticalLayout);
 }
 
 void NMCOwncloudAdvancedSetupPage::paintEvent(QPaintEvent *event)
