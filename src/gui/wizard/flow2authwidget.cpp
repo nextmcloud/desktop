@@ -1,15 +1,11 @@
 /*
  * Copyright (C) by Michael Schuster <michael@schuster.ms>
+ * Adapted by Eugen Fischer for MagentaCLOUD
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
  */
 
 #include "flow2authwidget.h"
@@ -27,11 +23,12 @@
 #include <QJsonDocument>
 #include <QStringLiteral>
 #include <QJsonObject>
+#include <QPainter>
+#include <QPalette>
 
 namespace OCC {
 
 Q_LOGGING_CATEGORY(lcFlow2AuthWidget, "nextcloud.gui.wizard.flow2authwidget", QtInfoMsg)
-
 
 Flow2AuthWidget::Flow2AuthWidget(QWidget *parent)
     : QWidget(parent)
@@ -55,12 +52,65 @@ Flow2AuthWidget::Flow2AuthWidget(QWidget *parent)
     customizeStyle();
 }
 
+Flow2AuthWidget::~Flow2AuthWidget()
+{
+    _asyncAuth.reset(nullptr);
+}
+
 void Flow2AuthWidget::setLogo()
 {
-    const auto backgroundColor = palette().window().color();
-    const auto logoIconFileName = Theme::instance()->isBranded() ? Theme::hidpiFileName("external.png", backgroundColor)
-                                                                 : Theme::hidpiFileName(":/client/theme/colored/external.png");
-    _ui.logoLabel->setPixmap(logoIconFileName);
+    _ui.logoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
+}
+
+void Flow2AuthWidget::customizeStyle()
+{
+    setLogo();
+
+    if (_progressIndi) {
+        const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
+        _progressIndi->setColor(isDarkBackground ? Qt::white : Qt::black);
+    }
+
+    // Textanpassung
+    _ui.label->setText(
+        tr("Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an, um Ihr Konto zu verbinden."));
+    _ui.label->setStyleSheet("font-size: 15px; font-weight: normal;");
+
+    // LOGIN-Button Styling
+    _ui.openLinkButton->setText(tr("LOGIN"));
+    _ui.openLinkButton->setStyleSheet(R"(
+        QPushButton {
+            font-size: 15px;
+            border: 0px solid;
+            border-radius: 4px;
+            background-color: #E20074;
+            color: white;
+            width: 130px;
+            height: 32px;
+        }
+        QPushButton:hover {
+            background-color: #c00063;
+        }
+    )");
+
+    // Copy-Link-Button ausblenden (optional)
+    _ui.copyLinkButton->setVisible(false);
+
+    WizardCommon::customizeHintLabel(_ui.statusLabel);
+    _ui.errorLabel->setStyleSheet("color: red;");
+
+    // Weißer Hintergrund
+    setAutoFillBackground(true);
+    QPalette pal = palette();
+    pal.setColor(QPalette::Window, Qt::white);
+    setPalette(pal);
+}
+
+void Flow2AuthWidget::paintEvent(QPaintEvent *event)
+{
+    QPainter p(this);
+    p.fillRect(rect(), Qt::white);
+    QWidget::paintEvent(event);
 }
 
 void Flow2AuthWidget::startAuth(Account *account)
@@ -72,7 +122,7 @@ void Flow2AuthWidget::startAuth(Account *account)
 
     _statusUpdateSkipCount = 0;
 
-    if(account) {
+    if (account) {
         _account = account;
 
         _asyncAuth = std::make_unique<Flow2Auth>(_account, this);
@@ -94,36 +144,29 @@ void Flow2AuthWidget::slotAuthResult(Flow2Auth::Result r, const QString &errorSt
 
     switch (r) {
     case Flow2Auth::NotSupported:
-        /* Flow2Auth can't open browser */
         _ui.errorLabel->setText(tr("Unable to open the Browser, please copy the link to your Browser."));
         _ui.errorLabel->show();
         break;
     case Flow2Auth::Error:
-        /* Error while getting the access token.  (Timeout, or the server did not accept our client credentials */
         _ui.errorLabel->setText(errorString);
         _ui.errorLabel->show();
         break;
-    case Flow2Auth::LoggedIn: {
+    case Flow2Auth::LoggedIn:
         _ui.errorLabel->hide();
         break;
-    }
     }
 
     emit authResult(r, errorString, user, appPassword);
 }
 
-void Flow2AuthWidget::setError(const QString &error) {
+void Flow2AuthWidget::setError(const QString &error)
+{
     if (error.isEmpty()) {
         _ui.errorLabel->hide();
     } else {
         _ui.errorLabel->setText(error);
         _ui.errorLabel->show();
     }
-}
-
-Flow2AuthWidget::~Flow2AuthWidget() {
-    // Forget sensitive data
-    _asyncAuth.reset(nullptr);
 }
 
 void Flow2AuthWidget::slotOpenBrowser()
@@ -151,10 +194,9 @@ void Flow2AuthWidget::slotPollNow()
 
 void Flow2AuthWidget::slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft)
 {
-    switch(status)
-    {
+    switch (status) {
     case Flow2Auth::statusPollCountdown:
-        if(_statusUpdateSkipCount > 0) {
+        if (_statusUpdateSkipCount > 0) {
             _statusUpdateSkipCount--;
             break;
         }
@@ -206,24 +248,5 @@ void Flow2AuthWidget::slotStyleChanged()
     customizeStyle();
 }
 
-void Flow2AuthWidget::customizeStyle()
-{
-    setLogo();
-
-    if (_progressIndi) {
-        const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
-        if (isDarkBackground) {
-            _progressIndi->setColor(Qt::white);
-        } else {
-            _progressIndi->setColor(Qt::black);
-        }
-    }
-
-    _ui.openLinkButton->setText(tr("Open Browser"));
-
-    _ui.copyLinkButton->setText(tr("Copy Link"));
-
-    WizardCommon::customizeHintLabel(_ui.statusLabel);
-}
-
 } // namespace OCC
+ 
