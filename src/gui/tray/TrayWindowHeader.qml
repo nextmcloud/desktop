@@ -108,15 +108,16 @@ Rectangle {
                 id: trayWindowWebsiteButton
                 iconSource: "qrc:///client/theme/NMCIcons/website.svg"
                 iconText: qsTranslate("", "OPEN_WEBSITE")
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: UserModel.openCurrentAccountServer()
+                }
             }
 
             HoverHandler {
                 id: websiteHover
                 acceptedDevices: PointerDevice.Mouse
-            }
-
-            TapHandler {
-                onTapped: UserModel.openCurrentAccountServer()
             }
         }
 
@@ -137,15 +138,16 @@ Rectangle {
                 id: trayWindowLocalButton
                 iconSource: "qrc:///client/theme/black/folder.svg"
                 iconText: qsTranslate("", "LOCAL_FOLDER")
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: UserModel.openCurrentAccountLocalFolder()
+                }
             }
 
             HoverHandler {
                 id: localHover
                 acceptedDevices: PointerDevice.Mouse
-            }
-
-            TapHandler {
-                onTapped: UserModel.openCurrentAccountLocalFolder()
             }
         }
 
