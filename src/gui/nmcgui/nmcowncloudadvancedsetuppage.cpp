@@ -99,7 +99,9 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     mainVerticalLayout->addLayout(leftSideVerticalLayout);
 
-    setLayout(mainVerticalLayout);
+    if (getUi().verticalLayout) {
+        getUi().verticalLayout->insertLayout(0, mainVerticalLayout);
+    }
 }
 
 void NMCOwncloudAdvancedSetupPage::paintEvent(QPaintEvent *event)
