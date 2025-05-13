@@ -1,10 +1,3 @@
-import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
-
-import Style
-import com.nextcloud.desktopclient
-
 Item {
     id: rec
 
@@ -41,6 +34,13 @@ Item {
                 radius: 4
             }
 
+            MouseArea {
+                id: buttonArea
+                anchors.fill: parent
+                onClicked: rec.clickedButton()  // Trigger the button click signal
+            }
+
+            // Optional: Handle hover on icon to change its state
             onClicked: rec.clickedButton()
         }
 
