@@ -28,8 +28,8 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 {
     // setFixedSize(700, 502);
 
-    getUi().copyLinkLabel->setVisible(false);
-    getUi().openLinkLabel->setVisible(false);
+    getUi().copyLinkButton->setVisible(false);
+    getUi().openLinkButton->setVisible(false);
     auto progressInd = getProgressIndicator();
     getUi().progressLayout->removeWidget(progressInd);
     progressInd->setVisible(false);
@@ -73,7 +73,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     // Create a horizontal Logo and label layout
     auto hLogoAndLabelLayout = new QHBoxLayout(this);
     hLogoAndLabelLayout->setContentsMargins(0,0,0,0);
-    getUi().verticalLayout_3->removeWidget(getUi().logoLabel);
+    getUi().verticalLayout->removeWidget(getUi().logoLabel);
     getUi().logoLabel->setFixedSize(36,36);
     getUi().logoLabel->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/tlogocarrier.svg")).pixmap(36,36));
 
@@ -105,7 +105,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     leftSideVerticalLayout->insertSpacerItem(4, spacer5);
 
     getUi().label->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
-    getUi().verticalLayout_3->removeWidget(getUi().label);
+    getUi().verticalLayout->removeWidget(getUi().label);
     leftSideVerticalLayout->insertWidget(5, getUi().label);
     getUi().label->setText("Wechseln Sie bitte zu ihrem Browser und melden Sie sich dort an um ihr Konto zu verbinden.");
     getUi().label->setFixedWidth(282);
@@ -136,10 +136,10 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     subMainHorizontalLayout->addSpacerItem(spacer2);
 
 
-    getUi().verticalLayout_3->removeWidget(getUi().errorLabel);
+    getUi().verticalLayout->removeWidget(getUi().errorLabel);
     mainVerticalLayout->addWidget(getUi().errorLabel);
 
-    getUi().verticalLayout_3->removeWidget(getUi().statusLabel);
+    getUi().verticalLayout->removeWidget(getUi().statusLabel);
     getUi().statusLabel->setFixedSize(0,0);
 
 
