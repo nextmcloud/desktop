@@ -428,6 +428,11 @@ void OwncloudWizard::changeEvent(QEvent *e)
     QWizard::changeEvent(e);
 }
 
+void OwncloudWizard::paintEvent(QPaintEvent *event)
+{
+    QWizard::paintEvent(event);
+}
+
 void OwncloudWizard::hideEvent(QHideEvent *event)
 {
     QWizard::hideEvent(event);
