@@ -16,7 +16,6 @@
 #define NMCFLOW2AUTHWIDGET_H
 
 #include "wizard/flow2authwidget.h"
-#include "QProgressIndicator.h" 
 #include <QPaintEvent>
 
 namespace OCC {
@@ -50,9 +49,6 @@ protected:
      * Customizes the style of the widget.
      */
     void customizeStyle() override;
-
-private:
-    QProgressIndicator *_progressIndicator = nullptr;
 };
 
 } // namespace OCC
