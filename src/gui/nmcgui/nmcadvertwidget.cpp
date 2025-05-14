@@ -25,7 +25,7 @@ NMCAdvertWidget::NMCAdvertWidget(QWidget *parent)
     : QWidget(parent),
     m_graphicsView(new NMCCustomGraphicsView(this))
 {
-    setFixedSize(700, 502);
+    setFixedSize(698, 474);
     auto *layout = new QHBoxLayout(this);
     setLayout(layout);
 
@@ -114,7 +114,8 @@ void NMCAdvertWidget::initStartButton()
             "QPushButton { font-size: 15px; border: 0px solid black; border-radius: 4px; background-color: white; color: black; }"
             "QPushButton:hover { background-color: #ededed; }"
         ));
-        m_pushButton->setFixedSize(kButtonWidth, kButtonHeight);
+        // m_pushButton->setFixedSize(kButtonWidth, kButtonHeight);
+        m_pushButton->setFixedSize(140, 36);
         connect(m_pushButton, &QPushButton::clicked, this, &NMCAdvertWidget::close);
     }
 }
@@ -123,7 +124,11 @@ void NMCAdvertWidget::setStartButton()
 {
     if (m_pushButton && m_graphicsView) {
         m_graphicsScene.addWidget(m_pushButton);
-        m_pushButton->setGeometry(width() / 2 - 60, height() - 64, 120, 32);
+        int buttonWidth = 140;
+        int buttonHeight = 36;
+        int x = (width() - buttonWidth) / 2;
+        int y = height() - 48;
+        m_pushButton->setGeometry(x, y, buttonWidth, buttonHeight);
     }
 }
 
@@ -139,7 +144,7 @@ void NMCAdvertWidget::setDetailText(const QString &p_text)
         m_detailText->setText(p_text);
     }
 
-    m_detailText->setFixedWidth(380);
+    m_detailText->setFixedWidth(420);
 
     int y = height() - 88 - m_detailText->sizeHint().height();
     int x = width() / 2 - m_detailText->sizeHint().width() / 2;
@@ -153,13 +158,15 @@ void NMCAdvertWidget::setHeaderText(const QString &p_text)
         m_headerText = new QLabel(p_text, m_graphicsView);
         m_headerText->setWordWrap(true);
         m_headerText->setAlignment(Qt::AlignCenter);
-        m_headerText->setStyleSheet(QStringLiteral("font-size: 28px; color: white"));
+        m_headerText->setStyleSheet(QStringLiteral("font-size: 26px; color: white"));
         m_graphicsScene.addWidget(m_headerText);
     } else {
         m_headerText->setText(p_text);
     }
 
-    int y = height() - 96 - m_detailText->sizeHint().height() - m_headerText->sizeHint().height();
+    m_headerText->setFixedWidth(420);
+
+    int y = height() - 100 - m_detailText->sizeHint().height() - m_headerText->sizeHint().height();
     int x = width() / 2 - m_headerText->sizeHint().width() / 2;
 
     m_headerText->setGeometry(x, y, m_headerText->sizeHint().width(), m_headerText->sizeHint().height());
@@ -176,7 +183,7 @@ void NMCAdvertWidget::setHeader(const QString &p_text)
         m_header->setText(p_text);
     }
 
-    int y = height() - 146 - m_detailText->sizeHint().height() - m_headerText->sizeHint().height();
+    int y = height() - 142 - m_detailText->sizeHint().height() - m_headerText->sizeHint().height();
     int x = width() / 2 - m_header->sizeHint().width() / 2;
 
     m_header->setGeometry(x, y, m_header->sizeHint().width(), m_header->sizeHint().height());
