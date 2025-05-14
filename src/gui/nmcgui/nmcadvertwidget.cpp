@@ -127,7 +127,7 @@ void NMCAdvertWidget::setStartButton()
         int buttonWidth = 140;
         int buttonHeight = 36;
         int x = (width() - buttonWidth) / 2;
-        int y = height() - 48;
+        int y = height() - 60;
         m_pushButton->setGeometry(x, y, buttonWidth, buttonHeight);
     }
 }
