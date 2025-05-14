@@ -93,7 +93,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     cleanUpElements();
 
-    //Create and connect the push buttons to base slots
+    // Create and connect the push buttons to base slots
     auto loginBrowserButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
     connect(loginBrowserButton, &QPushButton::clicked, this, [this](){
         validatePage();
@@ -101,7 +101,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     auto buttonLayout = new QHBoxLayout(this);
     buttonLayout->setSpacing(8);
-    //Set login button size and style
+    // Set login button size and style
     QSize buttonSize(130,32);
     const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;} QPushButton:hover { background-color: %4; }" );
     loginBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white", "#c00063"));
@@ -116,7 +116,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     buttonLayout->addWidget(loginBrowserButton);
     buttonLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Fixed));
 
-    //Create needed layouts
+    // Create needed layouts
     auto mainVerticalLayout = new QVBoxLayout(this);
     auto subMainHorizontalLayout = new QHBoxLayout(this);
     auto leftSideVerticalLayout = new QVBoxLayout(this);
@@ -138,12 +138,12 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     leftSideVerticalLayout->setSpacing(0);
 
-    //Create a horizontal T-Logo and MagentaCLOUC-label layout
+    // Create a horizontal T-Logo and MagentaCLOUC-label layout
     auto hLogoAndLabelLayout = new QHBoxLayout(this);
     hLogoAndLabelLayout->setSpacing(0);
     hLogoAndLabelLayout->setContentsMargins(0,0,0,0);
 
-    //T-Logo
+    // Telekom Logo
     _tLogoLbl->setFixedSize(36,36);
     _tLogoLbl->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/tlogocarrier.svg")).pixmap(36,36));
     hLogoAndLabelLayout->addWidget(_tLogoLbl);
@@ -152,7 +152,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     hLogoAndLabelLayout->addSpacerItem(new QSpacerItem(8,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    //MagentaCLOUD-label
+    // MagentaCLOUD label
     QLabel *magentaLabel = new QLabel("MagentaCLOUD");
     magentaLabel->setStyleSheet("QLabel{font-size: 15px; font-weight: bold;}");
     magentaLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -161,7 +161,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,24, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    //Headline
+    // Headline
     QLabel *descriptionLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_2"));
     descriptionLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     descriptionLabel->setStyleSheet("QLabel{font-size: 28px; font-weight: normal;}");
@@ -171,13 +171,13 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    //Path to a local folder
+    // Path to a local folder
     getUi().locationsGridLayout->removeWidget(getFilePathLabel().data());
     leftSideVerticalLayout->addWidget(getFilePathLabel().data());
     getFilePathLabel().data()->setAlignment(Qt::AlignLeft);
     getFilePathLabel().data()->setStyleSheet("QLabel{font-size: 15px; font-weight: normal; color: black}");
 
-    //Free space available
+    // Free space available
     getUi().locationsGridLayout->removeWidget(getUi().lFreeSpace);
     leftSideVerticalLayout->addWidget(getUi().lFreeSpace);
     getUi().lFreeSpace->setAlignment(Qt::AlignLeft);
@@ -185,11 +185,11 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    //Synch Radio button layout
+    // Synch Radio button layout
     getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_5);
     leftSideVerticalLayout->addLayout(getUi().horizontalLayout_5);
 
-    //Disable Mac related UI fields
+    // Disable Mac related UI fields
     if(Utility::isWindows())
     {
         getUi().lSyncEverythingSizeLabel->setVisible(false);
@@ -199,7 +199,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
         getUi().lSelectiveSyncSizeLabel->setVisible(false);
     }
 
-    //Choose what to sync layout
+    // Choose what to sync layout
     getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_10);
     leftSideVerticalLayout->addLayout(getUi().horizontalLayout_10);
     getUi().horizontalLayout_10->removeWidget(getUi().lSelectiveSyncSizeLabel); //Remove text label, its not needed
@@ -207,7 +207,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    //Detail description
+    // Detail description
     QLabel *detailLabel = new QLabel(QCoreApplication::translate("","SETUP_DESCRIPTION_TEXT_2"));
     detailLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
     detailLabel->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
@@ -217,12 +217,12 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    //Add buttons
+    // Add buttons
     leftSideVerticalLayout->addItem(buttonLayout);
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding));
 
-    //Add items to the right side
+    // Add items to the right side
     QLabel *bigMagetnaIcon = new QLabel("");
     bigMagetnaIcon->setFixedSize(175,175);
     bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/folderLogo.svg")).pixmap(175,175));
@@ -233,7 +233,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding));
     subMainHorizontalLayout->addSpacerItem(new QSpacerItem(0,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    //Delete previous installed layout, or you can not apply the new one.
+    // Delete previous installed layout, or you can not apply the new one.
     QLayout* layout = this->layout ();
     if (layout != 0)
     {
