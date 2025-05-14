@@ -16,7 +16,8 @@
 #define NMCFLOW2AUTHWIDGET_H
 
 #include "wizard/flow2authwidget.h"
-#include <QPaintEvent>
+
+class QPaintEvent;
 
 namespace OCC {
 
