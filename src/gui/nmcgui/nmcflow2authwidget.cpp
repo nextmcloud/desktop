@@ -67,7 +67,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     logoTitleLayout->addWidget(titleLabel);
     logoTitleLayout->addStretch();
 
-    auto descriptionLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_1"));
+    auto headerLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_1"));
     headerLabel->setStyleSheet("font-size: 24px; font-weight: normal;");
     headerLabel->setWordWrap(true);
 
