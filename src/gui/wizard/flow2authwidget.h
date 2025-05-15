@@ -57,8 +57,10 @@ protected:
         return _progressIndi;
     }
 
-protected:
-    void paintEvent(QPaintEvent *event) override;
+private:
+    Account *_account = nullptr;
+    std::unique_ptr<Flow2Auth> _asyncAuth;
+    Ui_Flow2AuthWidget _ui{};
 
 protected Q_SLOTS:
     void slotOpenBrowser();
@@ -72,9 +74,6 @@ private:
     void stopSpinner(bool showStatusLabel);
     void setLogo();
 
-    Account *_account = nullptr;
-    std::unique_ptr<Flow2Auth> _asyncAuth;
-    Ui_Flow2AuthWidget _ui{};
     QProgressIndicator *_progressIndi;
     int _statusUpdateSkipCount = 0;
 };
