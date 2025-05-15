@@ -36,8 +36,8 @@ public:
      * @brief Destructor for NMCFlow2AuthWidget.
      */
     ~NMCFlow2AuthWidget() override = default;
-    
-    void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft) override;
+
+    void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft);
 
 protected:
     /**
