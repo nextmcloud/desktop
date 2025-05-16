@@ -37,8 +37,6 @@ public:
      */
     ~NMCFlow2AuthWidget() override = default;
 
-    void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft);
-
 protected:
     /**
      * @brief Reimplemented from Flow2AuthWidget.

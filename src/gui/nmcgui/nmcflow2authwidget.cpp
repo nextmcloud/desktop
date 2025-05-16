@@ -36,7 +36,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     // Alte UI-Elemente ausblenden oder entfernen
     getUi().copyLinkButton->setVisible(false);
     getUi().openLinkButton->setVisible(false);
-    getUi().statusLabel->setVisible(false);
     getProgressIndicator()->setVisible(false);
     getProgressIndicator()->setFixedSize(0, 0);
 
@@ -125,11 +124,6 @@ void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
 }
 
 void NMCFlow2AuthWidget::customizeStyle()
-{
-    // leer
-}
-
-void NMCFlow2AuthWidget::slotStatusChanged(Flow2Auth::PollStatus, int)
 {
     // leer
 }
