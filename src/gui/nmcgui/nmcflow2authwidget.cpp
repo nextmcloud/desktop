@@ -45,6 +45,9 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     if (getUi().statusLabel) {
         getUi().statusLabel->setVisible(false);
     }
+    if (getUi().logoLabel) {
+        getUi().logoLabel->hide();
+    }
 
     // Login-Button
     auto loginButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
@@ -57,16 +60,16 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     connect(loginButton, &QPushButton::clicked, this, &NMCFlow2AuthWidget::slotOpenBrowser);
 
     // Logo + Titel
-    auto logoLabel = new QLabel(this);
-    logoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(24, 24));
-    logoLabel->setFixedSize(24, 24);
+    auto titleLogoLabel = new QLabel(this);
+    titleLogoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
+    titleLogoLabel->setFixedSize(36, 36);
 
     auto titleLabel = new QLabel(tr("MagentaCLOUD"), this);
-    titleLabel->setStyleSheet("font-weight: bold; font-size: 14px;");
+    titleLabel->setStyleSheet("font-weight: bold; font-size: 15px;");
 
     auto logoTitleLayout = new QHBoxLayout;
     logoTitleLayout->setSpacing(8);
-    logoTitleLayout->addWidget(logoLabel);
+    logoTitleLayout->addWidget(titleLogoLabel);
     logoTitleLayout->addWidget(titleLabel);
     logoTitleLayout->addStretch();
 
@@ -74,12 +77,13 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     auto headerLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_1"));
     headerLabel->setStyleSheet("font-size: 24px; font-weight: normal;");
     headerLabel->setWordWrap(true);
+    headerLabel->setFixedWidth(282);
 
     // Anweisungs-Label
     auto instructionLabel = new QLabel(tr("Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an, um Ihr Konto zu verbinden."), this);
     instructionLabel->setStyleSheet("font-size: 14px;");
     instructionLabel->setWordWrap(true);
-    instructionLabel->setFixedWidth(300);
+    instructionLabel->setFixedWidth(282);
 
     // Linke Seite
     auto leftLayout = new QVBoxLayout;
@@ -99,7 +103,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 
     auto rightLayout = new QVBoxLayout;
     rightLayout->addStretch();
-    rightLayout->addWidget(bigLogoLabel, 0, Qt::AlignRight | Qt::AlignBottom);
+    rightLayout->addWidget(bigLogoLabel, 0, Qt::AlignRight | Qt::AlignVCenter);
 
     // Hauptlayout
     auto mainLayout = new QHBoxLayout;
