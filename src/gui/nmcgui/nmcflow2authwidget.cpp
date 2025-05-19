@@ -51,7 +51,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     headerLabel->setStyleSheet("font-size: 15px; font-weight: bold;");
     getUi().verticalLayout->insertWidget(0, headerLabel);
 
-    auto descriptionLabel = new QLabel(tr("SETUP_HEADER_TEXT_1"));
+    auto descriptionLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_1"));
     descriptionLabel->setStyleSheet("font-size: 28px; font-weight: normal;");
     descriptionLabel->setWordWrap(true);
     getUi().verticalLayout->insertWidget(1, descriptionLabel);
@@ -63,7 +63,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     getUi().label->setAlignment(Qt::AlignLeft);
 
     // Login Button hinzufügen
-    auto loginButton = new QPushButton(tr("LOGIN"));
+    auto loginButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
     loginButton->setFocusPolicy(Qt::NoFocus);
     connect(loginButton, &QPushButton::clicked, this, [this]() {
         slotOpenBrowser();
