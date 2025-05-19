@@ -33,71 +33,100 @@ namespace OCC {
 NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     : Flow2AuthWidget(parent)
 {
-    // Bestehende Widgets anpassen
-    getUi().copyLinkButton->hide();
-    getUi().openLinkButton->hide();
-    getUi().statusLabel->hide();
+    // Alte UI-Elemente ausblenden oder entfernen
+    getUi().copyLinkButton->setVisible(false);
+    getUi().openLinkButton->setVisible(false);
+    getProgressIndicator()->setVisible(false);
+    getProgressIndicator()->setFixedSize(0, 0);
+    getUi().statusLabel->setFixedSize(0, 0);
 
-    auto progressInd = getProgressIndicator();
-    progressInd->setVisible(false);
-    progressInd->setFixedSize(0, 0);
-
-    // Logo anpassen
-    getUi().logoLabel->setFixedSize(36, 36);
-    getUi().logoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
-
-    // Titel und Beschreibung ersetzen
-    auto headerLabel = new QLabel("MagentaCLOUD");
-    headerLabel->setStyleSheet("font-size: 15px; font-weight: bold;");
-    getUi().verticalLayout->insertWidget(0, headerLabel);
-
-    auto descriptionLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_1"));
-    descriptionLabel->setStyleSheet("font-size: 28px; font-weight: normal;");
-    descriptionLabel->setWordWrap(true);
-    getUi().verticalLayout->insertWidget(1, descriptionLabel);
-
-    // Textanleitung anpassen
-    getUi().label->setStyleSheet("font-size: 15px; font-weight: normal;");
-    getUi().label->setText(tr("Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an, um Ihr Konto zu verbinden."));
-    getUi().label->setFixedWidth(282);
-    getUi().label->setAlignment(Qt::AlignLeft);
-
-    // Login Button hinzufügen
-    auto loginButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
+    // Login-Button
+    auto loginButton = new QPushButton(tr("Einloggen"));
     loginButton->setFocusPolicy(Qt::NoFocus);
+    loginButton->setFixedSize(130, 32);
+    loginButton->setStyleSheet(
+        "QPushButton { font-size: 15px; border: none; border-radius: 4px; background-color: #E20074; color: white; }"
+        "QPushButton:hover { background-color: #c00063; }"
+    );
     connect(loginButton, &QPushButton::clicked, this, [this]() {
         slotOpenBrowser();
     });
 
-    const QSize buttonSize(130, 32);
-    const QString styleSheet = QString(
-        "QPushButton{font-size: 15px; border: 0px solid; border-color: black; border-radius: 4px; "
-        "background-color: #E20074; color: white;}"
-        "QPushButton:hover { background-color: #c00063; }");
-    loginButton->setStyleSheet(styleSheet);
-    loginButton->setFixedSize(buttonSize);
+    // Linker Bereich
+    auto logoLabel = new QLabel;
+    logoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(24, 24));
+    logoLabel->setFixedSize(24, 24);
 
-    getUi().verticalLayout->addSpacing(24);
-    getUi().verticalLayout->addWidget(loginButton);
+    auto titleLabel = new QLabel("MagentaCLOUD");
+    titleLabel->setStyleSheet("font-weight: bold; font-size: 14px;");
+    titleLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    // Großes Logo rechts – ergänzend, optional
-    auto bigLogo = new QLabel;
-    bigLogo->setPixmap(QIcon(":/client/theme/NMCIcons/applicationLogo.svg").pixmap(175, 175));
-    bigLogo->setAlignment(Qt::AlignRight | Qt::AlignTop);
-    getUi().verticalLayout->addSpacing(16);
-    getUi().verticalLayout->addWidget(bigLogo);
+    auto logoTitleLayout = new QHBoxLayout;
+    logoTitleLayout->setSpacing(8);
+    logoTitleLayout->addWidget(logoLabel);
+    logoTitleLayout->addWidget(titleLabel);
+    logoTitleLayout->addStretch();
+
+    auto headerLabel = new QLabel(tr("Melden Sie sich an um direkt loszulegen"));
+    headerLabel->setStyleSheet("font-size: 24px; font-weight: normal;");
+    headerLabel->setWordWrap(true);
+
+    auto instructionLabel = new QLabel(tr("Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an, um Ihr Konto zu verbinden."));
+    instructionLabel->setStyleSheet("font-size: 14px;");
+    instructionLabel->setWordWrap(true);
+    instructionLabel->setFixedWidth(300);
+
+    auto leftLayout = new QVBoxLayout;
+    leftLayout->addLayout(logoTitleLayout);
+    leftLayout->addSpacing(24);
+    leftLayout->addWidget(headerLabel);
+    leftLayout->addSpacing(16);
+    leftLayout->addWidget(instructionLabel);
+    leftLayout->addSpacing(24);
+    leftLayout->addWidget(loginButton);
+    leftLayout->addStretch();
+
+    // Rechter Bereich (großes Logo)
+    auto bigLogoLabel = new QLabel;
+    bigLogoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/applicationLogo.svg").pixmap(175, 175));
+    bigLogoLabel->setFixedSize(175, 175);
+
+    auto rightLayout = new QVBoxLayout;
+    rightLayout->addStretch();
+    rightLayout->addWidget(bigLogoLabel, 0, Qt::AlignRight | Qt::AlignBottom);
+
+    // Hauptlayout
+    auto mainLayout = new QHBoxLayout;
+    mainLayout->setContentsMargins(16, 16, 16, 16);
+    mainLayout->addLayout(leftLayout);
+    mainLayout->addLayout(rightLayout);
+
+    // Ursprüngliches Layout leeren und ersetzen
+    if (auto *oldLayout = layout()) {
+        QLayoutItem *item;
+        while ((item = oldLayout->takeAt(0)) != nullptr) {
+            delete item;
+        }
+        delete oldLayout;
+    }
+
+    setLayout(mainLayout);
+
+    // Fehlerlabel unten anzeigen
+    getUi().verticalLayout->removeWidget(getUi().errorLabel);
+    layout()->addWidget(getUi().errorLabel);
 }
 
 void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    painter.fillRect(rect(), Qt::white); // weißer Hintergrund
+    painter.fillRect(rect(), Qt::white);
     Flow2AuthWidget::paintEvent(event);
 }
 
 void NMCFlow2AuthWidget::customizeStyle()
 {
-    // optional override, leer gelassen
+    // leer
 }
 
 } // namespace OCC
