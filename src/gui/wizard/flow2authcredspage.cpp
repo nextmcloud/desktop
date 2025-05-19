@@ -34,7 +34,7 @@ Flow2AuthCredsPage::Flow2AuthCredsPage()
 {
     _layout = new QVBoxLayout(this);
 
-    _flow2AuthWidget = new NMCFlow2AuthWidget();
+    _flow2AuthWidget = new NMCFlow2AuthWidget(this);
     _layout->addWidget(_flow2AuthWidget);
 
     connect(_flow2AuthWidget, &Flow2AuthWidget::authResult, this, &Flow2AuthCredsPage::slotFlow2AuthResult);

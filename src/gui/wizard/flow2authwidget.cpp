@@ -150,10 +150,33 @@ void Flow2AuthWidget::slotPollNow()
 }
 
 void Flow2AuthWidget::slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft)
-{    
-    // Status-Label absichtlich nicht verwenden
-    Q_UNUSED(status);
-    Q_UNUSED(secondsLeft);
+{
+    switch(status)
+    {
+    case Flow2Auth::statusPollCountdown:
+        if(_statusUpdateSkipCount > 0) {
+            _statusUpdateSkipCount--;
+            break;
+        }
+        _ui.statusLabel->setText(tr("Waiting for authorization") + QStringLiteral("… (%1)").arg(secondsLeft));
+        stopSpinner(true);
+        break;
+    case Flow2Auth::statusPollNow:
+        _statusUpdateSkipCount = 0;
+        _ui.statusLabel->setText(tr("Polling for authorization") + "…");
+        startSpinner();
+        break;
+    case Flow2Auth::statusFetchToken:
+        _statusUpdateSkipCount = 0;
+        _ui.statusLabel->setText(tr("Starting authorization") + "…");
+        startSpinner();
+        break;
+    case Flow2Auth::statusCopyLinkToClipboard:
+        _ui.statusLabel->setText(tr("Link copied to clipboard."));
+        _statusUpdateSkipCount = 3;
+        stopSpinner(true);
+        break;
+    }
 }
 
 void Flow2AuthWidget::startSpinner()
