@@ -50,10 +50,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
         getUi().logoLabel->setVisible(false);
         getUi().logoLabel->setFixedSize(0, 0);
     }
-    if (getUi().label) {
-        getUi().label->setVisible(false);
-        getUi().label->setFixedSize(0, 0);
-    }
 
     // Bestehendes Layout und Child-Widgets entfernen
     if (auto *oldLayout = layout()) {
