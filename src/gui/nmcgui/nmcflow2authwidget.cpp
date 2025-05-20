@@ -46,6 +46,14 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
         getUi().statusLabel->setVisible(false);
         getUi().statusLabel->setFixedSize(0, 0);
     }
+    if (getUi().logoLabel) {
+        getUi().logoLabel->setVisible(false);
+        getUi().logoLabel->setFixedSize(0, 0);
+    }
+    if (getUi().label) {
+        getUi().label->setVisible(false);
+        getUi().label->setFixedSize(0, 0);
+    }
 
     // Bestehendes Layout und Child-Widgets entfernen
     if (auto *oldLayout = layout()) {
@@ -70,16 +78,16 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     connect(loginButton, &QPushButton::clicked, this, &NMCFlow2AuthWidget::slotOpenBrowser);
 
     // Logo + Titel
-    auto logoLabel = new QLabel(this);
-    logoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
-    logoLabel->setFixedSize(36, 36);
+    auto tlogoLabel = new QLabel(this);
+    tlogoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
+    tlogoLabel->setFixedSize(36, 36);
 
     auto titleLabel = new QLabel(tr("MagentaCLOUD"), this);
     titleLabel->setStyleSheet("font-weight: bold; font-size: 15px;");
 
     auto logoTitleLayout = new QHBoxLayout;
     logoTitleLayout->setSpacing(8);
-    logoTitleLayout->addWidget(logoLabel);
+    logoTitleLayout->addWidget(tlogoLabel);
     logoTitleLayout->addWidget(titleLabel);
     logoTitleLayout->addStretch();
 
