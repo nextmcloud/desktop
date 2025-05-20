@@ -44,9 +44,19 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     }
     if (getUi().statusLabel) {
         getUi().statusLabel->setVisible(false);
+        getUi().statusLabel->setFixedSize(0, 0);
     }
-    if (getUi().logoLabel) {
-        getUi().logoLabel->hide();
+
+    // Bestehendes Layout und Child-Widgets entfernen
+    if (auto *oldLayout = layout()) {
+        QLayoutItem *item;
+        while ((item = oldLayout->takeAt(0)) != nullptr) {
+            if (auto *widget = item->widget()) {
+                widget->setParent(nullptr);
+            }
+            delete item;
+        }
+        delete oldLayout;
     }
 
     // Login-Button
@@ -60,16 +70,16 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     connect(loginButton, &QPushButton::clicked, this, &NMCFlow2AuthWidget::slotOpenBrowser);
 
     // Logo + Titel
-    auto titleLogoLabel = new QLabel(this);
-    titleLogoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
-    titleLogoLabel->setFixedSize(36, 36);
+    auto logoLabel = new QLabel(this);
+    logoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
+    logoLabel->setFixedSize(36, 36);
 
     auto titleLabel = new QLabel(tr("MagentaCLOUD"), this);
     titleLabel->setStyleSheet("font-weight: bold; font-size: 15px;");
 
     auto logoTitleLayout = new QHBoxLayout;
     logoTitleLayout->setSpacing(8);
-    logoTitleLayout->addWidget(titleLogoLabel);
+    logoTitleLayout->addWidget(logoLabel);
     logoTitleLayout->addWidget(titleLabel);
     logoTitleLayout->addStretch();
 
@@ -98,34 +108,26 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 
     // Rechtes Logo
     auto bigLogoLabel = new QLabel(this);
-    bigLogoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/applicationLogo.svg").pixmap(175, 175));
-    bigLogoLabel->setFixedSize(175, 175);
+    bigLogoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/applicationLogo.svg")
+                                .pixmap(QSize(175, 175), QIcon::KeepAspectRatio));
+    bigLogoLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    bigLogoLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
     auto rightLayout = new QVBoxLayout;
     rightLayout->addStretch();
-    rightLayout->addWidget(bigLogoLabel, 0, Qt::AlignRight | Qt::AlignVCenter);
+    rightLayout->addWidget(bigLogoLabel);
+    rightLayout->addStretch();
 
     // Hauptlayout
     auto mainLayout = new QHBoxLayout;
     mainLayout->setContentsMargins(16, 16, 16, 16);
+    mainLayout->setSpacing(24);
     mainLayout->addLayout(leftLayout);
     mainLayout->addLayout(rightLayout);
 
-    // Bestehendes Layout leeren und ersetzen
-    if (auto *oldLayout = layout()) {
-        QLayoutItem *item;
-        while ((item = oldLayout->takeAt(0)) != nullptr) {
-            if (auto *widget = item->widget()) {
-                widget->setParent(nullptr);  // Sicheres Entfernen
-            }
-            delete item;
-        }
-        delete oldLayout;
-    }
-
     setLayout(mainLayout);
 
-    // Fehlerlabel wieder hinzufügen
+    // Fehlerlabel wieder einfügen
     if (getUi().errorLabel) {
         mainLayout->addWidget(getUi().errorLabel);
     }
@@ -140,7 +142,7 @@ void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
 
 void NMCFlow2AuthWidget::customizeStyle()
 {
-    // optional leer lassen
+    // Optional überschreibbar
 }
 
 } // namespace OCC
