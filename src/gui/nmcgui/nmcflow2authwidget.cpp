@@ -108,8 +108,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 
     // Rechtes Logo
     auto bigLogoLabel = new QLabel(this);
-    bigLogoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/applicationLogo.svg")
-                                .pixmap(QSize(175, 175), QIcon::KeepAspectRatio));
+    bigLogoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/applicationLogo.svg").pixmap(175, 175));
     bigLogoLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     bigLogoLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
