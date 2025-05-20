@@ -145,7 +145,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     // Telekom Logo
     _tLogoLbl->setFixedSize(36,36);
-    _tLogoLbl->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/tlogocarrier.svg")).pixmap(36,36));
+    _tLogoLbl->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
     hLogoAndLabelLayout->addWidget(_tLogoLbl);
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,32, QSizePolicy::Fixed, QSizePolicy::Fixed));
@@ -223,12 +223,12 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding));
 
     // Add items to the right side
-    QLabel *bigMagetnaIcon = new QLabel("");
-    bigMagetnaIcon->setFixedSize(175,175);
-    bigMagetnaIcon->setPixmap(QIcon(QLatin1String(":/client/theme/NMCIcons/folderLogo.svg")).pixmap(175,175));
+    QLabel *bigMagentaIcon = new QLabel("");
+    bigMagentaIcon->setFixedSize(175,175);
+    bigMagentaIcon->setPixmap(QIcon(":/client/theme/NMCIcons/folderLogo.svg").pixmap(175, 175));
 
     rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,164, QSizePolicy::Fixed, QSizePolicy::Fixed));
-    rightSideVerticalLayout->addWidget(bigMagetnaIcon);
+    rightSideVerticalLayout->addWidget(bigMagentaIcon);
 
     rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding));
     subMainHorizontalLayout->addSpacerItem(new QSpacerItem(0,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
