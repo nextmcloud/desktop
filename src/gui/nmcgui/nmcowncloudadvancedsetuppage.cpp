@@ -99,7 +99,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
         validatePage();
     });
 
-    auto buttonLayout = new QHBoxLayout(this);
+    auto buttonLayout = new QHBoxLayout();
     buttonLayout->setSpacing(8);
     // Set login button size and style
     QSize buttonSize(130,32);
@@ -117,10 +117,10 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     buttonLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Fixed));
 
     // Create needed layouts
-    auto mainVerticalLayout = new QVBoxLayout(this);
-    auto subMainHorizontalLayout = new QHBoxLayout(this);
-    auto leftSideVerticalLayout = new QVBoxLayout(this);
-    auto rightSideVerticalLayout = new QVBoxLayout(this);
+    auto mainVerticalLayout = new QVBoxLayout();
+    auto subMainHorizontalLayout = new QHBoxLayout();
+    auto leftSideVerticalLayout = new QVBoxLayout();
+    auto rightSideVerticalLayout = new QVBoxLayout();
     mainVerticalLayout->setSpacing(0);
     mainVerticalLayout->setContentsMargins(16,8,40,0);
     subMainHorizontalLayout->setSpacing(0);
@@ -139,7 +139,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     leftSideVerticalLayout->setSpacing(0);
 
     // Create a horizontal T-Logo and MagentaCLOUC-label layout
-    auto hLogoAndLabelLayout = new QHBoxLayout(this);
+    auto hLogoAndLabelLayout = new QHBoxLayout();
     hLogoAndLabelLayout->setSpacing(0);
     hLogoAndLabelLayout->setContentsMargins(0,0,0,0);
 
