@@ -147,13 +147,6 @@ AbstractButton {
                 id: userMoreButtonMenu
                 closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
-                palette {
-                    button: Style.nmcTrayWindowHeaderBackgroundColor
-                    buttonText: Style.nmcTrayWindowHeaderTextColor
-                    windowText: Style.nmcTrayWindowHeaderTextColor
-                    text: Style.nmcTrayWindowHeaderTextColor
-                }
-
                 MenuItem {
                     visible: model.isConnected && model.serverHasUserStatus
                     height: visible ? implicitHeight : 0

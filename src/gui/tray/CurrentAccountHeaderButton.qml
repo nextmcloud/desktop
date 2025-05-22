@@ -45,13 +45,6 @@ Button {
     Accessible.name: qsTr("Current account")
     Accessible.onPressAction: root.clicked()
 
-    palette {
-        button: Style.nmcTrayWindowHeaderBackgroundColor
-        buttonText: Style.nmcTrayWindowHeaderTextColor
-        windowText: Style.nmcTrayWindowHeaderTextColor
-        text: Style.nmcTrayWindowHeaderTextColor
-    }
-
     // We call open() instead of popup() because we want to position it
     // exactly below the dropdown button, not the mouse
     onClicked: {
@@ -75,18 +68,6 @@ Button {
         height: Math.min(implicitHeight, maxMenuHeight)
         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
-        background: Rectangle {
-            color: Style.nmcTrayWindowHeaderBackgroundColor
-            radius: Style.nmcStandardRadius
-        }
-
-        palette {
-            button: Style.nmcTrayWindowHeaderBackgroundColor
-            buttonText: Style.nmcTrayWindowHeaderTextColor
-            windowText: Style.nmcTrayWindowHeaderTextColor
-            text: Style.nmcTrayWindowHeaderTextColor
-        }
-
         onClosed: {
             // HACK: reload account Instantiator immediately by restting it - could be done better I guess
             // see also onVisibleChanged above
@@ -97,17 +78,22 @@ Button {
         Instantiator {
             id: userLineInstantiator
             model: UserModel
-            delegate: MenuItem {
-                implicitHeight: instantiatedUserLine.height
-                UserLine {
-                    id: instantiatedUserLine
-                    width: parent.width
-                    onShowUserStatusSelector: {
-                        userStatusDrawer.openUserStatusDrawer(model.index);
-                        accountMenu.close();
-                    }
-                    onClicked: UserModel.currentUserId = model.index;
+            delegate: NMCMenuItem {
+                text: model.name
+                icon.source: Style.nmcAccountAvatarIcon
+                icon.width: Style.accountAvatarSize
+                icon.height: Style.accountAvatarSize
+                icon.color: Style.ncTextColor
+                leftPadding: Style.nmcMenuSubItemLeftPadding
+                height: Style.nmcMenuSubItemHeight
+
+                onClicked: {
+                    UserModel.currentUserId = model.index;
                 }
+
+                Accessible.role: Accessible.MenuItem
+                Accessible.name: model.name
+                Accessible.onPressAction: Qt.callLater(() => UserModel.currentUserId = model.index)
             }
             onObjectAdded: accountMenu.insertItem(index, object)
             onObjectRemoved: accountMenu.removeItem(object)
@@ -130,11 +116,16 @@ Button {
 
         MenuSeparator {}
 
-        MenuItem {
+        NMCMenuItem {
             id: syncPauseButton
-            height: Systray.anySyncFolders ? implicitHeight : 0
-            font.pixelSize: Style.topLinePixelSize
-            hoverEnabled: true
+
+            icon.source: Style.nmcPauseIcon
+            icon.height: Style.nmcTrayWindowIconWidth
+            icon.width: Style.nmcTrayWindowIconWidth
+            icon.color: Style.ncTextColor
+            leftPadding: Style.nmcMenuSubItemLeftPadding
+            height: Style.nmcMenuSubItemHeight
+            
             enabled: Systray.anySyncFolders
             visible: Systray.anySyncFolders
             onClicked: Systray.syncIsPaused = !Systray.syncIsPaused
@@ -143,22 +134,34 @@ Button {
             Accessible.onPressAction: syncPauseButton.clicked()
         }
 
-        MenuItem {
+        NMCMenuItem {
             id: settingsButton
             text: qsTr("Settings")
-            font.pixelSize: Style.topLinePixelSize
-            hoverEnabled: true
+
+            icon.source: Style.nmcSettingsIcon
+            icon.height: Style.nmcTrayWindowIconWidth
+            icon.width: Style.nmcTrayWindowIconWidth
+            icon.color: Style.ncTextColor
+            leftPadding: Style.nmcMenuSubItemLeftPadding
+            height: Style.nmcMenuSubItemHeight
+            
             onClicked: Systray.openSettings()
             Accessible.role: Accessible.MenuItem
             Accessible.name: text
             Accessible.onPressAction: settingsButton.clicked()
         }
 
-        MenuItem {
+        NMCMenuItem {
             id: exitButton
             text: qsTr("Exit");
-            font.pixelSize: Style.topLinePixelSize
-            hoverEnabled: true
+
+            icon.source: Style.nmcCloseIcon
+            icon.height: Style.nmcTrayWindowIconWidth
+            icon.width: Style.nmcTrayWindowIconWidth
+            icon.color: Style.ncTextColor
+            leftPadding: Style.nmcMenuSubItemLeftPadding
+            height: Style.nmcMenuSubItemHeight
+
             onClicked: Systray.shutdown()
             Accessible.role: Accessible.MenuItem
             Accessible.name: text
@@ -169,7 +172,6 @@ Button {
         Rectangle {
             width: parent.width
             height: 8
-            color: Style.nmcTrayWindowHeaderBackgroundColor
 
             anchors.horizontalCenter: parent.horizontalCenter
         }
