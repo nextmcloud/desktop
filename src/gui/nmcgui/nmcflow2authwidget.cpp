@@ -47,6 +47,10 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
         getUi().statusLabel->setFixedSize(0, 0);
     }
 
+    getUi().verticalLayout->removeWidget(getUi().label);
+    getUi().verticalLayout->removeWidget(getUi().logoLabel);
+    getUi().verticalLayout->removeWidget(getUi().errorLabel);
+
     // Bestehendes Layout und Child-Widgets entfernen
     if (auto *oldLayout = layout()) {
         QLayoutItem *item;
@@ -127,9 +131,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     setLayout(mainLayout);
 
     // Fehlerlabel wieder einfügen
-    if (getUi().errorLabel) {
-        mainLayout->addWidget(getUi().errorLabel);
-    }
+    mainLayout->addWidget(getUi().errorLabel);
 }
 
 void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
