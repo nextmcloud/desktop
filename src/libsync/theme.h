@@ -324,7 +324,8 @@ public:
     /** @return color for the setup wizard. */
     [[nodiscard]] QColor wizardHeaderBackgroundColor() const;
 
-    [[nodiscard]] QPixmap wizardApplicationLogo() const;
+    [[nodiscard]] QPixmap wizardApplicationLogo() const; 
+    [[nodiscard]] QPixmap wizardApplicationLogoColored(const QColor &color) const;
 
     /** @return logo for the setup wizard. */
     [[nodiscard]] QPixmap wizardHeaderLogo() const;
