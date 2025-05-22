@@ -46,10 +46,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
         getUi().logoLabel->setVisible(false);
         getUi().logoLabel->setFixedSize(0, 0);
     }
-    if (getUi().headerLabel) {
-        getUi().headerLabel->setVisible(false);
-        getUi().headerLabel->setFixedSize(0, 0);
-    }
     if (getUi().statusLabel) {
         getUi().statusLabel->setVisible(false);
         getUi().statusLabel->setFixedSize(0, 0);
