@@ -9,15 +9,29 @@ MenuItem {
 
     icon.color: hovered ? Style.ncBlue : Style.ncTextColor
 
-    contentItem: Text {
-        text: root.text
-        color: hovered ? Style.nmcTrayWindowHeaderTextColor : Style.nmcTrayWindowHeaderTextColor
-        font.pixelSize: Style.topLinePixelSize
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignLeft
-        elide: Text.ElideRight
+    contentItem: RowLayout {
+        spacing: 8
         anchors.fill: parent
         anchors.leftMargin: 12
+
+        Image {
+            source: root.icon.source
+            visible: root.icon.source !== ""
+            width: Style.nmcTrayWindowIconWidth
+            height: Style.nmcTrayWindowIconWidth
+            fillMode: Image.PreserveAspectFit
+            color: root.icon.color
+        }
+
+        Text {
+            text: root.text
+            color: hovered ? Style.nmcTrayWindowHeaderTextColor : Style.nmcTrayWindowHeaderTextColor
+            font.pixelSize: Style.topLinePixelSize
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+            elide: Text.ElideRight
+            Layout.fillWidth: true
+        }
     }
 
     // optional: hover background

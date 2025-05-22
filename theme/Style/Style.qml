@@ -38,7 +38,7 @@ QtObject {
     readonly property int nmcTrayWindowAddAccountButtonHeight: 56
     readonly property int nmcTrayWindowHeaderHeight: 64
     readonly property int nmcTrayWindowItemsHeight: 48
-    readonly property int nmcTrayWindowIconWidth: 24
+    readonly property int nmcTrayWindowIconWidth: 20
     readonly property int nmcTrayWindowLogoWidth: 64
     readonly property int nmcTrayWindowStandardMargin: 16
     readonly property int nmcTrayWindowMenuOverlayMargin: 8
