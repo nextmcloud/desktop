@@ -289,11 +289,10 @@ Button {
         Loader {
             active: root.indicator === null
             sourceComponent: Image {
-                Layout.alignment: Qt.AlignRight
-                verticalAlignment: Qt.AlignCenter
-                horizontalAlignment: Qt.AlignRight
-                Layout.leftMargin: Style.accountDropDownCaretMargin
-                source:  "image://svgimage-custom-color/caret-down.svg/" + palette.windowText
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 8
+                source: "image://svgimage-custom-color/caret-down.svg/" + palette.windowText
                 sourceSize.width: Style.accountDropDownCaretSize
                 sourceSize.height: Style.accountDropDownCaretSize
                 Accessible.role: Accessible.PopupMenu
