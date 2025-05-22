@@ -28,25 +28,6 @@
 
 namespace OCC {
 
-// Hilfsfunktion: löscht Layout + alle Child-Layouts + Widgets
-static void deleteLayoutRecursively(QLayout *layout)
-{
-    if (!layout)
-        return;
-
-    QLayoutItem *item;
-    while ((item = layout->takeAt(0)) != nullptr) {
-        if (auto *childLayout = item->layout()) {
-            deleteLayoutRecursively(childLayout);
-        } else if (auto *widget = item->widget()) {
-            widget->setParent(nullptr);
-        }
-        delete item;
-    }
-
-    delete layout;
-}
-
 NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     : Flow2AuthWidget(parent)
 {
@@ -66,8 +47,17 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
         getUi().statusLabel->setFixedSize(0, 0);
     }
 
-    // Bestehendes Layout rekursiv entfernen
-    deleteLayoutRecursively(layout());
+    // Bestehendes Layout und Child-Widgets entfernen
+    if (auto *oldLayout = layout()) {
+        QLayoutItem *item;
+        while ((item = oldLayout->takeAt(0)) != nullptr) {
+            if (auto *widget = item->widget()) {
+                widget->setParent(nullptr);
+            }
+            delete item;
+        }
+        delete oldLayout;
+    }
 
     // Login-Button
     auto loginButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
@@ -137,7 +127,9 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     setLayout(mainLayout);
 
     // Fehlerlabel wieder einfügen
-    mainLayout->addWidget(getUi().errorLabel);
+    if (getUi().errorLabel) {
+        mainLayout->addWidget(getUi().errorLabel);
+    }
 }
 
 void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
