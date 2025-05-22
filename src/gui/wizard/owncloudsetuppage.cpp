@@ -385,6 +385,8 @@ void OwncloudSetupPage::customizeStyle()
 {
     setLogo();
 
+    this->setStyleSheet("background-color: #e20074;");
+
     if (_progressIndi) {
         const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
         if (isDarkBackground) {

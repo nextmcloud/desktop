@@ -48,8 +48,11 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     }
 
     getUi().verticalLayout->removeWidget(getUi().label);
+    getUi().verticalLayout->removeWidget(getUi().logoLabel);
+    getUi().verticalLayout->removeWidget(getUi().errorLabel);
 
     // Bestehendes Layout und Child-Widgets entfernen
+    /*
     if (auto *oldLayout = layout()) {
         QLayoutItem *item;
         while ((item = oldLayout->takeAt(0)) != nullptr) {
@@ -60,6 +63,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
         }
         delete oldLayout;
     }
+    */
 
     // Login-Button
     auto loginButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
