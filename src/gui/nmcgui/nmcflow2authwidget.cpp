@@ -28,6 +28,25 @@
 
 namespace OCC {
 
+// Hilfsfunktion: löscht Layout + alle Child-Layouts + Widgets
+static void deleteLayoutRecursively(QLayout *layout)
+{
+    if (!layout)
+        return;
+
+    QLayoutItem *item;
+    while ((item = layout->takeAt(0)) != nullptr) {
+        if (auto *childLayout = item->layout()) {
+            deleteLayoutRecursively(childLayout);
+        } else if (auto *widget = item->widget()) {
+            widget->setParent(nullptr);
+        }
+        delete item;
+    }
+
+    delete layout;
+}
+
 NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     : Flow2AuthWidget(parent)
 {
@@ -47,23 +66,8 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
         getUi().statusLabel->setFixedSize(0, 0);
     }
 
-    getUi().verticalLayout->removeWidget(getUi().label);
-    getUi().verticalLayout->removeWidget(getUi().logoLabel);
-    getUi().verticalLayout->removeWidget(getUi().errorLabel);
-
-    // Bestehendes Layout und Child-Widgets entfernen
-    /*
-    if (auto *oldLayout = layout()) {
-        QLayoutItem *item;
-        while ((item = oldLayout->takeAt(0)) != nullptr) {
-            if (auto *widget = item->widget()) {
-                widget->setParent(nullptr);
-            }
-            delete item;
-        }
-        delete oldLayout;
-    }
-    */
+    // Bestehendes Layout rekursiv entfernen
+    deleteLayoutRecursively(layout());
 
     // Login-Button
     auto loginButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
