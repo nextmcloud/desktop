@@ -42,6 +42,14 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
         progressInd->setVisible(false);
         progressInd->setFixedSize(0, 0);
     }
+    if (getUi().logoLabel) {
+        getUi().logoLabel->setVisible(false);
+        getUi().logoLabel->setFixedSize(0, 0);
+    }
+    if (getUi().headerLabel) {
+        getUi().headerLabel->setVisible(false);
+        getUi().headerLabel->setFixedSize(0, 0);
+    }
     if (getUi().statusLabel) {
         getUi().statusLabel->setVisible(false);
         getUi().statusLabel->setFixedSize(0, 0);
@@ -70,24 +78,24 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     connect(loginButton, &QPushButton::clicked, this, &NMCFlow2AuthWidget::slotOpenBrowser);
 
     // Logo + Titel
-    auto logoLabel = new QLabel(this);
-    logoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
-    logoLabel->setFixedSize(36, 36);
+    auto logoTitleLabel = new QLabel(this);
+    logoTitleLabel->setPixmap(QIcon(":/client/theme/NMCIcons/tlogocarrier.svg").pixmap(36, 36));
+    logoTitleLabel->setFixedSize(36, 36);
 
     auto titleLabel = new QLabel(tr("MagentaCLOUD"), this);
     titleLabel->setStyleSheet("font-weight: bold; font-size: 15px;");
 
     auto logoTitleLayout = new QHBoxLayout;
     logoTitleLayout->setSpacing(8);
-    logoTitleLayout->addWidget(logoLabel);
+    logoTitleLayout->addWidget(logoTitleLabel);
     logoTitleLayout->addWidget(titleLabel);
     logoTitleLayout->addStretch();
 
     // Überschrift
-    auto headerLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_1"));
-    headerLabel->setStyleSheet("font-size: 24px; font-weight: normal;");
-    headerLabel->setWordWrap(true);
-    headerLabel->setFixedWidth(282);
+    auto headerTextLabel = new QLabel(QCoreApplication::translate("", "SETUP_HEADER_TEXT_1"));
+    headerTextLabel->setStyleSheet("font-size: 24px; font-weight: normal;");
+    headerTextLabel->setWordWrap(true);
+    headerTextLabel->setFixedWidth(282);
 
     // Anweisungs-Label
     auto instructionLabel = new QLabel(tr("Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an, um Ihr Konto zu verbinden."), this);
@@ -99,7 +107,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     auto leftLayout = new QVBoxLayout;
     leftLayout->addLayout(logoTitleLayout);
     leftLayout->addSpacing(24);
-    leftLayout->addWidget(headerLabel);
+    leftLayout->addWidget(headerTextLabel);
     leftLayout->addSpacing(16);
     leftLayout->addWidget(instructionLabel);
     leftLayout->addSpacing(24);
@@ -122,6 +130,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     mainLayout->setContentsMargins(16, 16, 16, 16);
     mainLayout->setSpacing(24);
     mainLayout->addLayout(leftLayout);
+    mainLayout->addStretch(); // Spacer zwischen den Seiten
     mainLayout->addLayout(rightLayout);
 
     setLayout(mainLayout);
