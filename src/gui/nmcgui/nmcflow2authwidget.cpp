@@ -48,8 +48,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     }
 
     getUi().verticalLayout->removeWidget(getUi().label);
-    getUi().verticalLayout->removeWidget(getUi().logoLabel);
-    getUi().verticalLayout->removeWidget(getUi().errorLabel);
 
     // Bestehendes Layout und Child-Widgets entfernen
     if (auto *oldLayout = layout()) {
