@@ -32,7 +32,7 @@ AbstractButton {
     Accessible.role: Accessible.MenuItem
     Accessible.name: qsTr("Switch to account") + " " + model.name
 
-    height: Style.trayWindowHeaderHeight
+    height: Style.nmcMenuSubItemHeight
 
     contentItem: RowLayout {
         id: userLineLayout
@@ -133,7 +133,10 @@ AbstractButton {
             id: userMoreButton
             Layout.preferredWidth: Style.headerButtonIconSize
             Layout.fillHeight: true
+            Layout.rightMargin: Style.accountIconsMenuMargin
             flat: true
+            visible: true
+            opacity: 1
 
             Accessible.role: Accessible.ButtonMenu
             Accessible.name: qsTr("Account actions")
@@ -141,7 +144,8 @@ AbstractButton {
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
-            icon.source: "qrc:///client/theme/more.svg" + palette.windowText
+            icon.source: "qrc:///client/theme/more.svg"
+            icon.color: Style.ncTextColor
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
