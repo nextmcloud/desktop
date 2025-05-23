@@ -169,7 +169,7 @@ Button {
         Rectangle {
             width: parent.width
             height: 8
-
+            color: "transparent"
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }

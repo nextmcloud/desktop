@@ -21,16 +21,16 @@ QtObject {
 
     // NMC colors
     readonly property color nmcTelekomMagentaColor: "#E20074"
-    readonly property color nmcConflictColor: "#F97012"
-    readonly property color nmcConflictHoverColor: "#de6310"
-    readonly property color nmcSyncHoverColor: "#c00063"
-    readonly property color nmcSyncRefreshColor: "#2238df"
-    readonly property color nmcTrayWindowHeaderBackgroundColor: "white"
-    readonly property color nmcTrayWindowHeaderTextColor: "black"
-    readonly property color nmcTrayWindowHeaderSeparatorColor: "#ededed"
-    readonly property color nmcTrayWindowHeaderHighlightColor: "#ededed"
-    readonly property color nmcMenuMoreItemsColor: "#E5E5E5"
-    readonly property color nmcTextInButtonColor: "white"
+    readonly property color nmcConflictColor: Theme.darkMode ? "#FFA14A" : "#F97012"
+    readonly property color nmcConflictHoverColor: Theme.darkMode ? "#f0802e" : "#de6310"
+    readonly property color nmcSyncHoverColor: Theme.darkMode ? "#ff4d94" : "#c00063"
+    readonly property color nmcSyncRefreshColor: Theme.darkMode ? "#6677ff" : "#2238df"
+    readonly property color nmcTrayWindowHeaderBackgroundColor: Theme.darkMode ? "#2b2b2b" : "white"
+    readonly property color nmcTrayWindowHeaderTextColor: Theme.darkMode ? "white" : "black"
+    readonly property color nmcTrayWindowHeaderSeparatorColor: Theme.darkMode ? "#3c3c3c" : "#ededed"
+    readonly property color nmcTrayWindowHeaderHighlightColor: Theme.darkMode ? "#444444" : "#ededed"
+    readonly property color nmcMenuMoreItemsColor: Theme.darkMode ? "#3a3a3a" : "#E5E5E5"
+    readonly property color nmcTextInButtonColor: Theme.darkMode ? "black" : "white"
 
     // NMC measurements
     readonly property int nmcTrayWindowWidth: variableSize(480)
