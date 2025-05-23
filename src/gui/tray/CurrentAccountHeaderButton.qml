@@ -284,19 +284,22 @@ Button {
                 }
             }
         }
+    }
+    
+    Loader {
+        id: caretLoader
+        anchors.verticalCenter: accountControlRowLayout.verticalCenter
+        anchors.right: root.right
+        anchors.rightMargin: 8
+        active: root.indicator === null
 
-        Loader {
-            active: root.indicator === null
-            sourceComponent: Image {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                anchors.rightMargin: 8
-                source: "image://svgimage-custom-color/caret-down.svg/" + palette.windowText
-                sourceSize.width: Style.accountDropDownCaretSize
-                sourceSize.height: Style.accountDropDownCaretSize
-                Accessible.role: Accessible.PopupMenu
-                Accessible.name: qsTr("Account switcher and settings menu")
-            }
+        sourceComponent: Image {
+            source: "image://svgimage-custom-color/caret-down.svg/" + Style.nmcTrayWindowHeaderTextColor
+            sourceSize.width: Style.accountDropDownCaretSize
+            sourceSize.height: Style.accountDropDownCaretSize
+
+            Accessible.role: Accessible.PopupMenu
+            Accessible.name: qsTr("Account switcher and settings menu")
         }
     }
 }
