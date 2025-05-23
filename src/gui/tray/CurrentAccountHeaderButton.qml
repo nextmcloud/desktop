@@ -65,7 +65,7 @@ Button {
         x: (0 - Style.nmcTrayWindowLogoWidth)
         y: (root.y + Style.nmcTrayWindowHeaderHeight - Style.nmcTrayWindowMenuOverlayMargin)
 
-        width: (Style.nmcCurrentAccountButtonWidth + Style.nmcTrayWindowLogoWidth + 30)
+        width: (Style.nmcCurrentAccountButtonWidth + Style.nmcTrayWindowLogoWidth + 64)
         height: Math.min(implicitHeight, maxMenuHeight)
         closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
 
@@ -97,21 +97,6 @@ Button {
             }
             onObjectAdded: accountMenu.insertItem(index, object)
             onObjectRemoved: accountMenu.removeItem(object)
-        }
-
-        MenuItem {
-            id: addAccountButton
-            hoverEnabled: true
-            visible: false
-
-            icon.source: "image://svgimage-custom-color/add.svg/" + palette.windowText
-            icon.width: Style.accountAvatarSize
-            text: qsTr("Add account") 
-            onClicked: UserModel.addAccount()
-
-            Accessible.role: Accessible.MenuItem
-            Accessible.name: qsTr("Add new account")
-            Accessible.onPressAction: addAccountButton.clicked()
         }
 
         MenuSeparator {
