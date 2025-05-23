@@ -7,7 +7,7 @@ import Style
 MenuItem {
     id: root
 
-    icon.color: hovered ? Style.ncBlue : Style.ncTextColor
+    property color iconColor: hovered ? Style.ncBlue : Style.ncTextColor
 
     contentItem: RowLayout {
         spacing: 8
@@ -20,7 +20,7 @@ MenuItem {
             width: Style.nmcTrayWindowIconWidth
             height: Style.nmcTrayWindowIconWidth
             fillMode: Image.PreserveAspectFit
-            color: root.icon.color
+            color: root.iconColor
         }
 
         Text {
