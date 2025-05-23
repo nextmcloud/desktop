@@ -163,7 +163,7 @@ AbstractButton {
                     height: Style.nmcMenuSubItemHeight
 
                     icon.source: Style.nmcLogOutIcon
-                    icon.color: Style.ncTextColor
+                    iconColor: Style.ncTextColor
                     icon.height: Style.nmcTrayWindowIconWidth
                     icon.width: Style.nmcTrayWindowIconWidth
                     leftPadding: Style.nmcMenuSubItemLeftPadding
@@ -185,7 +185,7 @@ AbstractButton {
                     height: Style.nmcMenuSubItemHeight
 
                     icon.source: Style.nmcRemoveIcon
-                    icon.color: Style.ncTextColor
+                    iconColor: Style.ncTextColor
                     icon.height: Style.nmcTrayWindowIconWidth
                     icon.width: Style.nmcTrayWindowIconWidth
                     leftPadding: Style.nmcMenuSubItemLeftPadding

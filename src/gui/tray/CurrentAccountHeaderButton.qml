@@ -84,7 +84,7 @@ Button {
                 icon.source: Style.nmcAccountAvatarIcon
                 icon.width: Style.accountAvatarSize
                 icon.height: Style.accountAvatarSize
-                icon.color: Style.ncTextColor
+                iconColor: Style.ncTextColor
                 leftPadding: Style.nmcMenuSubItemLeftPadding
                 height: Style.nmcMenuSubItemHeight
 
@@ -123,7 +123,7 @@ Button {
             icon.source: Style.nmcPauseIcon
             icon.height: Style.nmcTrayWindowIconWidth
             icon.width: Style.nmcTrayWindowIconWidth
-            icon.color: Style.ncTextColor
+            iconColor: Style.ncTextColor
             leftPadding: Style.nmcMenuSubItemLeftPadding
             height: Style.nmcMenuSubItemHeight
             
@@ -142,7 +142,7 @@ Button {
             icon.source: Style.nmcSettingsIcon
             icon.height: Style.nmcTrayWindowIconWidth
             icon.width: Style.nmcTrayWindowIconWidth
-            icon.color: Style.ncTextColor
+            iconColor: Style.ncTextColor
             leftPadding: Style.nmcMenuSubItemLeftPadding
             height: Style.nmcMenuSubItemHeight
             
@@ -159,7 +159,7 @@ Button {
             icon.source: Style.nmcCloseIcon
             icon.height: Style.nmcTrayWindowIconWidth
             icon.width: Style.nmcTrayWindowIconWidth
-            icon.color: Style.ncTextColor
+            iconColor: Style.ncTextColor
             leftPadding: Style.nmcMenuSubItemLeftPadding
             height: Style.nmcMenuSubItemHeight
 
