@@ -7,8 +7,6 @@ import Style
 MenuItem {
     id: root
 
-    property color iconColor: hovered ? Style.ncBlue : Style.ncTextColor
-
     contentItem: RowLayout {
         spacing: 8
         anchors.fill: parent
@@ -20,7 +18,6 @@ MenuItem {
             width: Style.nmcTrayWindowIconWidth
             height: Style.nmcTrayWindowIconWidth
             fillMode: Image.PreserveAspectFit
-            color: root.iconColor
         }
 
         Text {
