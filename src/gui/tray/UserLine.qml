@@ -28,7 +28,6 @@ AbstractButton {
 
     signal showUserStatusSelector(int id)
 
-
     Accessible.role: Accessible.MenuItem
     Accessible.name: qsTr("Switch to account") + " " + model.name
 
@@ -37,10 +36,12 @@ AbstractButton {
     contentItem: RowLayout {
         id: userLineLayout
         spacing: Style.userLineSpacing
+        minimumHeight: Style.accountAvatarSize + Style.accountLabelsSpacing * 2
 
         Image {
             id: accountAvatar
-            visible: false
+            visible: true
+            opacity: model.avatar !== "" ? 1 : 0  // Layout reserviert immer Platz
             Layout.leftMargin: Style.accountIconsMenuMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
@@ -158,24 +159,20 @@ AbstractButton {
                     font.pixelSize: Style.topLinePixelSize
                     hoverEnabled: true
                     onClicked: showUserStatusSelector(index)
-               }
+                }
 
                 NMCMenuItem {
                     id: loginLogoutButton
-
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
                     height: Style.nmcMenuSubItemHeight
-
                     icon.source: Style.nmcLogOutIcon
                     icon.height: Style.nmcTrayWindowIconWidth
                     icon.width: Style.nmcTrayWindowIconWidth
                     leftPadding: Style.nmcMenuSubItemLeftPadding
-
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
                     }
-
                     Accessible.role: Accessible.Button
                     Accessible.name: text
                     Accessible.onPressAction: clicked()
@@ -183,20 +180,16 @@ AbstractButton {
 
                 NMCMenuItem {
                     id: removeAccountButton
-
                     text: qsTr("Remove account")
                     height: Style.nmcMenuSubItemHeight
-
                     icon.source: Style.nmcRemoveIcon
                     icon.height: Style.nmcTrayWindowIconWidth
                     icon.width: Style.nmcTrayWindowIconWidth
                     leftPadding: Style.nmcMenuSubItemLeftPadding
-
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()
                     }
-
                     Accessible.role: Accessible.Button
                     Accessible.name: text
                     Accessible.onPressAction: clicked()
@@ -204,4 +197,4 @@ AbstractButton {
             }
         }
     }
-}   // MenuItem userLine
+}

@@ -114,7 +114,15 @@ Button {
             Accessible.onPressAction: addAccountButton.clicked()
         }
 
-        MenuSeparator {}
+        MenuSeparator {
+            padding: 0
+            topPadding: 12
+            bottomPadding: 12
+            contentItem: Rectangle {
+                implicitHeight: 1
+                color: Style.nmcTrayWindowHeaderSeparatorColor
+            }
+        }
 
         NMCMenuItem {
             id: syncPauseButton
@@ -290,7 +298,7 @@ Button {
         id: caretLoader
         anchors.verticalCenter: accountControlRowLayout.verticalCenter
         anchors.right: root.right
-        anchors.rightMargin: 8
+        anchors.rightMargin: 16
         active: root.indicator === null
 
         sourceComponent: Image {

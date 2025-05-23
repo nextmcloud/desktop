@@ -44,7 +44,7 @@ QtObject {
     readonly property int nmcTrayWindowMenuOverlayMargin: 8
     readonly property int nmcTraySyncButtonHeight: 28
     readonly property int nmcCurrentAccountButtonWidth: 180
-    readonly property int nmcMenuSubItemHeight: 40
+    readonly property int nmcMenuSubItemHeight: 36
     readonly property int nmcMenuSubItemLeftPadding: 16
     readonly property int nmcStandardRadius: 4
     readonly property int nmcListViewLeftPadding: 22
