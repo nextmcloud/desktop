@@ -18,6 +18,7 @@ import QtQuick.Layouts
 
 import "../"
 import "../filedetails/"
+import "qrc:/qml/NMCGui"
 
 import Style
 import com.nextcloud.desktopclient
