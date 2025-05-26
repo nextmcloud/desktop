@@ -36,7 +36,6 @@ AbstractButton {
     contentItem: RowLayout {
         id: userLineLayout
         spacing: Style.userLineSpacing
-        minimumHeight: Style.accountAvatarSize + Style.accountLabelsSpacing * 2
 
         Image {
             id: accountAvatar
