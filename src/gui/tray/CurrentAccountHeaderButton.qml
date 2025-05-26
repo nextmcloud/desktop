@@ -79,29 +79,20 @@ Button {
         Instantiator {
             id: userLineInstantiator
             model: UserModel
-            delegate: NMCMenuItem {
-                text: model.name
-                icon.source: Style.nmcAccountAvatarIcon
-                icon.width: Style.accountAvatarSize
-                icon.height: Style.accountAvatarSize
-                leftPadding: Style.nmcMenuSubItemLeftPadding
-                height: Style.nmcMenuSubItemHeight
-
-                onClicked: {
-                    UserModel.currentUserId = model.index;
+            delegate: MenuItem {
+                implicitHeight: instantiatedUserLine.height
+                UserLine {
+                    id: instantiatedUserLine
+                    width: parent.width
+                    onShowUserStatusSelector: {
+                        userStatusDrawer.openUserStatusDrawer(model.index);
+                        accountMenu.close();
+                    }
+                    onClicked: UserModel.currentUserId = model.index;
                 }
-
-                Accessible.role: Accessible.MenuItem
-                Accessible.name: model.name
-                Accessible.onPressAction: Qt.callLater(() => UserModel.currentUserId = model.index)
             }
-            onObjectAdded: function(index, object) {
-                accountMenu.insertItem(index, object);
-            }
-
-            onObjectRemoved: function(object) {
-                accountMenu.removeItem(object);
-            }
+            onObjectAdded: accountMenu.insertItem(index, object)
+            onObjectRemoved: accountMenu.removeItem(object)
         }
 
         MenuSeparator {
