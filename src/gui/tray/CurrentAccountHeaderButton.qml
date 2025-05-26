@@ -95,8 +95,13 @@ Button {
                 Accessible.name: model.name
                 Accessible.onPressAction: Qt.callLater(() => UserModel.currentUserId = model.index)
             }
-            onObjectAdded: accountMenu.insertItem(index, object)
-            onObjectRemoved: accountMenu.removeItem(object)
+            onObjectAdded: function(index, object) {
+                accountMenu.insertItem(index, object);
+            }
+
+            onObjectRemoved: function(object) {
+                accountMenu.removeItem(object);
+            }
         }
 
         MenuSeparator {

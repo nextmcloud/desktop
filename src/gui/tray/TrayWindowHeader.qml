@@ -106,7 +106,9 @@ Rectangle {
 
             NMCHeaderButton {
                 id: trayWindowWebsiteButton
-                iconSource: "qrc:///client/theme/NMCIcons/website.svg"
+                iconSource: Style.darkMode 
+                    ? "qrc:///client/theme/NMCIcons/website-white.svg"
+                    : "qrc:///client/theme/NMCIcons/website.svg"
                 iconText: qsTranslate("", "OPEN_WEBSITE")
 
                 MouseArea {
@@ -136,7 +138,9 @@ Rectangle {
 
             NMCHeaderButton {
                 id: trayWindowLocalButton
-                iconSource: "qrc:///client/theme/black/folder.svg"
+                iconSource: Style.darkMode 
+                    ? "qrc:///client/theme/NMCIcons/folder-white.svg"
+                    : "qrc:///client/theme/NMCIcons/folder.svg"
                 iconText: qsTranslate("", "LOCAL_FOLDER")
 
                 MouseArea {

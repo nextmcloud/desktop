@@ -115,7 +115,7 @@ RowLayout {
         contentItem: Text {
             text: syncNowButton.text
             color: "white"
-            font.pixelSize: Style.fontSizeSmall
+            font.pixelSize: Style.nmcFontSizeAccountName
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight

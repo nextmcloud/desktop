@@ -145,8 +145,9 @@ AbstractButton {
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
-            icon.source: "qrc:///client/theme/more.svg"
-            icon.color: Style.ncTextColor
+            icon.source: Style.darkMode 
+                ? "qrc:///client/theme/more-white.svg"
+                : "qrc:///client/theme/more.svg"
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
