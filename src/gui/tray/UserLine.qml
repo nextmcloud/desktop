@@ -39,17 +39,13 @@ AbstractButton {
 
         Image {
             id: accountAvatar
-            visible: true
-            opacity: model.avatar !== "" ? 1 : 0  // Layout reserviert immer Platz
-            Layout.leftMargin: 6
-            verticalAlignment: Qt.AlignHCenter
-
+            visible: false
+            Layout.leftMargin: Style.accountIconsMenuMargin
+            verticalAlignment: Qt.AlignCenter
             cache: false
-            visible:false
-            source: Style.nmcAccountAvatarIcon
-            
-            sourceSize.width: Style.nmcTrayWindowIconWidth
-            sourceSize.height: Style.nmcTrayWindowIconWidth
+            source: model.avatar !== "" ? model.avatar : Style.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
+            Layout.preferredHeight: Style.accountAvatarSize
+            Layout.preferredWidth: Style.accountAvatarSize
 
             Rectangle {
                 id: accountStatusIndicatorBackground
@@ -77,30 +73,19 @@ AbstractButton {
             }
         }
 
-        Item {
-            width: accountAvatar.width
-            height: accountAvatar.height
-
-            Image {
-                id: accountAvatar
-                visible: true
-                source: Style.nmcAccountAvatarIcon
-                sourceSize.width: Style.nmcTrayWindowIconWidth
-                sourceSize.height: Style.nmcTrayWindowIconWidth
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                opacity: 1
-                visible: true
-            }
-        }
-
         ColumnLayout {
             id: accountLabels
             Layout.leftMargin: Style.accountLabelsSpacing
             Layout.fillWidth: true
             Layout.fillHeight: true
+
+            Image {
+                source: Style.nmcAccountAvatarIcon
+                visible: true
+                width: Style.nmcTrayWindowIconWidth
+                height: Style.nmcTrayWindowIconWidth
+                fillMode: Image.PreserveAspectFit
+            }
 
             EnforcedPlainTextLabel {
                 id: accountUser
