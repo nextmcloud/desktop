@@ -33,6 +33,7 @@ Item {
                 height: Style.nmcTrayWindowIconWidth
                 fillMode: Image.PreserveAspectFit
                 anchors.centerIn: parent
+                color: Style.darkMode ? "white" : "black"
             }
 
             background: Rectangle {

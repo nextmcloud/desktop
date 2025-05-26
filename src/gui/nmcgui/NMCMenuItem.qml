@@ -18,6 +18,7 @@ MenuItem {
             width: Style.nmcTrayWindowIconWidth
             height: Style.nmcTrayWindowIconWidth
             fillMode: Image.PreserveAspectFit
+            color: Style.darkMode ? "white" : "black"
         }
 
         Text {
@@ -31,8 +32,7 @@ MenuItem {
         }
     }
 
-    // optional: hover background
     background: Rectangle {
-        color: hovered ? "#f0f0f0" : "transparent"
+        color: root.hovered ? Style.nmcTrayWindowHeaderHighlightColor : "transparent"
     }
 }

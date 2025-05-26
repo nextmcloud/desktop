@@ -101,8 +101,8 @@ Button {
 
         MenuSeparator {
             padding: 0
-            topPadding: 12
-            bottomPadding: 12
+            topPadding: 6
+            bottomPadding: 6
             contentItem: Rectangle {
                 implicitHeight: 1
                 color: Style.nmcTrayWindowHeaderSeparatorColor

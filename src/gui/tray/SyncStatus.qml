@@ -114,7 +114,7 @@ RowLayout {
 
         contentItem: Text {
             text: syncNowButton.text
-            color: mouseSync.hovered ? Style.currentUserHeaderTextColor : Style.nmcTextInButtonColor
+            color: "white"
             font.pixelSize: Style.fontSizeSmall
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
