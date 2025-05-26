@@ -70,16 +70,4 @@
         <file>src/gui/macOS/ui/FileProviderStorageInfo.qml</file>
         <file>src/gui/macOS/ui/FileProviderFastEnumerationSettings.qml</file>
     </qresource>
-    <qresource prefix="/client/theme/NMCIcons">
-        <file>accountAvatarIcon-white.svg</file>
-        <file>logout-white.svg</file>
-        <file>pause-white.svg</file>
-        <file>remove-white.svg</file>
-        <file>website-white.svg</file>
-    </qresource>
-    <qresource prefix="/client/theme">
-        <file>close-white.svg</file>
-        <file>more-white.svg</file>
-        <file>settings-white.svg</file>
-    </qresource>
 </RCC>
