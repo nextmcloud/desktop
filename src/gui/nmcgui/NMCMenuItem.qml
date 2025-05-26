@@ -18,7 +18,6 @@ MenuItem {
             width: Style.nmcTrayWindowIconWidth
             height: Style.nmcTrayWindowIconWidth
             fillMode: Image.PreserveAspectFit
-            color: Style.darkMode ? "white" : "black"
         }
 
         Text {
