@@ -41,12 +41,15 @@ AbstractButton {
             id: accountAvatar
             visible: true
             opacity: model.avatar !== "" ? 1 : 0  // Layout reserviert immer Platz
-            Layout.leftMargin: Style.accountIconsMenuMargin
-            verticalAlignment: Qt.AlignCenter
+            Layout.leftMargin: 6
+            verticalAlignment: Qt.AlignHCenter
+
             cache: false
-            source: model.avatar !== "" ? model.avatar : Style.darkMode ? "image://avatars/fallbackWhite" : "image://avatars/fallbackBlack"
-            Layout.preferredHeight: Style.accountAvatarSize
-            Layout.preferredWidth: Style.accountAvatarSize
+            visible:false
+            source: Style.nmcAccountAvatarIcon
+            
+            sourceSize.width: Style.nmcTrayWindowIconWidth
+            sourceSize.height: Style.nmcTrayWindowIconWidth
 
             Rectangle {
                 id: accountStatusIndicatorBackground
@@ -71,6 +74,25 @@ AbstractButton {
 
                 Accessible.role: Accessible.Indicator
                 Accessible.name: model.desktopNotificationsAllowed ? qsTr("Current account status is online") : qsTr("Current account status is do not disturb")
+            }
+        }
+
+        Item {
+            width: accountAvatar.width
+            height: accountAvatar.height
+
+            Image {
+                id: accountAvatar
+                visible: true
+                source: Style.nmcAccountAvatarIcon
+                sourceSize.width: Style.nmcTrayWindowIconWidth
+                sourceSize.height: Style.nmcTrayWindowIconWidth
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                opacity: 1
+                visible: true
             }
         }
 
