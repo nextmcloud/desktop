@@ -73,29 +73,31 @@ AbstractButton {
             }
         }
 
-        ColumnLayout {
+        RowLayout {
             id: accountLabels
             Layout.leftMargin: Style.accountLabelsSpacing
             Layout.fillWidth: true
             Layout.fillHeight: true
+            spacing: Style.userLineSpacing
 
             Image {
+                id: accountIcon
                 source: Style.nmcAccountAvatarIcon
                 visible: true
                 width: Style.nmcTrayWindowIconWidth
                 height: Style.nmcTrayWindowIconWidth
                 fillMode: Image.PreserveAspectFit
+                Layout.alignment: Qt.AlignVCenter
             }
 
             EnforcedPlainTextLabel {
                 id: accountUser
                 Layout.fillWidth: true
-                Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                verticalAlignment: Text.AlignBottom
                 text: name
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
                 font.bold: false
+                verticalAlignment: Text.AlignVCenter
             }
 
             RowLayout {
