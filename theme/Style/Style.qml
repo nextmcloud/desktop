@@ -11,13 +11,13 @@ QtObject {
     readonly property int nmcFontSizeSyncText: 15
 
     // NMC icons
-    readonly property url nmcTLogoPath: "qrc:/client/theme/NMCIcons/tlogocarrier.svg"
-    readonly property url nmcAccountAvatarIcon: Theme.darkMode ? "qrc:/client/theme/NMCIcons/accountAvatarIcon-white.svg" : "qrc:/client/theme/NMCIcons/accountAvatarIcon.svg"
-    readonly property url nmcSettingsIcon: Theme.darkMode ? "qrc:/client/theme/settings-white.svg" : "qrc:/client/theme/settings.svg"
-    readonly property url nmcCloseIcon: Theme.darkMode ? "qrc:/client/theme/close-white.svg" : "qrc:/client/theme/close.svg"
-    readonly property url nmcPauseIcon: Theme.darkMode ? "qrc:/client/theme/NMCIcons/pause-white.svg" : "qrc:/client/theme/NMCIcons/pause.svg"
-    readonly property url nmcLogOutIcon: Theme.darkMode ? "qrc:/client/theme/NMCIcons/logout-white.svg" : "qrc:/client/theme/NMCIcons/logout.svg"
-    readonly property url nmcRemoveIcon: Theme.darkMode ? "qrc:/client/theme/NMCIcons/remove-white.svg" : "qrc:/client/theme/NMCIcons/remove.svg"
+    readonly property url nmcTLogoPath: "qrc:///client/theme/NMCIcons/tlogocarrier.svg"
+    readonly property url nmcAccountAvatarIcon: Theme.darkMode ? "qrc:///client/theme/NMCIcons/accountAvatarIcon-white.svg" : "qrc:///client/theme/NMCIcons/accountAvatarIcon.svg"
+    readonly property url nmcSettingsIcon: Theme.darkMode ? "qrc:///client/theme/settings-white.svg" : "qrc:///client/theme/settings.svg"
+    readonly property url nmcCloseIcon: Theme.darkMode ? "qrc:///client/theme/close-white.svg" : "qrc:///client/theme/close.svg"
+    readonly property url nmcPauseIcon: Theme.darkMode ? "qrc:///client/theme/NMCIcons/pause-white.svg" : "qrc:///client/theme/NMCIcons/pause.svg"
+    readonly property url nmcLogOutIcon: Theme.darkMode ? "qrc:///client/theme/NMCIcons/logout-white.svg" : "qrc:///client/theme/NMCIcons/logout.svg"
+    readonly property url nmcRemoveIcon: Theme.darkMode ? "qrc:///client/theme/NMCIcons/remove-white.svg" : "qrc:///client/theme/NMCIcons/remove.svg"
 
     // NMC colors
     readonly property color nmcTelekomMagentaColor: "#E20074"
