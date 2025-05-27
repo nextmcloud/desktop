@@ -55,11 +55,10 @@ void NMCNetworkSettings::setLayout()
         }
     
         QRadioButton::indicator:checked {
-            border: 1px solid #e20074;
             background-color: qradialgradient(
                 cx:0.5, cy:0.5, radius:0.5,
                 fx:0.5, fy:0.5,
-                stop:0 #e20074, stop:0.666 #e20074, stop:1 #ffffff
+                stop:0 #e20074, stop:0.5 #e20074, stop:1 #ffffff
             );
         }
     
