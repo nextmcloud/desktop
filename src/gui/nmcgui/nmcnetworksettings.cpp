@@ -55,6 +55,9 @@ NMCNetworkSettings::NMCNetworkSettings(const AccountPtr &account, QWidget *paren
         proxyLayout->addWidget(ui->manualProxyRadioButton, 4, 0);
         proxyLayout->addLayout(ui->horizontalLayout_7, 5, 0);
 
+        proxyLayout->setStyleSheet("QRadioButton:checked { color: #e20074; }");
+        proxyLayout->setStyleSheet("QSpinBox { padding: 2px; }");
+
         ui->horizontalSpacer->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
 
         // Download Box
@@ -79,6 +82,9 @@ NMCNetworkSettings::NMCNetworkSettings(const AccountPtr &account, QWidget *paren
         downLayout->addWidget(ui->autoDownloadLimitRadioButton, 3, 0);
         downLayout->addWidget(ui->downloadLimitRadioButton, 4, 0);
         downLayout->addItem(ui->horizontalLayout_3, 4, 1);
+
+        downLayout->setStyleSheet("QRadioButton:checked { color: #e20074; }");
+        downLayout->setStyleSheet("QSpinBox { padding: 2px; }");
 
         ui->downloadLimitRadioButton->setFixedHeight(ui->downloadSpinBox->height());
 
@@ -107,6 +113,9 @@ NMCNetworkSettings::NMCNetworkSettings(const AccountPtr &account, QWidget *paren
         upLayout->addWidget(ui->autoUploadLimitRadioButton, 3, 0);
         upLayout->addWidget(ui->uploadLimitRadioButton, 4, 0);
         upLayout->addItem(ui->horizontalLayout_4, 4, 1);
+
+        upLayout->setStyleSheet("QRadioButton:checked { color: #e20074; }");
+        upLayout->setStyleSheet("QSpinBox { padding: 2px; }");
 
         ui->uploadLimitRadioButton->setFixedHeight(ui->uploadSpinBox->height());
     }
