@@ -56,24 +56,7 @@ void NMCGeneralSettings::setNMCLayout()
     // Common Styles
     //
     const QString commonStyles = R"(
-        QCheckBox {
-            spacing: 8px;
-        }
-    
-        QCheckBox::indicator {
-            width: 14px;
-            height: 14px;
-            border-radius: 4px;
-            border: 1px solid black;
-            background-color: white;
-        }
-    
-        QCheckBox::indicator:hover {
-            background-color: #ededed;
-        }
-    
         QCheckBox::indicator:checked {
-            border: 1px solid #e20074;
             background-color: #e20074;
         }
     
@@ -82,6 +65,7 @@ void NMCGeneralSettings::setNMCLayout()
         }
 
         QPushButton { height: 32px; width: 200px; border: 1px solid black; background-color: #ededed; font-size: 13px; border-radius: 4px; }
+        
         QPushButton::hover { background-color: white; }
     )";
 
