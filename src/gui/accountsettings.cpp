@@ -731,7 +731,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
     }
 
-    menu.setStyleSheet(R"(
+    menu->setStyleSheet(R"(
         QMenu {
             border: 1px solid black;
             border-radius: 4px;
