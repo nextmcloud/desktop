@@ -38,22 +38,6 @@ void NMCNetworkSettings::setLayout()
     // Common Styles
     //
     const QString commonStyles = R"(
-        QRadioButton {
-            spacing: 8px;
-        }
-    
-        QRadioButton::indicator {
-            width: 14px;
-            height: 14px;
-            border-radius: 8px;
-            border: 1px solid black;
-            background-color: white;
-        }
-    
-        QRadioButton::indicator:hover {
-            background-color: #ededed;
-        }
-    
         QRadioButton::indicator:checked {
             background-color: qradialgradient(
                 cx:0.5, cy:0.5, radius:0.5,
