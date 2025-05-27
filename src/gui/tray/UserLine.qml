@@ -35,7 +35,7 @@ AbstractButton {
 
     contentItem: RowLayout {
         id: userLineLayout
-        spacing: Style.userLineSpacing
+        spacing: 8
 
         Image {
             id: accountAvatar
@@ -78,7 +78,8 @@ AbstractButton {
             Layout.leftMargin: Style.accountLabelsSpacing
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: Style.userLineSpacing
+            spacing: 8
+            anchors.leftMargin: 12
 
             Image {
                 id: accountIcon
@@ -140,7 +141,7 @@ AbstractButton {
 
         Button {
             id: userMoreButton
-            Layout.preferredWidth: Style.headerButtonIconSize
+            Layout.preferredWidth: Style.iconButtonWidth
             Layout.fillHeight: true
             Layout.rightMargin: Style.accountIconsMenuMargin
             flat: true

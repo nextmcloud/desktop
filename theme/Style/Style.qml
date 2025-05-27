@@ -145,7 +145,7 @@ QtObject {
     property int headerButtonIconSize: 48
     property int minimumActivityItemHeight: 24
 
-    property int accountIconsMenuMargin: 7
+    property int accountIconsMenuMargin: 4
 
     property int activityLabelBaseWidth: 240
 
@@ -167,7 +167,7 @@ QtObject {
     property int userLineSpacing: smallSpacing
     property int accountServerAnchorsMargin: 10
     property int accountLabelsSpacing: 4
-    property int accountLabelsAnchorsMargin: 7
+    property int accountLabelsAnchorsMargin: 4
     property int accountLabelsLayoutMargin: 12
     property int accountLabelsLayoutTopMargin: 10
 
