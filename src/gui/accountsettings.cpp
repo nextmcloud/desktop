@@ -641,6 +641,18 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         connect(ac, &QAction::triggered, this, [this, folder, path] { slotSetSubFolderAvailability(folder, path, PinState::OnlineOnly); });
     }
 
+    menu->setStyleSheet(R"(
+        QMenu {
+            border: 1px solid black;
+            border-radius: 4px;
+            padding: 4px;
+        }
+    
+        QMenu::item {
+            padding: 6px 8px;
+        }
+    )");
+
     menu.exec(QCursor::pos());
 }
 
@@ -718,6 +730,18 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         connect(ac, &QAction::triggered, this, &AccountSettings::slotDisableVfsCurrentFolder);
         ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
     }
+
+    menu->setStyleSheet(R"(
+        QMenu {
+            border: 1px solid black;
+            border-radius: 4px;
+            padding: 4px;
+        }
+    
+        QMenu::item {
+            padding: 6px 8px;
+        }
+    )");
 
     menu->popup(treeView->mapToGlobal(pos));
 }
