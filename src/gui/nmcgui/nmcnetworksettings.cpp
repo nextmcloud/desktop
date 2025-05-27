@@ -43,9 +43,9 @@ void NMCNetworkSettings::setLayout()
         }
     
         QRadioButton::indicator {
-            width: 16px;
-            height: 16px;
-            border-radius: 8px;
+            width: 14px;
+            height: 14px;
+            border-radius: 7px;
             border: 1px solid black;
             background-color: white;
         }
@@ -59,7 +59,7 @@ void NMCNetworkSettings::setLayout()
             background-color: qradialgradient(
                 cx:0.5, cy:0.5, radius:0.5,
                 fx:0.5, fy:0.5,
-                stop:0 #e20074, stop:1 #e20074
+                stop:0 #ededed, stop:1 #e20074
             );
         }
     
@@ -68,9 +68,7 @@ void NMCNetworkSettings::setLayout()
         }
     
         QSpinBox, QLineEdit, QComboBox {
-            padding: 6px;
-            border: 1px solid black;
-            border-radius: 4px;
+            height 24px;
         }
     )";
 
