@@ -52,16 +52,28 @@ void NMCGeneralSettings::setDefaultSettings()
 
 void NMCGeneralSettings::setNMCLayout()
 {
+    //
+    // Common Styles
+    //
+    const QString commonStyles = R"(
+        QCheckBox:checked { color: #e20074; }
+        QPushButton { height: 32px; width: 180px; border: 1px solid black; background-color: #ededed; font-size: 13px; border-radius: 4px; }
+        QPushButton::hover { background-color: white; }
+    )";
+
     //General settings
     auto generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"));
     generalSettingsLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
     getUi()->generalGroupBox->setTitle("");
+    getUi()->generalGroupBox->layout()->removeWidget(getUi()->chatNotificationsCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->serverNotificationsCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->autostartCheckBox);
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(generalSettingsLabel, 0, 0);
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->autostartCheckBox, 1, 0);
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->serverNotificationsCheckBox, 2, 0);
     getUi()->generalGroupBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    getUi()->generalGroupBox->setStyleSheet(getUi()->generalGroupBox->styleSheet() + commonStyles);
+
     getUi()->autostartCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     getUi()->serverNotificationsCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
@@ -74,6 +86,7 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsBox->layout()->setContentsMargins(12,12,12,12); //Like in Nextcloud .ui file
     advancedSettingsBox->layout()->setSpacing(8);
     advancedSettingsBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    advancedSettingsBox->setStyleSheet(advancedSettingsBox->styleSheet() + commonStyles);
 
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
@@ -101,6 +114,7 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->layout()->setContentsMargins(12,12,12,12); //Like in Nextcloud .ui file
     dataProtectionBox->layout()->setSpacing(8);
     dataProtectionBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    dataProtectionBox->setStyleSheet(dataProtectionBox->styleSheet() + commonStyles);
 
     auto *dataAnalysisCheckBox = new QCheckBox(this);
     dataAnalysisCheckBox->setText(QCoreApplication::translate("", "DATA_ANALYSIS"));
