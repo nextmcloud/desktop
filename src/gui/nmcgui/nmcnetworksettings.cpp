@@ -38,8 +38,40 @@ void NMCNetworkSettings::setLayout()
     // Common Styles
     //
     const QString commonStyles = R"(
-        QRadioButton:checked { color: #e20074; }
-        QSpinBox { padding: 2px; }
+        QRadioButton {
+            spacing: 8px;
+        }
+    
+        QRadioButton::indicator {
+            width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            border: 1px solid black;
+            background-color: white;
+        }
+    
+        QRadioButton::indicator:hover {
+            background-color: #ededed;
+        }
+    
+        QRadioButton::indicator:checked {
+            border: 1px solid #e20074;
+            background-color: qradialgradient(
+                cx:0.5, cy:0.5, radius:0.5,
+                fx:0.5, fy:0.5,
+                stop:0 #e20074, stop:1 #e20074
+            );
+        }
+    
+        QRadioButton:checked {
+            color: #e20074;
+        }
+    
+        QSpinBox, QLineEdit, QComboBox {
+            padding: 6px;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
     )";
 
     //
