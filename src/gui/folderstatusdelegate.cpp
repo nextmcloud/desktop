@@ -150,11 +150,9 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         const QRect leftRect(0, option.rect.y(), option.rect.x(), option.rect.height());
 
         if (option.state & QStyle::State_MouseOver) {
-            // Hervorhebungsfarbe #e5e5e5 zeichnen
-            painter->fillRect(option.rect, QColor(0xe5, 0xe5, 0xe5));
-
-            // Linke Seite füllen, falls ausgeblendet
-            painter->fillRect(leftRect, QColor(0xe5, 0xe5, 0xe5));
+            QColor hoverColor = QApplication::palette().color(QPalette::AlternateBase);
+            painter->fillRect(option.rect, hoverColor);
+            painter->fillRect(leftRect, hoverColor);
         }
 
         if (option.state & QStyle::State_Selected) {
