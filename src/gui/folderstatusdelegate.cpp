@@ -463,6 +463,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         //Add text
         const QString buttonText = QCoreApplication::translate("", "MORE");
         painter->setFont(btnOpt.font);
+        painter->setPen(option.palette.color(QPalette::ButtonText));
         int textX = iconX + btnOpt.iconSize.width() + 10;
         int textY = iconY;
         int textWidth = currentButtonRectPos.x() + currentButtonRectPos.width() - textX;
