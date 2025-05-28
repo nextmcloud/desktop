@@ -35,24 +35,6 @@ void NMCNetworkSettings::setLayout()
     auto *ui = getUi();
 
     //
-    // Common Styles
-    //
-    const QString commonStyles = R"(
-        QRadioButton::indicator:checked {
-            background-color: qradialgradient(
-                cx:0.5, cy:0.5, radius:0.5,
-                fx:0.5, fy:0.5,
-                stop:0 #e20074, stop:0.5 #e20074, stop:0.75 #ffffff, stop:1 #ffffff
-            );
-            border: 1px solid #e20074;
-        }
-    
-        QRadioButton:checked {
-            color: #e20074;
-        }
-    )";
-
-    //
     // Proxy Settings
     //
     ui->proxyGroupBox->setTitle({});
@@ -76,7 +58,7 @@ void NMCNetworkSettings::setLayout()
     proxyLayout->addLayout(ui->horizontalLayout_7, 5, 0);
 
     ui->horizontalSpacer->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    ui->proxyGroupBox->setStyleSheet(ui->proxyGroupBox->styleSheet() + commonStyles);
+    ui->proxyGroupBox->setStyleSheet(ui->proxyGroupBox->styleSheet());
 
     //
     // Download Bandwidth
@@ -104,7 +86,7 @@ void NMCNetworkSettings::setLayout()
     downLayout->addLayout(ui->horizontalLayout_3, 4, 1);
 
     ui->downloadLimitRadioButton->setFixedHeight(ui->downloadSpinBox->height());
-    ui->downloadBox->setStyleSheet(ui->downloadBox->styleSheet() + commonStyles);
+    ui->downloadBox->setStyleSheet(ui->downloadBox->styleSheet());
 
     //
     // Upload Bandwidth
@@ -132,7 +114,7 @@ void NMCNetworkSettings::setLayout()
     upLayout->addLayout(ui->horizontalLayout_4, 4, 1);
 
     ui->uploadLimitRadioButton->setFixedHeight(ui->uploadSpinBox->height());
-    ui->uploadBox->setStyleSheet(ui->uploadBox->styleSheet() + commonStyles);
+    ui->uploadBox->setStyleSheet(ui->uploadBox->styleSheet());
 }
 
 } // namespace OCC
