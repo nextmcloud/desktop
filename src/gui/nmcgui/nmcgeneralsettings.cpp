@@ -56,16 +56,7 @@ void NMCGeneralSettings::setNMCLayout()
     // Common Styles
     //
     const QString commonStyles = R"(
-        QCheckBox::indicator:checked {
-            background-color: #e20074;
-        }
-    
-        QCheckBox:checked {
-            color: #e20074;
-        }
-
         QPushButton { height: 32px; width: 200px; border: 1px solid black; background-color: #ededed; font-size: 13px; border-radius: 4px; }
-        
         QPushButton::hover { background-color: white; }
     )";
 
