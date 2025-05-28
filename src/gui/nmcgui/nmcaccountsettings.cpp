@@ -71,7 +71,7 @@
  
      auto *liveVLayout = new QVBoxLayout();
      auto *liveWidget = new QWidget(this);
-     liveWidget->setStyleSheet("QWidget {background-color: white; border-radius: 4px;}");
+     liveWidget->setStyleSheet("QWidget {border-radius: 4px;}");
      liveWidget->setLayout(liveHLayout);
  
      liveHLayout->addLayout(liveVLayout);
@@ -114,7 +114,7 @@
      getUi()->quotaProgressBar->setStyleSheet(
          "QProgressBar { background-color: #e5e5e5; color: black; border-width: 1px; "
          "border-color: black; border-radius: 4px; } "
-         "QProgressBar::chunk { background-color: #ea0a8e; }");
+         "QProgressBar::chunk { background-color: #E20074; }");
      getUi()->quotaProgressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
  
      quotaVLayout->addWidget(getUi()->quotaInfoText);
@@ -127,7 +127,7 @@
      storageLinkButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
      storageLinkButton->setStyleSheet(
          "QPushButton { height: 32px; width: 180px; border: 1px solid black; background-color: #ededed; "
-         "font-size: 13px; border-radius: 4px; } "
+         "color: black; font-size: 13px; border-radius: 4px; } "
          "QPushButton::hover { background-color: white; }");
  
      connect(storageLinkButton, &QPushButton::clicked, this, []() {
