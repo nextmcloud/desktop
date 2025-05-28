@@ -409,7 +409,9 @@ QAction *SettingsDialog::createActionWithIcon(const QIcon &icon, const QString &
 QAction *SettingsDialog::createColorAwareAction(const QString &iconPath, const QString &text)
 {
     // all buttons must have the same size in order to keep a good layout
-    return createActionWithIcon(QIcon(iconPath), text, iconPath);
+    // return createActionWithIcon(QIcon(iconPath), text, iconPath);
+    QIcon coloredIcon = Theme::createColorAwareIcon(iconPath, palette());
+    return createActionWithIcon(coloredIcon, text, iconPath);
 }
 
 } // namespace OCC

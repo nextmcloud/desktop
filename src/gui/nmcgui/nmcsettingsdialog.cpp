@@ -25,16 +25,16 @@ NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
 {
     setLayout();
 
-    //The window has no background widget, use palette
-    QPalette palette;
-    palette.setColor(QPalette::Window, QColor("#F3f3f3"));
-    setPalette(palette);
+    // The window has no background widget, use palette
+    // QPalette palette;
+    // palette.setColor(QPalette::Window, QColor("#F3f3f3"));
+    // setPalette(palette);
 
     setFixedSize(750,760);
 
-    getToolBar()->setFixedHeight(91); ///75px button height + 8 + 8 margin top and bottom
-    getToolBar()->setStyleSheet("QToolBar{background: #f3f3f3; background-color: #f3f3f3; border-width: 0px; border-color: none;}");
-    getToolBar()->setContentsMargins(8,0,8,0); //Left margin not accepted, Qt bug?
+    getToolBar()->setFixedHeight(91); // 75px button height + 8 + 8 margin top and bottom
+    getToolBar()->setStyleSheet("QToolBar{border-width: 0px; border-color: none;}");
+    getToolBar()->setContentsMargins(8,0,8,0); // Left margin not accepted, Qt bug?
 }
 
 void NMCSettingsDialog::slotAccountAvatarChanged()
@@ -60,8 +60,7 @@ void OCC::NMCSettingsDialog::setLayout() const
                 widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
                 widget->setFixedSize(75, 75);
                 widget->setStyleSheet(
-                    "QToolButton { border: none; background-color: #f3f3f3; border-radius: 4px; font-size: 13px; padding: 8px;}"
-                    "QToolButton:hover { background-color: #e5e5e5; }"
+                    "QToolButton {border: none; border-radius: 4px; font-size: 13px; padding: 8px;}"
                     );
             }
         }
@@ -80,8 +79,7 @@ void NMCSettingsDialog::fixAccountButton() const
         widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         widget->setFixedSize(128, 75);
         widget->setStyleSheet(
-            "QToolButton { border: none; background-color: #f3f3f3; border-radius: 4px; font-size: 13px; padding: 8px;}"
-            "QToolButton:hover { background-color: #e5e5e5; }"
+            "QToolButton {border-radius: 4px; font-size: 13px; padding: 8px;}"
             );
     }
 }
