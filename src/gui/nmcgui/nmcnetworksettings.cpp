@@ -44,7 +44,7 @@ void NMCNetworkSettings::setLayout()
     ui->proxyGroupBox->layout()->removeItem(ui->horizontalLayout_7);
     ui->proxyGroupBox->layout()->removeItem(ui->horizontalSpacer_2);
     ui->proxyGroupBox->layout()->setContentsMargins(16, 16, 16, 16);
-    ui->proxyGroupBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    ui->proxyGroupBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
 
     auto *proxyLayout = qobject_cast<QGridLayout *>(ui->proxyGroupBox->layout());
     auto *proxyLabel = new QLabel(QCoreApplication::translate("", "PROXY_SETTINGS"));
@@ -72,7 +72,7 @@ void NMCNetworkSettings::setLayout()
     ui->downloadBox->layout()->removeWidget(ui->downloadLimitRadioButton);
     ui->downloadBox->layout()->removeItem(ui->horizontalLayout_3);
     ui->downloadBox->layout()->setContentsMargins(16, 16, 16, 16);
-    ui->downloadBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    ui->downloadBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
 
     auto *downLayout = qobject_cast<QGridLayout *>(ui->downloadBox->layout());
     auto *downLabel = new QLabel(QCoreApplication::translate("", "DOWNLOAD_BANDWIDTH"));
@@ -100,7 +100,7 @@ void NMCNetworkSettings::setLayout()
     ui->uploadBox->layout()->removeWidget(ui->uploadLimitRadioButton);
     ui->uploadBox->layout()->removeItem(ui->horizontalLayout_4);
     ui->uploadBox->layout()->setContentsMargins(16, 16, 16, 16);
-    ui->uploadBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    ui->uploadBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
 
     auto *upLayout = qobject_cast<QGridLayout *>(ui->uploadBox->layout());
     auto *upLabel = new QLabel(QCoreApplication::translate("", "UPLOAD_BANDWIDTH"));
