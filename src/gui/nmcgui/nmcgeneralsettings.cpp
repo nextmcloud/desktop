@@ -71,7 +71,7 @@ void NMCGeneralSettings::setNMCLayout()
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(generalSettingsLabel, 0, 0);
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->autostartCheckBox, 1, 0);
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->serverNotificationsCheckBox, 2, 0);
-    getUi()->generalGroupBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    getUi()->generalGroupBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
     getUi()->generalGroupBox->setStyleSheet(getUi()->generalGroupBox->styleSheet() + commonStyles);
 
     getUi()->autostartCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
@@ -85,7 +85,7 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsBox->setLayout(new QVBoxLayout);
     advancedSettingsBox->layout()->setContentsMargins(12,12,12,12); //Like in Nextcloud .ui file
     advancedSettingsBox->layout()->setSpacing(8);
-    advancedSettingsBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    advancedSettingsBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
     advancedSettingsBox->setStyleSheet(advancedSettingsBox->styleSheet() + commonStyles);
 
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
@@ -113,7 +113,7 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->setLayout(new QVBoxLayout);
     dataProtectionBox->layout()->setContentsMargins(12,12,12,12); //Like in Nextcloud .ui file
     dataProtectionBox->layout()->setSpacing(8);
-    dataProtectionBox->setStyleSheet("QGroupBox { background-color: white; border-radius: 4px; }");
+    dataProtectionBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
     dataProtectionBox->setStyleSheet(dataProtectionBox->styleSheet() + commonStyles);
 
     auto *dataAnalysisCheckBox = new QCheckBox(this);
