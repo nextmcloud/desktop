@@ -49,9 +49,9 @@ cd /app
 
 [ -d usr/lib/x86_64-linux-gnu ] && mv usr/lib/x86_64-linux-gnu/* usr/lib/
 
-mkdir usr/plugins
-mv usr/lib64/*sync_vfs_suffix.so usr/plugins || mv usr/lib/*sync_vfs_suffix.so usr/plugins
-mv usr/lib64/*sync_vfs_xattr.so usr/plugins  || mv usr/lib/*sync_vfs_xattr.so usr/plugins
+mkdir -p AppDir/usr/plugins
+mv usr/lib64/*sync_vfs_suffix.so AppDir/usr/plugins || mv usr/lib/*sync_vfs_suffix.so AppDir/usr/plugins
+mv usr/lib64/*sync_vfs_xattr.so  AppDir/usr/plugins || mv usr/lib/*sync_vfs_xattr.so  AppDir/usr/plugins
 
 rm -rf usr/lib/cmake
 rm -rf usr/include
@@ -62,6 +62,10 @@ rm -rf usr/lib/x86_64-linux-gnu/
 rm -rf usr/share/caja-python/
 rm -rf usr/share/nautilus-python/
 rm -rf usr/share/nemo-python/
+
+# The client-specific data dir also contains the translations, we want to have those in the AppImage.
+mkdir -p AppDir/usr/share
+mv usr/share/${EXECUTABLE_NAME} AppDir/usr/share/${EXECUTABLE_NAME}
 
 # Move sync exclude to right location
 mv /app/etc/*/sync-exclude.lst usr/bin/

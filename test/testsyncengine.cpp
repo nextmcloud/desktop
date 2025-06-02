@@ -216,8 +216,23 @@ private slots:
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
     }
 
+
+    void testLocalDelete_data()
+    {
+        QTest::addColumn<bool>("moveToTrashEnabled");
+        QTest::newRow("move to trash") << true;
+        QTest::newRow("delete") << false;
+    }
+
     void testLocalDelete() {
+        QFETCH(bool, moveToTrashEnabled);
+
         FakeFolder fakeFolder{FileInfo::A12_B12_C12_S12()};
+
+        auto syncOptions = fakeFolder.syncEngine().syncOptions();
+        syncOptions._moveFilesToTrash = moveToTrashEnabled;
+        fakeFolder.syncEngine().setSyncOptions(syncOptions);
+
         ItemCompletedSpy completeSpy(fakeFolder);
         fakeFolder.remoteModifier().remove("A/a1");
         fakeFolder.syncOnce();
@@ -234,9 +249,22 @@ private slots:
         QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
     }
 
+    void testLocalDeleteWithReuploadForNewLocalFiles_data()
+    {
+        QTest::addColumn<bool>("moveToTrashEnabled");
+        QTest::newRow("move to trash") << true;
+        QTest::newRow("delete") << false;
+    }
+
     void testLocalDeleteWithReuploadForNewLocalFiles()
     {
+        QFETCH(bool, moveToTrashEnabled);
+
         FakeFolder fakeFolder{FileInfo{}};
+
+        auto syncOptions = fakeFolder.syncEngine().syncOptions();
+        syncOptions._moveFilesToTrash = moveToTrashEnabled;
+        fakeFolder.syncEngine().setSyncOptions(syncOptions);
 
         // create folders hierarchy with some nested dirs and files
         fakeFolder.localModifier().mkdir("A");
@@ -1563,9 +1591,23 @@ private slots:
         QCOMPARE(fileThirdSync->lastModified.toSecsSinceEpoch(), CURRENT_MTIME);
     }
 
+    void testFolderRemovalWithCaseClash_data()
+    {
+        QTest::addColumn<bool>("moveToTrashEnabled");
+        QTest::newRow("move to trash") << true;
+        QTest::newRow("delete") << false;
+    }
+
     void testFolderRemovalWithCaseClash()
     {
-        FakeFolder fakeFolder{ FileInfo{} };
+        QFETCH(bool, moveToTrashEnabled);
+
+        FakeFolder fakeFolder{FileInfo{}};
+
+        auto syncOptions = fakeFolder.syncEngine().syncOptions();
+        syncOptions._moveFilesToTrash = moveToTrashEnabled;
+        fakeFolder.syncEngine().setSyncOptions(syncOptions);
+
         fakeFolder.remoteModifier().mkdir("A");
         fakeFolder.remoteModifier().mkdir("toDelete");
         fakeFolder.remoteModifier().insert("A/file");
@@ -1848,8 +1890,17 @@ private slots:
         }
     }
 
+    void testServer_caseClash_createConflict_thenRemoveOneRemoteFile_data()
+    {
+        QTest::addColumn<bool>("moveToTrashEnabled");
+        QTest::newRow("move to trash") << true;
+        QTest::newRow("delete") << false;
+    }
+
     void testServer_caseClash_createConflict_thenRemoveOneRemoteFile()
     {
+        QFETCH(bool, moveToTrashEnabled);
+
         constexpr auto testLowerCaseFile = "test";
         constexpr auto testUpperCaseFile = "TEST";
 
@@ -1860,6 +1911,10 @@ private slots:
 #endif
 
         FakeFolder fakeFolder{FileInfo{}};
+
+        auto syncOptions = fakeFolder.syncEngine().syncOptions();
+        syncOptions._moveFilesToTrash = moveToTrashEnabled;
+        fakeFolder.syncEngine().setSyncOptions(syncOptions);
 
         fakeFolder.remoteModifier().insert("otherFile.txt");
         fakeFolder.remoteModifier().insert(testLowerCaseFile);
@@ -2200,9 +2255,9 @@ private slots:
         fakeFolder.remoteModifier().insert("file3");
 
         fakeFolder.remoteModifier().find("folder")->permissions = RemotePermissions::fromServerString("DNVS");
-        fakeFolder.remoteModifier().find("folder/file1.lnk")->permissions = RemotePermissions::fromServerString("S");
-        fakeFolder.remoteModifier().find("folder/file2.lnk")->permissions = RemotePermissions::fromServerString("S");
-        fakeFolder.remoteModifier().find("folder/file3.lnk")->permissions = RemotePermissions::fromServerString("S");
+        fakeFolder.remoteModifier().find("folder/file1.lnk")->permissions = RemotePermissions::fromServerString("SG");
+        fakeFolder.remoteModifier().find("folder/file2.lnk")->permissions = RemotePermissions::fromServerString("SG");
+        fakeFolder.remoteModifier().find("folder/file3.lnk")->permissions = RemotePermissions::fromServerString("SG");
 
         fakeFolder.remoteModifier().find("abcdefabcdefabcdefabcdefabcdefabcd")->permissions = RemotePermissions::fromServerString("DNVS");
         fakeFolder.remoteModifier().find("abcdefabcdefabcdefabcdefabcdefabcd/abcdef abcdef abcdef a")->permissions = RemotePermissions::fromServerString("DNVS");
@@ -2212,7 +2267,7 @@ private slots:
         fakeFolder.remoteModifier().find("abcdefabcdefabcdefabcdefabcdefabcd/abcdef abcdef abcdef a/abcdef abcdef/abcdef acbdef abcd/123abcdefabcdef1/123123abcdef123 abcdef1")->permissions = RemotePermissions::fromServerString("DNVS");
         fakeFolder.remoteModifier().find("abcdefabcdefabcdefabcdefabcdefabcd/abcdef abcdef abcdef a/abcdef abcdef/abcdef acbdef abcd/123abcdefabcdef1/123123abcdef123 abcdef1/12abcabc")->permissions = RemotePermissions::fromServerString("DNVS");
         fakeFolder.remoteModifier().find("abcdefabcdefabcdefabcdefabcdefabcd/abcdef abcdef abcdef a/abcdef abcdef/abcdef acbdef abcd/123abcdefabcdef1/123123abcdef123 abcdef1/12abcabc/12abcabd")->permissions = RemotePermissions::fromServerString("DNVS");
-        fakeFolder.remoteModifier().find("abcdefabcdefabcdefabcdefabcdefabcd/abcdef abcdef abcdef a/abcdef abcdef/abcdef acbdef abcd/123abcdefabcdef1/123123abcdef123 abcdef1/12abcabc/12abcabd/this is a long long long long long long long long long long long long long long long long l.docx - Sh.lnk")->permissions = RemotePermissions::fromServerString("S");
+        fakeFolder.remoteModifier().find("abcdefabcdefabcdefabcdefabcdefabcd/abcdef abcdef abcdef a/abcdef abcdef/abcdef acbdef abcd/123abcdefabcdef1/123123abcdef123 abcdef1/12abcabc/12abcabd/this is a long long long long long long long long long long long long long long long long l.docx - Sh.lnk")->permissions = RemotePermissions::fromServerString("SG");
 
         QVERIFY(fakeFolder.syncOnce());
     }
@@ -2289,6 +2344,78 @@ private slots:
         QCOMPARE(completeSpy.findItem(fileWithoutSpaces5)->_status, SyncFileItem::Status::Success);
         QCOMPARE(completeSpy.findItem(fileWithoutSpaces6)->_status, SyncFileItem::Status::Success);
         QCOMPARE(completeSpy.findItem(extraFileNameWithoutSpaces)->_status, SyncFileItem::Status::Success);
+    }
+
+    void testTouchedFilesWhenChangingFolderPermissionsDuringSync()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+        fakeFolder.localModifier().mkdir("directory");
+        fakeFolder.localModifier().mkdir("directory/subdir");
+        fakeFolder.remoteModifier().mkdir("directory");
+        fakeFolder.remoteModifier().mkdir("directory/subdir");
+
+        // perform an initial sync to ensure local and remote have the same state
+        QVERIFY(fakeFolder.syncOnce());
+
+        QStringList touchedFiles;
+
+        // syncEngine->_propagator is only set during a sync, which doesn't work with QSignalSpy :(
+        connect(&fakeFolder.syncEngine(), &SyncEngine::started, this, [&]() {
+            // at this point we have a propagator to connect signals to
+            connect(fakeFolder.syncEngine().getPropagator().get(), &OwncloudPropagator::touchedFile, this, [&touchedFiles](const QString& fileName) {
+                touchedFiles.append(fileName);
+            });
+        });
+
+        const auto syncAndExpectNoTouchedFiles = [&]() {
+            touchedFiles.clear();
+            QVERIFY(fakeFolder.syncOnce());
+            QCOMPARE(touchedFiles.size(), 0);
+        };
+
+        // when nothing changed expect no files to be touched
+        syncAndExpectNoTouchedFiles();
+
+        // when the remote etag of a subsubdir changes expect the parent+subdirs to be touched
+        fakeFolder.remoteModifier().findInvalidatingEtags("directory/subdir");
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(touchedFiles.size(), 2);
+        QVERIFY(touchedFiles.contains(fakeFolder.localModifier().find("directory/subdir").fileName()));
+        QVERIFY(touchedFiles.contains(fakeFolder.localModifier().find("directory").fileName()));
+
+        // nothing changed again, expect no files to be touched
+        syncAndExpectNoTouchedFiles();
+
+        // when subdir folder permissions change, expect the parent to be touched
+        touchedFiles.clear();
+        fakeFolder.remoteModifier().find("directory")->permissions = RemotePermissions::fromServerString("S");
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(touchedFiles.size(), 1);
+        QVERIFY(touchedFiles.contains(fakeFolder.localModifier().find("directory").fileName()));
+
+        // another sync without changes, expect no files to be touched
+        syncAndExpectNoTouchedFiles();
+
+        // remote etag of the subdir changed, expect the parent to be touched
+        touchedFiles.clear();
+        fakeFolder.remoteModifier().findInvalidatingEtags("directory");
+        QVERIFY(fakeFolder.syncOnce());
+        QCOMPARE(touchedFiles.size(), 1);
+        QVERIFY(touchedFiles.contains(fakeFolder.localModifier().find("directory").fileName()));
+
+        // same as usual, expect no files to be touched
+        syncAndExpectNoTouchedFiles();
+
+        // remote rename of the subdir folder, expect the new name to be touched
+        touchedFiles.clear();
+        fakeFolder.remoteModifier().rename("directory", "renamedDirectory");
+        QVERIFY(fakeFolder.syncOnce());
+        qDebug() << touchedFiles;
+        QCOMPARE_GT(touchedFiles.size(), 1);
+        QVERIFY(touchedFiles.contains(fakeFolder.localModifier().find("renamedDirectory").fileName()));
+
+        // last sync without changes, expect no files to be touched
+        syncAndExpectNoTouchedFiles();
     }
 };
 

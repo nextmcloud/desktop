@@ -51,9 +51,12 @@ void DiskFileModifier::remove(const QString &relativePath)
     if (fi.isFile()) {
         QVERIFY(_rootDir.remove(relativePath));
     } else {
-        const auto pathToDelete = fi.filePath().toStdWString();
-        std::filesystem::permissions(pathToDelete, std::filesystem::perms::owner_exec, std::filesystem::perm_options::add);
-        QVERIFY(std::filesystem::remove_all(pathToDelete));
+        const auto pathToDelete = fi.filePath();
+        const auto result = OCC::FileSystem::removeRecursively(pathToDelete);
+        if (!result) {
+            qDebug() << "delete failed for:" << pathToDelete;
+            QVERIFY(result);
+        }
     }
 }
 
@@ -70,7 +73,9 @@ void DiskFileModifier::insert(const QString &relativePath, qint64 size, char con
     file.close();
     // Set the mtime 30 seconds in the past, for some tests that need to make sure that the mtime differs.
     OCC::FileSystem::setModTime(file.fileName(), OCC::Utility::qDateTimeToTime_t(QDateTime::currentDateTimeUtc().addSecs(-30)));
-    QCOMPARE(file.size(), size);
+    if (file.size() != size) {
+        QCOMPARE(file.size(), size);
+    }
 }
 
 void DiskFileModifier::setContents(const QString &relativePath, char contentChar)
@@ -100,7 +105,11 @@ void DiskFileModifier::mkdir(const QString &relativePath)
 void DiskFileModifier::rename(const QString &from, const QString &to)
 {
     QVERIFY(_rootDir.exists(from));
-    QVERIFY(_rootDir.rename(from, to));
+    const auto result = _rootDir.rename(from, to);
+    if (!result) {
+        qDebug() << "failed to rename from:" << from << "to:" << to;
+        QVERIFY(result);
+    }
 }
 
 void DiskFileModifier::setModTime(const QString &relativePath, const QDateTime &modTime)
@@ -397,7 +406,7 @@ FakePropfindReply::FakePropfindReply(FileInfo &remoteRootFileInfo, QNetworkAcces
         xml.writeTextElement(davUri, QStringLiteral("getlastmodified"), stringDate);
         xml.writeTextElement(davUri, QStringLiteral("getcontentlength"), QString::number(fileInfo.size));
         xml.writeTextElement(davUri, QStringLiteral("getetag"), QStringLiteral("\"%1\"").arg(QString::fromLatin1(fileInfo.etag)));
-        xml.writeTextElement(ocUri, QStringLiteral("permissions"), !fileInfo.permissions.isNull() ? QString(fileInfo.permissions.toString()) : fileInfo.isShared ? QStringLiteral("SRDNVCKW") : QStringLiteral("RDNVCKW"));
+        xml.writeTextElement(ocUri, QStringLiteral("permissions"), !fileInfo.permissions.isNull() ? QString(fileInfo.permissions.toString()) : fileInfo.isShared ? QStringLiteral("GSRDNVCKW") : QStringLiteral("GRDNVCKW"));
         xml.writeTextElement(ocUri, QStringLiteral("share-permissions"), QString::number(static_cast<int>(OCC::SharePermissions(OCC::SharePermissionRead |
                                                                                                                                 OCC::SharePermissionUpdate |
                                                                                                                                 OCC::SharePermissionCreate |

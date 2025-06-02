@@ -142,7 +142,7 @@ Folder::Folder(const FolderDefinition &definition,
     });
 
     // Potentially upgrade suffix vfs to windows vfs
-    ENFORCE(_vfs);
+    Q_ASSERT(_vfs);
     if (_definition.virtualFilesMode == Vfs::WithSuffix
         && _definition.upgradeVfsMode) {
         if (isVfsPluginAvailable(Vfs::WindowsCfApi)) {
@@ -513,8 +513,8 @@ void Folder::createGuiLog(const QString &filename, LogStatus status, int count,
 
 void Folder::startVfs()
 {
-    ENFORCE(_vfs);
-    ENFORCE(_vfs->mode() == _definition.virtualFilesMode);
+    Q_ASSERT(_vfs);
+    Q_ASSERT(_vfs->mode() == _definition.virtualFilesMode);
 
     const auto result = Vfs::checkAvailability(path(), _vfs->mode());
     if (!result) {
@@ -996,6 +996,26 @@ void Folder::migrateBlackListPath(const QString &legacyPath)
         removePathFromSelectiveSyncList(legacyPath, SyncJournalDb::SelectiveSyncBlackList);
         blacklistPath(legacyPath.mid(1));
     }
+}
+
+QString Folder::filePath(const QString& fileName)
+{
+    const auto folderDir = QDir(_canonicalLocalPath);
+
+#ifdef Q_OS_WIN
+    // Edge case time!
+    // QDir::filePath checks whether the passed `fileName` is absolute (essentialy by using `!QFileInfo::isRelative()`).
+    // In the case it's absolute, the `fileName` will be returned instead of the complete file path.
+    //
+    // On Windows, if `fileName` starts with a letter followed by a colon (e.g. "A:BCDEF"), it is considered to be an
+    // absolute path.
+    // Since this method should return the file name file path starting with the canonicalLocalPath, catch that special case here and prefix it ourselves...
+    return fileName.length() >= 2 && fileName[1] == ':'
+           ? _canonicalLocalPath + fileName
+           : folderDir.filePath(fileName);
+#else
+    return folderDir.filePath(fileName);
+#endif
 }
 
 bool Folder::isFileExcludedAbsolute(const QString &fullPath) const

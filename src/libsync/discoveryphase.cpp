@@ -180,11 +180,10 @@ QPair<bool, QByteArray> DiscoveryPhase::findAndCancelDeletedJob(const QString &o
             result = true;
             oldEtag = (*it)->_etag;
         } else {
-            if (!(instruction == CSYNC_INSTRUCTION_REMOVE
-                    // re-creation of virtual files count as a delete
-                    || ((*it)->_type == ItemTypeVirtualFile && instruction == CSYNC_INSTRUCTION_NEW)
-                    || ((*it)->_isRestoration && instruction == CSYNC_INSTRUCTION_NEW)))
-            {
+            if (!(instruction == CSYNC_INSTRUCTION_REMOVE ||
+                  instruction == CSYNC_INSTRUCTION_IGNORE ||
+                  ((*it)->_type == ItemTypeVirtualFile && instruction == CSYNC_INSTRUCTION_NEW) ||// re-creation of virtual files count as a delete
+                  ((*it)->_isRestoration && instruction == CSYNC_INSTRUCTION_NEW))) {
                 qCWarning(lcDiscovery) << "ENFORCE(FAILING)" << originalPath;
                 qCWarning(lcDiscovery) << "instruction == CSYNC_INSTRUCTION_REMOVE" << (instruction == CSYNC_INSTRUCTION_REMOVE);
                 qCWarning(lcDiscovery) << "((*it)->_type == ItemTypeVirtualFile && instruction == CSYNC_INSTRUCTION_NEW)"
@@ -249,10 +248,10 @@ void DiscoveryPhase::markPermanentDeletionRequests()
 
 void DiscoveryPhase::startJob(ProcessDirectoryJob *job)
 {
-    ENFORCE(!_currentRootJob);
+    Q_ASSERT(!_currentRootJob);
     connect(this, &DiscoveryPhase::itemDiscovered, this, &DiscoveryPhase::slotItemDiscovered, Qt::UniqueConnection);
     connect(job, &ProcessDirectoryJob::finished, this, [this, job] {
-        ENFORCE(_currentRootJob == sender());
+        Q_ASSERT(_currentRootJob == sender());
         _currentRootJob = nullptr;
         if (job->_dirItem)
             emit itemDiscovered(job->_dirItem);
