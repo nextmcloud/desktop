@@ -133,7 +133,7 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     setLayout(mainLayout);
 }
 
-void NMCFlow2AuthWidget::slotStatusChanged(PollStatus status, int delay)
+void NMCFlow2AuthWidget::slotStatusChanged(OCC::Flow2Auth::PollStatus status, int delay)
 {
     if (auto *lyt = layout()) {
         lyt->setEnabled(true);  // oder false je nach Bedarf
