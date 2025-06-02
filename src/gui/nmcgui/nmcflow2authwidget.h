@@ -50,6 +50,12 @@ protected:
      * Customizes the style of the widget.
      */
     void customizeStyle() override;
+
+    /**
+     * @brief Reimplemented from Flow2AuthWidget.
+     * Handles changes in the authentication status.
+     */
+    void slotStatusChanged(OCC::Flow2Auth::PollStatus status, int delay) override;
 };
 
 } // namespace OCC
