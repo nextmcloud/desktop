@@ -326,7 +326,7 @@ private slots:
         fakeFolder.remoteModifier().mkdir("external-storage");
         auto externalStorage = fakeFolder.remoteModifier().find("external-storage");
         externalStorage->extraDavProperties = "<nc:is-mount-root>true</nc:is-mount-root>";
-        setAllPerm(externalStorage, RemotePermissions::fromServerString("WDNVCKRM"));
+        setAllPerm(externalStorage, RemotePermissions::fromServerString("WDNVCKRMG"));
         QVERIFY(fakeFolder.syncOnce());
 
         OperationCounter operationCounter;
@@ -812,7 +812,7 @@ private slots:
     {
         QFETCH(bool, local);
         FakeFolder fakeFolder { FileInfo::A12_B12_C12_S12() };
-        auto &modifier = local ? fakeFolder.localModifier() : fakeFolder.remoteModifier();
+        auto &modifier = local ? static_cast<FileModifier&>(fakeFolder.localModifier()) : fakeFolder.remoteModifier();
 
         modifier.mkdir("FolA");
         modifier.mkdir("FolA/FolB");
@@ -1159,7 +1159,7 @@ private slots:
         fakeFolder.remoteModifier().mkdir("FolA");
         auto groupFolderRoot = fakeFolder.remoteModifier().find("FolA");
         groupFolderRoot->extraDavProperties = "<nc:is-mount-root>true</nc:is-mount-root>";
-        setAllPerm(groupFolderRoot, RemotePermissions::fromServerString("WDNVCKRM"));
+        setAllPerm(groupFolderRoot, RemotePermissions::fromServerString("WDNVCKRMG"));
         fakeFolder.remoteModifier().mkdir("FolA/FolB");
         fakeFolder.remoteModifier().mkdir("FolA/FolB/FolC");
         fakeFolder.remoteModifier().mkdir("FolA/FolB/FolC/FolD");
@@ -1196,7 +1196,7 @@ private slots:
         fakeFolder.remoteModifier().mkdir("FolA");
         auto groupFolderRoot = fakeFolder.remoteModifier().find("FolA");
         groupFolderRoot->extraDavProperties = "<nc:is-mount-root>true</nc:is-mount-root>";
-        setAllPerm(groupFolderRoot, RemotePermissions::fromServerString("WDNVCKRM"));
+        setAllPerm(groupFolderRoot, RemotePermissions::fromServerString("WDNVCKRMG"));
         fakeFolder.remoteModifier().mkdir("FolA/FolB");
         fakeFolder.remoteModifier().mkdir("FolA/FolB/FolC");
         fakeFolder.remoteModifier().mkdir("FolA/FolB/FolC/FolD");
@@ -1371,6 +1371,54 @@ private slots:
 
         QVERIFY(dbResult);
         QCOMPARE(itemsCounter, 12);
+    }
+
+    void testRenameFileThatExistsInMultiplePaths()
+    {
+        FakeFolder fakeFolder{FileInfo{}};
+        QObject parent;
+
+        fakeFolder.setServerOverride([&parent](QNetworkAccessManager::Operation op, const QNetworkRequest &request, QIODevice *) -> QNetworkReply * {
+            if (op == QNetworkAccessManager::CustomOperation
+                && request.attribute(QNetworkRequest::CustomVerbAttribute).toString() == QStringLiteral("MOVE")) {
+                return new FakeErrorReply(op, request, &parent, 507);
+            }
+            return nullptr;
+        });
+
+        fakeFolder.remoteModifier().mkdir("FolderA");
+        fakeFolder.remoteModifier().mkdir("FolderA/folderParent");
+        fakeFolder.remoteModifier().insert("FolderA/folderParent/FileA.txt");
+        fakeFolder.remoteModifier().mkdir("FolderB");
+        fakeFolder.remoteModifier().mkdir("FolderB/folderChild");
+        fakeFolder.remoteModifier().insert("FolderB/folderChild/FileA.txt");
+        fakeFolder.remoteModifier().mkdir("FolderC");
+
+        const auto fileAFileInfo = fakeFolder.remoteModifier().find("FolderB/folderChild/FileA.txt");
+        const auto fileAInFolderAFolderFileId = fileAFileInfo->fileId;
+        const auto fileAInFolderAEtag = fileAFileInfo->etag;
+        const auto duplicatedFileAFileInfo = fakeFolder.remoteModifier().find("FolderB/folderChild/FileA.txt");
+
+        duplicatedFileAFileInfo->fileId = fileAInFolderAFolderFileId;
+        duplicatedFileAFileInfo->etag = fileAInFolderAEtag;
+
+        QVERIFY(fakeFolder.syncOnce());
+
+        QCOMPARE(fakeFolder.currentLocalState(), fakeFolder.currentRemoteState());
+
+        fakeFolder.localModifier().rename("FolderA/folderParent/FileA.txt", "FolderC/FileA.txt");
+
+        qDebug() << fakeFolder.currentLocalState();
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::FilesystemOnly);
+        QVERIFY(!fakeFolder.syncOnce());
+
+        qDebug() << fakeFolder.currentLocalState();
+
+        fakeFolder.syncEngine().setLocalDiscoveryOptions(OCC::LocalDiscoveryStyle::FilesystemOnly);
+        QVERIFY(fakeFolder.syncOnce());
+
+        qDebug() << fakeFolder.currentLocalState();
     }
 };
 

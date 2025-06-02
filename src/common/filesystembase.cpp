@@ -116,15 +116,16 @@ void FileSystem::setFileReadOnly(const QString &filename, bool readonly)
         return;
     }
 
-    const auto fileAttributes = GetFileAttributesW(filename.toStdWString().c_str());
+    const auto windowsFilename = QDir::toNativeSeparators(filename);
+    const auto fileAttributes = GetFileAttributesW(windowsFilename.toStdWString().c_str());
     if (fileAttributes == INVALID_FILE_ATTRIBUTES) {
         const auto lastError = GetLastError();
         auto errorMessage = static_cast<char*>(nullptr);
         if (FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
                           nullptr, lastError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), errorMessage, 0, nullptr) == 0) {
-            qCWarning(lcFileSystem()) << "GetFileAttributesW" << filename << (readonly ? "readonly" : "read write") << errorMessage;
+            qCWarning(lcFileSystem()) << "GetFileAttributesW" << windowsFilename << (readonly ? "readonly" : "read write") << errorMessage;
         } else {
-            qCWarning(lcFileSystem()) << "GetFileAttributesW" << filename << (readonly ? "readonly" : "read write") << "unknown error" << lastError;
+            qCWarning(lcFileSystem()) << "GetFileAttributesW" << windowsFilename << (readonly ? "readonly" : "read write") << "unknown error" << lastError;
         }
         return;
     }
@@ -136,14 +137,14 @@ void FileSystem::setFileReadOnly(const QString &filename, bool readonly)
         newFileAttributes = newFileAttributes & (~FILE_ATTRIBUTE_READONLY);
     }
 
-    if (SetFileAttributesW(filename.toStdWString().c_str(), newFileAttributes) == 0) {
+    if (SetFileAttributesW(windowsFilename.toStdWString().c_str(), newFileAttributes) == 0) {
         const auto lastError = GetLastError();
         auto errorMessage = static_cast<char*>(nullptr);
         if (FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
                            nullptr, lastError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), errorMessage, 0, nullptr) == 0) {
-            qCWarning(lcFileSystem()) << "SetFileAttributesW" << filename << (readonly ? "readonly" : "read write") << errorMessage;
+            qCWarning(lcFileSystem()) << "SetFileAttributesW" << windowsFilename << (readonly ? "readonly" : "read write") << errorMessage;
         } else {
-            qCWarning(lcFileSystem()) << "SetFileAttributesW" << filename << (readonly ? "readonly" : "read write") << "unknown error" << lastError;
+            qCWarning(lcFileSystem()) << "SetFileAttributesW" << windowsFilename << (readonly ? "readonly" : "read write") << "unknown error" << lastError;
         }
     }
 
@@ -392,8 +393,7 @@ bool FileSystem::fileExists(const QString &filename, const QFileInfo &fileInfo)
     // not valid. There needs to be one initialised here. Otherwise the incoming
     // fileInfo is re-used.
     if (fileInfo.filePath() != filename) {
-        QFileInfo myFI(filename);
-        re = myFI.exists();
+        re = QFileInfo::exists(filename);
     }
     return re;
 }
@@ -547,22 +547,23 @@ QString FileSystem::fileSystemForPath(const QString &path)
 
 bool FileSystem::remove(const QString &fileName, QString *errorString)
 {
+    const auto &windowsSafeFileName = FileSystem::longWinPath(fileName);
 #ifdef Q_OS_WIN
     // You cannot delete a read-only file on windows, but we want to
     // allow that.
-    setFileReadOnly(fileName, false);
+    setFileReadOnly(windowsSafeFileName, false);
 #endif
-    const auto deletedFileInfo = QFileInfo{fileName};
+    const auto deletedFileInfo = QFileInfo{windowsSafeFileName};
     if (!deletedFileInfo.exists()) {
-        qCWarning(lcFileSystem()) << fileName << "has been already deleted";
+        qCWarning(lcFileSystem()) << windowsSafeFileName << "has been already deleted";
     }
 
-    QFile f(fileName);
+    QFile f(windowsSafeFileName);
     if (!f.remove()) {
         if (errorString) {
             *errorString = f.errorString();
         }
-        qCWarning(lcFileSystem()) << f.errorString() << fileName;
+        qCWarning(lcFileSystem()) << f.errorString() << windowsSafeFileName;
 
 #if defined Q_OS_WIN
         const auto permissionsDisplayHelper = [] (std::filesystem::perms currentPermissions) {
@@ -581,10 +582,10 @@ bool FileSystem::remove(const QString &fileName, QString *errorString)
                                    << unitaryHelper(std::filesystem::perms::others_exec, 'x');
         };
 
-        const auto unsafeFilePermissions = filePermissionsWin(fileName);
+        const auto unsafeFilePermissions = filePermissionsWin(windowsSafeFileName);
         permissionsDisplayHelper(unsafeFilePermissions);
 
-        const auto safeFilePermissions = filePermissionsWinSymlinkSafe(fileName);
+        const auto safeFilePermissions = filePermissionsWinSymlinkSafe(windowsSafeFileName);
         permissionsDisplayHelper(safeFilePermissions);
 #endif
 
