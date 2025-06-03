@@ -39,7 +39,7 @@ public:
 public Q_SLOTS:
     void slotAuthResult(Flow2Auth::Result, const QString &errorString, const QString &user, const QString &appPassword);
     void slotPollNow();
-    virtual void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft);
+    void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft);
     void slotStyleChanged();
 
 Q_SIGNALS:

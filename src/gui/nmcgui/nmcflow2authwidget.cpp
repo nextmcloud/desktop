@@ -133,15 +133,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     setLayout(mainLayout);
 }
 
-void NMCFlow2AuthWidget::slotStatusChanged(OCC::Flow2Auth::PollStatus status, int delay)
-{
-    Q_UNUSED(status)
-    Q_UNUSED(delay)
-
-    // Den Basis-Slot NICHT aufrufen, um Absturz zu vermeiden
-    // Flow2AuthWidget::slotStatusChanged(status, delay);
-}
-
 void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
