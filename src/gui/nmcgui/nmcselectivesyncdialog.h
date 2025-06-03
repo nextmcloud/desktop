@@ -35,9 +35,6 @@ public:
      * @param parent Das Parent-Widget (optional).
      */
     explicit NMCSelectiveSyncWidget(AccountPtr account, QWidget *parent = nullptr);
-
-protected:
-    void showEvent(QShowEvent *event) override;
 };
 
 } // namespace OCC 
