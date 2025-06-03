@@ -30,11 +30,10 @@ NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
     // palette.setColor(QPalette::Window, QColor("#F3f3f3"));
     // setPalette(palette);
 
-    setFixedSize(750,760);
+    setFixedSize(760,760);
 
-    getToolBar()->setFixedHeight(91); // 75px button height + 8 + 8 margin top and bottom
-    getToolBar()->setStyleSheet("QToolBar{border-width: 0px; border-color: none;}");
-    getToolBar()->setContentsMargins(8,0,8,0); // Left margin not accepted, Qt bug?
+    getToolBar()->setFixedHeight(92); // 76px button height + 8 + 8 margin top and bottom
+    getToolBar()->setContentsMargins(8, 0, 8, 0); // Left margin not accepted, Qt bug?
 }
 
 void NMCSettingsDialog::slotAccountAvatarChanged()
@@ -58,10 +57,7 @@ void OCC::NMCSettingsDialog::setLayout() const
             if(widget)
             {
                 widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-                widget->setFixedSize(75, 75);
-                widget->setStyleSheet(
-                    "QToolButton {border: none; border-radius: 4px; font-size: 13px; padding: 8px;}"
-                    );
+                widget->setFixedSize(76, 76);
             }
         }
     }
@@ -74,23 +70,26 @@ void NMCSettingsDialog::fixAccountButton() const
 {
     auto toolbar = getToolBar();
 
-    auto *firstWidget = toolbar->widgetForAction(toolbar->actions().at(0));
-    if (!qobject_cast<QWidget *>(firstWidget)->objectName().startsWith("Spacer")) {
-        // Spacer-Widget einfügen
+    // Sicher prüfen, ob ein Spacer schon existiert
+    auto *firstAction = toolbar->actions().at(0);
+    auto *firstWidget = toolbar->widgetForAction(firstAction);
+    if (!firstWidget || !firstWidget->objectName().startsWith("spacer_left")) {
         auto *spacer = new QWidget(toolbar);
         spacer->setFixedWidth(8);
         spacer->setObjectName("spacer_left");
         spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-        toolbar->insertWidget(toolbar->actions().at(0), spacer);
+        toolbar->insertWidget(firstAction, spacer);
     }
 
     // Account-Button anpassen
-    auto action = toolbar->actions().at(1); // Index 1, da davor der Spacer
-    auto *widget = toolbar->widgetForAction(action);
-    if(widget)
-    {
-        widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        widget->setFixedSize(150, 75);
+    if (toolbar->actions().size() > 1) {
+        auto action = toolbar->actions().at(1); // Index 1, da davor Spacer
+        auto *widget = toolbar->widgetForAction(action);
+        if(widget)
+        {
+            widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+            widget->setFixedSize(152, 76);
+        }
     }
 }
 

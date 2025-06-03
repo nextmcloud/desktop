@@ -46,7 +46,7 @@
 namespace {
 const QString TOOLBAR_CSS()
 {
-    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0; border: none; border-bottom: 1px solid %2; spacing: 0; } "
+    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0; border: none; spacing: 0; } "
                           "QToolBar QToolButton { background: %1; border: none; border-radius: 4px; margin: 0; padding: 6px; } "
                           "QToolBar QToolBarExtension { padding: 0; } "
                           "QToolBar QToolButton:hover { background: %2; } "
