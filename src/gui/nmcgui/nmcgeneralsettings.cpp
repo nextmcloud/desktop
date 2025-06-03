@@ -52,15 +52,7 @@ void NMCGeneralSettings::setDefaultSettings()
 
 void NMCGeneralSettings::setNMCLayout()
 {
-    //
-    // Common Styles
-    //
-    const QString commonStyles = R"(
-        QPushButton { height: 32px; width: 200px; border: 1px solid black; color: black; background-color: #ededed; font-size: 13px; border-radius: 4px; }
-        QPushButton::hover { background-color: white; }
-    )";
-
-    //General settings
+    // General settings
     auto generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"));
     generalSettingsLabel->setStyleSheet("font-size: 12px; font-weight: bold;");
     getUi()->chatNotificationsCheckBox->hide();
@@ -79,7 +71,7 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->autostartCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     getUi()->serverNotificationsCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
-    //Advanced settings
+    // Advanced settings
     auto advancedSettingsLabel = new QLabel(QCoreApplication::translate("", "ADVANCED_SETTINGS"));
     advancedSettingsLabel->setStyleSheet("font-size: 12px; font-weight: bold;");
     QGroupBox *advancedSettingsBox = new QGroupBox(this);
@@ -88,7 +80,6 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsBox->layout()->setContentsMargins(16, 16, 16, 16);
     advancedSettingsBox->layout()->setSpacing(8);
     advancedSettingsBox->setStyleSheet("border-radius: 4px;");
-    advancedSettingsBox->setStyleSheet(advancedSettingsBox->styleSheet() + commonStyles);
 
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
@@ -96,10 +87,25 @@ void NMCGeneralSettings::setNMCLayout()
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
+    getUi()->ignoredFilesButton->setStyleSheet(R"(
+        QPushButton {
+            min-height: 32px;
+            min-width: 200px;
+            border: 1px solid black;
+            color: black;
+            background-color: #ededed;
+            font-size: 13px;
+            border-radius: 4px;
+        }
+        QPushButton:hover {
+            background-color: white;
+        }
+    )");
 
     advancedSettingsBox->layout()->addWidget(advancedSettingsLabel);
     advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
+    advancedSettingsBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
     advancedSettingsBox->layout()->addWidget(getUi()->ignoredFilesButton);
     getUi()->showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     getUi()->moveFilesToTrashCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
