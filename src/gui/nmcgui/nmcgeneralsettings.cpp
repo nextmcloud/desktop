@@ -56,7 +56,7 @@ void NMCGeneralSettings::setNMCLayout()
     // Common Styles
     //
     const QString commonStyles = R"(
-        QPushButton { height: 32px; width: 200px; border: 1px solid black; background-color: #ededed; font-size: 13px; border-radius: 4px; }
+        QPushButton { height: 32px; width: 200px; border: 1px solid black; color: black; background-color: #ededed; font-size: 13px; border-radius: 4px; }
         QPushButton::hover { background-color: white; }
     )";
 
@@ -71,8 +71,10 @@ void NMCGeneralSettings::setNMCLayout()
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(generalSettingsLabel, 0, 0);
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->autostartCheckBox, 1, 0);
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->serverNotificationsCheckBox, 2, 0);
+    getUi()->generalGroupBox->layout()->setContentsMargins(16, 16, 16, 16);
+    getUi()->generalGroupBox->layout()->setSpacing(8);
     getUi()->generalGroupBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
-    getUi()->generalGroupBox->setStyleSheet(getUi()->generalGroupBox->styleSheet() + commonStyles);
+    getUi()->generalGroupBox->setStyleSheet(getUi()->generalGroupBox->styleSheet());
 
     getUi()->autostartCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     getUi()->serverNotificationsCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
@@ -83,7 +85,7 @@ void NMCGeneralSettings::setNMCLayout()
     QGroupBox *advancedSettingsBox = new QGroupBox(this);
     advancedSettingsBox->setTitle("");
     advancedSettingsBox->setLayout(new QVBoxLayout);
-    advancedSettingsBox->layout()->setContentsMargins(12,12,12,12); //Like in Nextcloud .ui file
+    advancedSettingsBox->layout()->setContentsMargins(16, 16, 16, 16);
     advancedSettingsBox->layout()->setSpacing(8);
     advancedSettingsBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
     advancedSettingsBox->setStyleSheet(advancedSettingsBox->styleSheet() + commonStyles);
@@ -111,10 +113,10 @@ void NMCGeneralSettings::setNMCLayout()
     QGroupBox *dataProtectionBox = new QGroupBox(this);
     dataProtectionBox->setTitle("");
     dataProtectionBox->setLayout(new QVBoxLayout);
-    dataProtectionBox->layout()->setContentsMargins(12,12,12,12); //Like in Nextcloud .ui file
+    dataProtectionBox->layout()->setContentsMargins(16, 16, 16, 16);
     dataProtectionBox->layout()->setSpacing(8);
     dataProtectionBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
-    dataProtectionBox->setStyleSheet(dataProtectionBox->styleSheet() + commonStyles);
+    dataProtectionBox->setStyleSheet(dataProtectionBox->styleSheet());
 
     auto *dataAnalysisCheckBox = new QCheckBox(this);
     dataAnalysisCheckBox->setText(QCoreApplication::translate("", "DATA_ANALYSIS"));
