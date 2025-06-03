@@ -39,7 +39,7 @@ public:
 public Q_SLOTS:
     void slotAuthResult(Flow2Auth::Result, const QString &errorString, const QString &user, const QString &appPassword);
     void slotPollNow();
-    void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft);
+    virtual void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft);
     void slotStyleChanged();
 
 Q_SIGNALS:
@@ -70,8 +70,8 @@ protected:
     virtual void customizeStyle();
 
 private:
-    void startSpinner();
-    void stopSpinner(bool showStatusLabel);
+    virtual void startSpinner();
+    virtual void stopSpinner(bool showStatusLabel);
     void setLogo();
 
     QProgressIndicator *_progressIndi;

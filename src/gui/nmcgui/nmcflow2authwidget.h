@@ -50,6 +50,21 @@ protected:
      * Customizes the style of the widget.
      */
     void customizeStyle() override;
+
+    /**
+     * @brief Optionally reimplemented: controls spinner visibility/start.
+     */
+    void startSpinner() override;
+
+    /**
+     * @brief Optionally reimplemented: stops spinner and optionally shows label.
+     */
+    void stopSpinner(bool showStatusLabel) override;
+
+    /**
+     * @brief Optionally reimplemented: handles status updates during auth.
+     */
+    void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft) override;
 };
 
 } // namespace OCC
