@@ -137,10 +137,6 @@ void NMCFlow2AuthWidget::slotStatusChanged(OCC::Flow2Auth::PollStatus status, in
 {
     Q_UNUSED(status)
     Q_UNUSED(delay)
-    
-    if (auto *lyt = layout()) {
-        lyt->setEnabled(true);  // oder false je nach Bedarf
-    }
 
     // Den Basis-Slot NICHT aufrufen, um Absturz zu vermeiden
     // Flow2AuthWidget::slotStatusChanged(status, delay);
