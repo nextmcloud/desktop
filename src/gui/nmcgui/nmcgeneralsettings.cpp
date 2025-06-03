@@ -73,7 +73,7 @@ void NMCGeneralSettings::setNMCLayout()
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->serverNotificationsCheckBox, 2, 0);
     getUi()->generalGroupBox->layout()->setContentsMargins(16, 16, 16, 16);
     getUi()->generalGroupBox->layout()->setSpacing(8);
-    getUi()->generalGroupBox-->setStyleSheet("border-radius: 4px;");
+    getUi()->generalGroupBox->setStyleSheet("border-radius: 4px;");
     getUi()->generalGroupBox->setStyleSheet(getUi()->generalGroupBox->styleSheet());
 
     getUi()->autostartCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
