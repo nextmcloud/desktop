@@ -47,9 +47,10 @@ namespace {
 const QString TOOLBAR_CSS()
 {
     return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0; border: none; border-bottom: 1px solid %2; spacing: 0; } "
-                          "QToolBar QToolButton { background: %1; border: none; border-bottom: 1px solid %2; margin: 0; padding: 5px; } "
-                          "QToolBar QToolBarExtension { padding:0; } "
-                          "QToolBar QToolButton:checked { background: %3; color: %4; }");
+                          "QToolBar QToolButton { background: %1; border: none; border-radius: 4px; margin: 0; padding: 6px; } "
+                          "QToolBar QToolBarExtension { padding: 0; } "
+                          "QToolBar QToolButton:hover { background: %2; } "
+                          "QToolBar QToolButton:checked { background: %3; }");
 }
 
 const float buttonSizeRatio = 1.618f; // golden ratio
@@ -92,12 +93,6 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar->setIconSize(QSize(32, 32));
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     layout()->setMenuBar(_toolBar);
-
-    // Adds space
-    auto *spacer3 = new QWidget();
-    spacer3->setFixedWidth(8);
-    spacer3->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _toolBar->addWidget(spacer3);
 
     // People perceive this as a Window, so also make Ctrl+W work
     auto *closeWindowAction = new QAction(this);

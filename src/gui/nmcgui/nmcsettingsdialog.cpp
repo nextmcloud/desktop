@@ -72,15 +72,25 @@ void OCC::NMCSettingsDialog::setLayout() const
 
 void NMCSettingsDialog::fixAccountButton() const
 {
-    auto action = getToolBar()->actions().at(0);
-    auto *widget = getToolBar()->widgetForAction(action);
+    auto toolbar = getToolBar();
+
+    auto *firstWidget = toolbar->widgetForAction(toolbar->actions().at(0));
+    if (!qobject_cast<QWidget *>(firstWidget)->objectName().startsWith("Spacer")) {
+        // Spacer-Widget einfügen
+        auto *spacer = new QWidget(toolbar);
+        spacer->setFixedWidth(8);
+        spacer->setObjectName("spacer_left");
+        spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        toolbar->insertWidget(toolbar->actions().at(0), spacer);
+    }
+
+    // Account-Button anpassen
+    auto action = toolbar->actions().at(1); // Index 1, da davor der Spacer
+    auto *widget = toolbar->widgetForAction(action);
     if(widget)
     {
         widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        widget->setFixedSize(128, 75);
-        widget->setStyleSheet(
-            "QToolButton {border-radius: 4px; font-size: 13px; padding: 8px;}"
-            );
+        widget->setFixedSize(150, 75);
     }
 }
 
