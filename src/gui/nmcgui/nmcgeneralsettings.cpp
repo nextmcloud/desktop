@@ -62,7 +62,7 @@ void NMCGeneralSettings::setNMCLayout()
 
     //General settings
     auto generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"));
-    generalSettingsLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
+    generalSettingsLabel->setStyleSheet("font-size: 12px; font-weight: bold;");
     getUi()->chatNotificationsCheckBox->hide();
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->chatNotificationsCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->serverNotificationsCheckBox);
@@ -73,7 +73,7 @@ void NMCGeneralSettings::setNMCLayout()
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->serverNotificationsCheckBox, 2, 0);
     getUi()->generalGroupBox->layout()->setContentsMargins(16, 16, 16, 16);
     getUi()->generalGroupBox->layout()->setSpacing(8);
-    getUi()->generalGroupBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
+    getUi()->generalGroupBox-->setStyleSheet("border-radius: 4px;");
     getUi()->generalGroupBox->setStyleSheet(getUi()->generalGroupBox->styleSheet());
 
     getUi()->autostartCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
@@ -81,13 +81,13 @@ void NMCGeneralSettings::setNMCLayout()
 
     //Advanced settings
     auto advancedSettingsLabel = new QLabel(QCoreApplication::translate("", "ADVANCED_SETTINGS"));
-    advancedSettingsLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
+    advancedSettingsLabel->setStyleSheet("font-size: 12px; font-weight: bold;");
     QGroupBox *advancedSettingsBox = new QGroupBox(this);
     advancedSettingsBox->setTitle("");
     advancedSettingsBox->setLayout(new QVBoxLayout);
     advancedSettingsBox->layout()->setContentsMargins(16, 16, 16, 16);
     advancedSettingsBox->layout()->setSpacing(8);
-    advancedSettingsBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
+    advancedSettingsBox->setStyleSheet("border-radius: 4px;");
     advancedSettingsBox->setStyleSheet(advancedSettingsBox->styleSheet() + commonStyles);
 
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
@@ -108,14 +108,13 @@ void NMCGeneralSettings::setNMCLayout()
 
     //Datenschutz
     auto updatesLabel = new QLabel(QCoreApplication::translate("", "UPDATES_SETTINGS"));
-    updatesLabel->setStyleSheet("QLabel{font-size: 12px; font-weight: bold;}");
-
+    updatesLabel->setStyleSheet("font-size: 12px; font-weight: bold;");
     QGroupBox *dataProtectionBox = new QGroupBox(this);
     dataProtectionBox->setTitle("");
     dataProtectionBox->setLayout(new QVBoxLayout);
     dataProtectionBox->layout()->setContentsMargins(16, 16, 16, 16);
     dataProtectionBox->layout()->setSpacing(8);
-    dataProtectionBox->setStyleSheet("QGroupBox { border-radius: 4px; }");
+    dataProtectionBox->setStyleSheet("border-radius: 4px;");
     dataProtectionBox->setStyleSheet(dataProtectionBox->styleSheet());
 
     auto *dataAnalysisCheckBox = new QCheckBox(this);
