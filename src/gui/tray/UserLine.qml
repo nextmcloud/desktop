@@ -80,6 +80,7 @@ AbstractButton {
             Layout.fillHeight: true
             spacing: 8
             anchors.leftMargin: 12
+            Layout.alignment: Qt.AlignVCenter
 
             Image {
                 id: accountIcon
@@ -99,6 +100,7 @@ AbstractButton {
                 font.pixelSize: Style.topLinePixelSize
                 font.bold: false
                 verticalAlignment: Text.AlignVCenter
+                Layout.alignment: Qt.AlignVCenter
             }
 
             RowLayout {
