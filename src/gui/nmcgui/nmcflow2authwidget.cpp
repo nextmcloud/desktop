@@ -140,13 +140,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     setLayout(mainLayout);
 }
 
-// Hintergrundfarbe
-void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
-{
-    QPainter painter(this);
-    QWidget::paintEvent(event);
-}
-
 // Styling bewusst ignorieren
 void NMCFlow2AuthWidget::customizeStyle() {}
 

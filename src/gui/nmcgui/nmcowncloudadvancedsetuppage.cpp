@@ -246,13 +246,4 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     this->setLayout(mainVerticalLayout);
 }
 
-void NMCOwncloudAdvancedSetupPage::paintEvent(QPaintEvent *event)
-{
-    QPainter painter;
-    painter.begin(this);
-    painter.fillRect(rect(), Qt::white);
-    painter.end();
-    OwncloudAdvancedSetupPage::paintEvent(event);
-}
-
 } // namespace OCC
