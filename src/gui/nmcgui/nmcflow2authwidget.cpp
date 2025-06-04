@@ -144,7 +144,6 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
 void NMCFlow2AuthWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    painter.fillRect(rect(), Qt::white);
     QWidget::paintEvent(event);
 }
 
