@@ -174,7 +174,7 @@ void KMessageWidgetPrivate::createLayout()
         } else {
             // Use an additional layout in row 1 for the buttons.
             auto *buttonLayout = new QVBoxLayout;
-            buttonLayout->setContentsMargins(0,0,0,0);
+            buttonLayout->setContentsMargins(0, 0, 0, 0);
             buttonLayout->setSpacing(4);
             Q_FOREACH (QToolButton *button, buttons) {
                 // For some reason, calling show() is necessary if wordwrap is true,
