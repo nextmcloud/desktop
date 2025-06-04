@@ -751,16 +751,15 @@ QPixmap Theme::wizardApplicationLogoColored(const QColor &color) const
     const QString svgPath = QString(Theme::themePrefix) + QStringLiteral("colored/wizard_logo.svg");
 
     QSvgRenderer svg(svgPath);
-    const int maxHeight = Theme::isHidpi() ? 200 : 100;
-    const int maxWidth = 2 * maxHeight;
-    QSize size(maxWidth, maxHeight);
+
+    QSizeF viewBox = svg.viewBoxF().size();
+    QSize size = viewBox.toSize();
 
     QPixmap pixmap(size);
     pixmap.fill(Qt::transparent);
 
     QPainter painter(&pixmap);
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-
     svg.render(&painter);
 
     painter.setCompositionMode(QPainter::CompositionMode_SourceIn);

@@ -32,6 +32,14 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     : Flow2AuthWidget(parent)
 {
     // Bestehende UI-Elemente ausblenden
+    if (getUi().logoLabel) {
+        getUi().logoLabel->hide();
+        getUi().logoLabel->setFixedSize(0, 0);
+    }
+    if (getUi().label) {
+        getUi().label->hide();
+        getUi().label->setFixedSize(0, 0);
+    }
     if (getUi().copyLinkButton) {
         getUi().copyLinkButton->hide();
     }
