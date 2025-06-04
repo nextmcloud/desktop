@@ -641,17 +641,27 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         connect(ac, &QAction::triggered, this, [this, folder, path] { slotSetSubFolderAvailability(folder, path, PinState::OnlineOnly); });
     }
 
-    menu.setStyleSheet(R"(
+    const auto highlightColor = palette().highlight().color();
+    
+    menu->setStyleSheet(QString(R"(
         QMenu {
             border: 1px solid black;
             border-radius: 4px;
-            padding: 4px;
+            padding: 6px;
         }
-    
+
         QMenu::item {
-            padding: 6px 8px;
+            padding: 8px;
         }
-    )");
+
+        QMenu::item:selected {
+            background-color: %1;
+        }
+
+        QMenu::item:hover {
+            background-color: %1;
+        }
+    )").arg(highlightColor.name()));
 
     menu.exec(QCursor::pos());
 }
@@ -731,17 +741,27 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
     }
 
-    menu->setStyleSheet(R"(
+    const auto highlightColor = palette().highlight().color();
+    
+    menu->setStyleSheet(QString(R"(
         QMenu {
             border: 1px solid black;
             border-radius: 4px;
-            padding: 4px;
+            padding: 6px;
         }
     
         QMenu::item {
-            padding: 6px 8px;
+            padding: 8px;
         }
-    )");
+
+        QMenu::item:selected {
+            background-color: %1;
+        }
+
+        QMenu::item:hover {
+            background-color: %1;
+        }
+    )").arg(highlightColor.name()));
 
     menu->popup(treeView->mapToGlobal(pos));
 }
