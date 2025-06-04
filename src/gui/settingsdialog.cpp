@@ -46,12 +46,15 @@
 namespace {
 const QString TOOLBAR_CSS()
 {
-    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0; border: none; spacing: 0; } "
-                          "QToolBar QToolButton { background: %1; border: none; border-radius: 4px; margin: 0; padding: 6px; } "
-                          "QToolBar QToolBarExtension { padding: 0; } "
-                          "QToolBar QToolButton:hover { background: %2; } "
-                          "QToolBar QToolButton:checked { background: %3; }");
+    return QStringLiteral(
+        "QToolBar { background: %1; margin: 0; padding: 0; border: none; spacing: 0; } "
+        "QToolBar QToolButton { background: %1; border: none; border-radius: 4px; margin: 0; padding: 6px; } "
+        "QToolBar QToolBarExtension { padding: 0; } "
+        "QToolBar QToolButton:hover { background: %2; } "
+        "QToolBar QToolButton:checked { background: #E20074; color: white; }"
+    );
 }
+
 
 const float buttonSizeRatio = 1.618f; // golden ratio
 
@@ -357,7 +360,7 @@ void SettingsDialog::customizeStyle()
     QString highlightTextColor(palette().highlightedText().color().name());
     QString dark(palette().dark().color().name());
     QString background(palette().base().color().name());
-    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, dark, highlightColor, highlightTextColor));
+    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, dark, highlightColor));
 }
 
 class ToolButtonAction : public QWidgetAction
