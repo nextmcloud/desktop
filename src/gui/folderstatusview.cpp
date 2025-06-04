@@ -73,6 +73,7 @@ void FolderStatusView::paintEvent(QPaintEvent *event)
     QColor backgroundColor = palette.color(QPalette::Window);
 
     painter.fillRect(rect, backgroundColor);
+    painter.fillPath(path, backgroundColor);
 
     QTreeView::paintEvent(event);
 }
