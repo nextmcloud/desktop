@@ -14,15 +14,16 @@
 
 #include "nmcflow2authwidget.h"
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QIcon>
-#include <QPainter>
 #include <QCoreApplication>
 #include <QDesktopServices>
+#include <QIcon>
+#include <QLabel>
+#include <QPainter>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
+#include "QProgressIndicator.h"
 #include "theme.h"
 
 namespace OCC {
@@ -30,8 +31,33 @@ namespace OCC {
 NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     : Flow2AuthWidget(parent)
 {
-    // UI von Flow2AuthWidget vollständig ignorieren:
-    QWidget *container = new QWidget(this);
+    // Bestehende UI-Elemente ausblenden
+    if (getUi().copyLinkButton) {
+        getUi().copyLinkButton->hide();
+    }
+    if (getUi().openLinkButton) {
+        getUi().openLinkButton->hide();
+    }
+    if (auto *progressInd = getProgressIndicator()) {
+        progressInd->setVisible(false);
+        progressInd->setFixedSize(0, 0);
+    }
+    if (getUi().statusLabel) {
+        getUi().statusLabel->setVisible(false);
+        getUi().statusLabel->setFixedSize(0, 0);
+    }
+
+    // Bestehendes Layout und Child-Widgets entfernen
+    if (auto *oldLayout = layout()) {
+        QLayoutItem *item;
+        while ((item = oldLayout->takeAt(0)) != nullptr) {
+            if (auto *widget = item->widget()) {
+                widget->setParent(nullptr);
+            }
+            delete item;
+        }
+        delete oldLayout;
+    }
 
     // Login-Button
     auto loginButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
@@ -63,26 +89,27 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     headerLabel->setWordWrap(true);
     headerLabel->setFixedWidth(282);
 
-    // Anweisungs-Text
-    auto instructionLabel = new QLabel(tr("Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an, um Ihr Konto zu verbinden."), this);
-    instructionLabel->setStyleSheet("font-size: 14px;");
-    instructionLabel->setWordWrap(true);
-    instructionLabel->setFixedWidth(282);
+    // Anweisungs-Label
+    auto label = new QLabel(tr("Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an, um Ihr Konto zu verbinden."), this);
+    label->setStyleSheet("font-size: 14px;");
+    label->setWordWrap(true);
+    label->setFixedWidth(282);
 
-    // Linke Spalte
+    // Linke Seite
     auto leftLayout = new QVBoxLayout;
     leftLayout->addLayout(logoTitleLayout);
     leftLayout->addSpacing(24);
     leftLayout->addWidget(headerLabel);
     leftLayout->addSpacing(16);
-    leftLayout->addWidget(instructionLabel);
+    leftLayout->addWidget(label);
     leftLayout->addSpacing(24);
     leftLayout->addWidget(loginButton);
     leftLayout->addStretch();
 
-    // Großes Logo rechts
+    // Rechtes Logo
     auto bigLogoLabel = new QLabel(this);
     bigLogoLabel->setPixmap(QIcon(":/client/theme/NMCIcons/applicationLogo.svg").pixmap(175, 175));
+    bigLogoLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     bigLogoLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
     auto rightLayout = new QVBoxLayout;
@@ -90,19 +117,19 @@ NMCFlow2AuthWidget::NMCFlow2AuthWidget(QWidget *parent)
     rightLayout->addWidget(bigLogoLabel);
     rightLayout->addStretch();
 
-    // Gesamt-Layout
-    auto mainLayout = new QHBoxLayout(container);
+    // Hauptlayout
+    auto mainLayout = new QHBoxLayout;
     mainLayout->setContentsMargins(16, 16, 16, 16);
     mainLayout->setSpacing(24);
     mainLayout->addLayout(leftLayout);
     mainLayout->addStretch();
     mainLayout->addLayout(rightLayout);
 
-    // Hauptlayout zuweisen
-    auto wrapperLayout = new QVBoxLayout;
-    wrapperLayout->setContentsMargins(0, 0, 0, 0);
-    wrapperLayout->addWidget(container);
-    setLayout(wrapperLayout);
+    // Fehlerlabel wieder einfügen
+    if (getUi().errorLabel) {
+        mainLayout->addWidget(getUi().errorLabel);
+    }
+    setLayout(mainLayout);
 }
 
 // Hintergrundfarbe
