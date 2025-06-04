@@ -27,9 +27,9 @@ RowLayout {
         Layout.preferredHeight: size
 
         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        Layout.topMargin: Style.trayHorizontalMargin
+        Layout.topMargin: 13
         Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
-        Layout.bottomMargin: 16
+        Layout.bottomMargin: 13
         Layout.leftMargin: Style.nmcListViewLeftPadding
 
         padding: 0
