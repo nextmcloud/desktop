@@ -360,7 +360,8 @@ void SettingsDialog::customizeStyle()
     QString highlightTextColor(palette().highlightedText().color().name());
     QString dark(palette().dark().color().name());
     QString background(palette().base().color().name());
-    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, dark, highlightColor));
+
+    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, highlightColor));
 }
 
 class ToolButtonAction : public QWidgetAction
