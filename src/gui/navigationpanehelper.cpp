@@ -100,7 +100,6 @@ void NavigationPaneHelper::updateCloudStorageRegistry()
                 const QString namespacePath = QString() % R"(Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\)" % clsidStr;
 
                 auto title = folder->shortGuiRemotePathOrAppName();
-
                 const auto iconPath = QDir::toNativeSeparators(qApp->applicationFilePath());
                 const auto targetFolderPath = QDir::toNativeSeparators(folder->cleanPath());
 
