@@ -643,7 +643,7 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
 
     const auto highlightColor = palette().highlight().color();
     
-    menu->setStyleSheet(QString(R"(
+    menu.setStyleSheet(QString(R"(
         QMenu {
             border: 1px solid black;
             border-radius: 4px;
@@ -743,7 +743,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
 
     const auto highlightColor = palette().highlight().color();
     
-    menu->setStyleSheet(QString(R"(
+    menu.setStyleSheet(QString(R"(
         QMenu {
             border: 1px solid black;
             border-radius: 4px;
