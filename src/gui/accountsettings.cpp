@@ -584,48 +584,43 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
 {
     Q_UNUSED(pos);
 
-    QMenu menu;
-    auto ac = menu.addAction(tr("Open folder"));
+    auto menu = new QMenu(this);
+    menu->setAttribute(Qt::WA_DeleteOnClose);
+
+    auto ac = menu->addAction(tr("Open folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentLocalSubFolder);
 
     const auto fileName = _model->data(index, FolderStatusDelegate::FolderPathRole).toString();
     if (!QFile::exists(fileName)) {
         ac->setEnabled(false);
     }
+
     const auto info = _model->infoForIndex(index);
     const auto acc = _accountState->account();
 
     if (acc->capabilities().clientSideEncryptionAvailable()) {
-        // Verify if the folder is empty before attempting to encrypt.
-
         const auto isEncrypted = info->isEncrypted();
         const auto isParentEncrypted = _model->isAnyAncestorEncrypted(index);
         const auto isTopFolder = index.parent().isValid() && !index.parent().parent().isValid();
         const auto isExternal = info->_isExternal;
 
         if (!isEncrypted && !isParentEncrypted && !isExternal && isTopFolder) {
-            ac = menu.addAction(tr("Encrypt"));
+            ac = menu->addAction(tr("Encrypt"));
             connect(ac, &QAction::triggered, [this, info] { slotMarkSubfolderEncrypted(info); });
-        } else {
-            // Ignore decrypting for now since it only works with an empty folder
-            // connect(ac, &QAction::triggered, [this, &info] { slotMarkSubfolderDecrypted(info); });
         }
     }
 
-    ac = menu.addAction(tr("Create new folder"));
+    ac = menu->addAction(tr("Create new folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
     ac->setEnabled(QFile::exists(fileName));
 
     const auto folder = info->_folder;
     if (folder && folder->virtualFilesEnabled()) {
-        auto availabilityMenu = menu.addMenu(tr("Availability"));
+        auto availabilityMenu = menu->addMenu(tr("Availability"));
 
-        // Has '/' suffix convention for paths here but VFS and
-        // sync engine expects no such suffix
         Q_ASSERT(info->_path.endsWith('/'));
         const auto remotePath = info->_path.chopped(1);
 
-        // It might be an E2EE mangled path, so let's try to demangle it
         const auto journal = folder->journalDb();
         SyncJournalFileRecord rec;
         if (!journal->getFileRecordByE2eMangledName(remotePath, &rec)) {
@@ -635,35 +630,33 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         const auto path = rec.isValid() ? rec._path : remotePath;
 
         ac = availabilityMenu->addAction(Utility::vfsPinActionText());
-        connect(ac, &QAction::triggered, this, [this, folder, path] { slotSetSubFolderAvailability(folder, path, PinState::AlwaysLocal); });
+        connect(ac, &QAction::triggered, this, [this, folder, path] {
+            slotSetSubFolderAvailability(folder, path, PinState::AlwaysLocal);
+        });
 
         ac = availabilityMenu->addAction(Utility::vfsFreeSpaceActionText());
-        connect(ac, &QAction::triggered, this, [this, folder, path] { slotSetSubFolderAvailability(folder, path, PinState::OnlineOnly); });
+        connect(ac, &QAction::triggered, this, [this, folder, path] {
+            slotSetSubFolderAvailability(folder, path, PinState::OnlineOnly);
+        });
     }
 
     const auto highlightColor = palette().highlight().color();
-    
-    menu.setStyleSheet(QString(R"(
+    menu->setStyleSheet(QString(R"(
         QMenu {
             border: 1px solid black;
             border-radius: 4px;
             padding: 6px;
         }
-
         QMenu::item {
             padding: 8px;
         }
-
-        QMenu::item:selected {
-            background-color: %1;
-        }
-
+        QMenu::item:selected,
         QMenu::item:hover {
             background-color: %1;
         }
-    )").arg(highlightColor.name()));
+    )").arg(highlightColor.name(QColor::HexRgb)));
 
-    menu.exec(QCursor::pos());
+    menu->popup(QCursor::pos());
 }
 
 void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
@@ -684,6 +677,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
     }
 
     treeView->setCurrentIndex(index);
+
     const auto alias = _model->data(index, FolderStatusDelegate::FolderAliasRole).toString();
     const auto folderPaused = _model->data(index, FolderStatusDelegate::FolderSyncPaused).toBool();
     const auto folderConnected = _model->data(index, FolderStatusDelegate::FolderAccountConnected).toBool();
@@ -694,8 +688,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         return;
     }
 
-    const auto menu = new QMenu(treeView);
-
+    auto menu = new QMenu(treeView);
     menu->setAttribute(Qt::WA_DeleteOnClose);
 
     auto ac = menu->addAction(tr("Open folder"));
@@ -730,11 +723,15 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         auto availabilityMenu = menu->addMenu(tr("Availability"));
 
         ac = availabilityMenu->addAction(Utility::vfsPinActionText());
-        connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::AlwaysLocal); });
+        connect(ac, &QAction::triggered, this, [this]() {
+            slotSetCurrentFolderAvailability(PinState::AlwaysLocal);
+        });
         ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
 
         ac = availabilityMenu->addAction(Utility::vfsFreeSpaceActionText());
-        connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::OnlineOnly); });
+        connect(ac, &QAction::triggered, this, [this]() {
+            slotSetCurrentFolderAvailability(PinState::OnlineOnly);
+        });
 
         ac = menu->addAction(tr("Disable virtual file support …"));
         connect(ac, &QAction::triggered, this, &AccountSettings::slotDisableVfsCurrentFolder);
@@ -742,28 +739,25 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
     }
 
     const auto highlightColor = palette().highlight().color();
-    
-    menu.setStyleSheet(QString(R"(
+
+    menu->setStyleSheet(QString(R"(
         QMenu {
             border: 1px solid black;
             border-radius: 4px;
             padding: 6px;
         }
-    
+
         QMenu::item {
             padding: 8px;
         }
 
-        QMenu::item:selected {
-            background-color: %1;
-        }
-
+        QMenu::item:selected,
         QMenu::item:hover {
             background-color: %1;
         }
-    )").arg(highlightColor.name()));
+    )").arg(highlightColor.name(QColor::HexRgb)));
 
-    menu->popup(treeView->mapToGlobal(pos));
+    menu->popup(treeView->viewport()->mapToGlobal(pos));
 }
 
 void AccountSettings::slotFolderListClicked(const QModelIndex &indx)
