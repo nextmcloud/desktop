@@ -15,7 +15,6 @@
 #pragma once
 #include <QDialog>
 #include <QTreeWidget>
-#include "QtWidgets/qboxlayout.h"
 #include "accountfwd.h"
 
 #include "csync_exclude.h"
@@ -55,11 +54,6 @@ public:
 
     [[nodiscard]] QSize sizeHint() const override;
 
-protected:
-    QVBoxLayout *_layout;
-    QLabel *_header;
-    QTreeWidget *_folderTree;
-
 private slots:
     void slotUpdateDirectories(QStringList);
     void slotUpdateRootFolderFilesSize(const QStringList &subfolders);
@@ -80,6 +74,8 @@ private:
 
     bool _inserting = false; // set to true when we are inserting new items on the list
     QLabel *_loading;
+
+    QTreeWidget *_folderTree;
 
     // During account setup we want to filter out excluded folders from the
     // view without having a Folder.SyncEngine.ExcludedFiles instance.

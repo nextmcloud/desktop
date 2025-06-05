@@ -11,7 +11,7 @@
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  */
-#include "nmcgui/nmcselectivesyncdialog.h"
+#include "selectivesyncdialog.h"
 #include "account.h"
 #include "common/utility.h"
 #include "configfile.h"
@@ -66,19 +66,20 @@ private:
 
 SelectiveSyncWidget::SelectiveSyncWidget(AccountPtr account, QWidget *parent)
     : QWidget(parent)
-    , _folderTree(new QTreeWidget(this))
     , _account(account)
+    , _folderTree(new QTreeWidget(this))
 {
     _loading = new QLabel(tr("Loading …"), _folderTree);
 
-    auto _layout = new QVBoxLayout(this);
-    _layout->setContentsMargins(0, 0, 0, 0);
+    auto layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
 
-    auto _header = new QLabel(this);
-    _header->setText(tr("Deselect remote folders you do not wish to synchronize."));
-    _header->setWordWrap(true);
-    _layout->addWidget(_header);
-    _layout->addWidget(_folderTree);
+    auto header = new QLabel(this);
+    header->setText(tr("Deselect remote folders you do not wish to synchronize."));
+    header->setWordWrap(true);
+    layout->addWidget(header);
+
+    layout->addWidget(_folderTree);
 
     connect(_folderTree, &QTreeWidget::itemExpanded,
         this, &SelectiveSyncWidget::slotItemExpanded);
@@ -500,7 +501,7 @@ void SelectiveSyncDialog::init(const AccountPtr &account)
 {
     setWindowTitle(tr("Choose What to Sync"));
     auto *layout = new QVBoxLayout(this);
-    _selectiveSync = new NMCSelectiveSyncWidget(account, this);
+    _selectiveSync = new SelectiveSyncWidget(account, this);
     layout->addWidget(_selectiveSync);
     auto *buttonBox = new QDialogButtonBox(Qt::Horizontal);
     _okButton = buttonBox->addButton(QDialogButtonBox::Ok);
