@@ -71,9 +71,10 @@ void FolderStatusView::paintEvent(QPaintEvent *event)
     // Ensure the background color is consistent with the application theme
     QPalette palette = this->palette();  
     QColor backgroundColor = palette.color(QPalette::Window);
+    QColor baseColor = palette.color(QPalette::Base);
 
     painter.fillRect(rect, backgroundColor);
-    painter.fillPath(path, backgroundColor);
+    painter.fillPath(path, baseColor);
 
     QTreeView::paintEvent(event);
 }

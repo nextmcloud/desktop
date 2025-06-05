@@ -150,7 +150,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         const QRect leftRect(0, option.rect.y(), option.rect.x(), option.rect.height());
 
         if (option.state & QStyle::State_MouseOver) {
-            QColor hoverColor = QApplication::palette().color(QPalette::AlternateBase);
+            QColor hoverColor = QApplication::palette().color(QPalette::Midlight);
             painter->fillRect(option.rect, hoverColor);
             painter->fillRect(leftRect, hoverColor);
         }
@@ -158,6 +158,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         if (option.state & QStyle::State_Selected) {
             // Auswahlhintergrundfarbe abrufen
             const QColor selectionColor = option.palette.color(QPalette::Highlight);
+            painter->fillRect(option.rect, selectionColor);
             painter->fillRect(leftRect, selectionColor);
         }
 
@@ -173,10 +174,10 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
 
             if (index.isValid() && treeView->isExpanded(index)) {
                 // Das übergeordnete Element ist erweitert
-                leftIcon = QIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-down.svg"));
+                leftIcon = QIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-down.svg")));
             } else {
                 // Das übergeordnete Element ist nicht erweitert
-                leftIcon = QIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg"));
+                leftIcon = QIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
             }
 
             const QPoint iconPos(leftRect.width() - iconSize.width(),
