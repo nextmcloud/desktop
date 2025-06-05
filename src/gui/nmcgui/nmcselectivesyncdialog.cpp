@@ -31,8 +31,6 @@ NMCSelectiveSyncWidget::NMCSelectiveSyncWidget(AccountPtr account, QWidget *pare
         _layout->removeWidget(_header);
     }
 
-    _header->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PAGE3_DESCRIPTION"));
-
     auto *hLayout = new QHBoxLayout();
     hLayout->setSpacing(8);
     hLayout->setContentsMargins(0, 0, 0, 0);
@@ -57,6 +55,7 @@ NMCSelectiveSyncWidget::NMCSelectiveSyncWidget(AccountPtr account, QWidget *pare
     vLayout->addWidget(_header);
     vLayout->addWidget(_folderTree);
 
+    _header->setText(QCoreApplication::translate("", "ADD_LIVE_BACKUP_PAGE3_DESCRIPTION"));
     _folderTree->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     auto *vContainer = new QFrame(this);
