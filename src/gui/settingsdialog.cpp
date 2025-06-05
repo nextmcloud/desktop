@@ -51,7 +51,7 @@ const QString TOOLBAR_CSS()
         "QToolBar QToolButton { background: %1; border: none; border-radius: 4px; margin: 0; padding: 6px; } "
         "QToolBar QToolBarExtension { padding: 0; } "
         "QToolBar QToolButton:hover { background: %2; } "
-        "QToolBar QToolButton:checked { background: #E20074; color: white; }"
+        "QToolBar QToolButton:checked { background: %3; }"
     );
 }
 
@@ -356,12 +356,13 @@ void SettingsDialog::accountRemoved(AccountState *s)
 
 void SettingsDialog::customizeStyle()
 {
-    QString highlightColor(palette().highlight().color().name());
-    QString highlightTextColor(palette().highlightedText().color().name());
-    QString dark(palette().dark().color().name());
     QString background(palette().base().color().name());
+    QString highlightColor(palette().highlight().color().name());
+    QString midlightColor(palette().midlight().color().name());
+    // QString highlightTextColor(palette().highlightedText().color().name());
+    // QString dark(palette().dark().color().name());
 
-    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, highlightColor));
+    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, highlightColor, midlightColor));
 }
 
 class ToolButtonAction : public QWidgetAction

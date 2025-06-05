@@ -75,7 +75,7 @@ void NMCSettingsDialog::fixAccountButton() const
     auto *firstWidget = toolbar->widgetForAction(firstAction);
     if (!firstWidget || !firstWidget->objectName().startsWith("spacer_left")) {
         auto *spacer = new QWidget(toolbar);
-        spacer->setFixedWidth(8);
+        spacer->setFixedWidth(16);
         spacer->setObjectName("spacer_left");
         spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
         toolbar->insertWidget(firstAction, spacer);
