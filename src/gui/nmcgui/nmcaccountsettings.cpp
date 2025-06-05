@@ -112,8 +112,7 @@
  
      quotaVLayout->addWidget(getUi()->quotaProgressBar);
      getUi()->quotaProgressBar->setStyleSheet(
-         "QProgressBar { background-color: #e5e5e5; color: black; border-width: 1px; "
-         "border-color: black; border-radius: 4px; } "
+         "QProgressBar { background-color: #e5e5e5; color: black; border: 1px solid black; border-radius: 4px; } "
          "QProgressBar::chunk { background-color: #E20074; }");
      getUi()->quotaProgressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
  
