@@ -277,22 +277,22 @@ Button {
                 }
             }
         }
+    }
         
-        Loader {
-            id: caretLoader
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: root.right
-            anchors.rightMargin: 12
-            active: root.indicator === null
+    Loader {
+        id: caretLoader
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: root.right
+        anchors.rightMargin: 12
+        active: root.indicator === null
 
-            sourceComponent: Image {
-                source: "image://svgimage-custom-color/caret-down.svg/" + Style.nmcTrayWindowHeaderTextColor
-                sourceSize.width: Style.accountDropDownCaretSize
-                sourceSize.height: Style.accountDropDownCaretSize
+        sourceComponent: Image {
+            source: "image://svgimage-custom-color/caret-down.svg/" + Style.nmcTrayWindowHeaderTextColor
+            sourceSize.width: Style.accountDropDownCaretSize
+            sourceSize.height: Style.accountDropDownCaretSize
 
-                Accessible.role: Accessible.PopupMenu
-                Accessible.name: qsTr("Account switcher and settings menu")
-            }
+            Accessible.role: Accessible.PopupMenu
+            Accessible.name: qsTr("Account switcher and settings menu")
         }
     }
 }
