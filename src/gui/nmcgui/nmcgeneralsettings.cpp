@@ -142,7 +142,7 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->layout()->addItem(new QSpacerItem(1,8,QSizePolicy::Fixed,QSizePolicy::Fixed));
 
     auto *dataAnalysisImpressum = new QLabel(this);
-    dataAnalysisImpressum->setText(QString("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(QCoreApplication::translate("", "IMPRESSUM")));
+    dataAnalysisImpressum->setText(QString("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#2238df\">%1</span></a>").arg(QCoreApplication::translate("", "IMPRESSUM")));
     dataAnalysisImpressum->setTextFormat(Qt::RichText);
     dataAnalysisImpressum->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisImpressum->setOpenExternalLinks(true);
@@ -151,7 +151,7 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->layout()->addWidget(dataAnalysisImpressum);
 
     auto *dataAnalysisData = new QLabel(this);
-    dataAnalysisData->setText(QString("<a href=\"https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(QCoreApplication::translate("", "DATA_PROTECTION")));
+    dataAnalysisData->setText(QString("<a href=\"https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf\"><span style=\"color:#2238df\">%1</span></a>").arg(QCoreApplication::translate("", "DATA_PROTECTION")));
     dataAnalysisData->setTextFormat(Qt::RichText);
     dataAnalysisData->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisData->setOpenExternalLinks(true);
@@ -160,7 +160,7 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->layout()->addWidget(dataAnalysisData);
 
     auto *dataAnalysisOpenSource = new QLabel(this);
-    dataAnalysisOpenSource->setText(QString("<a href=\"https://static.magentacloud.de/licences/windowsdesktop.html\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(QCoreApplication::translate("", "LICENCE")));
+    dataAnalysisOpenSource->setText(QString("<a href=\"https://static.magentacloud.de/licences/windowsdesktop.html\"><span style=\"color:#2238df\">%1</span></a>").arg(QCoreApplication::translate("", "LICENCE")));
     dataAnalysisOpenSource->setTextFormat(Qt::RichText);
     dataAnalysisOpenSource->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisOpenSource->setOpenExternalLinks(true);
@@ -169,7 +169,7 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->layout()->addWidget(dataAnalysisOpenSource);
 
     auto *dataAnalysisFurtherInfo = new QLabel(this);
-    dataAnalysisFurtherInfo->setText(QString("<a href=\"https://cloud.telekom-dienste.de/hilfe\"><span style=\"color:#ea0a8e\">%1</span></a>").arg(QCoreApplication::translate("", "FURTHER_INFO")));
+    dataAnalysisFurtherInfo->setText(QString("<a href=\"https://cloud.telekom-dienste.de/hilfe\"><span style=\"color:#2238df\">%1</span></a>").arg(QCoreApplication::translate("", "FURTHER_INFO")));
     dataAnalysisFurtherInfo->setTextFormat(Qt::RichText);
     dataAnalysisFurtherInfo->setTextInteractionFlags(Qt::TextBrowserInteraction);
     dataAnalysisFurtherInfo->setOpenExternalLinks(true);
