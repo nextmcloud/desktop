@@ -14,6 +14,7 @@ RowLayout {
 
     spacing: Style.trayHorizontalMargin
     Layout.alignment: Qt.AlignVCenter
+    Layout.preferredHeight: Style.nmcTraySyncButtonHeight + 8
 
     NC.SyncStatusSummary {
         id: syncStatus
