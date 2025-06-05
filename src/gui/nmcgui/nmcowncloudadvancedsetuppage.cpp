@@ -175,13 +175,13 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     getUi().locationsGridLayout->removeWidget(getFilePathLabel().data());
     leftSideVerticalLayout->addWidget(getFilePathLabel().data());
     getFilePathLabel().data()->setAlignment(Qt::AlignLeft);
-    getFilePathLabel().data()->setStyleSheet("QLabel{font-size: 15px; font-weight: normal; color: black}");
+    getFilePathLabel().data()->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
 
     // Free space available
     getUi().locationsGridLayout->removeWidget(getUi().lFreeSpace);
     leftSideVerticalLayout->addWidget(getUi().lFreeSpace);
     getUi().lFreeSpace->setAlignment(Qt::AlignLeft);
-    getUi().lFreeSpace->setStyleSheet("QLabel{font-size: 15px; font-weight: normal; color: black}");
+    getUi().lFreeSpace->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
