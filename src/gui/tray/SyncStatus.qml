@@ -13,6 +13,7 @@ RowLayout {
     property color accentColor: Style.ncBlue
 
     spacing: Style.trayHorizontalMargin
+    Layout.alignment: Qt.AlignVCenter
 
     NC.SyncStatusSummary {
         id: syncStatus
@@ -26,10 +27,8 @@ RowLayout {
         Layout.preferredWidth: size
         Layout.preferredHeight: size
 
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-        Layout.topMargin: 13
+        Layout.alignment: Qt.AlignVCenter
         Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
-        Layout.bottomMargin: 13
         Layout.leftMargin: Style.nmcListViewLeftPadding
 
         padding: 0
@@ -42,10 +41,8 @@ RowLayout {
         id: syncProgressLayout
 
         Layout.alignment: Qt.AlignVCenter
-        Layout.topMargin: 8
-        Layout.leftMargin: Style.nmcProgressFieldTextOffset
         Layout.rightMargin: Style.trayHorizontalMargin
-        Layout.bottomMargin: 8
+        Layout.leftMargin: Style.nmcProgressFieldTextOffset
         Layout.fillWidth: true
         Layout.fillHeight: true
 
@@ -91,6 +88,7 @@ RowLayout {
         id: syncNowButton
 
         Layout.rightMargin: Style.trayHorizontalMargin
+        Layout.alignment: Qt.AlignVCenter
 
         text: qsTr("Sync now")
         padding: Style.smallSpacing
@@ -130,6 +128,7 @@ RowLayout {
 
     Button {
         Layout.rightMargin: Style.trayHorizontalMargin
+        Layout.alignment: Qt.AlignVCenter
 
         text: qsTr("Resolve conflicts")
         padding: Style.smallSpacing
@@ -167,6 +166,7 @@ RowLayout {
 
     Button {
         Layout.rightMargin: Style.trayHorizontalMargin
+        Layout.alignment: Qt.AlignVCenter
 
         text: qsTr("Open browser")
 
