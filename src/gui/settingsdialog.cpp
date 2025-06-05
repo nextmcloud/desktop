@@ -358,7 +358,7 @@ void SettingsDialog::customizeStyle()
 {
     QString background(palette().base().color().name());
     QString highlightColor(palette().highlight().color().name());
-    QString midlightColor(palette().midlight().color().name());
+    QString midlightColor(palette().mid().color().name());
     // QString highlightTextColor(palette().highlightedText().color().name());
     // QString dark(palette().dark().color().name());
 
@@ -409,9 +409,9 @@ QAction *SettingsDialog::createActionWithIcon(const QIcon &icon, const QString &
 QAction *SettingsDialog::createColorAwareAction(const QString &iconPath, const QString &text)
 {
     // all buttons must have the same size in order to keep a good layout
-    // return createActionWithIcon(QIcon(iconPath), text, iconPath);
-    QIcon coloredIcon = Theme::createColorAwareIcon(iconPath, palette());
-    return createActionWithIcon(coloredIcon, text, iconPath);
+    return createActionWithIcon(QIcon(iconPath), text, iconPath);
+    // QIcon coloredIcon = Theme::createColorAwareIcon(iconPath, palette());
+    // return createActionWithIcon(coloredIcon, text, iconPath);
 }
 
 } // namespace OCC
