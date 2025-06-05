@@ -29,7 +29,9 @@ RowLayout {
         Layout.preferredHeight: size
 
         Layout.alignment: Qt.AlignVCenter
+        Layout.topMargin: Style.trayHorizontalMargin
         Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
+        Layout.bottomMargin: Style.trayHorizontalMargin
         Layout.leftMargin: Style.nmcListViewLeftPadding
 
         padding: 0
@@ -42,7 +44,9 @@ RowLayout {
         id: syncProgressLayout
 
         Layout.alignment: Qt.AlignVCenter
+        Layout.topMargin: 8
         Layout.rightMargin: Style.trayHorizontalMargin
+        Layout.bottomMargin: 8
         Layout.leftMargin: Style.nmcProgressFieldTextOffset
         Layout.fillWidth: true
         Layout.fillHeight: true
