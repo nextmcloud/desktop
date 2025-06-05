@@ -163,132 +163,136 @@ Button {
         }
     }
 
-    RowLayout {
-        id: accountControlRowLayout
+    Item {
+        anchors.fill: parent
 
-        height: Style.trayWindowHeaderHeight
-        width:  Style.nmcCurrentAccountButtonWidth
-        spacing: 0
+        RowLayout {
+            id: accountControlRowLayout
 
-        Image {
-            id: currentAccountAvatar
-
-            Layout.leftMargin: Style.trayHorizontalMargin
-            verticalAlignment: Qt.AlignCenter
-            cache: false
-            source: Style.nmcAccountAvatarIcon
-
-            Accessible.role: Accessible.Graphic
-            Accessible.name: qsTr("Current account avatar")
-
-            Rectangle {
-                id: currentAccountStatusIndicatorBackground
-                visible: UserModel.currentUser && UserModel.currentUser.isConnected
-                         && UserModel.currentUser.serverHasUserStatus
-                         && UserModel.currentUser.status !== UserStatus.Invisible
-                         && UserModel.currentUser.status !== UserStatus.Offline
-                width: Style.accountAvatarStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
-                height: width
-                color: root.parentBackgroundColor
-                anchors.bottom: currentAccountAvatar.bottom
-                anchors.right: currentAccountAvatar.right
-                radius: width * Style.trayFolderStatusIndicatorRadiusFactor
-            }
+            anchors.verticalCenter: parent.verticalCenter
+            width:  Style.nmcCurrentAccountButtonWidth
+            spacing: 0
 
             Image {
-                id: currentAccountStatusIndicator
-                visible: UserModel.currentUser && UserModel.currentUser.isConnected
-                         && UserModel.currentUser.serverHasUserStatus
-                         && UserModel.currentUser.status !== UserStatus.Invisible
-                         && UserModel.currentUser.status !== UserStatus.Offline
-                source: UserModel.currentUser ? UserModel.currentUser.statusIcon : ""
+                id: currentAccountAvatar
+
+                Layout.leftMargin: Style.trayHorizontalMargin
+                verticalAlignment: Qt.AlignCenter
                 cache: false
-                x: currentAccountStatusIndicatorBackground.x + 1
-                y: currentAccountStatusIndicatorBackground.y + 1
-                sourceSize.width: Style.accountAvatarStateIndicatorSize
-                sourceSize.height: Style.accountAvatarStateIndicatorSize
+                source: Style.nmcAccountAvatarIcon
 
-                Accessible.role: Accessible.Indicator
-                Accessible.name: UserModel.desktopNotificationsAllowed ? qsTr("Current account status is online") : qsTr("Current account status is do not disturb")
-            }
-        }
+                Accessible.role: Accessible.Graphic
+                Accessible.name: qsTr("Current account avatar")
 
-        Column {
-            id: accountLabels
-            spacing: 0
-            Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-            Layout.leftMargin: Style.userStatusSpacing
-            Layout.fillWidth: true
-
-            EnforcedPlainTextLabel {
-                id: currentAccountUser
-                Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                Layout.fillWidth: true
-                width: Style.currentAccountLabelWidth
-                color: Style.nmcTrayWindowHeaderTextColor
-                text: UserModel.currentUser ? UserModel.currentUser.name : ""
-                elide: Text.ElideRight
-
-                font.pixelSize: Style.topLinePixelSize
-                font.bold: false
-                palette.windowText: Style.nmcTrayWindowHeaderTextColor
-            }
-
-            EnforcedPlainTextLabel {
-                id: currentAccountServer
-                visible: false
-                Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                width: Style.currentAccountLabelWidth
-                color: Style.currentUserHeaderTextColor
-                text: UserModel.currentUser ? UserModel.currentUser.server : ""
-                elide: Text.ElideRight
-            }
-
-            RowLayout {
-                id: currentUserStatus
-                visible: UserModel.currentUser && UserModel.currentUser.isConnected &&
-                         UserModel.currentUser.serverHasUserStatus
-                spacing: Style.accountLabelsSpacing
-                width: parent.width
-
-                EnforcedPlainTextLabel {
-                    id: emoji
-                    visible: UserModel.currentUser && UserModel.currentUser.statusEmoji !== ""
-                    width: Style.userStatusEmojiSize
-                    color: Style.currentUserHeaderTextColor
-                    text: UserModel.currentUser ? UserModel.currentUser.statusEmoji : ""
+                Rectangle {
+                    id: currentAccountStatusIndicatorBackground
+                    visible: UserModel.currentUser && UserModel.currentUser.isConnected
+                            && UserModel.currentUser.serverHasUserStatus
+                            && UserModel.currentUser.status !== UserStatus.Invisible
+                            && UserModel.currentUser.status !== UserStatus.Offline
+                    width: Style.accountAvatarStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
+                    height: width
+                    color: root.parentBackgroundColor
+                    anchors.bottom: currentAccountAvatar.bottom
+                    anchors.right: currentAccountAvatar.right
+                    radius: width * Style.trayFolderStatusIndicatorRadiusFactor
                 }
+
+                Image {
+                    id: currentAccountStatusIndicator
+                    visible: UserModel.currentUser && UserModel.currentUser.isConnected
+                            && UserModel.currentUser.serverHasUserStatus
+                            && UserModel.currentUser.status !== UserStatus.Invisible
+                            && UserModel.currentUser.status !== UserStatus.Offline
+                    source: UserModel.currentUser ? UserModel.currentUser.statusIcon : ""
+                    cache: false
+                    x: currentAccountStatusIndicatorBackground.x + 1
+                    y: currentAccountStatusIndicatorBackground.y + 1
+                    sourceSize.width: Style.accountAvatarStateIndicatorSize
+                    sourceSize.height: Style.accountAvatarStateIndicatorSize
+
+                    Accessible.role: Accessible.Indicator
+                    Accessible.name: UserModel.desktopNotificationsAllowed ? qsTr("Current account status is online") : qsTr("Current account status is do not disturb")
+                }
+            }
+
+            Column {
+                id: accountLabels
+                spacing: 0
+                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                Layout.leftMargin: Style.userStatusSpacing
+                Layout.fillWidth: true
+
                 EnforcedPlainTextLabel {
-                    id: message
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
+                    id: currentAccountUser
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                     Layout.fillWidth: true
-                    visible: UserModel.currentUser && UserModel.currentUser.statusMessage !== ""
+                    width: Style.currentAccountLabelWidth
+                    color: Style.nmcTrayWindowHeaderTextColor
+                    text: UserModel.currentUser ? UserModel.currentUser.name : ""
+                    elide: Text.ElideRight
+
+                    font.pixelSize: Style.topLinePixelSize
+                    font.bold: false
+                    palette.windowText: Style.nmcTrayWindowHeaderTextColor
+                }
+
+                EnforcedPlainTextLabel {
+                    id: currentAccountServer
+                    visible: false
+                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                     width: Style.currentAccountLabelWidth
                     color: Style.currentUserHeaderTextColor
-                    text: UserModel.currentUser && UserModel.currentUser.statusMessage !== ""
-                          ? UserModel.currentUser.statusMessage
-                          : UserModel.currentUser ? UserModel.currentUser.server : ""
+                    text: UserModel.currentUser ? UserModel.currentUser.server : ""
                     elide: Text.ElideRight
-                    font.pixelSize: Style.subLinePixelSize
+                }
+
+                RowLayout {
+                    id: currentUserStatus
+                    visible: UserModel.currentUser && UserModel.currentUser.isConnected &&
+                            UserModel.currentUser.serverHasUserStatus
+                    spacing: Style.accountLabelsSpacing
+                    width: parent.width
+
+                    EnforcedPlainTextLabel {
+                        id: emoji
+                        visible: UserModel.currentUser && UserModel.currentUser.statusEmoji !== ""
+                        width: Style.userStatusEmojiSize
+                        color: Style.currentUserHeaderTextColor
+                        text: UserModel.currentUser ? UserModel.currentUser.statusEmoji : ""
+                    }
+                    EnforcedPlainTextLabel {
+                        id: message
+                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                        Layout.fillWidth: true
+                        visible: UserModel.currentUser && UserModel.currentUser.statusMessage !== ""
+                        width: Style.currentAccountLabelWidth
+                        color: Style.currentUserHeaderTextColor
+                        text: UserModel.currentUser && UserModel.currentUser.statusMessage !== ""
+                            ? UserModel.currentUser.statusMessage
+                            : UserModel.currentUser ? UserModel.currentUser.server : ""
+                        elide: Text.ElideRight
+                        font.pixelSize: Style.subLinePixelSize
+                    }
                 }
             }
         }
-    }
-    
-    Loader {
-        id: caretLoader
-        anchors.verticalCenter: accountControlRowLayout.verticalCenter
-        anchors.right: root.right
-        anchors.rightMargin: 16
-        active: root.indicator === null
+        
+        Loader {
+            id: caretLoader
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: root.right
+            anchors.rightMargin: 12
+            active: root.indicator === null
 
-        sourceComponent: Image {
-            source: "image://svgimage-custom-color/caret-down.svg/" + Style.nmcTrayWindowHeaderTextColor
-            sourceSize.width: Style.accountDropDownCaretSize
-            sourceSize.height: Style.accountDropDownCaretSize
+            sourceComponent: Image {
+                source: "image://svgimage-custom-color/caret-down.svg/" + Style.nmcTrayWindowHeaderTextColor
+                sourceSize.width: Style.accountDropDownCaretSize
+                sourceSize.height: Style.accountDropDownCaretSize
 
-            Accessible.role: Accessible.PopupMenu
-            Accessible.name: qsTr("Account switcher and settings menu")
+                Accessible.role: Accessible.PopupMenu
+                Accessible.name: qsTr("Account switcher and settings menu")
+            }
         }
     }
 }
