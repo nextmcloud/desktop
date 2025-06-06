@@ -14,7 +14,7 @@
    <string notr="true">Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0">
+   <item row="4" column="0">
     <layout class="QHBoxLayout" name="storageGroupBox">
      <item>
       <widget class="QLabel" name="quotaInfoLabel">
@@ -87,7 +87,7 @@
      </item>
     </layout>
    </item>
-   <item row="4" column="0">
+   <item row="3" column="0">
     <widget class="QWidget" name="selectiveSyncStatus" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
@@ -276,7 +276,7 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="2" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="tabShape">
       <enum>QTabWidget::Rounded</enum>
