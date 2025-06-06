@@ -150,7 +150,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         const QRect leftRect(0, option.rect.y(), option.rect.x(), option.rect.height());
 
         if (option.state & QStyle::State_MouseOver) {
-            QColor hoverColor = QApplication::palette().color(QPalette::Midlight);
+            QColor hoverColor = QApplication::palette().color(QPalette::Mid);
             painter->fillRect(option.rect, hoverColor);
             painter->fillRect(leftRect, hoverColor);
         }
