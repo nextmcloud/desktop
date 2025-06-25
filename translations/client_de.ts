@@ -883,7 +883,7 @@ Soll das Konto importiert werden?</translation>
         <location filename="../src/gui/accountsettings.cpp" line="125"/>
         <source>This will encrypt your folder and all files within it. These files will no longer be accessible without your encryption mnemonic key. 
 &lt;b&gt;This process is not reversible. Are you sure you want to proceed?&lt;/b&gt;</source>
-        <translation>Der Ordner und alle enthaltenen Dateien werden verschlüsselt.Ohne die 12 - Wort Passphrase kann dann nicht mehr auf die Dateien zugegriffen werden.
+        <translation>Der Ordner und alle enthaltenen Dateien werden verschlüsselt. Ohne die 12 - Wort Passphrase kann dann nicht mehr auf die Dateien zugegriffen werden.
         &lt;b&gt;Möchten sie fortfahren?&lt;/b&gt;</translation>
     </message>
     <message>
