@@ -1091,13 +1091,13 @@ void AccountSettings::displayMnemonic(const QString &mnemonic)
     widget.setWindowTitle(tr("End-to-end encryption mnemonic"));
     widget.setWindowFlags(Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
     ui.label->setText(QCoreApplication::translate("", "E2E_MNEMONIC_TEXT"));
-    QFont monoFont(QStringLiteral("Monospace"));
-    monoFont.setStyleHint(QFont::TypeWriter);
-    ui.lineEdit->setFont(monoFont);
+    // QFont monoFont(QStringLiteral("Monospace"));
+    // monoFont.setStyleHint(QFont::TypeWriter);
+    // ui.lineEdit->setFont(monoFont);
     ui.lineEdit->setText(mnemonic);
     ui.lineEdit->setReadOnly(true);
 
-    ui.lineEdit->setStyleSheet(QStringLiteral("QLineEdit{ color: black; background: lightgrey; border-style: inset;}"));
+    ui.lineEdit->setStyleSheet(QStringLiteral("QLineEdit{ color: black; background: lightgrey; border-style: inset; padding: 5px; }"));
 
     ui.lineEdit->focusWidget();
     ui.lineEdit->selectAll();
