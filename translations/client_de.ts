@@ -106,7 +106,7 @@
     </message>
     <message>
         <source>ADVERT_DETAIL_TEXT_1</source>
-        <translation>Speichern SIe Ihre Fotos, Videos, Musik und Dokumente sicher in der MagentaCLOUD und greifen Sie jederzeit und von überall darauf zu - auch offline.</translation>
+        <translation>Speichern Sie Ihre Fotos, Videos, Musik und Dokumente sicher in der MagentaCLOUD und greifen Sie jederzeit und von überall darauf zu - auch offline.</translation>
     </message>
     <message>
         <source>ADVERT_HEADER_TEXT_1</source>
@@ -139,7 +139,7 @@ direkt loszulegen</translation>
     </message>
     <message>
         <source>SETUP_DESCRIPTION_TEXT_1</source>
-        <translation>Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an um ihr Konto zu verbinden. Oder Sie erstellen ein Konto mit dem für Sie passenden Tarif.</translation>
+        <translation>Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an, um Ihr Konto zu verbinden. Oder Sie erstellen ein Konto mit dem für Sie passenden Tarif.</translation>
     </message>
     <message>
         <source>SETUP_HEADER_TEXT_2</source>
@@ -160,7 +160,7 @@ MagentaCLOUD</translation>
     </message>
     <message>
         <source>E2E_ENCRYPTION_START</source>
-        <translation>Die Ende-zu-Ende-Verschlüsselung wurde mit einem anderen Gerät aktiviert. Bitte geben Sie ihre Passphrase ein um verschlüsselte Ordner sychronisieren zu können.</translation>
+        <translation>Die Ende-zu-Ende-Verschlüsselung wurde mit einem anderen Gerät aktiviert. Bitte geben Sie Ihre Passphrase ein, um verschlüsselte Ordner synchronisieren zu können.</translation>
     </message>
     <message>
         <source>MORE</source>
@@ -192,10 +192,10 @@ MagentaCLOUD</translation>
     </message>
     <message>
     	<source>E2E_MNEMONIC_TEXT</source>
-    	<translation>Für der Verschlüsselung wird ihnen eine aus 12 Wörtern zufällig erzeugte Wortfolge (Passphrase)
-erstellt. Wir empfehlen ihnen, die Passphrase zu notieren und sicher aufzubewahren.
+    	<translation>Für die Verschlüsselung wird Ihnen eine aus 12 Wörtern zufällig erzeugte Wortfolge (Passphrase)
+erstellt. Wir empfehlen Ihnen, die Passphrase zu notieren und sicher aufzubewahren.
 
-Die Passphrase ist ihr persönliches Kennwort mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder den Zugriff auf diese Dateien auf anderen Geräten wie z.B.
+Die Passphrase ist Ihr persönliches Kennwort mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder den Zugriff auf diese Dateien auf anderen Geräten wie z.B.
 Smartphones ermöglichen.</translation>
     </message>
     <message>
@@ -204,17 +204,17 @@ Smartphones ermöglichen.</translation>
     </message>
     <message>
     	<source>E2E_MNEMONIC_TEXT3</source>
-    	<translation>Die Ende-zu-Ende Verschlüsselung ist noch nicht eingerichtet. Bitte konfigurieren SIe diese in Ihren EInstellungen, um bereits verschlüsselte Inhalte bearbeiten und neue, leere Ordner verschlüsseln zu können.</translation>
+    	<translation>Die Ende-zu-Ende Verschlüsselung ist noch nicht eingerichtet. Bitte konfigurieren SIe diese in Ihren Einstellungen, um bereits verschlüsselte Inhalte bearbeiten und neue, leere Ordner verschlüsseln zu können.</translation>
     </message>
     <message>
     	<source>E2E_MNEMONIC_TEXT4</source>
     	<translation>Möchten Sie die Ende-zu-Ende-Verschlüsselung wirklich deaktivieren?
 
-Durch das deaktivieren der Verschlüsselung werden verschlüsselte Inhalte nicht länger auf diesem Gerät synchronisiert. Diese Inhalte werden aber nicht gelöscht, sondern verbleiben verschlüsselt auf dem Server und auf Ihren anderen Geräten, wo die Verschlüsselung eingerichtet ist.</translation>
+Durch das Deaktivieren der Verschlüsselung werden verschlüsselte Inhalte nicht länger auf diesem Gerät synchronisiert. Diese Inhalte werden aber nicht gelöscht, sondern verbleiben verschlüsselt auf dem Server und auf Ihren anderen Geräten, wo die Verschlüsselung eingerichtet ist.</translation>
     </message>
     <message>
     	<source>E2E_MNEMONIC_PASSPHRASE</source>
-    	<translation>Bitte geben Sie ihr 12-Wort-Schlüssel (Passphrase) ein.</translation>
+    	<translation>Bitte geben Sie Ihren 12-Wort-Schlüssel (Passphrase) ein.</translation>
     </message>
 </context>
 <context>
