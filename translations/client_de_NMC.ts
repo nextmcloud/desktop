@@ -26,7 +26,7 @@
     </message>
     <message>
         <source>ADVANCED_SETTINGS</source>
-        <translation>Erweiterte Einstallungen</translation>
+        <translation>Erweiterte Einstellungen</translation>
     </message>
     <message>
         <source>UPDATES_SETTINGS</source>
