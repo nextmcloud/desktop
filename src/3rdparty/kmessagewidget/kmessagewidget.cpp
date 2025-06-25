@@ -228,7 +228,7 @@ void KMessageWidgetPrivate::applyStyleSheet()
 
     const QPalette palette = QGuiApplication::palette();
     const QColor windowColor = palette.window().color();
-    const QColor textColor = palette.text().color();
+    // const QColor textColor = palette.text().color();
 
     // Generate a final background color from overlaying bgBaseColor over windowColor
     const int newRed = qRound(bgBaseColor.red() * bgBaseColorAlpha) + qRound(windowColor.red() * (1 - bgBaseColorAlpha));
@@ -244,13 +244,13 @@ void KMessageWidgetPrivate::applyStyleSheet()
                               "border: 2px solid %2;"
                               "margin: %3px;"
                               "}"
-                              ".QLabel { color: %4; }"
+                              ".QLabel { color: black; }"
                              )
         .arg(bgFinalColor.name())
         .arg(bgFinalColor.name())
         // DefaultFrameWidth returns the size of the external margin + border width. We know our border is 1px, so we subtract this from the frame normal QStyle FrameWidth to get our margin
         .arg(q->style()->pixelMetric(QStyle::PM_DefaultFrameWidth, nullptr, q) - 1)
-        .arg(textColor.name())
+        // .arg(textColor.name())
     );
 
     applyNMCStylesheets();
