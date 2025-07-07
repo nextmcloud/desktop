@@ -17,6 +17,8 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import "qrc:/qml/NMCGui"
+
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
 import com.nextcloud.desktopclient
@@ -26,18 +28,18 @@ AbstractButton {
 
     signal showUserStatusSelector(int id)
 
-
     Accessible.role: Accessible.MenuItem
     Accessible.name: qsTr("Switch to account") + " " + model.name
 
-    height: Style.trayWindowHeaderHeight
+    height: Style.nmcMenuSubItemHeight
 
     contentItem: RowLayout {
         id: userLineLayout
-        spacing: Style.userLineSpacing
+        spacing: 8
 
         Image {
             id: accountAvatar
+            visible: false
             Layout.leftMargin: Style.accountIconsMenuMargin
             verticalAlignment: Qt.AlignCenter
             cache: false
@@ -71,27 +73,40 @@ AbstractButton {
             }
         }
 
-        ColumnLayout {
+        RowLayout {
             id: accountLabels
             Layout.leftMargin: Style.accountLabelsSpacing
             Layout.fillWidth: true
             Layout.fillHeight: true
+            spacing: 8
+            anchors.leftMargin: 12
+            Layout.alignment: Qt.AlignVCenter
+
+            Image {
+                id: accountIcon
+                source: Style.nmcAccountAvatarIcon
+                visible: true
+                width: Style.nmcTrayWindowIconWidth
+                height: Style.nmcTrayWindowIconWidth
+                fillMode: Image.PreserveAspectFit
+                Layout.alignment: Qt.AlignVCenter
+            }
 
             EnforcedPlainTextLabel {
                 id: accountUser
                 Layout.fillWidth: true
-                Layout.alignment: Qt.AlignLeft | Qt.AlignBottom
-                verticalAlignment: Text.AlignBottom
                 text: name
                 elide: Text.ElideRight
                 font.pixelSize: Style.topLinePixelSize
-                font.bold: true
+                font.bold: false
+                verticalAlignment: Text.AlignVCenter
+                Layout.alignment: Qt.AlignVCenter
             }
 
             RowLayout {
                 id: statusLayout
                 Layout.fillWidth: true
-                height: visible ? implicitHeight : 0
+                Layout.preferredHeight: visible ? implicitHeight : 0
                 visible: model.isConnected &&
                          model.serverHasUserStatus &&
                          (model.statusEmoji !== "" || model.statusMessage !== "")
@@ -116,6 +131,7 @@ AbstractButton {
 
             EnforcedPlainTextLabel {
                 id: accountServer
+                visible: false
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignLeft | Qt.AlignTop
                 verticalAlignment: Text.AlignTop
@@ -127,9 +143,12 @@ AbstractButton {
 
         Button {
             id: userMoreButton
-            Layout.preferredWidth: Style.headerButtonIconSize
+            Layout.preferredWidth: Style.iconButtonWidth
             Layout.fillHeight: true
+            Layout.rightMargin: Style.accountIconsMenuMargin
             flat: true
+            visible: true
+            opacity: 1
 
             Accessible.role: Accessible.ButtonMenu
             Accessible.name: qsTr("Account actions")
@@ -137,7 +156,9 @@ AbstractButton {
 
             onClicked: userMoreButtonMenu.visible ? userMoreButtonMenu.close() : userMoreButtonMenu.popup()
 
-            icon.source: "image://svgimage-custom-color/more.svg/" + palette.windowText
+            icon.source: Style.darkMode 
+                ? "qrc:///client/theme/more-white.svg"
+                : "qrc:///client/theme/more.svg"
 
             AutoSizingMenu {
                 id: userMoreButtonMenu
@@ -150,45 +171,42 @@ AbstractButton {
                     font.pixelSize: Style.topLinePixelSize
                     hoverEnabled: true
                     onClicked: showUserStatusSelector(index)
-               }
+                }
 
-                MenuItem {
+                NMCMenuItem {
+                    id: loginLogoutButton
                     text: model.isConnected ? qsTr("Log out") : qsTr("Log in")
-                    font.pixelSize: Style.topLinePixelSize
-                    hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+                    icon.source: Style.nmcLogOutIcon
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         model.isConnected ? UserModel.logout(index) : UserModel.login(index)
                         accountMenu.close()
                     }
-
                     Accessible.role: Accessible.Button
-                    Accessible.name: model.isConnected ? qsTr("Log out") : qsTr("Log in")
+                    Accessible.name: text
+                    Accessible.onPressAction: clicked()
+                }
 
-                    onPressed: {
-                        if (model.isConnected) {
-                            UserModel.logout(index)
-                        } else {
-                            UserModel.login(index)
-                        }
-                        accountMenu.close()
-                    }
-               }
-
-                MenuItem {
+                NMCMenuItem {
                     id: removeAccountButton
                     text: qsTr("Remove account")
-                    font.pixelSize: Style.topLinePixelSize
-                    hoverEnabled: true
+                    height: Style.nmcMenuSubItemHeight
+                    icon.source: Style.nmcRemoveIcon
+                    icon.height: Style.nmcTrayWindowIconWidth
+                    icon.width: Style.nmcTrayWindowIconWidth
+                    leftPadding: Style.nmcMenuSubItemLeftPadding
                     onClicked: {
                         UserModel.removeAccount(index)
                         accountMenu.close()
                     }
-
                     Accessible.role: Accessible.Button
                     Accessible.name: text
-                    Accessible.onPressAction: removeAccountButton.clicked()
-               }
+                    Accessible.onPressAction: clicked()
+                }
             }
         }
     }
-}   // MenuItem userLine
+}
