@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>de.magentacloud</string>
+		<string>group.de.telekom.macOS.MagentaCLOUD</string>
 	</array>
 </dict>
 </plist>
