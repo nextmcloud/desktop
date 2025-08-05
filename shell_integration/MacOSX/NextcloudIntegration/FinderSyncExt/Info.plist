@@ -5,15 +5,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>$(OC_APPLICATION_NAME) Extensions</string>
+	<string>MagentaCLOUD Extensions</string>
 	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
+	<string>MagentaCLOUD</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(OC_APPLICATION_REV_DOMAIN).$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>de.telekom.macOS.MagentaCLOUD</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>MagentaCLOUD</string>
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
@@ -38,6 +38,6 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SocketApiPrefix</key>
-	<string>$(OC_SOCKETAPI_TEAM_IDENTIFIER_PREFIX)$(OC_APPLICATION_REV_DOMAIN)</string>
+	<string>de.telekom.macOS.MagentaCLOUD</string>
 </dict>
 </plist>
