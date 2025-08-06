@@ -13,11 +13,11 @@
         <key>CFBundleAllowMixedLocalizations</key>
         <true/>
         <key>CFBundleExecutable</key>
-        <string>MagentaCLOUD</string>
+        <string>@APPLICATION_NAME@</string>
         <key>CFBundleIconFile</key>
         <string>@APPLICATION_ICON_NAME@.icns</string>
         <key>CFBundleIdentifier</key>
-        <string>de.telekom.macOS.MagentaCLOUD</string>
+        <string>@APPLICATION_REV_DOMAIN@</string>
         <key>CFBundleInfoDictionaryVersion</key>
         <string>6.0</string>
         <key>CFBundleLongVersionString</key>
@@ -31,7 +31,7 @@
         <key>CFBundleShortVersionString</key>
         <string>@MIRALL_VERSION_STRING@</string>
         <key>NSHumanReadableCopyright</key>
-        <string>(C) 2014-2025 Deutsche Telekom AG</string>
+        <string>(C) 2014-2025 @APPLICATION_VENDOR_XML_ESCAPED@</string>
         <key>NSSupportsAutomaticGraphicsSwitching</key>
         <true/>
         <key>NSRequiresAquaSystemAppearance</key>
@@ -47,18 +47,18 @@
 <array>
     <dict>
         <key>UTTypeIdentifier</key>
-        <string>de.telekom.macOS.MagentaCLOUD.VIRTUALFILE</string>
+        <string>@APPLICATION_REV_DOMAIN@.VIRTUALFILE</string>
         <key>UTTypeTagSpecification</key>
         <dict>
             <key>public.filename-extension</key>
-            <string>cloudf</string>
+            <string>@APPLICATION_VIRTUALFILE_SUFFIX@</string>
             <key>public.mime-type</key>
             <string>application/octet-stream</string>
         </dict>
         <key>UTTypeConformsTo</key>
-        <array>
-            <string>public.data</string>
-        </array>
+         <array>
+             <string>public.data</string>
+         </array>
     </dict>
 </array>
 
