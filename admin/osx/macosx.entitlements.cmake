@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.de.telekom.macOS.MagentaCLOUD</string>
+		<string>@SOCKETAPI_TEAM_IDENTIFIER_PREFIX@@APPLICATION_REV_DOMAIN@</string>
 	</array>
 </dict>
 </plist>
