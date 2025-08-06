@@ -50,13 +50,13 @@ struct Build: ParsableCommand {
     var clientBlueprintsGitUrl = "https://github.com/nextcloud/desktop-client-blueprints.git"
 
     @Option(name: [.long], help: "Nextcloud Desktop Client craft blueprint name.")
-    var craftBlueprintName = "nextcloud-client"
+    var craftBlueprintName = "magentacloud-client"
 
     @Option(name: [.long], help: "Build type (e.g. Release, RelWithDebInfo, MinSizeRel, Debug).")
     var buildType = "RelWithDebInfo"
 
     @Option(name: [.long], help: "The application's branded name.")
-    var appName = "Nextcloud"
+    var appName = "MagentaCLOUD"
 
     @Option(name: [.long], help: "Sparkle download URL.")
     var sparkleDownloadUrl =
@@ -72,10 +72,10 @@ struct Build: ParsableCommand {
     var applePassword: String?
 
     @Option(name: [.long], help: "Apple Team ID, used for notarisation.")
-    var appleTeamId: String?
+    var appleTeamId = "S5724FNY84"
 
     @Option(name: [.long], help: "Apple package signing ID.")
-    var packageSigningId: String?
+    var packageSigningId = "Developer ID Installer: Telekom Deutschland GmbH (S5724FNY84)"
 
     @Option(name: [.long], help: "Sparkle package signing key.")
     var sparklePackageSignKey: String?
@@ -286,7 +286,7 @@ struct Codesign: ParsableCommand {
     static let configuration = CommandConfiguration(abstract: "Codesigning script for the client.")
 
     @Argument(help: "Path to the Nextcloud Desktop Client app bundle.")
-    var appBundlePath = "\(FileManager.default.currentDirectoryPath)/product/Nextcloud.app"
+    var appBundlePath = "\(FileManager.default.currentDirectoryPath)/product/MagentaCLOUD.app"
 
     @Option(name: [.short, .long], help: "Code signing identity for desktop client and libs.")
     var codeSignIdentity: String
@@ -320,10 +320,10 @@ struct Package: ParsableCommand {
     var productPath = "\(FileManager.default.currentDirectoryPath)/product"
 
     @Option(name: [.long], help: "Nextcloud Desktop Client craft blueprint name.")
-    var craftBlueprintName = "nextcloud-client"
+    var craftBlueprintName = "magentacloud-client"
 
     @Option(name: [.long], help: "The application's branded name.")
-    var appName = "Nextcloud"
+    var appName = "MagentaCLOUD"
 
     @Option(name: [.long], help: "Apple ID, used for notarisation.")
     var appleId: String?
@@ -332,10 +332,10 @@ struct Package: ParsableCommand {
     var applePassword: String?
 
     @Option(name: [.long], help: "Apple Team ID, used for notarisation.")
-    var appleTeamId: String?
+    var appleTeamId = "S5724FNY84"
 
     @Option(name: [.long], help: "Apple package signing ID.")
-    var packageSigningId: String?
+    var packageSigningId = "Developer ID Installer: Telekom Deutschland GmbH (S5724FNY84)"
 
     @Option(name: [.long], help: "Sparkle package signing key.")
     var sparklePackageSignKey: String?
