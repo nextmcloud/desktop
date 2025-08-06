@@ -286,7 +286,7 @@ struct Codesign: ParsableCommand {
     static let configuration = CommandConfiguration(abstract: "Codesigning script for the client.")
 
     @Argument(help: "Path to the Nextcloud Desktop Client app bundle.")
-    var appBundlePath = "\(FileManager.default.currentDirectoryPath)/product/Nextcloud.app"
+    var appBundlePath = "\(FileManager.default.currentDirectoryPath)/product/MagentaCLOUD.app"
 
     @Option(name: [.short, .long], help: "Code signing identity for desktop client and libs.")
     var codeSignIdentity: String
