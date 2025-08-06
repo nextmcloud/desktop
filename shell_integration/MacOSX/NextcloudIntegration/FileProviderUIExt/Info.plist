@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>MagentaCLOUD</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleDisplayName</key>
-	<string>MagentaCLOUD File Provider UI Extension</string>
+	<string>$(OC_APPLICATION_NAME) File Provider UI Extension</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.telekom.macOS.MagentaCLOUD</string>
+	<string>$(OC_APPLICATION_REV_DOMAIN).$(PRODUCT_NAME)</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionFileProviderActions</key>

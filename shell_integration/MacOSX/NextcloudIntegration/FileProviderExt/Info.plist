@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>MagentaCLOUD</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleDisplayName</key>
-	<string>MagentaCLOUD File Provider Extension</string>
+	<string>$(OC_APPLICATION_NAME) File Provider Extension</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.telekom.macOS.MagentaCLOUD</string>
+	<string>$(OC_APPLICATION_REV_DOMAIN).$(PRODUCT_NAME)</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionFileProviderDocumentGroup</key>
-		<string>de.telekom.macOS.MagentaCLOUD</string>
+		<string>$(OC_SOCKETAPI_TEAM_IDENTIFIER_PREFIX)$(OC_APPLICATION_REV_DOMAIN)</string>
 		<key>NSExtensionFileProviderSupportsEnumeration</key>
 		<true/>
 		<key>NSExtensionPointIdentifier</key>
@@ -20,8 +20,8 @@
 		<string>$(PRODUCT_MODULE_NAME).FileProviderExtension</string>
 	</dict>
 	<key>SocketApiPrefix</key>
-	<string>de.telekom.macOS.MagentaCLOUD</string>
+	<string>$(OC_SOCKETAPI_TEAM_IDENTIFIER_PREFIX)$(OC_APPLICATION_REV_DOMAIN)</string>
 	<key>NCFPKAppGroupIdentifier</key>
-	<string>de.telekom.macOS.MagentaCLOUD</string>
+	<string>$(OC_SOCKETAPI_TEAM_IDENTIFIER_PREFIX)$(OC_APPLICATION_REV_DOMAIN)</string>
 </dict>
 </plist>
