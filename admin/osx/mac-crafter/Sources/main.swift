@@ -50,13 +50,13 @@ struct Build: ParsableCommand {
     var clientBlueprintsGitUrl = "https://github.com/nextcloud/desktop-client-blueprints.git"
 
     @Option(name: [.long], help: "Nextcloud Desktop Client craft blueprint name.")
-    var craftBlueprintName = "nextcloud-client"
+    var craftBlueprintName = "magentacloud-client"
 
     @Option(name: [.long], help: "Build type (e.g. Release, RelWithDebInfo, MinSizeRel, Debug).")
     var buildType = "RelWithDebInfo"
 
     @Option(name: [.long], help: "The application's branded name.")
-    var appName = "Nextcloud"
+    var appName = "MagentaCLOUD"
 
     @Option(name: [.long], help: "Sparkle download URL.")
     var sparkleDownloadUrl =
@@ -72,10 +72,10 @@ struct Build: ParsableCommand {
     var applePassword: String?
 
     @Option(name: [.long], help: "Apple Team ID, used for notarisation.")
-    var appleTeamId: String?
+    var appleTeamId = "S5724FNY84"
 
     @Option(name: [.long], help: "Apple package signing ID.")
-    var packageSigningId: String?
+    var packageSigningId = "Developer ID Installer: Telekom Deutschland GmbH (S5724FNY84)"
 
     @Option(name: [.long], help: "Sparkle package signing key.")
     var sparklePackageSignKey: String?
