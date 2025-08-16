@@ -38,6 +38,17 @@ Q_SIGNALS:
     void authResult(Flow2Auth::Result, const QString &errorString, const QString &user, const QString &appPassword);
     void pollNow();
 
+protected:
+    Ui_Flow2AuthWidget &getUi()
+    {
+        return _ui;
+    }
+
+    QProgressIndicator *getProgressIndicator()
+    {
+        return _progressIndi;
+    }
+
 private:
     Account *_account = nullptr;
     std::unique_ptr<Flow2Auth> _asyncAuth;
@@ -47,10 +58,13 @@ protected Q_SLOTS:
     void slotOpenBrowser();
     void slotCopyLinkToClipboard();
 
+protected:
+    virtual void customizeStyle();
+
 private:
     void startSpinner();
     void stopSpinner(bool showStatusLabel);
-    void customizeStyle();
+    // void customizeStyle();
     void setLogo();
 
     QProgressIndicator *_progressIndi;
