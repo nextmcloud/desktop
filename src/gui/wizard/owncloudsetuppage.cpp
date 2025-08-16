@@ -93,7 +93,12 @@ OwncloudSetupPage::OwncloudSetupPage(QWidget *parent)
 
 void OwncloudSetupPage::setLogo()
 {
-    _ui.logoLabel->setPixmap(Theme::instance()->wizardApplicationLogo());
+    const auto isDarkBackground = Theme::isDarkColor(palette().window().color());
+    if (isDarkBackground) {
+        _ui.logoLabel->setPixmap(Theme::instance()->wizardApplicationLogo());
+    } else {
+        _ui.logoLabel->setPixmap(Theme::instance()->wizardApplicationLogoColored(QColor("#e20074")));
+    }
 }
 
 void OwncloudSetupPage::setupServerAddressDescriptionLabel()
@@ -393,7 +398,6 @@ void OwncloudSetupPage::customizeStyle()
             _progressIndi->setColor(Qt::black);
         }
     }
-
 
     WizardCommon::customizeHintLabel(_ui.serverAddressDescriptionLabel);
 }
