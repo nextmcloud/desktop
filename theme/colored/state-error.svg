@@ -1,1 +1,21 @@
-<svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(.87498 0 0 .87498 .26458 -255.9)"><circle cx="2.1167" cy="294.88" r="2.1167" fill="#d40000" stroke-width=".25066"/><path d="m1.1839 293.95 1.8656 1.8656" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52917"/><path d="m3.0495 293.95-1.8656 1.8656" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52917"/></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 16">
+  <!-- Generator: Adobe Illustrator 29.4.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 152)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fff;
+      }
+
+      .st1 {
+        fill: #d82a48;
+      }
+    </style>
+  </defs>
+  <g id="state-error">
+    <circle id="Ellipse_54" class="st1" cx="8" cy="8" r="7"/>
+    <g id="icon_action_close_selected">
+      <path id="Path" class="st0" d="M8.95,8.02l2.42-2.41c.29-.25.31-.67.07-.96-.25-.29-.67-.31-.96-.07-.03.02-.05.05-.07.07l-2.4,2.4-2.41-2.4c-.25-.29-.67-.31-.96-.07-.29.25-.31.67-.07.96.02.03.05.05.07.07l2.4,2.41-2.4,2.41c-.27.27-.27.69,0,.96h0c.13.13.3.19.47.2.18,0,.36-.07.49-.2l2.41-2.42,2.41,2.4c.13.13.3.2.48.2.18,0,.35-.07.48-.2.27-.27.27-.69,0-.96h0l-2.42-2.39h0Z"/>
+    </g>
+  </g>
+</svg>
