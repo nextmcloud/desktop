@@ -14,7 +14,7 @@
    <string notr="true">Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
+   <item row="4" column="0">
     <layout class="QHBoxLayout" name="storageGroupBox">
      <item>
       <widget class="QLabel" name="quotaInfoLabel">
@@ -66,9 +66,28 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QLabel" name="quotaInfoText">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>0% of memory used</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
+       </property>
+       <property name="wordWrap">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
-   <item row="4" column="0">
+   <item row="3" column="0">
     <widget class="QWidget" name="selectiveSyncStatus" native="true">
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>
@@ -257,7 +276,7 @@
      </layout>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="2" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="tabShape">
       <enum>QTabWidget::Rounded</enum>
