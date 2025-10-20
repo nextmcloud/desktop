@@ -19,7 +19,6 @@
 #include <QWidget>
 
 #include "creds/flow2auth.h"
-
 #include "ui_flow2authwidget.h"
 
 class QProgressIndicator;
@@ -40,12 +39,23 @@ public:
 public Q_SLOTS:
     void slotAuthResult(Flow2Auth::Result, const QString &errorString, const QString &user, const QString &appPassword);
     void slotPollNow();
-    void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft);
+    virtual void slotStatusChanged(Flow2Auth::PollStatus status, int secondsLeft);
     void slotStyleChanged();
 
 Q_SIGNALS:
     void authResult(Flow2Auth::Result, const QString &errorString, const QString &user, const QString &appPassword);
     void pollNow();
+
+protected:
+    Ui_Flow2AuthWidget &getUi()
+    {
+        return _ui;
+    }
+
+    QProgressIndicator *getProgressIndicator()
+    {
+        return _progressIndi;
+    }
 
 private:
     Account *_account = nullptr;
@@ -56,10 +66,12 @@ protected Q_SLOTS:
     void slotOpenBrowser();
     void slotCopyLinkToClipboard();
 
+protected:
+    virtual void customizeStyle();
+
 private:
-    void startSpinner();
-    void stopSpinner(bool showStatusLabel);
-    void customizeStyle();
+    virtual void startSpinner();
+    virtual void stopSpinner(bool showStatusLabel);
     void setLogo();
 
     QProgressIndicator *_progressIndi;
