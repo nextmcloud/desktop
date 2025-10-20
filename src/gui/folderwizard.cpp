@@ -502,17 +502,17 @@ bool FolderWizardRemotePath::isComplete() const
         const auto remoteDir = folder->remotePathTrailingSlash();
         const auto localDir = folder->cleanPath();
         if (QDir::cleanPath(targetPath) == QDir::cleanPath(remoteDir)) {
-            showWarn(tr("Please choose a different location. %1 is already being synced to %2.").arg(Utility::escape(remoteDir), Utility::escape(localDir)));
+            // showWarn(tr("Please choose a different location. %1 is already being synced to %2.").arg(Utility::escape(remoteDir), Utility::escape(localDir)));
             break;
         }
 
         if (targetPath.startsWith(remoteDir)) {
-            showWarn(tr("Please choose a different location. %1 is already being synced to %2.").arg(Utility::escape(targetPath), Utility::escape(localDir)));
+            // showWarn(tr("Please choose a different location. %1 is already being synced to %2.").arg(Utility::escape(targetPath), Utility::escape(localDir)));
             break;
         }
 
         if (remoteDir.startsWith(targetPath)) {
-            showWarn(tr("Please choose a different location. %1 is already being synced to %2.").arg(Utility::escape(remoteDir), Utility::escape(localDir)));
+            // showWarn(tr("Please choose a different location. %1 is already being synced to %2.").arg(Utility::escape(remoteDir), Utility::escape(localDir)));
             break;
         }
     }
