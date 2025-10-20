@@ -74,6 +74,7 @@
         <file>theme/colored/state-offline-128.png</file>
         <file>theme/colored/state-offline-256.png</file>
         <file>theme/colored/state-ok.svg</file>
+        <file>theme/colored/state-tray-ok.svg</file>
         <file>theme/colored/state-ok-16.png</file>
         <file>theme/colored/state-pause.svg</file>
         <file>theme/colored/state-pause-16.png</file>
@@ -107,6 +108,7 @@
         <file>theme/black/state-offline-128.png</file>
         <file>theme/black/state-offline-256.png</file>
         <file>theme/black/state-ok.svg</file>
+        <file>theme/black/state-tray-ok.svg</file>
         <file>theme/black/state-ok-16.png</file>
         <file>theme/black/state-pause.svg</file>
         <file>theme/black/state-pause-16.png</file>
@@ -141,6 +143,7 @@
         <file>theme/white/state-offline-128.png</file>
         <file>theme/white/state-offline-256.png</file>
         <file>theme/white/state-ok.svg</file>
+        <file>theme/white/state-tray-ok.svg</file>
         <file>theme/white/state-ok-16.png</file>
         <file>theme/white/state-pause.svg</file>
         <file>theme/white/state-pause-16.png</file>

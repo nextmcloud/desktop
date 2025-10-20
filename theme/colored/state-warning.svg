@@ -1,1 +1,18 @@
-<svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(.87498 0 0 .87498 .26458 -255.9)"><circle cx="2.1167" cy="294.88" r="2.1167" fill="#e0d92d" stroke-width=".25066"/><path d="m2.1167 293.83v1.3156" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52917"/><circle cx="2.1103" cy="295.95" r=".33073" fill="#fcffff"/></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 16">
+  <!-- Generator: Adobe Illustrator 29.4.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 152)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+
+      .st1 {
+        fill: #f97012;
+      }
+    </style>
+  </defs>
+  <circle class="st1" cx="8" cy="7.99" r="7"/>
+  <path id="Shape" class="st0" d="M8,9.9c.44,0,.8.36.8.8s-.36.8-.8.8-.8-.36-.8-.8.36-.8.8-.8ZM8.64,4.81v4.14h-1.27v-4.14h1.27Z"/>
+</svg>

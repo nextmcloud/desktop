@@ -1,1 +1,19 @@
-<svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(.87499 0 0 .87499 .26458 -255.9)"><circle cx="2.1167" cy="294.88" r="2.1167" fill="#5eb220" stroke-width=".25066"/><path d="m0.79642 295.01 0.93278 0.93284 1.7265-1.7267" fill="none" stroke="#faffff" stroke-linecap="round" stroke-linejoin="round" stroke-width=".52916"/></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 16 16">
+  <!-- Generator: Adobe Illustrator 29.4.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 152)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fff;
+      }
+
+      .st1 {
+        fill: #73c354;
+      }
+    </style>
+  </defs>
+  <g id="Gruppe_539">
+    <circle id="Ellipse_46" class="st0" cx="8" cy="8" r="6.43"/>
+    <path id="Check-Icon" class="st1" d="M12.98,3.01c-2.77-2.71-7.2-2.68-9.94.06-2.74,2.69-2.79,7.09-.1,9.84,1.33,1.36,3.17,2.12,5.07,2.09,1.85,0,3.63-.71,4.97-1.99l.06-.06c2.71-2.77,2.68-7.2-.06-9.94ZM12.28,6.31l-5.52,5.52-2.91-2.91c-.16-.22-.12-.53.1-.7.18-.13.42-.13.6,0l2.22,2.22,4.82-4.82c.18-.18.47-.18.65,0,.02.02.03.04.05.06.12.19.12.44,0,.63h0Z"/>
+  </g>
+</svg>
