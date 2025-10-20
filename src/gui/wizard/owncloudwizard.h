@@ -118,6 +118,7 @@ protected:
     void changeEvent(QEvent *) override;
     void hideEvent(QHideEvent *) override;
     void closeEvent(QCloseEvent *) override;
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     void customizeStyle();

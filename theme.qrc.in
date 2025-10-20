@@ -9,6 +9,9 @@
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-256.png">theme/colored/256-@APPLICATION_ICON_NAME@-icon.png</file>
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-512.png">theme/colored/512-@APPLICATION_ICON_NAME@-icon.png</file>
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-1024.png">theme/colored/1024-@APPLICATION_ICON_NAME@-icon.png</file>
+        <file>theme/NMCIcons/ApplicationLogo.svg</file>
+        <file>theme/NMCIcons/folderLogo.svg</file>
+        <file>theme/NMCIcons/tlogocarrier.svg</file>
         <file>theme/colored/state-error-32.png</file>
         <file>theme/colored/state-error-64.png</file>
         <file>theme/colored/state-error-128.png</file>
