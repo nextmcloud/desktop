@@ -549,8 +549,7 @@ void SocketApi::processEncryptRequest(const QString &localFile)
         const int ret = QMessageBox::critical(
             nullptr,
             tr("Failed to encrypt folder at \"%1\"").arg(fileData.folderRelativePath),
-            tr("The account %1 does not have end-to-end encryption configured. "
-               "Please configure this in your account settings to enable folder encryption.").arg(account->prettyName()),
+            QCoreApplication::translate("", "E2E_MNEMONIC_TEXT3").arg(account->prettyName()),
             QMessageBox::Ok
             );
         Q_UNUSED(ret)
