@@ -115,7 +115,7 @@ protected slots:
     void slotSelectiveSyncChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight,
                                   const QVector<int> &roles);
     void slotPossiblyUnblacklistE2EeFoldersAndRestartSync();
-
+    void checkClientSideEncryptionState(); // NMC customization
     void slotE2eEncryptionCertificateNeedMigration();
 
 private slots:
@@ -132,9 +132,14 @@ private slots:
 
     void initializeE2eEncryption();
     void resetE2eEncryption();
-    void checkClientSideEncryptionState();
     void removeActionFromEncryptionMessage(const QString &actionId);
 
+    protected:
+    Ui::AccountSettings *getUi() const
+    {
+        return _ui;
+    }
+    
 private:
     bool event(QEvent *) override;
     QAction *addActionToEncryptionMessage(const QString &actionTitle, const QString &actionId);
