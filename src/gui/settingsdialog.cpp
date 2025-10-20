@@ -13,6 +13,7 @@
  */
 
 #include "settingsdialog.h"
+#include "QtWidgets/qmainwindow.h"
 #include "ui_settingsdialog.h"
 
 #include "folderman.h"
@@ -47,11 +48,15 @@
 namespace {
 const QString TOOLBAR_CSS()
 {
-    return QStringLiteral("QToolBar { background: %1; margin: 0; padding: 0; border: none; border-bottom: 1px solid %2; spacing: 0; } "
-                          "QToolBar QToolButton { background: %1; border: none; border-bottom: 1px solid %2; margin: 0; padding: 5px; } "
-                          "QToolBar QToolBarExtension { padding:0; } "
-                          "QToolBar QToolButton:checked { background: %3; color: %4; }");
+    return QStringLiteral(
+        "QToolBar { background: %1; margin: 0; padding: 0; border: none; spacing: 0; } "
+        "QToolBar QToolButton { background: %1; border: none; border-radius: 4px; margin: 0; padding: 6px; } "
+        "QToolBar QToolBarExtension { padding: 0; } "
+        "QToolBar QToolButton:hover { background: %2; } "
+        "QToolBar QToolButton:checked { background: %3; }"
+    );
 }
+
 
 const float buttonSizeRatio = 1.618f; // golden ratio
 
@@ -74,7 +79,7 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
         host = fm.elidedText(host, Qt::ElideMiddle, width);
         user = fm.elidedText(user, Qt::ElideRight, width);
     }
-    return QStringLiteral("%1\n%2").arg(user, host);
+    return QStringLiteral("%1").arg(user);
 }
 }
 
@@ -126,6 +131,12 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar->addAction(generalAction);
     auto *generalSettings = new NMCGeneralSettings;
     _ui->stack->addWidget(generalSettings);
+
+    // Adds space between general and network actions
+    auto *spacer2 = new QWidget();
+    spacer2->setFixedWidth(8);
+    spacer2->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _toolBar->addWidget(spacer2);
 
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
     connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettings::slotStyleChanged);
@@ -247,7 +258,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     const auto accountAction = createColorAwareAction(QLatin1String(":/client/theme/account.svg"), actionText);
 
     if (!brandingSingleAccount) {
-        accountAction->setToolTip(s->account()->displayName());
+        accountAction->setToolTip(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
     }
 
@@ -307,6 +318,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
             action->setText(displayName);
             auto height = _toolBar->sizeHint().height();
             action->setIconText(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
+            action->setToolTip(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
         }
     }
 }
@@ -346,19 +358,13 @@ void SettingsDialog::accountRemoved(AccountState *s)
 
 void SettingsDialog::customizeStyle()
 {
-    QString highlightColor(palette().highlight().color().name());
-    QString highlightTextColor(palette().highlightedText().color().name());
-    QString dark(palette().dark().color().name());
     QString background(palette().base().color().name());
-    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, dark, highlightColor, highlightTextColor));
+    QString highlightColor(palette().highlight().color().name());
+    QString midlightColor(palette().mid().color().name());
+    // QString highlightTextColor(palette().highlightedText().color().name());
+    // QString dark(palette().dark().color().name());
 
-    for (const auto a : _actionGroup->actions()) {
-        QIcon icon = Theme::createColorAwareIcon(a->property("iconPath").toString(), palette());
-        a->setIcon(icon);
-        auto *btn = qobject_cast<QToolButton *>(_toolBar->widgetForAction(a));
-        if (btn)
-            btn->setIcon(icon);
-    }
+    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, highlightColor, midlightColor));
 }
 
 class ToolButtonAction : public QWidgetAction
@@ -405,6 +411,7 @@ QAction *SettingsDialog::createActionWithIcon(const QIcon &icon, const QString &
 QAction *SettingsDialog::createColorAwareAction(const QString &iconPath, const QString &text)
 {
     // all buttons must have the same size in order to keep a good layout
+    // return createActionWithIcon(QIcon(iconPath), text, iconPath);
     QIcon coloredIcon = Theme::createColorAwareIcon(iconPath, palette());
     return createActionWithIcon(coloredIcon, text, iconPath);
 }
