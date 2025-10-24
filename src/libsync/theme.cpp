@@ -801,6 +801,29 @@ QPixmap Theme::wizardApplicationLogo() const
 #endif
 }
 
+QPixmap Theme::wizardApplicationLogoColored(const QColor &color) const
+{
+    const QString svgPath = QString(Theme::themePrefix) + QStringLiteral("colored/wizard_logo.svg");
+
+    QSvgRenderer svg(svgPath);
+
+    QSizeF viewBox = svg.viewBoxF().size();
+    QSize size = viewBox.toSize();
+
+    QPixmap pixmap(size);
+    pixmap.fill(Qt::transparent);
+
+    QPainter painter(&pixmap);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    svg.render(&painter);
+
+    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+    painter.fillRect(pixmap.rect(), color);
+    painter.end();
+
+    return pixmap;
+}
+
 QPixmap Theme::wizardHeaderLogo() const
 {
 #ifdef APPLICATION_WIZARD_USE_CUSTOM_LOGO
