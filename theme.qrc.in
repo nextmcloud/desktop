@@ -144,7 +144,10 @@
 
 		<file alias="theme/black/state-info.svg">theme/black/@STATE_SUBDIR@state-info.svg</file>
 
-		<!-- other icons -->
+		<!-- other icons -->        
+		<file>theme/NMCIcons/ApplicationLogo.svg</file>
+        <file>theme/NMCIcons/folderLogo.svg</file>
+        <file>theme/NMCIcons/tlogocarrier.svg</file>
 
 		<!-- colored icons -->
 		<file>theme/colored/wizard_logo.png</file>
