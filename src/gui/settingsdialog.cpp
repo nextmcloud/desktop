@@ -5,6 +5,8 @@
  */
 
 #include "settingsdialog.h"
+#include "ui_settingsdialog.h"
+#include "QtWidgets/qmainwindow.h"
 
 #include "folderman.h"
 #include "theme.h"
@@ -119,7 +121,7 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
         host = fm.elidedText(host, Qt::ElideMiddle, width);
         user = fm.elidedText(user, Qt::ElideRight, width);
     }
-    return QStringLiteral("%1\n%2").arg(user, host);
+    return QStringLiteral("%1").arg(user);
 }
 }
 
@@ -190,6 +192,12 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     auto *generalSettings = new GeneralSettings;
     _stack->addWidget(generalSettings);
     _stack->setStyleSheet(QStringLiteral("QStackedWidget { background: transparent; }"));
+
+    // Adds space between general and network actions
+    auto *spacer2 = new QWidget();
+    spacer2->setFixedWidth(8);
+    spacer2->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _toolBar->addWidget(spacer2);
 
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
     connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettings::slotStyleChanged);
@@ -339,7 +347,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     updateAccountAvatar(s->account().data());
     
     if (!brandingSingleAccount) {
-        accountAction->setToolTip(s->account()->displayName());
+        accountAction->setToolTip(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
     }
 
@@ -410,6 +418,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
             QString displayName = account->displayName();
             action->setText(displayName);
             auto height = _toolBar->sizeHint().height();
+            action->setToolTip(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
             action->setIconText(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
         }
     }
