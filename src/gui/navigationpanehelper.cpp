@@ -93,7 +93,7 @@ void NavigationPaneHelper::updateCloudStorageRegistry()
                 const QString clsidPathWow64 = QString() % R"(Software\Classes\Wow6432Node\CLSID\)" % clsidStr;
                 const QString namespacePath = QString() % R"(Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\)" % clsidStr;
                 const auto title = folder->sidebarDisplayName();
-                qCDebug(lcNavPane) << "Folder" << folder->cleanPath() << "will use shortcutname" << title;
+                // qCDebug(lcNavPane) << "Folder" << folder->cleanPath() << "will use shortcutname" << title;
 
                 const auto iconPath = QDir::toNativeSeparators(qApp->applicationFilePath());
                 const auto targetFolderPath = QDir::toNativeSeparators(folder->cleanPath());
