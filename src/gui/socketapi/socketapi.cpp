@@ -538,8 +538,7 @@ void SocketApi::processEncryptRequest(const QString &localFile)
             const int ret = QMessageBox::critical(
                 nullptr,
                 tr("Failed to encrypt folder"),
-                tr("Could not encrypt the following folder: \"%1\".\n\n"
-                   "Server replied with error: %2").arg(fileData.folderRelativePath, job->errorString()),
+                QCoreApplication::translate("", "E2E_MNEMONIC_TEXT3").arg(account->prettyName()),
                 QMessageBox::Ok
             );
             Q_UNUSED(ret)
