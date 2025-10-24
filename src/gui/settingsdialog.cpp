@@ -5,6 +5,8 @@
  */
 
 #include "settingsdialog.h"
+#include "ui_settingsdialog.h"
+#include "QtWidgets/qmainwindow.h"
 
 #include "advancedsettings.h"
 #include "folderman.h"
@@ -133,7 +135,7 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
         host = fm.elidedText(host, Qt::ElideMiddle, width);
         user = fm.elidedText(user, Qt::ElideRight, width);
     }
-    return QStringLiteral("%1\n%2").arg(user, host);
+    return QStringLiteral("%1").arg(user);
 }
 }
 
@@ -337,7 +339,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     updateAccountAvatar(s->account().data());
     
     if (!brandingSingleAccount) {
-        accountAction->setToolTip(s->account()->displayName());
+        accountAction->setToolTip(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
     }
 
@@ -412,6 +414,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
             QString displayName = account->displayName();
             action->setText(displayName);
             auto height = _toolBar->sizeHint().height();
+            action->setToolTip(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
             action->setIconText(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
         }
     }
