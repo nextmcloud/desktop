@@ -348,6 +348,9 @@ public:
     /** @return logo for the setup wizard. */
     [[nodiscard]] QPixmap wizardHeaderLogo() const;
 
+    /** @return colored logo for the setup wizard. */
+    [[nodiscard]] QPixmap wizardApplicationLogoColored(const QColor &color) const;
+
     /**
      * The default implementation creates a
      * background based on
