@@ -1275,7 +1275,6 @@ void AccountSettings::showConnectionLabel(const QString &message, QStringList er
         _ui->connectLabel->setToolTip({});
         _ui->connectLabel->setStyleSheet(errStyle);
     }
-    _ui->accountStatus->setVisible(!message.isEmpty());
 }
 
 void AccountSettings::slotEnableCurrentFolder(bool terminate)
@@ -1370,7 +1369,12 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
     if (total > 0) {
         const auto usedStr = Utility::octetsToString(used);
         const auto totalStr = Utility::octetsToString(total);
-        _spaceUsageText = tr("%1 of %2 in use").arg(usedStr, totalStr);
+        const auto percentStr = Utility::compactFormatDouble(percent, 1);
+        const auto toolTip = tr("%1 (%3%) of %2 in use. Some folders, including network mounted or shared folders, might have different limits.").arg(usedStr, totalStr, percentStr);
+        _ui->quotaInfoLabel->setText(QCoreApplication::translate("", "%1_OF_%2").arg(usedStr, totalStr));
+        _ui->quotaInfoLabel->setToolTip(toolTip);
+        _ui->quotaProgressBar->setToolTip(toolTip);
+        _ui->quotaInfoText->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(percentStr));
     } else {
         /* -1 means not computed; -2 means unknown; -3 means unlimited  (#owncloud/client/issues/3940)*/
         if (total == 0 || total == -1) {
@@ -1379,6 +1383,7 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
             const auto usedStr = Utility::octetsToString(used);
             _spaceUsageText = tr("%1 in use").arg(usedStr);
         }
+        _ui->quotaInfoText->setText(QCoreApplication::translate("", "USED_STORAGE_%1").arg(QString::number(0)));
     }
 
     slotAccountStateChanged();
