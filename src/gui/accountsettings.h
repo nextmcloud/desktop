@@ -108,6 +108,7 @@ protected slots:
                                   const QVector<int> &roles);
     void slotPossiblyUnblacklistE2EeFoldersAndRestartSync();
 
+    void checkClientSideEncryptionState();
     void slotE2eEncryptionCertificateNeedMigration();
 
 private slots:
@@ -124,8 +125,13 @@ private slots:
 
     void setupE2eEncryption();
     void forgetE2eEncryption();
-    void checkClientSideEncryptionState();
     void removeActionFromEncryptionMessage(const QString &actionId);
+
+protected:
+    Ui::AccountSettings *getUi() const
+    {
+        return _ui;
+    }
 
 private:
     bool event(QEvent *) override;
