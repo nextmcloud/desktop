@@ -28,7 +28,7 @@ TextField {
     topPadding: topInset
     bottomPadding: bottomInset
     leftPadding: iconInset + leadingControlWidth + Style.smallSpacing
-    rightPadding: iconInset + trailingControlWidth + Style.smallSpacing
+    rightPadding: clearTextButton.width + iconInset + Style.smallSpacing
     verticalAlignment: Qt.AlignVCenter
 
     placeholderText: qsTr("Search files, messages, events …")
