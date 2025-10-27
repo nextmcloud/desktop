@@ -318,5 +318,10 @@
         <file>theme/close-white.svg</file>
         <file>theme/more-white.svg</file>
         <file>theme/settings-white.svg</file>
+
+		<!-- NMC RWI icons -->
+		<file>theme/NMCIcons/ApplicationLogo.svg</file>
+        <file>theme/NMCIcons/folderLogo.svg</file>
+        <file>theme/NMCIcons/tlogocarrier.svg</file>
     </qresource>
 </RCC>
