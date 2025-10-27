@@ -307,5 +307,20 @@
         <file>theme/NMCIcons/pause.svg</file>
         <file>theme/NMCIcons/remove.svg</file>
         <file>theme/NMCIcons/website.svg</file>
+
+		<!-- NMC CMW icons -->
+        <file>theme/NMCIcons/accountAvatarIcon-white.svg</file>
+        <file>theme/NMCIcons/logout-white.svg</file>
+        <file>theme/NMCIcons/pause-white.svg</file>
+        <file>theme/NMCIcons/remove-white.svg</file>
+        <file>theme/NMCIcons/website-white.svg</file>
+        <file>theme/close-white.svg</file>
+        <file>theme/more-white.svg</file>
+        <file>theme/settings-white.svg</file>
+
+		<!-- NMC RWI icons -->
+		<file>theme/NMCIcons/ApplicationLogo.svg</file>
+        <file>theme/NMCIcons/folderLogo.svg</file>
+        <file>theme/NMCIcons/tlogocarrier.svg</file>
     </qresource>
 </RCC>
