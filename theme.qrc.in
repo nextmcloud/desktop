@@ -292,10 +292,5 @@
 		<file>theme/chevron-double-up.svg</file>
 		<file>theme/call-notification.wav</file>
   		<file>theme/info.svg</file>
-
-		<!-- NMC RWI icons -->
-		<file>theme/NMCIcons/ApplicationLogo.svg</file>
-        <file>theme/NMCIcons/folderLogo.svg</file>
-        <file>theme/NMCIcons/tlogocarrier.svg</file>
     </qresource>
 </RCC>
