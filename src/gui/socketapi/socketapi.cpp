@@ -35,6 +35,7 @@
 #endif
 
 #include <array>
+#include <memory>
 #include <QBitArray>
 #include <QUrl>
 #include <QMetaMethod>
