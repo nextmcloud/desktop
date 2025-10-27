@@ -1,11 +1,6 @@
 <RCC>
     <qresource prefix="/client">
 
-		<!-- NMC RWI icons -->
-		<file>theme/NMCIcons/ApplicationLogo.svg</file>
-        <file>theme/NMCIcons/folderLogo.svg</file>
-        <file>theme/NMCIcons/tlogocarrier.svg</file>
-
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-16.png">theme/colored/16-@APPLICATION_ICON_NAME@-icon.png</file>
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-24.png">theme/colored/24-@APPLICATION_ICON_NAME@-icon.png</file>
         <file alias="theme/colored/@APPLICATION_ICON_NAME@-icon-32.png">theme/colored/32-@APPLICATION_ICON_NAME@-icon.png</file>
@@ -297,5 +292,10 @@
 		<file>theme/chevron-double-up.svg</file>
 		<file>theme/call-notification.wav</file>
   		<file>theme/info.svg</file>
+
+		<!-- NMC RWI icons -->
+		<file>theme/NMCIcons/ApplicationLogo.svg</file>
+        <file>theme/NMCIcons/folderLogo.svg</file>
+        <file>theme/NMCIcons/tlogocarrier.svg</file>
     </qresource>
 </RCC>
