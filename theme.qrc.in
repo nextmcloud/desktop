@@ -291,5 +291,13 @@
 		<file>theme/chevron-double-up.svg</file>
 		<file>theme/call-notification.wav</file>
   		<file>theme/info.svg</file>
+        <file>theme/NMCIcons/accountAvatarIcon-white.svg</file>
+        <file>theme/NMCIcons/logout-white.svg</file>
+        <file>theme/NMCIcons/pause-white.svg</file>
+        <file>theme/NMCIcons/remove-white.svg</file>
+        <file>theme/NMCIcons/website-white.svg</file>
+        <file>theme/close-white.svg</file>
+        <file>theme/more-white.svg</file>
+        <file>theme/settings-white.svg</file>
     </qresource>
 </RCC>
