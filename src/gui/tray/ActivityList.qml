@@ -151,7 +151,7 @@ ScrollView {
 
         Column {
             id: placeholderColumn
-            width: parent.width * 0.8
+            width: parent.width * 0.75
             anchors.centerIn: parent
             visible: activityList.count === 0
             spacing: Style.standardSpacing
