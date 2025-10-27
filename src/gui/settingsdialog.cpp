@@ -10,6 +10,7 @@
 #include "folderman.h"
 #include "theme.h"
 #include "generalsettings.h"
+#include "nmcgui/nmcgeneralsettings.h"
 #include "infosettings.h"
 #include "networksettings.h"
 #include "accountsettings.h"
@@ -169,6 +170,15 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _actionGroup->setExclusive(true);
     connect(_actionGroup, &QActionGroup::triggered, this, &SettingsDialog::slotSwitchPage);
 
+    QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/settings.svg"), tr("General"));
+    _actionGroup->addAction(generalAction);
+    _toolBar->addAction(generalAction);
+    auto *accountSpacer = new QWidget(this);
+    accountSpacer->setFixedHeight(16);
+    _toolBar->addWidget(accountSpacer);
+    _toolBar->addSeparator();
+    auto *generalSettings = new NMCGeneralSettings;
+    _stack->addWidget(generalSettings);
     _stack->setStyleSheet(QStringLiteral("QStackedWidget { background: transparent; }"));
 
     const auto accountsList = AccountManager::instance()->accounts();
