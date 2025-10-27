@@ -18,6 +18,8 @@ RowLayout {
     property color accentColor: Style.ncBlue
 
     spacing: Style.trayHorizontalMargin
+    Layout.alignment: Qt.AlignVCenter
+    Layout.preferredHeight: Style.nmcTraySyncButtonHeight + 8
 
     NC.SyncStatusSummary {
         id: syncStatus
@@ -31,11 +33,11 @@ RowLayout {
         Layout.preferredWidth: size
         Layout.preferredHeight: size
 
-        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+        Layout.alignment: Qt.AlignVCenter
         Layout.topMargin: Style.trayHorizontalMargin
         Layout.rightMargin: whiteSpace * (0.5 + Style.thumbnailImageSizeReduction)
         Layout.bottomMargin: Style.trayHorizontalMargin
-        Layout.leftMargin: Style.trayHorizontalMargin + (whiteSpace * (0.5 - Style.thumbnailImageSizeReduction))
+        Layout.leftMargin: Style.nmcListViewLeftPadding
 
         padding: 0
 
@@ -50,6 +52,7 @@ RowLayout {
         Layout.topMargin: 8
         Layout.rightMargin: Style.trayHorizontalMargin
         Layout.bottomMargin: 8
+        Layout.leftMargin: Style.nmcProgressFieldTextOffset
         Layout.fillWidth: true
         Layout.fillHeight: true
 
@@ -60,7 +63,7 @@ RowLayout {
 
             text: syncStatus.syncStatusString
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: Style.topLinePixelSize
+            font.pixelSize: Style.nmcFontSizeSyncText
             font.bold: true
             wrapMode: Text.Wrap
         }
@@ -85,7 +88,7 @@ RowLayout {
             Layout.fillWidth: true
 
             text: syncStatus.syncStatusDetailString
-            visible: syncStatus.syncStatusDetailString !== ""
+            visible: false
             font.pixelSize: Style.subLinePixelSize
             wrapMode: Text.Wrap
         }
@@ -94,6 +97,7 @@ RowLayout {
     Button {
         id: syncNowButton
 
+        Layout.alignment: Qt.AlignVCenter
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Sync now")
@@ -105,6 +109,27 @@ RowLayout {
                  NC.UserModel.currentUser.hasLocalFolder &&
                  NC.UserModel.currentUser.isConnected
         enabled: visible
+
+        HoverHandler {
+            id: mouseSync
+            acceptedDevices: PointerDevice.AllPointerTypes
+        }
+
+        background: Rectangle {
+            color: mouseSync.hovered ? Style.nmcSyncHoverColor : Style.nmcTelekomMagentaColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
+        }
+
+        contentItem: Text {
+            text: syncNowButton.text
+            color: "white"
+            font.pixelSize: Style.nmcFontSizeAccountName
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+        }
+
         onClicked: {
             if(!syncStatus.syncing) {
                 NC.UserModel.currentUser.forceSyncNow();
@@ -113,7 +138,10 @@ RowLayout {
     }
 
     Button {
+        Layout.alignment: Qt.AlignVCenter
         Layout.rightMargin: Style.trayHorizontalMargin
+
+        padding: Style.smallSpacing
 
         text: qsTr("Resolve conflicts")
 
@@ -122,10 +150,34 @@ RowLayout {
                  NC.UserModel.currentUser.hasLocalFolder &&
                  NC.UserModel.currentUser.isConnected
         enabled: visible
+
+        HoverHandler {
+            id: mouseConflict
+            acceptedDevices: PointerDevice.Mouse
+        }
+
+        contentItem: Text {
+            text: parent.text
+            color: Style.nmcTextInButtonColor
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            anchors.fill: parent
+        }
+
+        background: Rectangle {
+            color: mouseConflict.hovered
+                ? Style.nmcConflictHoverColor
+                : Style.nmcConflictColor
+            radius: Style.nmcStandardRadius
+            height: Style.nmcTraySyncButtonHeight
+            width: parent.width
+        }
+
         onClicked: NC.Systray.createResolveConflictsDialog(activityModel.allConflicts);
     }
 
     Button {
+        Layout.alignment: Qt.AlignVCenter
         Layout.rightMargin: Style.trayHorizontalMargin
 
         text: qsTr("Open browser")
