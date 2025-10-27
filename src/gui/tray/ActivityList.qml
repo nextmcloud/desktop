@@ -98,7 +98,8 @@ ScrollView {
             width: activityList.contentItem.width
 
             isFileActivityList: controlRoot.isFileActivityList
-            iconSize: controlRoot.iconSize
+            iconSize: Style.nmcListViewIconSize
+            leftPadding: Style.nmcListViewLeftPadding
             flickable: activityList
             onHoveredChanged: if (hovered) {
                 // When we set the currentIndex the list view will scroll...
@@ -150,7 +151,7 @@ ScrollView {
 
         Column {
             id: placeholderColumn
-            width: parent.width * 0.8
+            width: parent.width * 0.75
             anchors.centerIn: parent
             visible: activityList.count === 0
             spacing: Style.standardSpacing
