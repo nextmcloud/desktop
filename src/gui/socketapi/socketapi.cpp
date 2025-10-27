@@ -551,10 +551,11 @@ void SocketApi::processEncryptRequest(const QString &localFile)
             );
             Q_UNUSED(ret)
         } else {
-            // const int ret = QMessageBox::information(nullptr,
-            //                                          tr("Folder encrypted successfully").arg(fileData.folderRelativePath),
-            //                                          tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
-            // Q_UNUSED(ret)
+            //    const int ret = QMessageBox::information(nullptr,
+            //                 tr("Folder encrypted successfully"),
+            //                 tr("The following folder was encrypted successfully: \"%1\"")
+            //                     .arg(fileData.folderRelativePath));
+            //    Q_UNUSED(ret)
 
             // NMC customization
             auto messageBox = std::make_unique<QMessageBox>();
