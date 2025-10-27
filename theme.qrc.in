@@ -144,10 +144,7 @@
 
 		<file alias="theme/black/state-info.svg">theme/black/@STATE_SUBDIR@state-info.svg</file>
 
-		<!-- other icons -->        
-		<file>theme/NMCIcons/ApplicationLogo.svg</file>
-        <file>theme/NMCIcons/folderLogo.svg</file>
-        <file>theme/NMCIcons/tlogocarrier.svg</file>
+		<!-- other icons -->
 
 		<!-- colored icons -->
 		<file>theme/colored/wizard_logo.png</file>
@@ -294,5 +291,10 @@
 		<file>theme/chevron-double-up.svg</file>
 		<file>theme/call-notification.wav</file>
   		<file>theme/info.svg</file>
+
+		<!-- NMC icons -->
+		<file>theme/NMCIcons/ApplicationLogo.svg</file>
+        <file>theme/NMCIcons/folderLogo.svg</file>
+        <file>theme/NMCIcons/tlogocarrier.svg</file>
     </qresource>
 </RCC>
