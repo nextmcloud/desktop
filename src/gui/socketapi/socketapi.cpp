@@ -551,12 +551,6 @@ void SocketApi::processEncryptRequest(const QString &localFile)
             );
             Q_UNUSED(ret)
         } else {
-            //    const int ret = QMessageBox::information(nullptr,
-            //                 tr("Folder encrypted successfully"),
-            //                 tr("The following folder was encrypted successfully: \"%1\"")
-            //                     .arg(fileData.folderRelativePath));
-            //    Q_UNUSED(ret)
-
             // NMC customization
             auto messageBox = std::make_unique<QMessageBox>();
             messageBox->setAttribute(Qt::WA_DeleteOnClose);
@@ -570,6 +564,12 @@ void SocketApi::processEncryptRequest(const QString &localFile)
             // Set default button (prevents empty UI)
             messageBox->addButton(QMessageBox::Ok);
             messageBox->show();
+/*
+            const int ret = QMessageBox::information(nullptr,
+                                                     tr("Folder encrypted successfully").arg(fileData.folderRelativePath),
+                                                     tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
+            Q_UNUSED(ret)
+*/
         }
     });
     job->setProperty(encryptJobPropertyFolder, QVariant::fromValue(folder));
