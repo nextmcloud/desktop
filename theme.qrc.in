@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/client">
 
-		<!-- NMC icons -->
+		<!-- NMC RWI icons -->
 		<file>theme/NMCIcons/ApplicationLogo.svg</file>
         <file>theme/NMCIcons/folderLogo.svg</file>
         <file>theme/NMCIcons/tlogocarrier.svg</file>
