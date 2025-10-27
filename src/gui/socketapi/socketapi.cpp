@@ -539,7 +539,7 @@ void SocketApi::processEncryptRequest(const QString &localFile)
 
     auto job = new OCC::EncryptFolderJob(account, folder->journalDb(), choppedPath, choppedPath, folder->remotePath(), rec.numericFileId());
     job->setParent(this);
-    connect(job, &OCC::EncryptFolderJob::finished, this, [fileData, job, account](const int status) {
+    connect(job, &OCC::EncryptFolderJob::finished, this, [fileData, account](const int status) {
         if (status == OCC::EncryptFolderJob::Error) {
             const int ret = QMessageBox::critical(
                 nullptr,
