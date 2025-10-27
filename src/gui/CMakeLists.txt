@@ -6,9 +6,6 @@ find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS Widgets Svg Qml Quick Qui
 find_package(KF6Archive REQUIRED)
 find_package(KF6GuiAddons)
 
-#NMC customization: needed to find the ui file in a different location than the header file
-set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
-
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     add_definitions(-DQT_QML_DEBUG)
 endif()
@@ -25,6 +22,9 @@ endif()
 
 configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
 set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
+
+#NMC customization: needed to find the ui file in a different location than the header file
+set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
 
 set(client_UI_SRCS
     accountsettings.ui
