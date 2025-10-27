@@ -259,6 +259,8 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     localPathRect.setLeft(nextToIcon);
     remotePathRect.setLeft(nextToIcon);
 
+    const auto iconSize = iconRect.width();
+
     auto optionsButtonVisualRect = optionsButtonRect(option.rect, option.direction);
 
     // NMC Customization
