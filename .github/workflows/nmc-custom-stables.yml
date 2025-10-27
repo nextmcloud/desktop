@@ -22,12 +22,12 @@ on:
         type: choice
         description: Custom build from base branch
         options: 
+          - stable-4.0
+          - stable-3.17
           - stable-3.16
           - stable-3.14
           - stable-3.13
-          - stable-3.12
-          - v3.8.2
-        default: stable-3.12
+        default: stable-3.17
 
 jobs:
   backport-custom:
