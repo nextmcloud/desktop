@@ -340,6 +340,7 @@ void SettingsDialog::accountRemoved(AccountState *s)
 
 void SettingsDialog::customizeStyle()
 {
+    QString background(palette().base().color().name());
     QString highlightColor(palette().highlight().color().name());
     QString midlightColor(palette().mid().color().name());
 
