@@ -36,6 +36,7 @@ void NMCGeneralSettings::setDefaultSettings()
     getUi()->monoIconsCheckBox->setCheckState(Qt::Unchecked);
     getUi()->serverNotificationsCheckBox->setCheckState(Qt::Unchecked);
     getUi()->callNotificationsCheckBox->setCheckState(Qt::Unchecked);
+    getUi()->quotaWarningNotificationsCheckBox->setCheckState(Qt::Unchecked);
     //Advanced settings
     getUi()->newFolderLimitCheckBox->setCheckState(Qt::Unchecked);
     //Info settings
@@ -44,6 +45,7 @@ void NMCGeneralSettings::setDefaultSettings()
     //General settings
     getUi()->monoIconsCheckBox->setVisible(false);
     getUi()->callNotificationsCheckBox->setVisible(false);
+    getUi()->quotaWarningNotificationsCheckBox->setVisible(false);
     //Advanced settings
     getUi()->groupBox->setVisible(false);
     //Info settings
