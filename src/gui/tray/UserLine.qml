@@ -71,7 +71,8 @@ AbstractButton {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignVCenter
             spacing: 8
-            anchors.leftMargin: 12
+            
+            Item { width: Style.nmcMenuSubItemLeftPadding }
 
             Image {
                 id: accountIcon
@@ -189,6 +190,7 @@ AbstractButton {
                     text: qsTr("Set status")
                     font.pixelSize: Style.topLinePixelSize
                     hoverEnabled: true
+                    height: visible ? implicitHeight : 0
 
                     onClicked: showUserStatusSelector(index)
 
@@ -204,6 +206,7 @@ AbstractButton {
                     text: qsTr("Status message")
                     font.pixelSize: Style.topLinePixelSize
                     hoverEnabled: true
+                    height: visible ? implicitHeight : 0
 
                     onClicked: showUserStatusMessageSelector(index)
 
