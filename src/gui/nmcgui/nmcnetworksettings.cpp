@@ -41,8 +41,10 @@ void NMCNetworkSettings::setLayout()
     ui->proxyGroupBox->layout()->removeWidget(ui->manualProxyRadioButton);
     ui->proxyGroupBox->layout()->removeWidget(ui->noProxyRadioButton);
     ui->proxyGroupBox->layout()->removeWidget(ui->systemProxyRadioButton);
-    ui->proxyGroupBox->layout()->removeItem(ui->horizontalLayout_7);
-    ui->proxyGroupBox->layout()->removeItem(ui->horizontalSpacer_2);
+
+    delete ui->horizontalLayout_7;
+    delete ui->horizontalSpacer_2;
+
     ui->proxyGroupBox->layout()->setContentsMargins(16, 16, 16, 16);
     ui->proxyGroupBox->setStyleSheet("border-radius: 4px;");
 
@@ -55,7 +57,6 @@ void NMCNetworkSettings::setLayout()
     proxyLayout->addWidget(ui->noProxyRadioButton, 2, 0);
     proxyLayout->addWidget(ui->systemProxyRadioButton, 3, 0);
     proxyLayout->addWidget(ui->manualProxyRadioButton, 4, 0);
-    proxyLayout->addLayout(ui->horizontalLayout_7, 5, 0);
 
     ui->horizontalSpacer->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
     ui->proxyGroupBox->setStyleSheet(ui->proxyGroupBox->styleSheet());
@@ -67,10 +68,13 @@ void NMCNetworkSettings::setLayout()
     ui->downloadBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     ui->horizontalLayout_3->setSpacing(8);
     ui->downloadBox->setTitle({});
+
     ui->downloadBox->layout()->removeWidget(ui->noDownloadLimitRadioButton);
     ui->downloadBox->layout()->removeWidget(ui->autoDownloadLimitRadioButton);
     ui->downloadBox->layout()->removeWidget(ui->downloadLimitRadioButton);
-    ui->downloadBox->layout()->removeItem(ui->horizontalLayout_3);
+
+    delete ui->horizontalLayout_3;
+
     ui->downloadBox->layout()->setContentsMargins(16, 16, 16, 16);
     ui->downloadBox->setStyleSheet("border-radius: 4px;");
 
@@ -83,7 +87,6 @@ void NMCNetworkSettings::setLayout()
     downLayout->addWidget(ui->noDownloadLimitRadioButton, 2, 0);
     downLayout->addWidget(ui->autoDownloadLimitRadioButton, 3, 0);
     downLayout->addWidget(ui->downloadLimitRadioButton, 4, 0);
-    downLayout->addLayout(ui->horizontalLayout_3, 4, 1);
 
     ui->downloadLimitRadioButton->setFixedHeight(ui->downloadSpinBox->height());
     ui->downloadBox->setStyleSheet(ui->downloadBox->styleSheet());
@@ -95,10 +98,13 @@ void NMCNetworkSettings::setLayout()
     ui->uploadBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     ui->horizontalLayout_4->setSpacing(8);
     ui->uploadBox->setTitle({});
+
     ui->uploadBox->layout()->removeWidget(ui->noUploadLimitRadioButton);
     ui->uploadBox->layout()->removeWidget(ui->autoUploadLimitRadioButton);
     ui->uploadBox->layout()->removeWidget(ui->uploadLimitRadioButton);
-    ui->uploadBox->layout()->removeItem(ui->horizontalLayout_4);
+
+    delete ui->horizontalLayout_4;
+
     ui->uploadBox->layout()->setContentsMargins(16, 16, 16, 16);
     ui->uploadBox->setStyleSheet("border-radius: 4px;");
 
@@ -111,7 +117,6 @@ void NMCNetworkSettings::setLayout()
     upLayout->addWidget(ui->noUploadLimitRadioButton, 2, 0);
     upLayout->addWidget(ui->autoUploadLimitRadioButton, 3, 0);
     upLayout->addWidget(ui->uploadLimitRadioButton, 4, 0);
-    upLayout->addLayout(ui->horizontalLayout_4, 4, 1);
 
     ui->uploadLimitRadioButton->setFixedHeight(ui->uploadSpinBox->height());
     ui->uploadBox->setStyleSheet(ui->uploadBox->styleSheet());
