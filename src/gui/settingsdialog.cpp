@@ -10,6 +10,7 @@
 #include "theme.h"
 #include "generalsettings.h"
 #include "networksettings.h"
+#include "nmcgui/nmcnetworksettings.h"
 #include "accountsettings.h"
 #include "configfile.h"
 #include "progressdispatcher.h"
@@ -200,7 +201,14 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     connect(AccountManager::instance(), &AccountManager::capabilitiesChanged, generalSettings, &GeneralSettings::loadUpdateChannelsList);
 #endif
 
+    QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
+    _actionGroup->addAction(networkAction);
+    _toolBar->addAction(networkAction);
+    auto *networkSettings = new NMCNetworkSettings;
+    _ui->stack->addWidget(networkSettings);
+
     _actionGroupWidgets.insert(generalAction, generalSettings);
+    _actionGroupWidgets.insert(networkAction, networkSettings);
 
     const auto accountsList = AccountManager::instance()->accounts();
     for (const auto &account : accountsList) {
