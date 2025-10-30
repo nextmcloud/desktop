@@ -28,6 +28,12 @@ NetworkSettings::NetworkSettings(const AccountPtr &account, QWidget *parent)
 {
     _ui->setupUi(this);
 
+    QColor backgroundColor = palette().color(QPalette::Window);
+    QPalette pal = palette();
+    pal.setColor(QPalette::Window, backgroundColor);
+    setAutoFillBackground(true);
+    setPalette(pal);
+
     _ui->manualSettings->setVisible(_ui->manualProxyRadioButton->isChecked());
 
     _ui->proxyGroupBox->setVisible(!Theme::instance()->doNotUseProxy());
