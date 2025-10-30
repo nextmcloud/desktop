@@ -38,9 +38,10 @@ class SettingsDialog : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(QWidget* currentPage READ currentPage NOTIFY currentPageChanged)
+    Q_PROPERTY(AccountState* accountState MEMBER _accountState)
 
 public:
-    explicit SettingsDialog(ownCloudGui *gui, QWidget *parent = nullptr);
+    explicit SettingsDialog(AccountState *accountState, ownCloudGui *gui, QWidget *parent = nullptr);
     ~SettingsDialog() override;
 
     QWidget* currentPage();
@@ -73,6 +74,8 @@ private:
     QAction *createActionWithIcon(const QIcon &icon, const QString &text, const QString &iconPath = QString());
 
     Ui::SettingsDialog *const _ui;
+
+    AccountState *_accountState;
 
     QActionGroup *_actionGroup;
     // Maps the actions from the action group to the corresponding widgets
