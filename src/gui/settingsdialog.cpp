@@ -131,7 +131,7 @@ SettingsDialog::SettingsDialog(AccountState *accountState, ownCloudGui *gui, QWi
     QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
-    auto *networkSettings = new NetworkSettings(_accountState->account());
+    auto *networkSettings = new NetworkSettings;
     _ui->stack->addWidget(networkSettings);
 
     _actionGroupWidgets.insert(generalAction, generalSettings);
