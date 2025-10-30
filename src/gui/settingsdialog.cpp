@@ -72,11 +72,10 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
 
 namespace OCC {
 
-SettingsDialog::SettingsDialog(AccountState *accountState, ownCloudGui *gui, QWidget *parent)
+SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     : QDialog(parent)
-    , _accountState(accountState)
-    , _gui(gui)
     , _ui(new Ui::SettingsDialog)
+    , _gui(gui)
 {
     ConfigFile cfg;
 
