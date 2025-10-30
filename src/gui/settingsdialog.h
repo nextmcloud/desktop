@@ -41,7 +41,7 @@ class SettingsDialog : public QDialog
     Q_PROPERTY(AccountState* accountState MEMBER _accountState)
 
 public:
-    explicit SettingsDialog(AccountState *accountState, ownCloudGui *gui, QWidget *parent = nullptr);
+    explicit SettingsDialog(ownCloudGui *gui, QWidget *parent = nullptr) : SettingsDialog(nullptr, gui, parent) {}
     ~SettingsDialog() override;
 
     QWidget* currentPage();
