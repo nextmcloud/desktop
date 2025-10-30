@@ -212,12 +212,12 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     tabWidget->setCurrentIndex(0);
 #endif
 
-    const auto connectionSettingsTab = _ui->connectionSettingsTab;
-    const auto connectionSettingsLayout = new QVBoxLayout(connectionSettingsTab);
-    const auto networkSettings = new NetworkSettings(_accountState->account(), connectionSettingsTab);
-    connectionSettingsLayout->setContentsMargins(0, 0, 0, 0);
-    connectionSettingsLayout->addWidget(networkSettings);
-    connectionSettingsTab->setLayout(connectionSettingsLayout);
+    // const auto connectionSettingsTab = _ui->connectionSettingsTab;
+    // const auto connectionSettingsLayout = new QVBoxLayout(connectionSettingsTab);
+    // const auto networkSettings = new NetworkSettings(_accountState->account(), connectionSettingsTab);
+    // connectionSettingsLayout->setContentsMargins(0, 0, 0, 0);
+    // connectionSettingsLayout->addWidget(networkSettings);
+    // connectionSettingsTab->setLayout(connectionSettingsLayout);
 
     const auto mouseCursorChanger = new MouseCursorChanger(this);
     mouseCursorChanger->folderList = _ui->_folderList;
