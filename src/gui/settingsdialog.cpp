@@ -72,10 +72,11 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
 
 namespace OCC {
 
-SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
+SettingsDialog::SettingsDialog(AccountState *accountState, ownCloudGui *gui, QWidget *parent)
     : QDialog(parent)
     , _ui(new Ui::SettingsDialog)
     , _gui(gui)
+    , _accountState(accountState)
 {
     ConfigFile cfg;
 
@@ -130,7 +131,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     QAction *networkAction = createColorAwareAction(QLatin1String(":/client/theme/network.svg"), tr("Network"));
     _actionGroup->addAction(networkAction);
     _toolBar->addAction(networkAction);
-    auto *networkSettings = new NetworkSettings;
+    auto *networkSettings = new NetworkSettings(_accountState->account());
     _ui->stack->addWidget(networkSettings);
 
     _actionGroupWidgets.insert(generalAction, generalSettings);
