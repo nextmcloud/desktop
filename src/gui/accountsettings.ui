@@ -314,6 +314,11 @@
        <string>Virtual file sync</string>
       </attribute>
      </widget>
+     <widget class="QWidget" name="connectionSettingsTab">
+      <attribute name="title">
+       <string>Connection settings</string>
+      </attribute>
+     </widget>
     </widget>
    </item>
   </layout>
