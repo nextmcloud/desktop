@@ -74,9 +74,9 @@ namespace OCC {
 
 SettingsDialog::SettingsDialog(AccountState *accountState, ownCloudGui *gui, QWidget *parent)
     : QDialog(parent)
-    , _ui(new Ui::SettingsDialog)
-    , _gui(gui)
     , _accountState(accountState)
+    , _gui(gui)
+    , _ui(new Ui::SettingsDialog)
 {
     ConfigFile cfg;
 
