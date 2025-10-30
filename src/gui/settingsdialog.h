@@ -41,7 +41,9 @@ class SettingsDialog : public QDialog
     Q_PROPERTY(AccountState* accountState MEMBER _accountState)
 
 public:
-    explicit SettingsDialog(ownCloudGui *gui, QWidget *parent = nullptr) : SettingsDialog(nullptr, gui, parent) {}
+    explicit SettingsDialog(AccountState *accountState, ownCloudGui *gui, QWidget *parent = nullptr);
+    explicit SettingsDialog(ownCloudGui *gui, QWidget *parent = nullptr)
+        : SettingsDialog(nullptr, gui, parent) {}
     ~SettingsDialog() override;
 
     QWidget* currentPage();
@@ -73,9 +75,9 @@ private:
     QAction *createColorAwareAction(const QString &iconName, const QString &fileName);
     QAction *createActionWithIcon(const QIcon &icon, const QString &text, const QString &iconPath = QString());
 
-    Ui::SettingsDialog *const _ui;
-
     AccountState *_accountState;
+    ownCloudGui *_gui;
+    Ui::SettingsDialog *const _ui;
 
     QActionGroup *_actionGroup;
     // Maps the actions from the action group to the corresponding widgets
@@ -86,8 +88,6 @@ private:
     QHash<Account *, QAction *> _actionForAccount;
 
     QToolBar *_toolBar;
-
-    ownCloudGui *_gui;
 };
 }
 
