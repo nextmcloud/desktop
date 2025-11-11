@@ -51,97 +51,116 @@
  }
  
  void NMCAccountSettings::setLayout()
- {
-     // Entferne alte Quota-Widgets
-     getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoLabel);
-     getUi()->storageGroupBox->removeWidget(getUi()->quotaProgressBar);
-     getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoText);
- 
-     getUi()->gridLayout->removeWidget(getUi()->encryptionMessage);
-     getUi()->gridLayout->addWidget(getUi()->encryptionMessage, 0, 0);
- 
-     // Titel für Folder Sync
-     m_folderSync->setStyleSheet("font-size: 15px; font-weight: 600; padding: 8px;");
-     m_folderSync->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-     getUi()->gridLayout->addWidget(m_folderSync, 1, 0);
- 
-     // Live-Backup-Bereich
-     auto *liveHLayout = new QHBoxLayout();
-     liveHLayout->setContentsMargins(8, 8, 8, 8);
- 
-     auto *liveVLayout = new QVBoxLayout();
-     auto *liveWidget = new QWidget(this);
-     liveWidget->setStyleSheet("QWidget {border-radius: 4px;}");
-     liveWidget->setLayout(liveHLayout);
- 
-     liveHLayout->addLayout(liveVLayout);
-     liveHLayout->addStretch();
- 
-     const QString styleSheet = QStringLiteral(
-         "QPushButton { font-size: %5px; border: %1px solid; border-color: black; "
-         "border-radius: 4px; background-color: %2; color: %3; } "
-         "QPushButton:hover { background-color: %4; }");
- 
-     m_liveAccountButton->setStyleSheet(styleSheet.arg("0", "#E20074", "white", "#c00063", "13"));
-     m_liveAccountButton->setFixedSize(180, 32);
-     m_liveAccountButton->setLeftIconMargin(4);
- 
-     liveHLayout->addWidget(m_liveAccountButton);
- 
-     liveVLayout->addWidget(m_liveTitle);
-     m_liveTitle->setStyleSheet("font-size: 15px; font-weight: 600;");
- 
-     liveVLayout->addWidget(m_liveDescription);
-     m_liveDescription->setStyleSheet("font-size: 13px;");
-     m_liveDescription->setText(QCoreApplication::translate("", "LIVE_BACKUPS_DESCRIPTION"));
-     m_liveDescription->setWordWrap(true);
-     m_liveDescription->setFixedWidth(450);
- 
-     getUi()->gridLayout->addWidget(liveWidget, 4, 0);
- 
-     // Speicherbereich
-     auto *magentaHLayout = new QHBoxLayout();
-     magentaHLayout->setSpacing(32);
- 
-     auto *quotaVLayout = new QVBoxLayout();
-     quotaVLayout->setSpacing(4);
-     quotaVLayout->addSpacing(12);
- 
-     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
-     getUi()->quotaInfoLabel->setStyleSheet("QLabel { font-size: 18px; padding: 8px; font-weight: 500; }");
- 
-     quotaVLayout->addWidget(getUi()->quotaProgressBar);
-     getUi()->quotaProgressBar->setStyleSheet(
-         "QProgressBar { background-color: #e5e5e5; color: black; border: 1px solid black; border-radius: 4px; margin-left: 8px; } "
-         "QProgressBar::chunk { background-color: #E20074; }");
-     getUi()->quotaProgressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
- 
-     quotaVLayout->addWidget(getUi()->quotaInfoText);
-     getUi()->quotaInfoText->setStyleSheet("QLabel { font-size: 13px; padding: 8px; }");
- 
-     quotaVLayout->addSpacing(20);
-     magentaHLayout->addLayout(quotaVLayout);
- 
-     auto *storageLinkButton = new QPushButton(QCoreApplication::translate("", "STORAGE_EXTENSION"), this);
-     storageLinkButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-     storageLinkButton->setStyleSheet(
-         "QPushButton { height: 32px; width: 180px; border: 1px solid black; background-color: #ededed; "
-         "color: black; font-size: 13px; border-radius: 4px; } "
-         "QPushButton::hover { background-color: white; }");
- 
-     connect(storageLinkButton, &QPushButton::clicked, this, []() {
-         QDesktopServices::openUrl(QUrl(QStringLiteral("https://cloud.telekom-dienste.de/tarife")));
-     });
- 
-     magentaHLayout->addWidget(storageLinkButton);
-     magentaHLayout->addSpacing(8);
- 
-     getUi()->gridLayout->addLayout(magentaHLayout, 5, 0);
- 
-     // Sichtbarkeit initial ausblenden
-     getUi()->encryptionMessage->hide();
-     checkClientSideEncryptionState();
- }
+{
+    // Entferne alte Quota-Widgets
+    getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoLabel);
+    getUi()->storageGroupBox->removeWidget(getUi()->quotaProgressBar);
+    getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoText);
+
+    getUi()->gridLayout->removeWidget(getUi()->encryptionMessage);
+    getUi()->gridLayout->addWidget(getUi()->encryptionMessage, 0, 0);
+
+    // Titel für Folder Sync
+    m_folderSync->setStyleSheet("font-size: 15px; font-weight: 600; padding: 8px;");
+    m_folderSync->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    getUi()->gridLayout->addWidget(m_folderSync, 1, 0);
+
+    // --- Live-Backup-Bereich ---
+    auto *liveHLayout = new QHBoxLayout();
+    liveHLayout->setContentsMargins(8, 8, 8, 8);
+
+    auto *liveVLayout = new QVBoxLayout();
+    m_liveWidget = new QWidget(this); // Membervariable statt lokale Variable
+    m_liveWidget->setStyleSheet("QWidget { border-radius: 4px; }");
+    m_liveWidget->setLayout(liveHLayout);
+
+    liveHLayout->addLayout(liveVLayout);
+    liveHLayout->addStretch();
+
+    const QString styleSheet = QStringLiteral(
+        "QPushButton { font-size: %5px; border: %1px solid; border-color: black; "
+        "border-radius: 4px; background-color: %2; color: %3; } "
+        "QPushButton:hover { background-color: %4; }");
+
+    m_liveAccountButton->setStyleSheet(styleSheet.arg("0", "#E20074", "white", "#c00063", "13"));
+    m_liveAccountButton->setFixedSize(180, 32);
+    m_liveAccountButton->setLeftIconMargin(4);
+
+    liveHLayout->addWidget(m_liveAccountButton);
+
+    liveVLayout->addWidget(m_liveTitle);
+    m_liveTitle->setStyleSheet("font-size: 15px; font-weight: 600;");
+
+    liveVLayout->addWidget(m_liveDescription);
+    m_liveDescription->setStyleSheet("font-size: 13px;");
+    m_liveDescription->setText(QCoreApplication::translate("", "LIVE_BACKUPS_DESCRIPTION"));
+    m_liveDescription->setWordWrap(true);
+    m_liveDescription->setFixedWidth(450);
+
+    getUi()->gridLayout->addWidget(m_liveWidget, 4, 0);
+
+    // --- Speicherbereich (Quota) ---
+    auto *magentaHLayout = new QHBoxLayout();
+    magentaHLayout->setSpacing(32);
+
+    auto *quotaVLayout = new QVBoxLayout();
+    quotaVLayout->setSpacing(4);
+    quotaVLayout->addSpacing(12);
+
+    quotaVLayout->addWidget(getUi()->quotaInfoLabel);
+    getUi()->quotaInfoLabel->setStyleSheet("QLabel { font-size: 18px; padding: 8px; font-weight: 500; }");
+
+    quotaVLayout->addWidget(getUi()->quotaProgressBar);
+    getUi()->quotaProgressBar->setStyleSheet(
+        "QProgressBar { background-color: #e5e5e5; color: black; border: 1px solid black; border-radius: 4px; margin-left: 8px; } "
+        "QProgressBar::chunk { background-color: #E20074; }");
+    getUi()->quotaProgressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    quotaVLayout->addWidget(getUi()->quotaInfoText);
+    getUi()->quotaInfoText->setStyleSheet("QLabel { font-size: 13px; padding: 8px; }");
+
+    quotaVLayout->addSpacing(20);
+    magentaHLayout->addLayout(quotaVLayout);
+
+    auto *storageLinkButton = new QPushButton(QCoreApplication::translate("", "STORAGE_EXTENSION"), this);
+    storageLinkButton->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    storageLinkButton->setStyleSheet(
+        "QPushButton { height: 32px; width: 180px; border: 1px solid black; background-color: #ededed; "
+        "color: black; font-size: 13px; border-radius: 4px; } "
+        "QPushButton:hover { background-color: white; }");
+
+    connect(storageLinkButton, &QPushButton::clicked, this, []() {
+        QDesktopServices::openUrl(QUrl(QStringLiteral("https://cloud.telekom-dienste.de/tarife")));
+    });
+
+    magentaHLayout->addWidget(storageLinkButton);
+    magentaHLayout->addSpacing(8);
+
+    getUi()->gridLayout->addLayout(magentaHLayout, 5, 0);
+
+    // --- Sichtbarkeit initial ausblenden ---
+    getUi()->encryptionMessage->hide();
+    checkClientSideEncryptionState();
+
+    // --- Sichtbarkeit des Live-Backup-Bereichs je nach Tab ---
+    auto *tabWidget = getUi()->tabWidget;
+    auto *fileProviderTab = getUi()->fileProviderTab;
+    auto *connectionSettingsTab = getUi()->connectionSettingsTab;
+
+    if (tabWidget && fileProviderTab && connectionSettingsTab) {
+        connect(tabWidget, &QTabWidget::currentChanged, this,
+                [this, tabWidget, fileProviderTab](int index) {
+                    QWidget *currentTab = tabWidget->widget(index);
+                    bool showLiveBackup = (currentTab == fileProviderTab);
+                    m_liveWidget->setVisible(showLiveBackup);
+                });
+
+        // Initialzustand
+        QWidget *currentTab = tabWidget->currentWidget();
+        bool showLiveBackup = (currentTab == fileProviderTab);
+        m_liveWidget->setVisible(showLiveBackup);
+    }
+}
  
  } // namespace OCC
  
