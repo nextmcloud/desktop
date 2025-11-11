@@ -25,6 +25,7 @@
  #include <QVBoxLayout>
  #include <QSpacerItem>
  #include <QSizePolicy>
+ #include <QDebug>
  
  namespace OCC {
  
@@ -148,16 +149,26 @@
     auto *connectionSettingsTab = getUi()->connectionSettingsTab;
 
     if (tabWidget && fileProviderTab && connectionSettingsTab) {
+        qDebug() << "Tabs:" << tabWidget->count();
+        for (int i = 0; i < tabWidget->count(); ++i) {
+            qDebug() << "Tab" << i << ":" << tabWidget->widget(i);
+        }
+        qDebug() << "fileProviderTab =" << fileProviderTab;
+        qDebug() << "connectionSettingsTab =" << connectionSettingsTab;
+
         connect(tabWidget, &QTabWidget::currentChanged, this,
                 [this, tabWidget, fileProviderTab](int index) {
                     QWidget *currentTab = tabWidget->widget(index);
                     bool showLiveBackup = (currentTab == fileProviderTab);
+                    qDebug() << "currentTab =" << currentTab
+                            << "fileProviderTab =" << fileProviderTab
+                            << "showLiveBackup =" << showLiveBackup;
                     m_liveWidget->setVisible(showLiveBackup);
                 });
 
-        // Initialzustand
         QWidget *currentTab = tabWidget->currentWidget();
         bool showLiveBackup = (currentTab == fileProviderTab);
+        qDebug() << "Initial showLiveBackup =" << showLiveBackup;
         m_liveWidget->setVisible(showLiveBackup);
     }
 }
