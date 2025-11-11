@@ -61,9 +61,9 @@
     getUi()->gridLayout->addWidget(getUi()->encryptionMessage, 0, 0);
 
     // Titel für Folder Sync
-    m_folderSync->setStyleSheet("font-size: 15px; font-weight: 600; padding: 8px;");
-    m_folderSync->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    getUi()->gridLayout->addWidget(m_folderSync, 1, 0);
+    // m_folderSync->setStyleSheet("font-size: 15px; font-weight: 600; padding: 8px;");
+    // m_folderSync->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    // getUi()->gridLayout->addWidget(m_folderSync, 1, 0);
 
     // --- Live-Backup-Bereich ---
     auto *liveHLayout = new QHBoxLayout();
