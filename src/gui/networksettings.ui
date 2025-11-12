@@ -44,6 +44,9 @@
      <property name="title">
       <string>Proxy Settings</string>
      </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
        <widget class="QRadioButton" name="noProxyRadioButton">
@@ -304,6 +307,9 @@
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
        </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <property name="topMargin">
          <number>9</number>
@@ -402,7 +408,7 @@
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
        </property>
        <property name="flat">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
         <property name="topMargin">
