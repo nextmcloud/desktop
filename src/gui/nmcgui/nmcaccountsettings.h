@@ -76,7 +76,6 @@
      CustomButton *m_liveAccountButton = nullptr;
      QLabel *m_liveTitle = nullptr;
      QLabel *m_liveDescription = nullptr;
-     QLabel *m_folderSync = nullptr;
      QWidget *m_liveWidget = nullptr;
  };
  
