@@ -25,7 +25,6 @@
  #include <QVBoxLayout>
  #include <QSpacerItem>
  #include <QSizePolicy>
- #include <QDebug>
  
  namespace OCC {
  
@@ -34,7 +33,6 @@
      , m_liveAccountButton(new CustomButton(QCoreApplication::translate("", "ADD_LIVE_BACKUP"), QIcon(QLatin1String(":/client/theme/NMCIcons/action-add.svg")).pixmap(24,24)))
      , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS")))
      , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION")))
-     , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC")))
  {
      setDefaultSettings();
      setLayout();
@@ -60,11 +58,6 @@
 
     getUi()->gridLayout->removeWidget(getUi()->encryptionMessage);
     getUi()->gridLayout->addWidget(getUi()->encryptionMessage, 0, 0);
-
-    // Titel für Folder Sync
-    // m_folderSync->setStyleSheet("font-size: 15px; font-weight: 600; padding: 8px;");
-    // m_folderSync->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    // getUi()->gridLayout->addWidget(m_folderSync, 1, 0);
 
     // --- Live-Backup-Bereich ---
     auto *liveHLayout = new QHBoxLayout();
@@ -148,29 +141,12 @@
     auto *fileProviderTab = getUi()->fileProviderTab;
     auto *connectionSettingsTab = getUi()->connectionSettingsTab;
 
-    if (tabWidget && fileProviderTab && connectionSettingsTab) {
-        qDebug() << "Tabs:" << tabWidget->count();
-        for (int i = 0; i < tabWidget->count(); ++i) {
-            qDebug() << "Tab" << i << ":" << tabWidget->widget(i);
-        }
-        qDebug() << "fileProviderTab =" << fileProviderTab;
-        qDebug() << "connectionSettingsTab =" << connectionSettingsTab;
-
-        connect(tabWidget, &QTabWidget::currentChanged, this,
-                [this, tabWidget, fileProviderTab](int index) {
-                    QWidget *currentTab = tabWidget->widget(index);
-                    bool showLiveBackup = (currentTab == fileProviderTab);
-                    qDebug() << "currentTab =" << currentTab
-                            << "fileProviderTab =" << fileProviderTab
-                            << "showLiveBackup =" << showLiveBackup;
-                    m_liveWidget->setVisible(showLiveBackup);
-                });
-
-        QWidget *currentTab = tabWidget->currentWidget();
-        bool showLiveBackup = (currentTab == fileProviderTab);
-        qDebug() << "Initial showLiveBackup =" << showLiveBackup;
-        m_liveWidget->setVisible(showLiveBackup);
-    }
+    connect(tabWidget, &QTabWidget::currentChanged, this, [this, tabWidget, connectionsSettingsTab](int index) {
+        QWidget *currentTab = tabWidget->widget(index);
+        // Live-Backups nur ausblenden, wenn Connection Settings aktiv ist
+        bool hideLiveBackup = (currentTab == connectionsSettingsTab);
+        m_liveWidget->setVisible(!hideLiveBackup);
+    });
 }
  
  } // namespace OCC
