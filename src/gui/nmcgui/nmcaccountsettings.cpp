@@ -12,44 +12,44 @@
  * for more details.
  */
 
- #include "nmcgui/nmcaccountsettings.h"
- #include "ui_accountsettings.h"
- #include "../common/utility.h"
- #include "guiutility.h"
- 
- #include <QDesktopServices>
- #include <QUrl>
- #include <QPushButton>
- #include <QLabel>
- #include <QHBoxLayout>
- #include <QVBoxLayout>
- #include <QSpacerItem>
- #include <QSizePolicy>
- 
- namespace OCC {
- 
- NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
-     : AccountSettings(accountState, parent)
-     , m_liveAccountButton(new CustomButton(QCoreApplication::translate("", "ADD_LIVE_BACKUP"), QIcon(QLatin1String(":/client/theme/NMCIcons/action-add.svg")).pixmap(24,24)))
-     , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS")))
-     , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION")))
- {
-     setDefaultSettings();
-     setLayout();
-     connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
- }
- 
- void NMCAccountSettings::setDefaultSettings()
- {
-     getUi()->encryptionMessage->setCloseButtonVisible(true);
-     getUi()->selectiveSyncStatus->setVisible(false);
-     getUi()->selectiveSyncNotification->setVisible(false);
-     getUi()->accountStatus->setVisible(false);
-     getUi()->bigFolderUi->setVisible(false);
-     getUi()->gridLayout->setSpacing(8);
- }
- 
- void NMCAccountSettings::setLayout()
+#include "nmcgui/nmcaccountsettings.h"
+#include "ui_accountsettings.h"
+#include "../common/utility.h"
+#include "guiutility.h"
+
+#include <QDesktopServices>
+#include <QUrl>
+#include <QPushButton>
+#include <QLabel>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QSpacerItem>
+#include <QSizePolicy>
+
+namespace OCC {
+
+NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
+    : AccountSettings(accountState, parent)
+    , m_liveAccountButton(new CustomButton(QCoreApplication::translate("", "ADD_LIVE_BACKUP"), QIcon(QLatin1String(":/client/theme/NMCIcons/action-add.svg")).pixmap(24,24)))
+    , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS")))
+    , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION")))
+{
+    setDefaultSettings();
+    setLayout();
+    connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
+}
+
+void NMCAccountSettings::setDefaultSettings()
+{
+    getUi()->encryptionMessage->setCloseButtonVisible(true);
+    getUi()->selectiveSyncStatus->setVisible(false);
+    getUi()->selectiveSyncNotification->setVisible(false);
+    getUi()->accountStatus->setVisible(false);
+    getUi()->bigFolderUi->setVisible(false);
+    getUi()->gridLayout->setSpacing(8);
+}
+
+void NMCAccountSettings::setLayout()
 {
     // Entferne alte Quota-Widgets
     getUi()->storageGroupBox->removeWidget(getUi()->quotaInfoLabel);
@@ -141,13 +141,19 @@
     auto *fileProviderTab = getUi()->fileProviderTab;
     auto *connectionSettingsTab = getUi()->connectionSettingsTab;
 
-    connect(tabWidget, &QTabWidget::currentChanged, this, [this, tabWidget, connectionsSettingsTab](int index) {
-        QWidget *currentTab = tabWidget->widget(index);
-        // Live-Backups nur ausblenden, wenn Connection Settings aktiv ist
-        bool hideLiveBackup = (currentTab == connectionsSettingsTab);
+    if (tabWidget && connectionSettingsTab) {
+        connect(tabWidget, &QTabWidget::currentChanged, this,
+                [this, tabWidget, connectionSettingsTab](int index) {
+                    QWidget *currentTab = tabWidget->widget(index);
+                    bool hideLiveBackup = (currentTab == connectionSettingsTab);
+                    m_liveWidget->setVisible(!hideLiveBackup);
+                });
+
+        // Initialzustand
+        QWidget *currentTab = tabWidget->currentWidget();
+        bool hideLiveBackup = (currentTab == connectionSettingsTab);
         m_liveWidget->setVisible(!hideLiveBackup);
-    });
+    }
 }
- 
- } // namespace OCC
- 
+
+} // namespace OCC
