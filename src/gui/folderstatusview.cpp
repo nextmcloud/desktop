@@ -53,19 +53,16 @@ void FolderStatusView::paintEvent(QPaintEvent *event)
     painter.setRenderHint(QPainter::Antialiasing);
 
     const int radius = 4;
-    const int padding = 8;
-
-    QRect outerRect(0, 0, width(), height());
-    QRect innerRect = outerRect.adjusted(padding, padding, -padding, -padding);
+    QRect rect(0, 0, width(), height());
 
     QPainterPath path;
-    path.addRoundedRect(innerRect, radius, radius);
+    path.addRoundedRect(rect, radius, radius);
 
     QPalette palette = this->palette();
     QColor backgroundColor = palette.color(QPalette::Window);
     QColor baseColor = palette.color(QPalette::Base);
 
-    painter.fillRect(outerRect, backgroundColor);
+    painter.fillRect(rect, backgroundColor);
     painter.fillPath(path, baseColor);
 
     QTreeView::paintEvent(event);
