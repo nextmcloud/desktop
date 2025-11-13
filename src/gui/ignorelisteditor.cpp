@@ -81,8 +81,6 @@ void IgnoreListEditor::slotRestoreDefaults(QAbstractButton *button)
     ConfigFile cfgFile;
     setupTableReadOnlyItems();
     ui->ignoreTableWidget->readIgnoreFile(cfgFile.excludeFile(ConfigFile::SystemScope), false);
-
-    updateRestoreDefaultsButtonState();
 }
 
 } // namespace OCC
