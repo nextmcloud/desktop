@@ -8,11 +8,13 @@
 #include <QWidget>
 #include <QStringList>
 
-namespace Ui {
-class IgnoreListTableWidget;
-}
+class QAbstractButton;
 
 namespace OCC {
+
+namespace Ui {
+    class IgnoreListTableWidget;
+}
 
 class IgnoreListTableWidget : public QWidget
 {
