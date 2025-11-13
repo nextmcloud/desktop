@@ -30,8 +30,6 @@ public slots:
     void slotRemoveAllItems();
     void slotWriteIgnoreFile(const QString &file);
 
-    QStringList patterns() const;
-
 private slots:
     void slotItemSelectionChanged();
     void slotRemoveCurrentItem();
@@ -42,5 +40,4 @@ private:
     QString readOnlyTooltip;
     Ui::IgnoreListTableWidget *ui;
 };
-
 } // namespace OCC
