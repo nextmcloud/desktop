@@ -17,6 +17,7 @@
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QPushButton>
 
 namespace OCC {
 
