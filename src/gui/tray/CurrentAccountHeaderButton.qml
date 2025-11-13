@@ -12,7 +12,6 @@ import "../filedetails/"
 import "qrc:/qml/NMCGui"
 
 import Style
-import com.nextcloud.desktopclient
 import com.nextcloud.desktopclient as NC
 
 Button {
@@ -176,18 +175,19 @@ Button {
                 Accessible.role: Accessible.Graphic
                 Accessible.name: qsTr("Current account avatar")
 
-            Rectangle {
-                id: currentAccountStatusIndicatorBackground
-                visible: UserModel.currentUser && UserModel.currentUser.isConnected
-                         && UserModel.currentUser.serverHasUserStatus
-                         && UserModel.currentUser.status !== NC.userStatus.Invisible
-                         && UserModel.currentUser.status !== NC.userStatus.Offline
-                width: Style.accountAvatarStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
-                height: width
-                anchors.bottom: currentAccountAvatar.bottom
-                anchors.right: currentAccountAvatar.right
-                radius: width * Style.trayFolderStatusIndicatorRadiusFactor
-            }
+                Rectangle {
+                    id: currentAccountStatusIndicatorBackground
+                    visible: UserModel.currentUser && UserModel.currentUser.isConnected
+                            && UserModel.currentUser.serverHasUserStatus
+                            && UserModel.currentUser.status !== NC.userStatus.Invisible
+                            && UserModel.currentUser.status !== NC.userStatus.Offline
+                    width: Style.accountAvatarStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
+                    height: width
+                    color: root.parentBackgroundColor
+                    anchors.bottom: currentAccountAvatar.bottom
+                    anchors.right: currentAccountAvatar.right
+                    radius: width * Style.trayFolderStatusIndicatorRadiusFactor
+                }
 
             Image {
                 id: currentAccountStatusIndicator
