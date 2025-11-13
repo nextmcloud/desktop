@@ -3,6 +3,10 @@
 <TS version="2.1" language="en_US">
 <context>
     <message>
+        <source>NEXT</source>
+        <translation>Continue</translation>
+    </message>
+    <message>
         <source>IMPRESSUM</source>
         <translation>Imprint</translation>
     </message>
