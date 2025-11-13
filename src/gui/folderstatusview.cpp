@@ -49,22 +49,23 @@ void FolderStatusView::drawBranches(QPainter *painter, const QRect &rect, const 
 
 void FolderStatusView::paintEvent(QPaintEvent *event)
 {
-    // Paints rounded corners since QTreeView does not support setting this via stylesheets.
     QPainter painter(viewport());
     painter.setRenderHint(QPainter::Antialiasing);
 
     const int radius = 4;
+    const int padding = 8;
 
-    QRect rect(0, 0, width(), height());
+    QRect outerRect(0, 0, width(), height());
+    QRect innerRect = outerRect.adjusted(padding, padding, -padding, -padding);
+
     QPainterPath path;
-    path.addRoundedRect(rect, radius, radius);
+    path.addRoundedRect(innerRect, radius, radius);
 
-    // Ensure the background color is consistent with the application theme
-    QPalette palette = this->palette();  
+    QPalette palette = this->palette();
     QColor backgroundColor = palette.color(QPalette::Window);
     QColor baseColor = palette.color(QPalette::Base);
 
-    painter.fillRect(rect, backgroundColor);
+    painter.fillRect(outerRect, backgroundColor);
     painter.fillPath(path, baseColor);
 
     QTreeView::paintEvent(event);
