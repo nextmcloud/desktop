@@ -8,6 +8,7 @@
 #define IGNORELISTEDITOR_H
 
 #include <QDialog>
+#include <QStringList>
 
 class QListWidgetItem;
 class QAbstractButton;
@@ -27,16 +28,21 @@ class IgnoreListEditor : public QDialog
     Q_OBJECT
 
 public:
-    IgnoreListEditor(QWidget *parent = nullptr);
+    explicit IgnoreListEditor(QWidget *parent = nullptr);
     ~IgnoreListEditor() override;
 
     bool ignoreHiddenFiles();
 
 private slots:
     void slotRestoreDefaults(QAbstractButton *button);
+    void updateRestoreDefaultsButtonState();   // 🔹 neu: Zustand des Buttons aktualisieren
 
 private:
     void setupTableReadOnlyItems();
+
+    QStringList _defaultPatterns;
+    bool _defaultIgnoreHidden = false;
+
     QString readOnlyTooltip;
     Ui::IgnoreListEditor *ui;
 };

@@ -34,8 +34,13 @@ IgnoreListEditor::IgnoreListEditor(QWidget *parent)
                           .arg(QDir::toNativeSeparators(cfgFile.excludeFile(ConfigFile::SystemScope)));
 
     setupTableReadOnlyItems();
+
     const auto userConfig = cfgFile.excludeFile(ConfigFile::Scope::UserScope);
     ui->ignoreTableWidget->readIgnoreFile(userConfig);
+
+    _defaultPatterns = ui->ignoreTableWidget->patterns();
+    _defaultIgnoreHidden = !FolderMan::instance()->ignoreHiddenFiles();
+    ui->syncHiddenFilesCheckBox->setChecked(_defaultIgnoreHidden);
 
     connect(this, &QDialog::accepted, [=, this]() {
         ui->ignoreTableWidget->slotWriteIgnoreFile(userConfig);
@@ -48,10 +53,15 @@ IgnoreListEditor::IgnoreListEditor(QWidget *parent)
         */
         FolderMan::instance()->setIgnoreHiddenFiles(ignoreHiddenFiles());
     });
+
     connect(ui->buttonBox, &QDialogButtonBox::clicked,
             this, &IgnoreListEditor::slotRestoreDefaults);
+    connect(ui->ignoreTableWidget, &IgnoreListTableWidget::changed,
+            this, &IgnoreListEditor::updateRestoreDefaultsButtonState);
+    connect(ui->syncHiddenFilesCheckBox, &QCheckBox::toggled,
+            this, &IgnoreListEditor::updateRestoreDefaultsButtonState);
 
-    ui->syncHiddenFilesCheckBox->setChecked(!FolderMan::instance()->ignoreHiddenFiles());
+    updateRestoreDefaultsButtonState();
 }
 
 IgnoreListEditor::~IgnoreListEditor()
@@ -81,6 +91,29 @@ void IgnoreListEditor::slotRestoreDefaults(QAbstractButton *button)
     ConfigFile cfgFile;
     setupTableReadOnlyItems();
     ui->ignoreTableWidget->readIgnoreFile(cfgFile.excludeFile(ConfigFile::SystemScope), false);
+
+    ui->syncHiddenFilesCheckBox->setChecked(true);
+
+    _defaultPatterns = ui->ignoreTableWidget->patterns();
+    _defaultIgnoreHidden = ui->syncHiddenFilesCheckBox->isChecked();
+
+    updateRestoreDefaultsButtonState();
+}
+
+void IgnoreListEditor::updateRestoreDefaultsButtonState()
+{
+    bool changed = false;
+
+    const auto currentPatterns = ui->ignoreTableWidget->patterns();
+    if (currentPatterns != _defaultPatterns)
+        changed = true;
+
+    if (ui->syncHiddenFilesCheckBox->isChecked() != _defaultIgnoreHidden)
+        changed = true;
+
+    auto restoreButton = ui->buttonBox->button(QDialogButtonBox::RestoreDefaults);
+    if (restoreButton)
+        restoreButton->setEnabled(changed);
 }
 
 } // namespace OCC

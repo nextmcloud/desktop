@@ -5,7 +5,6 @@
 
 #include "ignorelisttablewidget.h"
 #include "ui_ignorelisttablewidget.h"
-
 #include "folderman.h"
 
 #include <QFile>
@@ -33,8 +32,7 @@ IgnoreListTableWidget::IgnoreListTableWidget(QWidget *parent)
 
     ui->descriptionLabel->setText(tr("Files or folders matching a pattern will not be synchronized.\n\n"
                                      "Items where deletion is allowed will be deleted if they prevent a "
-                                     "directory from being removed. "
-                                     "This is useful for meta data."));
+                                     "directory from being removed. This is useful for meta data."));
 
     ui->removePushButton->setEnabled(false);
     connect(ui->tableWidget, &QTableWidget::itemSelectionChanged,
@@ -73,11 +71,14 @@ void IgnoreListTableWidget::slotRemoveCurrentItem()
     ui->tableWidget->removeRow(ui->tableWidget->currentRow());
     if(ui->tableWidget->rowCount() == readOnlyRows)
         ui->removeAllPushButton->setEnabled(false);
+
+    emit changed();
 }
 
 void IgnoreListTableWidget::slotRemoveAllItems()
 {
     ui->tableWidget->setRowCount(0);
+    emit changed();
 }
 
 void IgnoreListTableWidget::slotWriteIgnoreFile(const QString &file)
@@ -85,9 +86,7 @@ void IgnoreListTableWidget::slotWriteIgnoreFile(const QString &file)
     QFile ignores(file);
 
     if (ignores.open(QIODevice::WriteOnly)) {
-        // rewrites the whole file since now the user can also remove system patterns
         QFile::resize(file, 0);
-
         for (auto row = 0; row < ui->tableWidget->rowCount(); ++row) {
             const auto patternItem = ui->tableWidget->item(row, patternCol);
             const auto deletableItem = ui->tableWidget->item(row, deletableCol);
@@ -107,21 +106,13 @@ void IgnoreListTableWidget::slotWriteIgnoreFile(const QString &file)
                              tr("Could not open file"),
                              tr("Cannot write changes to \"%1\".").arg(file));
     }
-    ignores.close(); //close the file before reloading stuff.
+    ignores.close();
 
     const auto folderMan = FolderMan::instance();
-
-    // We need to force a remote discovery after a change of the ignore list.
-    // Otherwise we would not download the files/directories that are no longer
-    // ignored (because the remote etag did not change)   (issue #3172)
     for (const auto folder : std::as_const(folderMan->map())) {
         folder->journalDb()->forceRemoteDiscoveryNextSync();
         folderMan->scheduleFolder(folder);
     }
-
-#ifdef BUILD_FILE_PROVIDER_MODULE
-    Mac::FileProvider::instance()->xpc()->setIgnoreList();
-#endif
 }
 
 void IgnoreListTableWidget::slotAddPattern()
@@ -139,6 +130,7 @@ void IgnoreListTableWidget::slotAddPattern()
 
     addPattern(pattern, false, false);
     ui->tableWidget->scrollToBottom();
+    emit changed();
 }
 
 void IgnoreListTableWidget::readIgnoreFile(const QString &file, const bool readOnly)
@@ -163,6 +155,9 @@ void IgnoreListTableWidget::readIgnoreFile(const QString &file, const bool readO
             }
         }
     }
+    ignores.close();
+    if (!readOnly)
+        emit changed();
 }
 
 int IgnoreListTableWidget::addPattern(const QString &pattern, const bool deletable, const bool readOnly)
@@ -181,13 +176,25 @@ int IgnoreListTableWidget::addPattern(const QString &pattern, const bool deletab
 
     if (readOnly) {
         patternItem->setFlags(patternItem->flags() ^ Qt::ItemIsEnabled);
-        patternItem->setToolTip(readOnlyTooltip);
+        patternItem->setToolTip(tr("This entry is provided by the system and cannot be modified."));
         deletableItem->setFlags(deletableItem->flags() ^ Qt::ItemIsEnabled);
     }
 
     ui->removeAllPushButton->setEnabled(true);
+    emit changed();
 
     return newRow;
+}
+
+QStringList IgnoreListTableWidget::patterns() const
+{
+    QStringList list;
+    for (int r = 0; r < ui->tableWidget->rowCount(); ++r) {
+        const auto item = ui->tableWidget->item(r, patternCol);
+        if (item && (item->flags() & Qt::ItemIsEnabled))
+            list << item->text();
+    }
+    return list;
 }
 
 } // namespace OCC
