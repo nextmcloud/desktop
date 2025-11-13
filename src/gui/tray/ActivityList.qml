@@ -157,7 +157,7 @@ ScrollView {
             spacing: Style.standardSpacing
 
             Image {
-                width: parent.width
+                width: parent.width * 0.75
                 verticalAlignment: Image.AlignVCenter
                 horizontalAlignment: Image.AlignHCenter
                 fillMode: Image.PreserveAspectFit
