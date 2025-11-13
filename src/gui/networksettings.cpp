@@ -29,6 +29,9 @@ NetworkSettings::NetworkSettings(const AccountPtr &account, QWidget *parent)
     , _account(account)
 {
     _ui->setupUi(this);
+
+    _ui->gridLayout_3->setContentsMargins(8, 8, 8, 0);
+
     setAttribute(Qt::WA_OpaquePaintEvent, true);
     setAutoFillBackground(false);
 
