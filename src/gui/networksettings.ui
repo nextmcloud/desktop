@@ -48,6 +48,9 @@
       <bool>true</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="verticalSpacing">
+       <number>8</number>
+      </property>
       <item row="0" column="0">
        <widget class="QRadioButton" name="noProxyRadioButton">
         <property name="text">
@@ -312,13 +315,13 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <property name="topMargin">
-         <number>9</number>
+        <number>8</number>
         </property>
         <property name="bottomMargin">
-         <number>0</number>
+        <number>0</number>
         </property>
         <property name="verticalSpacing">
-         <number>6</number>
+        <number>8</number>
         </property>
         <item row="3" column="0">
          <widget class="QRadioButton" name="downloadLimitRadioButton">
@@ -412,13 +415,13 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
         <property name="topMargin">
-         <number>9</number>
+         <number>8</number>
         </property>
         <property name="bottomMargin">
          <number>0</number>
         </property>
         <property name="verticalSpacing">
-         <number>6</number>
+         <number>8</number>
         </property>
         <item row="3" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0">
