@@ -6,7 +6,6 @@
 #pragma once
 
 #include <QWidget>
-#include <QStringList>
 
 class QAbstractButton;
 
@@ -21,25 +20,26 @@ class IgnoreListTableWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit IgnoreListTableWidget(QWidget *parent = nullptr);
+    IgnoreListTableWidget(QWidget *parent = nullptr);
     ~IgnoreListTableWidget() override;
 
-    int addPattern(const QString &pattern, const bool deletable = false, const bool readOnly = false);
-    void slotRemoveCurrentItem();
+    void readIgnoreFile(const QString &file, bool readOnly = false);
+    int addPattern(const QString &pattern, bool deletable, bool readOnly);
+
+public slots:
     void slotRemoveAllItems();
-    void readIgnoreFile(const QString &file, const bool readOnly = true);
     void slotWriteIgnoreFile(const QString &file);
 
     QStringList patterns() const;
 
-signals:
-    void changed();
-
 private slots:
     void slotItemSelectionChanged();
+    void slotRemoveCurrentItem();
     void slotAddPattern();
 
 private:
+    void setupTableReadOnlyItems();
+    QString readOnlyTooltip;
     Ui::IgnoreListTableWidget *ui;
 };
 
