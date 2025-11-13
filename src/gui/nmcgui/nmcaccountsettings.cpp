@@ -138,7 +138,6 @@ void NMCAccountSettings::setLayout()
 
     // --- Sichtbarkeit des Live-Backup-Bereichs je nach Tab ---
     auto *tabWidget = getUi()->tabWidget;
-    auto *fileProviderTab = getUi()->fileProviderTab;
     auto *connectionSettingsTab = getUi()->connectionSettingsTab;
 
     if (tabWidget && connectionSettingsTab) {
