@@ -12,7 +12,7 @@ import "../filedetails/"
 import "qrc:/qml/NMCGui"
 
 import Style
-import com.nextcloud.desktopclient as NC
+import com.nextcloud.desktopclient
 
 Button {
     id: root
@@ -36,6 +36,13 @@ Button {
     Accessible.role: Accessible.ButtonMenu
     Accessible.name: qsTr("Current account")
     Accessible.onPressAction: root.clicked()
+
+    palette {
+        text: Style.currentUserHeaderTextColor
+        windowText: Style.currentUserHeaderTextColor
+        buttonText: Style.currentUserHeaderTextColor
+        button: Style.adjustedCurrentUserHeaderColor
+    }
 
     // We call open() instead of popup() because we want to position it
     // exactly below the dropdown button, not the mouse
@@ -82,8 +89,12 @@ Button {
                     onClicked: UserModel.currentUserId = model.index;
                 }
             }
-            onObjectAdded: accountMenu.insertItem(index, object)
-            onObjectRemoved: accountMenu.removeItem(object)
+            onObjectAdded: function(index, object) {
+                accountMenu.insertItem(index, object)
+            }
+            onObjectRemoved: function(index, object) {
+                accountMenu.removeItem(object)
+            }
         }
 
         MenuSeparator {
@@ -175,26 +186,26 @@ Button {
                 Accessible.role: Accessible.Graphic
                 Accessible.name: qsTr("Current account avatar")
 
-                Rectangle {
-                    id: currentAccountStatusIndicatorBackground
-                    visible: UserModel.currentUser && UserModel.currentUser.isConnected
-                            && UserModel.currentUser.serverHasUserStatus
-                            && UserModel.currentUser.status !== NC.userStatus.Invisible
-                            && UserModel.currentUser.status !== NC.userStatus.Offline
-                    width: Style.accountAvatarStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
-                    height: width
-                    color: root.parentBackgroundColor
-                    anchors.bottom: currentAccountAvatar.bottom
-                    anchors.right: currentAccountAvatar.right
-                    radius: width * Style.trayFolderStatusIndicatorRadiusFactor
-                }
+            Rectangle {
+                id: currentAccountStatusIndicatorBackground
+                visible: UserModel.currentUser && UserModel.currentUser.isConnected
+                         && UserModel.currentUser.serverHasUserStatus
+                         && UserModel.currentUser.status !== UserStatus.Invisible
+                         && UserModel.currentUser.status !== UserStatus.Offline
+                width: Style.accountAvatarStateIndicatorSize + Style.trayFolderStatusIndicatorSizeOffset
+                height: width
+                color: root.parentBackgroundColor
+                anchors.bottom: currentAccountAvatar.bottom
+                anchors.right: currentAccountAvatar.right
+                radius: width * Style.trayFolderStatusIndicatorRadiusFactor
+            }
 
             Image {
                 id: currentAccountStatusIndicator
                 visible: UserModel.currentUser && UserModel.currentUser.isConnected
                          && UserModel.currentUser.serverHasUserStatus
-                         && UserModel.currentUser.status !== NC.userStatus.Invisible
-                         && UserModel.currentUser.status !== NC.userStatus.Offline
+                         && UserModel.currentUser.status !== UserStatus.Invisible
+                         && UserModel.currentUser.status !== UserStatus.Offline
                 source: UserModel.currentUser ? UserModel.currentUser.statusIcon : ""
                 cache: false
                 x: currentAccountStatusIndicatorBackground.x + Style.trayFolderStatusIndicatorSizeOffset / 2
