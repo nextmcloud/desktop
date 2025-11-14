@@ -47,6 +47,7 @@ private slots:
 
 protected:
     void showEvent(QShowEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     void loadProxySettings();
