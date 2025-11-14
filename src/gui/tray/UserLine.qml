@@ -283,7 +283,7 @@ AbstractButton {
                     id: removeAccountButton
                     text: model.removeAccountText
                     height: Style.nmcMenuSubItemHeight
-                    icon.source: Style.nmcLogOutIcon
+                    icon.source: Style.nmcRemoveIcon
                     icon.height: Style.nmcTrayWindowIconWidth
                     icon.width: Style.nmcTrayWindowIconWidth
                     leftPadding: Style.nmcMenuSubItemLeftPadding
