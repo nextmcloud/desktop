@@ -1,6 +1,10 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="de_DE">
 <context>
     <message>
+        <source>NEXT</source>
+        <translation>Weiter</translation>
+    </message>
+    <message>
         <source>IMPRESSUM</source>
         <translation>Impressum</translation>
     </message>
