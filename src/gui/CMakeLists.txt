@@ -55,6 +55,7 @@ set(client_UI_SRCS
 )
 
 qt_add_resources(client_UI_SRCS ../../resources.qrc ${CMAKE_SOURCE_DIR}/theme.qrc)
+qt_add_resources(client_resources ${CMAKE_SOURCE_DIR}/magenta_theme.qrc)
 
 set(client_SRCS
     accountmanager.h
