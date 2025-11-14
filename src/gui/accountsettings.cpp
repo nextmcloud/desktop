@@ -206,8 +206,6 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
 
     new ToolTipUpdater(_ui->_folderList);
 
-const auto tabWidget = _ui->tabWidget;
-
 #if defined(BUILD_FILE_PROVIDER_MODULE)
     if (Mac::FileProvider::available()) {
         const auto fileProviderPanelContents = _ui->fileProviderPanelContents;
@@ -225,6 +223,7 @@ const auto tabWidget = _ui->tabWidget;
         _ui->fileProviderPanel->setVisible(false);
     }
 #else
+    const auto tabWidget = _ui->tabWidget;
     const auto fileProviderTab = _ui->fileProviderTab;
     if (const auto fileProviderWidgetTabIndex = tabWidget->indexOf(fileProviderTab); fileProviderWidgetTabIndex >= 0) {
         tabWidget->removeTab(fileProviderWidgetTabIndex);
@@ -241,12 +240,6 @@ const auto tabWidget = _ui->tabWidget;
     connectionSettingsLayout->setContentsMargins(0, 0, 0, 0);
     connectionSettingsLayout->addWidget(networkSettings);
     connectionSettingsTab->setLayout(connectionSettingsLayout);
-
-    if (const auto connectionSettingsTabIndex = tabWidget->indexOf(connectionSettingsTab); connectionSettingsTabIndex >= 0) {
-        tabWidget->removeTab(connectionSettingsTabIndex);
-    }
-    tabWidget->setCurrentIndex(0);
-    tabWidget->tabBar()->hide();
 
     const auto mouseCursorChanger = new MouseCursorChanger(this);
     mouseCursorChanger->folderList = _ui->_folderList;
