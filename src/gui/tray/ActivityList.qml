@@ -153,12 +153,13 @@ ScrollView {
             id: placeholderColumn
             width: parent.width * 0.75
             anchors.centerIn: parent
-            spacing: Style.standardSpacing
             visible: activityList.count === 0
+            spacing: Style.standardSpacing
 
             Image {
-                Layout.alignment: Qt.AlignHCenter
-                width: parent.width * 0.75
+                width: parent.width
+                verticalAlignment: Image.AlignVCenter
+                horizontalAlignment: Image.AlignHCenter
                 fillMode: Image.PreserveAspectFit
                 source: "image://svgimage-custom-color/activity.svg/" + palette.windowText
             }
