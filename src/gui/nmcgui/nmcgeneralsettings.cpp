@@ -79,18 +79,15 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsLabel->setStyleSheet("font-size: 12px; font-weight: bold;");
     QGroupBox *advancedSettingsBox = new QGroupBox(this);
     advancedSettingsBox->setTitle("");
-    advancedSettingsBox->setLayout(new QVBoxLayout);
-    advancedSettingsBox->layout()->setContentsMargins(16, 16, 16, 16);
-    advancedSettingsBox->layout()->setSpacing(8);
+    auto *advLayout = new QVBoxLayout(advancedSettingsBox);
+    advLayout->setContentsMargins(16, 16, 16, 16);
+    advLayout->setSpacing(8);
     advancedSettingsBox->setStyleSheet("border-radius: 4px;");
 
+    // Entferne Widgets aus alten Layouts, falls notwendig
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
-    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitCheckBox);
-    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitSpinBox);
     getUi()->horizontalLayout_4->removeWidget(getUi()->ignoredFilesButton);
-
-    
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
@@ -109,15 +106,18 @@ void NMCGeneralSettings::setNMCLayout()
         }
     )");
 
-    advancedSettingsBox->layout()->addWidget(advancedSettingsLabel);
-    advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
-    advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
-    auto *folderLimitLayout = new QHBoxLayout;
-    folderLimitLayout->addWidget(getUi()->newFolderLimitCheckBox);
-    folderLimitLayout->addWidget(getUi()->newFolderLimitSpinBox);
-    advancedSettingsBox->layout()->addLayout(folderLimitLayout);
-    advancedSettingsBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
-    advancedSettingsBox->layout()->addWidget(getUi()->ignoredFilesButton);
+    advLayout->addWidget(advancedSettingsLabel);
+
+    advLayout->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
+    advLayout->addWidget(getUi()->moveFilesToTrashCheckBox);
+
+    if (getUi()->horizontalLayout_3) {
+        advLayout->addLayout(getUi()->horizontalLayout_3);
+    }
+
+    advLayout->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    advLayout->addWidget(getUi()->ignoredFilesButton);
+
     getUi()->showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     getUi()->moveFilesToTrashCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
