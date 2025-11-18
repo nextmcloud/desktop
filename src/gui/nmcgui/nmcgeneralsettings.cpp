@@ -87,8 +87,6 @@ void NMCGeneralSettings::setNMCLayout()
     // Entferne Widgets aus alten Layouts, falls notwendig
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
-    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitCheckBox);
-    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitSpinBox);
     getUi()->horizontalLayout_4->removeWidget(getUi()->ignoredFilesButton);
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -112,13 +110,10 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
 
-    QGroupBox *folderLimitBox = new QGroupBox(this);
-    folderLimitBox->setTitle("");
-    folderLimitBox->setLayout(new QHBoxLayout);
-    folderLimitBox->addWidget(getUi()->newFolderLimitCheckBox);
-    folderLimitBox->addWidget(getUi()->newFolderLimitSpinBox);
-
+    QWidget *folderLimitBox = new QWidget(this);
+    folderLimitBox->setLayout(getUi()->horizontalLayout_3);
     advancedSettingsBox->layout()->addWidget(folderLimitBox);
+
     advancedSettingsBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
     advancedSettingsBox->layout()->addWidget(getUi()->ignoredFilesButton);
 
