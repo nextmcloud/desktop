@@ -44,18 +44,10 @@
      <property name="title">
       <string>Proxy Settings</string>
      </property>
-     <property name="styleSheet">
-      <string notr="true">
-       #proxyGroupBox::title { font-weight: bold; }
-      </string>
-     </property>
      <property name="flat">
       <bool>true</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <property name="topMargin">
-       <number>12</number>
-      </property>
       <property name="verticalSpacing">
        <number>8</number>
       </property>
@@ -315,11 +307,6 @@
        <property name="title">
         <string>Download Bandwidth</string>
        </property>
-       <property name="styleSheet">
-        <string notr="true">
-         #proxyGroupBox::title { font-weight: bold; }
-        </string>
-       </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
        </property>
@@ -419,11 +406,6 @@
        </property>
        <property name="title">
         <string>Upload Bandwidth</string>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">
-         #proxyGroupBox::title { font-weight: bold; }
-        </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
