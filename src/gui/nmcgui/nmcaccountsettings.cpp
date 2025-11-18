@@ -58,6 +58,10 @@ void NMCAccountSettings::setLayout()
 
     getUi()->gridLayout->removeWidget(getUi()->encryptionMessage);
     getUi()->gridLayout->addWidget(getUi()->encryptionMessage, 0, 0);
+    getUi()->gridLayout->addItem(
+        new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed),
+        1, 0
+    );
 
     // --- Live-Backup-Bereich ---
     auto *liveHLayout = new QHBoxLayout();
