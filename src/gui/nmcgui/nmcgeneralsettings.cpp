@@ -79,14 +79,16 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsLabel->setStyleSheet("font-size: 12px; font-weight: bold;");
     QGroupBox *advancedSettingsBox = new QGroupBox(this);
     advancedSettingsBox->setTitle("");
-    auto *advLayout = new QVBoxLayout(advancedSettingsBox);
-    advLayout->setContentsMargins(16, 16, 16, 16);
-    advLayout->setSpacing(8);
+    advancedSettingsBox->setLayout(new QVBoxLayout);
+    advancedSettingsBox->layout()->setContentsMargins(16, 16, 16, 16);
+    advancedSettingsBox->layout()->setSpacing(8);
     advancedSettingsBox->setStyleSheet("border-radius: 4px;");
 
     // Entferne Widgets aus alten Layouts, falls notwendig
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
+    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitCheckBox);
+    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitSpinBox);
     getUi()->horizontalLayout_4->removeWidget(getUi()->ignoredFilesButton);
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -106,17 +108,19 @@ void NMCGeneralSettings::setNMCLayout()
         }
     )");
 
-    advLayout->addWidget(advancedSettingsLabel);
+    advancedSettingsBox->layout()->addWidget(advancedSettingsLabel);
+    advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
+    advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
 
-    advLayout->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
-    advLayout->addWidget(getUi()->moveFilesToTrashCheckBox);
+    QGroupBox *folderLimitBox = new QGroupBox(this);
+    folderLimitBox->setTitle("");
+    folderLimitBox->setLayout(new QHBoxLayout);
+    folderLimitBox->addWidget(getUi()->newFolderLimitCheckBox);
+    folderLimitBox->addWidget(getUi()->newFolderLimitSpinBox);
 
-    if (getUi()->horizontalLayout_3) {
-        advLayout->addLayout(getUi()->horizontalLayout_3);
-    }
-
-    advLayout->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
-    advLayout->addWidget(getUi()->ignoredFilesButton);
+    advancedSettingsBox->layout()->addWidget(folderLimitBox);
+    advancedSettingsBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    advancedSettingsBox->layout()->addWidget(getUi()->ignoredFilesButton);
 
     getUi()->showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     getUi()->moveFilesToTrashCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
@@ -199,7 +203,7 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->gridLayout_3->addWidget(dataProtectionBox, 3, 0);
 
     auto *vExpandSpacer = new QSpacerItem(1,1,QSizePolicy::Fixed,QSizePolicy::Expanding);
-    getUi()->gridLayout_3->layout()->addItem(vExpandSpacer);
+    getUi()->gridLayout_3->addItem(vExpandSpacer, 99, 0);
 }
 
 } // namespace OCC
