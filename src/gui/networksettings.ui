@@ -44,10 +44,10 @@
      <property name="title">
       <string>Proxy Settings</string>
      </property>
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
+     <property name="styleSheet">
+      <string notr="true">
+       #proxyGroupBox::title { font-weight: bold; }
+      </string>
      </property>
      <property name="flat">
       <bool>true</bool>
@@ -315,10 +315,10 @@
        <property name="title">
         <string>Download Bandwidth</string>
        </property>
-       <property name="font">
-        <font>
-         <bold>true</bold>
-        </font>
+       <property name="styleSheet">
+        <string notr="true">
+         #proxyGroupBox::title { font-weight: bold; }
+        </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
@@ -420,10 +420,10 @@
        <property name="title">
         <string>Upload Bandwidth</string>
        </property>
-       <property name="font">
-        <font>
-         <bold>true</bold>
-        </font>
+       <property name="styleSheet">
+        <string notr="true">
+         #proxyGroupBox::title { font-weight: bold; }
+        </string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
@@ -433,7 +433,7 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
         <property name="topMargin">
-         <number>8</number>
+         <number>12</number>
         </property>
         <property name="bottomMargin">
          <number>0</number>
