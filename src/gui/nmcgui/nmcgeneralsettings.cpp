@@ -68,8 +68,6 @@ void NMCGeneralSettings::setNMCLayout()
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(getUi()->serverNotificationsCheckBox, 2, 0);
     getUi()->generalGroupBox->layout()->setContentsMargins(16, 16, 16, 16);
     getUi()->generalGroupBox->layout()->setSpacing(8);
-    getUi()->generalGroupBox->setStyleSheet("border-radius: 4px;");
-    getUi()->generalGroupBox->setStyleSheet(getUi()->generalGroupBox->styleSheet());
 
     getUi()->autostartCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     getUi()->serverNotificationsCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
@@ -82,8 +80,6 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsBox->setLayout(new QVBoxLayout);
     advancedSettingsBox->layout()->setContentsMargins(16, 16, 16, 16);
     advancedSettingsBox->layout()->setSpacing(8);
-    advancedSettingsBox->setStyleSheet("border-radius: 4px;");
-    advancedSettingsBox->setStyleSheet(advancedSettingsBox->styleSheet());
 
     // Entferne Widgets aus alten Layouts, falls notwendig
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
@@ -114,12 +110,18 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
 
     QHBoxLayout *folderLimitLayout = new QHBoxLayout;
+    folderLimitLayout->setContentsMargins(0,0,0,0);
+    folderLimitLayout->setSpacing(8);
     folderLimitLayout->addWidget(getUi()->newFolderLimitCheckBox);
     folderLimitLayout->addWidget(getUi()->newFolderLimitSpinBox);
+    getUi()->newFolderLimitSpinBox->setFixedWidth(80);
+    folderLimitLayout->addStretch();
+
     QWidget *folderLimitBox = new QWidget(this);
     folderLimitBox->setLayout(folderLimitLayout);
-    advancedSettingsBox->layout()->addWidget(folderLimitBox);
+    folderLimitBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
+    advancedSettingsBox->layout()->addWidget(folderLimitBox);
     advancedSettingsBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
     advancedSettingsBox->layout()->addWidget(getUi()->ignoredFilesButton);
 
@@ -136,8 +138,6 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->setLayout(new QVBoxLayout);
     dataProtectionBox->layout()->setContentsMargins(16, 16, 16, 16);
     dataProtectionBox->layout()->setSpacing(8);
-    dataProtectionBox->setStyleSheet("border-radius: 4px;");
-    dataProtectionBox->setStyleSheet(dataProtectionBox->styleSheet());
 
     auto *dataAnalysisCheckBox = new QCheckBox(this);
     dataAnalysisCheckBox->setText(QCoreApplication::translate("", "DATA_ANALYSIS"));
