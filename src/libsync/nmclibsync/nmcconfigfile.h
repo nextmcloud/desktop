@@ -56,6 +56,7 @@ public:
 
 private:
     QString m_transferUsageData = "TransferUsageData"; ///< Configuration key for storing the status of transferring usage data.
+    QString defaultConnection() const override { return QString(); }
 };
 
 
