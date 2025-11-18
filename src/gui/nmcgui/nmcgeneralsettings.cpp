@@ -86,6 +86,7 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
     getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitCheckBox);
     getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitSpinBox);
+    getUi()->horizontalLayout_3->removeWidget(getUi()->label);
     getUi()->horizontalLayout_4->removeWidget(getUi()->ignoredFilesButton);
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -115,10 +116,14 @@ void NMCGeneralSettings::setNMCLayout()
     folderLimitLayout->addWidget(getUi()->newFolderLimitCheckBox);
     folderLimitLayout->addWidget(getUi()->newFolderLimitSpinBox);
     getUi()->newFolderLimitSpinBox->setFixedWidth(80);
+    getUi()->newFolderLimitSpinBox->setFocusPolicy(Qt::NoFocus);
+    folderLimitLayout->addWidget(getUi()->label);
+    getUi()->label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     folderLimitLayout->addStretch();
 
     QWidget *folderLimitBox = new QWidget(this);
     folderLimitBox->setLayout(folderLimitLayout);
+    folderLimitBox->setContentsMargins(2, 0, 0, 0);
     folderLimitBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     advancedSettingsBox->layout()->addWidget(folderLimitBox);
