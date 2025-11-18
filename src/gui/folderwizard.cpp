@@ -81,8 +81,8 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     // QString defaultPath = QDir::homePath() + QLatin1Char('/') + Theme::instance()->appName();
     // defaultPath = FolderMan::instance()->findGoodPathForNewSyncFolder(defaultPath, serverUrl, FolderMan::GoodPathStrategy::AllowOnlyNewPath);
     // _ui.localFolderLineEdit->setText(QDir::toNativeSeparators(defaultPath));
-    _ui.localFolderLineEdit->setPlaceholderText(tr("Select a local folder"));
     _ui.localFolderLineEdit->setToolTip(tr("Enter the path to the local folder."));
+    _ui.localFolderLineEdit->setPlaceholderText(tr("Select a local folder"));
 
     _ui.warnLabel->setTextFormat(Qt::RichText);
     _ui.warnLabel->hide();
