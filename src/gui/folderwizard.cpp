@@ -105,7 +105,9 @@ void FolderWizardLocalPath::cleanupPage()
 
 bool FolderWizardLocalPath::isComplete() const
 {
-    if (_ui.localFolderLineEdit->text().isEmpty()) {
+    if (_ui.localFolderLineEdit->text().trimmed().isEmpty()) {
+        _ui.warnLabel->hide();
+        _ui.warnLabel->clear();
         return true; // initial okay
     }
 
