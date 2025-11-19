@@ -68,7 +68,7 @@ void NMCAccountSettings::setLayout()
     liveHLayout->setContentsMargins(8, 8, 8, 8);
 
     auto *liveVLayout = new QVBoxLayout();
-    m_liveWidget = new QWidget(this); // Membervariable statt lokale Variable
+    m_liveWidget = new QWidget(this);
     m_liveWidget->setStyleSheet("QWidget { border-radius: 4px; }");
     m_liveWidget->setLayout(liveHLayout);
 
@@ -99,14 +99,13 @@ void NMCAccountSettings::setLayout()
 
     // --- Speicherbereich (Quota) ---
     auto *magentaHLayout = new QHBoxLayout();
-    magentaHLayout->setSpacing(32);
+    magentaHLayout->setSpacing(12);
 
     auto *quotaVLayout = new QVBoxLayout();
     quotaVLayout->setSpacing(4);
-    quotaVLayout->addSpacing(12);
 
     quotaVLayout->addWidget(getUi()->quotaInfoLabel);
-    getUi()->quotaInfoLabel->setStyleSheet("QLabel { font-size: 18px; padding: 8px; font-weight: 500; }");
+    getUi()->quotaInfoLabel->setStyleSheet("QLabel { font-size: 18px; padding: 4px; font-weight: 500; }");
 
     quotaVLayout->addWidget(getUi()->quotaProgressBar);
     getUi()->quotaProgressBar->setStyleSheet(
@@ -115,9 +114,9 @@ void NMCAccountSettings::setLayout()
     getUi()->quotaProgressBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     quotaVLayout->addWidget(getUi()->quotaInfoText);
-    getUi()->quotaInfoText->setStyleSheet("QLabel { font-size: 13px; padding: 8px; }");
+    getUi()->quotaInfoText->setStyleSheet("QLabel { font-size: 13px; padding: 4px; }");
 
-    quotaVLayout->addSpacing(20);
+    quotaVLayout->addSpacing(12);
     magentaHLayout->addLayout(quotaVLayout);
 
     auto *storageLinkButton = new QPushButton(QCoreApplication::translate("", "STORAGE_EXTENSION"), this);
