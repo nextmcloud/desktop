@@ -123,7 +123,7 @@ void NMCGeneralSettings::setNMCLayout()
 
     QWidget *folderLimitBox = new QWidget(this);
     folderLimitBox->setLayout(folderLimitLayout);
-    folderLimitBox->setContentsMargins(2, 0, 0, 0);
+    folderLimitBox->setContentsMargins(0, 0, 0, 0);
     folderLimitBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     advancedSettingsBox->layout()->addWidget(folderLimitBox);
