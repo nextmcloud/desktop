@@ -30,8 +30,6 @@ NetworkSettings::NetworkSettings(const AccountPtr &account, QWidget *parent)
 {
     _ui->setupUi(this);
 
-    _ui->gridLayout_3->setContentsMargins(16, 16, 16, 0);
-
     setAttribute(Qt::WA_OpaquePaintEvent, true);
     setAutoFillBackground(false);
 
@@ -285,24 +283,22 @@ void NetworkSettings::checkAccountLocalhost()
 
 void NetworkSettings::paintEvent(QPaintEvent *event)
 {
+    constexpr int topMargin = 16;
+    const int radius = 4;
+
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    const int radius = 4;
-    QRect rect(0, 0, width(), height());
+    QRect rect(0, topMargin, width(), height() - topMargin);
 
     QPainterPath path;
     path.addRoundedRect(rect, radius, radius);
 
     QPalette palette = this->palette();
-    QColor backgroundColor = palette.color(QPalette::Window);
-    QColor baseColor = palette.color(QPalette::Base);
-
-    painter.fillRect(rect, backgroundColor);
-    painter.fillPath(path, baseColor);
+    painter.fillRect(this->rect(), palette.color(QPalette::Window));
+    painter.fillPath(path, palette.color(QPalette::Base));
 
     QWidget::paintEvent(event);
 }
-
 
 } // namespace OCC
