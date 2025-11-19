@@ -72,7 +72,7 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     , _account(account)
 {
     _ui.setupUi(this);
-    registerField(QLatin1String("sourceFolder*"), _ui.localFolderLineEdit);
+    registerField(QLatin1String("sourceFolder"), _ui.localFolderLineEdit);
     connect(_ui.localFolderChooseBtn, &QAbstractButton::clicked, this, &FolderWizardLocalPath::slotChooseLocalFolder);
     _ui.localFolderChooseBtn->setToolTip(tr("Click to select a local folder to sync."));
 
