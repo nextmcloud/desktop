@@ -296,7 +296,7 @@ void NetworkSettings::paintEvent(QPaintEvent *event)
 
     QPalette palette = this->palette();
     painter.fillRect(this->rect(), palette.color(QPalette::Window));
-    painter.fillPath(path, palette.color(QPalette::Base));
+    painter.fillPath(path, palette.color(QPalette::Window));
 
     QWidget::paintEvent(event);
 }
