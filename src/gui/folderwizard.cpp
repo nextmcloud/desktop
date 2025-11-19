@@ -75,6 +75,7 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     registerField(QLatin1String("sourceFolder"), _ui.localFolderLineEdit);
     connect(_ui.localFolderChooseBtn, &QAbstractButton::clicked, this, &FolderWizardLocalPath::slotChooseLocalFolder);
     _ui.localFolderChooseBtn->setToolTip(tr("Click to select a local folder to sync."));
+    connect(_ui.localFolderLineEdit, &QLineEdit::textChanged, this, &FolderWizardLocalPath::updateWarnings);
 
     // QUrl serverUrl = _account->url();
     // serverUrl.setUserName(_account->credentials()->user());
@@ -104,6 +105,10 @@ void FolderWizardLocalPath::cleanupPage()
 
 bool FolderWizardLocalPath::isComplete() const
 {
+    if (_ui.localFolderLineEdit->text().isEmpty()) {
+        return true; // initial okay
+    }
+
     QUrl serverUrl = _account->url();
     serverUrl.setUserName(_account->credentials()->user());
 
@@ -127,6 +132,33 @@ bool FolderWizardLocalPath::isComplete() const
         _ui.warnLabel->setText(warnings);
     }
     return isOk;
+}
+
+void FolderWizardLocalPath::updateWarnings()
+{
+    QUrl serverUrl = _account->url();
+    serverUrl.setUserName(_account->credentials()->user());
+
+    const QString path = QDir::fromNativeSeparators(_ui.localFolderLineEdit->text());
+
+    if (path.isEmpty()) {
+        _ui.warnLabel->hide();
+        _ui.warnLabel->clear();
+        emit completeChanged();
+        return;
+    }
+
+    const auto errorStr = FolderMan::instance()->checkPathValidityForNewFolder(path, serverUrl).second;
+
+    if (errorStr.isEmpty()) {
+        _ui.warnLabel->hide();
+        _ui.warnLabel->clear();
+    } else {
+        _ui.warnLabel->show();
+        _ui.warnLabel->setText(formatWarnings({ errorStr }));
+    }
+
+    emit completeChanged();
 }
 
 void FolderWizardLocalPath::slotChooseLocalFolder()
