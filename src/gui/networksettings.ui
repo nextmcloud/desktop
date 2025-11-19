@@ -44,9 +44,6 @@
      <property name="title">
       <string>Proxy Settings</string>
      </property>
-     <property name="flat">
-      <bool>true</bool>
-     </property>
      <layout class="QGridLayout" name="gridLayout">
       <property name="verticalSpacing">
        <number>8</number>
@@ -310,9 +307,6 @@
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
        </property>
-       <property name="flat">
-        <bool>true</bool>
-       </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <property name="topMargin">
         <number>8</number>
@@ -409,9 +403,6 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
-       </property>
-       <property name="flat">
-        <bool>true</bool>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
         <property name="topMargin">
