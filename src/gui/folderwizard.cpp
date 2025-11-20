@@ -104,6 +104,12 @@ void FolderWizardLocalPath::cleanupPage()
 
 bool FolderWizardLocalPath::isComplete() const
 {
+    if (_ui.localFolderLineEdit->text().isEmpty()) {
+        _ui.warnLabel->hide();
+        _ui.warnLabel->clear();
+        return true; // initial isOk
+    }
+
     QUrl serverUrl = _account->url();
     serverUrl.setUserName(_account->credentials()->user());
 
