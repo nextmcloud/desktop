@@ -36,11 +36,6 @@ NetworkSettings::NetworkSettings(const AccountPtr &account, QWidget *parent)
     _ui->manualSettings->setVisible(_ui->manualProxyRadioButton->isChecked());
 
     _ui->proxyGroupBox->setVisible(!Theme::instance()->doNotUseProxy());
-    _ui->proxyGroupBox->setStyleSheet(
-        "QGroupBox::title {"
-        "padding-bottom: 2px; font-weight: 600;"
-        "}"
-    );
 
     if (!Theme::instance()->doNotUseProxy()) {
         _ui->hostLineEdit->setPlaceholderText(tr("Hostname of proxy server"));
@@ -299,7 +294,7 @@ void NetworkSettings::paintEvent(QPaintEvent *event)
     path.addRoundedRect(rect, radius, radius);
 
     QPalette palette = this->palette();
-    painter.fillPath(path, palette.color(QPalette::Window));
+    painter.fillPath(path, palette.color(QPalette::Base));
 
     QWidget::paintEvent(event);
 }
