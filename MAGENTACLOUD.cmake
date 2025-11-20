@@ -1,0 +1,5 @@
+if(APPLE AND APPLICATION_NAME STREQUAL "MagentaCLOUD" AND EXISTS "${CMAKE_SOURCE_DIR}/theme/colored/MagentaCLOUD-macOS-icon.png")
+    set( APPLICATION_ICON_NAME "MagentaCLOUD-macOS" )
+    set( APPLICATION_ICON_SET "PNG" )
+    message("Using macOS-specific application icon: ${APPLICATION_ICON_NAME}")
+endif()
