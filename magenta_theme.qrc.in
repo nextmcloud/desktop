@@ -30,5 +30,6 @@
 		<file>theme/NMCIcons/ApplicationLogo.svg</file>
         <file>theme/NMCIcons/folderLogo.svg</file>
         <file>theme/NMCIcons/tlogocarrier.svg</file>
+		<file>theme/colored/@APPLICATION_ICON_NAME@-icon.png</file>
     </qresource>
 </RCC>
