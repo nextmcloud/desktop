@@ -59,9 +59,6 @@ protected:
 protected slots:
     void slotChooseLocalFolder();
 
-private slots:
-    void updateWarnings();
-
 private:
     void changeStyle();
 
