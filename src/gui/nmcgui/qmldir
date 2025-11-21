@@ -1,0 +1,3 @@
+module NMCGui
+NMCHeaderButton 1.0 NMCHeaderButton.qml
+NMCMenuItem 1.0 NMCMenuItem.qml
