@@ -283,17 +283,18 @@ void NetworkSettings::checkAccountLocalhost()
 
 void NetworkSettings::paintEvent(QPaintEvent *event)
 {
+
     const int radius = 4;
 
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
 
     QRect rect(0, 0, width(), height());
-
     QPainterPath path;
     path.addRoundedRect(rect, radius, radius);
 
     QPalette palette = this->palette();
+    painter.fillRect(rect, palette.color(QPalette::Window));
     painter.fillPath(path, palette.color(QPalette::Base));
 
     QWidget::paintEvent(event);
