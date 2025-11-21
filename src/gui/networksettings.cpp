@@ -294,7 +294,7 @@ void NetworkSettings::paintEvent(QPaintEvent *event)
     path.addRoundedRect(rect, radius, radius);
 
     QPalette palette = this->palette();
-    painter.fillRect(rect, palette.color(QPalette::Window));
+    painter.fillRect(rect, palette.color(QPalette::Base));
     painter.fillPath(path, palette.color(QPalette::Base));
 
     QWidget::paintEvent(event);
