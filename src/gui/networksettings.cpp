@@ -30,7 +30,7 @@ NetworkSettings::NetworkSettings(const AccountPtr &account, QWidget *parent)
 {
     _ui->setupUi(this);
 
-    setAttribute(Qt::WA_OpaquePaintEvent, true);
+    setAttribute(Qt::WA_OpaquePaintEvent, false);
     setAutoFillBackground(false);
 
     _ui->manualSettings->setVisible(_ui->manualProxyRadioButton->isChecked());
