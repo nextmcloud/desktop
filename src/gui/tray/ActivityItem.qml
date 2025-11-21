@@ -25,6 +25,10 @@ ItemDelegate {
 
     padding: Style.standardSpacing
     focusPolicy: Qt.NoFocus
+    background: Rectangle {
+        color: "transparent"
+        border.width: 0
+    }
 
     Accessible.role: Accessible.ListItem
     Accessible.name: (model.path !== "" && model.displayPath !== "") ? qsTr("Open %1 locally").arg(model.displayPath) : model.message
