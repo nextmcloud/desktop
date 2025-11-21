@@ -33,8 +33,8 @@ RowLayout {
     Item {
         id: thumbnailItem
 
-        readonly property int imageWidth: width * (1 - Style.thumbnailImageSizeReduction)
-        readonly property int imageHeight: height * (1 - Style.thumbnailImageSizeReduction)
+        readonly property int imageWidth: width
+        readonly property int imageHeight: height
         readonly property int thumbnailRadius: model.thumbnail && model.thumbnail.isUserAvatar ? width / 2 : 3
 
         implicitWidth: root.iconSize
@@ -184,7 +184,7 @@ RowLayout {
                     }
 
                     display: Button.IconOnly
-                    visible: model.showFileDetails
+                    visible: false
                     onClicked: Systray.presentShareViewInTray(model.openablePath)
                 }
 
