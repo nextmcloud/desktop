@@ -342,9 +342,9 @@ void SettingsDialog::customizeStyle()
 {
     QString background(palette().base().color().name());
     QString highlightColor(palette().highlight().color().name());
-    QString lightColor(palette().light().color().name());
+    QString buttonColor(palette().button().color().name());
 
-    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, highlightColor, lightColor));
+    _toolBar->setStyleSheet(TOOLBAR_CSS().arg(background, highlightColor, buttonColor));
 }
 
 class ToolButtonAction : public QWidgetAction
