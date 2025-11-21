@@ -31,6 +31,11 @@ public:
     ~NetworkSettings() override;
     [[nodiscard]] QSize sizeHint() const override;
 
+    Ui::NetworkSettings *getUi() const
+    {
+        return _ui;
+    }
+
 private slots:
     void saveProxySettings();
     void saveBWLimitSettings();
@@ -42,6 +47,7 @@ private slots:
 
 protected:
     void showEvent(QShowEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     void loadProxySettings();
