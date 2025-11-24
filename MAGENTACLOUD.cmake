@@ -10,9 +10,8 @@ set( APPLICATION_HELP_URL       "https://cloud.telekom-dienste.de/hilfe" CACHE s
 set( APPLICATION_ICON_NAME      "MagentaCLOUD" )
 set( APPLICATION_ICON_SET       "SVG" )
 
-if(APPLE AND EXISTS "${CMAKE_SOURCE_DIR}/theme/colored/MagentaCLOUD-macOS-icon.png")
+if(APPLE AND EXISTS "${CMAKE_SOURCE_DIR}/theme/colored/MagentaCLOUD-macOS-icon.svg")
     set( APPLICATION_ICON_NAME "MagentaCLOUD-macOS" )
-    set( APPLICATION_ICON_SET "PNG" )
     message("Using macOS-specific application icon: ${APPLICATION_ICON_NAME}")
 endif()
 
