@@ -444,17 +444,17 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="1062"/>
+        <location filename="../src/libsync/account.cpp" line="1070"/>
         <source>File %1 is already locked by %2.</source>
         <translation>Fil %1 er allerede låst af %2.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="1064"/>
+        <location filename="../src/libsync/account.cpp" line="1072"/>
         <source>Lock operation on %1 failed with error %2</source>
         <translation>Låse handling på %1 fejlede med fejlen %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/account.cpp" line="1066"/>
+        <location filename="../src/libsync/account.cpp" line="1074"/>
         <source>Unlock operation on %1 failed with error %2</source>
         <translation>Oplåsnings handlingen på %1 fejlede med fejlen %2</translation>
     </message>
@@ -469,7 +469,7 @@ Should the account be imported?</source>
     </message>
     <message>
         <location filename="../src/gui/accountmanager.cpp" line="245"/>
-        <location filename="../src/gui/accountmanager.cpp" line="326"/>
+        <location filename="../src/gui/accountmanager.cpp" line="354"/>
         <source>Legacy import</source>
         <translation>Legacy import</translation>
     </message>
@@ -484,7 +484,7 @@ Should the account be imported?</source>
         <translation>Spring over</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountmanager.cpp" line="327"/>
+        <location filename="../src/gui/accountmanager.cpp" line="355"/>
         <source>Could not import accounts from legacy client configuration.</source>
         <translation>Kunne ikke importere konti fra ældre klientkonfiguration.</translation>
     </message>
@@ -1068,71 +1068,71 @@ Denne handling vil annullere alle i øjeblikket kørende synkroniseringer.</tran
 <context>
     <name>OCC::Application</name>
     <message>
-        <location filename="../src/gui/application.cpp" line="174"/>
+        <location filename="../src/gui/application.cpp" line="177"/>
         <source>Some settings were configured in %1 versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;Continuing will mean &lt;b&gt;%2 these settings&lt;/b&gt;.&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%3&lt;/i&gt;.</source>
         <translation>Nogle indstillinger blev konfigureret i %1 versioner af denne klient og anvender funktioner som ikke er tilgængelige i denne version.&lt;br&gt;&lt;br&gt;Hvis du fortsætter vil dette betyde &lt;b&gt;%2 disse indstillinger&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Den aktuelle konfigurationsfil blev allerede backet op til &lt;i&gt;%3&lt;/i&gt;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="180"/>
+        <location filename="../src/gui/application.cpp" line="183"/>
         <source>newer</source>
         <comment>newer software version</comment>
         <translation>nyere</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="180"/>
+        <location filename="../src/gui/application.cpp" line="183"/>
         <source>older</source>
         <comment>older software version</comment>
         <translation>ældre</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="181"/>
+        <location filename="../src/gui/application.cpp" line="184"/>
         <source>ignoring</source>
         <translation>ignorerer</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="181"/>
+        <location filename="../src/gui/application.cpp" line="184"/>
         <source>deleting</source>
         <translation>sletter</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="183"/>
+        <location filename="../src/gui/application.cpp" line="186"/>
         <source>Quit</source>
         <translation>Afslut</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="184"/>
+        <location filename="../src/gui/application.cpp" line="187"/>
         <source>Continue</source>
         <translation>Fortsæt</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="515"/>
+        <location filename="../src/gui/application.cpp" line="520"/>
         <source>%1 accounts</source>
         <comment>number of accounts imported</comment>
         <translation>%1 konti</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="516"/>
+        <location filename="../src/gui/application.cpp" line="521"/>
         <source>1 account</source>
         <translation>1 konto</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="518"/>
+        <location filename="../src/gui/application.cpp" line="523"/>
         <source>%1 folders</source>
         <comment>number of folders imported</comment>
         <translation>%1 mapper</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="519"/>
+        <location filename="../src/gui/application.cpp" line="524"/>
         <source>1 folder</source>
         <translation>1 mappe</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="521"/>
+        <location filename="../src/gui/application.cpp" line="526"/>
         <source>Legacy import</source>
         <translation>Bagudkompatibel import</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="522"/>
+        <location filename="../src/gui/application.cpp" line="527"/>
         <source>Imported %1 and %2 from a legacy desktop client.
 %3</source>
         <comment>number of accounts and folders imported. list of users.</comment>
@@ -1140,12 +1140,12 @@ Denne handling vil annullere alle i øjeblikket kørende synkroniseringer.</tran
 %3</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="605"/>
+        <location filename="../src/gui/application.cpp" line="610"/>
         <source>Error accessing the configuration file</source>
         <translation>Adgang til konfigurationsfilen fejlede</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="606"/>
+        <location filename="../src/gui/application.cpp" line="611"/>
         <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your system account.</source>
         <translation>Der opstod en fejl under tilgang til konfigurationsfilen på %1. Vær venligst sikker på at filen kan tilgås af din systemkonto.</translation>
     </message>
@@ -2840,7 +2840,7 @@ For avancerede brugere: dette problem kan være relateret til multiple synkronis
     </message>
     <message>
         <location filename="../src/gui/generalsettings.ui" line="285"/>
-        <location filename="../src/gui/generalsettings.cpp" line="660"/>
+        <location filename="../src/gui/generalsettings.cpp" line="661"/>
         <source>Create Debug Archive</source>
         <translation>Opret fejlfindingsarkiv</translation>
     </message>
@@ -2987,17 +2987,17 @@ Nedgradering af versioner er ikke muligt med det samme: skift fra stabil til ent
         <translation>Annuller</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="662"/>
+        <location filename="../src/gui/generalsettings.cpp" line="663"/>
         <source>Zip Archives</source>
         <translation>Zip arkiver</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="672"/>
+        <location filename="../src/gui/generalsettings.cpp" line="673"/>
         <source>Debug Archive Created</source>
         <translation>Fejlfindingsarkiv oprettet</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="673"/>
+        <location filename="../src/gui/generalsettings.cpp" line="674"/>
         <source>Redact information deemed sensitive before sharing! Debug archive created at %1</source>
         <translation type="unfinished"/>
     </message>
@@ -4133,88 +4133,80 @@ Dette er en ny, eksperimentel tilstand. Hvis du beslutter at bruge det, bedes du
         <translation>Filen har en endelse der er forbeholdt virtuelle filer.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="780"/>
-        <source>size</source>
-        <translation>størrelse</translation>
+        <location filename="../src/libsync/discovery.cpp" line="788"/>
+        <source>Folder is not accessible on the server.</source>
+        <comment>server error</comment>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="782"/>
-        <source>permission</source>
-        <translation>tilladelse</translation>
+        <location filename="../src/libsync/discovery.cpp" line="789"/>
+        <source>File is not accessible on the server.</source>
+        <comment>server error</comment>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="786"/>
-        <source>file id</source>
-        <translation>fil id</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/discovery.cpp" line="790"/>
-        <source>Server reported no %1</source>
-        <translation>Server rapporterede ingen %1</translation>
-    </message>
-    <message>
-        <location filename="../src/libsync/discovery.cpp" line="1203"/>
+        <location filename="../src/libsync/discovery.cpp" line="1202"/>
         <source>Cannot sync due to invalid modification time</source>
         <translation>Kan ikke synkronisere på grund af ugyldigt ændringstidspunkt</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1219"/>
+        <location filename="../src/libsync/discovery.cpp" line="1218"/>
         <source>Upload of %1 exceeds %2 of space left in personal files.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1222"/>
+        <location filename="../src/libsync/discovery.cpp" line="1221"/>
         <source>Upload of %1 exceeds %2 of space left in folder %3.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1238"/>
+        <location filename="../src/libsync/discovery.cpp" line="1237"/>
         <source>Could not upload file, because it is open in &quot;%1&quot;.</source>
         <translation>Kunne ikke uploade filen, fordi den er åben i &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1288"/>
+        <location filename="../src/libsync/discovery.cpp" line="1287"/>
         <source>Error while deleting file record %1 from the database</source>
         <translation>Fejl under sletning af filposten %1 fra databasen</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1568"/>
-        <location filename="../src/libsync/discovery.cpp" line="2041"/>
+        <location filename="../src/libsync/discovery.cpp" line="1567"/>
+        <location filename="../src/libsync/discovery.cpp" line="2040"/>
         <source>Moved to invalid target, restoring</source>
         <translation>Flyttet til ugyldigt mål, genopretter</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1896"/>
+        <location filename="../src/libsync/discovery.cpp" line="1895"/>
         <source>Cannot modify encrypted item because the selected certificate is not valid.</source>
         <translation>Kan ikke ændre krypteret element, fordi det valgte certifikat ikke er gyldigt.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1965"/>
+        <location filename="../src/libsync/discovery.cpp" line="1964"/>
         <source>Ignored because of the &quot;choose what to sync&quot; blacklist</source>
         <translation>Ignoreret på grund af &quot;vælg hvad der skal synkroniseres&quot; blackliste</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1999"/>
+        <location filename="../src/libsync/discovery.cpp" line="1998"/>
         <source>Not allowed because you don&apos;t have permission to add subfolders to that folder</source>
         <translation>Ikke tilladt, fordi du ikke har rettigheder til at tilføje undermapper til denne mappe</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2005"/>
+        <location filename="../src/libsync/discovery.cpp" line="2004"/>
         <source>Not allowed because you don&apos;t have permission to add files in that folder</source>
         <translation>Ikke tilladt, fordi du ikke har rettigheder til at tilføje filer i denne mappe</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2019"/>
+        <location filename="../src/libsync/discovery.cpp" line="2018"/>
         <source>Not allowed to upload this file because it is read-only on the server, restoring</source>
         <translation>Ikke tilladt at uploade denne fil, fordi det er læs kun på serveren, genopretter</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2055"/>
+        <location filename="../src/libsync/discovery.cpp" line="2054"/>
         <source>Not allowed to remove, restoring</source>
         <translation>Ikke tilladt at fjerne, genopretter</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2226"/>
+        <location filename="../src/libsync/discovery.cpp" line="2225"/>
         <source>Error while reading the database</source>
         <translation>Fejl under læsning af databasen</translation>
     </message>
@@ -4636,8 +4628,15 @@ Dette er en ny, eksperimentel tilstand. Hvis du beslutter at bruge det, bedes du
     </message>
     <message>
         <location filename="../src/libsync/propagateuploadng.cpp" line="544"/>
-        <source>Missing ETag from server</source>
-        <translation>Manglende ETag fra server</translation>
+        <source>Folder is not accessible on the server.</source>
+        <comment>server error</comment>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/libsync/propagateuploadng.cpp" line="545"/>
+        <source>File is not accessible on the server.</source>
+        <comment>server error</comment>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -5585,12 +5584,12 @@ Server replied with error: %2</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1087"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1079"/>
         <source>Open Nextcloud Assistant in browser</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1087"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1079"/>
         <source>Open Nextcloud Talk in browser</source>
         <translation type="unfinished"/>
     </message>
@@ -5826,7 +5825,7 @@ Server replied with error: %2</source>
 <context>
     <name>OCC::WebFlowCredentials</name>
     <message>
-        <location filename="../src/gui/creds/webflowcredentials.cpp" line="171"/>
+        <location filename="../src/gui/creds/webflowcredentials.cpp" line="172"/>
         <source>You have been logged out of your account %1 at %2. Please login again.</source>
         <translation type="unfinished"/>
     </message>
@@ -6643,12 +6642,12 @@ Server replied with error: %2</source>
         <translation>Åbn lokal mappe</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="86"/>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="87"/>
         <source>Connected</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="86"/>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="87"/>
         <source>Disconnected</source>
         <translation type="unfinished"/>
     </message>
@@ -6942,17 +6941,17 @@ Server replied with error: %2</source>
 <context>
     <name>ValidateChecksumHeader</name>
     <message>
-        <location filename="../src/common/checksums.cpp" line="250"/>
+        <location filename="../src/common/checksums.cpp" line="258"/>
         <source>The checksum header is malformed.</source>
         <translation>Kontrolsum-hovedet er misdannet.</translation>
     </message>
     <message>
-        <location filename="../src/common/checksums.cpp" line="284"/>
+        <location filename="../src/common/checksums.cpp" line="292"/>
         <source>The checksum header contained an unknown checksum type &quot;%1&quot;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/common/checksums.cpp" line="289"/>
+        <location filename="../src/common/checksums.cpp" line="297"/>
         <source>The downloaded file does not match the checksum, it will be resumed. &quot;%1&quot; != &quot;%2&quot;</source>
         <translation type="unfinished"/>
     </message>
