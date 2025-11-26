@@ -74,13 +74,15 @@ FolderWizardLocalPath::FolderWizardLocalPath(const AccountPtr &account)
     _ui.setupUi(this);
     registerField(QLatin1String("sourceFolder"), _ui.localFolderLineEdit);
     connect(_ui.localFolderChooseBtn, &QAbstractButton::clicked, this, &FolderWizardLocalPath::slotChooseLocalFolder);
-    _ui.localFolderChooseBtn->setToolTip(tr("Click to select a local folder to sync."));
+    connect(_ui.localFolderLineEdit, &QLineEdit::textChanged, this, &QWizardPage::completeChanged);
 
     // QUrl serverUrl = _account->url();
     // serverUrl.setUserName(_account->credentials()->user());
     // QString defaultPath = QDir::homePath() + QLatin1Char('/') + Theme::instance()->appName();
     // defaultPath = FolderMan::instance()->findGoodPathForNewSyncFolder(defaultPath, serverUrl, FolderMan::GoodPathStrategy::AllowOnlyNewPath);
     // _ui.localFolderLineEdit->setText(QDir::toNativeSeparators(defaultPath));
+
+    _ui.localFolderChooseBtn->setToolTip(tr("Click to select a local folder to sync."));
     _ui.localFolderLineEdit->setToolTip(tr("Enter the path to the local folder."));
     _ui.localFolderLineEdit->setPlaceholderText(tr("Select a local folder"));
 
@@ -107,7 +109,7 @@ bool FolderWizardLocalPath::isComplete() const
     if (_ui.localFolderLineEdit->text().isEmpty()) {
         _ui.warnLabel->hide();
         _ui.warnLabel->clear();
-        return true; // initial isOk
+        return false; // wichtig!
     }
 
     QUrl serverUrl = _account->url();
