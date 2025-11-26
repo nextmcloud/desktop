@@ -30,24 +30,16 @@ NMCGeneralSettings::NMCGeneralSettings(QWidget *parent)
 
 void NMCGeneralSettings::setDefaultSettings()
 {
-    //Set default settings
+    //Hide and disable unsupported settings
     //General settings
-    getUi()->autostartCheckBox->setCheckState(Qt::Checked);
-    getUi()->monoIconsCheckBox->setCheckState(Qt::Unchecked);
-    getUi()->serverNotificationsCheckBox->setCheckState(Qt::Unchecked);
-    getUi()->callNotificationsCheckBox->setCheckState(Qt::Unchecked);
-    getUi()->quotaWarningNotificationsCheckBox->setCheckState(Qt::Unchecked);
-    //Advanced settings
-    getUi()->newFolderLimitCheckBox->setCheckState(Qt::Unchecked);
-    //Info settings
-    getUi()->aboutAndUpdatesGroupBox->setTitle(tr("Update"));
-    //Hide unsupported settings
-    //General settings
-    getUi()->monoIconsCheckBox->setVisible(false);
     getUi()->callNotificationsCheckBox->setVisible(false);
+    getUi()->monoIconsCheckBox->setVisible(false);
+    getUi()->chatNotificationsCheckBox->setVisible(false);
     getUi()->quotaWarningNotificationsCheckBox->setVisible(false);
+
     //Advanced settings
     getUi()->groupBox->setVisible(false);
+
     //Info settings
     getUi()->aboutAndUpdatesGroupBox->setVisible(false);
 }
@@ -58,9 +50,11 @@ void NMCGeneralSettings::setNMCLayout()
     auto generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"));
     generalSettingsLabel->setStyleSheet("font-size: 13px; font-weight: bold;");
     getUi()->chatNotificationsCheckBox->hide();
-    getUi()->generalGroupBox->layout()->removeWidget(getUi()->chatNotificationsCheckBox);
-    getUi()->generalGroupBox->layout()->removeWidget(getUi()->serverNotificationsCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->autostartCheckBox);
+    getUi()->generalGroupBox->layout()->removeWidget(getUi()->serverNotificationsCheckBox);
+    getUi()->generalGroupBox->layout()->removeWidget(getUi()->callNotificationsCheckBox);
+    getUi()->generalGroupBox->layout()->removeWidget(getUi()->monoIconsCheckBox);
+    getUi()->generalGroupBox->layout()->removeWidget(getUi()->chatNotificationsCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->quotaWarningNotificationsCheckBox);
     getUi()->generalGroupBox->setTitle({});
     static_cast<QGridLayout *>(getUi()->generalGroupBox->layout())->addWidget(generalSettingsLabel, 0, 0);
@@ -81,13 +75,12 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsBox->layout()->setContentsMargins(16, 16, 16, 16);
     advancedSettingsBox->layout()->setSpacing(8);
 
-    // Entferne Widgets aus alten Layouts, falls notwendig
-    getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
-    getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
+    getUi()->horizontalLayout_trash->removeWidget(getUi()->moveFilesToTrashCheckBox);
     getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitCheckBox);
     getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitSpinBox);
     getUi()->horizontalLayout_3->removeWidget(getUi()->label);
     getUi()->horizontalLayout_4->removeWidget(getUi()->ignoredFilesButton);
+    getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
@@ -144,14 +137,17 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->layout()->setContentsMargins(16, 16, 16, 16);
     dataProtectionBox->layout()->setSpacing(8);
 
+    getUi()->updatesLayout_2->removeWidget(getUi()->autoCheckForUpdatesCheckBox);
+
     auto *dataAnalysisCheckBox = new QCheckBox(this);
     dataAnalysisCheckBox->setText(QCoreApplication::translate("", "DATA_ANALYSIS"));
     dataAnalysisCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
-    getUi()->autoCheckForUpdatesCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
     dataProtectionBox->layout()->addWidget(updatesLabel);
     dataProtectionBox->layout()->addWidget(getUi()->autoCheckForUpdatesCheckBox);
     dataProtectionBox->layout()->addWidget(dataAnalysisCheckBox);
+
+    getUi()->autoCheckForUpdatesCheckBox->setFocusPolicy(Qt::FocusPolicy::NoFocus);
 
     connect(dataAnalysisCheckBox, &QAbstractButton::toggled, this, [](bool toggle){
         NMCConfigFile cfgFile;

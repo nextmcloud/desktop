@@ -187,13 +187,13 @@ bool ConfigFile::setConfDir(const QString &value)
 bool ConfigFile::optionalServerNotifications() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(optionalServerNotificationsC, true).toBool();
+    return settings.value(optionalServerNotificationsC, false).toBool();
 }
 
 bool ConfigFile::showChatNotifications() const
 {
     const QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(showChatNotificationsC, true).toBool() && optionalServerNotifications();
+    return settings.value(showChatNotificationsC, false).toBool() && optionalServerNotifications();
 }
 
 void ConfigFile::setShowChatNotifications(const bool show)
@@ -206,7 +206,7 @@ void ConfigFile::setShowChatNotifications(const bool show)
 bool ConfigFile::showCallNotifications() const
 {
     const QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(showCallNotificationsC, true).toBool() && optionalServerNotifications();
+    return settings.value(showCallNotificationsC, false).toBool() && optionalServerNotifications();
 }
 
 void ConfigFile::setShowCallNotifications(bool show)
@@ -219,7 +219,7 @@ void ConfigFile::setShowCallNotifications(bool show)
 bool ConfigFile::showQuotaWarningNotifications() const
 {
     const QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(showQuotaWarningNotificationsC, true).toBool() && optionalServerNotifications();
+    return settings.value(showQuotaWarningNotificationsC, false).toBool() && optionalServerNotifications();
 }
 
 void ConfigFile::setShowQuotaWarningNotifications(bool show)
@@ -1001,13 +1001,13 @@ void ConfigFile::setNewBigFolderSizeLimit(bool isChecked, qint64 mbytes)
 
 bool ConfigFile::confirmExternalStorage() const
 {
-    const auto fallback = getValue(confirmExternalStorageC, QString(), true);
+    const auto fallback = getValue(confirmExternalStorageC, QString(), false);
     return getPolicySetting(QLatin1String(confirmExternalStorageC), fallback).toBool();
 }
 
 bool ConfigFile::useNewBigFolderSizeLimit() const
 {
-    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), true);
+    const auto fallback = getValue(useNewBigFolderSizeLimitC, QString(), false);
     return getPolicySetting(QLatin1String(useNewBigFolderSizeLimitC), fallback).toBool();
 }
 
