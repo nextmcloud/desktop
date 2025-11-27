@@ -20,8 +20,11 @@ if(APPLICATION_NAME STREQUAL "Nextcloud")
     set(STATE_SUBDIR "nextcloud/")
 endif()
 
-configure_file(${CMAKE_SOURCE_DIR}/magenta_theme.qrc.in ${CMAKE_SOURCE_DIR}/magenta_theme.qrc)
+configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
 set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
+
+#NMC customization: needed to find the ui file in a different location than the header file
+set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
 
 set(client_UI_SRCS
     accountsettings.ui
@@ -54,7 +57,7 @@ set(client_UI_SRCS
     wizard/proxysettings.ui
 )
 
-qt_add_resources(client_UI_SRCS ../../resources.qrc ${CMAKE_SOURCE_DIR}/magenta_theme.qrc)
+qt_add_resources(client_UI_SRCS ../../resources.qrc ${CMAKE_SOURCE_DIR}/theme.qrc)
 
 set(client_SRCS
     accountmanager.h
@@ -259,6 +262,10 @@ set(client_SRCS
     wizard/wizardproxysettingsdialog.h
     wizard/wizardproxysettingsdialog.cpp
     )
+
+file(GLOB NMC_FILES "nmcgui/*")
+set(NMC_SRCS ${NMC_FILES})
+list(APPEND client_SRCS ${NMC_SRCS})
 
 if (NOT DISABLE_ACCOUNT_MIGRATION)
     list(APPEND client_SRCS
