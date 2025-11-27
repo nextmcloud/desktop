@@ -55,7 +55,7 @@ Rectangle {
             anchors.fill: parent
             source: Style.nmcTLogoPath
             fillMode: Image.Stretch
-            cache: false
+            cache: true
         }
     }
 
