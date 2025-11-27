@@ -108,9 +108,9 @@ void NMCGeneralSettings::setNMCLayout()
     folderLimitLayout->setSpacing(8);
     folderLimitLayout->addWidget(getUi()->newFolderLimitCheckBox);
     folderLimitLayout->addWidget(getUi()->newFolderLimitSpinBox);
-    getUi()->newFolderLimitSpinBox->setFixedWidth(80);
-    getUi()->newFolderLimitSpinBox->setFocusPolicy(Qt::NoFocus);
     getUi()->newFolderLimitCheckBox->setFocusPolicy(Qt::NoFocus);
+    getUi()->newFolderLimitSpinBox->setFixedWidth(80);
+    getUi()->newFolderLimitSpinBox->setFocusPolicy(Qt::StrongFocus);
     folderLimitLayout->addWidget(getUi()->label);
     getUi()->label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     folderLimitLayout->addStretch();
