@@ -20,7 +20,7 @@ if(APPLICATION_NAME STREQUAL "Nextcloud")
     set(STATE_SUBDIR "nextcloud/")
 endif()
 
-configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
+configure_file(${CMAKE_SOURCE_DIR}/magenta_theme.qrc.in ${CMAKE_SOURCE_DIR}/magenta_theme.qrc)
 set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
 
 set(client_UI_SRCS
@@ -54,8 +54,7 @@ set(client_UI_SRCS
     wizard/proxysettings.ui
 )
 
-qt_add_resources(client_UI_SRCS ../../resources.qrc ${CMAKE_SOURCE_DIR}/theme.qrc)
-qt_add_resources(client_resources ${CMAKE_SOURCE_DIR}/magenta_theme.qrc)
+qt_add_resources(client_UI_SRCS ../../resources.qrc ${CMAKE_SOURCE_DIR}/magenta_theme.qrc)
 
 set(client_SRCS
     accountmanager.h
