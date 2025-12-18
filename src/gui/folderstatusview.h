@@ -32,6 +32,10 @@ public:
 
     [[nodiscard]] QModelIndex indexAt(const QPoint &point) const override;
     [[nodiscard]] QRect visualRect(const QModelIndex &index) const override;
+
+protected:
+    void drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const override;
+    void paintEvent(QPaintEvent *event) override;
 };
 
 } // namespace OCC

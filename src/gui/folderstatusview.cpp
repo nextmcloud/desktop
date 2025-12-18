@@ -13,12 +13,20 @@
  */
 
 #include "folderstatusview.h"
+#include "QtCore/qtimer.h"
+#include "QtGui/qevent.h"
+#include "QtGui/qpainterpath.h"
+#include "QtWidgets/qapplication.h"
 #include "folderstatusdelegate.h"
+
+#include "QPainter"
 
 namespace OCC {
 
 FolderStatusView::FolderStatusView(QWidget *parent) : QTreeView(parent)
 {
+    //Removes the border
+    setStyleSheet("QTreeView { border: none; border-width: 0px; border-style: none; border-color: transparent; }");
 }
 
 QModelIndex FolderStatusView::indexAt(const QPoint &point) const
@@ -38,5 +46,38 @@ QRect FolderStatusView::visualRect(const QModelIndex &index) const
     }
     return rect;
 }
+
+void FolderStatusView::drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const {
+
+    Q_UNUSED(painter)
+    Q_UNUSED(rect)
+    Q_UNUSED(index)
+
+    //Empty, we override this function, to get rid of the left column with the collapse and expand icons. Its implemented here, but due to synchronisation,
+    //we will implement it in folderstatusdelegate.cpp paint funtion
+}
+
+void FolderStatusView::paintEvent(QPaintEvent *event)
+{
+    //it paints rounded corner, Qtreeview does not support the stylesheet setting
+
+    QPainter painter(viewport());
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    const int radius = 4;
+
+    QRect rect(0, 0, width(), height());
+    QPainterPath path;
+    path.addRoundedRect(rect, radius, radius);
+
+    QPalette palette = QApplication::palette();
+    painter.fillRect(rect, palette.window());
+
+    painter.fillPath(path, Qt::white);
+
+    QTreeView::paintEvent(event);
+}
+
+
 
 } // namespace OCC
