@@ -265,6 +265,8 @@ void OwncloudAdvancedSetupPage::refreshVirtualFilesAvailibility(const QString &p
     //
 }
 
+
+
 void OwncloudAdvancedSetupPage::setServerAddressLabelUrl(const QUrl &url)
 {
     if (!url.isValid()) {
