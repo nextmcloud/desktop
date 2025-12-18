@@ -29,6 +29,8 @@
 #include <QDBusConnection>
 #endif
 
+#include "nmcgui/nmcadvertwidget.h"
+
 namespace OCC {
 
 class Folder;
@@ -126,6 +128,7 @@ private:
 
     QList<QAction *> _recentItemsActions;
     Application *_app;
+    NMCAdvertWidget *_advertWidget = nullptr;
 };
 
 } // namespace OCC
