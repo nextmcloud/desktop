@@ -13,16 +13,23 @@
  */
 
 #include "nmcconfigfile.h"
+#include "accountmanager.h"
 
 namespace OCC {
+
+static QString defaultConnectionId()
+{
+    const auto account = AccountManager::instance()->defaultAccount();
+    return account ? account->accountId() : QString();
+}
 
 bool NMCConfigFile::transferUsageData(const QString &connection) const
 {
     QString con(connection);
-    if (connection.isEmpty())
-    {
-        con = defaultConnection();
+    if (con.isEmpty()) {
+        con = defaultConnectionId();
     }
+
     QVariant fallback = getValue(m_transferUsageData, con, false);
     fallback = getValue(m_transferUsageData, QString(), fallback);
 
@@ -33,14 +40,13 @@ bool NMCConfigFile::transferUsageData(const QString &connection) const
 void NMCConfigFile::setTransferUsageData(bool usageData, const QString &connection)
 {
     QString con(connection);
-    if (connection.isEmpty())
-    {
-        con = defaultConnection();
+    if (con.isEmpty()) {
+        con = defaultConnectionId();
     }
+
     QSettings settings(configFile(), QSettings::IniFormat);
     settings.beginGroup(con);
-
-    settings.setValue(m_transferUsageData, QVariant(usageData));
+    settings.setValue(m_transferUsageData, usageData);
     settings.sync();
 }
 
