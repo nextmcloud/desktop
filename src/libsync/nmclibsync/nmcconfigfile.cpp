@@ -1,53 +1,45 @@
 /*
- * Copyright (C) by Eugen Fischer
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
+ * SPDX-FileCopyrightText: 2025
+ * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
 #include "nmcconfigfile.h"
-#include "accountmanager.h"
+
+#include <QSettings>
+#include <QString>
+#include <QStringLiteral>
 
 namespace OCC {
 
-static QString defaultConnectionId()
+namespace {
+
+static const QString DefaultConnection = QStringLiteral("default");
+
+} // unnamed namespace
+
+NMCConfigFile::NMCConfigFile(const QString &configFile)
+    : _settings(configFile, QSettings::IniFormat)
 {
-    const auto account = AccountManager::instance()->defaultAccount();
-    return account ? account->accountId() : QString();
 }
 
-bool NMCConfigFile::transferUsageData(const QString &connection) const
+QString NMCConfigFile::connectionId() const
 {
-    QString con(connection);
-    if (con.isEmpty()) {
-        con = defaultConnectionId();
-    }
-
-    QVariant fallback = getValue(m_transferUsageData, con, false);
-    fallback = getValue(m_transferUsageData, QString(), fallback);
-
-    QVariant value = getPolicySetting(m_transferUsageData, fallback);
-    return value.toBool();
+    // vorher: defaultConnection  ❌ (nicht definiert)
+    // jetzt:  DefaultConnection ✅
+    return _settings.value(QStringLiteral("Connection/id"),
+                            DefaultConnection).toString();
 }
 
-void NMCConfigFile::setTransferUsageData(bool usageData, const QString &connection)
+void NMCConfigFile::setConnectionId(const QString &connectionId)
 {
-    QString con(connection);
-    if (con.isEmpty()) {
-        con = defaultConnectionId();
-    }
+    _settings.setValue(QStringLiteral("Connection/id"),
+                       connectionId);
+}
 
-    QSettings settings(configFile(), QSettings::IniFormat);
-    settings.beginGroup(con);
-    settings.setValue(m_transferUsageData, usageData);
-    settings.sync();
+QString NMCConfigFile::someOtherValue() const
+{
+    return _settings.value(QStringLiteral("Connection/other"),
+                            DefaultConnection).toString();
 }
 
 } // namespace OCC
