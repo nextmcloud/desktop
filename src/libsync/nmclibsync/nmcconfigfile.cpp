@@ -24,8 +24,6 @@ NMCConfigFile::NMCConfigFile(const QString &configFile)
 
 QString NMCConfigFile::connectionId() const
 {
-    // vorher: defaultConnection  ❌ (nicht definiert)
-    // jetzt:  DefaultConnection ✅
     return _settings.value(QStringLiteral("Connection/id"),
                             DefaultConnection).toString();
 }
