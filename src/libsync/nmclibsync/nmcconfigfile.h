@@ -30,8 +30,8 @@ namespace OCC {
 class OWNCLOUDSYNC_EXPORT NMCConfigFile : public ConfigFile
 {
 public:
-    explicit NMCConfigFile() = default;
-    ~NMCConfigFile() override = default;
+    NMCConfigFile() = default;
+    ~NMCConfigFile() = default;
 
     /**
      * @brief Check if transferring usage data is enabled.
