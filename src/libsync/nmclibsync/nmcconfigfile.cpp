@@ -4,40 +4,40 @@
  */
 
 #include "nmcconfigfile.h"
-
+#include "theme.h"
 #include <QSettings>
-#include <QString>
-#include <QStringLiteral>
 
 namespace OCC {
 
-namespace {
+const QString NMCConfigFile::m_transferUsageData =
+    QStringLiteral("TransferUsageData");
 
-static const QString DefaultConnection = QStringLiteral("default");
-
-} // unnamed namespace
-
-NMCConfigFile::NMCConfigFile(const QString &configFile)
-    : _settings(configFile, QSettings::IniFormat)
+bool NMCConfigFile::transferUsageData(const QString &connection) const
 {
+    const QString group =
+        connection.isEmpty()
+            ? Theme::instance()->appName()
+            : connection;
+
+    QVariant fallback = getValue(m_transferUsageData, group, false);
+    fallback = getValue(m_transferUsageData, QString(), fallback);
+
+    const QVariant value = getPolicySetting(m_transferUsageData, fallback);
+    return value.toBool();
 }
 
-QString NMCConfigFile::connectionId() const
+void NMCConfigFile::setTransferUsageData(bool usageData, const QString &connection)
 {
-    return _settings.value(QStringLiteral("Connection/id"),
-                            DefaultConnection).toString();
-}
+    const QString group =
+        connection.isEmpty()
+            ? Theme::instance()->appName()
+            : connection;
 
-void NMCConfigFile::setConnectionId(const QString &connectionId)
-{
-    _settings.setValue(QStringLiteral("Connection/id"),
-                       connectionId);
-}
+    QSettings settings(configFile(), QSettings::IniFormat);
+    settings.beginGroup(group);
 
-QString NMCConfigFile::someOtherValue() const
-{
-    return _settings.value(QStringLiteral("Connection/other"),
-                            DefaultConnection).toString();
+    settings.setValue(m_transferUsageData, usageData);
+    settings.sync();
 }
 
 } // namespace OCC
