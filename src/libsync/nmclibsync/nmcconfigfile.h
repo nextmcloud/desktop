@@ -16,6 +16,7 @@
 #define MIRALL_NMCCONFIGFILE_H
 
 #include "configfile.h"
+#include <QString>
 
 namespace OCC {
 
@@ -23,25 +24,19 @@ namespace OCC {
  * @brief The NMCConfigFile class.
  * @ingroup lib
  *
- * Subclass of ConfigFile representing the configuration file for NMC (MagentaCustomization) in the OwnCloud Sync library.
+ * Subclass of ConfigFile representing the configuration file for
+ * NMC (MagentaCustomization) in the OwnCloud Sync library.
  */
 class OWNCLOUDSYNC_EXPORT NMCConfigFile : public ConfigFile
 {
 public:
-    /**
-     * @brief Default constructor for NMCConfigFile.
-     */
     explicit NMCConfigFile() = default;
-
-    /**
-     * @brief Default destructor for NMCConfigFile.
-     */
-    ~NMCConfigFile() = default;
+    ~NMCConfigFile() override = default;
 
     /**
      * @brief Check if transferring usage data is enabled.
      *
-     * @param connection Optional parameter specifying the connection; default is an empty string.
+     * @param connection Optional parameter specifying the connection.
      * @return True if transferring usage data is enabled, false otherwise.
      */
     [[nodiscard]] bool transferUsageData(const QString &connection = QString()) const;
@@ -49,17 +44,15 @@ public:
     /**
      * @brief Set the status of transferring usage data.
      *
-     * @param usageData True to enable transferring usage data, false to disable.
-     * @param connection Optional parameter specifying the connection; default is an empty string.
+     * @param usageData True to enable transferring usage data, false otherwise.
+     * @param connection Optional parameter specifying the connection.
      */
-    void setTransferUsageData(bool usageData, const QString &connection);
+    void setTransferUsageData(bool usageData, const QString &connection = QString());
 
 private:
-    QString m_transferUsageData = "TransferUsageData"; ///< Configuration key for storing the status of transferring usage data.
-    QString defaultConnection() const { return QString(); }
+    static const QString m_transferUsageData;
 };
 
-
-
 } // namespace OCC
+
 #endif // MIRALL_NMCCONFIGFILE_H
