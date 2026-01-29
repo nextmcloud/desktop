@@ -14,8 +14,12 @@
 
 #include "nmcconfigfile.h"
 #include "theme.h"
+#include <QSettings>
 
 namespace OCC {
+
+const QString NMCConfigFile::m_transferUsageData =
+    QStringLiteral("TransferUsageData");
 
 bool NMCConfigFile::transferUsageData(const QString &connection) const
 {
