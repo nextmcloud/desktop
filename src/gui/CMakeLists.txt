@@ -23,6 +23,9 @@ endif()
 configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
 set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
 
+#NMC customization: needed to find the ui file in a different location than the header file
+set(CMAKE_AUTOUIC_SEARCH_PATHS "${CMAKE_SOURCE_DIR}/src/gui")
+
 set(client_UI_SRCS
     accountsettings.ui
     conflictdialog.ui
@@ -259,6 +262,10 @@ set(client_SRCS
     wizard/wizardproxysettingsdialog.h
     wizard/wizardproxysettingsdialog.cpp
     )
+
+file(GLOB NMC_FILES "nmcgui/*")
+set(NMC_SRCS ${NMC_FILES})
+list(APPEND client_SRCS ${NMC_SRCS})
 
 if (NOT DISABLE_ACCOUNT_MIGRATION)
     list(APPEND client_SRCS
