@@ -11,6 +11,7 @@
 #include "folderman.h"
 #include "theme.h"
 #include "generalsettings.h"
+#include "nmcgui/nmcgeneralsettings.h"
 #include "networksettings.h"
 #include "accountsettings.h"
 #include "nmcgui/nmcaccountsettings.h"
@@ -119,7 +120,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/settings.svg"), tr("General"));
     _actionGroup->addAction(generalAction);
     _toolBar->addAction(generalAction);
-    auto *generalSettings = new GeneralSettings;
+    auto *generalSettings = new NMCGeneralSettings;
     _ui->stack->addWidget(generalSettings);
 
     // Adds space between general and network actions
