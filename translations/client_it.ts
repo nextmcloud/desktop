@@ -303,6 +303,11 @@
         <translation>Impostazioni dei file virtuali</translation>
     </message>
     <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="44"/>
+        <source>General settings</source>
+        <translation>Impostazioni generali</translation>
+    </message>
+    <message>
         <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="52"/>
         <source>Enable virtual files</source>
         <translation>Abilita i file virtuali</translation>
@@ -316,11 +321,6 @@
         <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="103"/>
         <source>Reset virtual files environment</source>
         <translation>Reimposta l&apos;ambiente dei file virtuali</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="44"/>
-        <source>General settings</source>
-        <translation>Impostazioni generali</translation>
     </message>
 </context>
 <context>
@@ -406,6 +406,16 @@
         <location filename="../src/gui/tray/MainWindow.qml" line="245"/>
         <source>Main content</source>
         <translation>Contenuto principale</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/MainWindow.qml" line="316"/>
+        <source>Issue with account %1</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/MainWindow.qml" line="318"/>
+        <source>Issues with several accounts</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/tray/MainWindow.qml" line="382"/>
@@ -2950,6 +2960,12 @@ Per utenti avanzati: questo problema potrebbe essere correlato a più file di da
         <translation>Ripristinare a &amp;%1</translation>
     </message>
     <message>
+        <location filename="../src/gui/generalsettings.cpp" line="448"/>
+        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <source>Connected to an enterprise system. Update channel (%1) cannot be changed.</source>
+        <translation>Connesso a un sistema aziendale. Il canale di aggiornamento (%1) non può essere modificato.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/generalsettings.cpp" line="452"/>
         <source>stable</source>
         <translation>stabile</translation>
@@ -3022,12 +3038,12 @@ Il downgrade delle versioni non è possibile immediatamente: passare da stabile 
         <translation>Archivi zip</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="715"/>
+        <location filename="../src/gui/generalsettings.cpp" line="735"/>
         <source>Failed to Access File</source>
         <translation>Impossibile accedere al file</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="716"/>
+        <location filename="../src/gui/generalsettings.cpp" line="736"/>
         <source>Could not access the selected location. Please try again or choose a different location.</source>
         <translation>Impossibile accedere alla posizione selezionata. Riprova o scegli una posizione diversa.</translation>
     </message>
@@ -3499,6 +3515,18 @@ Nota che l&apos;utilizzo di qualsiasi opzione della riga di comando di registraz
         <translation>Limita a</translation>
     </message>
     <message>
+        <location filename="../src/gui/networksettings.ui" line="337"/>
+        <location filename="../src/gui/networksettings.ui" line="460"/>
+        <source>Limit to 3/4 of estimated bandwidth</source>
+        <translation>Limita a 3/4 della banda stimata</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/networksettings.ui" line="340"/>
+        <location filename="../src/gui/networksettings.ui" line="463"/>
+        <source>Limit automatically</source>
+        <translation>Limita automaticamente</translation>
+    </message>
+    <message>
         <location filename="../src/gui/networksettings.ui" line="368"/>
         <location filename="../src/gui/networksettings.ui" line="444"/>
         <source>KBytes/s</source>
@@ -3526,21 +3554,9 @@ Nota che l&apos;utilizzo di qualsiasi opzione della riga di comando di registraz
         <translation>Nessun limite</translation>
     </message>
     <message>
-        <location filename="../src/gui/networksettings.ui" line="337"/>
-        <location filename="../src/gui/networksettings.ui" line="460"/>
-        <source>Limit to 3/4 of estimated bandwidth</source>
-        <translation>Limita a 3/4 della banda stimata</translation>
-    </message>
-    <message>
         <location filename="../src/gui/networksettings.ui" line="399"/>
         <source>Upload Bandwidth</source>
         <translation>Ampiezza di banda in uscita</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/networksettings.ui" line="340"/>
-        <location filename="../src/gui/networksettings.ui" line="463"/>
-        <source>Limit automatically</source>
-        <translation>Limita automaticamente</translation>
     </message>
     <message>
         <location filename="../src/gui/networksettings.cpp" line="36"/>
@@ -5497,6 +5513,12 @@ Il server ha risposto con errore: %2</translation>
         <translation>%1 Versione Client Desktop %2 (%3)</translation>
     </message>
     <message>
+        <location filename="../src/libsync/theme.cpp" line="449"/>
+        <source>%1 Desktop Client Version %2 (%3 running on %4)</source>
+        <comment>%1 is application name. %2 is the human version string. %3 is the operating system name. %4 is the platform name (wayland, x11, …)</comment>
+        <translation>%1 Versione client desktop %2 (%3 in esecuzione %4)</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/theme.cpp" line="634"/>
         <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;Usato il plugin dei file virtuali: %1&lt;/small&gt;&lt;/p&gt;</translation>
@@ -5618,11 +5640,6 @@ Il server ha risposto con errore: %2</translation>
         <translation>Rinominare il file</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1002"/>
-        <source>Public Share Link</source>
-        <translation>Collegamento di condivisione pubblico</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="1079"/>
         <source>Open Nextcloud Assistant in browser</source>
         <translation>Apri Nextcloud Assistant nel browser</translation>
@@ -5631,6 +5648,11 @@ Il server ha risposto con errore: %2</translation>
         <location filename="../src/gui/tray/usermodel.cpp" line="1079"/>
         <source>Open Nextcloud Talk in browser</source>
         <translation>Apri Nextcloud Talk nel browser</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1002"/>
+        <source>Public Share Link</source>
+        <translation>Collegamento di condivisione pubblico</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="1087"/>

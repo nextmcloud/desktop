@@ -303,6 +303,11 @@
         <translation>Einstellungen für virtuelle Dateien</translation>
     </message>
     <message>
+        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="44"/>
+        <source>General settings</source>
+        <translation>Allgemeine Einstellungen</translation>
+    </message>
+    <message>
         <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="52"/>
         <source>Enable virtual files</source>
         <translation>Virtuelle Dateien aktivieren</translation>
@@ -316,11 +321,6 @@
         <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="103"/>
         <source>Reset virtual files environment</source>
         <translation>Virtuelle Dateienumgebung zurücksetzen</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/macOS/ui/FileProviderSettings.qml" line="44"/>
-        <source>General settings</source>
-        <translation>Allgemeine Einstellungen</translation>
     </message>
 </context>
 <context>
@@ -406,6 +406,16 @@
         <location filename="../src/gui/tray/MainWindow.qml" line="245"/>
         <source>Main content</source>
         <translation>Hauptinhalt</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/MainWindow.qml" line="316"/>
+        <source>Issue with account %1</source>
+        <translation>Probleme mit dem Konto %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/MainWindow.qml" line="318"/>
+        <source>Issues with several accounts</source>
+        <translation>Probleme mit mehreren Konten</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/MainWindow.qml" line="382"/>
@@ -2948,6 +2958,12 @@ Für fortgeschrittene Benutzer: Dieses Problem kann damit zusammenhängen, dass 
         <translation>Wiederherstellen auf &amp;%1</translation>
     </message>
     <message>
+        <location filename="../src/gui/generalsettings.cpp" line="448"/>
+        <location filename="../src/gui/generalsettings.cpp" line="474"/>
+        <source>Connected to an enterprise system. Update channel (%1) cannot be changed.</source>
+        <translation>An ein Unternehmenssystem angebunden. Update-Kanal (%1) kann nicht geändert werden.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/generalsettings.cpp" line="452"/>
         <source>stable</source>
         <translation>Stabil</translation>
@@ -3019,12 +3035,12 @@ Ein Downgrade von Versionen ist nicht sofort möglich: Der Wechsel von Beta auf 
         <translation>Zip-Archive</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="715"/>
+        <location filename="../src/gui/generalsettings.cpp" line="735"/>
         <source>Failed to Access File</source>
         <translation>Auf die Datei konnte nicht zugegriffen werden</translation>
     </message>
     <message>
-        <location filename="../src/gui/generalsettings.cpp" line="716"/>
+        <location filename="../src/gui/generalsettings.cpp" line="736"/>
         <source>Could not access the selected location. Please try again or choose a different location.</source>
         <translation>Auf den ausgewählten Standort konnte nicht zugegriffen werden. Bitte erneut versuchen oder einen anderen Standort auswählen.</translation>
     </message>
@@ -3498,6 +3514,18 @@ Beachten Sie, dass die Verwendung von Befehlszeilenoptionen für die Protokollie
         <translation>Begrenzen auf</translation>
     </message>
     <message>
+        <location filename="../src/gui/networksettings.ui" line="337"/>
+        <location filename="../src/gui/networksettings.ui" line="460"/>
+        <source>Limit to 3/4 of estimated bandwidth</source>
+        <translation>Auf 3/4 der geschätzten Bandbreite begrenzen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/networksettings.ui" line="340"/>
+        <location filename="../src/gui/networksettings.ui" line="463"/>
+        <source>Limit automatically</source>
+        <translation>Automatisch begrenzen</translation>
+    </message>
+    <message>
         <location filename="../src/gui/networksettings.ui" line="368"/>
         <location filename="../src/gui/networksettings.ui" line="444"/>
         <source>KBytes/s</source>
@@ -3525,21 +3553,9 @@ Beachten Sie, dass die Verwendung von Befehlszeilenoptionen für die Protokollie
         <translation>Keine Begrenzung</translation>
     </message>
     <message>
-        <location filename="../src/gui/networksettings.ui" line="337"/>
-        <location filename="../src/gui/networksettings.ui" line="460"/>
-        <source>Limit to 3/4 of estimated bandwidth</source>
-        <translation>Auf 3/4 der geschätzten Bandbreite begrenzen</translation>
-    </message>
-    <message>
         <location filename="../src/gui/networksettings.ui" line="399"/>
         <source>Upload Bandwidth</source>
         <translation>Upload-Bandbreite</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/networksettings.ui" line="340"/>
-        <location filename="../src/gui/networksettings.ui" line="463"/>
-        <source>Limit automatically</source>
-        <translation>Automatisch begrenzen</translation>
     </message>
     <message>
         <location filename="../src/gui/networksettings.cpp" line="36"/>
@@ -5502,6 +5518,12 @@ Server antwortete mit Fehler: %2</translation>
         <translation>%1 Desktop-Client Version %2 (%3)</translation>
     </message>
     <message>
+        <location filename="../src/libsync/theme.cpp" line="449"/>
+        <source>%1 Desktop Client Version %2 (%3 running on %4)</source>
+        <comment>%1 is application name. %2 is the human version string. %3 is the operating system name. %4 is the platform name (wayland, x11, …)</comment>
+        <translation>%1 Desktop-Client-Version %2 (%3 läuft auf %4)</translation>
+    </message>
+    <message>
         <location filename="../src/libsync/theme.cpp" line="634"/>
         <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;Plugin für virtuelle Dateien: %1&lt;/small&gt;&lt;/p&gt;</translation>
@@ -5623,11 +5645,6 @@ Server antwortete mit Fehler: %2</translation>
         <translation>Datei umbenennen</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1002"/>
-        <source>Public Share Link</source>
-        <translation>Öffentlicher Freigabe-Link</translation>
-    </message>
-    <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="1079"/>
         <source>Open Nextcloud Assistant in browser</source>
         <translation>Nextcloud Assistant im Browser öffnen</translation>
@@ -5636,6 +5653,11 @@ Server antwortete mit Fehler: %2</translation>
         <location filename="../src/gui/tray/usermodel.cpp" line="1079"/>
         <source>Open Nextcloud Talk in browser</source>
         <translation>Nextcloud-Talk im Browser öffnen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1002"/>
+        <source>Public Share Link</source>
+        <translation>Öffentlicher Freigabe-Link</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="1087"/>
