@@ -4,89 +4,17 @@ on:
   workflow_dispatch:
     inputs:
       branch_type:
-        description: 'Select which branches to rebase'
-        required: true
-        default: 'master'
         type: choice
+        description: Select which branches to rebase
         options:
           - master
           - stable-4.0
-
-permissions:
-  contents: write
-  pull-requests: read
+          - stable-5.0    # neue Option automatisch unterstützt
+        default: master
 
 jobs:
-  rebase:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-
-      - name: Fetch all branches
-        run: git fetch --all --prune
-
-      - name: Find matching PR branches with approved label
-        id: filter
-        run: |
-          TYPE="${{ github.event.inputs.branch_type }}"
-          MATCHED_BRANCHES=""
-
-          # Alle offenen PRs abfragen
-          prs=$(gh pr list --state open --json headRefName,labels)
-
-          for row in $(echo "$prs" | jq -r '.[] | @base64'); do
-            _jq() {
-              echo "${row}" | base64 --decode | jq -r "${1}"
-            }
-
-            BRANCH=$(_jq '.headRefName')
-            LABELS=$(_jq '.labels[].name' 2>/dev/null || echo "")
-
-            if [[ "$TYPE" == "master" && "$BRANCH" == nmc/master* ]]; then
-              MATCH_TYPE=true
-            elif [[ "$TYPE" == "stable-4.0" && "$BRANCH" == *stable-4.0 ]]; then
-              MATCH_TYPE=true
-            else
-              MATCH_TYPE=false
-            fi
-
-            if [[ "$MATCH_TYPE" == true && "$LABELS" == *approved* ]]; then
-              MATCHED_BRANCHES="$MATCHED_BRANCHES $BRANCH"
-            fi
-          done
-
-          if [[ -z "$MATCHED_BRANCHES" ]]; then
-            echo "No approved PR branches found for $TYPE, exiting"
-            exit 0
-          fi
-
-          echo "branches=$MATCHED_BRANCHES" >> $GITHUB_OUTPUT
-
-      - name: Rebase approved PR branches
-        run: |
-          TYPE="${{ github.event.inputs.branch_type }}"
-          TARGET="origin/master"
-          [[ "$TYPE" == "stable-4.0" ]] && TARGET="origin/stable-4.0"
-
-          for BRANCH in ${{ steps.filter.outputs.branches }}; do
-            echo "Rebasing $BRANCH onto $TARGET"
-
-            git checkout -B "$BRANCH" "origin/$BRANCH"
-
-            if git rebase "$TARGET"; then
-              git push --force-with-lease origin "$BRANCH"
-            else
-              echo "Conflict in $BRANCH, aborting rebase"
-              git rebase --abort
-            fi
-          done
+  rebase-pr-branches:
+    uses: nextmcloud/.github/.github/workflows/nmc-rebase-approved.yml@master
+    with:
+      branch_type: ${{ inputs.branch_type }}
+    secrets: inherit
