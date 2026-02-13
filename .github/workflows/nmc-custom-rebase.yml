@@ -14,7 +14,7 @@ on:
 
 jobs:
   rebase-pr-branches:
-    uses: nextmcloud/.github/.github/workflows/nmc-rebase-approved.yml@master
+    uses: nextmcloud/.github/.github/workflows/nmc-custom-rebase.yml@master
     with:
       branch_type: ${{ inputs.branch_type }}
     secrets: inherit
