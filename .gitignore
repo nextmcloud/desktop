@@ -188,7 +188,6 @@ CPackSourceConfig.cmake
 compile_commands.json
 convert.exe
 .dir-locals.el
-*-icon.png
 *-icon-win-folder.png
 *-sidebar.png
 *-w10startmenu.png
