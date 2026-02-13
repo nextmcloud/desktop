@@ -525,7 +525,7 @@ Soll das Konto importiert werden?</translation>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="270"/>
         <source>Standard file sync</source>
-        <translation>Standard Dateisynchronisierung</translation>
+        <translation>Ihre Ordner in Synchronisation</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="314"/>
