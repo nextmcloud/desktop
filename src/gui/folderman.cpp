@@ -1868,9 +1868,9 @@ QString FolderMan::trayTooltipStatusString(SyncResult::Status syncStatus, bool h
 
 static QString checkPathValidityRecursive(const QString &path)
 {
-    if (path.isEmpty()) {
-        return FolderMan::tr("Please choose a different location. The selected folder isn't valid.");
-    }
+    // if (path.isEmpty()) {
+        // return FolderMan::tr("Please choose a different location. The selected folder isn't valid.");
+    // }
 
 #ifdef Q_OS_WIN
     Utility::NtfsPermissionLookupRAII ntfs_perm;
