@@ -44,7 +44,13 @@
      <property name="title">
       <string>Proxy Settings</string>
      </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="verticalSpacing">
+       <number>8</number>
+      </property>
       <item row="0" column="0">
        <widget class="QRadioButton" name="noProxyRadioButton">
         <property name="text">
@@ -304,15 +310,18 @@
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
        </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <property name="topMargin">
-         <number>9</number>
+         <number>8</number>
         </property>
         <property name="bottomMargin">
          <number>0</number>
         </property>
         <property name="verticalSpacing">
-         <number>6</number>
+         <number>8</number>
         </property>
         <item row="1" column="0">
          <widget class="QRadioButton" name="downloadLimitRadioButton">
@@ -331,7 +340,17 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="1" column="0" colspan="2">
+         <widget class="QRadioButton" name="autoDownloadLimitRadioButton">
+          <property name="toolTip">
+           <string>Limit to 3/4 of estimated bandwidth</string>
+          </property>
+          <property name="text">
+           <string>Limit to 3/4 of estimated bandwidth</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <widget class="QSpinBox" name="downloadSpinBox">
@@ -392,17 +411,17 @@
         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
        </property>
        <property name="flat">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
         <property name="topMargin">
-         <number>9</number>
+         <number>8</number>
         </property>
         <property name="bottomMargin">
          <number>0</number>
         </property>
         <property name="verticalSpacing">
-         <number>6</number>
+         <number>8</number>
         </property>
         <item row="2" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0">
@@ -441,6 +460,16 @@
          <widget class="QRadioButton" name="uploadLimitRadioButton">
           <property name="text">
            <string>Limit to</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QRadioButton" name="autoUploadLimitRadioButton">
+          <property name="toolTip">
+           <string>Limit to 3/4 of estimated bandwidth</string>
+          </property>
+          <property name="text">
+           <string>Limit to 3/4 of estimated bandwidth</string>
           </property>
          </widget>
         </item>
