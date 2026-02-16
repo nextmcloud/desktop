@@ -303,6 +303,7 @@ IF( APPLE )
     if (BUILD_FILE_PROVIDER_MODULE)
         list(APPEND client_SRCS
             # Symlinks to files in shell_integration/MacOSX/NextcloudIntegration/
+            macOS/AppProtocol.h
             macOS/ClientCommunicationProtocol.h
             # End of symlink files
             macOS/fileprovider.h
@@ -315,6 +316,8 @@ IF( APPLE )
             macOS/fileprovideritemmetadata.h
             macOS/fileprovideritemmetadata.cpp
             macOS/fileprovideritemmetadata_mac.mm
+            macOS/fileproviderservice.h
+            macOS/fileproviderservice.mm
             macOS/fileprovidersettingscontroller.h
             macOS/fileprovidersettingscontroller_mac.mm
             macOS/fileprovidersocketcontroller.h
