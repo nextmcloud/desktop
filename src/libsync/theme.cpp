@@ -711,7 +711,11 @@ QIcon Theme::syncStateIcon(SyncResult::Status status, bool sysTray) const
         break;
     case SyncResult::SyncPrepare:
     case SyncResult::Success:
-        statusIcon = QLatin1String("state-ok");
+        if (sysTray) {
+            statusIcon = QLatin1String("state-tray-ok");
+        } else {
+            statusIcon = QLatin1String("state-ok");
+        }
         break;
     case SyncResult::Problem:
         statusIcon = QLatin1String("state-warning");
