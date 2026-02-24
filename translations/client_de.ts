@@ -2893,6 +2893,11 @@ Für fortgeschrittene Benutzer: Dieses Problem kann damit zusammenhängen, dass 
         <translation>Pfad zum lokalen Ordner eingeben</translation>
     </message>
     <message>
+        <location filename="../src/gui/folderwizard.cpp" line="85"/>
+        <source>Select a local folder</source>
+        <translation>Wählen sie einen lokalen Ordner aus</translation>
+    </message>
+    <message>
         <location filename="../src/gui/folderwizard.cpp" line="145"/>
         <source>Select the source folder</source>
         <translation>Quellordner auswählen</translation>
