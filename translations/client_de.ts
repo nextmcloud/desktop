@@ -3480,7 +3480,6 @@ Ein Downgrade von Versionen ist nicht sofort möglich: Der Wechsel von Beta auf 
 
 Items where deletion is allowed will be deleted if they prevent a directory from being removed. This is useful for meta data.</source>
         <translation>Dateien oder Ordner, die diesem Muster entsprechen, werden nicht synchronisiert.
-
 Objekte, bei denen Löschen erlaubt ist, werden gelöscht, wenn diese das Entfernen eines Ordners verhindern würden. Dies ist für Metadaten nützlich.</translation>
     </message>
     <message>
