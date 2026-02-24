@@ -13,6 +13,7 @@ import Qt.labs.platform as NativeDialogs
 
 import "../"
 import "../filedetails/"
+import "qrc:/qml/NMCGui"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
@@ -27,12 +28,12 @@ ApplicationWindow {
 
     title:      Systray.windowTitle
     // If the main dialog is displayed as a regular window we want it to be quadratic
-    width:      Systray.useNormalWindow ? Style.trayWindowHeight : Style.trayWindowWidth
-    height:     Style.trayWindowHeight
+    width:      Systray.useNormalWindow ? Style.nmcTrayWindowHeight : Style.nmcTrayWindowWidth
+    height:     Style.nmcTrayWindowHeight
     flags:      Systray.useNormalWindow ? Qt.Window : Qt.Dialog | Qt.FramelessWindowHint
     color: "transparent"
 
-    readonly property int maxMenuHeight: Style.trayWindowHeight - Style.trayWindowHeaderHeight - 2 * Style.trayWindowBorderWidth
+    readonly property int maxMenuHeight: Style.nmcTrayWindowHeight - Style.trayWindowHeaderHeight - 2 * Style.trayWindowBorderWidth
 
     Component.onCompleted: Systray.forceWindowInit(trayWindow)
 
@@ -234,10 +235,9 @@ ApplicationWindow {
                                              || unifiedSearchResultsErrorLabel.visible
                                              || unifiedSearchResultsListView.visible
                                              || trayWindowUnifiedSearchInputContainer.activateSearchFocus
-        property bool showAssistantPanel: false
-        property bool isAssistantActive: assistantPromptLoader.active
 
         anchors.fill: parent
+        anchors.margins: Style.trayWindowBorderWidth
         clip: true
 
         radius: Systray.useNormalWindow ? 0.0 : Style.trayWindowRadius
@@ -257,18 +257,7 @@ ApplicationWindow {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            height: Style.trayWindowHeaderHeight
-
-            onFeaturedAppButtonClicked: {
-                if (UserModel.currentUser.isAssistantEnabled) {
-                    trayWindowMainItem.showAssistantPanel = !trayWindowMainItem.showAssistantPanel
-                    if (trayWindowMainItem.showAssistantPanel) {
-                        assistantQuestionInput.forceActiveFocus()
-                    }
-                } else {
-                    UserModel.openCurrentAccountFeaturedApp()
-                }
-            }
+            height: Style.nmcTrayWindowHeaderHeight
         }
 
         Button {
@@ -286,7 +275,6 @@ ApplicationWindow {
             visible: UserModel.hasSyncErrors
                      && !(UserModel.syncErrorUserCount === 1
                           && UserModel.firstSyncErrorUserId === UserModel.currentUserId)
-                     && !trayWindowMainItem.isAssistantActive
             padding: 0
             background: Rectangle {
                 radius: Style.slightlyRoundedButtonRadius
@@ -341,10 +329,22 @@ ApplicationWindow {
             }
         }
 
+        Rectangle {
+            id: separator
+            height: 1
+            color: Style.nmcTrayWindowHeaderSeparatorColor
+
+            anchors {
+                top: trayWindowHeader.bottom
+                left: trayWindowMainItem.left
+                right: trayWindowMainItem.right
+            }
+        }
+
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
-            visible: !trayWindowMainItem.showAssistantPanel
 
+            visible: false
             property bool activateSearchFocus: activeFocus
 
             anchors.top: trayWindowSyncWarning.visible
@@ -365,332 +365,24 @@ ApplicationWindow {
             Keys.onEscapePressed: activateSearchFocus = false
         }
 
-        Dialog {
-            id: assistantResetConfirmationDialogWrapper
-            modal: true
-            focus: true
-            x: (trayWindow.width - width) / 2
-            y: (trayWindow.height - height) / 2
-            header: Item {}
-            footer: Item {}
-            onOpened: assistantResetConfirmationDialog.open()
-
-            background: Rectangle {
-                color: palette.base
-                border.width: 1
-                border.color: "#808080"
-                radius: 10
-                antialiasing: true
-
-                layer.enabled: true
-                layer.smooth: true
-                layer.effect: DropShadow {
-                    horizontalOffset: 4
-                    verticalOffset: 4
-                    radius: 10
-                    samples: 16
-                    color: "#80000000"
-                }
-            }
-            contentItem: Rectangle {
-                id: assistantResetConfirmationDialogContentRect
-                property int margin: 6
-
-                implicitWidth: assistantResetConfirmationDialog.implicitWidth + 2 * margin
-                implicitHeight: assistantResetConfirmationDialog.implicitHeight + 2 * margin
-                width: implicitWidth
-                height: implicitHeight
-                border.color: "transparent"
-                color: "transparent"
-                // color: "#ff0000"
-
-                Dialog {
-                    id: assistantResetConfirmationDialog
-
-                    modal: false
-                    focus: true
-                    title: qsTr("Start new conversation?")
-                    x: assistantResetConfirmationDialogContentRect.margin
-                    y: assistantResetConfirmationDialogContentRect.margin
-
-                    background: Rectangle {
-                        border.color: "transparent"
-                        color: "transparent"
-                    }
-
-                    header: Label {
-                            id: titleLabel
-                            text: assistantResetConfirmationDialog.title
-                            leftPadding: 0
-                            font.weight: Font.Bold
-                        }
-
-                    footer: Row {
-                        spacing: 6
-                        layoutDirection: Qt.RightToLeft
-                        Button {
-                            text: qsTr("New conversation")
-                            onClicked: assistantResetConfirmationDialog.accept()
-                        }
-                        Button {
-                            text: qsTr("Cancel")
-                            onClicked: assistantResetConfirmationDialog.reject()
-                        }
-                    }
-
-                    onAccepted: {
-                        assistantResetConfirmationDialogWrapper.close()
-                        assistantInputContainer.resetAssistantConversation()
-                    }
-
-                    onRejected: {
-                        assistantResetConfirmationDialogWrapper.close()
-                    }
-
-                    onDiscarded: {
-                        assistantResetConfirmationDialogWrapper.close()
-                    }
-
-                    contentItem: Label {
-                        id: assistantResetConfirmationDialogLabel
-                        anchors.fill: parent
-                        text: qsTr("This will clear the existing conversation.")
-                        wrapMode: Text.WordWrap
-                        bottomPadding: 10
-                        topPadding: 10
-                        leftPadding: 0
-                        rightPadding: 0
-                        horizontalAlignment: Text.AlignLeft
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                }
-            }
-        }
-
-        RowLayout {
-            id: assistantInputContainer
-            visible: trayWindowMainItem.showAssistantPanel
-
-            function resetAssistantConversation() {
-                UserModel.currentUser.clearAssistantResponse()
-                assistantQuestionInput.text = ""
-                assistantQuestionInput.forceActiveFocus()
-            }
-
-            function submitQuestion() {
-                const question = assistantQuestionInput.text.trim()
-                if (question.length === 0) {
-                    return
-                }
-
-                UserModel.currentUser.submitAssistantQuestion(question)
-                assistantQuestionInput.text = ""
-            }
-
-            anchors.bottom: trayWindowMainItem.bottom
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.topMargin: Style.trayHorizontalMargin
-            anchors.bottomMargin: Style.trayHorizontalMargin
-            spacing: Style.extraSmallSpacing
-
-            TextField {
-                id: assistantQuestionInput
-                Layout.fillWidth: true
-                Layout.minimumWidth: 0
-                Layout.fillHeight: true
-                placeholderText: qsTr("Ask Assistant…")
-                enabled: UserModel.currentUser.isConnected && !UserModel.currentUser.assistantRequestInProgress
-                onAccepted: assistantInputContainer.submitQuestion()
-
-                Layout.leftMargin: Style.trayHorizontalMargin
-                leftPadding: 8
-                rightPadding: 8
-                topPadding: 10
-                bottomPadding: 10
-            }
-
-            Button {
-                id: assistantSendButton
-                Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: assistantQuestionInput.height
-                Layout.preferredWidth: assistantQuestionInput.height
-                Layout.maximumWidth: assistantQuestionInput.height
-                padding: 0
-                enabled: assistantQuestionInput.enabled && assistantQuestionInput.text.trim().length > 0
-                icon.source: "image://svgimage-custom-color/send.svg/" + palette.windowText
-                icon.width: Math.round(assistantQuestionInput.height * 0.5)
-                icon.height: Math.round(assistantQuestionInput.height * 0.5)
-                display: AbstractButton.IconOnly
-                focusPolicy: Qt.StrongFocus
-
-                onClicked: assistantInputContainer.submitQuestion()
-
-                Accessible.role: Accessible.Button
-                Accessible.name: qsTr("Send assistant question")
-                Accessible.onPressAction: assistantInputContainer.submitQuestion()
-            }
-
-            Button {
-                id: assistantResetButton
-                Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: assistantQuestionInput.height
-                Layout.preferredWidth: assistantQuestionInput.height
-                Layout.maximumWidth: assistantQuestionInput.height
-                Layout.rightMargin: Style.trayHorizontalMargin
-                padding: 0
-                icon.source: "image://svgimage-custom-color/add.svg/" + palette.windowText
-                icon.width: Math.round(assistantQuestionInput.height * 0.5)
-                icon.height: Math.round(assistantQuestionInput.height * 0.5)
-                display: AbstractButton.IconOnly
-                focusPolicy: Qt.StrongFocus
-
-                onClicked: assistantResetConfirmationDialogWrapper.open()
-
-                Accessible.role: Accessible.Button
-                Accessible.name: qsTr("Start a new assistant chat")
-                Accessible.onPressAction: assistantResetConfirmationDialogWrapper.open()
-            }
-        }
-
-        Connections {
-            target: UserModel.currentUser
-            function onAssistantStateChanged() {
-                if (!UserModel.currentUser.isAssistantEnabled) {
-                    trayWindowMainItem.showAssistantPanel = false
-                }
-            }
-        }
-
-        Loader {
-            id: assistantPromptLoader
-
-            active: UserModel.currentUser.isAssistantEnabled
-                    && trayWindowMainItem.showAssistantPanel
-            visible: trayWindowMainItem.showAssistantPanel
-            anchors.top: trayWindowHeader.bottom
-            anchors.bottom: assistantInputContainer.top
-            anchors.left: trayWindowMainItem.left
-            anchors.right: trayWindowMainItem.right
-            anchors.topMargin: Style.trayHorizontalMargin
-            clip: true
-
-            sourceComponent: ColumnLayout {
-                id: assistantPrompt
-                spacing: Style.smallSpacing
-
-                ScrollView {
-                    id: assistantConversationScrollView
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    visible: assistantConversationList.count > 0
-                    contentWidth: availableWidth
-                    leftPadding: 0
-                    rightPadding: 0
-
-                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                    ScrollBar.vertical.policy: ScrollBar.AsNeeded
-
-                    ListView {
-                        id: assistantConversationList
-                        clip: true
-                        spacing: Style.standardSpacing
-                        boundsBehavior: Flickable.StopAtBounds
-
-                        leftMargin: Style.trayHorizontalMargin
-                        rightMargin: Style.trayHorizontalMargin
-
-                        model: UserModel.currentUser.assistantMessages
-
-                        delegate: Item {
-                            id: messageDelegate
-                            width: assistantConversationList.width - ( assistantConversationList.leftMargin + assistantConversationList.rightMargin )
-                            implicitHeight: messageBubble.implicitHeight
-
-                            readonly property bool isAssistantMessage: modelData.role === "assistant"
-
-                            Rectangle {
-                                id: messageBubble
-
-                                anchors.left: isAssistantMessage ? parent.left : undefined
-                                anchors.right: isAssistantMessage ? undefined : parent.right
-                                anchors.leftMargin: Style.trayHorizontalMargin
-                                anchors.rightMargin: Style.trayHorizontalMargin
-
-                                radius: Style.smallSpacing
-                                color: isAssistantMessage ? palette.alternateBase : palette.highlight
-                                width: Math.min(messageDelegate.width * 0.8, messageText.implicitWidth + (Style.smallSpacing * 2))
-                                implicitHeight: messageText.implicitHeight + (Style.smallSpacing * 2)
-
-                                TextEdit {
-                                    id: messageText
-
-                                    anchors.left: parent.left
-                                    anchors.right: parent.right
-                                    anchors.top: parent.top
-                                    anchors.margins: Style.smallSpacing
-                                    text: modelData.text
-                                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                                    color: isAssistantMessage ? palette.windowText : palette.highlightedText
-                                    textFormat: Text.MarkdownText
-                                    readOnly: true
-                                    selectByMouse: true
-                                }
-                            }
-                        }
-
-                        onCountChanged: {
-                            assistantConversationList.positionViewAtEnd()
-                        }
-                    }
-                }
-
-                EnforcedPlainTextLabel {
-                    id: assistantStatusLabel
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Style.trayHorizontalMargin
-                    Layout.rightMargin: Style.trayHorizontalMargin
-                    Layout.bottomMargin: Style.trayHorizontalMargin
-                    Layout.topMargin: Style.trayHorizontalMargin
-                    visible: true
-                    text: UserModel.currentUser.assistantResponse
-                    wrapMode: Text.Wrap
-                    color: palette.windowText
-                }
-
-                EnforcedPlainTextLabel {
-                    id: assistantErrorLabel
-                    Layout.fillWidth: true
-                    Layout.leftMargin: Style.trayHorizontalMargin
-                    Layout.rightMargin: Style.trayHorizontalMargin
-                    Layout.bottomMargin: Style.trayHorizontalMargin
-                    Layout.topMargin: Style.trayHorizontalMargin
-                    visible: UserModel.currentUser.assistantError.length > 0
-                    text: UserModel.currentUser.assistantError
-                    wrapMode: Text.Wrap
-                    color: palette.highlight
-                }
-            }
-        }
-
         Rectangle {
             id: bottomUnifiedSearchInputSeparator
 
-            anchors.top: trayWindowMainItem.showAssistantPanel ? assistantInputContainer.bottom : trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.topMargin: Style.trayHorizontalMargin
 
             height: 1
             color: palette.dark
-            visible: trayWindowMainItem.isUnifiedSearchActive || trayWindowMainItem.showAssistantPanel
+            visible: trayWindowMainItem.isUnifiedSearchActive
         }
 
         ErrorBox {
             id: unifiedSearchResultsErrorLabel
             visible:  UserModel.currentUser.unifiedSearchResultsListModel.errorString && !unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress && ! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
             text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.margins: Style.trayHorizontalMargin
@@ -699,7 +391,7 @@ ApplicationWindow {
         UnifiedSearchPlaceholderView {
             id: unifiedSearchPlaceholderView
 
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -711,7 +403,7 @@ ApplicationWindow {
         UnifiedSearchResultNothingFound {
             id: unifiedSearchResultNothingFound
 
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.topMargin: Style.trayHorizontalMargin
@@ -729,7 +421,7 @@ ApplicationWindow {
         Loader {
             id: unifiedSearchResultsListViewSkeletonLoader
 
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -758,7 +450,7 @@ ApplicationWindow {
             }
             visible: unifiedSearchResultsListView.count > 0
 
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -799,9 +491,9 @@ ApplicationWindow {
             id: syncStatus
 
             accentColor: Style.accentColor
-            visible: !trayWindowMainItem.isUnifiedSearchActive && !trayWindowMainItem.showAssistantPanel
+            visible: !trayWindowMainItem.isUnifiedSearchActive
 
-            anchors.top: trayWindowMainItem.showAssistantPanel ? assistantInputContainer.bottom : trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
         }
@@ -813,7 +505,7 @@ ApplicationWindow {
             anchors.bottom: syncStatus.bottom
             height: 1
             color: palette.dark
-            visible: !trayWindowMainItem.isUnifiedSearchActive && !trayWindowMainItem.showAssistantPanel
+            visible: !trayWindowMainItem.isUnifiedSearchActive
         }
 
         Loader {
@@ -871,7 +563,7 @@ ApplicationWindow {
 
         ActivityList {
             id: activityList
-            visible: !trayWindowMainItem.isUnifiedSearchActive && !trayWindowMainItem.isAssistantActive
+            visible: !trayWindowMainItem.isUnifiedSearchActive
             anchors.top: syncStatus.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
