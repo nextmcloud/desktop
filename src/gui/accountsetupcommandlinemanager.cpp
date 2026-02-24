@@ -105,6 +105,6 @@ void AccountSetupCommandLineManager::setupAccountFromCommandLine()
     _serverUrl.clear();
     _remoteDirPath.clear();
     _localDirPath.clear();
-    _isVfsEnabled = true;
+    _isVfsEnabled = false;
 }
 }
