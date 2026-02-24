@@ -7,6 +7,52 @@ import QtQuick
 import com.nextcloud.desktopclient
 
 QtObject {
+    // NMC customization
+    readonly property int nmcFontSizeAccountName: 13
+    readonly property int nmcFontSizeIconText: 10
+    readonly property int nmcFontSizeSyncText: 15
+
+    // NMC icons
+    readonly property url nmcTLogoPath: "qrc:///client/theme/NMCIcons/tlogocarrier.svg"
+    readonly property url nmcAccountAvatarIcon: Theme.darkMode ? "qrc:///client/theme/NMCIcons/accountAvatarIcon-white.svg" : "qrc:///client/theme/NMCIcons/accountAvatarIcon.svg"
+    readonly property url nmcSettingsIcon: Theme.darkMode ? "qrc:///client/theme/settings-white.svg" : "qrc:///client/theme/settings.svg"
+    readonly property url nmcCloseIcon: Theme.darkMode ? "qrc:///client/theme/close-white.svg" : "qrc:///client/theme/close.svg"
+    readonly property url nmcPauseIcon: Theme.darkMode ? "qrc:///client/theme/NMCIcons/pause-white.svg" : "qrc:///client/theme/NMCIcons/pause.svg"
+    readonly property url nmcLogOutIcon: Theme.darkMode ? "qrc:///client/theme/NMCIcons/logout-white.svg" : "qrc:///client/theme/NMCIcons/logout.svg"
+    readonly property url nmcRemoveIcon: Theme.darkMode ? "qrc:///client/theme/NMCIcons/remove-white.svg" : "qrc:///client/theme/NMCIcons/remove.svg"
+
+    // NMC colors
+    readonly property color nmcTelekomMagentaColor: "#E20074"
+    readonly property color nmcConflictColor: Theme.darkMode ? "#FFA14A" : "#F97012"
+    readonly property color nmcConflictHoverColor: Theme.darkMode ? "#f0802e" : "#de6310"
+    readonly property color nmcSyncHoverColor: Theme.darkMode ? "#ff4d94" : "#c00063"
+    readonly property color nmcSyncRefreshColor: Theme.darkMode ? "#6677ff" : "#2238df"
+    readonly property color nmcTrayWindowHeaderBackgroundColor: Theme.darkMode ? "#2b2b2b" : "white"
+    readonly property color nmcTrayWindowHeaderTextColor: Theme.darkMode ? "white" : "black"
+    readonly property color nmcTrayWindowHeaderSeparatorColor: Theme.darkMode ? "#3c3c3c" : "#ededed"
+    readonly property color nmcTrayWindowHeaderHighlightColor: Theme.darkMode ? "#444444" : "#ededed"
+    readonly property color nmcMenuMoreItemsColor: Theme.darkMode ? "#3a3a3a" : "#E5E5E5"
+    readonly property color nmcTextInButtonColor: Theme.darkMode ? "black" : "white"
+
+    // NMC measurements
+    readonly property int nmcTrayWindowWidth: variableSize(480)
+    readonly property int nmcTrayWindowHeight: variableSize(520)
+    readonly property int nmcTrayWindowAddAccountButtonHeight: 56
+    readonly property int nmcTrayWindowHeaderHeight: 64
+    readonly property int nmcTrayWindowItemsHeight: 48
+    readonly property int nmcTrayWindowIconWidth: 20
+    readonly property int nmcTrayWindowLogoWidth: 64
+    readonly property int nmcTrayWindowStandardMargin: 16
+    readonly property int nmcTrayWindowMenuOverlayMargin: 8
+    readonly property int nmcTraySyncButtonHeight: 28
+    readonly property int nmcCurrentAccountButtonWidth: 180
+    readonly property int nmcMenuSubItemHeight: 42
+    readonly property int nmcMenuSubItemLeftPadding: 16
+    readonly property int nmcStandardRadius: 4
+    readonly property int nmcListViewLeftPadding: 22
+    readonly property int nmcListViewIconSize: 32
+    readonly property int nmcProgressFieldTextOffset: -12
+
     readonly property int pixelSize: fontMetrics.font.pixelSize
     readonly property bool darkMode: Theme.darkMode
 
@@ -93,7 +139,7 @@ QtObject {
     property int folderStateIndicatorSize: 16
     property int accountLabelWidth: 128
 
-    property int accountDropDownCaretSize: 10
+    property int accountDropDownCaretSize: 18
     property int accountDropDownCaretMargin: 8
 
     property int trayFoldersMenuButtonStateIndicatorBottomOffset: 5
@@ -106,7 +152,7 @@ QtObject {
     property int headerButtonIconSize: 48
     property int minimumActivityItemHeight: 24
 
-    property int accountIconsMenuMargin: 7
+    property int accountIconsMenuMargin: 4
 
     property int activityLabelBaseWidth: 240
 
@@ -129,7 +175,7 @@ QtObject {
     property int accountServerAnchorsMargin: 10
     property int accountLabelsSpacing: 4
     property int accountsServerMargin: 6
-    property int accountLabelsAnchorsMargin: 5
+    property int accountLabelsAnchorsMargin: 4
     property int accountLabelsLayoutMargin: 12
     property int accountLabelsLayoutTopMargin: 10
 
