@@ -261,6 +261,8 @@ set(client_SRCS
     wizard/linklabel.cpp
     wizard/wizardproxysettingsdialog.h
     wizard/wizardproxysettingsdialog.cpp
+    integration/fileactionsmodel.h
+    integration/fileactionsmodel.cpp
     )
 
 file(GLOB NMC_FILES "nmcgui/*")
@@ -372,14 +374,6 @@ ENDIF()
 set(3rdparty_SRC
     ../3rdparty/QProgressIndicator/QProgressIndicator.h
     ../3rdparty/QProgressIndicator/QProgressIndicator.cpp
-    ../3rdparty/qtlockedfile/qtlockedfile.h
-    ../3rdparty/qtlockedfile/qtlockedfile.cpp
-    ../3rdparty/qtsingleapplication/qtlocalpeer.h
-    ../3rdparty/qtsingleapplication/qtlocalpeer.cpp
-    ../3rdparty/qtsingleapplication/qtsingleapplication.h
-    ../3rdparty/qtsingleapplication/qtsingleapplication.cpp
-    ../3rdparty/qtsingleapplication/qtsinglecoreapplication.h
-    ../3rdparty/qtsingleapplication/qtsinglecoreapplication.cpp
     ../3rdparty/kmessagewidget/kmessagewidget.h
     ../3rdparty/kmessagewidget/kmessagewidget.cpp
     ../3rdparty/kirigami/wheelhandler.h
@@ -388,14 +382,6 @@ set(3rdparty_SRC
 
 set_property(SOURCE ../3rdparty/kmessagewidget/kmessagewidget.cpp PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
 set_property(SOURCE ../3rdparty/kirigami/wheelhandler.cpp PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
-
-if(NOT WIN32)
-   list(APPEND 3rdparty_SRC ../3rdparty/qtlockedfile/qtlockedfile_unix.cpp)
-   set_property(SOURCE ../3rdparty/qtlockedfile/qtlockedfile_unix.cpp PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
-else()
-   list(APPEND 3rdparty_SRC ../3rdparty/qtlockedfile/qtlockedfile_win.cpp )
-   set_property(SOURCE ../3rdparty/qtlockedfile/qtlockedfile_win.cpp PROPERTY SKIP_UNITY_BUILD_INCLUSION ON)
-endif()
 
 find_package(Qt${QT_VERSION_MAJOR} ${REQUIRED_QT_VERSION} COMPONENTS LinguistTools)
 if(Qt${QT_MAJOR_VERSION}LinguistTools_FOUND)
@@ -556,6 +542,7 @@ target_link_libraries(nextcloudCore
   Qt::QuickControls2
   Qt::QuickWidgets
   KF6::Archive
+  KDAB::kdsingleapplication
   )
 
 if(KF6GuiAddons_FOUND)
@@ -590,9 +577,7 @@ set_target_properties(nextcloudCore
 target_include_directories(nextcloudCore
   PUBLIC
   ${CMAKE_SOURCE_DIR}/src/3rdparty/QProgressIndicator
-  ${CMAKE_SOURCE_DIR}/src/3rdparty/qtlockedfile
   ${CMAKE_SOURCE_DIR}/src/3rdparty/kirigami
-  ${CMAKE_SOURCE_DIR}/src/3rdparty/qtsingleapplication
   ${CMAKE_SOURCE_DIR}/src/3rdparty/kmessagewidget
   ${CMAKE_CURRENT_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}
@@ -728,6 +713,13 @@ if(BUILD_OWNCLOUD_OSX_BUNDLE AND NOT BUILD_LIBRARIES_ONLY)
     get_target_property (QT_QMAKE_EXECUTABLE Qt::qmake IMPORTED_LOCATION)
     get_filename_component(QT_BIN_DIR "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
     find_program(MACDEPLOYQT_EXECUTABLE macdeployqt HINTS "${QT_BIN_DIR}")
+    get_filename_component(MACDEPLOYQT_DIR "${MACDEPLOYQT_EXECUTABLE}" DIRECTORY)
+
+    execute_process(
+        COMMAND "${QT_QMAKE_EXECUTABLE}" -query QT_INSTALL_LIBS
+        OUTPUT_VARIABLE MACDEPLOYQT_LIB_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 
     set(cmd_NAME ${APPLICATION_EXECUTABLE}cmd)
 
@@ -743,6 +735,7 @@ if(BUILD_OWNCLOUD_OSX_BUNDLE AND NOT BUILD_LIBRARIES_ONLY)
         -qmldir=${CMAKE_SOURCE_DIR}/src/gui
         -always-overwrite
         -executable="$<TARGET_FILE_DIR:nextcloud>/${cmd_NAME}"
+        -libpath=${MACDEPLOYQT_LIB_DIR}
         ${NO_STRIP}
         COMMAND "${CMAKE_COMMAND}"
         -E rm -rf "${BIN_OUTPUT_DIRECTORY}/${OWNCLOUD_OSX_BUNDLE}/Contents/PlugIns/bearer"

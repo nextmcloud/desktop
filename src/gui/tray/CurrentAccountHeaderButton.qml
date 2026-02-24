@@ -198,8 +198,7 @@ Button {
                          && UserModel.currentUser.status !== NC.userStatus.Offline
                 source: UserModel.currentUser ? UserModel.currentUser.statusIcon : ""
                 cache: false
-                x: currentAccountStatusIndicatorBackground.x + Style.trayFolderStatusIndicatorSizeOffset / 2
-                y: currentAccountStatusIndicatorBackground.y + Style.trayFolderStatusIndicatorSizeOffset / 2
+                anchors.centerIn: currentAccountStatusIndicatorBackground
                 sourceSize.width: Style.accountAvatarStateIndicatorSize
                 sourceSize.height: Style.accountAvatarStateIndicatorSize
 

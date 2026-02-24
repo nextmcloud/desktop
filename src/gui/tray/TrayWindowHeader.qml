@@ -17,6 +17,8 @@ import com.nextcloud.desktopclient
 Rectangle {
     id: root
 
+    signal featuredAppButtonClicked
+
     readonly property alias currentAccountHeaderButton: currentAccountHeaderButton
 
     color: Style.nmcTrayWindowHeaderBackgroundColor
