@@ -34,6 +34,7 @@
 #endif
 
 #include <array>
+#include <memory>
 #include <QBitArray>
 #include <QUrl>
 #include <QMetaMethod>
@@ -544,10 +545,25 @@ void SocketApi::processEncryptRequest(const QString &localFile)
             );
             Q_UNUSED(ret)
         } else {
+            // NMC customization
+            auto messageBox = std::make_unique<QMessageBox>();
+            messageBox->setAttribute(Qt::WA_DeleteOnClose);
+            messageBox->setWindowTitle(tr("Folder encrypted successfully"));
+            messageBox->setText(tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
+
+            const QIcon avatarIcon = QIcon::fromTheme("iconPath", QIcon(":/client/theme/lock.svg"));
+            QPixmap pixmap = avatarIcon.pixmap(QSize(24, 24));
+            messageBox->setIconPixmap(pixmap);
+
+            // Set default button (prevents empty UI)
+            messageBox->addButton(QMessageBox::Ok);
+            messageBox->show();
+/*
             const int ret = QMessageBox::information(nullptr,
                                                      tr("Folder encrypted successfully").arg(fileData.folderRelativePath),
                                                      tr("The following folder was encrypted successfully: \"%1\"").arg(fileData.folderRelativePath));
             Q_UNUSED(ret)
+*/
         }
     });
     job->setProperty(encryptJobPropertyFolder, QVariant::fromValue(folder));
