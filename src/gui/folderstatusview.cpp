@@ -6,11 +6,12 @@
 #include "folderstatusview.h"
 #include "folderstatusdelegate.h"
 
-#include <QApplication>
 #include <QEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QTimer>
+#include <QScrollBar>
+#include <QtGlobal>
 
 namespace OCC {
 
