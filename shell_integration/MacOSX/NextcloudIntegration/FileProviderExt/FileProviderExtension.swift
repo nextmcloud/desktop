@@ -169,30 +169,17 @@ import OSLog
         let progress = Progress()
         Task {
             progress.totalUnitCount = 1
-            if let item = await Item.storedItem(
-                identifier: identifier,
-                account: ncAccount,
-                remoteInterface: ncKit,
-                dbManager: dbManager,
-                log: log
-            ) {
+            if let item = await Item.storedItem(identifier: identifier, account: ncAccount, remoteInterface: ncKit, dbManager: dbManager, log: log), item.metadata.deleted == false {
                 progress.completedUnitCount = 1
                 completionHandler(item, nil)
             } else {
-                completionHandler(
-                    nil, NSError.fileProviderErrorForNonExistentItem(withIdentifier: identifier)
-                )
+                completionHandler(nil, NSFileProviderError(.noSuchItem))
             }
         }
         return progress
     }
 
-    func fetchContents(
-        for itemIdentifier: NSFileProviderItemIdentifier,
-        version requestedVersion: NSFileProviderItemVersion?, 
-        request: NSFileProviderRequest,
-        completionHandler: @escaping (URL?, NSFileProviderItem?, Error?) -> Void
-    ) -> Progress {
+    func fetchContents(for itemIdentifier: NSFileProviderItemIdentifier, version requestedVersion: NSFileProviderItemVersion?,  request: NSFileProviderRequest, completionHandler: @escaping (URL?, NSFileProviderItem?, Error?) -> Void) -> Progress {
         let actionId = UUID()
         insertSyncAction(actionId)
         logger.debug("Received request to fetch contents of item.", [.item: itemIdentifier, .request: request])
@@ -222,33 +209,21 @@ import OSLog
             return Progress()
         }
 
-
         let progress = Progress()
-        Task {
-            guard let item = await Item.storedItem(
-                identifier: itemIdentifier,
-                account: ncAccount,
-                remoteInterface: ncKit,
-                dbManager: dbManager,
-                log: log
-            ) else {
-                logger.error("Not fetching contents for item because item was not found.", [.item: itemIdentifier])
 
-                completionHandler(
-                    nil,
-                    nil,
-                    NSError.fileProviderErrorForNonExistentItem(withIdentifier: itemIdentifier)
-                )
+        Task {
+            guard let item = await Item.storedItem(identifier: itemIdentifier, account: ncAccount, remoteInterface: ncKit, dbManager: dbManager, log: log) else {
+                logger.error("Not fetching contents for item because item was not found.", [.item: itemIdentifier])
+                completionHandler(nil, nil, NSError.fileProviderErrorForNonExistentItem(withIdentifier: itemIdentifier))
                 insertErrorAction(actionId)
                 return
             }
 
-            let (localUrl, updatedItem, error) = await item.fetchContents(
-                domain: self.domain, progress: progress, dbManager: dbManager
-            )
+            let (localUrl, updatedItem, error) = await item.fetchContents(domain: self.domain, progress: progress, dbManager: dbManager)
             removeSyncAction(actionId)
             completionHandler(localUrl, updatedItem, error)
         }
+
         return progress
     }
 
@@ -500,7 +475,7 @@ import OSLog
             throw NSFileProviderError(.cannotSynchronize)
         }
 
-        return Enumerator(
+        return try Enumerator(
             enumeratedItemIdentifier: containerItemIdentifier,
             account: ncAccount,
             remoteInterface: ncKit,
