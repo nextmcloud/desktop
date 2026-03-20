@@ -18,6 +18,8 @@
 #include <QNetworkProxy>
 #include <QString>
 #include <QList>
+#include <QPainter>
+#include <QPainterPath>
 #include <QPalette>
 #include <type_traits>
 
@@ -37,6 +39,11 @@ NetworkSettings::NetworkSettings(const AccountPtr &account, QWidget *parent)
     _ui->downloadBox->setBackgroundRole(QPalette::AlternateBase);
     _ui->uploadBox->setAutoFillBackground(true);
     _ui->uploadBox->setBackgroundRole(QPalette::AlternateBase);
+
+    _ui->gridLayout_3->setContentsMargins(8, 8, 8, 0);
+
+    setAttribute(Qt::WA_OpaquePaintEvent, true);
+    setAutoFillBackground(false);
 
     _ui->manualSettings->setVisible(_ui->manualProxyRadioButton->isChecked());
 
@@ -278,5 +285,25 @@ void NetworkSettings::checkAccountLocalhost()
     _ui->labelLocalhost->setVisible(visible);
 }
 
+void NetworkSettings::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    const int radius = 4;
+    QRect rect(0, 0, width(), height());
+
+    QPainterPath path;
+    path.addRoundedRect(rect, radius, radius);
+
+    QPalette palette = this->palette();
+    QColor backgroundColor = palette.color(QPalette::Window);
+    QColor baseColor = palette.color(QPalette::Base);
+
+    painter.fillRect(rect, backgroundColor);
+    painter.fillPath(path, baseColor);
+
+    QWidget::paintEvent(event);
+}
 
 } // namespace OCC
