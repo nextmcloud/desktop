@@ -14,11 +14,13 @@
 #include "folderman.h"
 #include "theme.h"
 
+#include <QShowEvent>
 #include <QNetworkProxy>
 #include <QString>
 #include <QList>
 #include <QPainter>
 #include <QPainterPath>
+#include <QPalette>
 #include <type_traits>
 
 namespace OCC {
@@ -29,6 +31,14 @@ NetworkSettings::NetworkSettings(const AccountPtr &account, QWidget *parent)
     , _account(account)
 {
     _ui->setupUi(this);
+    setAutoFillBackground(true);
+    setBackgroundRole(QPalette::AlternateBase);
+    _ui->proxyGroupBox->setAutoFillBackground(true);
+    _ui->proxyGroupBox->setBackgroundRole(QPalette::AlternateBase);
+    _ui->downloadBox->setAutoFillBackground(true);
+    _ui->downloadBox->setBackgroundRole(QPalette::AlternateBase);
+    _ui->uploadBox->setAutoFillBackground(true);
+    _ui->uploadBox->setBackgroundRole(QPalette::AlternateBase);
 
     _ui->gridLayout_3->setContentsMargins(8, 8, 8, 0);
 

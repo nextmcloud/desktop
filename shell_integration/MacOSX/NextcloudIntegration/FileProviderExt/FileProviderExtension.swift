@@ -11,11 +11,19 @@ import OSLog
 /// The file provider replicated extension implementation.
 ///
 @objc final class FileProviderExtension: NSObject, NSFileProviderReplicatedExtension, @unchecked Sendable {
+    ///
+    /// The file provider domain managed by this file provider extension implementation.
+    ///
     let domain: NSFileProviderDomain
 
     let keychain: Keychain
     let log: any FileProviderLogging
     let logger: FileProviderLogger
+
+    ///
+    /// The file provider manager for the domain managed by this extension implementation.
+    ///
+    let manager: NSFileProviderManager?
 
     // MARK: XPC
 
@@ -81,6 +89,7 @@ import OSLog
         // application extension process, call `FileProviderExtension.init(domain:)` to instantiate
         // the extension for that domain, and call methods on the instance.
         self.domain = domain
+        self.manager = NSFileProviderManager(for: domain)
 
         // Set up logging.
         self.log = FileProviderLog(fileProviderDomainIdentifier: domain.identifier)
@@ -160,30 +169,17 @@ import OSLog
         let progress = Progress()
         Task {
             progress.totalUnitCount = 1
-            if let item = await Item.storedItem(
-                identifier: identifier,
-                account: ncAccount,
-                remoteInterface: ncKit,
-                dbManager: dbManager,
-                log: log
-            ) {
+            if let item = await Item.storedItem(identifier: identifier, account: ncAccount, remoteInterface: ncKit, dbManager: dbManager, log: log), item.metadata.deleted == false {
                 progress.completedUnitCount = 1
                 completionHandler(item, nil)
             } else {
-                completionHandler(
-                    nil, NSError.fileProviderErrorForNonExistentItem(withIdentifier: identifier)
-                )
+                completionHandler(nil, NSFileProviderError(.noSuchItem))
             }
         }
         return progress
     }
 
-    func fetchContents(
-        for itemIdentifier: NSFileProviderItemIdentifier,
-        version requestedVersion: NSFileProviderItemVersion?, 
-        request: NSFileProviderRequest,
-        completionHandler: @escaping (URL?, NSFileProviderItem?, Error?) -> Void
-    ) -> Progress {
+    func fetchContents(for itemIdentifier: NSFileProviderItemIdentifier, version requestedVersion: NSFileProviderItemVersion?,  request: NSFileProviderRequest, completionHandler: @escaping (URL?, NSFileProviderItem?, Error?) -> Void) -> Progress {
         let actionId = UUID()
         insertSyncAction(actionId)
         logger.debug("Received request to fetch contents of item.", [.item: itemIdentifier, .request: request])
@@ -213,33 +209,21 @@ import OSLog
             return Progress()
         }
 
-
         let progress = Progress()
-        Task {
-            guard let item = await Item.storedItem(
-                identifier: itemIdentifier,
-                account: ncAccount,
-                remoteInterface: ncKit,
-                dbManager: dbManager,
-                log: log
-            ) else {
-                logger.error("Not fetching contents for item because item was not found.", [.item: itemIdentifier])
 
-                completionHandler(
-                    nil,
-                    nil,
-                    NSError.fileProviderErrorForNonExistentItem(withIdentifier: itemIdentifier)
-                )
+        Task {
+            guard let item = await Item.storedItem(identifier: itemIdentifier, account: ncAccount, remoteInterface: ncKit, dbManager: dbManager, log: log) else {
+                logger.error("Not fetching contents for item because item was not found.", [.item: itemIdentifier])
+                completionHandler(nil, nil, NSError.fileProviderErrorForNonExistentItem(withIdentifier: itemIdentifier))
                 insertErrorAction(actionId)
                 return
             }
 
-            let (localUrl, updatedItem, error) = await item.fetchContents(
-                domain: self.domain, progress: progress, dbManager: dbManager
-            )
+            let (localUrl, updatedItem, error) = await item.fetchContents(domain: self.domain, progress: progress, dbManager: dbManager)
             removeSyncAction(actionId)
             completionHandler(localUrl, updatedItem, error)
         }
+
         return progress
     }
 
@@ -302,16 +286,8 @@ import OSLog
             if error == nil {
                 removeSyncAction(actionId)
             } else {
-                // Do not consider the exclusion of a file a synchronization error resulting in a misleading status report because exclusion is expected.
-                // Though, the exclusion error code is only available starting with macOS 13, hence this logic reads a bit more cumbersome.
-
-                if #available(macOS 13.0, *) {
-                    if let fileProviderError = error as? NSFileProviderError, fileProviderError.code == .excludedFromSync {
-                        removeSyncAction(actionId)
-                    } else {
-                        insertErrorAction(actionId)
-                        signalEnumerator(completionHandler: { _ in })
-                    }
+                if let fileProviderError = error as? NSFileProviderError, fileProviderError.code == .excludedFromSync {
+                    removeSyncAction(actionId)
                 } else {
                     insertErrorAction(actionId)
                     signalEnumerator(completionHandler: { _ in })
@@ -499,7 +475,7 @@ import OSLog
             throw NSFileProviderError(.cannotSynchronize)
         }
 
-        return Enumerator(
+        return try Enumerator(
             enumeratedItemIdentifier: containerItemIdentifier,
             account: ncAccount,
             remoteInterface: ncKit,
@@ -522,13 +498,13 @@ import OSLog
             return
         }
 
-        guard let fpManager = NSFileProviderManager(for: domain) else {
+        guard let manager = manager else {
             logger.error("Could not get file provider manager for domain: \(self.domain.displayName)")
             completionHandler()
             return
         }
 
-        let materialisedEnumerator = fpManager.enumeratorForMaterializedItems()
+        let materialisedEnumerator = manager.enumeratorForMaterializedItems()
         let materialisedObserver = MaterializedEnumerationObserver(account: ncAccount, dbManager: dbManager, log: log) { _, _ in
             completionHandler()
         }
@@ -540,12 +516,12 @@ import OSLog
     // MARK: - Helper functions
 
     func signalEnumerator(completionHandler: @escaping (_ error: Error?) -> Void) {
-        guard let fpManager = NSFileProviderManager(for: domain) else {
+        guard let manager = manager else {
             logger.error("Could not get file provider manager for domain, could not signal enumerator. This might lead to future conflicts.")
             return
         }
 
-        fpManager.signalEnumerator(for: .workingSet, completionHandler: completionHandler)
+        manager.signalEnumerator(for: .workingSet, completionHandler: completionHandler)
     }
 
     @objc func sendFileProviderDomainIdentifier() {
@@ -556,14 +532,14 @@ import OSLog
     }
 
     private func signalEnumeratorAfterAccountSetup() {
-        guard let fpManager = NSFileProviderManager(for: domain) else {
+        guard let manager = manager else {
             logger.error("Could not get file provider manager for domain \(self.domain.displayName), cannot notify after account setup")
             return
         }
 
         assert(ncAccount != nil)
 
-        fpManager.signalErrorResolved(NSFileProviderError(.notAuthenticated)) { error in
+        manager.signalErrorResolved(NSFileProviderError(.notAuthenticated)) { error in
             if error != nil {
                 self.logger.error("Error resolving not authenticated, received error: \(error!.localizedDescription)")
             }

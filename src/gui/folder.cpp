@@ -179,6 +179,38 @@ void Folder::setSecurityScopedAccess(std::unique_ptr<Utility::MacSandboxPersiste
 {
     _securityScopedAccess = std::move(access);
 }
+
+bool Folder::needsSandboxBookmark() const
+{
+    return _needsSandboxBookmark;
+}
+
+void Folder::setNeedsSandboxBookmark(bool needs)
+{
+    if (_needsSandboxBookmark == needs) {
+        return;
+    }
+    _needsSandboxBookmark = needs;
+    if (needs) {
+        // Clear the misleading error from checkLocalPath() which ran in the constructor
+        // before we knew this folder needs sandbox bookmark re-approval.
+        // Keep SetupError status so canSync() returns false and prevents sync attempts.
+        _syncResult.clearErrors();
+    }
+}
+
+void Folder::applySandboxBookmark(const QByteArray &bookmarkData,
+                                  std::unique_ptr<Utility::MacSandboxPersistentAccess> access)
+{
+    _definition.securityScopedBookmarkData = bookmarkData;
+    setSecurityScopedAccess(std::move(access));
+    _needsSandboxBookmark = false;
+    // Clear the SetupError state so canSync() returns true and sync can proceed
+    _syncResult.clearErrors();
+    _syncResult.setStatus(SyncResult::NotYetStarted);
+    saveToSettings();
+    emit syncStateChange();
+}
 #endif
 
 bool Folder::checkLocalPath()
@@ -1676,9 +1708,8 @@ void Folder::slotCapabilitiesChanged()
 
 void Folder::scheduleThisFolderSoon()
 {
-    if (!_scheduleSelfTimer.isActive()) {
-        _scheduleSelfTimer.start();
-    }
+    // always restart self-scheduling timer, there might still be file changes incoming
+    _scheduleSelfTimer.start();
 }
 
 void Folder::acceptInvalidFileName(const QString &filePath)
