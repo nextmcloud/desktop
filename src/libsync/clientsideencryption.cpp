@@ -2272,15 +2272,11 @@ void ClientSideEncryption::decryptPrivateKey(const QByteArray &key) {
         return;
     }
 
-    QString msg = tr("Please enter your end-to-end encryption passphrase:<br>"
-                     "<br>"
-                     "Username: %2<br>"
-                     "Account: %3<br>")
-                      .arg(Utility::escape(_account->credentials()->user()),
-                           Utility::escape(_account->displayName()));
+    QString msg = QCoreApplication::translate("", "E2E_MNEMONIC_PASSPHRASE");
 
     QInputDialog dialog;
-    dialog.setWindowTitle(tr("Enter E2E passphrase"));
+    dialog.setWindowTitle(tr(""));
+    dialog.setWindowFlags(Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
     dialog.setLabelText(msg);
     dialog.setTextEchoMode(QLineEdit::Normal);
 
