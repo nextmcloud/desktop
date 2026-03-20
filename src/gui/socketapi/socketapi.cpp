@@ -192,6 +192,13 @@ static QString buildMessage(const QString &verb, const QString &path, const QStr
     return msg;
 }
 
+static QString sanitizeSocketApiMenuText(QString text)
+{
+    text.replace(QLatin1Char('\n'), QLatin1Char(' '));
+    text.replace(QLatin1Char('\r'), QLatin1Char(' '));
+    return text;
+}
+
 void setClipboardText(const QString &text)
 {
 #ifdef HAVE_KGUIADDONS
@@ -251,27 +258,10 @@ SocketApi::SocketApi(QObject *parent)
         // See issue #2388
         // + Theme::instance()->appName();
     } else if (Utility::isMac()) {
-#ifdef Q_OS_MACOS
-        socketPath = socketApiSocketPath();
-        CFURLRef url = (CFURLRef)CFAutorelease((CFURLRef)CFBundleCopyBundleURL(CFBundleGetMainBundle()));
-        QString bundlePath = QUrl::fromCFURL(url).path();
-
-        auto _system = [](const QString &cmd, const QStringList &args) {
-            QProcess process;
-            process.setProcessChannelMode(QProcess::MergedChannels);
-            process.start(cmd, args);
-            if (!process.waitForFinished()) {
-                qCWarning(lcSocketApi) << "Failed to load shell extension:" << cmd << args.join(" ") << process.errorString();
-            } else {
-                qCInfo(lcSocketApi) << (process.exitCode() != 0 ? "Failed to load" : "Loaded") << "shell extension:" << cmd << args.join(" ") << process.readAll();
-            }
-        };
-        // Add it again. This was needed for Mojave to trigger a load.
-        _system(QStringLiteral("pluginkit"), { QStringLiteral("-a"), QStringLiteral("%1Contents/PlugIns/FinderSyncExt.appex/").arg(bundlePath) });
-        // Tell Finder to use the Extension (checking it from System Preferences -> Extensions)
-        _system(QStringLiteral("pluginkit"), { QStringLiteral("-e"), QStringLiteral("use"), QStringLiteral("-i"), QStringLiteral(APPLICATION_REV_DOMAIN ".FinderSyncExt") });
-
-#endif
+    #ifdef Q_OS_MACOS
+        socketPath = socketApiSocketUrl().toLocalFile();
+        qCDebug(lcSocketApi) << "macOS socket path:" << socketPath;
+    #endif
     } else if (Utility::isLinux() || Utility::isBSD()) {
         QString runtimeDir;
         runtimeDir = QStandardPaths::writableLocation(QStandardPaths::RuntimeLocation);
@@ -295,15 +285,21 @@ SocketApi::SocketApi(QObject *parent)
             }
         }
     }
-    if (!_localServer.listen(socketPath)) {
-        qCWarning(lcSocketApi) << "can't start server" 
-                               << socketPath
-                               << "Error:"
-                               << _localServer.errorString()
-                               << "Error code:" 
-                               << _localServer.serverError();
+
+    const bool result = _localServer.listen(socketPath);
+    qCDebug(lcSocketApi) << "Full server name:" << _localServer.fullServerName();
+
+    if (result) {
+        qCInfo(lcSocketApi) << "Listen started.";
+
+        if (!QFile::exists(socketPath)) { // verify the socket actually exists
+            qCWarning(lcSocketApi) << "Socket file doesn't exist despite listen() success! Server is listening:"
+                                   << _localServer.isListening()
+                                   << "Full name:"
+                                   << _localServer.fullServerName();
+        }
     } else {
-        qCInfo(lcSocketApi) << "server started, listening at " << socketPath;
+        qCWarning(lcSocketApi) << "Listen failed:" << _localServer.errorString();
     }
 
     connect(&_localServer, &QLocalServer::newConnection, this, &SocketApi::slotNewConnection);
@@ -507,18 +503,30 @@ void SocketApi::processFileActivityRequest(const QString &localFile)
 
 void SocketApi::processEncryptRequest(const QString &localFile)
 {
-    Q_ASSERT(QFileInfo(localFile).isDir());
+    if (!QFileInfo(localFile).isDir()) {
+        qCWarning(lcSocketApi) << "Ignoring ENCRYPT request for non-directory path:" << localFile;
+        return;
+    }
 
     const auto fileData = FileData::get(localFile);
 
     const auto folder = fileData.folder;
-    Q_ASSERT(folder);
+    if (!folder) {
+        qCWarning(lcSocketApi) << "Ignoring ENCRYPT request for path outside sync root:" << localFile;
+        return;
+    }
 
     const auto account = folder->accountState()->account();
-    Q_ASSERT(account);
+    if (!account) {
+        qCWarning(lcSocketApi) << "Ignoring ENCRYPT request without a valid account:" << localFile;
+        return;
+    }
 
     const auto rec = fileData.journalRecord();
-    Q_ASSERT(rec.isValid());
+    if (!rec.isValid()) {
+        qCWarning(lcSocketApi) << "Ignoring ENCRYPT request for path missing a valid journal record:" << localFile;
+        return;
+    }
 
     if (!account->e2e() || !account->e2e()->isInitialized()) {
         const int ret = QMessageBox::critical(
@@ -1014,6 +1022,12 @@ void SocketApi::command_RESOLVE_CONFLICT(const QString &localFile, SocketListene
 
 void SocketApi::command_DELETE_ITEM(const QString &localFile, SocketListener *)
 {
+    const auto fileData = FileData::get(localFile);
+    if (!fileData.folder) {
+        qCWarning(lcSocketApi) << "Ignoring DELETE_ITEM request for path outside sync root:" << localFile;
+        return;
+    }
+
     ConflictSolver solver;
     solver.setLocalVersionFilename(localFile);
     solver.exec(ConflictSolver::KeepRemoteVersion);
@@ -1254,7 +1268,8 @@ void SocketApi::sendLockFileInfoMenuEntries(const QFileInfo &fileInfo,
     static constexpr auto SECONDS_PER_MINUTE = 60;
     if (!FileSystem::isDir(fileInfo.absoluteFilePath()) && syncFolder->accountState()->account()->capabilities().filesLockAvailable() &&
             syncFolder->accountState()->account()->fileLockStatus(syncFolder->journalDb(), fileData.folderRelativePath) == SyncFileItem::LockStatus::LockedItem) {
-        listener->sendMessage(QLatin1String("MENU_ITEM:LOCKED_FILE_OWNER:d:") + tr("Locked by %1").arg(record._lockstate._lockOwnerDisplayName));
+        listener->sendMessage(QLatin1String("MENU_ITEM:LOCKED_FILE_OWNER:d:")
+            + sanitizeSocketApiMenuText(tr("Locked by %1").arg(record._lockstate._lockOwnerDisplayName)));
         const auto lockExpirationTime = record._lockstate._lockTime + record._lockstate._lockTimeout;
         const auto remainingTime = QDateTime::currentDateTime().secsTo(QDateTime::fromSecsSinceEpoch(lockExpirationTime));
         const auto remainingTimeInMinute = static_cast<int>(remainingTime > 0 ? remainingTime / SECONDS_PER_MINUTE : 0);
