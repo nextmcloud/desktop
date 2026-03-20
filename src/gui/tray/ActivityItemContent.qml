@@ -33,8 +33,8 @@ RowLayout {
     Item {
         id: thumbnailItem
 
-        readonly property int imageWidth: width * (1 - Style.thumbnailImageSizeReduction)
-        readonly property int imageHeight: height * (1 - Style.thumbnailImageSizeReduction)
+        readonly property int imageWidth: width
+        readonly property int imageHeight: height
         readonly property int thumbnailRadius: model.thumbnail && model.thumbnail.isUserAvatar ? width / 2 : 3
 
         implicitWidth: root.iconSize
@@ -184,30 +184,8 @@ RowLayout {
                     }
 
                     display: Button.IconOnly
-                    visible: model.showFileDetails
-                    onClicked: fileMoreButtonMenu.visible ? fileMoreButtonMenu.close() : fileMoreButtonMenu.popup()
-
-                    AutoSizingMenu {
-                        id: fileMoreButtonMenu
-                        closePolicy: Menu.CloseOnPressOutsideParent | Menu.CloseOnEscape
-
-                        MenuItem {
-                            height: visible ? implicitHeight : 0
-                            text: qsTr("File details")
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
-                            onClicked: Systray.presentShareViewInTray(model.openablePath)
-                        }
-
-                        MenuItem {
-                            visible: model.serverHasIntegration
-                            height: visible ? implicitHeight : 0
-                            text: qsTr("File actions")
-                            font.pixelSize: Style.topLinePixelSize
-                            hoverEnabled: true
-                            onClicked: Systray.presentFileActionsViewInSystray(model.openablePath)
-                        }
-                    }
+                    visible: false
+                    onClicked: Systray.presentShareViewInTray(model.openablePath)
                 }
 
                 Button {
