@@ -9,6 +9,7 @@
 #include "folderman.h"
 #include "theme.h"
 #include "generalsettings.h"
+#include "nmcgui/nmcgeneralsettings.h"
 #include "networksettings.h"
 #include "accountsettings.h"
 #include "configfile.h"
@@ -178,7 +179,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     accountSpacer->setFixedHeight(16);
     _toolBar->addWidget(accountSpacer);
     _toolBar->addSeparator();
-    auto *generalSettings = new GeneralSettings;
+    auto *generalSettings = new NMCGeneralSettings;
     _stack->addWidget(generalSettings);
     _stack->setStyleSheet(QStringLiteral("QStackedWidget { background: transparent; }"));
 
