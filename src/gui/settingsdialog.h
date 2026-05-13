@@ -45,11 +45,16 @@ public:
 
     QWidget* currentPage();
 
+    QToolBar *getToolBar() const
+    {
+        return _toolBar;
+    }
+
 public slots:
     void showFirstPage();
     void showIssuesList(OCC::AccountState *account);
     void slotSwitchPage(QAction *action);
-    void slotAccountAvatarChanged();
+    virtual void slotAccountAvatarChanged();
     void slotAccountDisplayNameChanged();
 
 signals:
@@ -66,9 +71,10 @@ private slots:
     void accountAdded(OCC::AccountState *);
     void accountRemoved(OCC::AccountState *);
 
-private:
+protected:
     void customizeStyle();
 
+private:
     QAction *createColorAwareAction(const QString &iconName, const QString &fileName);
     QAction *createActionWithIcon(const QIcon &icon, const QString &text, const QString &iconPath = QString());
 
