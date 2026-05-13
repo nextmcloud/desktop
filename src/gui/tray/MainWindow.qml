@@ -13,6 +13,7 @@ import Qt.labs.platform as NativeDialogs
 
 import "../"
 import "../filedetails/"
+import "qrc:/qml/NMCGui"
 
 // Custom qml modules are in /theme (and included by resources.qrc)
 import Style
@@ -27,12 +28,12 @@ ApplicationWindow {
 
     title:      Systray.windowTitle
     // If the main dialog is displayed as a regular window we want it to be quadratic
-    width:      Systray.useNormalWindow ? Style.trayWindowHeight : Style.trayWindowWidth
-    height:     Style.trayWindowHeight
+    width:      Systray.useNormalWindow ? Style.nmcTrayWindowHeight : Style.nmcTrayWindowWidth
+    height:     Style.nmcTrayWindowHeight
     flags:      Systray.useNormalWindow ? Qt.Window : Qt.Dialog | Qt.FramelessWindowHint
     color: "transparent"
 
-    readonly property int maxMenuHeight: Style.trayWindowHeight - Style.trayWindowHeaderHeight - 2 * Style.trayWindowBorderWidth
+    readonly property int maxMenuHeight: Style.nmcTrayWindowHeight - Style.trayWindowHeaderHeight - 2 * Style.trayWindowBorderWidth
 
     Component.onCompleted: Systray.forceWindowInit(trayWindow)
 
@@ -251,16 +252,31 @@ ApplicationWindow {
 
         TrayWindowHeader {
             id: trayWindowHeader
+            height: Style.nmcTrayWindowHeaderHeight
 
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: Style.trayWindowHeaderHeight
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: parent.right
+            }
+        }
+
+        Rectangle {
+            id: separator
+            height: 1
+            color: Style.nmcTrayWindowHeaderSeparatorColor
+
+            anchors {
+                top: trayWindowHeader.bottom
+                left: trayWindowMainItem.left
+                right: trayWindowMainItem.right
+            }
         }
 
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
 
+            visible: false
             property bool activateSearchFocus: activeFocus
 
             anchors.top: trayWindowHeader.bottom
@@ -282,7 +298,7 @@ ApplicationWindow {
         Rectangle {
             id: bottomUnifiedSearchInputSeparator
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.topMargin: Style.trayHorizontalMargin
@@ -296,7 +312,7 @@ ApplicationWindow {
             id: unifiedSearchResultsErrorLabel
             visible:  UserModel.currentUser.unifiedSearchResultsListModel.errorString && !unifiedSearchResultsListView.visible && ! UserModel.currentUser.unifiedSearchResultsListModel.isSearchInProgress && ! UserModel.currentUser.unifiedSearchResultsListModel.currentFetchMoreInProgressProviderId
             text:  UserModel.currentUser.unifiedSearchResultsListModel.errorString
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.margins: Style.trayHorizontalMargin
@@ -305,7 +321,7 @@ ApplicationWindow {
         UnifiedSearchPlaceholderView {
             id: unifiedSearchPlaceholderView
 
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -317,7 +333,7 @@ ApplicationWindow {
         UnifiedSearchResultNothingFound {
             id: unifiedSearchResultNothingFound
 
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.topMargin: Style.trayHorizontalMargin
@@ -335,7 +351,7 @@ ApplicationWindow {
         Loader {
             id: unifiedSearchResultsListViewSkeletonLoader
 
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -364,7 +380,7 @@ ApplicationWindow {
             }
             visible: unifiedSearchResultsListView.count > 0
 
-            anchors.top: bottomUnifiedSearchInputSeparator.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? bottomUnifiedSearchInputSeparator.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
@@ -407,7 +423,7 @@ ApplicationWindow {
             accentColor: Style.accentColor
             visible: !trayWindowMainItem.isUnifiedSearchActive
 
-            anchors.top: trayWindowUnifiedSearchInputContainer.bottom
+            anchors.top: trayWindowUnifiedSearchInputContainer.visible ? trayWindowUnifiedSearchInputContainer.bottom : separator.bottom
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
         }
@@ -482,6 +498,8 @@ ApplicationWindow {
             anchors.left: trayWindowMainItem.left
             anchors.right: trayWindowMainItem.right
             anchors.bottom: trayWindowMainItem.bottom
+
+            ScrollBar.vertical.visible: contentHeight > activityList.height
 
             activeFocusOnTab: true
             model: activityModel
