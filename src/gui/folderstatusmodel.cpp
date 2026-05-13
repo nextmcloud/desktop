@@ -44,14 +44,6 @@ FolderStatusModel::FolderStatusModel(QObject *parent)
 
 FolderStatusModel::~FolderStatusModel() = default;
 
-static bool sortByFolderHeader(const FolderStatusModel::SubFolderInfo &lhs, const FolderStatusModel::SubFolderInfo &rhs)
-{
-    return QString::compare(lhs._folder->shortGuiRemotePathOrAppName(),
-               rhs._folder->shortGuiRemotePathOrAppName(),
-               Qt::CaseInsensitive)
-        < 0;
-}
-
 void FolderStatusModel::setAccountState(const AccountState *accountState)
 {
     connect(accountState->account()->e2e(), &OCC::ClientSideEncryption::initializationFinished, this, &FolderStatusModel::e2eInitializationFinished);
@@ -83,9 +75,6 @@ void FolderStatusModel::setAccountState(const AccountState *accountState)
         connect(folder, &Folder::progressInfo, this, &FolderStatusModel::slotSetProgress, Qt::UniqueConnection);
         connect(folder, &Folder::newBigFolderDiscovered, this, &FolderStatusModel::slotNewBigFolder, Qt::UniqueConnection);
     }
-
-    // Sort by header text
-    std::sort(_folders.begin(), _folders.end(), sortByFolderHeader);
 
     // Set the root _pathIdx after the sorting
     for (auto i = 0; i < _folders.size(); ++i) {
