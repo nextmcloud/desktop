@@ -17,6 +17,8 @@
 #include <QNetworkProxy>
 #include <QString>
 #include <QList>
+#include <QPainter>
+#include <QPainterPath>
 #include <type_traits>
 
 namespace OCC {
@@ -27,6 +29,9 @@ NetworkSettings::NetworkSettings(const AccountPtr &account, QWidget *parent)
     , _account(account)
 {
     _ui->setupUi(this);
+
+    setAttribute(Qt::WA_OpaquePaintEvent, false);
+    setAutoFillBackground(false);
 
     _ui->manualSettings->setVisible(_ui->manualProxyRadioButton->isChecked());
 
@@ -276,5 +281,23 @@ void NetworkSettings::checkAccountLocalhost()
     _ui->labelLocalhost->setVisible(visible);
 }
 
+void NetworkSettings::paintEvent(QPaintEvent *event)
+{
+    const int radius = 4;
+
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QRect rect(0, 0, width(), height());
+
+    QPainterPath path;
+    path.addRoundedRect(rect, radius, radius);
+
+    QPalette palette = this->palette();
+
+    painter.fillPath(path, palette.color(QPalette::Base));
+
+    QWidget::paintEvent(event);
+}
 
 } // namespace OCC
