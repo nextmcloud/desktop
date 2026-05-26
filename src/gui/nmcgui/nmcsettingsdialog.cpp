@@ -78,8 +78,8 @@ void NMCSettingsDialog::fixAccountButton() const
     }
 
     bool hasLeftSpacer = false;
-    for (const auto *action : actions) {
-        const auto *widget = toolbar->widgetForAction(action);
+    for (auto *action : actions) {
+        auto *widget = toolbar->widgetForAction(action);
         if (widget && widget->objectName() == QLatin1String("spacer_left")) {
             hasLeftSpacer = true;
             break;
