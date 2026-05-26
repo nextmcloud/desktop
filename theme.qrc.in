@@ -146,11 +146,6 @@
 
 		<!-- other icons -->
 
-		<!-- NMC icons -->
-		<file>theme/NMCIcons/ApplicationLogo.svg</file>
-        <file>theme/NMCIcons/folderLogo.svg</file>
-        <file>theme/NMCIcons/tlogocarrier.svg</file>
-
 		<!-- colored icons -->
 		<file>theme/colored/wizard_logo.png</file>
 		<file>theme/colored/wizard_logo@2x.png</file>
