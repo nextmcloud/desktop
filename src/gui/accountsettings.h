@@ -74,7 +74,7 @@ signals:
 
 public slots:
     void slotOpenOC();
-    void slotUpdateQuota(qint64 total, qint64 used);
+    virtual void slotUpdateQuota(qint64 total, qint64 used);
     void slotAccountStateChanged();
     void slotStyleChanged();
     void slotHideSelectiveSyncWidget();
