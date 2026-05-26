@@ -31,10 +31,13 @@ namespace OCC {
 
 NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
     : AccountSettings(accountState, parent)
-    , m_liveAccountButton(new CustomButton(QCoreApplication::translate("", "ADD_LIVE_BACKUP"), QIcon(QLatin1String(":/client/theme/NMCIcons/action-add.svg")).pixmap(24,24)))
-    , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS")))
-    , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION")))
-    , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC")))
+    , m_liveAccountButton(new CustomButton(
+        QCoreApplication::translate("", "ADD_LIVE_BACKUP"),
+        QIcon(QLatin1String(":/client/theme/NMCIcons/action-add.svg")),
+        this))
+    , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS"), this))
+    , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION"), this))
+    , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC"), this))
     , m_quotaInfoLabel(new QLabel(this))
     , m_quotaProgressBar(new QProgressBar(this))
     , m_quotaInfoText(new QLabel(this))
@@ -62,11 +65,10 @@ void NMCAccountSettings::setLayout()
     auto *liveHLayout = new QHBoxLayout();
     liveHLayout->setContentsMargins(8, 8, 8, 8);
 
-    auto *liveVLayout = new QVBoxLayout();
     auto *liveWidget = new QWidget(this);
+    auto *liveHLayout = new QHBoxLayout(liveWidget);
+    auto *liveVLayout = new QVBoxLayout();
     liveWidget->setStyleSheet("QWidget { border-radius: 4px; }");
-    liveWidget->setLayout(liveHLayout);
-
     liveHLayout->addLayout(liveVLayout);
     liveHLayout->addStretch();
 
