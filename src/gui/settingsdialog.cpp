@@ -5,7 +5,6 @@
  */
 
 #include "settingsdialog.h"
-#include "ui_settingsdialog.h"
 #include "QtWidgets/qmainwindow.h"
 
 #include "folderman.h"
