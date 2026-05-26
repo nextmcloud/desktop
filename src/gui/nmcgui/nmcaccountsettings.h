@@ -16,7 +16,6 @@
 
 #include <QIcon>
 #include <QLabel>
-#include <QPainter>
 #include <QProgressBar>
 #include <QPushButton>
 
@@ -25,7 +24,7 @@
 namespace OCC {
 
 /**
- * @brief A QPushButton with a custom left icon margin.
+ * @brief Simple QPushButton with predefined icon size.
  */
 class CustomButton : public QPushButton
 {
@@ -34,22 +33,12 @@ class CustomButton : public QPushButton
 public:
     explicit CustomButton(const QString &text, const QIcon &icon, QWidget *parent = nullptr)
         : QPushButton(text, parent)
-        , m_icon(icon)
     {
+        setIcon(icon);
         setIconSize(QSize(24, 24));
     }
 
-    void setLeftIconMargin(int margin) { m_leftMargin = margin; }
-
-protected:
-    void paintEvent(QPaintEvent *event) override
-    {
-        QPushButton::paintEvent(event);
-    }
-
-private:
-    QIcon m_icon;
-    int m_leftMargin = 4;
+    void setLeftIconMargin(int) {}
 };
 
 /**
