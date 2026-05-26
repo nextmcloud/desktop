@@ -47,7 +47,7 @@ void NMCGeneralSettings::setDefaultSettings()
     getUi()->callNotificationsCheckBox->setVisible(false);
     getUi()->quotaWarningNotificationsCheckBox->setVisible(false);
     //Advanced settings
-    getUi()->groupBox->setVisible(false);
+    getUi()->advancedGroupBox->setVisible(false);
     //Info settings
     getUi()->aboutAndUpdatesGroupBox->setVisible(false);
 }
