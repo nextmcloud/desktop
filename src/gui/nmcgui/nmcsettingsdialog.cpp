@@ -50,7 +50,6 @@ void OCC::NMCSettingsDialog::setLayout() const
     for(auto *action : actions)
     {
         if((action->text() == QCoreApplication::translate("OCC::SettingsDialog","General") || action->text() == QCoreApplication::tr("General")) ||
-            (action->text() == QCoreApplication::translate("OCC::SettingsDialog","Network") || action->text() == QCoreApplication::tr("Network")) ||
             (action->text() == QCoreApplication::translate("OCC::SettingsDialog","Account") || action->text() == QCoreApplication::tr("Account")))
         {
             auto *widget = getToolBar()->widgetForAction(action);
@@ -68,27 +67,40 @@ void OCC::NMCSettingsDialog::setLayout() const
 
 void NMCSettingsDialog::fixAccountButton() const
 {
-    auto toolbar = getToolBar();
-
-    // Sicher prüfen, ob ein Spacer schon existiert
-    auto *firstAction = toolbar->actions().at(0);
-    auto *firstWidget = toolbar->widgetForAction(firstAction);
-    if (!firstWidget || !firstWidget->objectName().startsWith("spacer_left")) {
-        auto *spacer = new QWidget(toolbar);
-        spacer->setFixedWidth(16);
-        spacer->setObjectName("spacer_left");
-        spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-        toolbar->insertWidget(firstAction, spacer);
+    auto *toolbar = getToolBar();
+    if (!toolbar) {
+        return;
     }
 
-    // Account-Button anpassen
-    if (toolbar->actions().size() > 1) {
-        auto action = toolbar->actions().at(1); // Index 1, da davor Spacer
-        auto *widget = toolbar->widgetForAction(action);
-        if(widget)
-        {
-            widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            widget->setFixedSize(152, 76);
+    const auto actions = toolbar->actions();
+    if (actions.isEmpty()) {
+        return;
+    }
+
+    bool hasLeftSpacer = false;
+    for (const auto *action : actions) {
+        const auto *widget = toolbar->widgetForAction(action);
+        if (widget && widget->objectName() == QLatin1String("spacer_left")) {
+            hasLeftSpacer = true;
+            break;
+        }
+    }
+
+    if (!hasLeftSpacer) {
+        auto *spacer = new QWidget(toolbar);
+        spacer->setFixedWidth(16);
+        spacer->setObjectName(QStringLiteral("spacer_left"));
+        spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        toolbar->insertWidget(actions.first(), spacer);
+    }
+
+    for (auto *action : toolbar->actions()) {
+        if (action->text() == QCoreApplication::translate("OCC::SettingsDialog", "Account")
+            || action->text() == QCoreApplication::tr("Account")) {
+            if (auto *widget = toolbar->widgetForAction(action)) {
+                widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+                widget->setFixedSize(152, 76);
+            }
         }
     }
 }
