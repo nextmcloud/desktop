@@ -15,10 +15,11 @@
  #ifndef MIRALL_ACCOUNTSETTINGSMAGENTA_H
  #define MIRALL_ACCOUNTSETTINGSMAGENTA_H
  
- #include <QPushButton>
  #include <QIcon>
- #include <QPainter>
  #include <QLabel>
+ #include <QPainter>
+ #include <QProgressBar>
+ #include <QPushButton>
  
  #include <accountsettings.h>
  
@@ -39,6 +40,7 @@
      }
  
      void setLeftIconMargin(int margin) { m_leftMargin = margin; }
+     void slotUpdateQuota(qint64 total, qint64 used);
  
  protected:
      void paintEvent(QPaintEvent *event) override {
@@ -77,6 +79,10 @@
      QLabel *m_liveTitle = nullptr;
      QLabel *m_liveDescription = nullptr;
      QLabel *m_folderSync = nullptr;
+
+     QLabel *m_quotaInfoLabel = nullptr;
+     QProgressBar *m_quotaProgressBar = nullptr;
+     QLabel *m_quotaInfoText = nullptr;
  };
  
  } // namespace OCC
