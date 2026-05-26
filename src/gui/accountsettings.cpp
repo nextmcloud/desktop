@@ -345,8 +345,8 @@ void AccountSettings::slotE2eEncryptionMnemonicReady()
         });
     }
 
-    _ui->encryptionMessage->setMessageType(KMessageWidget::Positive);
-    _ui->encryptionMessage->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_ACTIVE"));
+    _ui->encryptionMessageLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_ACTIVE"));
+    setEncryptionMessageIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/lock.svg")));
     _ui->encryptionMessage->show();
 }
 
@@ -1783,7 +1783,7 @@ void AccountSettings::setupE2eEncryption()
 
         connect(_accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this] {
             if (!_accountState->account()->e2e()->getPublicKey().isNull()) {
-                _ui->encryptionMessage->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_START"));
+                _ui->encryptionMessageLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_START"));
             }
         });
         _accountState->account()->setE2eEncryptionKeysGenerationAllowed(false);
@@ -1841,8 +1841,8 @@ QAction *AccountSettings::addActionToEncryptionMessage(const QString &actionTitl
 
 void AccountSettings::setupE2eEncryptionMessage()
 {
-    _ui->encryptionMessage->setMessageType(KMessageWidget::Information);
-    _ui->encryptionMessage->setText(tr("This account supports end-to-end encryption, but it needs to be set up first."));
+    _ui->encryptionMessageLabel->setText(tr("This account supports end-to-end encryption, but it needs to be set up first."));
+    setEncryptionMessageIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/info.svg")));
     _ui->encryptionMessage->hide();
 
     auto *const actionSetupE2e = addActionToEncryptionMessage(tr("Set up encryption"), e2EeUiActionSetupEncryptionId);
