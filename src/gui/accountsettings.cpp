@@ -216,19 +216,11 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
                                                                                QQuickWidget::SizeRootObjectToView);
         fpSettingsLayout->setContentsMargins(0, 0, 0, 0);
         fpSettingsLayout->addWidget(fpSettingsWidget);
-        fileProviderTab->setLayout(fpSettingsLayout);
     } else {
-        // macOS 13 Ventura: the file provider feature is unsupported there.
-        // This branch can be removed once Ventura is no longer supported.
         _ui->fileProviderPanel->setVisible(false);
     }
 #else
-    const auto tabWidget = _ui->tabWidget;
-    const auto fileProviderTab = _ui->fileProviderTab;
-    if (const auto fileProviderWidgetTabIndex = tabWidget->indexOf(fileProviderTab); fileProviderWidgetTabIndex >= 0) {
-        tabWidget->removeTab(fileProviderWidgetTabIndex);
-    }
-    tabWidget->setCurrentIndex(0);
+    _ui->fileProviderPanel->setVisible(false);
 #endif
 
     const auto connectionSettingsPanelContents = _ui->connectionSettingsPanelContents;
@@ -239,7 +231,6 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
     }
     connectionSettingsLayout->setContentsMargins(0, 0, 0, 0);
     connectionSettingsLayout->addWidget(networkSettings);
-    connectionSettingsTab->setLayout(connectionSettingsLayout);
 
     const auto mouseCursorChanger = new MouseCursorChanger(this);
     mouseCursorChanger->folderList = _ui->_folderList;
