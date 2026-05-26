@@ -64,7 +64,7 @@ public:
     ~NMCAccountSettings() override = default;
 
 public slots:
-    void slotUpdateQuota(qint64 total, qint64 used);
+    void slotUpdateQuota(qint64 total, qint64 used) override;
 
 private:
     void setDefaultSettings();

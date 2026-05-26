@@ -14,8 +14,10 @@
 
 #include "nmcgui/nmcaccountsettings.h"
 #include "ui_accountsettings.h"
+#include "common/utility.h"
 
 #include <cmath>
+#include <QCoreApplication>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QProgressBar>
@@ -24,7 +26,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSizePolicy>
-
 
 namespace OCC {
 
