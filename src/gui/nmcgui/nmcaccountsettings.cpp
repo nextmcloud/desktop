@@ -62,13 +62,14 @@ void NMCAccountSettings::setLayout()
     m_folderSync->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     getUi()->verticalLayout_2->insertWidget(1, m_folderSync);
 
-    auto *liveHLayout = new QHBoxLayout();
+    auto *liveWidget = new QWidget(this);
+    liveWidget->setStyleSheet("QWidget { border-radius: 4px; }");
+
+    auto *liveHLayout = new QHBoxLayout(liveWidget);
     liveHLayout->setContentsMargins(8, 8, 8, 8);
 
-    auto *liveWidget = new QWidget(this);
-    auto *liveHLayout = new QHBoxLayout(liveWidget);
     auto *liveVLayout = new QVBoxLayout();
-    liveWidget->setStyleSheet("QWidget { border-radius: 4px; }");
+
     liveHLayout->addLayout(liveVLayout);
     liveHLayout->addStretch();
 
