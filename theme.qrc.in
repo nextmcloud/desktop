@@ -295,5 +295,10 @@
 		<file>theme/file-open.svg</file>
 		<file>theme/backup.svg</file>
 		<file>theme/convert_to_text.svg</file>
+
+		<!-- NMC icons -->
+		<file>theme/NMCIcons/ApplicationLogo.svg</file>
+        <file>theme/NMCIcons/folderLogo.svg</file>
+        <file>theme/NMCIcons/tlogocarrier.svg</file>
     </qresource>
 </RCC>
