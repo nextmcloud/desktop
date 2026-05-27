@@ -49,9 +49,9 @@ ApplicationWindow {
 
     onVisibleChanged: {
         // HACK: reload account Instantiator immediately by restting it - could be done better I guess
-        // see also id:trayWindowHeader.currentAccountHeaderButton.accountMenu below
-        trayWindowHeader.currentAccountHeaderButton.userLineInstantiator.active = false;
-        trayWindowHeader.currentAccountHeaderButton.userLineInstantiator.active = true;
+        // see also id:trayWindowHeader.accountHeaderButton.accountMenu below
+        trayWindowHeader.accountHeaderButton.userLineInstantiator.active = false;
+        trayWindowHeader.accountHeaderButton.userLineInstantiator.active = true;
         syncStatus.model.load();
     }
 
@@ -65,7 +65,7 @@ ApplicationWindow {
     Connections {
         target: UserModel
         function onCurrentUserChanged() {
-            trayWindowHeader.currentAccountHeaderButton.accountMenu.close();
+            trayWindowHeader.accountHeaderButton.accountMenu.close();
             syncStatus.model.load();
         }
     }
@@ -91,10 +91,8 @@ ApplicationWindow {
             fileDetailsDrawer.close();
 
             if (Systray.isOpen) {
-                trayWindowHeader.currentAccountHeaderButton.accountMenu.close();
-                trayWindowHeader.appsMenu.close();
-                trayWindowHeader.openLocalFolderButton.closeMenu()
-                UserModel.refreshSyncErrorUsers()
+                trayWindowHeader.accountHeaderButton.accountMenu.close();
+                UserModel.refreshSyncErrorUsers();
             }
         }
 
@@ -345,8 +343,6 @@ ApplicationWindow {
 
         UnifiedSearchInputContainer {
             id: trayWindowUnifiedSearchInputContainer
-            visible: !trayWindowMainItem.showAssistantPanel
-
             visible: false
             property bool activateSearchFocus: activeFocus
 

@@ -19,7 +19,7 @@ Rectangle {
 
     signal featuredAppButtonClicked
 
-    readonly property alias currentAccountHeaderButton: currentAccountHeaderButton
+    readonly property alias accountHeaderButton: currentAccountHeaderButton
 
     color: Style.nmcTrayWindowHeaderBackgroundColor
     height: Style.nmcTrayWindowHeaderHeight
