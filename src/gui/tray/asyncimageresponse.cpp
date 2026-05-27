@@ -137,6 +137,7 @@ void AsyncImageResponse::processNetworkReply(QNetworkReply *reply)
     scaledSvg.fill("transparent");
     QPainter painterForSvg(&scaledSvg);
     svgRenderer.render(&painterForSvg);
+    painterForSvg.end();
 
     if (!_svgRecolor.isValid()) {
         setImageAndEmitFinished(scaledSvg);
@@ -145,9 +146,12 @@ void AsyncImageResponse::processNetworkReply(QNetworkReply *reply)
 
     QImage image(_requestedImageSize, QImage::Format_ARGB32);
     image.fill(_svgRecolor);
+
     QPainter imagePainter(&image);
     imagePainter.setCompositionMode(QPainter::CompositionMode_DestinationIn);
     imagePainter.drawImage(0, 0, scaledSvg);
+    imagePainter.end();
+
     setImageAndEmitFinished(image);
 }
 
