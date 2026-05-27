@@ -42,7 +42,9 @@ void OCC::NMCOwncloudAdvancedSetupPage::cleanUpElements()
     getUi().confCheckBoxExternal->setFixedSize(0,0);
     getUi().confCheckBoxExternal->setVisible(false);
 
-    getUi().lVirtualFileSync->removeWidget(getUi().rVirtualFileSync);
+    if (getUi().lVirtualFileSync->parent()) {
+        getUi().wSyncStrategy->removeItem(getUi().lVirtualFileSync);
+    }
     getUi().rVirtualFileSync->setFixedSize(0,0);
     getUi().rVirtualFileSync->setVisible(false);
     getUi().rVirtualFileSync->setChecked(true);
@@ -95,8 +97,8 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     // Create and connect the push buttons to base slots
     auto loginBrowserButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
-    connect(loginBrowserButton, &QPushButton::clicked, this, [this](){
-        validatePage();
+    connect(loginBrowserButton, &QPushButton::clicked, this, [this]() {
+        wizard()->button(QWizard::FinishButton)->click();
     });
 
     auto buttonLayout = new QHBoxLayout();
@@ -153,7 +155,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     hLogoAndLabelLayout->addSpacerItem(new QSpacerItem(8,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // MagentaCLOUD label
-    QLabel *magentaLabel = new QLabel("MagentaCLOUD");
+    auto *magentaLabel = new QLabel(QStringLiteral("MagentaCLOUD"), this);
     magentaLabel->setStyleSheet("QLabel{font-size: 15px; font-weight: bold;}");
     magentaLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     hLogoAndLabelLayout->addWidget(magentaLabel);
@@ -186,7 +188,9 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // Synch Radio button layout
-    getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_5);
+    if (getUi().horizontalLayout_5->parent()) {
+        getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_5);
+    }
     leftSideVerticalLayout->addLayout(getUi().horizontalLayout_5);
 
     // Disable Mac related UI fields
@@ -200,7 +204,9 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     }
 
     // Choose what to sync layout
-    getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_10);
+    if (getUi().horizontalLayout_10->parent()) {
+        getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_10);
+    }
     leftSideVerticalLayout->addLayout(getUi().horizontalLayout_10);
     getUi().horizontalLayout_10->removeWidget(getUi().lSelectiveSyncSizeLabel); //Remove text label, its not needed
     getUi().lSelectiveSyncSizeLabel->setVisible(false);
