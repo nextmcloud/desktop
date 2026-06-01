@@ -53,11 +53,6 @@ public slots:
     void slotAccountAvatarChanged();
 
     // NMCGuiInterface interface
-protected:
-    /**
-     * @brief Sets the layout for the NMCSettingsDialog
-     */
-    void setLayout() const;
 
 private:
     /**
