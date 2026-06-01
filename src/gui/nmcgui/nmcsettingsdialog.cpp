@@ -23,45 +23,13 @@ namespace OCC {
 NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
     : SettingsDialog(gui, parent)
 {
-    setLayout();
-
-    // The window has no background widget, use palette
-    // QPalette palette;
-    // palette.setColor(QPalette::Window, QColor("#F3f3f3"));
-    // setPalette(palette);
-
-    setFixedSize(760,760);
-
-    getToolBar()->setFixedHeight(92); // 76px button height + 8 + 8 margin top and bottom
-    getToolBar()->setContentsMargins(8, 0, 8, 0); // Left margin not accepted, Qt bug?
+    fixAccountButton();
 }
 
 void NMCSettingsDialog::slotAccountAvatarChanged()
 {
     //Intercept the base class slot, so the round avatar is not set. (dont pass to base class)
     //Fix Account button size, for ech new created account
-    fixAccountButton();
-}
-
-void OCC::NMCSettingsDialog::setLayout() const
-{
-    //Fix network and general settings button size
-    const auto actions = getToolBar()->actions();
-    for(auto *action : actions)
-    {
-        if((action->text() == QCoreApplication::translate("OCC::SettingsDialog","General") || action->text() == QCoreApplication::tr("General")) ||
-            (action->text() == QCoreApplication::translate("OCC::SettingsDialog","Account") || action->text() == QCoreApplication::tr("Account")))
-        {
-            auto *widget = getToolBar()->widgetForAction(action);
-            if(widget)
-            {
-                widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-                widget->setFixedSize(76, 76);
-            }
-        }
-    }
-
-    //Fix initial account button size and stylesheet
     fixAccountButton();
 }
 
@@ -75,33 +43,6 @@ void NMCSettingsDialog::fixAccountButton() const
     const auto actions = toolbar->actions();
     if (actions.isEmpty()) {
         return;
-    }
-
-    bool hasLeftSpacer = false;
-    for (auto *action : actions) {
-        auto *widget = toolbar->widgetForAction(action);
-        if (widget && widget->objectName() == QLatin1String("spacer_left")) {
-            hasLeftSpacer = true;
-            break;
-        }
-    }
-
-    if (!hasLeftSpacer) {
-        auto *spacer = new QWidget(toolbar);
-        spacer->setFixedWidth(16);
-        spacer->setObjectName(QStringLiteral("spacer_left"));
-        spacer->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-        toolbar->insertWidget(actions.first(), spacer);
-    }
-
-    for (auto *action : toolbar->actions()) {
-        if (action->text() == QCoreApplication::translate("OCC::SettingsDialog", "Account")
-            || action->text() == QCoreApplication::tr("Account")) {
-            if (auto *widget = toolbar->widgetForAction(action)) {
-                widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-                widget->setFixedSize(152, 76);
-            }
-        }
     }
 }
 
