@@ -37,7 +37,6 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
         this))
     , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS"), this))
     , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION"), this))
-    , m_folderSync(new QLabel(QCoreApplication::translate("", "YOUR_FOLDER_SYNC"), this))
     , m_quotaInfoLabel(new QLabel(this))
     , m_quotaProgressBar(new QProgressBar(this))
     , m_quotaInfoText(new QLabel(this))
@@ -58,12 +57,15 @@ void NMCAccountSettings::setDefaultSettings()
 
 void NMCAccountSettings::setLayout()
 {
-    m_folderSync->setStyleSheet("font-size: 15px; font-weight: 600; padding: 8px;");
-    m_folderSync->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    getUi()->verticalLayout_2->insertWidget(1, m_folderSync);
-
     auto *liveWidget = new QWidget(this);
-    liveWidget->setStyleSheet("QWidget { border-radius: 4px; }");
+    liveWidget->setObjectName(QStringLiteral("nmcLiveBackupPanel"));
+    liveWidget->setAttribute(Qt::WA_StyledBackground, true);
+    liveWidget->setStyleSheet(QStringLiteral(
+        "#nmcLiveBackupPanel {"
+        " background: palette(base);"
+        " border-radius: 4px;"
+        "}"
+    ));
 
     auto *liveHLayout = new QHBoxLayout(liveWidget);
     liveHLayout->setContentsMargins(8, 8, 8, 8);
@@ -96,6 +98,14 @@ void NMCAccountSettings::setLayout()
     getUi()->verticalLayout_2->addWidget(liveWidget);
 
     auto *quotaWidget = new QWidget(this);
+    quotaWidget->setObjectName(QStringLiteral("nmcQuotaPanel"));
+    quotaWidget->setAttribute(Qt::WA_StyledBackground, true);
+    quotaWidget->setStyleSheet(QStringLiteral(
+        "#nmcQuotaPanel {"
+        " background: palette(base);"
+        " border-radius: 4px;"
+        "}"
+    ));
     auto *magentaHLayout = new QHBoxLayout(quotaWidget);
     magentaHLayout->setContentsMargins(8, 8, 8, 8);
     magentaHLayout->setSpacing(32);
@@ -109,6 +119,7 @@ void NMCAccountSettings::setLayout()
 
     quotaVLayout->addWidget(m_quotaProgressBar);
     m_quotaProgressBar->setRange(0, 100);
+    m_quotaProgressBar->setTextVisible(false);
     m_quotaProgressBar->setStyleSheet(
         "QProgressBar { background-color: #e5e5e5; color: black; border: 1px solid black; border-radius: 4px; margin-left: 8px; } "
         "QProgressBar::chunk { background-color: #E20074; }");
