@@ -93,7 +93,7 @@ public:
 
 constexpr auto TOOLBAR_CSS = QLatin1String(
     "QToolBar { background: transparent; margin: 0; padding: 0; border: none; spacing: 0; } "
-    "QToolBar QToolButton { background: transparent; border: none; margin: 0; padding: 8px 12px; font-size: 14px; border-radius: 8px; } "
+    "QToolBar QToolButton { background: transparent; border: none; margin: 0 0 8px; padding: 8px 12px; font-size: 14px; border-radius: 8px; } "
     "QToolBar QToolBarExtension { padding: 0; } "
     "QToolBar QToolButton:checked { background: palette(highlight); color: palette(highlighted-text); }"
 );

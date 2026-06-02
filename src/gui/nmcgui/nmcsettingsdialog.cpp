@@ -23,6 +23,7 @@ namespace OCC {
 NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
     : SettingsDialog(gui, parent)
 {
+    getToolBar()->setIconSize(QSize(24, 24));
     fixAccountButton();
 }
 
