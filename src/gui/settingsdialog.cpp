@@ -11,11 +11,12 @@
 #include "generalsettings.h"
 #include "networksettings.h"
 #include "accountsettings.h"
-#include "nmcgui/nmcaccountsettings.h"
 #include "configfile.h"
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
 #include "accountmanager.h"
+
+#include "nmcgui/nmcaccountsettings.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
