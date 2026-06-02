@@ -45,18 +45,12 @@ NMCGeneralSettings::NMCGeneralSettings(QWidget *parent)
 
 void NMCGeneralSettings::setDefaultSettings()
 {
-    // Nicht manuell setzen:
-    // autostartCheckBox, serverNotificationsCheckBox, newFolderLimitCheckBox usw.
-    // werden im GeneralSettings-Konstruktor über loadMiscSettings() korrekt geladen.
-
     getUi()->monoIconsCheckBox->setVisible(false);
+    getUi()->chatNotificationsCheckBox->setVisible(false);
     getUi()->callNotificationsCheckBox->setVisible(false);
     getUi()->quotaWarningNotificationsCheckBox->setVisible(false);
-    getUi()->chatNotificationsCheckBox->setVisible(false);
 
     getUi()->advancedGroupBox->setVisible(false);
-
-    getUi()->aboutAndUpdatesGroupBox->setTitle(tr("Update"));
     getUi()->aboutAndUpdatesGroupBox->setVisible(false);
 }
 
@@ -66,6 +60,8 @@ void NMCGeneralSettings::setNMCLayout()
     auto *generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"), this);
     generalSettingsLabel->setStyleSheet(QStringLiteral("font-size: 12px; font-weight: bold;"));
 
+    getUi()->generalGroupBoxTitle->hide();
+    getUi()->generalGroupBox->layout()->removeWidget(getUi()->generalGroupBoxTitle);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->chatNotificationsCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->serverNotificationsCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->autostartCheckBox);
@@ -115,8 +111,18 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->horizontalLayout_trash->removeWidget(getUi()->moveFilesToTrashCheckBox);
     getUi()->horizontalLayout_4->removeWidget(getUi()->ignoredFilesButton);
 
-    // Checkbox + SpinBox + MB-Label gemeinsam aus dem Original-Advanced-Layout umziehen.
-    getUi()->verticalLayout_4->removeItem(getUi()->horizontalLayout_3);
+    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitCheckBox);
+    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitSpinBox);
+    getUi()->horizontalLayout_3->removeWidget(getUi()->label);
+
+    auto *newFolderLimitLayout = new QHBoxLayout;
+    newFolderLimitLayout->setContentsMargins(0, 0, 0, 0);
+    newFolderLimitLayout->setSpacing(8);
+
+    newFolderLimitLayout->addWidget(getUi()->newFolderLimitCheckBox);
+    newFolderLimitLayout->addWidget(getUi()->newFolderLimitSpinBox);
+    newFolderLimitLayout->addWidget(getUi()->label);
+    newFolderLimitLayout->addStretch();
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
@@ -136,9 +142,9 @@ void NMCGeneralSettings::setNMCLayout()
     ));
 
     advancedSettingsBox->layout()->addWidget(advancedSettingsLabel);
+    advancedSettingsBox->layout()->addItem(newFolderLimitLayout);
     advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
-    advancedSettingsBox->layout()->addItem(getUi()->horizontalLayout_3);
     advancedSettingsBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
     advancedSettingsBox->layout()->addWidget(getUi()->ignoredFilesButton);
 
@@ -149,7 +155,7 @@ void NMCGeneralSettings::setNMCLayout()
 
     getUi()->gridLayout_3->addWidget(advancedSettingsBox, 2, 0);
 
-    // Updates & info / Datenschutz
+    // Updates & Info
     auto *updatesLabel = new QLabel(QCoreApplication::translate("", "UPDATES_SETTINGS"), this);
     updatesLabel->setStyleSheet(QStringLiteral("font-size: 12px; font-weight: bold;"));
 
