@@ -343,7 +343,7 @@ void SettingsDialog::accountAdded(AccountState *s)
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
     }
 
-    _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
+    _toolBar->addAction(accountAction);
     auto accountSettings = new AccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
     objectName += s->account()->displayName();
