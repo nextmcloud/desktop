@@ -338,14 +338,14 @@ void SettingsDialog::accountAdded(AccountState *s)
     updateAccountAvatar(s->account().data());
     
     if (!brandingSingleAccount) {
-        accountAction->setToolTip(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
+        accountAction->setToolTip(s->account()->displayName());
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
     }
 
     if (_firstNonAccountAction) {
         _toolBar->insertAction(_firstNonAccountAction, accountAction);
     } else {
-        _toolBar->addAction(accountAction);
+        _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
     }
     auto accountSettings = new AccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
