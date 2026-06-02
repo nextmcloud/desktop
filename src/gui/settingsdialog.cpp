@@ -192,12 +192,6 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _stack->addWidget(generalSettings);
     _stack->setStyleSheet(QStringLiteral("QStackedWidget { background: transparent; }"));
 
-    // Adds space between general and network actions
-    auto *spacer2 = new QWidget();
-    spacer2->setFixedWidth(8);
-    spacer2->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    _toolBar->addWidget(spacer2);
-
     // Connect styleChanged events to our widgets, so they can adapt (Dark-/Light-Mode switching)
     connect(this, &SettingsDialog::styleChanged, generalSettings, &GeneralSettings::slotStyleChanged);
 
@@ -346,11 +340,11 @@ void SettingsDialog::accountAdded(AccountState *s)
     updateAccountAvatar(s->account().data());
     
     if (!brandingSingleAccount) {
-        accountAction->setToolTip(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
+        accountAction->setToolTip(s->account()->displayName());
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
     }
 
-    _toolBar->addAction(accountAction);
+    _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
     auto accountSettings = new AccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
     objectName += s->account()->displayName();
