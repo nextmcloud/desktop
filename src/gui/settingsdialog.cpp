@@ -187,7 +187,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     auto *accountSpacer = new QWidget(this);
     accountSpacer->setFixedHeight(16);
     _toolBar->addWidget(accountSpacer);
-    _toolBar->addSeparator();
+    // _toolBar->addSeparator();
     auto *generalSettings = new GeneralSettings;
     _stack->addWidget(generalSettings);
     _stack->setStyleSheet(QStringLiteral("QStackedWidget { background: transparent; }"));
@@ -558,7 +558,7 @@ void SettingsDialog::setupUi()
     setLayout(mainLayout);
 
     _toolBar = new QToolBar;
-    _toolBar->setIconSize(QSize(32, 32));
+    _toolBar->setIconSize(QSize(24, 24));
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     _toolBar->setOrientation(Qt::Vertical);
     _toolBar->setMovable(false);
