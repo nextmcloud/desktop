@@ -885,7 +885,7 @@ Soll das Konto importiert werden?</translation>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="302"/>
         <source>Forget encryption setup</source>
-        <translation>Verschlüsselungseinrichtung vergessen</translation>
+        <translation>Verschlüsselung deaktivieren</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="312"/>
