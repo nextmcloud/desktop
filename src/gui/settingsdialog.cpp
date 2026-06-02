@@ -187,7 +187,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     auto *accountSpacer = new QWidget(this);
     accountSpacer->setFixedHeight(16);
     _toolBar->addWidget(accountSpacer);
-    // _toolBar->addSeparator();
+    _toolBar->addSeparator();
     auto *generalSettings = new GeneralSettings;
     _stack->addWidget(generalSettings);
     _stack->setStyleSheet(QStringLiteral("QStackedWidget { background: transparent; }"));
