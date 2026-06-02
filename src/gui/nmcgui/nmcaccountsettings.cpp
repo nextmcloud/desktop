@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Eugen Fischer
+ * Copyright (C) by Mauro Mura
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,22 +17,47 @@
 #include "common/utility.h"
 
 #include <cmath>
+#include <QAction>
 #include <QCoreApplication>
 #include <QDesktopServices>
-#include <QUrl>
+#include <QHBoxLayout>
+#include <QIcon>
+#include <QLabel>
 #include <QProgressBar>
 #include <QPushButton>
-#include <QLabel>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
 #include <QSizePolicy>
-#include <QIcon>
+#include <QTimer>
+#include <QUrl>
+#include <QVBoxLayout>
 
 namespace OCC {
 
 namespace {
 constexpr int panelPadding = 24;
 constexpr int contentWidth = 450;
+constexpr int actionButtonWidth = 180;
+constexpr int actionButtonHeight = 32;
+
+void styleSecondaryButton(QPushButton *button)
+{
+    if (!button) {
+        return;
+    }
+
+    button->setFixedSize(actionButtonWidth, actionButtonHeight);
+    button->setStyleSheet(QStringLiteral(
+        "QPushButton {"
+        " border: 1px solid black;"
+        " background-color: #ededed;"
+        " color: black;"
+        " font-size: 13px;"
+        " border-radius: 4px;"
+        "}"
+        "QPushButton:hover {"
+        " background-color: white;"
+        "}"
+    ));
+}
 }
 
 #ifdef Q_OS_WIN
@@ -69,6 +94,103 @@ void NMCAccountSettings::setDefaultSettings()
 
 void NMCAccountSettings::setLayout()
 {
+    auto *e2eePanel = new QWidget(this);
+    e2eePanel->setObjectName(QStringLiteral("nmcE2eePanel"));
+    e2eePanel->setAttribute(Qt::WA_StyledBackground, true);
+    e2eePanel->setStyleSheet(QStringLiteral(
+        "#nmcE2eePanel {"
+        " background: palette(" BACKGROUND_PALETTE ");"
+        " border-radius: 6px;"
+        "}"
+    ));
+
+    auto *e2eeHLayout = new QHBoxLayout(e2eePanel);
+    e2eeHLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+    e2eeHLayout->setSpacing(32);
+
+    auto *e2eeVLayout = new QVBoxLayout();
+    e2eeVLayout->setSpacing(4);
+
+    auto *e2eeTitle = new QLabel(QCoreApplication::translate("", "E2E_ENCRYPTION"), e2eePanel);
+    e2eeTitle->setStyleSheet(QStringLiteral("font-size: 15px; font-weight: 600;"));
+
+    auto *e2eeTitleIcon = new QLabel(e2eePanel);
+    e2eeTitleIcon->setFixedSize(24, 24);
+    e2eeTitleIcon->setPixmap(QIcon(QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg")).pixmap(24, 24));
+    e2eeTitleIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+    auto *e2eeTitleLayout = new QHBoxLayout();
+    e2eeTitleLayout->setContentsMargins(0, 0, 0, 0);
+    e2eeTitleLayout->setSpacing(8);
+    e2eeTitleLayout->addWidget(e2eeTitleIcon);
+    e2eeTitleLayout->addWidget(e2eeTitle);
+    e2eeTitleLayout->addStretch();
+
+    getUi()->accountStatusLayout->removeWidget(getUi()->encryptionMessage);
+    getUi()->encryptionMessageLayout->removeItem(getUi()->encryptionMessageButtonsLayout);
+
+    getUi()->encryptionMessage->setStyleSheet(QStringLiteral(
+        "QWidget {"
+        " background: transparent;"
+        " border: none;"
+        "}"
+    ));
+
+    getUi()->encryptionMessageLabel->setFixedWidth(contentWidth);
+    getUi()->encryptionMessageLabel->setWordWrap(true);
+
+    e2eeVLayout->addLayout(e2eeTitleLayout);
+    e2eeVLayout->addWidget(getUi()->encryptionMessage);
+
+    auto *e2eeButtonContainer = new QWidget(e2eePanel);
+    auto *e2eeButtonContainerLayout = new QVBoxLayout(e2eeButtonContainer);
+    e2eeButtonContainerLayout->setContentsMargins(0, 0, 0, 0);
+    e2eeButtonContainerLayout->setSpacing(8);
+
+    auto syncEncryptionButtons = [this, e2eeButtonContainerLayout]() {
+        auto *sourceLayout = getUi()->encryptionMessageButtonsLayout;
+        if (!sourceLayout) {
+            return;
+        }
+
+        bool hasSourceButtons = false;
+        for (int i = 0; i < sourceLayout->count(); ++i) {
+            if (qobject_cast<QPushButton *>(sourceLayout->itemAt(i)->widget())) {
+                hasSourceButtons = true;
+                break;
+            }
+        }
+
+        if (!hasSourceButtons) {
+            return;
+        }
+
+        while (auto *item = e2eeButtonContainerLayout->takeAt(0)) {
+            if (auto *widget = item->widget()) {
+                widget->deleteLater();
+            }
+            delete item;
+        }
+
+        while (auto *item = sourceLayout->takeAt(0)) {
+            if (auto *button = qobject_cast<QPushButton *>(item->widget())) {
+                styleSecondaryButton(button);
+                e2eeButtonContainerLayout->addWidget(button, 0, Qt::AlignRight);
+            }
+            delete item;
+        }
+
+        e2eeButtonContainerLayout->addStretch();
+    };
+
+    e2eeHLayout->addLayout(e2eeVLayout);
+    e2eeHLayout->addStretch();
+    e2eeHLayout->addWidget(e2eeButtonContainer, 0, Qt::AlignRight | Qt::AlignVCenter);
+
+    getUi()->accountStatusLayout->addWidget(e2eePanel);
+
+    QTimer::singleShot(0, this, syncEncryptionButtons);
+
     auto *liveWidget = new QWidget(this);
     liveWidget->setObjectName(QStringLiteral("nmcLiveBackupPanel"));
     liveWidget->setAttribute(Qt::WA_StyledBackground, true);
@@ -161,10 +283,7 @@ void NMCAccountSettings::setLayout()
 
     auto *storageLinkButton = new QPushButton(QCoreApplication::translate("", "STORAGE_EXTENSION"), quotaWidget);
     storageLinkButton->setFixedSize(180, 32);
-    storageLinkButton->setStyleSheet(
-        "QPushButton { border: 1px solid black; background-color: #ededed; "
-        "color: black; font-size: 13px; border-radius: 4px; } "
-        "QPushButton:hover { background-color: white; }");
+    styleSecondaryButton(storageLinkButton);
 
     connect(storageLinkButton, &QPushButton::clicked, this, []() {
         QDesktopServices::openUrl(QUrl(QStringLiteral("https://cloud.telekom-dienste.de/tarife")));
@@ -176,6 +295,8 @@ void NMCAccountSettings::setLayout()
 
     getUi()->encryptionMessage->hide();
     checkClientSideEncryptionState();
+
+    QTimer::singleShot(0, this, syncEncryptionButtons);
 }
 
 void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
