@@ -23,13 +23,12 @@ const QString NMCConfigFile::m_transferUsageData =
 
 bool NMCConfigFile::transferUsageData(const QString &connection) const
 {
-    const QString group =
-        connection.isEmpty()
-            ? Theme::instance()->appName()
-            : connection;
+    const QString group = connection.isEmpty()
+        ? Theme::instance()->appName()
+        : connection;
 
-    QVariant fallback = getValue(m_transferUsageData, group, false);
-    fallback = getValue(m_transferUsageData, QString(), fallback);
+    QVariant fallback = getValue(m_transferUsageData, QString(), false);
+    fallback = getValue(m_transferUsageData, group, fallback);
 
     const QVariant value = getPolicySetting(m_transferUsageData, fallback);
     return value.toBool();
