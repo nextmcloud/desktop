@@ -8,8 +8,7 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
 
 #include "nmcgeneralsettings.h"
@@ -23,10 +22,12 @@
 #include <QCoreApplication>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QSpacerItem>
 #include <QVBoxLayout>
+#include <QWidget>
 
 #ifdef Q_OS_WIN
 #define BACKGROUND_PALETTE "alternate-base"
@@ -115,7 +116,8 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitSpinBox);
     getUi()->horizontalLayout_3->removeWidget(getUi()->label);
 
-    auto *newFolderLimitLayout = new QHBoxLayout;
+    auto *newFolderLimitWidget = new QWidget(advancedSettingsBox);
+    auto *newFolderLimitLayout = new QHBoxLayout(newFolderLimitWidget);
     newFolderLimitLayout->setContentsMargins(0, 0, 0, 0);
     newFolderLimitLayout->setSpacing(8);
 
@@ -123,6 +125,16 @@ void NMCGeneralSettings::setNMCLayout()
     newFolderLimitLayout->addWidget(getUi()->newFolderLimitSpinBox);
     newFolderLimitLayout->addWidget(getUi()->label);
     newFolderLimitLayout->addStretch();
+
+    getUi()->newFolderLimitCheckBox->setVisible(true);
+    getUi()->newFolderLimitSpinBox->setVisible(true);
+    getUi()->label->setVisible(true);
+
+    getUi()->newFolderLimitCheckBox->setFocusPolicy(Qt::NoFocus);
+    getUi()->newFolderLimitSpinBox->setFocusPolicy(Qt::NoFocus);
+    getUi()->newFolderLimitSpinBox->setEnabled(getUi()->newFolderLimitCheckBox->isChecked());
+
+    newFolderLimitWidget->setVisible(true);
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
@@ -142,7 +154,7 @@ void NMCGeneralSettings::setNMCLayout()
     ));
 
     advancedSettingsBox->layout()->addWidget(advancedSettingsLabel);
-    advancedSettingsBox->layout()->addItem(newFolderLimitLayout);
+    advancedSettingsBox->layout()->addWidget(newFolderLimitWidget);
     advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
     advancedSettingsBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
@@ -150,8 +162,6 @@ void NMCGeneralSettings::setNMCLayout()
 
     getUi()->showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::NoFocus);
     getUi()->moveFilesToTrashCheckBox->setFocusPolicy(Qt::NoFocus);
-    getUi()->newFolderLimitCheckBox->setFocusPolicy(Qt::NoFocus);
-    getUi()->newFolderLimitSpinBox->setFocusPolicy(Qt::NoFocus);
 
     getUi()->gridLayout_3->addWidget(advancedSettingsBox, 2, 0);
 
