@@ -18,11 +18,13 @@
 #include "ui_generalsettings.h"
 #include "theme.h"
 
+#include <QAbstractButton>
 #include <QCheckBox>
 #include <QCoreApplication>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
+#include <QPushButton>
 #include <QSpacerItem>
 #include <QVBoxLayout>
 
@@ -43,19 +45,19 @@ NMCGeneralSettings::NMCGeneralSettings(QWidget *parent)
 
 void NMCGeneralSettings::setDefaultSettings()
 {
-    // Do not force autostart/server notification checkbox states here.
-    // GeneralSettings already loads them from ConfigFile and connects their save slots.
+    // Nicht manuell setzen:
+    // autostartCheckBox, serverNotificationsCheckBox, newFolderLimitCheckBox usw.
+    // werden im GeneralSettings-Konstruktor über loadMiscSettings() korrekt geladen.
 
     getUi()->monoIconsCheckBox->setVisible(false);
     getUi()->callNotificationsCheckBox->setVisible(false);
     getUi()->quotaWarningNotificationsCheckBox->setVisible(false);
+    getUi()->chatNotificationsCheckBox->setVisible(false);
 
     getUi()->advancedGroupBox->setVisible(false);
 
     getUi()->aboutAndUpdatesGroupBox->setTitle(tr("Update"));
     getUi()->aboutAndUpdatesGroupBox->setVisible(false);
-
-    getUi()->newFolderLimitCheckBox->setCheckState(Qt::Unchecked);
 }
 
 void NMCGeneralSettings::setNMCLayout()
@@ -63,8 +65,6 @@ void NMCGeneralSettings::setNMCLayout()
     // General settings
     auto *generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"), this);
     generalSettingsLabel->setStyleSheet(QStringLiteral("font-size: 12px; font-weight: bold;"));
-
-    getUi()->chatNotificationsCheckBox->hide();
 
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->chatNotificationsCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->serverNotificationsCheckBox);
@@ -112,8 +112,11 @@ void NMCGeneralSettings::setNMCLayout()
     ));
 
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
-    getUi()->horizontalLayout->removeWidget(getUi()->moveFilesToTrashCheckBox);
+    getUi()->horizontalLayout_trash->removeWidget(getUi()->moveFilesToTrashCheckBox);
     getUi()->horizontalLayout_4->removeWidget(getUi()->ignoredFilesButton);
+
+    // Checkbox + SpinBox + MB-Label gemeinsam aus dem Original-Advanced-Layout umziehen.
+    getUi()->verticalLayout_4->removeItem(getUi()->horizontalLayout_3);
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
@@ -135,11 +138,14 @@ void NMCGeneralSettings::setNMCLayout()
     advancedSettingsBox->layout()->addWidget(advancedSettingsLabel);
     advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
+    advancedSettingsBox->layout()->addItem(getUi()->horizontalLayout_3);
     advancedSettingsBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
     advancedSettingsBox->layout()->addWidget(getUi()->ignoredFilesButton);
 
     getUi()->showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::NoFocus);
     getUi()->moveFilesToTrashCheckBox->setFocusPolicy(Qt::NoFocus);
+    getUi()->newFolderLimitCheckBox->setFocusPolicy(Qt::NoFocus);
+    getUi()->newFolderLimitSpinBox->setFocusPolicy(Qt::NoFocus);
 
     getUi()->gridLayout_3->addWidget(advancedSettingsBox, 2, 0);
 
