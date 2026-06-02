@@ -109,7 +109,6 @@ void NMCAccountSettings::setLayout()
     e2eeHLayout->setSpacing(32);
 
     auto *e2eeVLayout = new QVBoxLayout();
-    e2eeVLayout->setSpacing(4);
 
     auto *e2eeTitle = new QLabel(QCoreApplication::translate("", "E2E_ENCRYPTION"), e2eePanel);
     e2eeTitle->setStyleSheet(QStringLiteral("font-size: 15px; font-weight: 600;"));
