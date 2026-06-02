@@ -199,8 +199,7 @@ MagentaCLOUD</translation>
     	<translation>Für die Verschlüsselung wird Ihnen eine aus 12 Wörtern zufällig erzeugte Wortfolge (Passphrase)
 erstellt. Wir empfehlen Ihnen, die Passphrase zu notieren und sicher aufzubewahren.
 
-Die Passphrase ist Ihr persönliches Kennwort mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder den Zugriff auf diese Dateien auf anderen Geräten wie z.B.
-Smartphones ermöglichen.</translation>
+Die Passphrase ist Ihr persönliches Kennwort mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder den Zugriff auf diese Dateien auf anderen Geräten wie z.B. Smartphones ermöglichen.</translation>
     </message>
     <message>
     	<source>E2E_MNEMONIC_TEXT2</source>
