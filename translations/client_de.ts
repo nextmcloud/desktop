@@ -779,7 +779,7 @@ Soll das Konto importiert werden?</translation>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="205"/>
         <source>Classic sync</source>
-        <translation>Klassische Synchronisierung</translation>
+        <translation>Ihre Ordner in Synchronisation</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="85"/>
