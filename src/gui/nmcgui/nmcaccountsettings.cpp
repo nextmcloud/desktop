@@ -251,7 +251,22 @@ void NMCAccountSettings::setLayout()
     auto *e2eeButtonContainerLayout = new QVBoxLayout(e2eeButtonContainer);
     setupTransparentLayout(e2eeButtonContainerLayout, 8);
 
-    auto normalizeEncryptionLayout = [this, e2eeButtonContainerLayout]() {
+    auto updateE2eePanelVisibility = [this, e2eePanel]() {
+        const auto accountState = accountsState();
+        const auto account = accountState ? accountState->account() : nullptr;
+
+        const bool visible = account
+            && account->capabilities().clientSideEncryptionAvailable();
+
+        e2eePanel->setVisible(visible);
+        return visible;
+    };
+
+    auto normalizeEncryptionLayout = [this, e2eeButtonContainerLayout, updateE2eePanelVisibility]() {
+        if (!updateE2eePanelVisibility()) {
+            return;
+        }
+
         getUi()->encryptionMessageIcon->clear();
         getUi()->encryptionMessageIcon->hide();
 
@@ -396,6 +411,7 @@ void NMCAccountSettings::setLayout()
 
     getUi()->encryptionMessage->hide();
     checkClientSideEncryptionState();
+    updateE2eePanelVisibility();
 
     QTimer::singleShot(0, this, normalizeEncryptionLayout);
 }
