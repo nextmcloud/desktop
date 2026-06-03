@@ -18,7 +18,6 @@
 #include "account.h"
 
 #include <cmath>
-#include <QAction>
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QHBoxLayout>
@@ -38,12 +37,6 @@ constexpr int panelPadding = 24;
 constexpr int contentWidth = 450;
 constexpr int actionButtonWidth = 180;
 constexpr int actionButtonHeight = 32;
-
-enum class NmcMessageType {
-    Information,
-    Positive,
-    Warning
-};
 
 void styleSecondaryButton(QPushButton *button)
 {
@@ -126,6 +119,10 @@ void NMCAccountSettings::setLayout()
     auto *e2eeTitleIcon = new QLabel(e2eePanel);
     e2eeTitleIcon->setFixedSize(24, 24);
     e2eeTitleIcon->setPixmap(QIcon(QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg")).pixmap(24, 24));
+    e2eeTitleIcon->setPixmap(
+    Theme::createColorAwareIcon(
+        QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg"))
+        .pixmap(24, 24));
     e2eeTitleIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     auto *e2eeTitleLayout = new QHBoxLayout();
@@ -141,9 +138,7 @@ void NMCAccountSettings::setLayout()
     getUi()->encryptionMessage->setAutoFillBackground(false);
     getUi()->encryptionMessage->setAttribute(Qt::WA_StyledBackground, false);
     getUi()->encryptionMessage->setStyleSheet(QStringLiteral(
-        "#encryptionMessage,"
-        "#encryptionMessage QLabel,"
-        "#encryptionMessage QWidget {"
+        "#encryptionMessage {"
         " background: transparent;"
         " border: none;"
         " padding: 0px;"
@@ -159,7 +154,11 @@ void NMCAccountSettings::setLayout()
     getUi()->encryptionMessageIcon->hide();
     getUi()->encryptionMessageLabel->setFixedWidth(contentWidth);
     getUi()->encryptionMessageLabel->setWordWrap(true);
-    getUi()->encryptionMessageLabel->setStyleSheet(QStringLiteral("background: transparent; padding: 0px; margin: 0px;"));
+    getUi()->encryptionMessageLabel->setStyleSheet(QStringLiteral(
+        "background: transparent;"
+        "padding: 0px;"
+        "margin: 0px;"
+    ));
 
     e2eeVLayout->addLayout(e2eeTitleLayout);
     e2eeVLayout->addWidget(getUi()->encryptionMessage);
@@ -173,37 +172,8 @@ void NMCAccountSettings::setLayout()
     e2eeButtonContainerLayout->setContentsMargins(0, 0, 0, 0);
     e2eeButtonContainerLayout->setSpacing(8);
 
-    auto styleEncryptionMessage = [this, e2eeTitleIcon]() {
-        auto messageType = NmcMessageType::Information;
-
-        const auto accountState = accountsState();
-        if (accountState && accountState->isConnected() && accountState->account() && accountState->account()->e2e()) {
-            if (accountState->account()->e2e()->isInitialized()) {
-                messageType = accountState->account()->e2e()->userCertificateNeedsMigration()
-                    ? NmcMessageType::Warning
-                    : NmcMessageType::Positive;
-            }
-        }
-
-        QString iconPath = QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg");
-
-        switch (messageType) {
-        case NmcMessageType::Information:
-            iconPath = QStringLiteral(":/client/theme/info.svg");
-            break;
-        case NmcMessageType::Positive:
-            iconPath = QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg");
-            break;
-        case NmcMessageType::Warning:
-            iconPath = QStringLiteral(":/client/theme/warning.svg");
-            break;
-        }
-
-        e2eeTitleIcon->setPixmap(QIcon(iconPath).pixmap(24, 24));
-    };
-
-    auto syncEncryptionButtons = [this, e2eeButtonContainerLayout, styleEncryptionMessage]() {
-        styleEncryptionMessage();
+    auto syncEncryptionButtons = [this, e2eeButtonContainerLayout]() {
+        getUi()->encryptionMessageIcon->hide();
 
         auto *sourceLayout = getUi()->encryptionMessageButtonsLayout;
         if (!sourceLayout) {
@@ -244,7 +214,7 @@ void NMCAccountSettings::setLayout()
     e2eeHLayout->addStretch();
     e2eeHLayout->addWidget(e2eeButtonContainer, 0, Qt::AlignRight | Qt::AlignVCenter);
 
-    getUi()->accountStatusLayout->addWidget(e2eePanel);
+    getUi()->verticalLayout_2->insertWidget(0, e2eePanel);
 
     if (auto *accountState = accountsState()) {
         connect(accountState, &AccountState::stateChanged, this, [this, syncEncryptionButtons]() {
