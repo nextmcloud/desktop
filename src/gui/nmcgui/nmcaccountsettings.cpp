@@ -16,6 +16,7 @@
 #include "common/utility.h"
 #include "accountstate.h"
 #include "account.h"
+#include "theme.h"
 
 #include <cmath>
 #include <QCoreApplication>
