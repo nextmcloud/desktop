@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Eugen Fischer
+ * Copyright (C) by Mauro Mura
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -8,13 +8,14 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
 
 #include "nmcgui/nmcaccountsettings.h"
 #include "ui_accountsettings.h"
 #include "common/utility.h"
+#include "accountstate.h"
+#include "account.h"
 
 #include <cmath>
 #include <QAction>
@@ -37,6 +38,12 @@ constexpr int panelPadding = 24;
 constexpr int contentWidth = 450;
 constexpr int actionButtonWidth = 180;
 constexpr int actionButtonHeight = 32;
+
+enum class NmcMessageType {
+    Information,
+    Positive,
+    Warning
+};
 
 void styleSecondaryButton(QPushButton *button)
 {
@@ -61,9 +68,9 @@ void styleSecondaryButton(QPushButton *button)
 }
 
 #ifdef Q_OS_WIN
-    #define BACKGROUND_PALETTE "alternate-base"
+#define BACKGROUND_PALETTE "alternate-base"
 #else
-    #define BACKGROUND_PALETTE "light"
+#define BACKGROUND_PALETTE "light"
 #endif
 
 NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
@@ -80,6 +87,7 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
 {
     setDefaultSettings();
     setLayout();
+
     connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
 }
 
@@ -109,6 +117,8 @@ void NMCAccountSettings::setLayout()
     e2eeHLayout->setSpacing(32);
 
     auto *e2eeVLayout = new QVBoxLayout();
+    e2eeVLayout->setContentsMargins(0, 0, 0, 0);
+    e2eeVLayout->setSpacing(8);
 
     auto *e2eeTitle = new QLabel(QCoreApplication::translate("", "E2E_ENCRYPTION"), e2eePanel);
     e2eeTitle->setStyleSheet(QStringLiteral("font-size: 15px; font-weight: 600;"));
@@ -128,25 +138,73 @@ void NMCAccountSettings::setLayout()
     getUi()->accountStatusLayout->removeWidget(getUi()->encryptionMessage);
     getUi()->encryptionMessageLayout->removeItem(getUi()->encryptionMessageButtonsLayout);
 
+    getUi()->encryptionMessage->setAutoFillBackground(false);
+    getUi()->encryptionMessage->setAttribute(Qt::WA_StyledBackground, false);
     getUi()->encryptionMessage->setStyleSheet(QStringLiteral(
-        "QWidget {"
+        "#encryptionMessage,"
+        "#encryptionMessage QLabel,"
+        "#encryptionMessage QWidget {"
         " background: transparent;"
         " border: none;"
+        " padding: 0px;"
+        " margin: 0px;"
         "}"
     ));
 
+    getUi()->encryptionMessageLayout->setContentsMargins(0, 0, 0, 0);
+    getUi()->encryptionMessageLayout->setSpacing(0);
+    getUi()->encryptionMessageHeaderLayout->setContentsMargins(0, 0, 0, 0);
+    getUi()->encryptionMessageHeaderLayout->setSpacing(0);
+
+    getUi()->encryptionMessageIcon->hide();
     getUi()->encryptionMessageLabel->setFixedWidth(contentWidth);
     getUi()->encryptionMessageLabel->setWordWrap(true);
+    getUi()->encryptionMessageLabel->setStyleSheet(QStringLiteral("background: transparent; padding: 0px; margin: 0px;"));
 
     e2eeVLayout->addLayout(e2eeTitleLayout);
     e2eeVLayout->addWidget(getUi()->encryptionMessage);
 
     auto *e2eeButtonContainer = new QWidget(e2eePanel);
+    e2eeButtonContainer->setAutoFillBackground(false);
+    e2eeButtonContainer->setAttribute(Qt::WA_StyledBackground, false);
+    e2eeButtonContainer->setStyleSheet(QStringLiteral("background: transparent; border: none;"));
+
     auto *e2eeButtonContainerLayout = new QVBoxLayout(e2eeButtonContainer);
     e2eeButtonContainerLayout->setContentsMargins(0, 0, 0, 0);
     e2eeButtonContainerLayout->setSpacing(8);
 
-    auto syncEncryptionButtons = [this, e2eeButtonContainerLayout]() {
+    auto styleEncryptionMessage = [this, e2eeTitleIcon]() {
+        auto messageType = NmcMessageType::Information;
+
+        const auto accountState = accountsState();
+        if (accountState && accountState->isConnected() && accountState->account() && accountState->account()->e2e()) {
+            if (accountState->account()->e2e()->isInitialized()) {
+                messageType = accountState->account()->e2e()->userCertificateNeedsMigration()
+                    ? NmcMessageType::Warning
+                    : NmcMessageType::Positive;
+            }
+        }
+
+        QString iconPath = QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg");
+
+        switch (messageType) {
+        case NmcMessageType::Information:
+            iconPath = QStringLiteral(":/client/theme/info.svg");
+            break;
+        case NmcMessageType::Positive:
+            iconPath = QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg");
+            break;
+        case NmcMessageType::Warning:
+            iconPath = QStringLiteral(":/client/theme/warning.svg");
+            break;
+        }
+
+        e2eeTitleIcon->setPixmap(QIcon(iconPath).pixmap(24, 24));
+    };
+
+    auto syncEncryptionButtons = [this, e2eeButtonContainerLayout, styleEncryptionMessage]() {
+        styleEncryptionMessage();
+
         auto *sourceLayout = getUi()->encryptionMessageButtonsLayout;
         if (!sourceLayout) {
             return;
@@ -187,6 +245,18 @@ void NMCAccountSettings::setLayout()
     e2eeHLayout->addWidget(e2eeButtonContainer, 0, Qt::AlignRight | Qt::AlignVCenter);
 
     getUi()->accountStatusLayout->addWidget(e2eePanel);
+
+    if (auto *accountState = accountsState()) {
+        connect(accountState, &AccountState::stateChanged, this, [this, syncEncryptionButtons]() {
+            QTimer::singleShot(0, this, syncEncryptionButtons);
+        });
+
+        if (accountState->account() && accountState->account()->e2e()) {
+            connect(accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this, syncEncryptionButtons]() {
+                QTimer::singleShot(0, this, syncEncryptionButtons);
+            });
+        }
+    }
 
     QTimer::singleShot(0, this, syncEncryptionButtons);
 
@@ -281,7 +351,6 @@ void NMCAccountSettings::setLayout()
     magentaHLayout->addStretch();
 
     auto *storageLinkButton = new QPushButton(QCoreApplication::translate("", "STORAGE_EXTENSION"), quotaWidget);
-    storageLinkButton->setFixedSize(180, 32);
     styleSecondaryButton(storageLinkButton);
 
     connect(storageLinkButton, &QPushButton::clicked, this, []() {
