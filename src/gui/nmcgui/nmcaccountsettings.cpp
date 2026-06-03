@@ -24,6 +24,7 @@
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QLabel>
+#include <QLayout>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QSizePolicy>
@@ -162,6 +163,21 @@ void setupTransparentLayout(QLayout *layout, int spacing = 0)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(spacing);
 }
+
+bool layoutContainsPushButton(QLayout *layout)
+{
+    if (!layout) {
+        return false;
+    }
+
+    for (int i = 0; i < layout->count(); ++i) {
+        if (qobject_cast<QPushButton *>(layout->itemAt(i)->widget())) {
+            return true;
+        }
+    }
+
+    return false;
+}
 }
 
 NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
@@ -246,9 +262,12 @@ void NMCAccountSettings::setLayout()
         setupContentLabel(getUi()->encryptionMessageLabel);
         setupTransparentWidget(getUi()->encryptionMessageLabel);
 
-        clearLayout(e2eeButtonContainerLayout);
+        auto *sourceLayout = getUi()->encryptionMessageButtonsLayout;
+        const bool hasNewSourceButtons = layoutContainsPushButton(sourceLayout);
 
-        if (auto *sourceLayout = getUi()->encryptionMessageButtonsLayout) {
+        if (hasNewSourceButtons) {
+            clearLayout(e2eeButtonContainerLayout);
+
             while (auto *item = sourceLayout->takeAt(0)) {
                 if (auto *button = qobject_cast<QPushButton *>(item->widget())) {
                     styleSecondaryButton(button);
@@ -256,16 +275,20 @@ void NMCAccountSettings::setLayout()
                 }
                 delete item;
             }
+
+            e2eeButtonContainerLayout->addStretch();
+        } else {
+            for (int i = 0; i < e2eeButtonContainerLayout->count(); ++i) {
+                if (auto *button = qobject_cast<QPushButton *>(e2eeButtonContainerLayout->itemAt(i)->widget())) {
+                    styleSecondaryButton(button);
+                }
+            }
         }
 
-        e2eeButtonContainerLayout->addStretch();
-
         getUi()->encryptionMessage->updateGeometry();
-        getUi()->encryptionMessage->adjustSize();
 
         if (auto *panel = getUi()->encryptionMessage->parentWidget()) {
             panel->updateGeometry();
-            panel->adjustSize();
         }
 
         updateGeometry();
