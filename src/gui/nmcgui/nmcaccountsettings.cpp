@@ -102,7 +102,7 @@ void NMCAccountSettings::setLayout()
     e2eePanel->setStyleSheet(QStringLiteral(
         "#nmcE2eePanel {"
         " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 6px;"
+        " border-radius: 10px;"
         "}"
     ));
 
@@ -119,11 +119,9 @@ void NMCAccountSettings::setLayout()
 
     auto *e2eeTitleIcon = new QLabel(e2eePanel);
     e2eeTitleIcon->setFixedSize(24, 24);
-    e2eeTitleIcon->setPixmap(QIcon(QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg")).pixmap(24, 24));
     e2eeTitleIcon->setPixmap(
-    Theme::createColorAwareIcon(
-        QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg"))
-        .pixmap(24, 24));
+        Theme::createColorAwareIcon(QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg"))
+            .pixmap(24, 24));
     e2eeTitleIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     auto *e2eeTitleLayout = new QHBoxLayout();
@@ -152,7 +150,9 @@ void NMCAccountSettings::setLayout()
     getUi()->encryptionMessageHeaderLayout->setContentsMargins(0, 0, 0, 0);
     getUi()->encryptionMessageHeaderLayout->setSpacing(0);
 
+    getUi()->encryptionMessageIcon->clear();
     getUi()->encryptionMessageIcon->hide();
+
     getUi()->encryptionMessageLabel->setFixedWidth(contentWidth);
     getUi()->encryptionMessageLabel->setWordWrap(true);
     getUi()->encryptionMessageLabel->setStyleSheet(QStringLiteral(
@@ -173,63 +173,90 @@ void NMCAccountSettings::setLayout()
     e2eeButtonContainerLayout->setContentsMargins(0, 0, 0, 0);
     e2eeButtonContainerLayout->setSpacing(8);
 
-    auto syncEncryptionButtons = [this, e2eeButtonContainerLayout]() {
+    auto normalizeEncryptionLayout = [this, e2eeButtonContainerLayout]() {
+        getUi()->encryptionMessageIcon->clear();
         getUi()->encryptionMessageIcon->hide();
 
-        auto *sourceLayout = getUi()->encryptionMessageButtonsLayout;
-        if (!sourceLayout) {
-            return;
-        }
+        getUi()->encryptionMessage->setAutoFillBackground(false);
+        getUi()->encryptionMessage->setAttribute(Qt::WA_StyledBackground, false);
+        getUi()->encryptionMessage->setStyleSheet(QStringLiteral(
+            "#encryptionMessage {"
+            " background: transparent;"
+            " border: none;"
+            " padding: 0px;"
+            " margin: 0px;"
+            "}"
+        ));
 
-        bool hasSourceButtons = false;
-        for (int i = 0; i < sourceLayout->count(); ++i) {
-            if (qobject_cast<QPushButton *>(sourceLayout->itemAt(i)->widget())) {
-                hasSourceButtons = true;
-                break;
-            }
-        }
+        getUi()->encryptionMessageLayout->setContentsMargins(0, 0, 0, 0);
+        getUi()->encryptionMessageLayout->setSpacing(0);
+        getUi()->encryptionMessageHeaderLayout->setContentsMargins(0, 0, 0, 0);
+        getUi()->encryptionMessageHeaderLayout->setSpacing(0);
 
-        if (!hasSourceButtons) {
-            return;
-        }
+        getUi()->encryptionMessageLabel->setFixedWidth(contentWidth);
+        getUi()->encryptionMessageLabel->setWordWrap(true);
+        getUi()->encryptionMessageLabel->setStyleSheet(QStringLiteral(
+            "background: transparent;"
+            "padding: 0px;"
+            "margin: 0px;"
+        ));
 
         while (auto *item = e2eeButtonContainerLayout->takeAt(0)) {
             if (auto *widget = item->widget()) {
+                widget->setParent(nullptr);
                 widget->deleteLater();
             }
             delete item;
         }
 
-        while (auto *item = sourceLayout->takeAt(0)) {
-            if (auto *button = qobject_cast<QPushButton *>(item->widget())) {
-                styleSecondaryButton(button);
-                e2eeButtonContainerLayout->addWidget(button, 0, Qt::AlignRight);
+        auto *sourceLayout = getUi()->encryptionMessageButtonsLayout;
+        if (sourceLayout) {
+            while (auto *item = sourceLayout->takeAt(0)) {
+                if (auto *button = qobject_cast<QPushButton *>(item->widget())) {
+                    styleSecondaryButton(button);
+                    e2eeButtonContainerLayout->addWidget(button, 0, Qt::AlignRight);
+                }
+                delete item;
             }
-            delete item;
         }
 
         e2eeButtonContainerLayout->addStretch();
+
+        getUi()->encryptionMessage->updateGeometry();
+        getUi()->encryptionMessage->adjustSize();
+
+        if (auto *panel = getUi()->encryptionMessage->parentWidget()) {
+            panel->updateGeometry();
+            panel->adjustSize();
+        }
+
+        updateGeometry();
     };
 
     e2eeHLayout->addLayout(e2eeVLayout);
     e2eeHLayout->addStretch();
     e2eeHLayout->addWidget(e2eeButtonContainer, 0, Qt::AlignRight | Qt::AlignVCenter);
 
+    getUi()->accountStatusPanel->setVisible(false);
     getUi()->verticalLayout_2->insertWidget(0, e2eePanel);
 
     if (auto *accountState = accountsState()) {
-        connect(accountState, &AccountState::stateChanged, this, [this, syncEncryptionButtons]() {
-            QTimer::singleShot(0, this, syncEncryptionButtons);
+        connect(accountState, &AccountState::stateChanged, this, [this, normalizeEncryptionLayout]() {
+            QTimer::singleShot(0, this, normalizeEncryptionLayout);
         });
 
         if (accountState->account() && accountState->account()->e2e()) {
-            connect(accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this, syncEncryptionButtons]() {
-                QTimer::singleShot(0, this, syncEncryptionButtons);
+            connect(accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this, normalizeEncryptionLayout]() {
+                QTimer::singleShot(0, this, normalizeEncryptionLayout);
+            });
+
+            connect(accountState->account()->e2e(), &ClientSideEncryption::sensitiveDataForgotten, this, [this, normalizeEncryptionLayout]() {
+                QTimer::singleShot(0, this, normalizeEncryptionLayout);
             });
         }
     }
 
-    QTimer::singleShot(0, this, syncEncryptionButtons);
+    QTimer::singleShot(0, this, normalizeEncryptionLayout);
 
     auto *liveWidget = new QWidget(this);
     liveWidget->setObjectName(QStringLiteral("nmcLiveBackupPanel"));
@@ -237,7 +264,7 @@ void NMCAccountSettings::setLayout()
     liveWidget->setStyleSheet(QStringLiteral(
         "#nmcLiveBackupPanel {"
         " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 6px;"
+        " border-radius: 10px;"
         "}"
     ));
 
@@ -279,7 +306,7 @@ void NMCAccountSettings::setLayout()
     quotaWidget->setStyleSheet(QStringLiteral(
         "#nmcQuotaPanel {"
         " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 6px;"
+        " border-radius: 10px;"
         "}"
     ));
 
@@ -335,7 +362,7 @@ void NMCAccountSettings::setLayout()
     getUi()->encryptionMessage->hide();
     checkClientSideEncryptionState();
 
-    QTimer::singleShot(0, this, syncEncryptionButtons);
+    QTimer::singleShot(0, this, normalizeEncryptionLayout);
 }
 
 void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
