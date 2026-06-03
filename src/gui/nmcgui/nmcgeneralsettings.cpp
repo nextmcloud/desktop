@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Eugen Fischer
+ * Copyright (C) by Mauro Mura
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -117,6 +117,7 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->horizontalLayout_3->removeWidget(getUi()->label);
 
     auto *newFolderLimitWidget = new QWidget(advancedSettingsBox);
+    newFolderLimitWidget->setContentsMargins(0, 0, 0, 0);
     auto *newFolderLimitLayout = new QHBoxLayout(newFolderLimitWidget);
     newFolderLimitLayout->setContentsMargins(0, 0, 0, 0);
     newFolderLimitLayout->setSpacing(8);
@@ -131,8 +132,12 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->label->setVisible(true);
 
     getUi()->newFolderLimitCheckBox->setFocusPolicy(Qt::NoFocus);
-    getUi()->newFolderLimitSpinBox->setFocusPolicy(Qt::NoFocus);
+    getUi()->newFolderLimitSpinBox->setFocusPolicy(Qt::ClickFocus);
+    getUi()->newFolderLimitSpinBox->setKeyboardTracking(true);
     getUi()->newFolderLimitSpinBox->setEnabled(getUi()->newFolderLimitCheckBox->isChecked());
+
+    connect(getUi()->newFolderLimitCheckBox, &QAbstractButton::toggled,
+            getUi()->newFolderLimitSpinBox, &QWidget::setEnabled);
 
     newFolderLimitWidget->setVisible(true);
 
