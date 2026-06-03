@@ -31,6 +31,12 @@
 #include <QUrl>
 #include <QVBoxLayout>
 
+#ifdef Q_OS_WIN
+#define BACKGROUND_PALETTE "alternate-base"
+#else
+#define BACKGROUND_PALETTE "light"
+#endif
+
 namespace OCC {
 
 namespace {
@@ -38,6 +44,62 @@ constexpr int panelPadding = 24;
 constexpr int contentWidth = 450;
 constexpr int actionButtonWidth = 180;
 constexpr int actionButtonHeight = 32;
+constexpr int panelRadius = 10;
+constexpr int panelSpacing = 32;
+
+QString panelStyleSheet(const QString &objectName)
+{
+    return QStringLiteral(
+        "#%1 {"
+        " background: palette(" BACKGROUND_PALETTE ");"
+        " border-radius: %2px;"
+        "}"
+    ).arg(objectName).arg(panelRadius);
+}
+
+QWidget *createPanel(const QString &objectName, QWidget *parent)
+{
+    auto *panel = new QWidget(parent);
+    panel->setObjectName(objectName);
+    panel->setAttribute(Qt::WA_StyledBackground, true);
+    panel->setStyleSheet(panelStyleSheet(objectName));
+    return panel;
+}
+
+QHBoxLayout *createPanelHorizontalLayout(QWidget *panel)
+{
+    auto *layout = new QHBoxLayout(panel);
+    layout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+    layout->setSpacing(panelSpacing);
+    return layout;
+}
+
+QVBoxLayout *createContentVerticalLayout(int spacing = 4)
+{
+    auto *layout = new QVBoxLayout();
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(spacing);
+    return layout;
+}
+
+void styleTitleLabel(QLabel *label)
+{
+    if (!label) {
+        return;
+    }
+
+    label->setStyleSheet(QStringLiteral("font-size: 15px; font-weight: 600;"));
+}
+
+void setupContentLabel(QLabel *label)
+{
+    if (!label) {
+        return;
+    }
+
+    label->setWordWrap(true);
+    label->setFixedWidth(contentWidth);
+}
 
 void styleSecondaryButton(QPushButton *button)
 {
@@ -59,13 +121,48 @@ void styleSecondaryButton(QPushButton *button)
         "}"
     ));
 }
+
+void clearLayout(QLayout *layout)
+{
+    if (!layout) {
+        return;
+    }
+
+    while (auto *item = layout->takeAt(0)) {
+        if (auto *widget = item->widget()) {
+            widget->setParent(nullptr);
+            widget->deleteLater();
+        }
+        delete item;
+    }
 }
 
-#ifdef Q_OS_WIN
-#define BACKGROUND_PALETTE "alternate-base"
-#else
-#define BACKGROUND_PALETTE "light"
-#endif
+void setupTransparentWidget(QWidget *widget)
+{
+    if (!widget) {
+        return;
+    }
+
+    widget->setAutoFillBackground(false);
+    widget->setAttribute(Qt::WA_StyledBackground, false);
+    widget->setStyleSheet(QStringLiteral(
+        "background: transparent;"
+        "border: none;"
+        "padding: 0px;"
+        "margin: 0px;"
+    ));
+}
+
+void setupTransparentLayout(QLayout *layout, int spacing = 0)
+{
+    if (!layout) {
+        return;
+    }
+
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(spacing);
+}
+}
 
 NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
     : AccountSettings(accountState, parent)
@@ -96,26 +193,12 @@ void NMCAccountSettings::setDefaultSettings()
 
 void NMCAccountSettings::setLayout()
 {
-    auto *e2eePanel = new QWidget(this);
-    e2eePanel->setObjectName(QStringLiteral("nmcE2eePanel"));
-    e2eePanel->setAttribute(Qt::WA_StyledBackground, true);
-    e2eePanel->setStyleSheet(QStringLiteral(
-        "#nmcE2eePanel {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 10px;"
-        "}"
-    ));
-
-    auto *e2eeHLayout = new QHBoxLayout(e2eePanel);
-    e2eeHLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
-    e2eeHLayout->setSpacing(32);
-
-    auto *e2eeVLayout = new QVBoxLayout();
-    e2eeVLayout->setContentsMargins(0, 0, 0, 0);
-    e2eeVLayout->setSpacing(8);
+    auto *e2eePanel = createPanel(QStringLiteral("nmcE2eePanel"), this);
+    auto *e2eeHLayout = createPanelHorizontalLayout(e2eePanel);
+    auto *e2eeVLayout = createContentVerticalLayout(8);
 
     auto *e2eeTitle = new QLabel(QCoreApplication::translate("", "E2E_ENCRYPTION"), e2eePanel);
-    e2eeTitle->setStyleSheet(QStringLiteral("font-size: 15px; font-weight: 600;"));
+    styleTitleLabel(e2eeTitle);
 
     auto *e2eeTitleIcon = new QLabel(e2eePanel);
     e2eeTitleIcon->setFixedSize(24, 24);
@@ -125,8 +208,7 @@ void NMCAccountSettings::setLayout()
     e2eeTitleIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     auto *e2eeTitleLayout = new QHBoxLayout();
-    e2eeTitleLayout->setContentsMargins(0, 0, 0, 0);
-    e2eeTitleLayout->setSpacing(8);
+    setupTransparentLayout(e2eeTitleLayout, 8);
     e2eeTitleLayout->addWidget(e2eeTitleIcon);
     e2eeTitleLayout->addWidget(e2eeTitle);
     e2eeTitleLayout->addStretch();
@@ -134,83 +216,39 @@ void NMCAccountSettings::setLayout()
     getUi()->accountStatusLayout->removeWidget(getUi()->encryptionMessage);
     getUi()->encryptionMessageLayout->removeItem(getUi()->encryptionMessageButtonsLayout);
 
-    getUi()->encryptionMessage->setAutoFillBackground(false);
-    getUi()->encryptionMessage->setAttribute(Qt::WA_StyledBackground, false);
-    getUi()->encryptionMessage->setStyleSheet(QStringLiteral(
-        "#encryptionMessage {"
-        " background: transparent;"
-        " border: none;"
-        " padding: 0px;"
-        " margin: 0px;"
-        "}"
-    ));
-
-    getUi()->encryptionMessageLayout->setContentsMargins(0, 0, 0, 0);
-    getUi()->encryptionMessageLayout->setSpacing(0);
-    getUi()->encryptionMessageHeaderLayout->setContentsMargins(0, 0, 0, 0);
-    getUi()->encryptionMessageHeaderLayout->setSpacing(0);
+    setupTransparentWidget(getUi()->encryptionMessage);
+    setupTransparentLayout(getUi()->encryptionMessageLayout);
+    setupTransparentLayout(getUi()->encryptionMessageHeaderLayout);
 
     getUi()->encryptionMessageIcon->clear();
     getUi()->encryptionMessageIcon->hide();
 
-    getUi()->encryptionMessageLabel->setFixedWidth(contentWidth);
-    getUi()->encryptionMessageLabel->setWordWrap(true);
-    getUi()->encryptionMessageLabel->setStyleSheet(QStringLiteral(
-        "background: transparent;"
-        "padding: 0px;"
-        "margin: 0px;"
-    ));
+    setupContentLabel(getUi()->encryptionMessageLabel);
+    setupTransparentWidget(getUi()->encryptionMessageLabel);
 
     e2eeVLayout->addLayout(e2eeTitleLayout);
     e2eeVLayout->addWidget(getUi()->encryptionMessage);
 
     auto *e2eeButtonContainer = new QWidget(e2eePanel);
-    e2eeButtonContainer->setAutoFillBackground(false);
-    e2eeButtonContainer->setAttribute(Qt::WA_StyledBackground, false);
-    e2eeButtonContainer->setStyleSheet(QStringLiteral("background: transparent; border: none;"));
+    setupTransparentWidget(e2eeButtonContainer);
 
     auto *e2eeButtonContainerLayout = new QVBoxLayout(e2eeButtonContainer);
-    e2eeButtonContainerLayout->setContentsMargins(0, 0, 0, 0);
-    e2eeButtonContainerLayout->setSpacing(8);
+    setupTransparentLayout(e2eeButtonContainerLayout, 8);
 
     auto normalizeEncryptionLayout = [this, e2eeButtonContainerLayout]() {
         getUi()->encryptionMessageIcon->clear();
         getUi()->encryptionMessageIcon->hide();
 
-        getUi()->encryptionMessage->setAutoFillBackground(false);
-        getUi()->encryptionMessage->setAttribute(Qt::WA_StyledBackground, false);
-        getUi()->encryptionMessage->setStyleSheet(QStringLiteral(
-            "#encryptionMessage {"
-            " background: transparent;"
-            " border: none;"
-            " padding: 0px;"
-            " margin: 0px;"
-            "}"
-        ));
+        setupTransparentWidget(getUi()->encryptionMessage);
+        setupTransparentLayout(getUi()->encryptionMessageLayout);
+        setupTransparentLayout(getUi()->encryptionMessageHeaderLayout);
 
-        getUi()->encryptionMessageLayout->setContentsMargins(0, 0, 0, 0);
-        getUi()->encryptionMessageLayout->setSpacing(0);
-        getUi()->encryptionMessageHeaderLayout->setContentsMargins(0, 0, 0, 0);
-        getUi()->encryptionMessageHeaderLayout->setSpacing(0);
+        setupContentLabel(getUi()->encryptionMessageLabel);
+        setupTransparentWidget(getUi()->encryptionMessageLabel);
 
-        getUi()->encryptionMessageLabel->setFixedWidth(contentWidth);
-        getUi()->encryptionMessageLabel->setWordWrap(true);
-        getUi()->encryptionMessageLabel->setStyleSheet(QStringLiteral(
-            "background: transparent;"
-            "padding: 0px;"
-            "margin: 0px;"
-        ));
+        clearLayout(e2eeButtonContainerLayout);
 
-        while (auto *item = e2eeButtonContainerLayout->takeAt(0)) {
-            if (auto *widget = item->widget()) {
-                widget->setParent(nullptr);
-                widget->deleteLater();
-            }
-            delete item;
-        }
-
-        auto *sourceLayout = getUi()->encryptionMessageButtonsLayout;
-        if (sourceLayout) {
+        if (auto *sourceLayout = getUi()->encryptionMessageButtonsLayout) {
             while (auto *item = sourceLayout->takeAt(0)) {
                 if (auto *button = qobject_cast<QPushButton *>(item->widget())) {
                     styleSecondaryButton(button);
@@ -258,75 +296,48 @@ void NMCAccountSettings::setLayout()
 
     QTimer::singleShot(0, this, normalizeEncryptionLayout);
 
-    auto *liveWidget = new QWidget(this);
-    liveWidget->setObjectName(QStringLiteral("nmcLiveBackupPanel"));
-    liveWidget->setAttribute(Qt::WA_StyledBackground, true);
-    liveWidget->setStyleSheet(QStringLiteral(
-        "#nmcLiveBackupPanel {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 10px;"
-        "}"
-    ));
-
-    auto *liveHLayout = new QHBoxLayout(liveWidget);
-    liveHLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
-    liveHLayout->setSpacing(32);
-
-    auto *liveVLayout = new QVBoxLayout();
-    liveVLayout->setSpacing(4);
+    auto *liveWidget = createPanel(QStringLiteral("nmcLiveBackupPanel"), this);
+    auto *liveHLayout = createPanelHorizontalLayout(liveWidget);
+    auto *liveVLayout = createContentVerticalLayout();
 
     liveHLayout->addLayout(liveVLayout);
     liveHLayout->addStretch();
 
-    const QString styleSheet = QStringLiteral(
+    const QString primaryButtonStyle = QStringLiteral(
         "QPushButton { font-size: %5px; border: %1px solid; border-color: black; "
         "border-radius: 4px; background-color: %2; color: %3; } "
         "QPushButton:hover { background-color: %4; }");
 
-    m_liveAccountButton->setStyleSheet(styleSheet.arg("0", "#E20074", "white", "#c00063", "13"));
-    m_liveAccountButton->setFixedSize(180, 32);
+    m_liveAccountButton->setStyleSheet(primaryButtonStyle.arg("0", "#E20074", "white", "#c00063", "13"));
+    m_liveAccountButton->setFixedSize(actionButtonWidth, actionButtonHeight);
     m_liveAccountButton->setIcon(QIcon());
 
     liveHLayout->addWidget(m_liveAccountButton, 0, Qt::AlignRight | Qt::AlignVCenter);
 
+    styleTitleLabel(m_liveTitle);
     liveVLayout->addWidget(m_liveTitle);
-    m_liveTitle->setStyleSheet("font-size: 15px; font-weight: 600;");
 
-    liveVLayout->addWidget(m_liveDescription);
-    m_liveDescription->setStyleSheet("font-size: 13px;");
+    m_liveDescription->setStyleSheet(QStringLiteral("font-size: 13px;"));
     m_liveDescription->setText(QCoreApplication::translate("", "LIVE_BACKUPS_DESCRIPTION"));
-    m_liveDescription->setWordWrap(true);
-    m_liveDescription->setFixedWidth(contentWidth);
+    setupContentLabel(m_liveDescription);
+    liveVLayout->addWidget(m_liveDescription);
 
     getUi()->verticalLayout_2->addWidget(liveWidget);
 
-    auto *quotaWidget = new QWidget(this);
-    quotaWidget->setObjectName(QStringLiteral("nmcQuotaPanel"));
-    quotaWidget->setAttribute(Qt::WA_StyledBackground, true);
-    quotaWidget->setStyleSheet(QStringLiteral(
-        "#nmcQuotaPanel {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 10px;"
-        "}"
-    ));
+    auto *quotaWidget = createPanel(QStringLiteral("nmcQuotaPanel"), this);
+    auto *quotaHLayout = createPanelHorizontalLayout(quotaWidget);
+    auto *quotaVLayout = createContentVerticalLayout();
 
-    auto *magentaHLayout = new QHBoxLayout(quotaWidget);
-    magentaHLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
-    magentaHLayout->setSpacing(32);
-
-    auto *quotaVLayout = new QVBoxLayout();
-    quotaVLayout->setSpacing(4);
-
-    quotaVLayout->addWidget(m_quotaInfoLabel);
     m_quotaInfoLabel->setFixedWidth(contentWidth);
-    m_quotaInfoLabel->setStyleSheet("QLabel { font-size: 18px; font-weight: 500; padding: 0px; }");
+    m_quotaInfoLabel->setStyleSheet(QStringLiteral("QLabel { font-size: 18px; font-weight: 500; padding: 0px; }"));
+    quotaVLayout->addWidget(m_quotaInfoLabel);
 
-    quotaVLayout->addWidget(m_quotaProgressBar);
     m_quotaProgressBar->setRange(0, 100);
     m_quotaProgressBar->setTextVisible(false);
     m_quotaProgressBar->setFixedWidth(contentWidth);
     m_quotaProgressBar->setFixedHeight(8);
-    m_quotaProgressBar->setStyleSheet(
+    m_quotaProgressBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    m_quotaProgressBar->setStyleSheet(QStringLiteral(
         "QProgressBar {"
         " background-color: #e5e5e5;"
         " color: black;"
@@ -338,15 +349,16 @@ void NMCAccountSettings::setLayout()
         "QProgressBar::chunk {"
         " background-color: #E20074;"
         " border-radius: 3px;"
-        "}");
-    m_quotaProgressBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        "}"
+    ));
+    quotaVLayout->addWidget(m_quotaProgressBar);
 
-    quotaVLayout->addWidget(m_quotaInfoText);
     m_quotaInfoText->setFixedWidth(contentWidth);
-    m_quotaInfoText->setStyleSheet("QLabel { font-size: 13px; padding: 0px; }");
+    m_quotaInfoText->setStyleSheet(QStringLiteral("QLabel { font-size: 13px; padding: 0px; }"));
+    quotaVLayout->addWidget(m_quotaInfoText);
 
-    magentaHLayout->addLayout(quotaVLayout);
-    magentaHLayout->addStretch();
+    quotaHLayout->addLayout(quotaVLayout);
+    quotaHLayout->addStretch();
 
     auto *storageLinkButton = new QPushButton(QCoreApplication::translate("", "STORAGE_EXTENSION"), quotaWidget);
     styleSecondaryButton(storageLinkButton);
@@ -355,7 +367,7 @@ void NMCAccountSettings::setLayout()
         QDesktopServices::openUrl(QUrl(QStringLiteral("https://cloud.telekom-dienste.de/tarife")));
     });
 
-    magentaHLayout->addWidget(storageLinkButton, 0, Qt::AlignRight | Qt::AlignVCenter);
+    quotaHLayout->addWidget(storageLinkButton, 0, Qt::AlignRight | Qt::AlignVCenter);
 
     getUi()->verticalLayout_2->addWidget(quotaWidget);
 
