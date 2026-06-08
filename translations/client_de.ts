@@ -767,7 +767,7 @@ Soll das Konto importiert werden?</translation>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="205"/>
         <source>Classic sync</source>
-        <translation>Klassische Synchronisierung</translation>
+        <translation>Ihre Ordner in Synchronisation</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="85"/>
@@ -862,8 +862,8 @@ Soll das Konto importiert werden?</translation>
         <location filename="../src/gui/accountsettings.cpp" line="117"/>
         <source>This will encrypt your folder and all files within it. These files will no longer be accessible without your encryption mnemonic key. 
 &lt;b&gt;This process is not reversible. Are you sure you want to proceed?&lt;/b&gt;</source>
-        <translation>Dadurch werden Ihr Ordner und alle darin enthaltenen Dateien verschlüsselt. Auf diese Dateien kann ohne Ihre Gedächtnisstütze nicht mehr zugegriffen werden.
-&lt;b&gt;Dies kann nicht rückgängig gemacht werden. Sind Sie sicher, dass Sie fortfahren möchten?&lt;/b&gt;</translation>
+        <translation>Der Ordner und alle enthaltenen Dateien werden verschlüsselt. Ohne die 12 - Wort Passphrase kann dann nicht mehr auf die Dateien zugegriffen werden.
+&lt;b&gt;Möchten sie fortfahren?&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="280"/>
@@ -873,7 +873,7 @@ Soll das Konto importiert werden?</translation>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="302"/>
         <source>Forget encryption setup</source>
-        <translation>Verschlüsselungseinrichtung vergessen</translation>
+        <translation>Verschlüsselung deaktivieren</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.cpp" line="312"/>
