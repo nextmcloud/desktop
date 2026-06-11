@@ -23,6 +23,7 @@ on:
         description: Branch to build a custom package from
         options: 
           - master
+          - stable-33.0
           - stable-4.0
           - stable-3.17
           - stable-3.16
