@@ -2276,7 +2276,8 @@ void ClientSideEncryption::decryptPrivateKey(const QByteArray &key) {
 
     QInputDialog dialog;
     dialog.setWindowTitle(tr(""));
-    dialog.setWindowFlags(Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+    dialog.setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+    dialog.setFixedSize(dialog.sizeHint());
     dialog.setLabelText(msg);
     dialog.setTextEchoMode(QLineEdit::Normal);
 
