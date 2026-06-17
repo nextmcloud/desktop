@@ -170,15 +170,6 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _actionGroup->setExclusive(true);
     connect(_actionGroup, &QActionGroup::triggered, this, &SettingsDialog::slotSwitchPage);
 
-    QAction *generalAction = createColorAwareAction(QLatin1String(":/client/theme/settings.svg"), tr("General"));
-    _actionGroup->addAction(generalAction);
-    _toolBar->addAction(generalAction);
-    auto *accountSpacer = new QWidget(this);
-    accountSpacer->setFixedHeight(16);
-    _toolBar->addWidget(accountSpacer);
-    _toolBar->addSeparator();
-    auto *generalSettings = new NMCGeneralSettings;
-    _stack->addWidget(generalSettings);
     _stack->setStyleSheet(QStringLiteral("QStackedWidget { background: transparent; }"));
 
     const auto accountsList = AccountManager::instance()->accounts();
@@ -190,7 +181,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     accountSpacer->setFixedHeight(16);
     _firstNonAccountAction = _toolBar->addWidget(accountSpacer);
 
-    addSettingsPage(QLatin1String(":/client/theme/settings.svg"), tr("General"), new GeneralSettings(this));
+    addSettingsPage(QLatin1String(":/client/theme/settings.svg"), tr("General"), new NMCGeneralSettings(this));
     addSettingsPage(QLatin1String(":/client/theme/advanced.svg"), tr("Advanced"), new AdvancedSettings(this));
     addSettingsPage(QLatin1String(":/client/theme/info.svg"), tr("Info"), new InfoSettings(this), true);
 
