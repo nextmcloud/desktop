@@ -363,9 +363,9 @@ void AccountSettings::slotE2eEncryptionMnemonicReady()
         });
     }
 
-    _ui->encryptionMessage->setMessageType(KMessageWidget::Positive);
-    _ui->encryptionMessage->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_ACTIVE"));
-    _ui->encryptionMessage->show();
+    _ui->encryptionMessageLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_ACTIVE"));
+    setEncryptionMessageIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
+    setEncryptionPanelVisible(true);
 }
 
 void AccountSettings::slotE2eEncryptionGenerateKeys()
@@ -1829,7 +1829,9 @@ void AccountSettings::setupE2eEncryption()
 
         connect(_accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this] {
             if (!_accountState->account()->e2e()->getPublicKey().isNull()) {
-                _ui->encryptionMessage->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_START"));
+                _ui->encryptionMessageLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_START"));
+                setEncryptionMessageIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+                setEncryptionPanelVisible(true);
             }
         });
         _accountState->account()->setE2eEncryptionKeysGenerationAllowed(false);
@@ -1887,9 +1889,9 @@ QAction *AccountSettings::addActionToEncryptionMessage(const QString &actionTitl
 
 void AccountSettings::setupE2eEncryptionMessage()
 {
-    _ui->encryptionMessage->setMessageType(KMessageWidget::Information);
-    _ui->encryptionMessage->setText(tr("This account supports end-to-end encryption, but it needs to be set up first."));
-    _ui->encryptionMessage->hide();
+    _ui->encryptionMessageLabel->setText(tr("This account supports end-to-end encryption, but it needs to be set up first."));
+    setEncryptionMessageIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
+    setEncryptionPanelVisible(true);
 
     auto *const actionSetupE2e = addActionToEncryptionMessage(tr("Set up encryption"), e2EeUiActionSetupEncryptionId);
     connect(actionSetupE2e, &QAction::triggered, this, &AccountSettings::slotE2eEncryptionGenerateKeys);
