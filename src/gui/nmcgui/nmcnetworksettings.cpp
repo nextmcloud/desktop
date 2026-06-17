@@ -64,7 +64,6 @@ void NMCNetworkSettings::setLayout()
     //
     // Download Bandwidth
     //
-    ui->verticalSpacer_2->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
     ui->downloadBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     ui->horizontalLayout_3->setSpacing(8);
     ui->downloadBox->setTitle({});
@@ -94,7 +93,6 @@ void NMCNetworkSettings::setLayout()
     //
     // Upload Bandwidth
     //
-    ui->verticalSpacer_3->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
     ui->uploadBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     ui->horizontalLayout_4->setSpacing(8);
     ui->uploadBox->setTitle({});
