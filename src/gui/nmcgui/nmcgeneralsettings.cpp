@@ -19,7 +19,6 @@
 #include <QAbstractButton>
 #include <QCheckBox>
 #include <QCoreApplication>
-#include <QFrame>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -73,14 +72,6 @@ QLabel *createLinkLabel(const QString &text, const QString &url, QWidget *parent
     label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     label->setStyleSheet(QStringLiteral("font-size: 13px"));
     return label;
-}
-
-QFrame *createSeparator(QWidget *parent)
-{
-    auto *separator = new QFrame(parent);
-    separator->setFrameShape(QFrame::HLine);
-    separator->setFrameShadow(QFrame::Plain);
-    return separator;
 }
 
 } // namespace
