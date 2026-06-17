@@ -300,7 +300,6 @@
 		<file>theme/file-open.svg</file>
 		<file>theme/backup.svg</file>
 		<file>theme/convert_to_text.svg</file>
-
 		<!-- NMC icons -->
 		<file>theme/NMCIcons/accountAvatarIcon.svg</file>
         <file>theme/NMCIcons/action-add.svg</file>
@@ -316,7 +315,6 @@
         <file>theme/NMCIcons/pause.svg</file>
         <file>theme/NMCIcons/remove.svg</file>
         <file>theme/NMCIcons/website.svg</file>
-
 		<!-- NMC CMW icons -->
         <file>theme/NMCIcons/accountAvatarIcon-white.svg</file>
         <file>theme/NMCIcons/logout-white.svg</file>
@@ -326,7 +324,6 @@
         <file>theme/close-white.svg</file>
         <file>theme/more-white.svg</file>
         <file>theme/settings-white.svg</file>
-
 		<!-- NMC RWI icons -->
 		<file>theme/NMCIcons/ApplicationLogo.svg</file>
         <file>theme/NMCIcons/folderLogo.svg</file>
