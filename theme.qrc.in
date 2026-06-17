@@ -300,7 +300,7 @@
 		<file>theme/file-open.svg</file>
 		<file>theme/backup.svg</file>
 		<file>theme/convert_to_text.svg</file>
-
+		<!-- NMC CMW icons -->
         <file>theme/NMCIcons/accountAvatarIcon-white.svg</file>
         <file>theme/NMCIcons/logout-white.svg</file>
         <file>theme/NMCIcons/pause-white.svg</file>
