@@ -7,6 +7,7 @@ import QtQml
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+
 import Style
 import com.nextcloud.desktopclient
 
@@ -24,10 +25,17 @@ ItemDelegate {
     property bool isTalkReplyOptionVisible: model.messageSent !== ""
 
     padding: Style.standardSpacing
+    hoverEnabled: true
 
     Accessible.role: Accessible.ListItem
     Accessible.name: (model.path !== "" && model.displayPath !== "") ? qsTr("Open %1 locally").arg(model.displayPath) : model.message
     Accessible.onPressAction: root.clicked()
+
+    background: Rectangle {
+        color: root.hovered || root.activeFocus ? palette.highlight : "transparent"
+        radius: Style.mediumRoundedButtonRadius
+        border.width: 0
+    }
 
     ToolTip {
         popupType: Qt.platform.os === "windows" ? Popup.Item : Popup.Native
@@ -35,14 +43,13 @@ ItemDelegate {
         text: qsTr("In %1").arg(model.displayLocation)
     }
 
-    // TODO: the current style does not support customization of this control
     contentItem: ColumnLayout {
         spacing: Style.smallSpacing
 
         ActivityItemContent {
             id: activityContent
 
-            adaptiveTextColor: root.activeFocus ? palette.highlightedText : palette.text
+            adaptiveTextColor: root.hovered || root.activeFocus ? palette.highlightedText : palette.text
 
             Layout.fillWidth: true
             Layout.minimumHeight: Style.minActivityHeight
@@ -60,6 +67,7 @@ ItemDelegate {
 
         Loader {
             id: talkReplyTextFieldLoader
+
             active: root.isChatActivity && root.isTalkReplyPossible && model.messageSent === ""
             visible: root.isTalkReplyOptionVisible
 
@@ -69,8 +77,8 @@ ItemDelegate {
 
             sourceComponent: TalkReplyTextField {
                 onSendReply: {
-                    UserModel.currentUser.sendReplyMessage(model.activityIndex, model.conversationToken, reply, model.messageId);
-                    talkReplyTextFieldLoader.visible = false;
+                    UserModel.currentUser.sendReplyMessage(model.activityIndex, model.conversationToken, reply, model.messageId)
+                    talkReplyTextFieldLoader.visible = false
                 }
             }
         }
