@@ -762,6 +762,21 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
 
     const auto highlightColor = palette().highlight().color();
 
+    if (const auto mode = bestAvailableVfsMode();
+        !Theme::instance()->disableVirtualFilesSyncFolder() &&
+        Theme::instance()->showVirtualFilesOption() &&
+        !folder->virtualFilesEnabled() &&
+        mode != Vfs::Off &&
+        Vfs::checkAvailability(folder->path(), mode)) {
+        if (mode == Vfs::WindowsCfApi || ConfigFile().showExperimentalOptions()) {
+            ac = menu->addAction(tr("Enable virtual file support %1 …").arg(mode == Vfs::WindowsCfApi ? QString() : tr("(experimental)")));
+            // TODO: remove when UX decision is made
+            ac->setEnabled(!Utility::isPathWindowsDrivePartitionRoot(folder->path()));
+            //
+            connect(ac, &QAction::triggered, this, &AccountSettings::slotEnableVfsCurrentFolder);
+        }
+    }
+
     menu->setStyleSheet(QString(R"(
         QMenu {
             border: 1px solid black;
