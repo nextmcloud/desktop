@@ -10,7 +10,8 @@ on:
           - master
           - stable-4.0
           - stable-5.0
-          - stable-33.0    # neue Option automatisch unterstützt
+          - stable-33.0 
+          - stable-34.0    # neue Option automatisch unterstützt
         default: master
 
 jobs:
