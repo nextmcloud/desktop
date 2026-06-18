@@ -146,6 +146,11 @@
 
 		<!-- other icons -->
 
+		<!-- NMC CTI icons -->
+        <file alias="theme/colored/state-tray-ok.svg">theme/colored/state-tray-ok.svg</file>
+        <file alias="theme/white/state-tray-ok.svg">theme/white/state-tray-ok.svg</file>
+        <file alias="theme/black/state-tray-ok.svg">theme/black/state-tray-ok.svg</file>
+
 		<!-- colored icons -->
 		<file>theme/colored/wizard_logo.png</file>
 		<file>theme/colored/wizard_logo@2x.png</file>
@@ -300,9 +305,5 @@
 		<file>theme/file-open.svg</file>
 		<file>theme/backup.svg</file>
 		<file>theme/convert_to_text.svg</file>
-		<!-- NMC CTI icons -->
-        <file alias="theme/colored/state-tray-ok.svg">theme/colored/state-tray-ok.svg</file>
-        <file alias="theme/white/state-tray-ok.svg">theme/white/state-tray-ok.svg</file>
-        <file alias="theme/black/state-tray-ok.svg">theme/black/state-tray-ok.svg</file>
     </qresource>
 </RCC>
