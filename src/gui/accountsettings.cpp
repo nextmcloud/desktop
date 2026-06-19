@@ -364,7 +364,6 @@ void AccountSettings::slotE2eEncryptionMnemonicReady()
     }
 
     _ui->encryptionMessageLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_ACTIVE"));
-    setEncryptionMessageIcon(style()->standardIcon(QStyle::SP_DialogApplyButton));
     setEncryptionPanelVisible(true);
 }
 
@@ -1830,8 +1829,6 @@ void AccountSettings::setupE2eEncryption()
         connect(_accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this] {
             if (!_accountState->account()->e2e()->getPublicKey().isNull()) {
                 _ui->encryptionMessageLabel->setText(QCoreApplication::translate("", "E2E_ENCRYPTION_START"));
-                setEncryptionMessageIcon(style()->standardIcon(QStyle::SP_MessageBoxInformation));
-                setEncryptionPanelVisible(true);
             }
         });
         _accountState->account()->setE2eEncryptionKeysGenerationAllowed(false);
