@@ -242,17 +242,8 @@ AccountSettings::AccountSettings(AccountState *accountState, QWidget *parent)
         const auto fpSettingsWidget = fpSettingsController->settingsViewWidget(fpAccountUserIdAtHost, fileProviderPanelContents,
                                                                                QQuickWidget::SizeRootObjectToView);
         fpSettingsLayout->setContentsMargins(0, 0, 0, 0);
-        fpSettingsLayout->setSpacing(0);
-
-        fpSettingsWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        if (const auto fpSettingsWidgetLayout = fpSettingsWidget->layout()) {
-            fpSettingsWidgetLayout->setContentsMargins(0, 0, 0, 0);
-        }
-        fpSettingsLayout->addWidget(fpSettingsWidget, 1);
-        fileProviderPanelContents->setLayout(fpSettingsLayout);
+        fpSettingsLayout->addWidget(fpSettingsWidget);
     } else {
-        // macOS 13 Ventura: the file provider feature is unsupported there.
-        // This branch can be removed once Ventura is no longer supported.
         _ui->fileProviderPanel->setVisible(false);
     }
 #else
