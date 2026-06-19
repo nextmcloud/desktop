@@ -106,14 +106,14 @@ public:
 
 constexpr auto TOOLBAR_CSS = QLatin1String(
     "QToolBar { background: transparent; margin: 0; padding: 0; border: none; spacing: 0; } "
-    "QToolBar QToolButton { background: transparent; border: none; margin: 0; padding: 8px 12px; font-size: 14px; border-radius: 8px; } "
+    "QToolBar QToolButton { background: transparent; border: none; margin: 0 0 8px; padding: 8px 12px; font-size: 14px; border-radius: 8px; } "
     "QToolBar QToolBarExtension { padding: 0; } "
     "QToolBar QToolButton:checked { background: palette(highlight); color: palette(highlighted-text); }"
 );
 
 const float buttonSizeRatio = 1.618f; // golden ratio
-constexpr auto settingsDialogDefaultWidth = 950;
-constexpr auto settingsDialogDefaultHeight = 500;
+constexpr auto settingsDialogDefaultWidth = 1024;
+constexpr auto settingsDialogDefaultHeight = 640;
 const auto settingsNavigationIconTextSpacing = QLatin1String("  ");
 
 /** display name with two lines that is displayed in the settings
@@ -134,7 +134,7 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
         host = fm.elidedText(host, Qt::ElideMiddle, width);
         user = fm.elidedText(user, Qt::ElideRight, width);
     }
-    return QStringLiteral("%1\n%2").arg(user, host);
+    return QStringLiteral("%1").arg(user);
 }
 }
 
@@ -345,7 +345,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     if (_firstNonAccountAction) {
         _toolBar->insertAction(_firstNonAccountAction, accountAction);
     } else {
-        _toolBar->addAction(accountAction);
+        _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
     }
     auto accountSettings = new AccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
@@ -413,6 +413,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
             QString displayName = account->displayName();
             action->setText(displayName);
             auto height = _toolBar->sizeHint().height();
+            action->setToolTip(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
             action->setIconText(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
         }
     }
@@ -645,7 +646,7 @@ void SettingsDialog::setupUi()
     setLayout(mainLayout);
 
     _toolBar = new QToolBar;
-    _toolBar->setIconSize(QSize(32, 32));
+    _toolBar->setIconSize(QSize(24, 24));
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     _toolBar->setOrientation(Qt::Vertical);
     _toolBar->setMovable(false);
