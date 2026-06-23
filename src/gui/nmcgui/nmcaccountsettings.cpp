@@ -19,6 +19,7 @@
 #include "theme.h"
 
 #include <cmath>
+#include <QAbstractItemModel>
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QHBoxLayout>
@@ -210,6 +211,8 @@ void NMCAccountSettings::setDefaultSettings()
 
 void NMCAccountSettings::setLayout()
 {
+    getUi()->verticalLayout_2->removeWidget(getUi()->connectionSettingsPanel);
+
     auto *e2eePanel = createPanel(QStringLiteral("nmcE2eePanel"), this);
     auto *e2eeHLayout = createPanelHorizontalLayout(e2eePanel);
     auto *e2eeVLayout = createContentVerticalLayout(8);
@@ -439,7 +442,6 @@ void NMCAccountSettings::setLayout()
     auto *connectionContentLayout = new QVBoxLayout(connectionContent);
     setupTransparentLayout(connectionContentLayout, 8);
 
-    getUi()->verticalLayout_2->removeWidget(getUi()->connectionSettingsPanel);
     getUi()->connectionSettingsPanel->setParent(connectionContent);
     setupTransparentWidget(getUi()->connectionSettingsPanel);
     getUi()->connectionSettingsPanel->show();
@@ -462,6 +464,20 @@ void NMCAccountSettings::setLayout()
     updateE2eePanelVisibility();
 
     QTimer::singleShot(0, this, normalizeEncryptionLayout);
+
+    auto collapseFolderTree = [this]() {
+        getUi()->_folderList->collapseAll();
+    };
+
+    QTimer::singleShot(0, this, collapseFolderTree);
+
+    connect(getUi()->_folderList->model(), &QAbstractItemModel::modelReset, this, [this, collapseFolderTree]() {
+        QTimer::singleShot(0, this, collapseFolderTree);
+    });
+
+    connect(getUi()->_folderList->model(), &QAbstractItemModel::rowsInserted, this, [this, collapseFolderTree]() {
+        QTimer::singleShot(0, this, collapseFolderTree);
+    });
 }
 
 void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
