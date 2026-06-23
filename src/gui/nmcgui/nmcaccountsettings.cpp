@@ -29,6 +29,7 @@
 #include <QPushButton>
 #include <QSizePolicy>
 #include <QTimer>
+#include <QToolButton>
 #include <QUrl>
 #include <QVBoxLayout>
 
@@ -408,6 +409,53 @@ void NMCAccountSettings::setLayout()
     quotaHLayout->addWidget(storageLinkButton, 0, Qt::AlignRight | Qt::AlignVCenter);
 
     getUi()->verticalLayout_2->addWidget(quotaWidget);
+
+    // Connection settings, moved below live backup and quota
+    auto *connectionWrapper = createPanel(QStringLiteral("nmcConnectionSettingsPanel"), this);
+    auto *connectionWrapperLayout = new QVBoxLayout(connectionWrapper);
+    connectionWrapperLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+    connectionWrapperLayout->setSpacing(12);
+
+    auto *connectionToggle = new QToolButton(connectionWrapper);
+    connectionToggle->setText(QCoreApplication::translate("", "CONNECTION_SETTINGS"));
+    connectionToggle->setCheckable(true);
+    connectionToggle->setChecked(false);
+    connectionToggle->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    connectionToggle->setArrowType(Qt::RightArrow);
+    connectionToggle->setStyleSheet(QStringLiteral(
+        "QToolButton {"
+        " border: none;"
+        " background: transparent;"
+        " font-size: 15px;"
+        " font-weight: 600;"
+        " padding: 0px;"
+        " text-align: left;"
+        "}"
+    ));
+
+    auto *connectionContent = new QWidget(connectionWrapper);
+    setupTransparentWidget(connectionContent);
+
+    auto *connectionContentLayout = new QVBoxLayout(connectionContent);
+    setupTransparentLayout(connectionContentLayout, 8);
+
+    getUi()->verticalLayout_2->removeWidget(getUi()->connectionSettingsPanel);
+    getUi()->connectionSettingsPanel->setParent(connectionContent);
+    setupTransparentWidget(getUi()->connectionSettingsPanel);
+    getUi()->connectionSettingsPanel->show();
+
+    connectionContentLayout->addWidget(getUi()->connectionSettingsPanel);
+    connectionContent->setVisible(false);
+
+    connect(connectionToggle, &QToolButton::toggled, this, [connectionToggle, connectionContent](bool checked) {
+        connectionToggle->setArrowType(checked ? Qt::DownArrow : Qt::RightArrow);
+        connectionContent->setVisible(checked);
+    });
+
+    connectionWrapperLayout->addWidget(connectionToggle);
+    connectionWrapperLayout->addWidget(connectionContent);
+
+    getUi()->verticalLayout_2->addWidget(connectionWrapper);
 
     getUi()->encryptionMessage->hide();
     checkClientSideEncryptionState();
