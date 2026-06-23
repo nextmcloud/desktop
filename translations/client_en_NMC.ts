@@ -1,6 +1,10 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="en_US">
 <context>
     <message>
+        <source>CONNECTION_SETTINGS</source>
+        <translation>Connection settings</translation>
+    </message>
+    <message>
         <source>NEXT</source>
         <translation>Continue</translation>
     </message>

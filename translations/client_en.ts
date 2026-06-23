@@ -7396,6 +7396,10 @@ Server replied with error: %2</source>
 <!-- NMC custom translations start -->
 <context>
     <message>
+        <source>CONNECTION_SETTINGS</source>
+        <translation>Connection settings</translation>
+    </message>
+    <message>
         <source>NEXT</source>
         <translation>Continue</translation>
     </message>
