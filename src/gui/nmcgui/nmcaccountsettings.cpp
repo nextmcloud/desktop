@@ -444,6 +444,10 @@ void NMCAccountSettings::setLayout()
     setupTransparentLayout(connectionContentLayout, 8);
 
     getUi()->connectionSettingsPanel->setParent(connectionContent);
+
+    getUi()->connectionSettingsPanelTitle->hide();
+    getUi()->connectionSettingsPanelLayout->removeWidget(getUi()->connectionSettingsPanelTitle);
+
     getUi()->connectionSettingsPanel->setAutoFillBackground(false);
     getUi()->connectionSettingsPanel->setAttribute(Qt::WA_StyledBackground, false);
     getUi()->connectionSettingsPanel->show();
