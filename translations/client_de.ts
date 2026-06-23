@@ -6331,7 +6331,7 @@ Server antwortete mit Fehler: %2</translation>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="419"/>
         <source>Account synchronization is disabled</source>
-        <translation>Konto-Synchronisierung ist deaktiviert</translation>
+        <translation>Synchronisierung pausiert</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="585"/>
