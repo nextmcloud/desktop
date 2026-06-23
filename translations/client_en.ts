@@ -7365,6 +7365,10 @@ This is a new, experimental mode. If you decide to use it, please report any iss
 <!-- NMC custom translations start -->
 <context>
     <message>
+        <source>CONNECTION_SETTINGS</source>
+        <translation>Connection settings</translation>
+    </message>
+    <message>
         <source>NEXT</source>
         <translation>Continue</translation>
     </message>

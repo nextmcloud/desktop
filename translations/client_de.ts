@@ -8311,6 +8311,10 @@ macOS kann diese Anforderung ignorieren oder verzögern.</translation>
 <!-- NMC custom translations start -->
 <context>
     <message>
+        <source>CONNECTION_SETTINGS</source>
+        <translation>Verbindungseinstellungen</translation>
+    </message>
+    <message>
         <source>NEXT</source>
         <translation>Weiter</translation>
     </message>
