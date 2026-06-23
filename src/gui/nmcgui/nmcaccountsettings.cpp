@@ -420,7 +420,7 @@ void NMCAccountSettings::setLayout()
     connectionWrapperLayout->setSpacing(12);
 
     auto *connectionToggle = new QToolButton(connectionWrapper);
-    connectionToggle->setText(QCoreApplication::translate("", "CONNECTION_SETTINGS"));
+    connectionToggle->setText(tr("Connection settings"));
     connectionToggle->setCheckable(true);
     connectionToggle->setChecked(false);
     connectionToggle->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -437,13 +437,15 @@ void NMCAccountSettings::setLayout()
     ));
 
     auto *connectionContent = new QWidget(connectionWrapper);
-    setupTransparentWidget(connectionContent);
+    connectionContent->setAutoFillBackground(false);
+    connectionContent->setAttribute(Qt::WA_StyledBackground, false);
 
     auto *connectionContentLayout = new QVBoxLayout(connectionContent);
     setupTransparentLayout(connectionContentLayout, 8);
 
     getUi()->connectionSettingsPanel->setParent(connectionContent);
-    setupTransparentWidget(getUi()->connectionSettingsPanel);
+    getUi()->connectionSettingsPanel->setAutoFillBackground(false);
+    getUi()->connectionSettingsPanel->setAttribute(Qt::WA_StyledBackground, false);
     getUi()->connectionSettingsPanel->show();
 
     connectionContentLayout->addWidget(getUi()->connectionSettingsPanel);
