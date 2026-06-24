@@ -436,32 +436,28 @@ void NMCAccountSettings::setLayout()
         "}"
     ));
 
-    auto *connectionContent = new QWidget(connectionWrapper);
-    connectionContent->setAutoFillBackground(false);
-    connectionContent->setAttribute(Qt::WA_StyledBackground, false);
-
-    auto *connectionContentLayout = new QVBoxLayout(connectionContent);
-    setupTransparentLayout(connectionContentLayout, 8);
-
-    getUi()->connectionSettingsPanel->setParent(connectionContent);
+    getUi()->connectionSettingsPanel->setParent(connectionWrapper);
 
     getUi()->connectionSettingsPanelTitle->hide();
     getUi()->connectionSettingsPanelLayout->removeWidget(getUi()->connectionSettingsPanelTitle);
 
     getUi()->connectionSettingsPanel->setAutoFillBackground(false);
     getUi()->connectionSettingsPanel->setAttribute(Qt::WA_StyledBackground, false);
-    getUi()->connectionSettingsPanel->show();
+    getUi()->connectionSettingsPanel->setStyleSheet(QString());
+    getUi()->connectionSettingsPanel->setVisible(false);
 
-    connectionContentLayout->addWidget(getUi()->connectionSettingsPanel);
-    connectionContent->setVisible(false);
+    if (auto *connectionPanelLayout = getUi()->connectionSettingsPanel->layout()) {
+        connectionPanelLayout->setContentsMargins(0, 0, 0, 0);
+        connectionPanelLayout->setSpacing(0);
+    }
 
-    connect(connectionToggle, &QToolButton::toggled, this, [connectionToggle, connectionContent](bool checked) {
+    connect(connectionToggle, &QToolButton::toggled, this, [this, connectionToggle](bool checked) {
         connectionToggle->setArrowType(checked ? Qt::DownArrow : Qt::RightArrow);
-        connectionContent->setVisible(checked);
+        getUi()->connectionSettingsPanel->setVisible(checked);
     });
 
     connectionWrapperLayout->addWidget(connectionToggle);
-    connectionWrapperLayout->addWidget(connectionContent);
+    connectionWrapperLayout->addWidget(getUi()->connectionSettingsPanel);
 
     getUi()->verticalLayout_2->addWidget(connectionWrapper);
 
