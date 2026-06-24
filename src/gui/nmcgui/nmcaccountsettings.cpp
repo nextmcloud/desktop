@@ -420,7 +420,7 @@ void NMCAccountSettings::setLayout()
     connectionWrapperLayout->setSpacing(12);
 
     auto *connectionToggle = new QToolButton(connectionWrapper);
-    connectionToggle->setText(tr("Connection settings"));
+    connectionToggle->setText(QCoreApplication::translate("", "CONNECTION_SETTINGS"));
     connectionToggle->setCheckable(true);
     connectionToggle->setChecked(false);
     connectionToggle->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
