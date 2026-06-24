@@ -449,13 +449,18 @@ void NMCAccountSettings::setLayout()
 
     getUi()->connectionSettingsPanel->setStyleSheet(QStringLiteral(
         "QFrame#connectionSettingsPanel,"
-        "QWidget#connectionSettingsPanelContents,"
-        "QWidget#connectionSettingsPanelContents QWidget {"
+        "QWidget#connectionSettingsPanelContents {"
         " background: transparent;"
         " border: none;"
         "}"
-        "QGroupBox {"
+
+        "NetworkSettings,"
+        "NetworkSettings QWidget {"
         " background: transparent;"
+        "}"
+
+        "NetworkSettings QGroupBox {"
+        " background: palette(" BACKGROUND_PALETTE ");"
         "}"
     ));
 
