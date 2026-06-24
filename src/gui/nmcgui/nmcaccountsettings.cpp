@@ -22,6 +22,7 @@
 #include <QAbstractItemModel>
 #include <QCoreApplication>
 #include <QDesktopServices>
+#include <QGroupBox>
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QLabel>
@@ -445,6 +446,18 @@ void NMCAccountSettings::setLayout()
     getUi()->connectionSettingsPanel->setAttribute(Qt::WA_StyledBackground, false);
     getUi()->connectionSettingsPanel->setStyleSheet(QString());
     getUi()->connectionSettingsPanel->setVisible(false);
+
+    getUi()->connectionSettingsPanel->setStyleSheet(QStringLiteral(
+        "QFrame#connectionSettingsPanel,"
+        "QWidget#connectionSettingsPanelContents,"
+        "QWidget#connectionSettingsPanelContents QWidget {"
+        " background: transparent;"
+        " border: none;"
+        "}"
+        "QGroupBox {"
+        " background: transparent;"
+        "}"
+    ));
 
     if (auto *connectionPanelLayout = getUi()->connectionSettingsPanel->layout()) {
         connectionPanelLayout->setContentsMargins(0, 0, 0, 0);
