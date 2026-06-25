@@ -7,8 +7,9 @@
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
  */
 
 #include "nmcgeneralsettings.h"
@@ -25,17 +26,58 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QSizePolicy>
 #include <QSpacerItem>
 #include <QVBoxLayout>
 #include <QWidget>
 
-#ifdef Q_OS_WIN
-#define BACKGROUND_PALETTE "alternate-base"
-#else
 #define BACKGROUND_PALETTE "light"
-#endif
 
 namespace OCC {
+
+namespace {
+
+constexpr int panelPadding = 24;
+constexpr int panelRadius = 10;
+
+void applyNMCBoxStyle(QGroupBox *box, const QString &objectName)
+{
+    if (!box) {
+        return;
+    }
+
+    box->setObjectName(objectName);
+    box->setAttribute(Qt::WA_StyledBackground, true);
+    box->setTitle({});
+    box->setStyleSheet(QStringLiteral(
+        "#%1 {"
+        " background: palette(" BACKGROUND_PALETTE ");"
+        " border-radius: %2px;"
+        " border: none;"
+        "}"
+    ).arg(objectName).arg(panelRadius));
+}
+
+QLabel *createSectionLabel(const QString &text, QWidget *parent)
+{
+    auto *label = new QLabel(text, parent);
+    label->setStyleSheet(QStringLiteral("font-size: 12px; font-weight: bold;"));
+    return label;
+}
+
+QLabel *createLinkLabel(const QString &text, const QString &url, QWidget *parent)
+{
+    auto *label = new QLabel(parent);
+    label->setText(QStringLiteral("<a href=\"%1\"><span style=\"color:#2238df\">%2</span></a>").arg(url, text));
+    label->setTextFormat(Qt::RichText);
+    label->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    label->setOpenExternalLinks(true);
+    label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    label->setStyleSheet(QStringLiteral("font-size: 13px"));
+    return label;
+}
+
+} // namespace
 
 NMCGeneralSettings::NMCGeneralSettings(QWidget *parent)
     : GeneralSettings(parent)
@@ -57,9 +99,12 @@ void NMCGeneralSettings::setDefaultSettings()
 
 void NMCGeneralSettings::setNMCLayout()
 {
-    // General settings
-    auto *generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"), this);
-    generalSettingsLabel->setStyleSheet(QStringLiteral("font-size: 12px; font-weight: bold;"));
+    /*
+     * General settings
+     */
+    auto *generalSettingsLabel = createSectionLabel(
+        QCoreApplication::translate("", "GENERAL_SETTINGS"),
+        this);
 
     getUi()->generalGroupBoxTitle->hide();
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->generalGroupBoxTitle);
@@ -68,45 +113,31 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->autostartCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->quotaWarningNotificationsCheckBox);
 
-    getUi()->generalGroupBox->setTitle({});
-    getUi()->generalGroupBox->setObjectName(QStringLiteral("nmcGeneralSettingsBox"));
-    getUi()->generalGroupBox->setAttribute(Qt::WA_StyledBackground, true);
-    getUi()->generalGroupBox->setStyleSheet(QStringLiteral(
-        "#nmcGeneralSettingsBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 4px;"
-        " border: none;"
-        "}"
-    ));
+    applyNMCBoxStyle(getUi()->generalGroupBox, QStringLiteral("nmcGeneralSettingsBox"));
 
     auto *generalLayout = static_cast<QGridLayout *>(getUi()->generalGroupBox->layout());
     generalLayout->addWidget(generalSettingsLabel, 0, 0);
     generalLayout->addWidget(getUi()->autostartCheckBox, 1, 0);
     generalLayout->addWidget(getUi()->serverNotificationsCheckBox, 2, 0);
-    generalLayout->setContentsMargins(16, 16, 16, 16);
+    generalLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
     generalLayout->setSpacing(8);
 
     getUi()->autostartCheckBox->setFocusPolicy(Qt::NoFocus);
     getUi()->serverNotificationsCheckBox->setFocusPolicy(Qt::NoFocus);
 
-    // Advanced settings
-    auto *advancedSettingsLabel = new QLabel(QCoreApplication::translate("", "ADVANCED_SETTINGS"), this);
-    advancedSettingsLabel->setStyleSheet(QStringLiteral("font-size: 12px; font-weight: bold;"));
-
+    /*
+     * Advanced settings
+     */
     auto *advancedSettingsBox = new QGroupBox(this);
-    advancedSettingsBox->setObjectName(QStringLiteral("nmcAdvancedSettingsBox"));
-    advancedSettingsBox->setAttribute(Qt::WA_StyledBackground, true);
-    advancedSettingsBox->setTitle({});
-    advancedSettingsBox->setLayout(new QVBoxLayout);
-    advancedSettingsBox->layout()->setContentsMargins(16, 16, 16, 16);
-    advancedSettingsBox->layout()->setSpacing(8);
-    advancedSettingsBox->setStyleSheet(QStringLiteral(
-        "#nmcAdvancedSettingsBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 4px;"
-        " border: none;"
-        "}"
-    ));
+    applyNMCBoxStyle(advancedSettingsBox, QStringLiteral("nmcAdvancedSettingsBox"));
+
+    auto *advancedLayout = new QVBoxLayout(advancedSettingsBox);
+    advancedLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+    advancedLayout->setSpacing(8);
+
+    auto *advancedSettingsLabel = createSectionLabel(
+        QCoreApplication::translate("", "ADVANCED_SETTINGS"),
+        advancedSettingsBox);
 
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     getUi()->horizontalLayout_trash->removeWidget(getUi()->moveFilesToTrashCheckBox);
@@ -139,8 +170,6 @@ void NMCGeneralSettings::setNMCLayout()
     connect(getUi()->newFolderLimitCheckBox, &QAbstractButton::toggled,
             getUi()->newFolderLimitSpinBox, &QWidget::setEnabled);
 
-    newFolderLimitWidget->setVisible(true);
-
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
     getUi()->ignoredFilesButton->setStyleSheet(QStringLiteral(
@@ -158,108 +187,82 @@ void NMCGeneralSettings::setNMCLayout()
         "}"
     ));
 
-    advancedSettingsBox->layout()->addWidget(advancedSettingsLabel);
-    advancedSettingsBox->layout()->addWidget(newFolderLimitWidget);
-    advancedSettingsBox->layout()->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
-    advancedSettingsBox->layout()->addWidget(getUi()->moveFilesToTrashCheckBox);
-    advancedSettingsBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
-    advancedSettingsBox->layout()->addWidget(getUi()->ignoredFilesButton);
-
     getUi()->showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::NoFocus);
     getUi()->moveFilesToTrashCheckBox->setFocusPolicy(Qt::NoFocus);
 
+    advancedLayout->addWidget(advancedSettingsLabel);
+    advancedLayout->addWidget(newFolderLimitWidget);
+    advancedLayout->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
+    advancedLayout->addWidget(getUi()->moveFilesToTrashCheckBox);
+    advancedLayout->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    advancedLayout->addWidget(getUi()->ignoredFilesButton);
+
     getUi()->gridLayout_3->addWidget(advancedSettingsBox, 2, 0);
 
-    // Updates & Info
-    auto *updatesLabel = new QLabel(QCoreApplication::translate("", "UPDATES_SETTINGS"), this);
-    updatesLabel->setStyleSheet(QStringLiteral("font-size: 12px; font-weight: bold;"));
-
+    /*
+     * Updates, data protection and info
+     */
     auto *dataProtectionBox = new QGroupBox(this);
-    dataProtectionBox->setObjectName(QStringLiteral("nmcUpdatesInfoBox"));
-    dataProtectionBox->setAttribute(Qt::WA_StyledBackground, true);
-    dataProtectionBox->setTitle({});
-    dataProtectionBox->setLayout(new QVBoxLayout);
-    dataProtectionBox->layout()->setContentsMargins(16, 16, 16, 16);
-    dataProtectionBox->layout()->setSpacing(8);
-    dataProtectionBox->setStyleSheet(QStringLiteral(
-        "#nmcUpdatesInfoBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 4px;"
-        " border: none;"
-        "}"
-    ));
+    applyNMCBoxStyle(dataProtectionBox, QStringLiteral("nmcUpdatesInfoBox"));
 
-    auto *dataAnalysisCheckBox = new QCheckBox(this);
+    auto *dataProtectionLayout = new QVBoxLayout(dataProtectionBox);
+    dataProtectionLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+    dataProtectionLayout->setSpacing(8);
+
+    auto *updatesLabel = createSectionLabel(
+        QCoreApplication::translate("", "UPDATES_SETTINGS"),
+        dataProtectionBox);
+
+    auto *dataAnalysisCheckBox = new QCheckBox(dataProtectionBox);
     dataAnalysisCheckBox->setText(QCoreApplication::translate("", "DATA_ANALYSIS"));
     dataAnalysisCheckBox->setFocusPolicy(Qt::NoFocus);
 
     getUi()->autoCheckForUpdatesCheckBox->setFocusPolicy(Qt::NoFocus);
 
-    dataProtectionBox->layout()->addWidget(updatesLabel);
-    dataProtectionBox->layout()->addWidget(getUi()->autoCheckForUpdatesCheckBox);
-    dataProtectionBox->layout()->addWidget(dataAnalysisCheckBox);
-
-    connect(dataAnalysisCheckBox, &QAbstractButton::toggled, this, [](bool toggle) {
-        NMCConfigFile cfgFile;
-        cfgFile.setTransferUsageData(toggle, QString());
-    });
-
     NMCConfigFile cfgFile;
     dataAnalysisCheckBox->setChecked(cfgFile.transferUsageData());
 
-    dataProtectionBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    connect(dataAnalysisCheckBox, &QAbstractButton::toggled, this, [](bool enabled) {
+        NMCConfigFile cfgFile;
+        cfgFile.setTransferUsageData(enabled, QString());
+    });
 
-    auto *dataAnalysisImpressum = new QLabel(this);
-    dataAnalysisImpressum->setText(QStringLiteral("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#2238df\">%1</span></a>")
-        .arg(QCoreApplication::translate("", "IMPRESSUM")));
-    dataAnalysisImpressum->setTextFormat(Qt::RichText);
-    dataAnalysisImpressum->setTextInteractionFlags(Qt::TextBrowserInteraction);
-    dataAnalysisImpressum->setOpenExternalLinks(true);
-    dataAnalysisImpressum->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    dataAnalysisImpressum->setStyleSheet(QStringLiteral("font-size: 13px"));
-    dataProtectionBox->layout()->addWidget(dataAnalysisImpressum);
+    dataProtectionLayout->addWidget(updatesLabel);
+    dataProtectionLayout->addWidget(getUi()->autoCheckForUpdatesCheckBox);
+    dataProtectionLayout->addWidget(dataAnalysisCheckBox);
+    dataProtectionLayout->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    auto *dataAnalysisData = new QLabel(this);
-    dataAnalysisData->setText(QStringLiteral("<a href=\"https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf\"><span style=\"color:#2238df\">%1</span></a>")
-        .arg(QCoreApplication::translate("", "DATA_PROTECTION")));
-    dataAnalysisData->setTextFormat(Qt::RichText);
-    dataAnalysisData->setTextInteractionFlags(Qt::TextBrowserInteraction);
-    dataAnalysisData->setOpenExternalLinks(true);
-    dataAnalysisData->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    dataAnalysisData->setStyleSheet(QStringLiteral("font-size: 13px"));
-    dataProtectionBox->layout()->addWidget(dataAnalysisData);
+    dataProtectionLayout->addWidget(createLinkLabel(
+        QCoreApplication::translate("", "IMPRESSUM"),
+        QStringLiteral("https://www.telekom.de/impressum/"),
+        dataProtectionBox));
 
-    auto *dataAnalysisOpenSource = new QLabel(this);
-    dataAnalysisOpenSource->setText(QStringLiteral("<a href=\"https://static.magentacloud.de/licences/windowsdesktop.html\"><span style=\"color:#2238df\">%1</span></a>")
-        .arg(QCoreApplication::translate("", "LICENCE")));
-    dataAnalysisOpenSource->setTextFormat(Qt::RichText);
-    dataAnalysisOpenSource->setTextInteractionFlags(Qt::TextBrowserInteraction);
-    dataAnalysisOpenSource->setOpenExternalLinks(true);
-    dataAnalysisOpenSource->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    dataAnalysisOpenSource->setStyleSheet(QStringLiteral("font-size: 13px"));
-    dataProtectionBox->layout()->addWidget(dataAnalysisOpenSource);
+    dataProtectionLayout->addWidget(createLinkLabel(
+        QCoreApplication::translate("", "DATA_PROTECTION"),
+        QStringLiteral("https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf"),
+        dataProtectionBox));
 
-    auto *dataAnalysisFurtherInfo = new QLabel(this);
-    dataAnalysisFurtherInfo->setText(QStringLiteral("<a href=\"https://cloud.telekom-dienste.de/hilfe\"><span style=\"color:#2238df\">%1</span></a>")
-        .arg(QCoreApplication::translate("", "FURTHER_INFO")));
-    dataAnalysisFurtherInfo->setTextFormat(Qt::RichText);
-    dataAnalysisFurtherInfo->setTextInteractionFlags(Qt::TextBrowserInteraction);
-    dataAnalysisFurtherInfo->setOpenExternalLinks(true);
-    dataAnalysisFurtherInfo->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    dataAnalysisFurtherInfo->setStyleSheet(QStringLiteral("font-size: 13px"));
-    dataProtectionBox->layout()->addWidget(dataAnalysisFurtherInfo);
+    dataProtectionLayout->addWidget(createLinkLabel(
+        QCoreApplication::translate("", "LICENCE"),
+        QStringLiteral("https://static.magentacloud.de/licences/windowsdesktop.html"),
+        dataProtectionBox));
 
-    dataProtectionBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    dataProtectionLayout->addWidget(createLinkLabel(
+        QCoreApplication::translate("", "FURTHER_INFO"),
+        QStringLiteral("https://cloud.telekom-dienste.de/hilfe"),
+        dataProtectionBox));
 
-    auto *currentVersion = new QLabel(this);
+    dataProtectionLayout->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
+
+    auto *currentVersion = new QLabel(dataProtectionBox);
     currentVersion->setText(Theme::instance()->about());
     currentVersion->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    dataProtectionBox->layout()->addWidget(currentVersion);
+    dataProtectionLayout->addWidget(currentVersion);
 
     getUi()->gridLayout_3->addWidget(dataProtectionBox, 3, 0);
 
     auto *vExpandSpacer = new QSpacerItem(1, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
-    getUi()->gridLayout_3->layout()->addItem(vExpandSpacer);
+    getUi()->gridLayout_3->addItem(vExpandSpacer, 4, 0);
 }
 
 } // namespace OCC
