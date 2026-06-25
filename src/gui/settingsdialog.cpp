@@ -99,7 +99,7 @@ constexpr auto TOOLBAR_CSS = QLatin1String(
 
 const float buttonSizeRatio = 1.618f; // golden ratio
 constexpr auto settingsDialogDefaultWidth = 1024;
-constexpr auto settingsDialogDefaultHeight = 640;
+constexpr auto settingsDialogDefaultHeight = 666;
 
 /** display name with two lines that is displayed in the settings
  * If width is bigger than 0, the string will be ellided so it does not exceed that width
