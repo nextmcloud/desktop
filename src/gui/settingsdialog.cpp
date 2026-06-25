@@ -10,6 +10,7 @@
 #include "folderman.h"
 #include "theme.h"
 #include "generalsettings.h"
+#include "nmcgui/nmcgeneralsettings.h"
 #include "infosettings.h"
 #include "networksettings.h"
 #include "accountsettings.h"
@@ -180,7 +181,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     accountSpacer->setFixedHeight(16);
     _firstNonAccountAction = _toolBar->addWidget(accountSpacer);
 
-    addSettingsPage(QLatin1String(":/client/theme/settings.svg"), tr("General"), new GeneralSettings(this));
+    addSettingsPage(QLatin1String(":/client/theme/settings.svg"), tr("General"), new NMCGeneralSettings(this));
     addSettingsPage(QLatin1String(":/client/theme/advanced.svg"), tr("Advanced"), new AdvancedSettings(this));
     addSettingsPage(QLatin1String(":/client/theme/info.svg"), tr("Info"), new InfoSettings(this), true);
 
