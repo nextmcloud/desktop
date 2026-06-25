@@ -214,6 +214,20 @@ void NMCAccountSettings::setLayout()
 {
     getUi()->verticalLayout_2->removeWidget(getUi()->connectionSettingsPanel);
 
+    styleTitleLabel(getUi()->syncFoldersPanelTitle);
+
+    if (auto *syncFoldersPanelLayout = getUi()->syncFoldersPanel->layout()) {
+        syncFoldersPanelLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+        syncFoldersPanelLayout->setSpacing(8);
+    }
+
+    if (auto *syncFoldersLayout = getUi()->syncFoldersLayout) {
+        syncFoldersLayout->setContentsMargins(0, 0, 0, 0);
+        syncFoldersLayout->setSpacing(0);
+    }
+
+    getUi()->syncFoldersPanelTitle->setContentsMargins(0, 0, 0, 0);
+
     auto *e2eePanel = createPanel(QStringLiteral("nmcE2eePanel"), this);
     auto *e2eeHLayout = createPanelHorizontalLayout(e2eePanel);
     auto *e2eeVLayout = createContentVerticalLayout(8);
