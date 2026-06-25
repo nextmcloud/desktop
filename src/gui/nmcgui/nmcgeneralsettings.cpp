@@ -73,14 +73,6 @@ void NMCGeneralSettings::setNMCLayout()
 
     getUi()->generalGroupBox->setTitle({});
     getUi()->generalGroupBox->setObjectName(QStringLiteral("nmcGeneralSettingsBox"));
-    getUi()->generalGroupBox->setAttribute(Qt::WA_StyledBackground, true);
-    getUi()->generalGroupBox->setStyleSheet(QStringLiteral(
-        "#nmcGeneralSettingsBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 10px;"
-        " border: none;"
-        "}"
-    ));
 
     auto *generalLayout = static_cast<QGridLayout *>(getUi()->generalGroupBox->layout());
     generalLayout->addWidget(generalSettingsLabel, 0, 0);
@@ -98,18 +90,10 @@ void NMCGeneralSettings::setNMCLayout()
 
     auto *advancedSettingsBox = new QGroupBox(this);
     advancedSettingsBox->setObjectName(QStringLiteral("nmcAdvancedSettingsBox"));
-    advancedSettingsBox->setAttribute(Qt::WA_StyledBackground, true);
     advancedSettingsBox->setTitle({});
     advancedSettingsBox->setLayout(new QVBoxLayout);
     advancedSettingsBox->layout()->setContentsMargins(24, 24, 24, 24);
     advancedSettingsBox->layout()->setSpacing(8);
-    advancedSettingsBox->setStyleSheet(QStringLiteral(
-        "#nmcAdvancedSettingsBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 10px;"
-        " border: none;"
-        "}"
-    ));
 
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     getUi()->horizontalLayout_trash->removeWidget(getUi()->moveFilesToTrashCheckBox);
@@ -179,18 +163,10 @@ void NMCGeneralSettings::setNMCLayout()
 
     auto *dataProtectionBox = new QGroupBox(this);
     dataProtectionBox->setObjectName(QStringLiteral("nmcUpdatesInfoBox"));
-    dataProtectionBox->setAttribute(Qt::WA_StyledBackground, true);
     dataProtectionBox->setTitle({});
     dataProtectionBox->setLayout(new QVBoxLayout);
     dataProtectionBox->layout()->setContentsMargins(24, 24, 24, 24);
     dataProtectionBox->layout()->setSpacing(8);
-    dataProtectionBox->setStyleSheet(QStringLiteral(
-        "#nmcUpdatesInfoBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 10px;"
-        " border: none;"
-        "}"
-    ));
 
     auto *dataAnalysisCheckBox = new QCheckBox(this);
     dataAnalysisCheckBox->setText(QCoreApplication::translate("", "DATA_ANALYSIS"));
