@@ -22,37 +22,38 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QPointer>
 #include <QPushButton>
-#include <QSignalBlocker>
 #include <QSizePolicy>
 #include <QSpinBox>
 #include <QSpacerItem>
 #include <QVBoxLayout>
 #include <QWidget>
 
-#ifdef Q_OS_WIN
-#define BACKGROUND_PALETTE "alternate-base"
-#else
 #define BACKGROUND_PALETTE "light"
-#endif
 
 namespace OCC {
 
 namespace {
 
+constexpr int panelPadding = 24;
+constexpr int panelRadius = 10;
+
 void applyNMCBoxStyle(QGroupBox *box, const QString &objectName)
 {
+    if (!box) {
+        return;
+    }
+
     box->setObjectName(objectName);
     box->setAttribute(Qt::WA_StyledBackground, true);
     box->setTitle({});
     box->setStyleSheet(QStringLiteral(
         "#%1 {"
         " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 4px;"
+        " border-radius: %2px;"
         " border: none;"
         "}"
-    ).arg(objectName));
+    ).arg(objectName).arg(panelRadius));
 }
 
 QLabel *createSectionLabel(const QString &text, QWidget *parent)
@@ -85,7 +86,6 @@ NMCGeneralSettings::NMCGeneralSettings(QWidget *parent)
 
 void NMCGeneralSettings::setDefaultSettings()
 {
-    // These options are still present in the new upstream UI, but should not be shown in NMC.
     getUi()->monoIconsCheckBox->setVisible(false);
     getUi()->monoIconsLabel->setVisible(false);
     getUi()->monoIconsRowWidget->setVisible(false);
@@ -114,21 +114,12 @@ void NMCGeneralSettings::setNMCLayout()
         QCoreApplication::translate("", "GENERAL_SETTINGS"),
         this);
 
-    getUi()->generalGroupBox->setTitle({});
-    getUi()->generalGroupBox->setObjectName(QStringLiteral("nmcGeneralSettingsBox"));
-    getUi()->generalGroupBox->setAttribute(Qt::WA_StyledBackground, true);
-    getUi()->generalGroupBox->setStyleSheet(QStringLiteral(
-        "#nmcGeneralSettingsBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 4px;"
-        " border: none;"
-        "}"
-    ));
+    applyNMCBoxStyle(getUi()->generalGroupBox, QStringLiteral("nmcGeneralSettingsBox"));
 
     auto *generalLayout = qobject_cast<QVBoxLayout *>(getUi()->generalGroupBox->layout());
     if (generalLayout) {
         generalLayout->insertWidget(0, generalSettingsLabel);
-        generalLayout->setContentsMargins(16, 16, 16, 16);
+        generalLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
         generalLayout->setSpacing(8);
     }
 
@@ -139,30 +130,21 @@ void NMCGeneralSettings::setNMCLayout()
      * Hide notification group if only hidden options would remain.
      * Server notifications are moved/kept in the new notification group.
      */
-    getUi()->notificationsGroupBox->setObjectName(QStringLiteral("nmcNotificationsSettingsBox"));
-    getUi()->notificationsGroupBox->setAttribute(Qt::WA_StyledBackground, true);
-    getUi()->notificationsGroupBox->setStyleSheet(QStringLiteral(
-        "#nmcNotificationsSettingsBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 4px;"
-        " border: none;"
-        "}"
-    ));
+    applyNMCBoxStyle(getUi()->notificationsGroupBox, QStringLiteral("nmcNotificationsSettingsBox"));
 
     if (auto *notificationsLayout = qobject_cast<QVBoxLayout *>(getUi()->notificationsGroupBox->layout())) {
-        notificationsLayout->setContentsMargins(16, 16, 16, 16);
+        notificationsLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
         notificationsLayout->setSpacing(8);
     }
 
     /*
      * Advanced settings
-     * These widgets no longer exist in upstream generalsettings.ui, so we create them ourselves.
      */
     auto *advancedSettingsBox = new QGroupBox(this);
     applyNMCBoxStyle(advancedSettingsBox, QStringLiteral("nmcAdvancedSettingsBox"));
 
     auto *advancedLayout = new QVBoxLayout(advancedSettingsBox);
-    advancedLayout->setContentsMargins(16, 16, 16, 16);
+    advancedLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
     advancedLayout->setSpacing(8);
 
     auto *advancedSettingsLabel = createSectionLabel(
@@ -276,7 +258,7 @@ void NMCGeneralSettings::setNMCLayout()
     applyNMCBoxStyle(dataProtectionBox, QStringLiteral("nmcUpdatesInfoBox"));
 
     auto *dataProtectionLayout = new QVBoxLayout(dataProtectionBox);
-    dataProtectionLayout->setContentsMargins(16, 16, 16, 16);
+    dataProtectionLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
     dataProtectionLayout->setSpacing(8);
 
     auto *updatesLabel = createSectionLabel(
@@ -328,14 +310,6 @@ void NMCGeneralSettings::setNMCLayout()
     currentVersion->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     dataProtectionLayout->addWidget(currentVersion);
 
-    /*
-     * Insert custom boxes into the new upstream layout.
-     * New layout structure:
-     * pageLayout
-     *  - generalGroupBox
-     *  - notificationsGroupBox
-     *  - verticalSpacer
-     */
     auto *pageLayout = getUi()->pageLayout;
     const auto insertIndex = qMax(0, pageLayout->count() - 1);
 
