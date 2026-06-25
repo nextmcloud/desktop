@@ -220,7 +220,7 @@ void NMCAccountSettings::setLayout()
     styleTitleLabel(getUi()->syncFoldersPanelTitle);
 
     if (auto *syncFoldersPanelLayout = getUi()->syncFoldersPanel->layout()) {
-        syncFoldersPanelLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+        syncFoldersPanelLayout->setContentsMargins(16, 16, 16, 16);
         syncFoldersPanelLayout->setSpacing(8);
     }
 
