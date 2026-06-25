@@ -29,7 +29,11 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+#ifdef Q_OS_WIN
+#define BACKGROUND_PALETTE "alternate-base"
+#else
 #define BACKGROUND_PALETTE "light"
+#endif
 
 namespace OCC {
 
@@ -53,6 +57,9 @@ void NMCGeneralSettings::setDefaultSettings()
 
 void NMCGeneralSettings::setNMCLayout()
 {
+    qDebug() << palette().color(QPalette::AlternateBase);
+    qDebug() << palette().color(QPalette::Light);
+
     // General settings
     auto *generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"), this);
     generalSettingsLabel->setStyleSheet(QStringLiteral("font-size: 12px; font-weight: bold;"));
