@@ -5,28 +5,28 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
  */
 
 #include "nmcgeneralsettings.h"
 #include "generalsettings.h"
+#include "configfile.h"
+#include "ignorelisteditor.h"
 #include "nmclibsync/nmcconfigfile.h"
-#include "ui_generalsettings.h"
+#include "settingspanelstyle.h"
 #include "theme.h"
+#include "ui_generalsettings.h"
 
 #include <QAbstractButton>
 #include <QCheckBox>
 #include <QCoreApplication>
-#include <QGridLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPointer>
 #include <QPushButton>
+#include <QSignalBlocker>
 #include <QSizePolicy>
+#include <QSpinBox>
 #include <QSpacerItem>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -42,10 +42,6 @@ constexpr int panelRadius = 10;
 
 void applyNMCBoxStyle(QGroupBox *box, const QString &objectName)
 {
-    if (!box) {
-        return;
-    }
-
     box->setObjectName(objectName);
     box->setAttribute(Qt::WA_StyledBackground, true);
     box->setTitle({});
@@ -89,45 +85,49 @@ NMCGeneralSettings::NMCGeneralSettings(QWidget *parent)
 void NMCGeneralSettings::setDefaultSettings()
 {
     getUi()->monoIconsCheckBox->setVisible(false);
-    getUi()->chatNotificationsCheckBox->setVisible(false);
-    getUi()->callNotificationsCheckBox->setVisible(false);
-    getUi()->quotaWarningNotificationsCheckBox->setVisible(false);
+    getUi()->monoIconsLabel->setVisible(false);
+    getUi()->monoIconsRowWidget->setVisible(false);
+    getUi()->startupSeparator->setVisible(false);
 
-    getUi()->advancedGroupBox->setVisible(false);
-    getUi()->aboutAndUpdatesGroupBox->setVisible(false);
+    getUi()->chatNotificationsCheckBox->setVisible(false);
+    getUi()->chatNotificationsLabel->setVisible(false);
+    getUi()->chatNotificationsSeparator->setVisible(false);
+
+    getUi()->callNotificationsCheckBox->setVisible(false);
+    getUi()->callNotificationsLabel->setVisible(false);
+    getUi()->callNotificationsSeparator->setVisible(false);
+
+    getUi()->quotaWarningNotificationsCheckBox->setVisible(false);
+    getUi()->quotaWarningNotificationsLabel->setVisible(false);
 }
 
 void NMCGeneralSettings::setNMCLayout()
 {
-    /*
-     * General settings
-     */
+    SettingsPanelStyle::apply(this);
+
     auto *generalSettingsLabel = createSectionLabel(
         QCoreApplication::translate("", "GENERAL_SETTINGS"),
         this);
 
-    getUi()->generalGroupBoxTitle->hide();
-    getUi()->generalGroupBox->layout()->removeWidget(getUi()->generalGroupBoxTitle);
-    getUi()->generalGroupBox->layout()->removeWidget(getUi()->chatNotificationsCheckBox);
-    getUi()->generalGroupBox->layout()->removeWidget(getUi()->serverNotificationsCheckBox);
-    getUi()->generalGroupBox->layout()->removeWidget(getUi()->autostartCheckBox);
-    getUi()->generalGroupBox->layout()->removeWidget(getUi()->quotaWarningNotificationsCheckBox);
-
     applyNMCBoxStyle(getUi()->generalGroupBox, QStringLiteral("nmcGeneralSettingsBox"));
 
-    auto *generalLayout = static_cast<QGridLayout *>(getUi()->generalGroupBox->layout());
-    generalLayout->addWidget(generalSettingsLabel, 0, 0);
-    generalLayout->addWidget(getUi()->autostartCheckBox, 1, 0);
-    generalLayout->addWidget(getUi()->serverNotificationsCheckBox, 2, 0);
-    generalLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
-    generalLayout->setSpacing(8);
+    auto *generalLayout = qobject_cast<QVBoxLayout *>(getUi()->generalGroupBox->layout());
+    if (generalLayout) {
+        generalLayout->insertWidget(0, generalSettingsLabel);
+        generalLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+        generalLayout->setSpacing(8);
+    }
 
     getUi()->autostartCheckBox->setFocusPolicy(Qt::NoFocus);
     getUi()->serverNotificationsCheckBox->setFocusPolicy(Qt::NoFocus);
 
-    /*
-     * Advanced settings
-     */
+    applyNMCBoxStyle(getUi()->notificationsGroupBox, QStringLiteral("nmcNotificationsSettingsBox"));
+
+    if (auto *notificationsLayout = qobject_cast<QVBoxLayout *>(getUi()->notificationsGroupBox->layout())) {
+        notificationsLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+        notificationsLayout->setSpacing(8);
+    }
+
     auto *advancedSettingsBox = new QGroupBox(this);
     applyNMCBoxStyle(advancedSettingsBox, QStringLiteral("nmcAdvancedSettingsBox"));
 
@@ -139,40 +139,77 @@ void NMCGeneralSettings::setNMCLayout()
         QCoreApplication::translate("", "ADVANCED_SETTINGS"),
         advancedSettingsBox);
 
-    getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
-    getUi()->horizontalLayout_trash->removeWidget(getUi()->moveFilesToTrashCheckBox);
-    getUi()->horizontalLayout_4->removeWidget(getUi()->ignoredFilesButton);
+    ConfigFile cfgFile;
 
-    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitCheckBox);
-    getUi()->horizontalLayout_3->removeWidget(getUi()->newFolderLimitSpinBox);
-    getUi()->horizontalLayout_3->removeWidget(getUi()->label);
+    auto *newFolderLimitCheckBox = new QCheckBox(
+        tr("Ask for confirmation before synchronizing new folders larger than"),
+        advancedSettingsBox);
+    newFolderLimitCheckBox->setFocusPolicy(Qt::NoFocus);
+
+    auto *newFolderLimitSpinBox = new QSpinBox(advancedSettingsBox);
+    newFolderLimitSpinBox->setMaximum(999999);
+    newFolderLimitSpinBox->setFocusPolicy(Qt::ClickFocus);
+    newFolderLimitSpinBox->setKeyboardTracking(true);
+
+    auto *newFolderLimitLabel = new QLabel(tr("MB"), advancedSettingsBox);
+
+    const auto newFolderLimit = cfgFile.newBigFolderSizeLimit();
+    newFolderLimitCheckBox->setChecked(newFolderLimit.first);
+    newFolderLimitSpinBox->setValue(newFolderLimit.second);
+    newFolderLimitSpinBox->setEnabled(newFolderLimit.first);
 
     auto *newFolderLimitWidget = new QWidget(advancedSettingsBox);
-    newFolderLimitWidget->setContentsMargins(0, 0, 0, 0);
     auto *newFolderLimitLayout = new QHBoxLayout(newFolderLimitWidget);
     newFolderLimitLayout->setContentsMargins(0, 0, 0, 0);
     newFolderLimitLayout->setSpacing(8);
-
-    newFolderLimitLayout->addWidget(getUi()->newFolderLimitCheckBox);
-    newFolderLimitLayout->addWidget(getUi()->newFolderLimitSpinBox);
-    newFolderLimitLayout->addWidget(getUi()->label);
+    newFolderLimitLayout->addWidget(newFolderLimitCheckBox);
+    newFolderLimitLayout->addWidget(newFolderLimitSpinBox);
+    newFolderLimitLayout->addWidget(newFolderLimitLabel);
     newFolderLimitLayout->addStretch();
 
-    getUi()->newFolderLimitCheckBox->setVisible(true);
-    getUi()->newFolderLimitSpinBox->setVisible(true);
-    getUi()->label->setVisible(true);
+    connect(newFolderLimitCheckBox, &QAbstractButton::toggled,
+            newFolderLimitSpinBox, &QWidget::setEnabled);
 
-    getUi()->newFolderLimitCheckBox->setFocusPolicy(Qt::NoFocus);
-    getUi()->newFolderLimitSpinBox->setFocusPolicy(Qt::ClickFocus);
-    getUi()->newFolderLimitSpinBox->setKeyboardTracking(true);
-    getUi()->newFolderLimitSpinBox->setEnabled(getUi()->newFolderLimitCheckBox->isChecked());
+    connect(newFolderLimitCheckBox, &QAbstractButton::toggled, this,
+        [newFolderLimitSpinBox](bool enabled) {
+            ConfigFile().setNewBigFolderSizeLimit(enabled, newFolderLimitSpinBox->value());
+        });
 
-    connect(getUi()->newFolderLimitCheckBox, &QAbstractButton::toggled,
-            getUi()->newFolderLimitSpinBox, &QWidget::setEnabled);
+    connect(newFolderLimitSpinBox, &QSpinBox::valueChanged, this,
+        [newFolderLimitCheckBox](int value) {
+            ConfigFile().setNewBigFolderSizeLimit(newFolderLimitCheckBox->isChecked(), value);
+        });
 
-    getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
-    getUi()->ignoredFilesButton->setStyleSheet(QStringLiteral(
+    auto *moveFilesToTrashCheckBox = new QCheckBox(
+        tr("Move removed files to trash"),
+        advancedSettingsBox);
+    moveFilesToTrashCheckBox->setFocusPolicy(Qt::NoFocus);
+    moveFilesToTrashCheckBox->setChecked(cfgFile.moveToTrash());
+
+    connect(moveFilesToTrashCheckBox, &QAbstractButton::toggled, this,
+        [](bool enabled) {
+            ConfigFile().setMoveToTrash(enabled);
+        });
+
+#ifdef Q_OS_WIN
+    auto *showInExplorerNavigationPaneCheckBox = new QCheckBox(
+        tr("Show sync folders in &Explorer's navigation pane"),
+        advancedSettingsBox);
+    showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::NoFocus);
+    showInExplorerNavigationPaneCheckBox->setChecked(cfgFile.showInExplorerNavigationPane());
+
+    connect(showInExplorerNavigationPaneCheckBox, &QAbstractButton::toggled, this,
+        [](bool enabled) {
+            ConfigFile().setShowInExplorerNavigationPane(enabled);
+        });
+#endif
+
+    auto *ignoredFilesButton = new QPushButton(
+        tr("Edit &Ignored Files"),
+        advancedSettingsBox);
+    ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
+    ignoredFilesButton->setStyleSheet(QStringLiteral(
         "QPushButton {"
         " min-height: 32px;"
         " min-width: 200px;"
@@ -187,17 +224,20 @@ void NMCGeneralSettings::setNMCLayout()
         "}"
     ));
 
-    getUi()->showInExplorerNavigationPaneCheckBox->setFocusPolicy(Qt::NoFocus);
-    getUi()->moveFilesToTrashCheckBox->setFocusPolicy(Qt::NoFocus);
+    connect(ignoredFilesButton, &QAbstractButton::clicked, this, [this]() {
+        auto *ignoreEditor = new IgnoreListEditor(this);
+        ignoreEditor->setAttribute(Qt::WA_DeleteOnClose, true);
+        ignoreEditor->open();
+    });
 
     advancedLayout->addWidget(advancedSettingsLabel);
     advancedLayout->addWidget(newFolderLimitWidget);
-    advancedLayout->addWidget(getUi()->showInExplorerNavigationPaneCheckBox);
-    advancedLayout->addWidget(getUi()->moveFilesToTrashCheckBox);
+#ifdef Q_OS_WIN
+    advancedLayout->addWidget(showInExplorerNavigationPaneCheckBox);
+#endif
+    advancedLayout->addWidget(moveFilesToTrashCheckBox);
     advancedLayout->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
-    advancedLayout->addWidget(getUi()->ignoredFilesButton);
-
-    getUi()->gridLayout_3->addWidget(advancedSettingsBox, 2, 0);
+    advancedLayout->addWidget(ignoredFilesButton);
 
     /*
      * Updates, data protection and info
@@ -206,7 +246,7 @@ void NMCGeneralSettings::setNMCLayout()
     applyNMCBoxStyle(dataProtectionBox, QStringLiteral("nmcUpdatesInfoBox"));
 
     auto *dataProtectionLayout = new QVBoxLayout(dataProtectionBox);
-    dataProtectionLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
+    dataProtectionLayout->setContentsMargins(16, 16, 16, 16);
     dataProtectionLayout->setSpacing(8);
 
     auto *updatesLabel = createSectionLabel(
@@ -217,10 +257,8 @@ void NMCGeneralSettings::setNMCLayout()
     dataAnalysisCheckBox->setText(QCoreApplication::translate("", "DATA_ANALYSIS"));
     dataAnalysisCheckBox->setFocusPolicy(Qt::NoFocus);
 
-    getUi()->autoCheckForUpdatesCheckBox->setFocusPolicy(Qt::NoFocus);
-
-    NMCConfigFile cfgFile;
-    dataAnalysisCheckBox->setChecked(cfgFile.transferUsageData());
+    NMCConfigFile nmcCfgFile;
+    dataAnalysisCheckBox->setChecked(nmcCfgFile.transferUsageData());
 
     connect(dataAnalysisCheckBox, &QAbstractButton::toggled, this, [](bool enabled) {
         NMCConfigFile cfgFile;
@@ -228,7 +266,6 @@ void NMCGeneralSettings::setNMCLayout()
     });
 
     dataProtectionLayout->addWidget(updatesLabel);
-    dataProtectionLayout->addWidget(getUi()->autoCheckForUpdatesCheckBox);
     dataProtectionLayout->addWidget(dataAnalysisCheckBox);
     dataProtectionLayout->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
@@ -256,13 +293,16 @@ void NMCGeneralSettings::setNMCLayout()
 
     auto *currentVersion = new QLabel(dataProtectionBox);
     currentVersion->setText(Theme::instance()->about());
+    currentVersion->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextBrowserInteraction);
+    currentVersion->setOpenExternalLinks(true);
     currentVersion->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     dataProtectionLayout->addWidget(currentVersion);
 
-    getUi()->gridLayout_3->addWidget(dataProtectionBox, 3, 0);
+    auto *pageLayout = getUi()->pageLayout;
+    const auto insertIndex = qMax(0, pageLayout->count() - 1);
 
-    auto *vExpandSpacer = new QSpacerItem(1, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
-    getUi()->gridLayout_3->addItem(vExpandSpacer, 4, 0);
+    pageLayout->insertWidget(insertIndex, advancedSettingsBox);
+    pageLayout->insertWidget(insertIndex + 1, dataProtectionBox);
 }
 
 } // namespace OCC
