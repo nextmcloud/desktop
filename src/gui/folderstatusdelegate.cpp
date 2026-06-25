@@ -119,7 +119,7 @@ QRect FolderStatusDelegate::moreRectPos(const QRect &rectIndex)
     {
         constexpr int buttonWidth = 88;
         constexpr int buttonHeight = 32;
-        constexpr int margin = 16;
+        constexpr int margin = 20;
 
         const int xMoreButton = rectIndex.right() - buttonWidth - margin;
         const int yMoreButton = rectIndex.center().y() - (buttonHeight / 2);
