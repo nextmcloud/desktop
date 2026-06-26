@@ -18,6 +18,7 @@
 #include "theme.h"
 
 #include <QAbstractButton>
+#include <QApplication>
 #include <QCheckBox>
 #include <QCoreApplication>
 #include <QGridLayout>
@@ -29,6 +30,7 @@
 #include <QPushButton>
 #include <QSpacerItem>
 #include <QStyleHints>
+#include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -36,12 +38,12 @@ namespace OCC {
 
 namespace {
 
-QString globalPanelBackgroundColor()
+QColor globalPanelBackgroundColor()
 {
 #ifdef Q_OS_WIN
-    return QGuiApplication::palette().color(QPalette::AlternateBase).name();
+    return qApp->palette().color(QPalette::AlternateBase);
 #else
-    return QGuiApplication::palette().color(QPalette::Light).name();
+    return qApp->palette().color(QPalette::Light);
 #endif
 }
 
@@ -60,7 +62,7 @@ void applyNMCPanelStyle(QGroupBox *box, const QString &objectName)
         " border-radius: 10px;"
         " border: none;"
         "}"
-    ).arg(objectName, globalPanelBackgroundColor()));
+    ).arg(objectName, globalPanelBackgroundColor().name()));
 }
 
 QLabel *createTitleLabel(const QString &text, QWidget *parent)
@@ -207,7 +209,7 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->layout()->setSpacing(8);
     applyNMCPanelStyle(dataProtectionBox, QStringLiteral("nmcUpdatesInfoBox"));
 
-    auto *dataAnalysisCheckBox = new QCheckBox(this);
+    auto *dataAnalysisCheckBox = new QCheckBox(dataProtectionBox);
     dataAnalysisCheckBox->setText(QCoreApplication::translate("", "DATA_ANALYSIS"));
     dataAnalysisCheckBox->setFocusPolicy(Qt::NoFocus);
 
@@ -230,37 +232,47 @@ void NMCGeneralSettings::setNMCLayout()
     dataProtectionBox->layout()->addWidget(createLinkLabel(
         QCoreApplication::translate("", "IMPRESSUM"),
         QStringLiteral("https://www.telekom.de/impressum/"),
-        this));
+        dataProtectionBox));
 
     dataProtectionBox->layout()->addWidget(createLinkLabel(
         QCoreApplication::translate("", "DATA_PROTECTION"),
         QStringLiteral("https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf"),
-        this));
+        dataProtectionBox));
 
     dataProtectionBox->layout()->addWidget(createLinkLabel(
         QCoreApplication::translate("", "LICENCE"),
         QStringLiteral("https://static.magentacloud.de/licences/windowsdesktop.html"),
-        this));
+        dataProtectionBox));
 
     dataProtectionBox->layout()->addWidget(createLinkLabel(
         QCoreApplication::translate("", "FURTHER_INFO"),
         QStringLiteral("https://cloud.telekom-dienste.de/hilfe"),
-        this));
+        dataProtectionBox));
 
     dataProtectionBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    auto *currentVersion = new QLabel(this);
+    auto *currentVersion = new QLabel(dataProtectionBox);
     currentVersion->setText(Theme::instance()->about());
     currentVersion->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     dataProtectionBox->layout()->addWidget(currentVersion);
 
     getUi()->gridLayout_3->addWidget(dataProtectionBox, 3, 0);
 
+    auto refreshPanelStyles = [this, advancedSettingsBox, dataProtectionBox]() {
+        applyNMCPanelStyle(getUi()->generalGroupBox, QStringLiteral("nmcGeneralSettingsBox"));
+        applyNMCPanelStyle(advancedSettingsBox, QStringLiteral("nmcAdvancedSettingsBox"));
+        applyNMCPanelStyle(dataProtectionBox, QStringLiteral("nmcUpdatesInfoBox"));
+    };
+
+    QTimer::singleShot(0, this, refreshPanelStyles);
+    QTimer::singleShot(100, this, refreshPanelStyles);
+
+    connect(qApp, &QApplication::paletteChanged, this, refreshPanelStyles);
+
     connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this,
-        [this, advancedSettingsBox, dataProtectionBox]() {
-            applyNMCPanelStyle(getUi()->generalGroupBox, QStringLiteral("nmcGeneralSettingsBox"));
-            applyNMCPanelStyle(advancedSettingsBox, QStringLiteral("nmcAdvancedSettingsBox"));
-            applyNMCPanelStyle(dataProtectionBox, QStringLiteral("nmcUpdatesInfoBox"));
+        [this, refreshPanelStyles]() {
+            QTimer::singleShot(0, this, refreshPanelStyles);
+            QTimer::singleShot(100, this, refreshPanelStyles);
         });
 
     auto *vExpandSpacer = new QSpacerItem(1, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
