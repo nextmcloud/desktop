@@ -18,7 +18,6 @@
 #include "theme.h"
 
 #include <QAbstractButton>
-#include <QApplication>
 #include <QCheckBox>
 #include <QCoreApplication>
 #include <QGridLayout>
@@ -29,62 +28,12 @@
 #include <QPalette>
 #include <QPushButton>
 #include <QSpacerItem>
-#include <QStyleHints>
-#include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
 
+#define BACKGROUND_PALETTE "light"
+
 namespace OCC {
-
-namespace {
-
-QColor globalPanelBackgroundColor()
-{
-#ifdef Q_OS_WIN
-    return qApp->palette().color(QPalette::AlternateBase);
-#else
-    return qApp->palette().color(QPalette::Light);
-#endif
-}
-
-void applyNMCPanelStyle(QGroupBox *box, const QString &objectName)
-{
-    if (!box) {
-        return;
-    }
-
-    box->setObjectName(objectName);
-    box->setAttribute(Qt::WA_StyledBackground, true);
-    box->setTitle({});
-    box->setStyleSheet(QStringLiteral(
-        "#%1 {"
-        " background: %2;"
-        " border-radius: 10px;"
-        " border: none;"
-        "}"
-    ).arg(objectName, globalPanelBackgroundColor().name()));
-}
-
-QLabel *createTitleLabel(const QString &text, QWidget *parent)
-{
-    auto *label = new QLabel(text, parent);
-    label->setStyleSheet(QStringLiteral("font-size: 15px; font-weight: 600;"));
-    return label;
-}
-
-QLabel *createLinkLabel(const QString &text, const QString &url, QWidget *parent)
-{
-    auto *label = new QLabel(parent);
-    label->setText(QStringLiteral("<a href=\"%1\"><span style=\"color:#2238df\">%2</span></a>").arg(url, text));
-    label->setTextFormat(Qt::RichText);
-    label->setTextInteractionFlags(Qt::TextBrowserInteraction);
-    label->setOpenExternalLinks(true);
-    label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    label->setStyleSheet(QStringLiteral("font-size: 13px"));
-    return label;
-}
-
-} // namespace
 
 NMCGeneralSettings::NMCGeneralSettings(QWidget *parent)
     : GeneralSettings(parent)
@@ -106,9 +55,9 @@ void NMCGeneralSettings::setDefaultSettings()
 
 void NMCGeneralSettings::setNMCLayout()
 {
-    auto *generalSettingsLabel = createTitleLabel(
-        QCoreApplication::translate("", "GENERAL_SETTINGS"),
-        this);
+    // General settings
+    auto *generalSettingsLabel = new QLabel(QCoreApplication::translate("", "GENERAL_SETTINGS"), this);
+    generalSettingsLabel->setStyleSheet(QStringLiteral("font-size: 15px; font-weight: 600;"));
 
     getUi()->generalGroupBoxTitle->hide();
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->generalGroupBoxTitle);
@@ -117,7 +66,16 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->autostartCheckBox);
     getUi()->generalGroupBox->layout()->removeWidget(getUi()->quotaWarningNotificationsCheckBox);
 
-    applyNMCPanelStyle(getUi()->generalGroupBox, QStringLiteral("nmcGeneralSettingsBox"));
+    getUi()->generalGroupBox->setTitle({});
+    getUi()->generalGroupBox->setObjectName(QStringLiteral("nmcGeneralSettingsBox"));
+    getUi()->generalGroupBox->setAttribute(Qt::WA_StyledBackground, true);
+    getUi()->generalGroupBox->setStyleSheet(QStringLiteral(
+        "#nmcGeneralSettingsBox {"
+        " background: palette(" BACKGROUND_PALETTE ");"
+        " border-radius: 10px;"
+        " border: none;"
+        "}"
+    ));
 
     auto *generalLayout = static_cast<QGridLayout *>(getUi()->generalGroupBox->layout());
     generalLayout->addWidget(generalSettingsLabel, 0, 0);
@@ -129,15 +87,24 @@ void NMCGeneralSettings::setNMCLayout()
     getUi()->autostartCheckBox->setFocusPolicy(Qt::NoFocus);
     getUi()->serverNotificationsCheckBox->setFocusPolicy(Qt::NoFocus);
 
-    auto *advancedSettingsLabel = createTitleLabel(
-        QCoreApplication::translate("", "ADVANCED_SETTINGS"),
-        this);
+    // Advanced settings
+    auto *advancedSettingsLabel = new QLabel(QCoreApplication::translate("", "ADVANCED_SETTINGS"), this);
+    advancedSettingsLabel->setStyleSheet(QStringLiteral("font-size: 15px; font-weight: 600;"));
 
     auto *advancedSettingsBox = new QGroupBox(this);
+    advancedSettingsBox->setObjectName(QStringLiteral("nmcAdvancedSettingsBox"));
+    advancedSettingsBox->setAttribute(Qt::WA_StyledBackground, true);
+    advancedSettingsBox->setTitle({});
     advancedSettingsBox->setLayout(new QVBoxLayout);
     advancedSettingsBox->layout()->setContentsMargins(24, 24, 24, 24);
     advancedSettingsBox->layout()->setSpacing(8);
-    applyNMCPanelStyle(advancedSettingsBox, QStringLiteral("nmcAdvancedSettingsBox"));
+    advancedSettingsBox->setStyleSheet(QStringLiteral(
+        "#nmcAdvancedSettingsBox {"
+        " background: palette(" BACKGROUND_PALETTE ");"
+        " border-radius: 10px;"
+        " border: none;"
+        "}"
+    ));
 
     getUi()->horizontalLayout_10->removeWidget(getUi()->showInExplorerNavigationPaneCheckBox);
     getUi()->horizontalLayout_trash->removeWidget(getUi()->moveFilesToTrashCheckBox);
@@ -149,10 +116,10 @@ void NMCGeneralSettings::setNMCLayout()
 
     auto *newFolderLimitWidget = new QWidget(advancedSettingsBox);
     newFolderLimitWidget->setContentsMargins(0, 0, 0, 0);
-
     auto *newFolderLimitLayout = new QHBoxLayout(newFolderLimitWidget);
     newFolderLimitLayout->setContentsMargins(0, 0, 0, 0);
     newFolderLimitLayout->setSpacing(8);
+
     newFolderLimitLayout->addWidget(getUi()->newFolderLimitCheckBox);
     newFolderLimitLayout->addWidget(getUi()->newFolderLimitSpinBox);
     newFolderLimitLayout->addWidget(getUi()->label);
@@ -169,6 +136,8 @@ void NMCGeneralSettings::setNMCLayout()
 
     connect(getUi()->newFolderLimitCheckBox, &QAbstractButton::toggled,
             getUi()->newFolderLimitSpinBox, &QWidget::setEnabled);
+
+    newFolderLimitWidget->setVisible(true);
 
     getUi()->ignoredFilesButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     getUi()->ignoredFilesButton->setFocusPolicy(Qt::NoFocus);
@@ -199,17 +168,26 @@ void NMCGeneralSettings::setNMCLayout()
 
     getUi()->gridLayout_3->addWidget(advancedSettingsBox, 2, 0);
 
-    auto *updatesLabel = createTitleLabel(
-        QCoreApplication::translate("", "UPDATES_SETTINGS"),
-        this);
+    // Updates & Info
+    auto *updatesLabel = new QLabel(QCoreApplication::translate("", "UPDATES_SETTINGS"), this);
+    updatesLabel->setStyleSheet(QStringLiteral("font-size: 15px; font-weight: 600;"));
 
     auto *dataProtectionBox = new QGroupBox(this);
+    dataProtectionBox->setObjectName(QStringLiteral("nmcUpdatesInfoBox"));
+    dataProtectionBox->setAttribute(Qt::WA_StyledBackground, true);
+    dataProtectionBox->setTitle({});
     dataProtectionBox->setLayout(new QVBoxLayout);
     dataProtectionBox->layout()->setContentsMargins(24, 24, 24, 24);
     dataProtectionBox->layout()->setSpacing(8);
-    applyNMCPanelStyle(dataProtectionBox, QStringLiteral("nmcUpdatesInfoBox"));
+    dataProtectionBox->setStyleSheet(QStringLiteral(
+        "#nmcUpdatesInfoBox {"
+        " background: palette(" BACKGROUND_PALETTE ");"
+        " border-radius: 10px;"
+        " border: none;"
+        "}"
+    ));
 
-    auto *dataAnalysisCheckBox = new QCheckBox(dataProtectionBox);
+    auto *dataAnalysisCheckBox = new QCheckBox(this);
     dataAnalysisCheckBox->setText(QCoreApplication::translate("", "DATA_ANALYSIS"));
     dataAnalysisCheckBox->setFocusPolicy(Qt::NoFocus);
 
@@ -229,51 +207,54 @@ void NMCGeneralSettings::setNMCLayout()
 
     dataProtectionBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    dataProtectionBox->layout()->addWidget(createLinkLabel(
-        QCoreApplication::translate("", "IMPRESSUM"),
-        QStringLiteral("https://www.telekom.de/impressum/"),
-        dataProtectionBox));
+    auto *dataAnalysisImpressum = new QLabel(this);
+    dataAnalysisImpressum->setText(QStringLiteral("<a href=\"https://www.telekom.de/impressum/\"><span style=\"color:#2238df\">%1</span></a>")
+        .arg(QCoreApplication::translate("", "IMPRESSUM")));
+    dataAnalysisImpressum->setTextFormat(Qt::RichText);
+    dataAnalysisImpressum->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    dataAnalysisImpressum->setOpenExternalLinks(true);
+    dataAnalysisImpressum->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    dataAnalysisImpressum->setStyleSheet(QStringLiteral("font-size: 13px"));
+    dataProtectionBox->layout()->addWidget(dataAnalysisImpressum);
 
-    dataProtectionBox->layout()->addWidget(createLinkLabel(
-        QCoreApplication::translate("", "DATA_PROTECTION"),
-        QStringLiteral("https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf"),
-        dataProtectionBox));
+    auto *dataAnalysisData = new QLabel(this);
+    dataAnalysisData->setText(QStringLiteral("<a href=\"https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf\"><span style=\"color:#2238df\">%1</span></a>")
+        .arg(QCoreApplication::translate("", "DATA_PROTECTION")));
+    dataAnalysisData->setTextFormat(Qt::RichText);
+    dataAnalysisData->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    dataAnalysisData->setOpenExternalLinks(true);
+    dataAnalysisData->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    dataAnalysisData->setStyleSheet(QStringLiteral("font-size: 13px"));
+    dataProtectionBox->layout()->addWidget(dataAnalysisData);
 
-    dataProtectionBox->layout()->addWidget(createLinkLabel(
-        QCoreApplication::translate("", "LICENCE"),
-        QStringLiteral("https://static.magentacloud.de/licences/windowsdesktop.html"),
-        dataProtectionBox));
+    auto *dataAnalysisOpenSource = new QLabel(this);
+    dataAnalysisOpenSource->setText(QStringLiteral("<a href=\"https://static.magentacloud.de/licences/windowsdesktop.html\"><span style=\"color:#2238df\">%1</span></a>")
+        .arg(QCoreApplication::translate("", "LICENCE")));
+    dataAnalysisOpenSource->setTextFormat(Qt::RichText);
+    dataAnalysisOpenSource->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    dataAnalysisOpenSource->setOpenExternalLinks(true);
+    dataAnalysisOpenSource->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    dataAnalysisOpenSource->setStyleSheet(QStringLiteral("font-size: 13px"));
+    dataProtectionBox->layout()->addWidget(dataAnalysisOpenSource);
 
-    dataProtectionBox->layout()->addWidget(createLinkLabel(
-        QCoreApplication::translate("", "FURTHER_INFO"),
-        QStringLiteral("https://cloud.telekom-dienste.de/hilfe"),
-        dataProtectionBox));
+    auto *dataAnalysisFurtherInfo = new QLabel(this);
+    dataAnalysisFurtherInfo->setText(QStringLiteral("<a href=\"https://cloud.telekom-dienste.de/hilfe\"><span style=\"color:#2238df\">%1</span></a>")
+        .arg(QCoreApplication::translate("", "FURTHER_INFO")));
+    dataAnalysisFurtherInfo->setTextFormat(Qt::RichText);
+    dataAnalysisFurtherInfo->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    dataAnalysisFurtherInfo->setOpenExternalLinks(true);
+    dataAnalysisFurtherInfo->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    dataAnalysisFurtherInfo->setStyleSheet(QStringLiteral("font-size: 13px"));
+    dataProtectionBox->layout()->addWidget(dataAnalysisFurtherInfo);
 
     dataProtectionBox->layout()->addItem(new QSpacerItem(1, 8, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    auto *currentVersion = new QLabel(dataProtectionBox);
+    auto *currentVersion = new QLabel(this);
     currentVersion->setText(Theme::instance()->about());
     currentVersion->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     dataProtectionBox->layout()->addWidget(currentVersion);
 
     getUi()->gridLayout_3->addWidget(dataProtectionBox, 3, 0);
-
-    auto refreshPanelStyles = [this, advancedSettingsBox, dataProtectionBox]() {
-        applyNMCPanelStyle(getUi()->generalGroupBox, QStringLiteral("nmcGeneralSettingsBox"));
-        applyNMCPanelStyle(advancedSettingsBox, QStringLiteral("nmcAdvancedSettingsBox"));
-        applyNMCPanelStyle(dataProtectionBox, QStringLiteral("nmcUpdatesInfoBox"));
-    };
-
-    QTimer::singleShot(0, this, refreshPanelStyles);
-    QTimer::singleShot(100, this, refreshPanelStyles);
-
-    connect(qApp, &QApplication::paletteChanged, this, refreshPanelStyles);
-
-    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this,
-        [this, refreshPanelStyles]() {
-            QTimer::singleShot(0, this, refreshPanelStyles);
-            QTimer::singleShot(100, this, refreshPanelStyles);
-        });
 
     auto *vExpandSpacer = new QSpacerItem(1, 1, QSizePolicy::Fixed, QSizePolicy::Expanding);
     getUi()->gridLayout_3->layout()->addItem(vExpandSpacer);
