@@ -20,24 +20,22 @@
 
 #include <cmath>
 #include <QAbstractItemModel>
-#include <QApplication>
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QGroupBox>
-#include <QGuiApplication>
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QLabel>
 #include <QLayout>
-#include <QPalette>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QSizePolicy>
-#include <QStyleHints>
 #include <QTimer>
 #include <QToolButton>
 #include <QUrl>
 #include <QVBoxLayout>
+
+#define BACKGROUND_PALETTE "light"
 
 namespace OCC {
 
@@ -49,41 +47,22 @@ constexpr int actionButtonHeight = 32;
 constexpr int panelRadius = 10;
 constexpr int panelSpacing = 32;
 
-QColor globalPanelBackgroundColor()
-{
-#ifdef Q_OS_WIN
-    return qApp->palette().color(QPalette::AlternateBase);
-#else
-    return qApp->palette().color(QPalette::Light);
-#endif
-}
-
 QString panelStyleSheet(const QString &objectName)
 {
     return QStringLiteral(
         "#%1 {"
-        " background: %2;"
-        " border-radius: %3px;"
-        " border: none;"
+        " background: palette(" BACKGROUND_PALETTE ");"
+        " border-radius: %2px;"
         "}"
-    ).arg(objectName, globalPanelBackgroundColor().name()).arg(panelRadius);
-}
-
-void applyPanelStyle(QWidget *panel, const QString &objectName)
-{
-    if (!panel) {
-        return;
-    }
-
-    panel->setObjectName(objectName);
-    panel->setAttribute(Qt::WA_StyledBackground, true);
-    panel->setStyleSheet(panelStyleSheet(objectName));
+    ).arg(objectName).arg(panelRadius);
 }
 
 QWidget *createPanel(const QString &objectName, QWidget *parent)
 {
     auto *panel = new QWidget(parent);
-    applyPanelStyle(panel, objectName);
+    panel->setObjectName(objectName);
+    panel->setAttribute(Qt::WA_StyledBackground, true);
+    panel->setStyleSheet(panelStyleSheet(objectName));
     return panel;
 }
 
@@ -197,27 +176,6 @@ bool layoutContainsPushButton(QLayout *layout)
     }
 
     return false;
-}
-
-QString networkSettingsStyleSheet()
-{
-    return QStringLiteral(
-        "QFrame#connectionSettingsPanel,"
-        "QWidget#connectionSettingsPanelContents {"
-        " background: transparent;"
-        " border: none;"
-        "}"
-
-        "NetworkSettings,"
-        "NetworkSettings QWidget {"
-        " background: transparent;"
-        "}"
-
-        "NetworkSettings QGroupBox {"
-        " background: %1;"
-        " border: none;"
-        "}"
-    ).arg(globalPanelBackgroundColor().name());
 }
 }
 
@@ -466,6 +424,7 @@ void NMCAccountSettings::setLayout()
 
     getUi()->verticalLayout_2->addWidget(quotaWidget);
 
+    // Connection settings, moved below live backup and quota
     auto *connectionWrapper = createPanel(QStringLiteral("nmcConnectionSettingsPanel"), this);
     auto *connectionWrapperLayout = new QVBoxLayout(connectionWrapper);
     connectionWrapperLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
@@ -495,8 +454,25 @@ void NMCAccountSettings::setLayout()
 
     getUi()->connectionSettingsPanel->setAutoFillBackground(false);
     getUi()->connectionSettingsPanel->setAttribute(Qt::WA_StyledBackground, false);
-    getUi()->connectionSettingsPanel->setStyleSheet(networkSettingsStyleSheet());
+    getUi()->connectionSettingsPanel->setStyleSheet(QString());
     getUi()->connectionSettingsPanel->setVisible(false);
+
+    getUi()->connectionSettingsPanel->setStyleSheet(QStringLiteral(
+        "QFrame#connectionSettingsPanel,"
+        "QWidget#connectionSettingsPanelContents {"
+        " background: transparent;"
+        " border: none;"
+        "}"
+
+        "NetworkSettings,"
+        "NetworkSettings QWidget {"
+        " background: transparent;"
+        "}"
+
+        "NetworkSettings QGroupBox {"
+        " background: palette(" BACKGROUND_PALETTE ");"
+        "}"
+    ));
 
     if (auto *connectionPanelLayout = getUi()->connectionSettingsPanel->layout()) {
         connectionPanelLayout->setContentsMargins(0, 0, 0, 0);
@@ -532,25 +508,6 @@ void NMCAccountSettings::setLayout()
     connect(getUi()->_folderList->model(), &QAbstractItemModel::rowsInserted, this, [this, collapseFolderTree]() {
         QTimer::singleShot(0, this, collapseFolderTree);
     });
-
-    auto refreshPanelStyles = [this, e2eePanel, liveWidget, quotaWidget, connectionWrapper]() {
-        applyPanelStyle(e2eePanel, QStringLiteral("nmcE2eePanel"));
-        applyPanelStyle(liveWidget, QStringLiteral("nmcLiveBackupPanel"));
-        applyPanelStyle(quotaWidget, QStringLiteral("nmcQuotaPanel"));
-        applyPanelStyle(connectionWrapper, QStringLiteral("nmcConnectionSettingsPanel"));
-        getUi()->connectionSettingsPanel->setStyleSheet(networkSettingsStyleSheet());
-    };
-
-    QTimer::singleShot(0, this, refreshPanelStyles);
-    QTimer::singleShot(100, this, refreshPanelStyles);
-
-    connect(qApp, &QApplication::paletteChanged, this, refreshPanelStyles);
-
-    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this,
-        [this, refreshPanelStyles]() {
-            QTimer::singleShot(0, this, refreshPanelStyles);
-            QTimer::singleShot(100, this, refreshPanelStyles);
-        });
 }
 
 void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
