@@ -212,9 +212,6 @@ void NMCAccountSettings::setDefaultSettings()
 
 void NMCAccountSettings::setLayout()
 {
-    qDebug() << palette().color(QPalette::AlternateBase);
-    qDebug() << palette().color(QPalette::Light);
-
     getUi()->verticalLayout_2->removeWidget(getUi()->connectionSettingsPanel);
 
     styleTitleLabel(getUi()->syncFoldersPanelTitle);
