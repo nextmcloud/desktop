@@ -20,6 +20,7 @@
 
 #include <cmath>
 #include <QAbstractItemModel>
+#include <QApplication>
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QGroupBox>
@@ -48,12 +49,12 @@ constexpr int actionButtonHeight = 32;
 constexpr int panelRadius = 10;
 constexpr int panelSpacing = 32;
 
-QString globalPanelBackgroundColor()
+QColor globalPanelBackgroundColor()
 {
 #ifdef Q_OS_WIN
-    return QGuiApplication::palette().color(QPalette::AlternateBase).name();
+    return qApp->palette().color(QPalette::AlternateBase);
 #else
-    return QGuiApplication::palette().color(QPalette::Light).name();
+    return qApp->palette().color(QPalette::Light);
 #endif
 }
 
@@ -65,7 +66,7 @@ QString panelStyleSheet(const QString &objectName)
         " border-radius: %3px;"
         " border: none;"
         "}"
-    ).arg(objectName, globalPanelBackgroundColor()).arg(panelRadius);
+    ).arg(objectName, globalPanelBackgroundColor().name()).arg(panelRadius);
 }
 
 void applyPanelStyle(QWidget *panel, const QString &objectName)
@@ -216,7 +217,7 @@ QString networkSettingsStyleSheet()
         " background: %1;"
         " border: none;"
         "}"
-    ).arg(globalPanelBackgroundColor());
+    ).arg(globalPanelBackgroundColor().name());
 }
 }
 
@@ -532,13 +533,23 @@ void NMCAccountSettings::setLayout()
         QTimer::singleShot(0, this, collapseFolderTree);
     });
 
+    auto refreshPanelStyles = [this, e2eePanel, liveWidget, quotaWidget, connectionWrapper]() {
+        applyPanelStyle(e2eePanel, QStringLiteral("nmcE2eePanel"));
+        applyPanelStyle(liveWidget, QStringLiteral("nmcLiveBackupPanel"));
+        applyPanelStyle(quotaWidget, QStringLiteral("nmcQuotaPanel"));
+        applyPanelStyle(connectionWrapper, QStringLiteral("nmcConnectionSettingsPanel"));
+        getUi()->connectionSettingsPanel->setStyleSheet(networkSettingsStyleSheet());
+    };
+
+    QTimer::singleShot(0, this, refreshPanelStyles);
+    QTimer::singleShot(100, this, refreshPanelStyles);
+
+    connect(qApp, &QApplication::paletteChanged, this, refreshPanelStyles);
+
     connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this,
-        [this, e2eePanel, liveWidget, quotaWidget, connectionWrapper]() {
-            applyPanelStyle(e2eePanel, QStringLiteral("nmcE2eePanel"));
-            applyPanelStyle(liveWidget, QStringLiteral("nmcLiveBackupPanel"));
-            applyPanelStyle(quotaWidget, QStringLiteral("nmcQuotaPanel"));
-            applyPanelStyle(connectionWrapper, QStringLiteral("nmcConnectionSettingsPanel"));
-            getUi()->connectionSettingsPanel->setStyleSheet(networkSettingsStyleSheet());
+        [this, refreshPanelStyles]() {
+            QTimer::singleShot(0, this, refreshPanelStyles);
+            QTimer::singleShot(100, this, refreshPanelStyles);
         });
 }
 
