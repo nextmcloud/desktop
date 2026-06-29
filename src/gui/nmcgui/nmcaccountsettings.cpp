@@ -217,10 +217,31 @@ void NMCAccountSettings::setLayout()
     getUi()->verticalLayout_2->removeWidget(getUi()->connectionSettingsPanel);
 
     styleTitleLabel(getUi()->syncFoldersPanelTitle);
-
+    
     getUi()->syncFoldersPanel->setObjectName(QStringLiteral("nmcSyncFoldersPanel"));
     getUi()->syncFoldersPanel->setAttribute(Qt::WA_StyledBackground, true);
     getUi()->syncFoldersPanel->setStyleSheet(panelStyleSheet(QStringLiteral("nmcSyncFoldersPanel")));
+    
+    getUi()->syncFoldersPanelContents->setAutoFillBackground(false);
+    getUi()->syncFoldersPanelContents->setAttribute(Qt::WA_StyledBackground, false);
+    getUi()->syncFoldersPanelContents->setStyleSheet(QStringLiteral(
+        "QWidget#syncFoldersPanelContents {"
+        " background: transparent;"
+        " border: none;"
+        "}"
+    ));
+    
+    getUi()->_folderList->setAutoFillBackground(false);
+    getUi()->_folderList->setAttribute(Qt::WA_StyledBackground, false);
+    getUi()->_folderList->viewport()->setAutoFillBackground(false);
+    getUi()->_folderList->viewport()->setAttribute(Qt::WA_StyledBackground, false);
+    getUi()->_folderList->setStyleSheet(QStringLiteral(
+        "QTreeView,"
+        "QTreeView::viewport {"
+        " background: transparent;"
+        " border: none;"
+        "}"
+    ));
     
     setupTransparentWidget(getUi()->syncFoldersPanelContents);
 
@@ -235,6 +256,11 @@ void NMCAccountSettings::setLayout()
     }
 
     getUi()->syncFoldersPanelTitle->setContentsMargins(0, 0, 0, 0);
+
+    getUi()->_folderList->setAutoFillBackground(false);
+    getUi()->_folderList->setAttribute(Qt::WA_StyledBackground, false);
+    getUi()->_folderList->viewport()->setAutoFillBackground(false);
+    getUi()->_folderList->viewport()->setAttribute(Qt::WA_StyledBackground, false);
 
     auto *e2eePanel = createPanel(QStringLiteral("nmcE2eePanel"), this);
     auto *e2eeHLayout = createPanelHorizontalLayout(e2eePanel);
