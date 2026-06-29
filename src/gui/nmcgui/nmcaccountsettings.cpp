@@ -218,6 +218,12 @@ void NMCAccountSettings::setLayout()
 
     styleTitleLabel(getUi()->syncFoldersPanelTitle);
 
+    getUi()->syncFoldersPanel->setObjectName(QStringLiteral("nmcSyncFoldersPanel"));
+    getUi()->syncFoldersPanel->setAttribute(Qt::WA_StyledBackground, true);
+    getUi()->syncFoldersPanel->setStyleSheet(panelStyleSheet(QStringLiteral("nmcSyncFoldersPanel")));
+    
+    setupTransparentWidget(getUi()->syncFoldersPanelContents);
+
     if (auto *syncFoldersPanelLayout = getUi()->syncFoldersPanel->layout()) {
         syncFoldersPanelLayout->setContentsMargins(16, 16, 16, 16);
         syncFoldersPanelLayout->setSpacing(8);
