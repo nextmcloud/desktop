@@ -29,6 +29,7 @@
 #include <QLayout>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QSize>
 #include <QSizePolicy>
 #include <QTimer>
 #include <QToolButton>
@@ -435,7 +436,9 @@ void NMCAccountSettings::setLayout()
     connectionToggle->setCheckable(true);
     connectionToggle->setChecked(false);
     connectionToggle->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    connectionToggle->setArrowType(Qt::RightArrow);
+    connectionToggle->setArrowType(Qt::NoArrow);
+    connectionToggle->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
+    connectionToggle->setIconSize(QSize(24, 24));
     connectionToggle->setStyleSheet(QStringLiteral(
         "QToolButton {"
         " border: none;"
@@ -480,7 +483,11 @@ void NMCAccountSettings::setLayout()
     }
 
     connect(connectionToggle, &QToolButton::toggled, this, [this, connectionToggle](bool checked) {
-        connectionToggle->setArrowType(checked ? Qt::DownArrow : Qt::RightArrow);
+        connectionToggle->setIcon(Theme::createColorAwareIcon(
+            checked
+                ? QStringLiteral(":/client/theme/NMCIcons/collapse-down.svg")
+                : QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
+    
         getUi()->connectionSettingsPanel->setVisible(checked);
     });
 
