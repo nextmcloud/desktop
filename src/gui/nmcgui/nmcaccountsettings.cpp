@@ -83,6 +83,11 @@ QVBoxLayout *createContentVerticalLayout(int spacing = 4)
     return layout;
 }
 
+QIcon nmcCollapseIcon(const QString &path)
+{
+    return QIcon(Theme::createColorAwareIcon(path).pixmap(QSize(24, 24), QIcon::Normal, QIcon::Off));
+}
+
 void styleTitleLabel(QLabel *label)
 {
     if (!label) {
@@ -437,7 +442,7 @@ void NMCAccountSettings::setLayout()
     connectionToggle->setChecked(false);
     connectionToggle->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     connectionToggle->setArrowType(Qt::NoArrow);
-    connectionToggle->setIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
+    connectionToggle->setIcon(nmcCollapseIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
     connectionToggle->setIconSize(QSize(24, 24));
     connectionToggle->setStyleSheet(QStringLiteral(
         "QToolButton {"
@@ -483,7 +488,7 @@ void NMCAccountSettings::setLayout()
     }
 
     connect(connectionToggle, &QToolButton::toggled, this, [this, connectionToggle](bool checked) {
-        connectionToggle->setIcon(Theme::createColorAwareIcon(
+        connectionToggle->setIcon(nmcCollapseIcon(
             checked
                 ? QStringLiteral(":/client/theme/NMCIcons/collapse-down.svg")
                 : QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
