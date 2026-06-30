@@ -230,23 +230,6 @@ void FolderStatusDelegate::paint(QPainter *painter,
     const auto aliasMargin = aliasFm.height() / 2;
     const auto margin = subFm.height() / 4;
 
-    if (index.data(AddButton).toBool()) {
-        QStyleOptionButton opt;
-        static_cast<QStyleOption &>(opt) = option;
-        if (opt.state & QStyle::State_Enabled && opt.state & QStyle::State_MouseOver && index == _pressedIndex) {
-            opt.state |= QStyle::State_Sunken;
-        } else {
-            opt.state |= QStyle::State_Raised;
-        }
-        opt.text = addFolderText();
-        opt.rect = addButtonRect(option.rect, option.direction);
-        painter->save();
-        painter->setFont(qApp->font("QPushButton"));
-        QApplication::style()->drawControl(QStyle::CE_PushButton, &opt, painter, option.widget);
-        painter->restore();
-        return;
-    }
-
     if (dynamic_cast<const FolderStatusModel *>(index.model())->classify(index) != FolderStatusModel::RootFolder) {
         return;
     }
