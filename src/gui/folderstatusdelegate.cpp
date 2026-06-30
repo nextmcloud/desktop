@@ -59,7 +59,12 @@ QSize FolderStatusDelegate::sizeHint(const QStyleOptionViewItem &option,
 
     auto classif = dynamic_cast<const FolderStatusModel *>(index.model())->classify(index);
     if (classif == FolderStatusModel::AddButton) {
-        return QSize(0, 0);
+        const int margins = aliasFm.height();
+        QFontMetrics fm(qApp->font("QPushButton"));
+        QStyleOptionButton opt;
+        static_cast<QStyleOption &>(opt) = option;
+        opt.text = addFolderText();
+        return QApplication::style()->sizeFromContents( QStyle::CT_PushButton, &opt, fm.size(Qt::TextSingleLine, opt.text)) + QSize(0, margins);
     }
 
     if (classif != FolderStatusModel::RootFolder) {
