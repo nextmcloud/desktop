@@ -242,8 +242,6 @@ void NMCAccountSettings::setLayout()
         " border: none;"
         "}"
     ));
-    
-    setupTransparentWidget(getUi()->syncFoldersPanelContents);
 
     if (auto *syncFoldersPanelLayout = getUi()->syncFoldersPanel->layout()) {
         syncFoldersPanelLayout->setContentsMargins(16, 16, 16, 16);
