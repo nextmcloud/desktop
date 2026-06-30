@@ -77,14 +77,18 @@ Button {
                     id: instantiatedUserLine
                     width: parent.width
                     onShowUserStatusSelector: {
-                        userStatusDrawer.openUserStatusDrawer(model.index);
-                        accountMenu.close();
+                        userStatusDrawer.openUserStatusDrawer(model.index)
+                        accountMenu.close()
                     }
-                    onClicked: UserModel.currentUserId = model.index;
+                    onClicked: UserModel.currentUserId = model.index
                 }
             }
-            onObjectAdded: accountMenu.insertItem(index, object)
-            onObjectRemoved: accountMenu.removeItem(object)
+            onObjectAdded: function(index, object) {
+                accountMenu.insertItem(index, object)
+            }
+            onObjectRemoved: function(index, object) {
+                accountMenu.removeItem(object)
+            }
         }
 
         MenuSeparator {
