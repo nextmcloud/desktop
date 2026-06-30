@@ -59,13 +59,7 @@ QSize FolderStatusDelegate::sizeHint(const QStyleOptionViewItem &option,
 
     auto classif = dynamic_cast<const FolderStatusModel *>(index.model())->classify(index);
     if (classif == FolderStatusModel::AddButton) {
-        const int margins = aliasFm.height(); // same as 2*aliasMargin of paint
-        QFontMetrics fm(qApp->font("QPushButton"));
-        QStyleOptionButton opt;
-        static_cast<QStyleOption &>(opt) = option;
-        opt.text = addFolderText();
-        return QApplication::style()->sizeFromContents( QStyle::CT_PushButton, &opt, fm.size(Qt::TextSingleLine, opt.text)) +
-                QSize(0, margins);
+        return QSize(0, 0);
     }
 
     if (classif != FolderStatusModel::RootFolder) {
@@ -144,30 +138,9 @@ int FolderStatusDelegate::rootFolderHeightWithoutErrors(const QFontMetrics &fm, 
     return h;
 }
 
-void FolderStatusDelegate::paint(QPainter *painter,
-                                 const QStyleOptionViewItem &option,
-                                 const QModelIndex &index) const
+void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     if (index.data(AddButton).toBool()) {
-        QStyleOptionButton opt;
-        static_cast<QStyleOption &>(opt) = option;
-
-        if (opt.state & QStyle::State_Enabled
-            && opt.state & QStyle::State_MouseOver
-            && index == _pressedIndex) {
-            opt.state |= QStyle::State_Sunken;
-        } else {
-            opt.state |= QStyle::State_Raised;
-        }
-
-        opt.text = addFolderText();
-        opt.rect = addButtonRect(option.rect, option.direction);
-
-        painter->save();
-        painter->setFont(qApp->font("QPushButton"));
-        QApplication::style()->drawControl(QStyle::CE_PushButton, &opt, painter, option.widget);
-        painter->restore();
-
         return;
     }
 
