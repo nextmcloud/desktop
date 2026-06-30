@@ -13,10 +13,10 @@
  */
 
 #include "nmcsettingsdialog.h"
-#include <QBoxLayout>
-#include <QLabel>
-#include <QToolBar>
 #include "settingsdialog.h"
+
+#include <QScrollArea>
+#include <QToolBar>
 
 namespace OCC {
 
@@ -24,12 +24,11 @@ NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
     : SettingsDialog(gui, parent)
 {
     fixAccountButton();
+    fixNavigationBackground();
 }
 
 void NMCSettingsDialog::slotAccountAvatarChanged()
 {
-    //Intercept the base class slot, so the round avatar is not set. (dont pass to base class)
-    //Fix Account button size, for ech new created account
     fixAccountButton();
 }
 
@@ -43,6 +42,32 @@ void NMCSettingsDialog::fixAccountButton() const
     const auto actions = toolbar->actions();
     if (actions.isEmpty()) {
         return;
+    }
+}
+
+void NMCSettingsDialog::fixNavigationBackground() const
+{
+    auto *navigationScroll = findChild<QScrollArea *>(QStringLiteral("settings_navigation_scroll"));
+    if (!navigationScroll) {
+        return;
+    }
+
+    navigationScroll->setAttribute(Qt::WA_StyledBackground, true);
+    navigationScroll->setStyleSheet(QStringLiteral(
+        "QScrollArea#settings_navigation_scroll {"
+        " background: palette(light);"
+        " border-radius: 10px;"
+        " border: none;"
+        " padding: 4px;"
+        "}"
+        "QScrollArea#settings_navigation_scroll > QWidget > QWidget {"
+        " background: transparent;"
+        "}"
+    ));
+
+    if (navigationScroll->viewport()) {
+        navigationScroll->viewport()->setAutoFillBackground(false);
+        navigationScroll->viewport()->setStyleSheet(QStringLiteral("background: transparent;"));
     }
 }
 
