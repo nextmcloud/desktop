@@ -144,56 +144,69 @@ int FolderStatusDelegate::rootFolderHeightWithoutErrors(const QFontMetrics &fm, 
     return h;
 }
 
-void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void FolderStatusDelegate::paint(QPainter *painter,
+                                 const QStyleOptionViewItem &option,
+                                 const QModelIndex &index) const
 {
     if (index.data(AddButton).toBool()) {
-        const_cast<QStyleOptionViewItem &>(option).showDecorationSelected = false;
+        QStyleOptionButton opt;
+        static_cast<QStyleOption &>(opt) = option;
+
+        if (opt.state & QStyle::State_Enabled
+            && opt.state & QStyle::State_MouseOver
+            && index == _pressedIndex) {
+            opt.state |= QStyle::State_Sunken;
+        } else {
+            opt.state |= QStyle::State_Raised;
+        }
+
+        opt.text = addFolderText();
+        opt.rect = addButtonRect(option.rect, option.direction);
+
+        painter->save();
+        painter->setFont(qApp->font("QPushButton"));
+        QApplication::style()->drawControl(QStyle::CE_PushButton, &opt, painter, option.widget);
+        painter->restore();
+
+        return;
     }
 
-    const QModelIndex parentIndex = index.parent(); // NMC customization
+    const QModelIndex parentIndex = index.parent();
+
     {
         painter->save();
-
-        // Verhindere das Zeichnen des "Neuer Ordner"-Buttons
-        if (index.data(AddButton).toBool()) {
-            return;
-        }
 
         const QRect leftRect(0, option.rect.y(), option.rect.x(), option.rect.height());
 
         if (option.state & QStyle::State_MouseOver) {
-            QColor hoverColor = QApplication::palette().color(QPalette::Mid);
+            const QColor hoverColor = QApplication::palette().color(QPalette::Mid);
             painter->fillRect(option.rect, hoverColor);
             painter->fillRect(leftRect, hoverColor);
         }
 
         if (option.state & QStyle::State_Selected) {
-            // Auswahlhintergrundfarbe abrufen
             const QColor selectionColor = option.palette.color(QPalette::Highlight);
             painter->fillRect(option.rect, selectionColor);
             painter->fillRect(leftRect, selectionColor);
         }
 
-        const QTreeView* treeView = qobject_cast<const QTreeView*>(option.widget);
+        const auto *treeView = qobject_cast<const QTreeView *>(option.widget);
         if (treeView) {
-            QIcon leftIcon;
             QSize iconSize(16, 16);
 
             if (!parentIndex.isValid()) {
-                // Wir befinden uns im Stammverzeichnis, also Icon vergrößern
                 iconSize = QSize(24, 24);
             }
 
-            if (index.isValid() && treeView->isExpanded(index)) {
-                // Das übergeordnete Element ist erweitert
-                leftIcon = QIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-down.svg")));
-            } else {
-                // Das übergeordnete Element ist nicht erweitert
-                leftIcon = QIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
-            }
+            const auto iconPath = treeView->isExpanded(index)
+                ? QStringLiteral(":/client/theme/NMCIcons/collapse-down.svg")
+                : QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg");
+
+            const QIcon leftIcon = Theme::createColorAwareIcon(iconPath);
 
             const QPoint iconPos(leftRect.width() - iconSize.width(),
-                                leftRect.y() + leftRect.height() / 2 - iconSize.height() / 2);
+                                  leftRect.y() + leftRect.height() / 2 - iconSize.height() / 2);
+
             painter->drawPixmap(iconPos, leftIcon.pixmap(iconSize));
         }
 
