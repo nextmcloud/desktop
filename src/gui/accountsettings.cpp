@@ -782,11 +782,14 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
 
     menu->setStyleSheet(QString(R"(
         QMenu {
+            background-color: palette(window);
+            color: palette(window-text);
             border: 1px solid black;
             border-radius: 4px;
             padding: 6px;
         }
         QMenu::item {
+            background-color: transparent;
             padding: 8px;
         }
         QMenu::item:selected,
