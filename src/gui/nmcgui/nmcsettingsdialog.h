@@ -59,6 +59,10 @@ private:
      * @brief Fixes the appearance of the account button
      */
     void fixAccountButton() const;
+    /**
+     * @brief Fixes the appearance of the navigation background
+     */
+    void fixNavigationBackground() const;
 };
 
 } // namespace OCC
