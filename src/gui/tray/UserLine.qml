@@ -248,14 +248,14 @@ AbstractButton {
                     icon.height: Style.nmcTrayWindowIconWidth
                     icon.width: Style.nmcTrayWindowIconWidth
                     leftPadding: Style.nmcMenuSubItemLeftPadding
-
+                    
                     onClicked: {
                         if (model.isConnected) {
                             UserModel.logout(index)
                         } else {
                             UserModel.login(index)
                         }
-                        accountMenu.close()
+                        userMoreButtonMenu.close()
                     }
 
                     Accessible.role: Accessible.Button
@@ -274,7 +274,7 @@ AbstractButton {
 
                     onClicked: {
                         UserModel.removeAccount(index)
-                        accountMenu.close()
+                        userMoreButtonMenu.close()
                     }
 
                     Accessible.role: Accessible.Button
