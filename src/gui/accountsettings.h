@@ -75,7 +75,7 @@ signals:
 
 public slots:
     void slotOpenOC();
-    void slotUpdateQuota(qint64 total, qint64 used);
+    virtual void slotUpdateQuota(qint64 total, qint64 used);
     void slotAccountStateChanged();
     void slotStyleChanged();
     void slotHideSelectiveSyncWidget();
@@ -121,6 +121,7 @@ protected slots:
                                   const QVector<int> &roles);
     void slotPossiblyUnblacklistE2EeFoldersAndRestartSync();
 
+    void checkClientSideEncryptionState();
     void slotE2eEncryptionCertificateNeedMigration();
 
 private slots:
@@ -138,10 +139,15 @@ private slots:
 
     void setupE2eEncryption();
     void forgetE2eEncryption();
-    void checkClientSideEncryptionState();
     void removeActionFromEncryptionMessage(const QString &actionId);
     void setEncryptionPanelVisible(bool visible);
     void updateSyncFoldersPanelVisibility();
+
+protected:
+    Ui::AccountSettings *getUi() const
+    {
+        return _ui;
+    }
 
 private:
     bool event(QEvent *) override;
