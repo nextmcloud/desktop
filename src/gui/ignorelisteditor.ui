@@ -37,7 +37,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Global Ignore Settings</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -109,7 +109,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Files Ignored by Patterns</string>
+         <string/>
         </property>
        </widget>
       </item>
