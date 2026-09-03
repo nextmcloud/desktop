@@ -121,11 +121,11 @@ void OwncloudSetupWizard::startWizard()
     // if its a relative path, prepend with users home dir, otherwise use as absolute path
 
     if (!QDir(localFolder).isAbsolute()) {
-        const auto homeDirectory =
 #ifdef Q_OS_MACOS
-            Utility::getRealHomeDirectory();
+        const auto realHomeDirectory = Utility::getRealHomeDirectory();
+        const auto homeDirectory = realHomeDirectory.isEmpty() ? QDir::homePath() : realHomeDirectory;
 #else
-            QDir::homePath();
+        const auto homeDirectory = QDir::homePath();
 #endif
         localFolder = QDir(homeDirectory).filePath(localFolder);
     }
