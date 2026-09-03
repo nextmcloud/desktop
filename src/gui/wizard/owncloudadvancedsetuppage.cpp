@@ -150,6 +150,16 @@ bool OwncloudAdvancedSetupPage::isComplete() const
 
 void OwncloudAdvancedSetupPage::initializePage()
 {
+    qCInfo(lcWizard) << "localFolder BEFORE findGoodPathForNewSyncFolder:" << localFolder();
+
+    auto goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(
+        localFolder(),
+        serverUrl(),
+        FolderMan::GoodPathStrategy::AllowOnlyNewPath
+    );
+
+    qCInfo(lcWizard) << "goodLocalFolder AFTER findGoodPathForNewSyncFolder:" << goodLocalFolder;
+
     WizardCommon::initErrorLabel(_ui.errorLabel);
 
     const auto hideVfsOption = Theme::instance()->disableVirtualFilesSyncFolder()
