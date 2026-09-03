@@ -106,13 +106,6 @@ bool OwncloudSetupWizard::bringWizardToFrontIfVisible()
 
 void OwncloudSetupWizard::startWizard()
 {
-    #ifdef Q_OS_MACOS
-    qCInfo(lcWizard) << "Real home:" << Utility::getRealHomeDirectory();
-    qCInfo(lcWizard) << "Qt home:" << QDir::homePath();
-    #endif
-
-    qCInfo(lcWizard) << "Initial localFolder:" << localFolder;
-
     AccountPtr account = AccountManager::createAccount();
     account->setCredentials(CredentialsFactory::create("dummy"));
     const auto defaultUrl =
@@ -125,8 +118,14 @@ void OwncloudSetupWizard::startWizard()
     // remoteFolder may be empty, which means /
     QString localFolder = Theme::instance()->defaultClientFolder();
 
-    // if its a relative path, prepend with users home dir, otherwise use as absolute path
+    #ifdef Q_OS_MACOS
+    qCInfo(lcWizard) << "Real home:" << Utility::getRealHomeDirectory();
+    qCInfo(lcWizard) << "Qt home:" << QDir::homePath();
+    #endif
 
+    qCInfo(lcWizard) << "Initial localFolder:" << localFolder;
+
+    // if its a relative path, prepend with users home dir, otherwise use as absolute path
     if (!QDir(localFolder).isAbsolute()) {
 #ifdef Q_OS_MACOS
         const auto realHomeDirectory = Utility::getRealHomeDirectory();
