@@ -150,16 +150,6 @@ bool OwncloudAdvancedSetupPage::isComplete() const
 
 void OwncloudAdvancedSetupPage::initializePage()
 {
-    qCInfo(lcWizard) << "localFolder BEFORE findGoodPathForNewSyncFolder:" << localFolder();
-
-    auto goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(
-        localFolder(),
-        serverUrl(),
-        FolderMan::GoodPathStrategy::AllowOnlyNewPath
-    );
-
-    qCInfo(lcWizard) << "goodLocalFolder AFTER findGoodPathForNewSyncFolder:" << goodLocalFolder;
-
     WizardCommon::initErrorLabel(_ui.errorLabel);
 
     const auto hideVfsOption = Theme::instance()->disableVirtualFilesSyncFolder()
@@ -185,12 +175,21 @@ void OwncloudAdvancedSetupPage::initializePage()
     ConfigFile cfg;
     const auto overrideLocalDir = !cfg.overrideLocalDir().isEmpty();
 
+    qCInfo(lcWizard) << "localFolder BEFORE findGoodPathForNewSyncFolder:" << localFolder();
+
     auto goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(localFolder(), serverUrl(), FolderMan::GoodPathStrategy::AllowOnlyNewPath);
+
+    qCInfo(lcWizard) << "goodLocalFolder AFTER findGoodPathForNewSyncFolder:" << goodLocalFolder;
+
     if (overrideLocalDir) {
         ConfigFile cfg;
+        qCInfo(lcWizard) << "overrideLocalDir:" << cfg.overrideLocalDir();
         goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(cfg.overrideLocalDir(), serverUrl(), FolderMan::GoodPathStrategy::AllowOverrideExistingPath);
+        qCInfo(lcWizard) << "goodLocalFolder AFTER overrideLocalDir:" << goodLocalFolder;
     }
     wizard()->setProperty("localFolder", goodLocalFolder);
+
+    qCInfo(lcWizard) << "final wizard localFolder:" << wizard()->property("localFolder").toString();
 
     // call to init label
     updateStatus();
