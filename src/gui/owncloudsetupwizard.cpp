@@ -106,6 +106,13 @@ bool OwncloudSetupWizard::bringWizardToFrontIfVisible()
 
 void OwncloudSetupWizard::startWizard()
 {
+    #ifdef Q_OS_MACOS
+    qCInfo(lcWizard) << "Real home:" << Utility::getRealHomeDirectory();
+    qCInfo(lcWizard) << "Qt home:" << QDir::homePath();
+    #endif
+
+    qCInfo(lcWizard) << "Initial localFolder:" << localFolder;
+
     AccountPtr account = AccountManager::createAccount();
     account->setCredentials(CredentialsFactory::create("dummy"));
     const auto defaultUrl =
