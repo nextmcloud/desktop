@@ -27,7 +27,6 @@
 #include <folderman.h>
 #include "creds/abstractcredentials.h"
 #include "networkjobs.h"
-#include "wizard/owncloudwizard.h"
 
 #ifdef BUILD_FILE_PROVIDER_MODULE
 #include "gui/macOS/fileprovider.h"
@@ -318,13 +317,22 @@ void OwncloudAdvancedSetupPage::updateStatus()
 {
     const QString locFolder = localFolder();
 
+#ifdef BUILD_FILE_PROVIDER_MODULE
+    if (_ui.rVirtualFileSync->isChecked()) {
+        _localFolderValid = true;
+        setResolutionGuiVisible(false);
+        updateMacOsFileProviderRelatedViews();
+        setErrorString({});
+        return;
+    }
+#endif
+
     if (locFolder.isEmpty()) {
         _localFolderValid = false;
         _filePathLabel->clear();
         _ui.lFreeSpace->clear();
         setResolutionGuiVisible(false);
         setErrorString(tr("Please choose a local sync folder."));
-        emit completeChanged();
         return;
     }
 
@@ -517,18 +525,22 @@ void OwncloudAdvancedSetupPage::slotSelectFolder()
 #else
         QDir::homePath();
 #endif
-    QString dir = QFileDialog::getExistingDirectory(nullptr, tr("Local Sync Folder"), homeDirectory);
-    if (!dir.isEmpty()) {
-        // TODO: remove when UX decision is made
-        refreshVirtualFilesAvailibility(dir);
 
-        wizard()->setProperty("localFolder", dir);
-        updateStatus();
+    const QString dir = QFileDialog::getExistingDirectory(
+        nullptr,
+        tr("Local Sync Folder"),
+        homeDirectory,
+        QFileDialog::ShowDirsOnly);
+
+    if (dir.isEmpty()) {
+        return;
     }
 
-    qint64 rSpace = _ui.rSyncEverything->isChecked() ? _rSize : _rSelectedSize;
-    QString errorStr = checkLocalSpace(rSpace);
-    setErrorString(errorStr);
+    // TODO: remove when UX decision is made
+    refreshVirtualFilesAvailibility(dir);
+
+    wizard()->setProperty("localFolder", dir);
+    updateStatus();
 }
 
 void OwncloudAdvancedSetupPage::slotSelectiveSyncClicked()

@@ -19,7 +19,6 @@
 #include "sslerrordialog.h"
 #include "wizard/owncloudwizard.h"
 #include "wizard/owncloudwizardcommon.h"
-#include "account.h"
 
 #include "creds/credentialsfactory.h"
 #include "creds/abstractcredentials.h"
@@ -122,22 +121,18 @@ void OwncloudSetupWizard::startWizard()
         if (!cfg.overrideLocalDir().isEmpty()) {
             localFolder = cfg.overrideLocalDir();
         } else {
-    #ifndef Q_OS_MACOS
+#ifndef Q_OS_MACOS
             localFolder = Theme::instance()->defaultClientFolder();
 
             // if its a relative path, prepend with users home dir, otherwise use as absolute path
             if (!QDir(localFolder).isAbsolute()) {
                 localFolder = QDir::homePath() + QLatin1Char('/') + localFolder;
             }
-    #endif
+#endif
         }
     }
 
     _ocWizard->setProperty("localFolder", localFolder);
-
-    // remember the local folder to compare later if it changed, but clean first
-    _initLocalFolder = Utility::trailingSlashPath(QDir::fromNativeSeparators(localFolder));
-    _ocWizard->setRemoteFolder(_remoteFolder);
 
     // remember the local folder to compare later if it changed, but clean first
     _initLocalFolder = Utility::trailingSlashPath(QDir::fromNativeSeparators(localFolder));
