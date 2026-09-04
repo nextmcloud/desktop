@@ -175,18 +175,20 @@ void OwncloudAdvancedSetupPage::initializePage()
     ConfigFile cfg;
     const auto overrideLocalDir = !cfg.overrideLocalDir().isEmpty();
 
-    qCInfo(lcWizard) << "localFolder BEFORE findGoodPathForNewSyncFolder:" << localFolder();
-
-    auto goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(localFolder(), serverUrl(), FolderMan::GoodPathStrategy::AllowOnlyNewPath);
-
-    qCInfo(lcWizard) << "goodLocalFolder AFTER findGoodPathForNewSyncFolder:" << goodLocalFolder;
+    QString goodLocalFolder;
 
     if (overrideLocalDir) {
-        ConfigFile cfg;
-        qCInfo(lcWizard) << "overrideLocalDir:" << cfg.overrideLocalDir();
-        goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(cfg.overrideLocalDir(), serverUrl(), FolderMan::GoodPathStrategy::AllowOverrideExistingPath);
-        qCInfo(lcWizard) << "goodLocalFolder AFTER overrideLocalDir:" << goodLocalFolder;
+        goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(
+            cfg.overrideLocalDir(),
+            serverUrl(),
+            FolderMan::GoodPathStrategy::AllowOverrideExistingPath);
+    } else if (!localFolder().isEmpty()) {
+        goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(
+            localFolder(),
+            serverUrl(),
+            FolderMan::GoodPathStrategy::AllowOnlyNewPath);
     }
+
     wizard()->setProperty("localFolder", goodLocalFolder);
 
     qCInfo(lcWizard) << "final wizard localFolder:" << wizard()->property("localFolder").toString();
@@ -315,6 +317,16 @@ void OwncloudAdvancedSetupPage::setServerAddressLabelUrl(const QUrl &url)
 void OwncloudAdvancedSetupPage::updateStatus()
 {
     const QString locFolder = localFolder();
+
+    if (locFolder.isEmpty()) {
+        _localFolderValid = false;
+        _filePathLabel->clear();
+        _ui.lFreeSpace->clear();
+        setResolutionGuiVisible(false);
+        setErrorString(tr("Please choose a local sync folder."));
+        emit completeChanged();
+        return;
+    }
 
     // check if the local folder exists. If so, and if its not empty, show a warning.
     const auto pathValidityCheckResult = FolderMan::instance()->checkPathValidityForNewFolder(locFolder, serverUrl());
@@ -606,21 +618,37 @@ void OwncloudAdvancedSetupPage::slotQuotaRetrievedWithError(QNetworkReply *reply
 qint64 OwncloudAdvancedSetupPage::availableLocalSpace() const
 {
     QString localDir = localFolder();
+
+    if (localDir.isEmpty()) {
+        return -1;
+    }
+
     const auto homeDirectory =
 #ifdef Q_OS_MACOS
         Utility::getRealHomeDirectory();
 #else
         QDir::homePath();
 #endif
-    QString path = !QDir(localDir).exists() && localDir.contains(homeDirectory) ? homeDirectory : localDir;
+    QString path = !QDir(localDir).exists() && localDir.contains(homeDirectory)
+        ? homeDirectory
+        : localDir;
+
     QStorageInfo storage(QDir::toNativeSeparators(path));
 
-    return storage.bytesAvailable();
+    return storage.isValid() ? storage.bytesAvailable() : -1;
 }
 
 QString OwncloudAdvancedSetupPage::checkLocalSpace(qint64 remoteSize) const
 {
-    return (availableLocalSpace()>remoteSize) ? QString() : tr("There isn't enough free space in the local folder!");
+    const auto localSpace = availableLocalSpace();
+
+    if (localSpace < 0 || remoteSize < 0) {
+        return {};
+    }
+
+    return localSpace > remoteSize
+        ? QString()
+        : tr("There isn't enough free space in the local folder!");
 }
 
 void OwncloudAdvancedSetupPage::slotStyleChanged()
