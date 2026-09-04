@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/qml">
+        <file alias="NMCGui/qmldir">src/gui/nmcgui/qmldir</file>
+        <file alias="NMCGui/NMCHeaderButton.qml">src/gui/nmcgui/NMCHeaderButton.qml</file>
+        <file alias="NMCGui/NMCMenuItem.qml">src/gui/nmcgui/NMCMenuItem.qml</file>   
         <file>src/gui/UserStatusMessageView.qml</file>
         <file>src/gui/UserStatusSelectorPage.qml</file>
         <file>src/gui/EmojiPicker.qml</file>
