@@ -9,9 +9,6 @@
 #include "accountmanager.h"
 #include "clientproxy.h"
 #include "common/utility.h"
-#ifdef Q_OS_MACOS
-#include "common/utility_mac_sandbox.h"
-#endif
 #include "configfile.h"
 #include "filesystem.h"
 #include "folderman.h"
@@ -22,7 +19,6 @@
 #include "sslerrordialog.h"
 #include "wizard/owncloudwizard.h"
 #include "wizard/owncloudwizardcommon.h"
-#include "account.h"
 
 #include "creds/credentialsfactory.h"
 #include "creds/abstractcredentials.h"
@@ -114,29 +110,29 @@ void OwncloudSetupWizard::startWizard()
     _ocWizard->setAccount(account);
     _ocWizard->setOCUrl(account->url().toString());
 
-    _remoteFolder = Theme::instance()->defaultServerFolder();
     // remoteFolder may be empty, which means /
-    QString localFolder = Theme::instance()->defaultClientFolder();
+    _remoteFolder = Theme::instance()->defaultServerFolder();
 
-    // if its a relative path, prepend with users home dir, otherwise use as absolute path
+    QString localFolder;
 
-    if (!QDir(localFolder).isAbsolute()) {
-        const auto homeDirectory =
-#ifdef Q_OS_MACOS
-            Utility::getRealHomeDirectory();
-#else
-            QDir::homePath();
+    {
+        ConfigFile cfg;
+
+        if (!cfg.overrideLocalDir().isEmpty()) {
+            localFolder = cfg.overrideLocalDir();
+        } else {
+#ifndef Q_OS_MACOS
+            localFolder = Theme::instance()->defaultClientFolder();
+
+            // if its a relative path, prepend with users home dir, otherwise use as absolute path
+            if (!QDir(localFolder).isAbsolute()) {
+                localFolder = QDir::homePath() + QLatin1Char('/') + localFolder;
+            }
 #endif
-        localFolder = QDir(homeDirectory).filePath(localFolder);
+        }
     }
 
     _ocWizard->setProperty("localFolder", localFolder);
-    {
-        ConfigFile cfg;
-        if (!cfg.overrideLocalDir().isEmpty()) {
-            _ocWizard->setProperty("localFolder", cfg.overrideLocalDir());
-        }
-    }
 
     // remember the local folder to compare later if it changed, but clean first
     _initLocalFolder = Utility::trailingSlashPath(QDir::fromNativeSeparators(localFolder));
