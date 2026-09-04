@@ -9,9 +9,6 @@
 #include "accountmanager.h"
 #include "clientproxy.h"
 #include "common/utility.h"
-#ifdef Q_OS_MACOS
-#include "common/utility_mac_sandbox.h"
-#endif
 #include "configfile.h"
 #include "filesystem.h"
 #include "folderman.h"
@@ -114,35 +111,33 @@ void OwncloudSetupWizard::startWizard()
     _ocWizard->setAccount(account);
     _ocWizard->setOCUrl(account->url().toString());
 
-    _remoteFolder = Theme::instance()->defaultServerFolder();
     // remoteFolder may be empty, which means /
-    QString localFolder = Theme::instance()->defaultClientFolder();
+    _remoteFolder = Theme::instance()->defaultServerFolder();
 
-    #ifdef Q_OS_MACOS
-    qCInfo(lcWizard) << "Real home:" << Utility::getRealHomeDirectory();
-    qCInfo(lcWizard) << "Qt home:" << QDir::homePath();
+    QString localFolder;
+
+    {
+        ConfigFile cfg;
+
+        if (!cfg.overrideLocalDir().isEmpty()) {
+            localFolder = cfg.overrideLocalDir();
+        } else {
+    #ifndef Q_OS_MACOS
+            localFolder = Theme::instance()->defaultClientFolder();
+
+            // if its a relative path, prepend with users home dir, otherwise use as absolute path
+            if (!QDir(localFolder).isAbsolute()) {
+                localFolder = QDir::homePath() + QLatin1Char('/') + localFolder;
+            }
     #endif
-
-    qCInfo(lcWizard) << "Initial localFolder:" << localFolder;
-
-    // if its a relative path, prepend with users home dir, otherwise use as absolute path
-    if (!QDir(localFolder).isAbsolute()) {
-#ifdef Q_OS_MACOS
-        const auto realHomeDirectory = Utility::getRealHomeDirectory();
-        const auto homeDirectory = realHomeDirectory.isEmpty() ? QDir::homePath() : realHomeDirectory;
-#else
-        const auto homeDirectory = QDir::homePath();
-#endif
-        localFolder = QDir(homeDirectory).filePath(localFolder);
+        }
     }
 
     _ocWizard->setProperty("localFolder", localFolder);
-    {
-        ConfigFile cfg;
-        if (!cfg.overrideLocalDir().isEmpty()) {
-            _ocWizard->setProperty("localFolder", cfg.overrideLocalDir());
-        }
-    }
+
+    // remember the local folder to compare later if it changed, but clean first
+    _initLocalFolder = Utility::trailingSlashPath(QDir::fromNativeSeparators(localFolder));
+    _ocWizard->setRemoteFolder(_remoteFolder);
 
     // remember the local folder to compare later if it changed, but clean first
     _initLocalFolder = Utility::trailingSlashPath(QDir::fromNativeSeparators(localFolder));
