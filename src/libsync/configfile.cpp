@@ -172,7 +172,7 @@ bool ConfigFile::setConfDir(const QString &value)
 bool ConfigFile::optionalServerNotifications() const
 {
     QSettings settings(configFile(), QSettings::IniFormat);
-    return settings.value(optionalServerNotificationsC, true).toBool();
+    return settings.value(optionalServerNotificationsC, false).toBool();
 }
 
 bool ConfigFile::showChatNotifications() const
