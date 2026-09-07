@@ -192,21 +192,11 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    // Synch Radio button layout
+    // Sync radio button layout
     if (getUi().horizontalLayout_5->parent()) {
         getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_5);
     }
     leftSideVerticalLayout->addLayout(getUi().horizontalLayout_5);
-
-    // Disable Mac related UI fields
-    if(Utility::isWindows())
-    {
-        getUi().lSyncEverythingSizeLabel->setVisible(false);
-        getUi().rSyncEverything->setVisible(false);
-        getUi().rSelectiveSync->setVisible(false);
-        getUi().bSelectiveSync->setVisible(false);
-        getUi().lSelectiveSyncSizeLabel->setVisible(false);
-    }
 
     // Choose what to sync layout
     if (getUi().horizontalLayout_10->parent()) {
@@ -315,7 +305,7 @@ void NMCOwncloudAdvancedSetupPage::updateFolderSelectionUi()
     } else {
         getFilePathLabel().data()->setText(QCoreApplication::translate("", "NO_STORAGE_LOCATION_SELECTED"));
 
-        getUi().lFreeSpace->setText(QCoreApplication::translate("", "SELECT_FOLDER_ON_MAC"));
+        getUi().lFreeSpace->setText(QCoreApplication::translate("", "SELECT_FOLDER_ON_DEVICE"));
         getUi().lFreeSpace->setVisible(true);
 
         getUi().pbSelectLocalFolder->setText(QCoreApplication::translate("", "SELECT_STORAGE_LOCATION"));
