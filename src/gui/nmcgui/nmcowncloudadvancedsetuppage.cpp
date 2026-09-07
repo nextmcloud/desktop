@@ -12,8 +12,10 @@
  * GNU General Public License for more details.
  */
 
+#include <QDir>
 #include <QPainter>
 #include <QTimer>
+
 #include "common/utility.h"
 #include "wizard/owncloudwizard.h"
 #include "wizard/owncloudadvancedsetuppage.h"
