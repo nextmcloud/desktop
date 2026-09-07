@@ -99,7 +99,9 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     // Create and connect the push buttons to base slots
     _loginBrowserButton = new QPushButton(QCoreApplication::translate("", "CONNECT"));
     connect(_loginBrowserButton, &QPushButton::clicked, this, [this]() {
-        this->wizard()->button(QWizard::FinishButton)->click();
+        if (this->wizard()) {
+            this->wizard()->button(QWizard::FinishButton)->click();
+        }
     });
 
     auto buttonLayout = new QHBoxLayout();
@@ -263,11 +265,11 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     // Keep the custom primary button synchronized with the real wizard Finish button
     connect(this, &QWizardPage::completeChanged, this, [this]() {
         QTimer::singleShot(0, this, [this]() {
-            if (!_loginBrowserButton || !wizard()) {
+            if (!_loginBrowserButton || !this->wizard()) {
                 return;
             }
 
-            const auto *finishButton = wizard()->button(QWizard::FinishButton);
+            const auto *finishButton = this->wizard()->button(QWizard::FinishButton);
             if (finishButton) {
                 _loginBrowserButton->setEnabled(finishButton->isEnabled());
             }
@@ -282,11 +284,11 @@ void NMCOwncloudAdvancedSetupPage::initializePage()
     updateFolderSelectionUi();
 
     QTimer::singleShot(0, this, [this]() {
-        if (!_loginBrowserButton || !wizard()) {
+        if (!_loginBrowserButton || !this->wizard()) {
             return;
         }
 
-        const auto *finishButton = wizard()->button(QWizard::FinishButton);
+        const auto *finishButton = this->wizard()->button(QWizard::FinishButton);
         if (finishButton) {
             _loginBrowserButton->setEnabled(finishButton->isEnabled());
         }
@@ -323,6 +325,13 @@ void NMCOwncloudAdvancedSetupPage::updateFolderSelectionUi()
 
     if (_loginBrowserButton) {
         _loginBrowserButton->setEnabled(hasLocalFolder);
+
+        if (this->wizard()) {
+            const auto *finishButton = this->wizard()->button(QWizard::FinishButton);
+            if (finishButton) {
+                _loginBrowserButton->setEnabled(hasLocalFolder && finishButton->isEnabled());
+            }
+        }
     }
 }
 
