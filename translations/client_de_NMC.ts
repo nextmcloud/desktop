@@ -1,4 +1,5 @@
 <?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="de_DE">
+<!-- NMC custom translations start -->
 <context>
     <message>
         <source>CONNECTION_SETTINGS</source>
@@ -90,7 +91,7 @@
     </message>
     <message>
         <source>ADD_LIVE_BACKUP_HEADLINE</source>
-        <translation>Live - Backup hinzufügen</translation>
+        <translation>Live-Backup hinzufügen</translation>
     </message>
     <message>
         <source>ADD_LIVE_BACKUP_PAGE1_DESCRIPTION</source>
@@ -149,6 +150,8 @@ direkt loszulegen</translation>
         <source>SETUP_DESCRIPTION_TEXT_1</source>
         <translation>Wechseln Sie bitte zu Ihrem Browser und melden Sie sich dort an, um Ihr Konto zu verbinden. Oder Sie erstellen ein Konto mit dem für Sie passenden Tarif.</translation>
     </message>
+
+    <!-- Advanced Setup Page -->
     <message>
         <source>SETUP_HEADER_TEXT_2</source>
         <translation>Ihr lokaler Ordner für
@@ -156,12 +159,43 @@ MagentaCLOUD</translation>
     </message>
     <message>
         <source>SETUP_DESCRIPTION_TEXT_2</source>
-        <translation>Überprüfen Sie den Speicherort und ändern Sie ihn, falls Sie schon einen bestehenden MagentaCLOUD Ordner aus einer früheren Installation wiederverwenden möchten.</translation>
+        <translation>Wählen Sie den lokalen Ordner aus, in dem Ihre MagentaCLOUD-Dateien gespeichert und synchronisiert werden sollen.</translation>
     </message>
+    <message>
+        <source>NO_STORAGE_LOCATION_SELECTED</source>
+        <translation>Noch kein Speicherort ausgewählt</translation>
+    </message>
+    <message>
+        <source>SELECT_FOLDER_ON_DEVICE</source>
+        <translation>Wählen Sie einen Ordner auf Ihrem Computer aus.</translation>
+    </message>
+    <message>
+        <source>SELECT_STORAGE_LOCATION</source>
+        <translation>Speicherort auswählen</translation>
+    </message>
+    <message>
+        <source>CHANGE_STORAGE_LOCATION</source>
+        <translation>Speicherort ändern</translation>
+    </message>
+    <message>
+        <source>SETUP_DESCRIPTION_SELECT_FOLDER</source>
+        <translation>Wählen Sie den lokalen Ordner aus, in dem Ihre MagentaCLOUD-Dateien gespeichert und synchronisiert werden sollen.</translation>
+    </message>
+    <message>
+        <source>SETUP_DESCRIPTION_FOLDER_SELECTED</source>
+        <translation>Ihre MagentaCLOUD wird mit diesem Ordner synchronisiert. Sie können den Speicherort bei Bedarf ändern.</translation>
+    </message>
+    <message>
+        <source>CONNECT</source>
+        <translation>Verbinden</translation>
+    </message>
+
+    <!-- Alter Key kann für andere Stellen vorerst erhalten bleiben -->
     <message>
         <source>SETUP_CHANGE_STORAGE_LOCATION</source>
         <translation>Speicherort ändern</translation>
     </message>
+
     <message>
         <source>E2E_ENCRYPTION_ACTIVE</source>
         <translation>Die Ende-zu-Ende-Verschlüsselung wurde erfolgreich aktiviert. Sie können nun verschlüsselte Inhalte bearbeiten.</translation>
@@ -169,10 +203,6 @@ MagentaCLOUD</translation>
     <message>
         <source>E2E_ENCRYPTION_START</source>
         <translation>Die Ende-zu-Ende-Verschlüsselung wurde mit einem anderen Gerät aktiviert. Bitte geben Sie Ihre Passphrase ein, um verschlüsselte Ordner synchronisieren zu können.</translation>
-    </message>
-    <message>
-        <source>MORE</source>
-        <translation>Mehr</translation>
     </message>
     <message>
         <source>LOGIN</source>
@@ -199,29 +229,30 @@ MagentaCLOUD</translation>
         <translation>Lokaler Ordner</translation>
     </message>
     <message>
-    	<source>E2E_MNEMONIC_TEXT</source>
-    	<translation>Für die Verschlüsselung wird Ihnen eine aus 12 Wörtern zufällig erzeugte Wortfolge (Passphrase)
+        <source>E2E_MNEMONIC_TEXT</source>
+        <translation>Für die Verschlüsselung wird Ihnen eine aus 12 Wörtern zufällig erzeugte Wortfolge (Passphrase)
 erstellt. Wir empfehlen Ihnen, die Passphrase zu notieren und sicher aufzubewahren.
 
 Die Passphrase ist Ihr persönliches Kennwort mit dem sie auf verschlüsselte Daten in ihrer MagentaCLOUD zugreifen können oder den Zugriff auf diese Dateien auf anderen Geräten wie z.B. Smartphones ermöglichen.</translation>
     </message>
     <message>
-    	<source>E2E_MNEMONIC_TEXT2</source>
-    	<translation>Sie können keine Ordner verschlüsseln, die bereits unverschlüsselt synchronisierte Dateien enthalten. Bitte legen Sie einen neuen, leeren Ordner an und verschlüsseln Sie diesen.</translation>
+        <source>E2E_MNEMONIC_TEXT2</source>
+        <translation>Sie können keine Ordner verschlüsseln, die bereits unverschlüsselt synchronisierte Dateien enthalten. Bitte legen Sie einen neuen, leeren Ordner an und verschlüsseln Sie diesen.</translation>
     </message>
     <message>
-    	<source>E2E_MNEMONIC_TEXT3</source>
-    	<translation>Die Ende-zu-Ende Verschlüsselung ist noch nicht eingerichtet. Bitte konfigurieren SIe diese in Ihren Einstellungen, um bereits verschlüsselte Inhalte bearbeiten und neue, leere Ordner verschlüsseln zu können.</translation>
+        <source>E2E_MNEMONIC_TEXT3</source>
+        <translation>Die Ende-zu-Ende Verschlüsselung ist noch nicht eingerichtet. Bitte konfigurieren SIe diese in Ihren Einstellungen, um bereits verschlüsselte Inhalte bearbeiten und neue, leere Ordner verschlüsseln zu können.</translation>
     </message>
     <message>
-    	<source>E2E_MNEMONIC_TEXT4</source>
-    	<translation>Möchten Sie die Ende-zu-Ende-Verschlüsselung wirklich deaktivieren?
-    	
+        <source>E2E_MNEMONIC_TEXT4</source>
+        <translation>Möchten Sie die Ende-zu-Ende-Verschlüsselung wirklich deaktivieren?
+
 Durch das Deaktivieren der Verschlüsselung werden verschlüsselte Inhalte nicht länger auf diesem Gerät synchronisiert. Diese Inhalte werden aber nicht gelöscht, sondern verbleiben verschlüsselt auf dem Server und auf Ihren anderen Geräten, wo die Verschlüsselung eingerichtet ist.</translation>
     </message>
     <message>
-    	<source>E2E_MNEMONIC_PASSPHRASE</source>
-    	<translation>Bitte geben Sie Ihren 12-Wort-Schlüssel (Passphrase) ein.</translation>
+        <source>E2E_MNEMONIC_PASSPHRASE</source>
+        <translation>Bitte geben Sie Ihren 12-Wort-Schlüssel (Passphrase) ein.</translation>
     </message>
 </context>
+<!-- NMC custom translations end -->
 </TS>
