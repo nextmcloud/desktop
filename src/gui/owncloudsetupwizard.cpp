@@ -110,25 +110,26 @@ void OwncloudSetupWizard::startWizard()
     _ocWizard->setAccount(account);
     _ocWizard->setOCUrl(account->url().toString());
 
-    // remoteFolder may be empty, which means /
     _remoteFolder = Theme::instance()->defaultServerFolder();
+    // remoteFolder may be empty, which means /
+    QString localFolder = Theme::instance()->defaultClientFolder();
 
-    QString localFolder;
+#ifdef Q_OS_MACOS
+    // The sandbox home is not a suitable external location for classic sync.
+    // Require the user to choose a folder so macOS can grant access to it.
+    localFolder.clear();
+#else
+    // If it is a relative path, prepend the user's home directory; otherwise use it as an absolute path.
+    if (!QDir(localFolder).isAbsolute()) {
+        const auto homeDirectory = QDir::homePath();
+        localFolder = QDir(homeDirectory).filePath(localFolder);
+    }
+#endif
 
     {
         ConfigFile cfg;
-
         if (!cfg.overrideLocalDir().isEmpty()) {
             localFolder = cfg.overrideLocalDir();
-        } else {
-#ifndef Q_OS_MACOS
-            localFolder = Theme::instance()->defaultClientFolder();
-
-            // if its a relative path, prepend with users home dir, otherwise use as absolute path
-            if (!QDir(localFolder).isAbsolute()) {
-                localFolder = QDir::homePath() + QLatin1Char('/') + localFolder;
-            }
-#endif
         }
     }
 
@@ -475,7 +476,7 @@ void OwncloudSetupWizard::slotAuthError()
         if (!_ocWizard->account()->credentials()->stillValid(reply)) {
             errorMsg = tr("Access forbidden by server. To verify that you have proper access, "
                           "<a href=\"%1\">click here</a> to access the service with your browser.")
-                           .arg(Utility::escape(_ocWizard->account()->url().toString()));
+                           .arg(Utility::escape(redirectUrl.toString()));
         } else {
             errorMsg = job->errorStringParsingBody();
         }

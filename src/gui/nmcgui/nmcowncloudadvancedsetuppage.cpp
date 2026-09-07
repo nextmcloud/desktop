@@ -1,18 +1,19 @@
 /*
- * Copyright (C) by Eugen Fischer
+ * Copyright (C) by Mauro Mura
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
  */
 
 #include <QPainter>
+#include <QTimer>
 #include "common/utility.h"
 #include "wizard/owncloudwizard.h"
 #include "wizard/owncloudadvancedsetuppage.h"
@@ -45,9 +46,10 @@ void OCC::NMCOwncloudAdvancedSetupPage::cleanUpElements()
     if (getUi().lVirtualFileSync->parent()) {
         getUi().wSyncStrategy->removeItem(getUi().lVirtualFileSync);
     }
+    getUi().rVirtualFileSync->setChecked(false);
+    getUi().rVirtualFileSync->setEnabled(false);
     getUi().rVirtualFileSync->setFixedSize(0,0);
     getUi().rVirtualFileSync->setVisible(false);
-    getUi().rVirtualFileSync->setChecked(true);
 
     getUi().resolutionWidget->setVisible(false);
 
@@ -92,30 +94,29 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     : OwncloudAdvancedSetupPage(wizard),
     _tLogoLbl(new QLabel(this))
 {
-
     cleanUpElements();
 
     // Create and connect the push buttons to base slots
-    auto loginBrowserButton = new QPushButton(QCoreApplication::translate("", "LOGIN"));
-    connect(loginBrowserButton, &QPushButton::clicked, this, [this]() {
+    _loginBrowserButton = new QPushButton(QCoreApplication::translate("", "CONNECT"));
+    connect(_loginBrowserButton, &QPushButton::clicked, this, [this]() {
         this->wizard()->button(QWizard::FinishButton)->click();
     });
 
     auto buttonLayout = new QHBoxLayout();
     buttonLayout->setSpacing(8);
+
     // Set login button size and style
     QSize buttonSize(130,32);
-    const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;} QPushButton:hover { background-color: %4; }" );
-    loginBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white", "#c00063"));
-    loginBrowserButton->setFixedSize(buttonSize);
+    const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;} QPushButton:hover { background-color: %4; } QPushButton:disabled { background-color: #d8d8d8; color: #8a8a8a; border-color: #d8d8d8; }");
+    _loginBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white", "#c00063"));
+    _loginBrowserButton->setFixedSize(buttonSize);
 
     getUi().locationsGridLayout->removeWidget(getUi().pbSelectLocalFolder);
     getUi().pbSelectLocalFolder->setFixedSize(180, 32);
     getUi().pbSelectLocalFolder->setStyleSheet(styleSheet.arg("1","white","black", "#ededed"));
-    getUi().pbSelectLocalFolder->setText("Speicherort ändern");
 
     buttonLayout->addWidget(getUi().pbSelectLocalFolder);
-    buttonLayout->addWidget(loginBrowserButton);
+    buttonLayout->addWidget(_loginBrowserButton);
     buttonLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Expanding, QSizePolicy::Fixed));
 
     // Create needed layouts
@@ -140,7 +141,7 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     leftSideVerticalLayout->setSpacing(0);
 
-    // Create a horizontal T-Logo and MagentaCLOUC-label layout
+    // Create a horizontal T-Logo and MagentaCLOUD-label layout
     auto hLogoAndLabelLayout = new QHBoxLayout();
     hLogoAndLabelLayout->setSpacing(0);
     hLogoAndLabelLayout->setContentsMargins(0,0,0,0);
@@ -179,13 +180,13 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     getFilePathLabel().data()->setAlignment(Qt::AlignLeft);
     getFilePathLabel().data()->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
 
-    // Free space available
+    // Free space available / folder selection hint
     getUi().locationsGridLayout->removeWidget(getUi().lFreeSpace);
     leftSideVerticalLayout->addWidget(getUi().lFreeSpace);
     getUi().lFreeSpace->setAlignment(Qt::AlignLeft);
     getUi().lFreeSpace->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
 
-    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,8, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // Synch Radio button layout
     if (getUi().horizontalLayout_5->parent()) {
@@ -208,18 +209,19 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
         getUi().wSyncStrategy->removeItem(getUi().horizontalLayout_10);
     }
     leftSideVerticalLayout->addLayout(getUi().horizontalLayout_10);
-    getUi().horizontalLayout_10->removeWidget(getUi().lSelectiveSyncSizeLabel); //Remove text label, its not needed
+    getUi().horizontalLayout_10->removeWidget(getUi().lSelectiveSyncSizeLabel);
     getUi().lSelectiveSyncSizeLabel->setVisible(false);
 
-    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // Detail description
-    QLabel *detailLabel = new QLabel(QCoreApplication::translate("","SETUP_DESCRIPTION_TEXT_2"));
-    detailLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
-    detailLabel->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
-    detailLabel->setWordWrap(true);
-    detailLabel->setMinimumWidth(396);
-    leftSideVerticalLayout->addWidget(detailLabel);
+    _detailLabel = new QLabel(QCoreApplication::translate("","SETUP_DESCRIPTION_SELECT_FOLDER"));
+    _detailLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+    _detailLabel->setStyleSheet("QLabel{font-size: 15px; font-weight: normal;}");
+    _detailLabel->setWordWrap(true);
+    _detailLabel->setMinimumWidth(396);
+    _detailLabel->setMaximumWidth(480);
+    leftSideVerticalLayout->addWidget(_detailLabel);
 
     leftSideVerticalLayout->addSpacerItem(new QSpacerItem(1,16, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
@@ -230,10 +232,10 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 
     // Add items to the right side
     QLabel *bigMagentaIcon = new QLabel("");
-    bigMagentaIcon->setFixedSize(175,175);
-    bigMagentaIcon->setPixmap(QIcon(":/client/theme/NMCIcons/folderLogo.svg").pixmap(175, 175));
+    bigMagentaIcon->setFixedSize(150,150);
+    bigMagentaIcon->setPixmap(QIcon(":/client/theme/NMCIcons/folderLogo.svg").pixmap(150, 150));
 
-    rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,164, QSizePolicy::Fixed, QSizePolicy::Fixed));
+    rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,150, QSizePolicy::Fixed, QSizePolicy::Fixed));
     rightSideVerticalLayout->addWidget(bigMagentaIcon);
 
     rightSideVerticalLayout->addSpacerItem(new QSpacerItem(1,1, QSizePolicy::Fixed, QSizePolicy::Expanding));
@@ -250,6 +252,78 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     }
 
     this->setLayout(mainVerticalLayout);
+
+    // Refresh custom folder state after the base folder selection handler has finished
+    connect(getUi().pbSelectLocalFolder, &QPushButton::clicked, this, [this]() {
+        QTimer::singleShot(0, this, [this]() {
+            updateFolderSelectionUi();
+        });
+    });
+
+    // Keep the custom primary button synchronized with the real wizard Finish button
+    connect(this, &QWizardPage::completeChanged, this, [this]() {
+        QTimer::singleShot(0, this, [this]() {
+            if (!_loginBrowserButton || !wizard()) {
+                return;
+            }
+
+            const auto *finishButton = wizard()->button(QWizard::FinishButton);
+            if (finishButton) {
+                _loginBrowserButton->setEnabled(finishButton->isEnabled());
+            }
+        });
+    });
+}
+
+void NMCOwncloudAdvancedSetupPage::initializePage()
+{
+    OwncloudAdvancedSetupPage::initializePage();
+
+    updateFolderSelectionUi();
+
+    QTimer::singleShot(0, this, [this]() {
+        if (!_loginBrowserButton || !wizard()) {
+            return;
+        }
+
+        const auto *finishButton = wizard()->button(QWizard::FinishButton);
+        if (finishButton) {
+            _loginBrowserButton->setEnabled(finishButton->isEnabled());
+        }
+    });
+}
+
+void NMCOwncloudAdvancedSetupPage::updateFolderSelectionUi()
+{
+    const QString folder = localFolder();
+    const bool hasLocalFolder = !folder.isEmpty();
+
+    if (hasLocalFolder) {
+        getFilePathLabel().data()->setText(QDir::toNativeSeparators(folder));
+
+        getUi().pbSelectLocalFolder->setText(QCoreApplication::translate("", "CHANGE_STORAGE_LOCATION"));
+
+        if (_detailLabel) {
+            _detailLabel->setText(QCoreApplication::translate("", "SETUP_DESCRIPTION_FOLDER_SELECTED"));
+        }
+
+        getUi().lFreeSpace->setVisible(true);
+    } else {
+        getFilePathLabel().data()->setText(QCoreApplication::translate("", "NO_STORAGE_LOCATION_SELECTED"));
+
+        getUi().lFreeSpace->setText(QCoreApplication::translate("", "SELECT_FOLDER_ON_MAC"));
+        getUi().lFreeSpace->setVisible(true);
+
+        getUi().pbSelectLocalFolder->setText(QCoreApplication::translate("", "SELECT_STORAGE_LOCATION"));
+
+        if (_detailLabel) {
+            _detailLabel->setText(QCoreApplication::translate("", "SETUP_DESCRIPTION_SELECT_FOLDER"));
+        }
+    }
+
+    if (_loginBrowserButton) {
+        _loginBrowserButton->setEnabled(hasLocalFolder);
+    }
 }
 
 } // namespace OCC
