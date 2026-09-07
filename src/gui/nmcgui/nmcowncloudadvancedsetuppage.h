@@ -17,6 +17,7 @@
 
 #include <QWizard>
 #include <QLabel>
+#include <QPushButton>
 
 #include "wizard/owncloudadvancedsetuppage.h"
 
@@ -43,6 +44,12 @@ public:
      */
     ~NMCOwncloudAdvancedSetupPage() override = default;
 
+protected:
+    /**
+     * @brief Initializes the page and updates the custom folder selection UI.
+     */
+    void initializePage() override;
+
 private:
     /**
      * @brief Pointer to the QLabel for the custom logo.
@@ -50,9 +57,24 @@ private:
     QLabel *_tLogoLbl;
 
     /**
+     * @brief Pointer to the QLabel containing the dynamic setup description.
+     */
+    QLabel *_detailLabel = nullptr;
+
+    /**
+     * @brief Pointer to the custom primary action button.
+     */
+    QPushButton *_loginBrowserButton = nullptr;
+
+    /**
      * @brief Helper function to clean up elements.
      */
     void cleanUpElements();
+
+    /**
+     * @brief Updates texts and controls depending on whether a local folder was selected.
+     */
+    void updateFolderSelectionUi();
 };
 
 } // namespace OCC
