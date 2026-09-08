@@ -3799,8 +3799,14 @@ Note that using any logging command line options will override this setting.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="322"/>
         <source>Please choose a folder to sync your files.</source>
         <translation>Please choose a folder to sync your files.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="360"/>
+        <source>Choose where to sync your files</source>
+        <translation>Choose where to sync your files</translation>
     </message>
 </context>
 <context>
