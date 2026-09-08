@@ -8620,8 +8620,14 @@ Dies ist ein neuer, experimenteller Modus. Wenn Sie sich entscheiden, ihn zu ver
         <translation>In der Finder-Seitenleiste unter &quot;Orte&quot;</translation>
     </message>
     <message>
-        <source>Please choose a local sync folder.</source>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="322"/>
+        <source>Please choose a folder to sync your files.</source>
         <translation>Bitte wählen Sie einen lokalen Synchronisierungsordner aus.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/owncloudadvancedsetuppage.cpp" line="360"/>
+        <source>Choose where to sync your files</source>
+        <translation>Wählen Sie einen Speicherort aus</translation>
     </message>
 </context>
 <context>
