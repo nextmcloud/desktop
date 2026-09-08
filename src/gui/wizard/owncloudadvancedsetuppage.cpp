@@ -6,6 +6,7 @@
 
 #include <QDir>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QUrl>
 #include <QTimer>
 #include <QStorageInfo>
@@ -536,22 +537,48 @@ void OwncloudAdvancedSetupPage::slotSelectFolder()
         QDir::homePath();
 #endif
 
-    const QString dir = QFileDialog::getExistingDirectory(nullptr, tr("Local Sync Folder"), homeDirectory, QFileDialog::ShowDirsOnly);
+    const QString selectedDirectory = QFileDialog::getExistingDirectory(nullptr, tr("Storage Location"), homeDirectory, QFileDialog::ShowDirsOnly);
 
-    if (!dir.isEmpty()) {
-        // TODO: remove when UX decision is made
-        refreshVirtualFilesAvailibility(dir);
-
-        wizard()->setProperty("localFolder", dir);
+    if (selectedDirectory.isEmpty()) {
+        updateStatus();
+        return;
     }
 
-#ifdef Q_OS_MACOS
+    QString folderName = Theme::instance()->defaultClientFolder();
+
+    // defaultClientFolder() is normally just "MagentaCLOUD".
+    // In case a theme provides a path, only use the actual folder name here.
+    folderName = QDir::cleanPath(folderName);
+    const int lastSeparator = qMax(folderName.lastIndexOf(QLatin1Char('/')), folderName.lastIndexOf(QLatin1Char('\\')));
+    if (lastSeparator >= 0) {
+        folderName = folderName.mid(lastSeparator + 1);
+    }
+
+    if (folderName.isEmpty() || folderName == QLatin1String(".")) {
+        folderName = Theme::instance()->appName();
+    }
+
+    const QDir parentDirectory(selectedDirectory);
+
+    QString localSyncFolder = parentDirectory.filePath(folderName);
+    int counter = 1;
+
+    while (QFileInfo::exists(localSyncFolder)) {
+        localSyncFolder = parentDirectory.filePath(folderName + QString::number(counter));
+        ++counter;
+    }
+
+    if (!QDir().mkpath(localSyncFolder)) {
+        setErrorString(tr("Could not create local folder %1").arg(QDir::toNativeSeparators(localSyncFolder)));
+        return;
+    }
+
+    // TODO: remove when UX decision is made
+    refreshVirtualFilesAvailibility(localSyncFolder);
+
+    wizard()->setProperty("localFolder", localSyncFolder);
+
     updateStatus();
-#else
-    qint64 rSpace = _ui.rSyncEverything->isChecked() ? _rSize : _rSelectedSize;
-    QString errorStr = checkLocalSpace(rSpace);
-    setErrorString(errorStr);
-#endif
 }
 
 void OwncloudAdvancedSetupPage::slotSelectiveSyncClicked()
