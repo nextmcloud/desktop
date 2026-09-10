@@ -6,8 +6,8 @@
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
 
@@ -27,6 +27,7 @@
 #include <QIcon>
 #include <QLabel>
 #include <QLayout>
+#include <QList>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QSize>
@@ -182,6 +183,35 @@ bool layoutContainsPushButton(QLayout *layout)
     }
 
     return false;
+}
+
+void moveExpandingSpacersToEnd(QBoxLayout *layout)
+{
+    if (!layout) {
+        return;
+    }
+
+    QList<QLayoutItem *> expandingSpacerItems;
+
+    for (int i = layout->count() - 1; i >= 0; --i) {
+        auto *item = layout->itemAt(i);
+        auto *spacer = item ? item->spacerItem() : nullptr;
+
+        if (!spacer) {
+            continue;
+        }
+
+        const auto verticalPolicy = spacer->sizePolicy().verticalPolicy();
+
+        if (verticalPolicy == QSizePolicy::Expanding
+            || verticalPolicy == QSizePolicy::MinimumExpanding) {
+            expandingSpacerItems.prepend(layout->takeAt(i));
+        }
+    }
+
+    for (auto *item : expandingSpacerItems) {
+        layout->addItem(item);
+    }
 }
 }
 
@@ -550,6 +580,12 @@ void NMCAccountSettings::setLayout()
     connect(getUi()->_folderList->model(), &QAbstractItemModel::rowsInserted, this, [this, collapseFolderTree]() {
         QTimer::singleShot(0, this, collapseFolderTree);
     });
+
+    // Keep all account setting panels grouped at the top.
+    // verticalLayout_2 contains an expanding spacer from the original UI.
+    // Widgets added with addWidget() would otherwise end up below that spacer.
+    moveExpandingSpacersToEnd(getUi()->verticalLayout_2);
+    getUi()->verticalLayout_2->setAlignment(Qt::AlignTop);
 }
 
 void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
