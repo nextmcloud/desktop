@@ -10,6 +10,7 @@
 #include "systray.h"
 #include "connectionvalidator.h"
 #include "progressdispatcher.h"
+#include "nmcgui/nmcadvertwidget.h"
 
 #include <QObject>
 #include <QPointer>
@@ -121,6 +122,8 @@ private:
 
     QList<QAction *> _recentItemsActions;
     Application *_app;
+
+    QPointer<NMCAdvertWidget> _advertWidget;
 };
 
 } // namespace OCC
