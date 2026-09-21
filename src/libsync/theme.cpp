@@ -706,7 +706,11 @@ QIcon Theme::syncStateIcon(SyncResult::Status status, bool sysTray) const
         break;
     case SyncResult::SyncPrepare:
     case SyncResult::Success:
-        statusIcon = QLatin1String("state-ok");
+        if (sysTray) {
+            statusIcon = QLatin1String("state-tray-ok");
+        } else {
+            statusIcon = QLatin1String("state-ok");
+        }
         break;
     case SyncResult::Problem:
         statusIcon = QLatin1String("state-warning");
@@ -720,42 +724,11 @@ QIcon Theme::syncStateIcon(SyncResult::Status status, bool sysTray) const
     return themeIcon(statusIcon, sysTray);
 }
 
-// Neutral icons for the classic sync folder list
-
+// Use the same status icons as the general sync state
+// for the classic sync folder list.
 QIcon Theme::folderStateIcon(SyncResult::Status status) const
 {
-    // FIXME: Mind the size!
-    QString statusIcon;
-
-    switch (status) {
-    case SyncResult::Undefined:
-        // this can happen if no sync connections are configured.
-        statusIcon = QLatin1String("warning");
-        break;
-    case SyncResult::NotYetStarted:
-    case SyncResult::SyncRunning:
-        statusIcon = QLatin1String("sync");
-        break;
-    case SyncResult::SyncAbortRequested:
-    case SyncResult::Paused:
-        statusIcon = QLatin1String("pause");
-        break;
-    case SyncResult::SyncPrepare:
-    case SyncResult::Success:
-        statusIcon = QLatin1String("ok");
-        break;
-    case SyncResult::Problem:
-        statusIcon = QLatin1String("warning");
-        break;
-    case SyncResult::SetupError:
-        statusIcon = QLatin1String("offline");
-        break;
-    case SyncResult::Error:
-    default:
-        statusIcon = QLatin1String("error");
-    }
-
-    return themeIcon(statusIcon, false);
+    return syncStateIcon(status, false);
 }
 
 QIcon Theme::folderOfflineIcon(bool sysTray) const
