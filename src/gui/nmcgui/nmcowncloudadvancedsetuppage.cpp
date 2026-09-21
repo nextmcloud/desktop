@@ -14,6 +14,7 @@
 
 #include <QDir>
 #include <QPainter>
+#include <QPalette>
 #include <QTimer>
 
 #include "common/utility.h"
@@ -98,6 +99,10 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
 {
     cleanUpElements();
 
+    // Use the current system palette for the page background
+    setBackgroundRole(QPalette::Window);
+    setAutoFillBackground(true);
+
     // Create and connect the push buttons to base slots
     _loginBrowserButton = new QPushButton(QCoreApplication::translate("", "CONNECT"));
     connect(_loginBrowserButton, &QPushButton::clicked, this, [this]() {
@@ -112,12 +117,13 @@ NMCOwncloudAdvancedSetupPage::NMCOwncloudAdvancedSetupPage(OwncloudWizard *wizar
     // Set login button size and style
     QSize buttonSize(130,32);
     const QString styleSheet("QPushButton{font-size: 15px; border: %1px solid; border-color: black; border-radius: 4px; background-color: %2; color: %3;} QPushButton:hover { background-color: %4; } QPushButton:disabled { background-color: #d8d8d8; color: #8a8a8a; border-color: #d8d8d8; }");
+    const QString secondaryButtonStyle("QPushButton{font-size: 15px; border: 1px solid palette(mid); border-radius: 4px; background-color: palette(button); color: palette(button-text);} QPushButton:hover { background-color: palette(midlight); } QPushButton:disabled { background-color: palette(button); color: palette(mid); border-color: palette(mid); }");
     _loginBrowserButton->setStyleSheet(styleSheet.arg("0","#E20074","white", "#c00063"));
     _loginBrowserButton->setFixedSize(buttonSize);
 
     getUi().locationsGridLayout->removeWidget(getUi().pbSelectLocalFolder);
     getUi().pbSelectLocalFolder->setFixedSize(180, 32);
-    getUi().pbSelectLocalFolder->setStyleSheet(styleSheet.arg("1","white","black", "#ededed"));
+    getUi().pbSelectLocalFolder->setStyleSheet(secondaryButtonStyle);
 
     buttonLayout->addWidget(getUi().pbSelectLocalFolder);
     buttonLayout->addWidget(_loginBrowserButton);
