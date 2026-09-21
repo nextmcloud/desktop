@@ -200,14 +200,14 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
         setTotalFiles(0);
         setSyncStatusString(tr("Offline"));
         setSyncStatusDetailString("");
-        setSyncIcon(Theme::instance()->offline());
+        setSyncIcon(Theme::instance()->folderOffline());
         return;
     }
 
     switch (state) {
     case SyncResult::Success:
     case SyncResult::SyncPrepare:
-        // Success should only be shown if all folders were fine
+    case SyncResult::Undefined:
         if (!folderErrors()
 #ifdef BUILD_FILE_PROVIDER_MODULE
             && _fileProviderDomainsWithErrors.empty()
@@ -217,7 +217,7 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
             setTotalFiles(0);
             setSyncStatusString(tr("All synced!"));
             setSyncStatusDetailString("");
-            setSyncIcon(Theme::instance()->ok());
+            setSyncIcon(Theme::instance()->syncStatusOk());
         }
         break;
     case SyncResult::Error:
@@ -226,7 +226,7 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
         setTotalFiles(0);
         setSyncStatusString(tr("Some files couldn't be synced!"));
         setSyncStatusDetailString(tr("See below for errors"));
-        setSyncIcon(Theme::instance()->error());
+        setSyncIcon(Theme::instance()->syncStatusError());
         break;
     case SyncResult::SyncRunning:
     case SyncResult::NotYetStarted:
@@ -237,7 +237,7 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
             setSyncStatusString(tr("Syncing changes"));
         }
         setSyncStatusDetailString("");
-        setSyncIcon(Theme::instance()->sync());
+        setSyncIcon(Theme::instance()->syncStatusRunning());
         break;
     case SyncResult::Paused:
     case SyncResult::SyncAbortRequested:
@@ -245,15 +245,14 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
         setTotalFiles(0);
         setSyncStatusString(tr("Sync paused"));
         setSyncStatusDetailString("");
-        setSyncIcon(Theme::instance()->pause());
+        setSyncIcon(Theme::instance()->syncStatusPause());
         break;
     case SyncResult::Problem:
-    case SyncResult::Undefined:
         setSyncing(false);
         setTotalFiles(0);
         setSyncStatusString(tr("Some files could not be synced!"));
         setSyncStatusDetailString(tr("See below for warnings"));
-        setSyncIcon(Theme::instance()->warning());
+        setSyncIcon(Theme::instance()->syncStatusWarning());
         break;
     }
 }
