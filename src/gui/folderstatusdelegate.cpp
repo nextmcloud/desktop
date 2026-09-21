@@ -387,7 +387,7 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     }
 
     // NMC customization: we need these infos already here to adjust the progress bar
-    const QRect currentButtonRectPos = moreRectPos(option.rect);
+    const QRect currentButtonRectPos = optionsButtonRect(option.rect, option.direction);
     const int nmcWidth = currentButtonRectPos.x() - nextToIcon - 8; // 8 is the margin to "More" button
 
     // Sync File Progress Bar: Show it if syncFile is not empty.
@@ -443,8 +443,6 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
         btnOpt.subControls = QStyle::SC_ToolButton;
         //NMC customization
         btnOpt.rect = currentButtonRectPos;
-        //make sure the button is not too far away from the left border
-        btnOpt.rect.setRight(btnOpt.rect.x() + btnOpt.rect.width() + 4);
 
         // Create QPainterPath with rounded corners
         QPainterPath path;
@@ -514,21 +512,34 @@ bool FolderStatusDelegate::editorEvent(QEvent *event, QAbstractItemModel *model,
 
 QRect FolderStatusDelegate::optionsButtonRect(QRect within, Qt::LayoutDirection direction)
 {
-    QFont font = QFont();
-    QFont aliasFont = makeAliasFont(font);
-    QFontMetrics fm(font);
-    QFontMetrics aliasFm(aliasFont);
-    within.setHeight(FolderStatusDelegate::rootFolderHeightWithoutErrors(fm, aliasFm));
+    constexpr int buttonWidth = 88;
+    constexpr int buttonHeight = 32;
+    constexpr int rightMargin = 20;
 
-    QStyleOptionToolButton opt;
-    int e = QApplication::style()->pixelMetric(QStyle::PM_ButtonIconSize);
-    opt.rect.setSize(QSize(e,e));
-    QSize size = QApplication::style()->sizeFromContents(QStyle::CT_ToolButton, &opt, opt.rect.size());
+    // Keep the button aligned with the folder/status icon,
+    // independently of additional error/info message boxes.
+    const QFont aliasFont = makeAliasFont(qApp->font());
+    const QFontMetrics aliasFm(aliasFont);
 
-    int margin = QApplication::style()->pixelMetric(QStyle::PM_LayoutHorizontalSpacing);
-    QRect r(QPoint(within.right() - size.width() - margin,
-                within.top() + within.height() / 2 - size.height() / 2),
-        size);
+    const int aliasMargin = aliasFm.height() / 2;
+
+    constexpr int statusIconSize = 24;
+    constexpr int statusIconTopOffset = 4;
+
+    const int iconTop = within.top()
+        + aliasMargin
+        + statusIconTopOffset;
+
+    const int buttonTop = iconTop
+        + (statusIconSize - buttonHeight) / 2;
+
+    QRect r(
+        within.right() - buttonWidth - rightMargin,
+        buttonTop,
+        buttonWidth,
+        buttonHeight
+    );
+
     return QStyle::visualRect(direction, within, r);
 }
 
