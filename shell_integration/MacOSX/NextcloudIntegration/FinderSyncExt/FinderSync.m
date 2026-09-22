@@ -16,6 +16,9 @@
     NSCondition *_menuIsComplete;
     os_log_t _log;
 }
+
+- (void)connectToSocketAtPath:(NSString *)socketPath;
+
 @end
 
 static os_log_t getFinderSyncLogger(void) {
@@ -30,6 +33,32 @@ static os_log_t getFinderSyncLogger(void) {
 }
 
 @implementation FinderSync
+
+- (void)connectToSocketAtPath:(NSString *)socketPath
+{
+    if (self.localSocketClient) {
+        return;
+    }
+
+    if (![[NSFileManager defaultManager] fileExistsAtPath:socketPath]) {
+        os_log_debug(_log, "Socket does not exist yet, retrying: %{public}@", socketPath);
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{
+            [self connectToSocketAtPath:socketPath];
+        });
+
+        return;
+    }
+
+    os_log_debug(_log, "Socket path determined and exists: %{public}@", socketPath);
+
+    self.lineProcessor = [[FinderSyncSocketLineProcessor alloc] initWithDelegate:self];
+    self.localSocketClient = [[LocalSocketClient alloc] initWithSocketPath:socketPath
+                                                             lineProcessor:self.lineProcessor];
+    [self.localSocketClient start];
+    [self.localSocketClient askOnSocket:@"" query:@"GET_STRINGS"];
+}
 
 - (instancetype)init
 {
@@ -60,31 +89,21 @@ static os_log_t getFinderSyncLogger(void) {
         [syncController setBadgeImage:warning label:@"Ignored" forBadgeIdentifier:@"IGNORE+SWM"];
         [syncController setBadgeImage:error label:@"Error" forBadgeIdentifier:@"ERROR+SWM"];
 
+        _registeredDirectories = NSMutableSet.set;
+        _strings = NSMutableDictionary.dictionary;
+        _menuIsComplete = [[NSCondition alloc] init];
+
         NSURL *container = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:groupIdentifier];
         NSURL *socketPath = [container URLByAppendingPathComponent:@"s" isDirectory:NO];
 
         os_log_debug(_log, "Socket path: %{public}@", socketPath.path);
 
-        if (socketPath.path && [[NSFileManager defaultManager] fileExistsAtPath:socketPath.path]) {
-            os_log_debug(_log, "Socket path determined and exists: %{public}@", socketPath.path);
-            self.lineProcessor = [[FinderSyncSocketLineProcessor alloc] initWithDelegate:self];
-            self.localSocketClient = [[LocalSocketClient alloc] initWithSocketPath:socketPath.path
-                                                                     lineProcessor:self.lineProcessor];
-            [self.localSocketClient start];
-            [self.localSocketClient askOnSocket:@"" query:@"GET_STRINGS"];
+        if (socketPath.path) {
+            [self connectToSocketAtPath:socketPath.path];
         } else {
-            if (socketPath.path) {
-                os_log_error(_log, "Socket path determined but file does not exist: %{public}@", socketPath.path);
-            } else {
-                os_log_error(_log, "No socket path available. Not initiating local socket client.");
-            }
-
-            self.localSocketClient = nil;
+            os_log_error(_log, "No socket path available. Not initiating local socket client.");
         }
 
-        _registeredDirectories = NSMutableSet.set;
-        _strings = NSMutableDictionary.dictionary;
-        _menuIsComplete = [[NSCondition alloc] init];
         os_log_debug(_log, "Initialization completed.");
     }
 
@@ -141,7 +160,7 @@ static os_log_t getFinderSyncLogger(void) {
         os_log_error(_log, "Local socket client not connected, cannot build menu");
         return nil;
     }
-    
+
 	FIFinderSyncController *syncController = [FIFinderSyncController defaultController];
 	NSMutableSet *rootPaths = [[NSMutableSet alloc] init];
 	[syncController.directoryURLs enumerateObjectsUsingBlock: ^(id obj, BOOL *stop) {
@@ -163,7 +182,7 @@ static os_log_t getFinderSyncLogger(void) {
 
 	NSString *paths = [self selectedPathsSeparatedByRecordSeparator];
 	[self.localSocketClient askOnSocket:paths query:@"GET_MENU_ITEMS"];
-    
+
     // Since the LocalSocketClient communicates asynchronously. wait here until the menu
     // is delivered by another thread
     [self waitForMenuToArrive];
@@ -258,6 +277,7 @@ static os_log_t getFinderSyncLogger(void) {
 	_menuItems = [[NSMutableArray alloc] init];
 	os_log_debug(_log, "Menu items reset completed");
 }
+
 - (void)addMenuItem:(NSDictionary *)item {
     os_log_debug(_log, "Adding menu item with title: %{public}@", [item valueForKey:@"text"] ?: @"(no title)");
 	[_menuItems addObject:item];
@@ -287,5 +307,3 @@ static os_log_t getFinderSyncLogger(void) {
 }
 
 @end
-
-
