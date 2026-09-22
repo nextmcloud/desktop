@@ -42,6 +42,10 @@
     <false/>
     <key>SUShowReleaseNotes</key>
     <false/>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUAutomaticallyUpdate</key>
+	<false/>
     <key>SUPublicDSAKeyFile</key>
     <string>dsa_pub.pem</string>
     <key>SUPublicEDKey</key>
