@@ -200,16 +200,16 @@ SyncStatusInfo syncStatusForAccount(const OCC::AccountStatePtr &accountState)
     }
 
     if (hasError) {
-        return {OCC::Theme::instance()->error(), false};
+        return {OCC::Theme::instance()->syncStatusError(), false};
     }
     if (hasWarning) {
-        return {OCC::Theme::instance()->warning(), false};
+        return {OCC::Theme::instance()->syncStatusWarning(), false};
     }
     if (hasPaused) {
-        return {OCC::Theme::instance()->pause(), false};
+        return {OCC::Theme::instance()->syncStatusPause(), false};
     }
     if (hasSyncing) {
-        return {OCC::Theme::instance()->sync(), false};
+        return {OCC::Theme::instance()->syncStatusRunning(), false};
     }
 
     return {OCC::Theme::instance()->ok(), true};
