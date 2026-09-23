@@ -20,6 +20,18 @@ if(APPLICATION_NAME STREQUAL "Nextcloud")
     set(STATE_SUBDIR "nextcloud/")
 endif()
 
+# For branded clients, use the branded application short name for all
+# generated icon resource names. The Brander currently sets
+# APPLICATION_ICON_NAME to "Nextcloud", which would otherwise leak into
+# generated resource names such as Nextcloud.icns.
+if(NOT APPLICATION_NAME STREQUAL "Nextcloud")
+    set(APPLICATION_ICON_NAME "${APPLICATION_SHORTNAME}")
+elseif(NOT DEFINED APPLICATION_ICON_NAME)
+    set(APPLICATION_ICON_NAME "${APPLICATION_SHORTNAME}")
+endif()
+
+message(STATUS "APPLICATION_ICON_NAME: ${APPLICATION_ICON_NAME}")
+
 configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
 set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
 
