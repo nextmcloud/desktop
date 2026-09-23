@@ -20,20 +20,68 @@ if(APPLICATION_NAME STREQUAL "Nextcloud")
     set(STATE_SUBDIR "nextcloud/")
 endif()
 
-# For branded clients, use the branded application short name for all
-# generated icon resource names. The Brander currently sets
-# APPLICATION_ICON_NAME to "Nextcloud", which would otherwise leak into
-# generated resource names such as Nextcloud.icns.
-if(NOT APPLICATION_NAME STREQUAL "Nextcloud")
-    set(APPLICATION_ICON_NAME "${APPLICATION_SHORTNAME}")
-elseif(NOT DEFINED APPLICATION_ICON_NAME)
+# Remember the icon source name supplied by the Brander before replacing
+# it with the branded application name for generated resources.
+if(NOT DEFINED APPLICATION_ICON_NAME)
     set(APPLICATION_ICON_NAME "${APPLICATION_SHORTNAME}")
 endif()
 
+set(APPLICATION_ICON_SOURCE_NAME "${APPLICATION_ICON_NAME}")
+
+if(NOT APPLICATION_NAME STREQUAL "Nextcloud")
+    set(APPLICATION_ICON_NAME "${APPLICATION_SHORTNAME}")
+endif()
+
+message(STATUS "APPLICATION_ICON_SOURCE_NAME: ${APPLICATION_ICON_SOURCE_NAME}")
 message(STATUS "APPLICATION_ICON_NAME: ${APPLICATION_ICON_NAME}")
 
-configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
 set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
+
+# The Brander still provides the customized source assets using the
+# Nextcloud filenames. Create branded aliases used by the build.
+if(NOT APPLICATION_ICON_SOURCE_NAME STREQUAL APPLICATION_ICON_NAME)
+
+    set(APP_ICON_SOURCE_SVG
+        "${theme_dir}/colored/${APPLICATION_ICON_SOURCE_NAME}-icon.svg")
+    set(APP_ICON_BRANDED_SVG
+        "${theme_dir}/colored/${APPLICATION_ICON_NAME}-icon.svg")
+
+    if(NOT EXISTS "${APP_ICON_SOURCE_SVG}")
+        message(FATAL_ERROR
+            "Application icon source does not exist: ${APP_ICON_SOURCE_SVG}")
+    endif()
+
+    configure_file(
+        "${APP_ICON_SOURCE_SVG}"
+        "${APP_ICON_BRANDED_SVG}"
+        COPYONLY
+    )
+
+    if(APPLE)
+        # Prefer the macOS-specific sidebar source.
+        set(MACOS_SIDEBAR_SOURCE_SVG
+            "${theme_dir}/colored/${APPLICATION_ICON_SOURCE_NAME}-macOS-sidebar.svg")
+
+        # Fallback for themes using the old generic sidebar filename.
+        if(NOT EXISTS "${MACOS_SIDEBAR_SOURCE_SVG}")
+            set(MACOS_SIDEBAR_SOURCE_SVG
+                "${theme_dir}/colored/${APPLICATION_ICON_SOURCE_NAME}-sidebar.svg")
+        endif()
+
+        if(NOT EXISTS "${MACOS_SIDEBAR_SOURCE_SVG}")
+            message(FATAL_ERROR
+                "macOS sidebar icon source does not exist: ${MACOS_SIDEBAR_SOURCE_SVG}")
+        endif()
+
+        configure_file(
+            "${MACOS_SIDEBAR_SOURCE_SVG}"
+            "${theme_dir}/colored/${APPLICATION_ICON_NAME}-sidebar.svg"
+            COPYONLY
+        )
+    endif()
+endif()
+
+configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
 
 set(client_UI_SRCS
     accountsettings.ui
