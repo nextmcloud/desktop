@@ -2,7 +2,14 @@
 # SPDX-FileCopyrightText: 2014 ownCloud GmbH
 # SPDX-License-Identifier: GPL-2.0-or-later
 if(APPLE)
-    set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_ICON_NAME}.icns")
+    # src/gui uses the branded application short name for the generated
+    # .icns file, while Nextcloud.cmake may still define APPLICATION_ICON_NAME
+    # as "Nextcloud".
+    if(NOT APPLICATION_NAME STREQUAL "Nextcloud")
+        set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_SHORTNAME}.icns")
+    else()
+        set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_ICON_NAME}.icns")
+    endif()
 
     if (NEXTCLOUD_DEV)
         set(XCODE_TARGET_CONFIGURATION "Debug")
