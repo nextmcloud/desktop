@@ -6,6 +6,7 @@
 
 #include <QDir>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QUrl>
 #include <QTimer>
 #include <QStorageInfo>
@@ -27,7 +28,6 @@
 #include <folderman.h>
 #include "creds/abstractcredentials.h"
 #include "networkjobs.h"
-#include "wizard/owncloudwizard.h"
 
 #ifdef BUILD_FILE_PROVIDER_MODULE
 #include "gui/macOS/fileprovider.h"
@@ -175,11 +175,19 @@ void OwncloudAdvancedSetupPage::initializePage()
     ConfigFile cfg;
     const auto overrideLocalDir = !cfg.overrideLocalDir().isEmpty();
 
+#ifdef Q_OS_MACOS
+    auto goodLocalFolder = localFolder();
+    if (!goodLocalFolder.isEmpty()) {
+        goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(goodLocalFolder, serverUrl(), FolderMan::GoodPathStrategy::AllowOnlyNewPath);
+    }
+#else
     auto goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(localFolder(), serverUrl(), FolderMan::GoodPathStrategy::AllowOnlyNewPath);
+#endif
+
     if (overrideLocalDir) {
-        ConfigFile cfg;
         goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(cfg.overrideLocalDir(), serverUrl(), FolderMan::GoodPathStrategy::AllowOverrideExistingPath);
     }
+
     wizard()->setProperty("localFolder", goodLocalFolder);
 
     // call to init label
@@ -307,10 +315,19 @@ void OwncloudAdvancedSetupPage::updateStatus()
 {
     const QString locFolder = localFolder();
 
-    // check if the local folder exists. If so, and if its not empty, show a warning.
-    const auto pathValidityCheckResult = FolderMan::instance()->checkPathValidityForNewFolder(locFolder, serverUrl());
-    auto errorStr = pathValidityCheckResult.second;
-    _localFolderValid = errorStr.isEmpty() || pathValidityCheckResult.first == FolderMan::PathValidityResult::ErrorNonEmptyFolder;
+    QString errorStr;
+#ifdef Q_OS_MACOS
+    if (locFolder.isEmpty()) {
+        _localFolderValid = false;
+        errorStr = tr("Please choose a folder to sync your files.");
+    } else
+#endif
+    {
+        // check if the local folder exists. If so, and if its not empty, show a warning.
+        const auto pathValidityCheckResult = FolderMan::instance()->checkPathValidityForNewFolder(locFolder, serverUrl());
+        errorStr = pathValidityCheckResult.second;
+        _localFolderValid = errorStr.isEmpty() || pathValidityCheckResult.first == FolderMan::PathValidityResult::ErrorNonEmptyFolder;
+    }
 
     QString t;
 
@@ -324,7 +341,11 @@ void OwncloudAdvancedSetupPage::updateStatus()
             _ui.rSyncEverything->setText(tr("Sync the folder \"%1\"").arg(_remoteFolder));
         }
 
-        const bool dirNotEmpty(QDir(locFolder).entryList(QDir::AllEntries | QDir::NoDotAndDotDot).count() > 0);
+        const bool dirNotEmpty =
+#ifdef Q_OS_MACOS
+            !locFolder.isEmpty() &&
+#endif
+            QDir(locFolder).entryList(QDir::AllEntries | QDir::NoDotAndDotDot).count() > 0;
         if (dirNotEmpty) {
             t += tr("Warning: The local folder is not empty. Pick a resolution!");
         }
@@ -333,13 +354,27 @@ void OwncloudAdvancedSetupPage::updateStatus()
         setResolutionGuiVisible(false);
     }
 
+    auto filePathText = QDir::toNativeSeparators(locFolder);
+#ifdef Q_OS_MACOS
+    if (locFolder.isEmpty()) {
+        filePathText = tr("Choose where to sync your files");
+    }
+#endif
+
+    const auto hasLocalSyncFolder =
+#ifdef Q_OS_MACOS
+        !locFolder.isEmpty();
+#else
+        true;
+#endif
+
+    const auto freeSpaceText = hasLocalSyncFolder ? QString(tr("%1 free space", "%1 gets replaced with the size and a matching unit. Example: 3 MB or 5 GB")).arg(Utility::octetsToString(availableLocalSpace())) : QString();
+
+    _filePathLabel->setText(filePathText);
+    _ui.lFreeSpace->setText(freeSpaceText);
+
 #ifdef BUILD_FILE_PROVIDER_MODULE
     updateMacOsFileProviderRelatedViews();
-#else
-    _filePathLabel->setText(QDir::toNativeSeparators(locFolder));
-
-    QString lfreeSpaceStr = Utility::octetsToString(availableLocalSpace());
-    _ui.lFreeSpace->setText(QString(tr("%1 free space", "%1 gets replaced with the size and a matching unit. Example: 3 MB or 5 GB")).arg(lfreeSpaceStr));
 #endif
 
     _ui.syncModeLabel->setText(t);
@@ -347,13 +382,11 @@ void OwncloudAdvancedSetupPage::updateStatus()
 
     qint64 rSpace = _ui.rSyncEverything->isChecked() ? _rSize : _rSelectedSize;
 
-    QString spaceError = checkLocalSpace(rSpace);
+    const auto spaceError = hasLocalSyncFolder ? checkLocalSpace(rSpace) : QString();
     if (!spaceError.isEmpty()) {
         errorStr = spaceError;
     }
     setErrorString(errorStr);
-
-    emit completeChanged();
 }
 
 void OwncloudAdvancedSetupPage::setResolutionGuiVisible(bool value)
@@ -422,6 +455,13 @@ bool OwncloudAdvancedSetupPage::isConfirmBigFolderChecked() const
 
 bool OwncloudAdvancedSetupPage::validatePage()
 {
+#ifdef Q_OS_MACOS
+    if (localFolder().isEmpty()) {
+        setErrorString(tr("Please choose a folder to sync your files."));
+        return false;
+    }
+#endif
+
 #ifndef BUILD_FILE_PROVIDER_MODULE
     if (useVirtualFileSync()) {
         const auto availability = Vfs::checkAvailability(localFolder(), bestAvailableVfsMode());
@@ -496,18 +536,49 @@ void OwncloudAdvancedSetupPage::slotSelectFolder()
 #else
         QDir::homePath();
 #endif
-    QString dir = QFileDialog::getExistingDirectory(nullptr, tr("Local Sync Folder"), homeDirectory);
-    if (!dir.isEmpty()) {
-        // TODO: remove when UX decision is made
-        refreshVirtualFilesAvailibility(dir);
 
-        wizard()->setProperty("localFolder", dir);
+    const QString selectedDirectory = QFileDialog::getExistingDirectory(nullptr, tr("Storage Location"), homeDirectory, QFileDialog::ShowDirsOnly);
+
+    if (selectedDirectory.isEmpty()) {
         updateStatus();
+        return;
     }
 
-    qint64 rSpace = _ui.rSyncEverything->isChecked() ? _rSize : _rSelectedSize;
-    QString errorStr = checkLocalSpace(rSpace);
-    setErrorString(errorStr);
+    QString folderName = Theme::instance()->defaultClientFolder();
+
+    // defaultClientFolder() is normally just "MagentaCLOUD".
+    // In case a theme provides a path, only use the actual folder name here.
+    folderName = QDir::cleanPath(folderName);
+    const int lastSeparator = qMax(folderName.lastIndexOf(QLatin1Char('/')), folderName.lastIndexOf(QLatin1Char('\\')));
+    if (lastSeparator >= 0) {
+        folderName = folderName.mid(lastSeparator + 1);
+    }
+
+    if (folderName.isEmpty() || folderName == QLatin1String(".")) {
+        folderName = Theme::instance()->appName();
+    }
+
+    const QDir parentDirectory(selectedDirectory);
+
+    QString localSyncFolder = parentDirectory.filePath(folderName);
+    int counter = 1;
+
+    while (QFileInfo::exists(localSyncFolder)) {
+        localSyncFolder = parentDirectory.filePath(folderName + QString::number(counter));
+        ++counter;
+    }
+
+    if (!QDir().mkpath(localSyncFolder)) {
+        setErrorString(tr("Could not create local folder %1").arg(QDir::toNativeSeparators(localSyncFolder)));
+        return;
+    }
+
+    // TODO: remove when UX decision is made
+    refreshVirtualFilesAvailibility(localSyncFolder);
+
+    wizard()->setProperty("localFolder", localSyncFolder);
+
+    updateStatus();
 }
 
 void OwncloudAdvancedSetupPage::slotSelectiveSyncClicked()
@@ -573,8 +644,12 @@ void OwncloudAdvancedSetupPage::slotSyncEverythingClicked()
     setRadioChecked(_ui.rSyncEverything);
     _selectiveSyncBlacklist.clear();
 
+#ifdef Q_OS_MACOS
+    updateStatus();
+#else
     QString errorStr = checkLocalSpace(_rSize);
     setErrorString(errorStr);
+#endif
 }
 
 void OwncloudAdvancedSetupPage::slotQuotaRetrieved(const QVariantMap &result)
@@ -597,21 +672,37 @@ void OwncloudAdvancedSetupPage::slotQuotaRetrievedWithError(QNetworkReply *reply
 qint64 OwncloudAdvancedSetupPage::availableLocalSpace() const
 {
     QString localDir = localFolder();
+
+    if (localDir.isEmpty()) {
+        return -1;
+    }
+
     const auto homeDirectory =
 #ifdef Q_OS_MACOS
         Utility::getRealHomeDirectory();
 #else
         QDir::homePath();
 #endif
-    QString path = !QDir(localDir).exists() && localDir.contains(homeDirectory) ? homeDirectory : localDir;
+    QString path = !QDir(localDir).exists() && localDir.contains(homeDirectory)
+        ? homeDirectory
+        : localDir;
+
     QStorageInfo storage(QDir::toNativeSeparators(path));
 
-    return storage.bytesAvailable();
+    return storage.isValid() ? storage.bytesAvailable() : -1;
 }
 
 QString OwncloudAdvancedSetupPage::checkLocalSpace(qint64 remoteSize) const
 {
-    return (availableLocalSpace()>remoteSize) ? QString() : tr("There isn't enough free space in the local folder!");
+    const auto localSpace = availableLocalSpace();
+
+    if (localSpace < 0 || remoteSize < 0) {
+        return {};
+    }
+
+    return localSpace > remoteSize
+        ? QString()
+        : tr("There isn't enough free space in the local folder!");
 }
 
 void OwncloudAdvancedSetupPage::slotStyleChanged()
@@ -659,18 +750,12 @@ void OwncloudAdvancedSetupPage::setRadioChecked(QRadioButton *radio)
 #ifdef BUILD_FILE_PROVIDER_MODULE
 void OwncloudAdvancedSetupPage::updateMacOsFileProviderRelatedViews()
 {
-    const auto freeSpaceHidden = _ui.rVirtualFileSync->isChecked();
+    const auto freeSpaceHidden = _ui.rVirtualFileSync->isChecked() || localFolder().isEmpty();
     const auto folderSelectionButtonHidden = _ui.rVirtualFileSync->isChecked();
-    const auto filePathLabelText =
-        _ui.rVirtualFileSync->isChecked() ? tr("In Finder's \"Locations\" sidebar section") : QDir::toNativeSeparators(localFolder());
-    const auto freeSpaceString = freeSpaceHidden ? QString() : Utility::octetsToString(availableLocalSpace());
-    const auto freeSpaceText = freeSpaceHidden ? QString() : QString(tr("%1 free space", "%1 gets replaced with the size and a matching unit. Example: 3 MB or 5 GB")).arg(freeSpaceString);
 
     _ui.lFreeSpace->setHidden(freeSpaceHidden);
-    _ui.lFreeSpace->setText(freeSpaceText);
     _ui.pbSelectLocalFolder->setHidden(folderSelectionButtonHidden);
     _ui.pbSelectLocalFolder->setEnabled(!folderSelectionButtonHidden);
-    _filePathLabel->setText(filePathLabelText);
 }
 #endif
 
