@@ -106,11 +106,12 @@
     <name>ActivitiesWindow</name>
     <message>
         <location filename="../src/gui/activity/qml/ActivitiesWindow.qml" line="20"/>
+        <location filename="../src/gui/accountsettings.cpp" line="183"/>
         <source>Activities</source>
         <translation>Gníomhaíochtaí</translation>
     </message>
     <message>
-        <location filename="../src/gui/activity/qml/ActivitiesWindow.qml" line="127"/>
+        <location filename="../src/gui/activity/qml/ActivitiesWindow.qml" line="136"/>
         <source>New activities</source>
         <translation>Gníomhaíochtaí nua</translation>
     </message>
@@ -176,17 +177,17 @@
 <context>
     <name>ActivityList</name>
     <message>
-        <location filename="../src/gui/activity/qml/ActivityList.qml" line="57"/>
+        <location filename="../src/gui/activity/qml/ActivityList.qml" line="64"/>
         <source>Activity list</source>
         <translation>Liosta gníomhaíochtaí</translation>
     </message>
     <message>
-        <location filename="../src/gui/activity/qml/ActivityList.qml" line="143"/>
+        <location filename="../src/gui/activity/qml/ActivityList.qml" line="150"/>
         <source>Scroll to top</source>
         <translation>Scrollaigh go barr</translation>
     </message>
     <message>
-        <location filename="../src/gui/activity/qml/ActivityList.qml" line="172"/>
+        <location filename="../src/gui/activity/qml/ActivityList.qml" line="179"/>
         <source>No activities yet</source>
         <translation>Níl aon ghníomhaíochtaí fós</translation>
     </message>
@@ -230,22 +231,22 @@
     <message>
         <location filename="../src/gui/assistant/qml/AssistantChatView.qml" line="44"/>
         <source>New conversation</source>
-        <translation type="unfinished"/>
+        <translation>Comhrá nua</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/qml/AssistantChatView.qml" line="70"/>
         <source>Reload conversations</source>
-        <translation type="unfinished"/>
+        <translation>Athluchtaigh comhráite</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/qml/AssistantChatView.qml" line="100"/>
         <source>Assistant is thinking…</source>
-        <translation type="unfinished"/>
+        <translation>Tá an Cúntóir ag machnamh…</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/qml/AssistantChatView.qml" line="110"/>
         <source>Retry response generation</source>
-        <translation type="unfinished"/>
+        <translation>Déan iarracht arís an freagra a ghiniúint</translation>
     </message>
 </context>
 <context>
@@ -253,12 +254,12 @@
     <message>
         <location filename="../src/gui/assistant/qml/AssistantConversationPicker.qml" line="24"/>
         <source>No conversation selected</source>
-        <translation type="unfinished"/>
+        <translation>Níl aon chomhrá roghnaithe</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/qml/AssistantConversationPicker.qml" line="27"/>
         <source>Selected conversation</source>
-        <translation type="unfinished"/>
+        <translation>Comhrá roghnaithe</translation>
     </message>
 </context>
 <context>
@@ -267,22 +268,22 @@
         <location filename="../src/gui/assistant/qml/AssistantDeleteTaskDialog.qml" line="37"/>
         <location filename="../src/gui/assistant/qml/AssistantDeleteTaskDialog.qml" line="40"/>
         <source>Delete assistant task?</source>
-        <translation type="unfinished"/>
+        <translation>Scrios tasc an chúntóra?</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/qml/AssistantDeleteTaskDialog.qml" line="49"/>
         <source>This removes the task from the server.</source>
-        <translation type="unfinished"/>
+        <translation>Baineann sé seo an tasc den fhfreastalaí.</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/qml/AssistantDeleteTaskDialog.qml" line="66"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Cealaigh</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/qml/AssistantDeleteTaskDialog.qml" line="73"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Scrios</translation>
     </message>
 </context>
 <context>
@@ -290,7 +291,7 @@
     <message>
         <location filename="../src/gui/assistant/qml/AssistantMessageList.qml" line="50"/>
         <source>Start a conversation with Nextcloud Assistant.</source>
-        <translation type="unfinished"/>
+        <translation>Cuir tús le comhrá le Cúntóir Nextcloud.</translation>
     </message>
 </context>
 <context>
@@ -299,17 +300,17 @@
         <location filename="../src/gui/assistant/qml/AssistantTaskDelegate.qml" line="27"/>
         <source>%1 · %2</source>
         <extracomment>%1 is the assistant task status and %2 is the task's date and time in the locale's short format.</extracomment>
-        <translation type="unfinished"/>
+        <translation>%1 · %2</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/qml/AssistantTaskDelegate.qml" line="60"/>
         <source>Retry</source>
-        <translation type="unfinished"/>
+        <translation>Déan iarracht arís</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/qml/AssistantTaskDelegate.qml" line="67"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Scrios</translation>
     </message>
 </context>
 <context>
@@ -317,7 +318,7 @@
     <message>
         <location filename="../src/gui/assistant/qml/AssistantTaskList.qml" line="52"/>
         <source>No assistant tasks for this type.</source>
-        <translation type="unfinished"/>
+        <translation>Níl aon tascanna cúntóra ann don chineál seo.</translation>
     </message>
 </context>
 <context>
@@ -326,11 +327,36 @@
         <location filename="../src/gui/assistant/qml/AssistantTaskTypeDelegate.qml" line="101"/>
         <source>Select assistant task type %1</source>
         <extracomment>%1 is the name of an assistant task type, for example &quot;Chat&quot;.</extracomment>
-        <translation type="unfinished"/>
+        <translation>Roghnaigh cineál cúraim an chúntóra %1</translation>
     </message>
 </context>
 <context>
     <name>AssistantWindow</name>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="185"/>
+        <source>Assistant</source>
+        <translation>Cúntóir</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/assistant/qml/AssistantWindow.qml" line="65"/>
+        <source>Type a message</source>
+        <translation>Clóscríobh teachtaireacht</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/assistant/qml/AssistantWindow.qml" line="66"/>
+        <source>Describe the task</source>
+        <translation>Déan cur síos ar an tasc.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/assistant/qml/AssistantWindow.qml" line="138"/>
+        <source>AI can make mistakes. Review generated content before using it.</source>
+        <translation>Is féidir le hintleacht shaorga botúin a dhéanamh. Déan athbhreithniú ar an ábhar a ghintear sula n-úsáideann tú é.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/AssistantWindow.qml" line="252"/>
+        <source>Send</source>
+        <translation>Seol</translation>
+    </message>
     <message>
         <location filename="../src/gui/AssistantWindow.qml" line="19"/>
         <source>Nextcloud Assistant</source>
@@ -362,26 +388,6 @@
         <location filename="../src/gui/AssistantWindow.qml" line="236"/>
         <source>Ask Assistant …</source>
         <translation>Iarr ar an gCúntóir …</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/assistant/qml/AssistantWindow.qml" line="65"/>
-        <source>Type a message</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/assistant/qml/AssistantWindow.qml" line="66"/>
-        <source>Describe the task</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/assistant/qml/AssistantWindow.qml" line="138"/>
-        <source>AI can make mistakes. Review generated content before using it.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/gui/AssistantWindow.qml" line="252"/>
-        <source>Send</source>
-        <translation>Seol</translation>
     </message>
 </context>
 <context>
@@ -592,6 +598,29 @@
     </message>
 </context>
 <context>
+    <name>DeleteShareConfirmation</name>
+    <message>
+        <location filename="../src/gui/sharing/DeleteShareConfirmation.qml" line="17"/>
+        <source>Delete share?</source>
+        <translation>Scrios an scair?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/DeleteShareConfirmation.qml" line="21"/>
+        <source>This removes the share and its access for all recipients.</source>
+        <translation>Baineann sé seo an comhroinnt agus an rochtain uirthi do gach faighteoir.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/DeleteShareConfirmation.qml" line="28"/>
+        <source>Delete</source>
+        <translation>Scrios</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/DeleteShareConfirmation.qml" line="34"/>
+        <source>Cancel</source>
+        <translation>Cealaigh</translation>
+    </message>
+</context>
+<context>
     <name>EditFileLocallyLoadingDialog</name>
     <message>
         <location filename="../src/gui/tray/EditFileLocallyLoadingDialog.qml" line="83"/>
@@ -631,6 +660,35 @@
         <location filename="../src/gui/ErrorBox.qml" line="54"/>
         <source>Error</source>
         <translation>Earráid</translation>
+    </message>
+</context>
+<context>
+    <name>FieldDelegate</name>
+    <message>
+        <location filename="../src/gui/sharing/FieldDelegate.qml" line="25"/>
+        <source>%1 (required)</source>
+        <translation>%1 (riachtanach)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/FieldDelegate.qml" line="103"/>
+        <source>YYYY-MM-DD</source>
+        <translation>BBBB-MM-LL</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/FieldDelegate.qml" line="133"/>
+        <source>Enter a valid date within the allowed range.</source>
+        <translation>Cuir isteach dáta bailí laistigh den raon ceadaithe.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/FieldDelegate.qml" line="288"/>
+        <location filename="../src/gui/sharing/FieldDelegate.qml" line="347"/>
+        <source>This value is shorter than the minimum length.</source>
+        <translation>Tá an luach seo níos giorra ná an fad íosta.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/FieldDelegate.qml" line="363"/>
+        <source>This setting is not supported by this version of the desktop client.</source>
+        <translation>Ní thacaíonn an leagan seo den chliant deisce leis an socrú seo.</translation>
     </message>
 </context>
 <context>
@@ -998,37 +1056,37 @@ Ar cheart an cuntas a allmhairiú?</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="443"/>
-        <location filename="../src/gui/accountsettings.cpp" line="193"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1344"/>
+        <location filename="../src/gui/accountsettings.cpp" line="198"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1364"/>
         <source>Connection settings</source>
         <translation>Socruithe ceangail</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.ui" line="505"/>
+        <location filename="../src/gui/accountsettings.ui" line="575"/>
         <source>If this account&apos;s files appear stuck, missing, or out of sync in Finder, reset its File Provider storage. Unsynced local changes are preserved.</source>
         <translation>Má tá cuma ar chomhaid an chuntais seo go bhfuil siad sáinnithe, ar iarraidh nó as sioncrónú i Finder, athshocraigh a stóráil Soláthraí Comhad. Coinnítear athruithe áitiúla neamhshioncrónaithe.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.ui" line="521"/>
-        <location filename="../src/gui/accountsettings.cpp" line="2075"/>
+        <location filename="../src/gui/accountsettings.ui" line="591"/>
+        <location filename="../src/gui/accountsettings.cpp" line="2117"/>
         <source>Reset File Provider Domain</source>
         <translation>Athshocraigh Fearann ​​Soláthraí Comhad</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.ui" line="558"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1558"/>
+        <location filename="../src/gui/accountsettings.ui" line="640"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1578"/>
         <source>Log out, log back in, or remove this account from the client.</source>
         <translation>Logáil amach, logáil isteach arís, nó bain an cuntas seo ón gcliant.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.ui" line="574"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1554"/>
+        <location filename="../src/gui/accountsettings.ui" line="656"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1574"/>
         <source>Log out</source>
         <translation>Logáil amach</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.ui" line="587"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1555"/>
+        <location filename="../src/gui/accountsettings.ui" line="669"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1575"/>
         <source>Remove account</source>
         <translation>Bain cuntas</translation>
     </message>
@@ -1044,9 +1102,9 @@ Ar cheart an cuntas a allmhairiú?</translation>
     </message>
     <message>
         <location filename="../src/gui/accountsettings.ui" line="325"/>
-        <location filename="../src/gui/accountsettings.cpp" line="985"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1170"/>
-        <location filename="../src/gui/accountsettings.cpp" line="2076"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1015"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1186"/>
+        <location filename="../src/gui/accountsettings.cpp" line="2118"/>
         <source>Cancel</source>
         <translation>Cealaigh</translation>
     </message>
@@ -1056,7 +1114,7 @@ Ar cheart an cuntas a allmhairiú?</translation>
         <translation>Ceangailte le &lt;server&gt; mar &lt;user&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="348"/>
+        <location filename="../src/gui/accountsettings.cpp" line="378"/>
         <source>No account configured.</source>
         <translation>Níl aon chuntas cumraithe.</translation>
     </message>
@@ -1095,196 +1153,196 @@ Ar cheart an cuntas a allmhairiú?</translation>
 1 Níl an próiseas seo inchúlaithe. An bhfuil tú cinnte gur mhaith leat leanúint ar aghaidh?1</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="339"/>
+        <location filename="../src/gui/accountsettings.cpp" line="369"/>
         <source>End-to-end encryption has not been initialized on this account.</source>
         <translation>Níl criptiú ó cheann ceann tosaithe ar an gcuntas seo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="366"/>
+        <location filename="../src/gui/accountsettings.cpp" line="396"/>
         <source>Forget encryption setup</source>
         <translation>Déan dearmad ar shocrú criptithe</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="376"/>
+        <location filename="../src/gui/accountsettings.cpp" line="406"/>
         <source>Display mnemonic</source>
         <translation>Cuimhneachán a thaispeáint</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="382"/>
+        <location filename="../src/gui/accountsettings.cpp" line="412"/>
         <source>Encryption is set-up. Remember to &lt;b&gt;Encrypt&lt;/b&gt; a folder to end-to-end encrypt any new files added to it.</source>
         <translation>Tá an criptiú socraithe. Cuimhnigh fillteán a &lt;b&gt;Chriptiú&lt;/b&gt; chun aon chomhaid nua a chuirtear leis a chriptiú ó cheann ceann.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="415"/>
+        <location filename="../src/gui/accountsettings.cpp" line="445"/>
         <source>Warning</source>
         <translation>Rabhadh</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="476"/>
+        <location filename="../src/gui/accountsettings.cpp" line="506"/>
         <source>Please wait for the folder to sync before trying to encrypt it.</source>
         <translation>Fán le do thoil go ndéanfaidh tú an fillteán a shioncronú sula ndéanfaidh tú iarracht é a chriptiú.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="478"/>
+        <location filename="../src/gui/accountsettings.cpp" line="508"/>
         <source>The folder has a minor sync problem. Encryption of this folder will be possible once it has synced successfully</source>
         <translation>Tá mionfhadhb sioncronaithe ag an bhfillteán. Beifear in ann an fillteán seo a chriptiú nuair a bheidh sé sioncronaithe go rathúil</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="480"/>
+        <location filename="../src/gui/accountsettings.cpp" line="510"/>
         <source>The folder has a sync error. Encryption of this folder will be possible once it has synced successfully</source>
         <translation>Tá earráid shioncronaithe san fhillteán. Beifear in ann an fillteán seo a chriptiú nuair a bheidh sé sioncronaithe go rathúil</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="491"/>
+        <location filename="../src/gui/accountsettings.cpp" line="521"/>
         <source>You cannot encrypt this folder because the end-to-end encryption is not set-up yet on this device.
 Would you like to do this now?</source>
         <translation>Ní féidir leat an fillteán seo a chriptiú mar níl an criptiú ó cheann ceann socraithe ar an ngléas seo go fóill.
 Ar mhaith leat é seo a dhéanamh anois?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="515"/>
+        <location filename="../src/gui/accountsettings.cpp" line="545"/>
         <source>You cannot encrypt a folder with contents, please remove the files.
 Wait for the new sync, then encrypt it.</source>
         <translation>Ní féidir leat fillteán a bhfuil a bhfuil ann a chriptiú, bain na comhaid le do thoil.
 Fan leis an sioncronú nua, ansin é a chriptiú.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="539"/>
+        <location filename="../src/gui/accountsettings.cpp" line="569"/>
         <source>Encryption failed</source>
         <translation>Theip ar chriptiú</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="539"/>
+        <location filename="../src/gui/accountsettings.cpp" line="569"/>
         <source>Could not encrypt folder because the folder does not exist anymore</source>
         <translation>Níorbh fhéidir fillteán a chriptiú toisc nach bhfuil an fillteán ann a thuilleadh</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="680"/>
+        <location filename="../src/gui/accountsettings.cpp" line="710"/>
         <source>Encrypt</source>
         <translation>Criptigh</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="688"/>
-        <location filename="../src/gui/accountsettings.cpp" line="758"/>
+        <location filename="../src/gui/accountsettings.cpp" line="718"/>
+        <location filename="../src/gui/accountsettings.cpp" line="788"/>
         <source>Edit Ignored Files</source>
         <translation>Cuir Comhaid Neamhaird in Eagar</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="691"/>
-        <location filename="../src/gui/accountsettings.cpp" line="761"/>
+        <location filename="../src/gui/accountsettings.cpp" line="721"/>
+        <location filename="../src/gui/accountsettings.cpp" line="791"/>
         <source>Create new folder</source>
         <translation>Cruthaigh fillteán nua</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="697"/>
-        <location filename="../src/gui/accountsettings.cpp" line="787"/>
+        <location filename="../src/gui/accountsettings.cpp" line="727"/>
+        <location filename="../src/gui/accountsettings.cpp" line="817"/>
         <source>Availability</source>
         <translation>Infhaighteacht</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="766"/>
+        <location filename="../src/gui/accountsettings.cpp" line="796"/>
         <source>Choose what to sync</source>
         <translation>Roghnaigh cad atá le sioncronú</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="772"/>
+        <location filename="../src/gui/accountsettings.cpp" line="802"/>
         <source>Force sync now</source>
         <translation>Cuir an sioncronú i bhfeidhm anois</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="774"/>
+        <location filename="../src/gui/accountsettings.cpp" line="804"/>
         <source>Restart sync</source>
         <translation>Atosaigh an sioncronú</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="783"/>
+        <location filename="../src/gui/accountsettings.cpp" line="813"/>
         <source>Remove folder sync connection</source>
         <translation>Bain nasc sioncrónaithe fillteán</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="796"/>
+        <location filename="../src/gui/accountsettings.cpp" line="826"/>
         <source>Disable virtual file support …</source>
         <translation>Díchumasaigh tacaíocht comhaid fhíorúil…</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="808"/>
+        <location filename="../src/gui/accountsettings.cpp" line="838"/>
         <source>Enable virtual file support %1 …</source>
         <translation>Cumasaigh tacaíocht comhaid fhíorúla % 1 …</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="808"/>
+        <location filename="../src/gui/accountsettings.cpp" line="838"/>
         <source>(experimental)</source>
         <translation>(turgnamhach)</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="910"/>
-        <location filename="../src/gui/accountsettings.cpp" line="953"/>
+        <location filename="../src/gui/accountsettings.cpp" line="940"/>
+        <location filename="../src/gui/accountsettings.cpp" line="983"/>
         <source>Folder creation failed</source>
         <translation>Theip ar chruthú fillteán</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="954"/>
-        <source>&lt;p&gt;Could not add the folder sync connection for &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Níorbh fhéidir an nasc sioncrónaithe fillteáin a chur leis do &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="977"/>
-        <source>Confirm Folder Sync Connection Removal</source>
-        <translation>Deimhnigh Baint Ceangal Sioncronaithe Fillteán</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="984"/>
-        <source>Remove Folder Sync Connection</source>
-        <translation>Bain Ceangal Sioncronaithe Fillteán</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1019"/>
-        <source>Grant access to sync folder</source>
-        <translation>Deonaigh rochtain ar fhillteán sioncrónaithe</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1031"/>
+        <location filename="../src/gui/accountsettings.cpp" line="975"/>
         <source>Access Error</source>
         <translation>Earráid Rochtana</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1032"/>
+        <location filename="../src/gui/accountsettings.cpp" line="976"/>
         <source>Could not acquire access to the selected folder. Please try again.</source>
         <translation>Níorbh fhéidir rochtain a fháil ar an bhfillteán roghnaithe. Déan iarracht arís.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1040"/>
+        <location filename="../src/gui/accountsettings.cpp" line="984"/>
+        <source>&lt;p&gt;Could not add the folder sync connection for &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Níorbh fhéidir an nasc sioncrónaithe fillteáin a chur leis do &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1007"/>
+        <source>Confirm Folder Sync Connection Removal</source>
+        <translation>Deimhnigh Baint Ceangal Sioncronaithe Fillteán</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1014"/>
+        <source>Remove Folder Sync Connection</source>
+        <translation>Bain Ceangal Sioncronaithe Fillteán</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1049"/>
+        <source>Grant access to sync folder</source>
+        <translation>Deonaigh rochtain ar fhillteán sioncrónaithe</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/accountsettings.cpp" line="1060"/>
         <source>Wrong Folder</source>
         <translation>Fillteán Mícheart</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1041"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1061"/>
         <source>Please select the original sync folder: %1</source>
         <translation>Roghnaigh an fillteán sioncrónaithe bunaidh le do thoil: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1050"/>
-        <location filename="../src/gui/accountsettings.cpp" line="1059"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1067"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1075"/>
         <source>Bookmark Error</source>
         <translation>Earráid Leabharmharcanna</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1051"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1068"/>
         <source>Could not create a security bookmark for the folder. Please try again.</source>
         <translation>Níorbh fhéidir leabharmharc slándála a chruthú don fhillteán. Déan iarracht arís.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1060"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1075"/>
         <source>Could not resolve the security bookmark. Please try again.</source>
         <translation>Níorbh fhéidir an leabharmharc slándála a réiteach. Déan iarracht arís.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1161"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1177"/>
         <source>Disable virtual file support?</source>
         <translation>An bhfuil fonn ort tacaíocht comhaid fhíorúla a dhíchumasú?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1162"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1178"/>
         <source>This action will disable virtual file support. As a consequence contents of folders that are currently marked as &quot;available online only&quot; will be downloaded.
 
 The only advantage of disabling virtual file support is that the selective sync feature will become available again.
@@ -1297,90 +1355,90 @@ Is é an t-aon bhuntáiste a bhaineann le tacaíocht comhaid fhíorúla a dhích
 Cuirfidh an gníomh seo deireadh le haon sioncrónú atá ar siúl faoi láthair.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1169"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1185"/>
         <source>Disable support</source>
         <translation>Díchumasaigh tacaíocht</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1256"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1272"/>
         <source>End-to-end encryption mnemonic</source>
         <translation>Cuimhneachán criptithe ceann go deireadh</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1258"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1274"/>
         <source>To protect your Cryptographic Identity, we encrypt it with a mnemonic of 12 dictionary words. Please note it down and keep it safe. You will need it to set-up the synchronization of encrypted folders on your other devices.</source>
         <translation>Chun d’Aitheantas Cripteagrafach a chosaint, criptímid í le mnemonic de 12 fhocal foclóra. Scríobh síos é agus coinnigh slán é. Beidh sé de dhíth ort chun sioncrónú fillteán criptithe a shocrú ar do ghléasanna eile.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1283"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1303"/>
         <source>Forget the end-to-end encryption on this device</source>
         <translation>Déan dearmad ar an gcriptiú ó cheann ceann ar an ngléas seo</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1284"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1304"/>
         <source>Do you want to forget the end-to-end encryption settings for %1 on this device?</source>
         <translation>Ar mhaith leat dearmad a dhéanamh ar shocruithe criptithe foirceann go foirceann do %1 ar an ngléas seo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1285"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1305"/>
         <source>Forgetting end-to-end encryption will remove the sensitive data and all the encrypted files from this device.&lt;br&gt;However, the encrypted files will remain on the server and all your other devices, if configured.</source>
         <translation>Má dhéanann tú dearmad ar chriptiú ó cheann ceann go ceann, bainfear na sonraí íogaire agus na comhaid chriptithe go léir den ghléas seo.&lt;br&gt;Mar sin féin, fanfaidh na comhaid chriptithe ar an bhfreastalaí agus ar do ghléasanna eile go léir, má tá siad cumraithe.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1390"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1410"/>
         <source>Sync Running</source>
         <translation>Sioncronú Rith</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1391"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1411"/>
         <source>The syncing operation is running.&lt;br/&gt;Do you want to terminate it?</source>
         <translation>Tá an oibríocht sioncronaithe ar siúl.1 Ar mhaith leat deireadh a chur leis?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1465"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1485"/>
         <source>%1 in use</source>
         <extracomment>%1 is the used storage size.</extracomment>
         <translation>% 1 in úsáid</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1507"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1527"/>
         <source>Connected to %1 (%2).</source>
         <extracomment>%1 is the server and user description. %2 is the storage usage description.</extracomment>
         <translation>Ceangailte le %1 (%2).</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1554"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1574"/>
         <location filename="../src/gui/trayaccountpopup_qt.cpp" line="745"/>
         <source>Log in</source>
         <translation>Logáil isteach</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1555"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1575"/>
         <source>Leave share</source>
         <translation>Fág an comhroinnt</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1557"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1577"/>
         <source>Remove this public share connection from the client.</source>
         <translation>Bain an nasc comhroinnte poiblí seo ón gcliant.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1744"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1765"/>
         <source>Migrate certificate to a new one</source>
         <translation>Íosluchtaigh teastas chuig ceann nua</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1851"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1872"/>
         <source>There are folders that have grown in size beyond %1MB: %2</source>
         <translation>Tá fillteáin ann a d&apos;fhás i méid thar % 1MB: % 2</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1905"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1947"/>
         <source>End-to-end encryption has been initialized on this account with another device.&lt;br&gt;Enter the unique mnemonic to have the encrypted folders synchronize on this device as well.</source>
         <translation>Tá criptiú ó cheann ceann tosaithe ar an gcuntas seo le gléas eile.&lt;br&gt;Cuir isteach an cuimhneolaíoch uathúil chun na fillteáin chriptithe a shioncrónú ar an ngléas seo chomh maith.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1978"/>
+        <location filename="../src/gui/accountsettings.cpp" line="2020"/>
         <source>This account supports end-to-end encryption, but it needs to be set up first.</source>
         <translation>Tacaíonn an cuntas seo le criptiú ó cheann ceann, ach ní mór é a shocrú ar dtús.</translation>
     </message>
@@ -1390,135 +1448,135 @@ Cuirfidh an gníomh seo deireadh le haon sioncrónú atá ar siúl faoi láthair
         <translation>Ní thacaíonn an comhtháthú comhad fíorúil le criptiú ó cheann ceann go ceann go fóill.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="2061"/>
+        <location filename="../src/gui/accountsettings.cpp" line="2103"/>
         <source>This resets the File Provider for %1 to its initial state. Use it when this account&apos;s files appear stuck, missing, or out of sync in Finder.</source>
         <translation>Athshocraíonn sé seo an Soláthraí Comhad do %1 go dtí a staid tosaigh. Bain úsáid as nuair a bhíonn cuma ar chomhaid an chuntais seo go bhfuil siad sáinnithe, ar iarraidh, nó as sioncrónú in Finder.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="2065"/>
+        <location filename="../src/gui/accountsettings.cpp" line="2107"/>
         <source>The location will briefly disappear from and reappear in Finder. Any local changes that have not been uploaded yet are preserved and revealed in a folder in Finder.</source>
         <translation>Imeoidh an suíomh as Finder ar feadh tamaill bhig agus feicfear arís é. Coinneofar aon athruithe áitiúla nár uaslódáileadh fós agus nochtfar iad i bhfillteán in Finder.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="2070"/>
+        <location filename="../src/gui/accountsettings.cpp" line="2112"/>
         <source>Reset File Provider Domain for this account?</source>
         <translation>Athshocraigh Fearann ​​an tSoláthraí Comhad don chuntas seo?</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1973"/>
+        <location filename="../src/gui/accountsettings.cpp" line="2015"/>
         <source>The File Provider extension does not support end-to-end encryption yet.</source>
         <translation>Ní thacaíonn síneadh an Soláthraí Comhad le criptiú ó cheann ceann go ceann go fóill.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1980"/>
+        <location filename="../src/gui/accountsettings.cpp" line="2022"/>
         <source>Set up encryption</source>
         <translation>Socraigh criptiú</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1504"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1524"/>
         <source>Connected to %1.</source>
         <translation>Ceangailte le % 1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1513"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1533"/>
         <source>Server %1 is temporarily unavailable.</source>
         <translation>Níl freastalaí % 1 ar fáil faoi láthair.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1516"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1536"/>
         <source>Server %1 is currently in maintenance mode.</source>
         <translation>Tá freastalaí % 1 i mód cothabhála faoi láthair.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1522"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1542"/>
         <source>Signed out from %1.</source>
         <translation>Sínithe amach as % 1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1838"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1859"/>
         <source>There are folders that were not synchronized because they are too big: </source>
         <translation>Tá fillteáin ann nár sioncronaíodh toisc go bhfuil siad rómhór:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1839"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1860"/>
         <source>There are folders that were not synchronized because they are external storages: </source>
         <translation>Tá fillteáin ann nár sioncronaíodh toisc gur stórais sheachtracha iad:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1840"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1861"/>
         <source>There are folders that were not synchronized because they are too big or external storages: </source>
         <translation>Tá fillteáin ann nár sioncronaíodh toisc go bhfuil siad rómhór nó mar stórais sheachtracha:</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="661"/>
-        <location filename="../src/gui/accountsettings.cpp" line="755"/>
+        <location filename="../src/gui/accountsettings.cpp" line="691"/>
+        <location filename="../src/gui/accountsettings.cpp" line="785"/>
         <source>Open folder</source>
         <translation>Oscail fillteán</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="780"/>
+        <location filename="../src/gui/accountsettings.cpp" line="810"/>
         <source>Resume sync</source>
         <translation>Lean an sioncronú</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="780"/>
+        <location filename="../src/gui/accountsettings.cpp" line="810"/>
         <source>Pause sync</source>
         <translation>Cuir an sioncronú ar sos</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="911"/>
+        <location filename="../src/gui/accountsettings.cpp" line="941"/>
         <source>&lt;p&gt;Could not create local folder &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Níorbh fhéidir fillteán logánta &lt;i&gt;%1&lt;/i&gt;.&lt;/p&gt;a chruthú</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="978"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1008"/>
         <source>&lt;p&gt;Do you really want to stop syncing the folder &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Ar mhaith leat i ndáiríre chun stop a syncing an fillteán&lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nóta:&lt;/b&gt; Ní scriosfaidh sé&lt;b&gt;seo&lt;/b&gt; aon chomhad.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1457"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1477"/>
         <source>%1 of %2 in use</source>
         <extracomment>%1 is the used storage size. %2 is the total storage size.</extracomment>
         <translation>% 1 as % 2 in úsáid</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1495"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1515"/>
         <source>%1 as %2</source>
         <extracomment>%1 is a link to the server. %2 is the user display name or username.</extracomment>
         <translation>% 1 mar % 2</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1502"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1522"/>
         <source>The server version %1 is unsupported! Proceed at your own risk.</source>
         <translation>Ní thacaítear le leagan freastalaí % 1! Lean ar aghaidh ar do phriacal féin.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1519"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1539"/>
         <source>Server %1 is currently being redirected, or your connection is behind a captive portal.</source>
         <translation>Tá freastalaí % 1 á atreorú faoi láthair, nó tá do cheangal taobh thiar de thairseach faoi chuing.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1525"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1545"/>
         <source>Connecting to %1 …</source>
         <translation>Ag ceangal le % 1 …</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1529"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1549"/>
         <source>Unable to connect to %1.</source>
         <translation>Ní féidir ceangal le % 1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1534"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1554"/>
         <source>Server configuration error: %1 at %2.</source>
         <translation>Earráid chumraíocht an fhreastalaí: % 1 ag % 2.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1543"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1563"/>
         <source>You need to accept the terms of service at %1.</source>
         <translation>Ní mór duit glacadh leis na téarmaí seirbhíse ag %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsettings.cpp" line="1548"/>
+        <location filename="../src/gui/accountsettings.cpp" line="1568"/>
         <source>No %1 connection configured.</source>
         <translation>Níl ceangal % 1 cumraithe.</translation>
     </message>
@@ -1526,17 +1584,17 @@ Cuirfidh an gníomh seo deireadh le haon sioncrónú atá ar siúl faoi láthair
 <context>
     <name>OCC::AccountSetupFromCommandLineJob</name>
     <message>
-        <location filename="../src/gui/accountsetupfromcommandlinejob.cpp" line="159"/>
+        <location filename="../src/gui/accountsetupfromcommandlinejob.cpp" line="234"/>
         <source>The authenticated request to the server was redirected to &quot;%1&quot;. The URL is bad, the server is misconfigured.</source>
         <translation>Atreoraíodh an t-iarratas fíordheimhnithe chuig an bhfreastalaí go &quot;% 1&quot;. Tá an URL olc, tá an freastalaí míchumraithe.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsetupfromcommandlinejob.cpp" line="169"/>
+        <location filename="../src/gui/accountsetupfromcommandlinejob.cpp" line="244"/>
         <source>Access forbidden by server. To verify that you have proper access, &lt;a href=&quot;%1&quot;&gt;click here&lt;/a&gt; to access the service with your browser.</source>
         <translation>Rochtain toirmiscthe ag an bhfreastalaí. Chun a fhíorú go bhfuil rochtain cheart agat,  &lt;a href=&quot;%1&quot;&gt;cliceáil anseo&lt;/a&gt; chun an tseirbhís a rochtain le do bhrabhsálaí.</translation>
     </message>
     <message>
-        <location filename="../src/gui/accountsetupfromcommandlinejob.cpp" line="177"/>
+        <location filename="../src/gui/accountsetupfromcommandlinejob.cpp" line="252"/>
         <source>There was an invalid response to an authenticated WebDAV request</source>
         <translation>Bhí freagra neamhbhailí ar iarratas fíordheimhnithe WebDAV</translation>
     </message>
@@ -1910,72 +1968,72 @@ Cuirfidh an gníomh seo deireadh le haon sioncrónú atá ar siúl faoi láthair
 <context>
     <name>OCC::Application</name>
     <message>
-        <location filename="../src/gui/application.cpp" line="200"/>
+        <location filename="../src/gui/application.cpp" line="205"/>
         <source>Some settings were configured in %1 versions of this client and use features that are not available in this version.&lt;br&gt;&lt;br&gt;Continuing will mean &lt;b&gt;%2 these settings&lt;/b&gt;.&lt;br&gt;&lt;br&gt;The current configuration file was already backed up to &lt;i&gt;%3&lt;/i&gt;.</source>
         <extracomment>%1 is either &quot;newer&quot; or &quot;older&quot;. %2 is either &quot;ignoring&quot; or &quot;deleting&quot;. %3 is a list of configuration backup file paths.</extracomment>
         <translation>Cumraigh roinnt socruithe i leaganacha % 1 den chliant seo agus úsáideann siad gnéithe nach bhfuil ar fáil sa leagan seo.&lt;br&gt;&lt;br&gt;Ciallaíonn leanúint ar aghaidh &lt;b&gt;%2 na socruithe seo&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Bhí cúltaca ag an gcomhad cumraíochta reatha go  &lt;i&gt;%3&lt;/i&gt;cheana féin.</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="206"/>
+        <location filename="../src/gui/application.cpp" line="211"/>
         <source>newer</source>
         <comment>newer software version</comment>
         <translation>níos nuaí</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="206"/>
+        <location filename="../src/gui/application.cpp" line="211"/>
         <source>older</source>
         <comment>older software version</comment>
         <translation>níos sine</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="207"/>
+        <location filename="../src/gui/application.cpp" line="212"/>
         <source>ignoring</source>
         <translation>neamhaird</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="207"/>
+        <location filename="../src/gui/application.cpp" line="212"/>
         <source>deleting</source>
         <translation>ag scriosadh</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="209"/>
+        <location filename="../src/gui/application.cpp" line="214"/>
         <source>Quit</source>
         <translation>Scoir</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="210"/>
+        <location filename="../src/gui/application.cpp" line="215"/>
         <source>Continue</source>
         <translation>Lean ar aghaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="705"/>
+        <location filename="../src/gui/application.cpp" line="713"/>
         <source>%1 accounts</source>
         <comment>number of accounts imported</comment>
         <translation>% 1 cuntas</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="706"/>
+        <location filename="../src/gui/application.cpp" line="714"/>
         <source>1 account</source>
         <translation>1 chuntas</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="708"/>
+        <location filename="../src/gui/application.cpp" line="716"/>
         <source>%1 folders</source>
         <comment>number of folders imported</comment>
         <translation>% 1 fillteán</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="709"/>
+        <location filename="../src/gui/application.cpp" line="717"/>
         <source>1 folder</source>
         <translation>1 fillteán</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="711"/>
+        <location filename="../src/gui/application.cpp" line="719"/>
         <source>Legacy import</source>
         <translation>Iompórtáil oidhreachta</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="712"/>
+        <location filename="../src/gui/application.cpp" line="720"/>
         <source>Imported %1 and %2 from a legacy desktop client.
 %3</source>
         <comment>number of accounts and folders imported. list of users.</comment>
@@ -1983,12 +2041,12 @@ Cuirfidh an gníomh seo deireadh le haon sioncrónú atá ar siúl faoi láthair
 % 3</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="834"/>
+        <location filename="../src/gui/application.cpp" line="842"/>
         <source>Error accessing the configuration file</source>
         <translation>Earráid agus an comhad cumraíochta á rochtain</translation>
     </message>
     <message>
-        <location filename="../src/gui/application.cpp" line="835"/>
+        <location filename="../src/gui/application.cpp" line="843"/>
         <source>There was an error while accessing the configuration file at %1. Please make sure the file can be accessed by your system account.</source>
         <translation>Tharla earráid agus an comhad cumraíochta ag % 1 á rochtain. Cinntigh le do thoil gur féidir an comhad a rochtain ag do chuntas córais.</translation>
     </message>
@@ -1999,39 +2057,39 @@ Cuirfidh an gníomh seo deireadh le haon sioncrónú atá ar siúl faoi láthair
         <location filename="../src/gui/assistant/assistantcontroller.cpp" line="219"/>
         <location filename="../src/gui/assistant/assistantcontroller.cpp" line="337"/>
         <source>Assistant is not available for this account.</source>
-        <translation type="unfinished"/>
+        <translation>Níl an Cúntóir ar fáil don chuntas seo.</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistantcontroller.cpp" line="342"/>
         <source>Assistant is already processing a request.</source>
-        <translation type="unfinished"/>
+        <translation>Tá an Cúntóir ag próiseáil iarratais cheana féin.</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistantcontroller.cpp" line="431"/>
         <location filename="../src/gui/assistant/assistantcontroller.cpp" line="451"/>
         <source>No response yet. Please try again later.</source>
-        <translation type="unfinished"/>
+        <translation>Níl aon fhreagra ann go fóill. Déan iarracht arís níos déanaí, le do thoil.</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistantcontroller.cpp" line="480"/>
         <source>No supported assistant task types were returned.</source>
-        <translation type="unfinished"/>
+        <translation>Níor seoladh aon chineálacha tascanna cúntóra tacaithe ar ais.</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistantcontroller.cpp" line="557"/>
         <source>Assistant task scheduled.</source>
-        <translation type="unfinished"/>
+        <translation>Tasc cúntóra sceidealaithe.</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistantcontroller.cpp" line="770"/>
         <source>Scheduling assistant task…</source>
-        <translation type="unfinished"/>
+        <translation>Tasc an chúntóra sceidealaithe…</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistantcontroller.cpp" line="840"/>
         <source>Assistant request failed (%1).</source>
         <extracomment>%1 is the HTTP status code returned by the server.</extracomment>
-        <translation type="unfinished"/>
+        <translation>Theip ar an iarratas cúntóra (%1).</translation>
     </message>
 </context>
 <context>
@@ -2039,35 +2097,36 @@ Cuirfidh an gníomh seo deireadh le haon sioncrónú atá ar siúl faoi láthair
     <message>
         <location filename="../src/gui/assistant/assistanttaskmodel.cpp" line="106"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>Anaithnid</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistanttaskmodel.cpp" line="108"/>
         <source>Scheduled</source>
-        <translation type="unfinished"/>
+        <translation>Sceidealaithe</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistanttaskmodel.cpp" line="110"/>
         <source>In progress</source>
-        <translation type="unfinished"/>
+        <translation>Ar siúl</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistanttaskmodel.cpp" line="112"/>
         <source>Completed</source>
-        <translation type="unfinished"/>
+        <translation>Críochnaithe</translation>
     </message>
     <message>
         <location filename="../src/gui/assistant/assistanttaskmodel.cpp" line="114"/>
         <source>Failed</source>
-        <translation type="unfinished"/>
+        <translation>Teipte</translation>
     </message>
 </context>
 <context>
     <name>OCC::AssistantTaskTypeModel</name>
     <message>
-        <location filename="../src/gui/assistant/assistanttasktypemodel.cpp" line="97"/>
+        <location filename="../src/gui/assistant/assistanttasktypemodel.cpp" line="98"/>
         <source>Chat</source>
-        <translation type="unfinished"/>
+        <extracomment>Name of the Chat assistant task type.</extracomment>
+        <translation>Comhrá</translation>
     </message>
 </context>
 <context>
@@ -2356,34 +2415,34 @@ Cuirfidh an gníomh seo deireadh le haon sioncrónú atá ar siúl faoi láthair
 <context>
     <name>OCC::ClientSideEncryption</name>
     <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1174"/>
+        <location filename="../src/libsync/clientsideencryption.cpp" line="1166"/>
         <source>Input PIN code</source>
         <comment>Please keep it short and shorter than &quot;Enter Certificate USB Token PIN:&quot;</comment>
         <translation>Cuir isteach cód PIN</translation>
     </message>
     <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1175"/>
+        <location filename="../src/libsync/clientsideencryption.cpp" line="1167"/>
         <source>Enter Certificate USB Token PIN:</source>
         <translation>Cuir isteach PIN Deimhnithe USB Chomhartha:</translation>
     </message>
     <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1193"/>
+        <location filename="../src/libsync/clientsideencryption.cpp" line="1185"/>
         <source>Invalid PIN. Login failed</source>
         <translation>UAP neamhbhailí. Theip ar logáil isteach</translation>
     </message>
     <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="1194"/>
+        <location filename="../src/libsync/clientsideencryption.cpp" line="1186"/>
         <source>Login to the token failed after providing the user PIN. It may be invalid or wrong. Please try again!</source>
         <translation>Theip ar logáil isteach ar an chomhartha tar éis an UAP úsáideora a sholáthar. Féadfaidh sé a bheith neamhbhailí nó mícheart. Bain triail eile as le do thoil!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="2270"/>
+        <location filename="../src/libsync/clientsideencryption.cpp" line="2262"/>
         <source>Please enter your end-to-end encryption passphrase:&lt;br&gt;&lt;br&gt;Username: %2&lt;br&gt;Account: %3&lt;br&gt;</source>
         <extracomment>%2 is the account username. %3 is the account display name.</extracomment>
         <translation>Cuir isteach do phasfhocal criptiú ceann go ceann le do thoil:&lt;br&gt;&lt;br&gt;Ainm Úsáideora: %2&lt;br&gt;Cuntas: %3&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/clientsideencryption.cpp" line="2278"/>
+        <location filename="../src/libsync/clientsideencryption.cpp" line="2270"/>
         <source>Enter E2E passphrase</source>
         <translation>Cuir isteach pasfhocal E2E</translation>
     </message>
@@ -2672,23 +2731,29 @@ Cuirfidh an gníomh seo deireadh le haon sioncrónú atá ar siúl faoi láthair
         <translation>Arís, le do thoil.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="523"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="524"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="538"/>
+        <source>Lock has no expiry. You can unlock this file manually once you are finished editing.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/gui/editlocallyjob.cpp" line="527"/>
         <source>File %1 already locked.</source>
         <translation>Comhad % 1 glasáilte cheana.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="524"/>
-        <location filename="../src/gui/editlocallyjob.cpp" line="535"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="525"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="539"/>
         <source>Lock will last for %1 minutes. You can also unlock this file manually once you are finished editing.</source>
         <translation>Mairfidh an glas ar feadh % 1 nóiméad. Is féidir leat an comhad seo a dhíghlasáil de láimh freisin nuair a bheidh an eagarthóireacht críochnaithe agat.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="534"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="541"/>
         <source>File %1 now locked.</source>
         <translation>Comhad % 1 faoi ghlas anois.</translation>
     </message>
     <message>
-        <location filename="../src/gui/editlocallyjob.cpp" line="543"/>
+        <location filename="../src/gui/editlocallyjob.cpp" line="549"/>
         <source>File %1 could not be locked.</source>
         <translation>Níorbh fhéidir comhad % 1 a ghlasáil.</translation>
     </message>
@@ -4021,6 +4086,137 @@ Ní féidir leaganacha a íosghrádú láithreach: ciallaíonn athrú ó chobhsa
     </message>
 </context>
 <context>
+    <name>OCC::Gui::Sharing::Share</name>
+    <message>
+        <location filename="../src/gui/sharing/unifiedshare.cpp" line="80"/>
+        <source>View only</source>
+        <translation>Amharc amháin</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/unifiedshare.cpp" line="83"/>
+        <source>Can edit</source>
+        <translation>Is féidir a chur in eagar</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::Gui::Sharing::SharingController</name>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="176"/>
+        <source>The server did not generate a valid public-link identifier.</source>
+        <translation>Níor ghin an freastalaí aitheantóir bailí do nasc poiblí.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="182"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="185"/>
+        <source>Could not create the public link.</source>
+        <translation>Níorbh fhéidir an nasc poiblí a chruthú.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="223"/>
+        <source>Could not retrieve the internal link.</source>
+        <translation>Níorbh fhéidir an nasc inmheánach a fháil.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="270"/>
+        <source>The server returned an invalid share.</source>
+        <translation>Thug an freastalaí comhroinnt neamhbhailí ar ais.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="279"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="282"/>
+        <source>Could not create the share.</source>
+        <translation>Níorbh fhéidir an scair a chruthú.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="327"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="331"/>
+        <source>Could not delete the share.</source>
+        <translation>Níorbh fhéidir an scair a scriosadh.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="360"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="363"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="770"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="773"/>
+        <source>Could not add the recipient.</source>
+        <translation>Níorbh fhéidir an faighteoir a chur leis.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="391"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="394"/>
+        <source>Could not remove the recipient.</source>
+        <translation>Níorbh fhéidir an faighteoir a bhaint.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="419"/>
+        <source>The server did not generate a valid sharing link.</source>
+        <translation>Níor ghin an freastalaí nasc comhroinnte bailí.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="430"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="433"/>
+        <source>Could not update the sharing link.</source>
+        <translation>Níorbh fhéidir an nasc comhroinnte a nuashonrú.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="438"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="441"/>
+        <source>Could not generate a sharing link.</source>
+        <translation>Níorbh fhéidir nasc comhroinnte a ghiniúint.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="471"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="479"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="578"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="586"/>
+        <source>Could not update the permissions.</source>
+        <translation>Níorbh fhéidir na ceadanna a nuashonrú.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="535"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="543"/>
+        <source>Could not update the recipient permissions.</source>
+        <translation>Níorbh fhéidir ceadanna an fhaighteora a nuashonrú.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="619"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="623"/>
+        <source>Could not update the sharing setting.</source>
+        <translation>Níorbh fhéidir an socrú comhroinnte a nuashonrú.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="673"/>
+        <source>The server did not activate the share.</source>
+        <translation>Níor ghníomhachtaigh an freastalaí an scair.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="676"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="679"/>
+        <source>Could not send the share.</source>
+        <translation>Níorbh fhéidir an mhír a roinnt.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="720"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="730"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="757"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="764"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="781"/>
+        <source>The newly created share is no longer available.</source>
+        <translation>Níl an scair a cruthaíodh le déanaí ar fáil a thuilleadh.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="742"/>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="745"/>
+        <source>Could not attach the item to the share.</source>
+        <translation>Níorbh fhéidir an mhír a cheangal leis an scair.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/sharingcontroller.cpp" line="841"/>
+        <source>Could not save all changes to the share.</source>
+        <translation>Níorbh fhéidir gach athrú ar an scair a shábháil.</translation>
+    </message>
+</context>
+<context>
     <name>OCC::HttpCredentialsGui</name>
     <message>
         <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="53"/>
@@ -4041,6 +4237,20 @@ Ní féidir leaganacha a íosghrádú láithreach: ciallaíonn athrú ó chobhsa
         <location filename="../src/gui/creds/httpcredentialsgui.cpp" line="112"/>
         <source>&lt;a href=&quot;%1&quot;&gt;Click here&lt;/a&gt; to request an app password from the web interface.</source>
         <translation>&lt;a href=&quot;%1&quot;&gt;Cliceáil anseo&lt;/a&gt; chun pasfhocal aip a iarraidh ón gcomhéadan gréasáin.</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::HydrationJob</name>
+    <message>
+        <location filename="../src/libsync/hydrationjob.cpp" line="37"/>
+        <source>Failed to find fileId: %1 in db</source>
+        <translation>Teip ar aimsiú fileId: %1 sa bhunachar sonraí</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/hydrationjob.cpp" line="63"/>
+        <source>Unexpected file size transferred. Expected %1 received %2</source>
+        <extracomment>%1: expected file size in bytes, %2: actual file size in bytes</extracomment>
+        <translation>Aistríodh méid comhaid gan choinne. Bhíothas ag súil le %1, ach fuarthas %2.</translation>
     </message>
 </context>
 <context>
@@ -4702,6 +4912,58 @@ Tabhair faoi deara go sárófar an socrú seo trí úsáid a bhaint as aon rogha
     </message>
 </context>
 <context>
+    <name>OCC::OpenVFS</name>
+    <message>
+        <location filename="../src/libsync/vfs/openvfs/vfs_openvfs.cpp" line="201"/>
+        <source>Unable to claim the sync root for files on demand, the folder is already claimed by %1</source>
+        <extracomment>%1: system user name who is the owner of the sync root directory</extracomment>
+        <translation>Ní féidir an fhréamh sioncronaithe do chomhaid ar éileamh a éileamh; tá an fillteán á éileamh ag %1 cheana féin.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/openvfs/vfs_openvfs.cpp" line="204"/>
+        <source>Unable to retrieve registration info. Error: %1</source>
+        <translation>Níorbh fhéidir eolas clárúcháin a fháil. Earráid: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/openvfs/vfs_openvfs.cpp" line="465"/>
+        <source>Cannot dehydrate a placeholder because the file changed</source>
+        <translation>Ní féidir áitsealbhóir a dhíhiodráitiú toisc gur athraigh an comhad.</translation>
+    </message>
+</context>
+<context>
+    <name>OCC::OpenVfsPluginFactory</name>
+    <message>
+        <location filename="../src/libsync/vfs/openvfs/vfs_openvfs.cpp" line="289"/>
+        <source>Failed to read /proc/self/mountinfo</source>
+        <translation>Teip ar léamh /proc/self/mountinfo</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/openvfs/vfs_openvfs.cpp" line="302"/>
+        <source>Failed to unmount the OpenVFS mount %1 Error:%2</source>
+        <translation>Teip ar dhíshuiteáil an tsuiteála OpenVFS %1 Earráid:%2</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/openvfs/vfs_openvfs.cpp" line="311"/>
+        <source>The filesystem for %1 does not support xattributes.</source>
+        <translation>Ní thacaíonn córas comhad %1 le xattributes.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/openvfs/vfs_openvfs.cpp" line="314"/>
+        <source>The sync path is already claimed by %1</source>
+        <translation>Tá an cosán sioncronaithe á éileamh ag %1 cheana féin.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/openvfs/vfs_openvfs.cpp" line="318"/>
+        <source>OpenVFS executable not found, please install it</source>
+        <translation>Níor aimsíodh an comhad inrite OpenVFS; suiteáil é, le do thoil.</translation>
+    </message>
+    <message>
+        <location filename="../src/libsync/vfs/openvfs/vfs_openvfs.cpp" line="324"/>
+        <source>Failed to find the OpenVFS config file, please check your installation.</source>
+        <translation>Níor aimsíodh an comhad cumraíochta OpenVFS; déan seiceáil ar do shuiteáil, le do thoil.</translation>
+    </message>
+</context>
+<context>
     <name>OCC::OwncloudPropagator</name>
     <message>
         <location filename="../src/libsync/owncloudpropagator.cpp" line="978"/>
@@ -4907,42 +5169,42 @@ Tabhair faoi deara go sárófar an socrú seo trí úsáid a bhaint as aon rogha
     </message>
     <message>
         <location filename="../src/libsync/discovery.cpp" line="1624"/>
-        <location filename="../src/libsync/discovery.cpp" line="2112"/>
+        <location filename="../src/libsync/discovery.cpp" line="2122"/>
         <source>Moved to invalid target, restoring</source>
         <translation>Bogtha go dtí an sprioc neamhbhailí, á athchóiriú</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="1965"/>
+        <location filename="../src/libsync/discovery.cpp" line="1973"/>
         <source>Cannot modify encrypted item because the selected certificate is not valid.</source>
         <translation>Ní féidir an mhír chriptithe a mhionathrú toisc nach bhfuil an teastas roghnaithe bailí.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2035"/>
+        <location filename="../src/libsync/discovery.cpp" line="2043"/>
         <source>Ignored because of the &quot;choose what to sync&quot; blacklist</source>
         <translation>Rinneadh neamhaird de mar gheall ar an liosta dubh &quot;roghnaigh cad ba cheart a shioncronú&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2069"/>
+        <location filename="../src/libsync/discovery.cpp" line="2077"/>
         <source>Not allowed because you don&apos;t have permission to add subfolders to that folder</source>
         <translation>Ní cheadaítear toisc nach bhfuil cead agat fofhillteáin a chur leis an bhfillteán sin</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2075"/>
+        <location filename="../src/libsync/discovery.cpp" line="2084"/>
         <source>Not allowed because you don&apos;t have permission to add files in that folder</source>
         <translation>Ní cheadaítear toisc nach bhfuil cead agat comhaid a chur san fhillteán sin</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2089"/>
+        <location filename="../src/libsync/discovery.cpp" line="2099"/>
         <source>Not allowed to upload this file because it is read-only on the server, restoring</source>
         <translation>Ní cheadaítear an comhad seo a uaslódáil toisc go bhfuil sé inléite amháin ar an bhfreastalaí, á athchóiriú</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2126"/>
+        <location filename="../src/libsync/discovery.cpp" line="2136"/>
         <source>Not allowed to remove, restoring</source>
         <translation>Ní cheadaítear a bhaint, a athchóiriú</translation>
     </message>
     <message>
-        <location filename="../src/libsync/discovery.cpp" line="2299"/>
+        <location filename="../src/libsync/discovery.cpp" line="2309"/>
         <source>Error while reading the database</source>
         <translation>Earráid agus an bunachar sonraí á léamh</translation>
     </message>
@@ -5079,39 +5341,39 @@ Tabhair faoi deara go sárófar an socrú seo trí úsáid a bhaint as aon rogha
 <context>
     <name>OCC::PropagateLocalMkdir</name>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="221"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="257"/>
         <source>could not delete file %1, error: %2</source>
         <translation>Níorbh fhéidir comhad % 1 a scriosadh, earráid: % 2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="236"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="272"/>
         <source>Folder %1 cannot be created because of a local file or folder name clash!</source>
         <translation>Ní féidir fillteán % 1 a chruthú mar gheall ar choimhlint ainm comhaid logánta nó fillteáin!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="268"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="304"/>
         <source>Could not create folder %1</source>
         <translation>Níorbh fhéidir fillteán % 1 a chruthú</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="280"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="286"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="292"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="316"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="322"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="328"/>
         <source>The folder %1 cannot be made read-only: %2</source>
         <translation>Ní féidir fillteán % 1 a dhéanamh inléite amháin: % 2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="292"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="328"/>
         <source>unknown exception</source>
         <translation>eisceacht anaithnid</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="325"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="361"/>
         <source>Error updating metadata: %1</source>
         <translation>Earráid agus meiteashonraí á nuashonrú: % 1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="328"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="364"/>
         <source>The file %1 is currently in use</source>
         <translation>Tá comhad % 1 in úsáid faoi láthair</translation>
     </message>
@@ -5119,19 +5381,19 @@ Tabhair faoi deara go sárófar an socrú seo trí úsáid a bhaint as aon rogha
 <context>
     <name>OCC::PropagateLocalRemove</name>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="120"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="156"/>
         <source>Could not remove %1 because of a local file name clash</source>
         <translation>Níorbh fhéidir % 1 a bhaint mar gheall ar chlais ainm comhaid logánta</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="160"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="169"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="179"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="196"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="205"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="215"/>
         <source>Temporary error when removing local item removed from server.</source>
         <translation>Earráid shealadach agus an mhír logánta bainte den fhreastalaí á bhaint.</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="188"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="224"/>
         <source>Could not delete file record %1 from local DB</source>
         <translation>Níorbh fhéidir taifead comhaid % 1 a scriosadh ó DB logánta</translation>
     </message>
@@ -5139,49 +5401,49 @@ Tabhair faoi deara go sárófar an socrú seo trí úsáid a bhaint as aon rogha
 <context>
     <name>OCC::PropagateLocalRename</name>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="389"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="425"/>
         <source>Folder %1 cannot be renamed because of a local file or folder name clash!</source>
         <translation>Ní féidir fillteán % 1 a athainmniú mar gheall ar choimhlint ainm comhaid logánta nó fillteáin!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="397"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="433"/>
         <source>File %1 downloaded but it resulted in a local file name clash!</source>
         <translation>Íoslódáilte comhad % 1 ach bhí clash ainm comhaid logánta mar thoradh air!</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="497"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="586"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="533"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="622"/>
         <source>Could not get file %1 from local DB</source>
         <translation>Níorbh fhéidir comhad %1 a fháil ó DB logánta</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="510"/>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="573"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="546"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="609"/>
         <source>Error setting pin state</source>
         <translation>Earráid agus staid an phionna á shocrú</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="523"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="559"/>
         <source>Error updating metadata: %1</source>
         <translation>Earráid agus meiteashonraí á nuashonrú: % 1</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="526"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="562"/>
         <source>The file %1 is currently in use</source>
         <translation>Tá comhad % 1 in úsáid faoi láthair</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="563"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="599"/>
         <source>Failed to propagate directory rename in hierarchy</source>
         <translation>Theip ar iomadaíodh athainmniú an chomhadlainne san ordlathas</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="568"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="604"/>
         <source>Failed to rename file</source>
         <translation>Theip ar an gcomhad a athainmniú</translation>
     </message>
     <message>
-        <location filename="../src/libsync/propagatorjobs.cpp" line="591"/>
+        <location filename="../src/libsync/propagatorjobs.cpp" line="627"/>
         <source>Could not delete file record %1 from local DB</source>
         <translation>Níorbh fhéidir taifead comhaid % 1 a scriosadh ó DB logánta</translation>
     </message>
@@ -5502,33 +5764,33 @@ Tabhair faoi deara go sárófar an socrú seo trí úsáid a bhaint as aon rogha
 <context>
     <name>OCC::SettingsDialog</name>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="637"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="708"/>
         <source>Settings</source>
         <translation>Socruithe</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="160"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="152"/>
         <source>%1 Settings</source>
         <extracomment>This name refers to the application name e.g Nextcloud</extracomment>
         <translation>% 1 Socruithe</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="183"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="185"/>
         <source>General</source>
         <translation>Ginearálta</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="184"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="186"/>
         <source>Advanced</source>
         <translation>Ardleibhéil</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="185"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="187"/>
         <source>Info</source>
         <translation>Eolas</translation>
     </message>
     <message>
-        <location filename="../src/gui/settingsdialog.cpp" line="334"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="379"/>
         <source>Account</source>
         <translation>Cuntas</translation>
     </message>
@@ -6092,13 +6354,13 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
     </message>
     <message>
         <location filename="../src/gui/activity/syncstatussummary.cpp" line="164"/>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1710"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1660"/>
         <source>You need to accept the terms of service</source>
         <translation>Ní mór duit glacadh leis na téarmaí seirbhíse</translation>
     </message>
     <message>
         <location filename="../src/gui/activity/syncstatussummary.cpp" line="175"/>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1702"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1652"/>
         <source>Reauthorization required</source>
         <translation>Athúdarú ag teastáil</translation>
     </message>
@@ -6116,7 +6378,7 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
     </message>
     <message>
         <location filename="../src/gui/activity/syncstatussummary.cpp" line="246"/>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1721"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1671"/>
         <source>Some files couldn&apos;t be synced!</source>
         <translation>Níorbh fhéidir roinnt comhad a shioncronú!</translation>
     </message>
@@ -6142,7 +6404,7 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
     </message>
     <message>
         <location filename="../src/gui/activity/syncstatussummary.cpp" line="272"/>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1722"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1672"/>
         <source>Some files could not be synced!</source>
         <translation>Níorbh fhéidir roinnt comhad a shioncronú!</translation>
     </message>
@@ -6182,58 +6444,59 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
 <context>
     <name>OCC::Systray</name>
     <message>
-        <location filename="../src/gui/systray.cpp" line="148"/>
+        <location filename="../src/gui/systray.cpp" line="146"/>
         <source>Download</source>
         <translation>Íosluchtaigh</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="611"/>
+        <location filename="../src/gui/settingsdialog.cpp" line="171"/>
+        <location filename="../src/gui/systray.cpp" line="589"/>
         <location filename="../src/gui/trayaccountpopup_qt.cpp" line="871"/>
         <source>Add account</source>
         <translation>Cuir cuntas leis</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="613"/>
+        <location filename="../src/gui/systray.cpp" line="591"/>
         <source>Open %1 Desktop</source>
         <comment>Open Nextcloud main window. Placeholer will be the application name. Please keep it.</comment>
         <translation>Oscail Deasc %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="616"/>
-        <location filename="../src/gui/systray.cpp" line="626"/>
+        <location filename="../src/gui/systray.cpp" line="594"/>
+        <location filename="../src/gui/systray.cpp" line="604"/>
         <source>Pause sync</source>
         <translation>Cuir an sioncronú ar sos</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="617"/>
-        <location filename="../src/gui/systray.cpp" line="632"/>
+        <location filename="../src/gui/systray.cpp" line="595"/>
+        <location filename="../src/gui/systray.cpp" line="610"/>
         <source>Resume sync</source>
         <translation>Lean an sioncronú</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="618"/>
+        <location filename="../src/gui/systray.cpp" line="596"/>
         <location filename="../src/gui/trayaccountpopup_qt.cpp" line="909"/>
         <source>Settings</source>
         <translation>Socruithe</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="619"/>
+        <location filename="../src/gui/systray.cpp" line="597"/>
         <source>Help</source>
         <translation>Cabhrú</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="620"/>
+        <location filename="../src/gui/systray.cpp" line="598"/>
         <source>Exit %1</source>
         <translation>Scoir % 1</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="626"/>
+        <location filename="../src/gui/systray.cpp" line="604"/>
         <location filename="../src/gui/trayaccountpopup_qt.cpp" line="883"/>
         <source>Pause sync for all</source>
         <translation>Cuir an sioncronú ar sos do chách</translation>
     </message>
     <message>
-        <location filename="../src/gui/systray.cpp" line="632"/>
+        <location filename="../src/gui/systray.cpp" line="610"/>
         <location filename="../src/gui/trayaccountpopup_qt.cpp" line="883"/>
         <source>Resume sync for all</source>
         <translation>Lean an sioncronú do chách</translation>
@@ -6247,18 +6510,18 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
 <context>
     <name>OCC::Theme</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="462"/>
+        <location filename="../src/libsync/theme.cpp" line="471"/>
         <source>%1 Desktop Client Version %2</source>
         <comment>%1 is application name. %2 is the human version string.</comment>
         <translation>%1 Leagan Cliant Deisce %2</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="648"/>
+        <location filename="../src/libsync/theme.cpp" line="657"/>
         <source>&lt;p&gt;&lt;small&gt;Using virtual files plugin: %1&lt;/small&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;&lt;small&gt;Ag úsáid an breiseáin comhaid fhíorúil: %1&lt;/small&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="666"/>
+        <location filename="../src/libsync/theme.cpp" line="675"/>
         <source>&lt;p&gt;This release was supplied by %1.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Soláthraíodh an scaoileadh seo ag %1.&lt;/p&gt;</translation>
     </message>
@@ -6282,94 +6545,96 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
 <context>
     <name>OCC::UnifiedSearchResultsListModel</name>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="228"/>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="242"/>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="537"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="237"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="251"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="300"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="320"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="617"/>
         <source>Search is unavailable while this account is offline.</source>
         <translation>Ní féidir cuardach a dhéanamh agus an cuntas seo as líne.</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="533"/>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="580"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="613"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="660"/>
         <source>Failed to fetch search providers.</source>
         <translation>Theip ar sholáthraithe cuardaigh a fháil.</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="657"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="737"/>
         <source>No search providers are available.</source>
         <translation>Níl aon soláthraithe cuardaigh ar fáil.</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="691"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="771"/>
         <source>Search cleared</source>
         <translation>Glanadh an chuardaigh</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="731"/>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1234"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="811"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1314"/>
         <source>Searching</source>
         <translation>Ag cuardach</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="953"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1033"/>
         <source>Partial matches</source>
         <translation>Cluichí páirteacha</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1222"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1302"/>
         <source>Search failed for all available sources. Please try again.</source>
         <translation>Theip ar an gcuardach do na foinsí uile atá ar fáil. Déan iarracht arís.</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1245"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1325"/>
         <source>%1 results in %2</source>
         <extracomment>%1 is the number of search results. %2 is the search provider name, for example &quot;Files&quot;.</extracomment>
         <translation>%1 toradh i %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1247"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1327"/>
         <source>No matching results</source>
         <translation>Gan aon torthaí comhoiriúnacha</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1250"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1330"/>
         <source>%1 results. Some sources are unavailable.</source>
         <extracomment>%1 is the number of search results.</extracomment>
         <translation>%1 toradh. Níl roinnt foinsí ar fáil.</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1253"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1333"/>
         <source>%1 results</source>
         <extracomment>%1 is the number of search results.</extracomment>
         <translation>%1 toradh</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1427"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1507"/>
         <source>Today</source>
         <translation>Inniu</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1430"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1510"/>
         <source>Last 7 days</source>
         <translation>7 lá anuas</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1433"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1513"/>
         <source>Last 30 days</source>
         <translation>30 lá anuas</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1437"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1517"/>
         <source>This year</source>
         <translation>I mbliana</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1441"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1521"/>
         <source>Last year</source>
         <translation>Anuraidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1462"/>
+        <location filename="../src/gui/search/unifiedsearchresultslistmodel.cpp" line="1542"/>
         <source>%1 – %2</source>
         <extracomment>%1 is the start date and %2 is the end date of a custom search date range. Both use the locale's short date format.</extracomment>
         <translation>%1 – %2</translation>
@@ -6452,83 +6717,83 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
 <context>
     <name>OCC::User</name>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="573"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="525"/>
         <source>End-to-end certificate needs to be migrated to a new one</source>
         <translation>Ní mór teastas ceann go ceann a aistriú go ceann nua</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="575"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="527"/>
         <source>Trigger the migration</source>
         <translation>Spreag an imirce</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/tray/usermodel.cpp" line="676"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="628"/>
         <source>%n notification(s)</source>
         <translation><numerusform>%n fógra</numerusform><numerusform>%n fógraí</numerusform><numerusform>%n fógraí</numerusform><numerusform>%n fógraí</numerusform><numerusform>%n fógraí</numerusform></translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="919"/>
-        <location filename="../src/gui/tray/usermodel.cpp" line="958"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="871"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="910"/>
         <source>“%1” was not synchronized</source>
         <translation>Níor sioncrónaíodh “%1”</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="960"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="912"/>
         <source>Insufficient storage on the server. The file requires %1 but only %2 are available.</source>
         <translation>Stóráil neamhleor ar an bhfreastalaí. Éilíonn an comhad %1 ach níl ach %2 ar fáil.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="963"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="915"/>
         <source>Insufficient storage on the server. The file requires %1.</source>
         <translation>Stóráil neamhleor ar an bhfreastalaí. Teastaíonn %1 don chomhad.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="966"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="918"/>
         <source>Insufficient storage on the server.</source>
         <translation>Stóráil neamhleor ar an bhfreastalaí.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1002"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="954"/>
         <source>There is insufficient space available on the server for some uploads.</source>
         <translation>Níl dóthain spáis ar fáil ar an bhfreastalaí le haghaidh roinnt uaslódálacha.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1018"/>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1388"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="970"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1333"/>
         <source>Retry all uploads</source>
         <translation>Bain triail eile as gach uaslódáil</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1439"/>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1601"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1384"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1546"/>
         <source>Resolve conflict</source>
         <translation>Réitigh coinbhleacht</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1591"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1536"/>
         <source>Rename file</source>
         <translation>Athainmnigh an comhad</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1949"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2010"/>
+        <source>Sending your request …</source>
+        <translation>Ag seoladh d’iarratais …</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1357"/>
         <source>Open %1 Assistant</source>
         <comment>The placeholder will be the application name. Please keep it</comment>
         <translation>Oscail Cúntóir %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2047"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1967"/>
         <source>Assistant is not available for this account.</source>
         <translation>Níl an Cúntóir ar fáil don chuntas seo.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2053"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1973"/>
         <source>Assistant is already processing a request.</source>
         <translation>Tá an Cúntóir ag próiseáil iarratais cheana féin.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2090"/>
-        <source>Sending your request …</source>
-        <translation>Ag seoladh d’iarratais …</translation>
     </message>
     <message>
         <location filename="../src/gui/tray/usermodel.cpp" line="1507"/>
@@ -6536,42 +6801,42 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
         <translation>Ag seoladh d’iarratais…</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1694"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1644"/>
         <source>Sync conflicts</source>
         <translation>Coimhlintí sioncrónaithe</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1837"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1787"/>
         <source>Public Share Link</source>
         <translation>Nasc Comhroinnte Poiblí</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2163"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2083"/>
         <source>No response yet. Please try again later.</source>
         <translation>Gan freagra fós. Déan iarracht arís ar ball.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2182"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2102"/>
         <source>No supported assistant task types were returned.</source>
         <translation>Níor cuireadh aon chineálacha tascanna cúntóra tacaithe ar ais.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2264"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2184"/>
         <source>Waiting for the assistant response…</source>
         <translation>Ag fanacht le freagra an chúntóra…</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2286"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2206"/>
         <source>Assistant request failed (%1).</source>
         <translation>Theip ar iarratas an chúntóra (%1).</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2361"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2281"/>
         <source>Quota is updated; %1 percent of the total space is used.</source>
         <translation>Tá an cuóta nuashonraithe; tá %1 faoin gcéad den spás iomlán in úsáid.</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2381"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2301"/>
         <source>Quota Warning - %1 percent or more storage in use</source>
         <translation>Rabhadh Cuóta - %1 faoin gcéad nó níos mó stórais in úsáid</translation>
     </message>
@@ -6579,32 +6844,32 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
 <context>
     <name>OCC::UserModel</name>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2819"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2663"/>
         <source>Confirm Account Removal</source>
         <translation>Deimhnigh Bain Cuntas</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2820"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2664"/>
         <source>&lt;p&gt;Do you really want to remove the connection to the account &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; This will &lt;b&gt;not&lt;/b&gt; delete any files.&lt;/p&gt;</source>
         <translation>&lt;p&gt;An bhfuil tú cinnte gur mhaith leat an ceangal leis an gcuntas &lt;i&gt;%1&lt;/i&gt;?&lt;/p&gt;&lt;p&gt;&lt;b&gt;Nóta:&lt;/b&gt; Ní scriosfaidh &lt;b&gt;sé seo&lt;/b&gt; aon chomhad.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2824"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2668"/>
         <source>Remove connection</source>
         <translation>Bain nasc</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2825"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2669"/>
         <source>Cancel</source>
         <translation>Cealaigh</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2911"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2753"/>
         <source>Leave share</source>
         <translation>Fág an comhroinnt</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="2911"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="2753"/>
         <source>Remove account</source>
         <translation>Bain cuntas</translation>
     </message>
@@ -6780,109 +7045,109 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
 <context>
     <name>OCC::ownCloudGui</name>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="433"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="432"/>
         <source>Please sign in</source>
         <translation>Sínigh isteach le do thoil</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="524"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="523"/>
         <source>There are no sync folders configured.</source>
         <translation>Níl aon fillteáin sioncronaithe cumraithe.</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="413"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="412"/>
         <source>Disconnected from %1</source>
         <translation>Dícheangailte ó % 1</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="299"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="298"/>
         <source>Unsupported Server Version</source>
         <translation>Leagan Freastalaí gan tacaíocht</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="300"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="299"/>
         <source>The server on account %1 runs an unsupported version %2. Using this client with unsupported server versions is untested and potentially dangerous. Proceed at your own risk.</source>
         <translation>Ritheann an freastalaí ar chuntas % 1 leagan % 2 nach dtacaítear leis. Tá úsáid an chliaint seo le leaganacha freastalaí nach dtacaítear leo gan tástáil agus d&apos;fhéadfadh sé a bheith contúirteach. Lean ar aghaidh ar do phriacal féin.</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="312"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="311"/>
         <source>Terms of service</source>
         <translation>Téarmaí seirbhíse</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="313"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="312"/>
         <source>Your account %1 requires you to accept the terms of service of your server. You will be redirected to %2 to acknowledge that you have read it and agrees with it.</source>
         <translation>Éilíonn do chuntas %1 go nglacann tú le téarmaí seirbhíse do fhreastalaí. Déanfar tú a atreorú chuig %2 chun a admháil gur léigh tú é agus go n-aontaíonn tú leis.</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="504"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="503"/>
         <source>%1: %2</source>
         <extracomment>Example text: &quot;Nextcloud: Syncing 25MB (3 minutes left)&quot; (%1 is the folder name to be synced, %2 a status message for that folder)</extracomment>
         <translation>%1: %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="508"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="507"/>
         <source>macOS VFS for %1: Sync is running.</source>
         <translation>macOS VFS le haghaidh % 1: Tá Sync ag rith.</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="511"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="510"/>
         <source>macOS VFS for %1: Last sync was successful.</source>
         <translation>macOS VFS le haghaidh % 1: D&apos;éirigh leis an sioncronú deireanach.</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="514"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="513"/>
         <source>macOS VFS for %1: A problem was encountered.</source>
         <translation>macOS VFS le haghaidh % 1: Thángthas ar fhadhb.</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="517"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="516"/>
         <source>macOS VFS for %1: An error was encountered.</source>
         <translation>macOS VFS do %1: Tharla earráid.</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="583"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="582"/>
         <source>Checking for changes in remote &quot;%1&quot;</source>
         <translation>Ag seiceáil le haghaidh athruithe i gcian&quot;% 1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="586"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="585"/>
         <source>Checking for changes in local &quot;%1&quot;</source>
         <translation>Ag seiceáil le haghaidh athruithe i logánta &quot;% 1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="837"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="836"/>
         <source>Select new location …</source>
         <translation>Roghnaigh suíomh nua …</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="925"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="924"/>
         <source>Internal link copied</source>
         <translation>Nasc inmheánach cóipeáilte</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="926"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="925"/>
         <source>The internal link has been copied to the clipboard.</source>
         <translation>Tá an nasc inmheánach cóipeáilte chuig an ghearrthaisce.</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="416"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="415"/>
         <source>Disconnected from accounts:</source>
         <translation>Dícheangailte ó chuntais:</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="419"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="418"/>
         <source>Account %1: %2</source>
         <extracomment>%1 is the account display name. %2 is the account connection status.</extracomment>
         <translation>Cuntas % 1: % 2</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="437"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="436"/>
         <source>Account synchronization is disabled</source>
         <translation>Tá sioncronú cuntais díchumasaithe</translation>
     </message>
     <message>
-        <location filename="../src/gui/owncloudgui.cpp" line="604"/>
+        <location filename="../src/gui/owncloudgui.cpp" line="603"/>
         <source>%1 (%2, %3)</source>
         <extracomment>%1 is the file name. %2 is the sync result. %3 is the current time.</extracomment>
         <translation>%1 (%2, %3)</translation>
@@ -7048,32 +7313,32 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
         <translation>Níorbh fhéidir cartlann dífhabhtaithe a bhogadh go dtí an suíomh roghnaithe!</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="491"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="445"/>
         <source>Answer</source>
         <translation>Freagra</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1520"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1465"/>
         <source>You renamed %1</source>
         <translation>D&apos;athainmnigh tú % 1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1522"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1467"/>
         <source>You deleted %1</source>
         <translation>Scrios tú % 1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1524"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1469"/>
         <source>You created %1</source>
         <translation>Chruthaigh tú % 1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1526"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1471"/>
         <source>You changed %1</source>
         <translation>D&apos;athraigh tú % 1</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/usermodel.cpp" line="1550"/>
+        <location filename="../src/gui/tray/usermodel.cpp" line="1495"/>
         <source>Synced %1</source>
         <translation>Sioncronaithe % 1</translation>
     </message>
@@ -7219,6 +7484,37 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
     </message>
 </context>
 <context>
+    <name>RecipientPermissionDialog</name>
+    <message>
+        <location filename="../src/gui/sharing/RecipientPermissionDialog.qml" line="51"/>
+        <source>Permissions for %1</source>
+        <translation>Ceadanna do %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/RecipientPermissionDialog.qml" line="51"/>
+        <source>Recipient permissions</source>
+        <translation>Ceadanna an fhaighteora</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/RecipientPermissionDialog.qml" line="90"/>
+        <source>Close</source>
+        <translation>Dún</translation>
+    </message>
+</context>
+<context>
+    <name>RecipientSearchField</name>
+    <message>
+        <location filename="../src/gui/sharing/RecipientSearchField.qml" line="48"/>
+        <source>Search for recipients</source>
+        <translation>Cuardaigh faighteoirí</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/RecipientSearchField.qml" line="48"/>
+        <source>Sharing is not available for this folder</source>
+        <translation>Níl comhroinnt ar fáil don fhillteán seo.</translation>
+    </message>
+</context>
+<context>
     <name>ResolveConflictsDialog</name>
     <message>
         <location filename="../src/gui/ResolveConflictsDialog.qml" line="31"/>
@@ -7261,6 +7557,7 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
     <name>SearchWindow</name>
     <message>
         <location filename="../src/gui/search/SearchWindow.qml" line="19"/>
+        <location filename="../src/gui/accountsettings.cpp" line="186"/>
         <source>Search</source>
         <translation>Cuardaigh</translation>
     </message>
@@ -7280,34 +7577,34 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
         <translation>Liosta torthaí cuardaigh</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/SearchWindow.qml" line="159"/>
+        <location filename="../src/gui/search/SearchWindow.qml" line="171"/>
         <source>Remove %1 filter</source>
         <extracomment>%1 is an active search filter label, such as a provider name, date range, or person name.</extracomment>
         <translation>Bain scagaire %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/SearchWindow.qml" line="183"/>
-        <location filename="../src/gui/search/SearchWindow.qml" line="252"/>
+        <location filename="../src/gui/search/SearchWindow.qml" line="195"/>
+        <location filename="../src/gui/search/SearchWindow.qml" line="264"/>
         <source>Retry</source>
         <translation>Déan iarracht arís</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/SearchWindow.qml" line="216"/>
+        <location filename="../src/gui/search/SearchWindow.qml" line="228"/>
         <source>Search results</source>
         <translation>Torthaí cuardaigh</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/SearchWindow.qml" line="251"/>
+        <location filename="../src/gui/search/SearchWindow.qml" line="263"/>
         <source>Some sources unavailable</source>
         <translation>Tá roinnt foinsí ar fáil</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/SearchWindow.qml" line="259"/>
+        <location filename="../src/gui/search/SearchWindow.qml" line="271"/>
         <source>Less from connected services</source>
         <translation>Níos lú ó sheirbhísí nasctha</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/SearchWindow.qml" line="259"/>
+        <location filename="../src/gui/search/SearchWindow.qml" line="271"/>
         <source>More from connected services</source>
         <translation>Tuilleadh ó sheirbhísí nasctha</translation>
     </message>
@@ -7336,11 +7633,57 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
     </message>
 </context>
 <context>
+    <name>ShareAdvancedSettingsPage</name>
+    <message>
+        <location filename="../src/gui/sharing/ShareAdvancedSettingsPage.qml" line="71"/>
+        <source>No advanced settings are available for this share.</source>
+        <translation>Níl aon ardshocruithe ar fáil don scair seo.</translation>
+    </message>
+</context>
+<context>
     <name>ShareDelegate</name>
     <message>
         <location filename="../src/gui/filedetails/ShareDelegate.qml" line="182"/>
         <source>Copied!</source>
         <translation>Cóipeáladh!</translation>
+    </message>
+</context>
+<context>
+    <name>ShareDetailsFrame</name>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsFrame.qml" line="115"/>
+        <source>Changes to this share are applied immediately.</source>
+        <translation>Cuirtear athruithe ar an scair seo i bhfeidhm láithreach.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsFrame.qml" line="125"/>
+        <source>Delete share</source>
+        <translation>Scrios an scair</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsFrame.qml" line="137"/>
+        <source>Close</source>
+        <translation>Dún</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsFrame.qml" line="143"/>
+        <source>Cancelling…</source>
+        <translation>Á chur ar ceal…</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsFrame.qml" line="143"/>
+        <source>Cancel</source>
+        <translation>Cealaigh</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsFrame.qml" line="151"/>
+        <source>Saving…</source>
+        <translation>Á shábháil…</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsFrame.qml" line="151"/>
+        <source>Save</source>
+        <translation>Sábháil</translation>
     </message>
 </context>
 <context>
@@ -7426,6 +7769,184 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
         <source>Copy share link</source>
         <translation>Cóipeáil nasc comhroinnte</translation>
     </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="119"/>
+        <source>Added by %1</source>
+        <translation>Curtha leis ag %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="138"/>
+        <source>Configure recipient permissions</source>
+        <translation>Cumraigh ceadanna faighteora</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="159"/>
+        <source>Copy recipient link</source>
+        <translation>Cóipeáil nasc an fhaighteora</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="175"/>
+        <source>Regenerate recipient link</source>
+        <translation>Athghin an nasc faighteora</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="175"/>
+        <source>Generate recipient link</source>
+        <translation>Gin nasc don fhaighteoir</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="193"/>
+        <source>Remove recipient</source>
+        <translation>Bain an faighteoir</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="223"/>
+        <source>Can view</source>
+        <translation>Is féidir féachaint air</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="227"/>
+        <source>Can edit</source>
+        <translation>Is féidir a chur in eagar</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="231"/>
+        <source>Custom permissions</source>
+        <translation>Ceadanna saincheaptha</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDetailsPage.qml" line="273"/>
+        <source>Sharing settings</source>
+        <translation>Socruithe comhroinnte</translation>
+    </message>
+</context>
+<context>
+    <name>ShareDialog</name>
+    <message>
+        <location filename="../src/gui/sharing/ShareDialog.qml" line="43"/>
+        <source>Share &quot;%1&quot;</source>
+        <extracomment>%1 is the name of the item. &quot;Share&quot; is a verb.</extracomment>
+        <translation>Comhroinn &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDialog.qml" line="36"/>
+        <source>File</source>
+        <extracomment>Generic fallback name for a shared item when its name is unavailable.</extracomment>
+        <translation>Comhad</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDialog.qml" line="65"/>
+        <source>Share settings</source>
+        <extracomment>&quot;Share&quot; is a noun referring to the share whose settings are shown.</extracomment>
+        <translation>Socruithe comhroinnte</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDialog.qml" line="79"/>
+        <source>Share with %1</source>
+        <extracomment>%1 is a list of recipient names. &quot;Share&quot; is a verb.</extracomment>
+        <translation>Comhroinn le %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDialog.qml" line="82"/>
+        <source>New share</source>
+        <extracomment>&quot;Share&quot; is a noun referring to a newly created share.</extracomment>
+        <translation>Scair nua</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDialog.qml" line="185"/>
+        <source>Back to share details</source>
+        <translation>Ar ais chun sonraí a roinnt</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDialog.qml" line="185"/>
+        <source>Back to shares</source>
+        <translation>Ar ais chuig scaireanna</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDialog.qml" line="205"/>
+        <source>Sharing settings</source>
+        <translation>Socruithe comhroinnte</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareDialog.qml" line="237"/>
+        <source>Advanced sharing settings</source>
+        <translation>Socruithe roinnte ardleibhéil</translation>
+    </message>
+</context>
+<context>
+    <name>ShareListPage</name>
+    <message>
+        <location filename="../src/gui/sharing/ShareListPage.qml" line="78"/>
+        <source>Creating share…</source>
+        <translation>Ag cruthú comhroinnte…</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareListPage.qml" line="150"/>
+        <source>Internal link</source>
+        <translation>Nasc inmheánach</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareListPage.qml" line="151"/>
+        <source>For people who already have access</source>
+        <translation>Do dhaoine a bhfuil rochtain acu cheana féin</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareListPage.qml" line="153"/>
+        <source>Copy internal link</source>
+        <translation>Cóipeáil nasc inmheánach</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareListPage.qml" line="164"/>
+        <location filename="../src/gui/sharing/ShareListPage.qml" line="167"/>
+        <source>Create public link</source>
+        <translation>Cruthaigh nasc poiblí</translation>
+    </message>
+</context>
+<context>
+    <name>ShareRow</name>
+    <message>
+        <location filename="../src/gui/sharing/ShareRow.qml" line="49"/>
+        <source>Share link</source>
+        <extracomment>&quot;Share link&quot; is a noun phrase referring to a public link that grants access to the shared item.</extracomment>
+        <translation>Comhroinn an nasc</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareRow.qml" line="56"/>
+        <source>Unfinished share</source>
+        <extracomment>&quot;Unfinished share&quot; is a noun phrase referring to a share entry that has not been sent yet.</extracomment>
+        <translation>Scair neamhchríochnaithe</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareRow.qml" line="59"/>
+        <source>Share</source>
+        <extracomment>&quot;Share&quot; is a noun referring to a share entry without a recipient name.</extracomment>
+        <translation>Comhroinn</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareRow.qml" line="69"/>
+        <source>Not active — select to finish</source>
+        <translation>Gan a bheith gníomhach — roghnaigh chun críochnú</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/gui/sharing/ShareRow.qml" line="74"/>
+        <source>%n recipient(s)</source>
+        <translation><numerusform>%n faighteoir(í)</numerusform><numerusform>%n faighteoir(í)</numerusform><numerusform>%n faighteoir(í)</numerusform><numerusform>%n faighteoir(í)</numerusform><numerusform>%n faighteoir(í)</numerusform></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareRow.qml" line="91"/>
+        <source>Copy public link</source>
+        <translation>Cóipeáil an nasc poiblí</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareRow.qml" line="104"/>
+        <source>Configure share</source>
+        <translation>Cumraigh an comhroinnt</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/sharing/ShareRow.qml" line="120"/>
+        <source>Delete share</source>
+        <translation>Scrios an scair</translation>
+    </message>
 </context>
 <context>
     <name>ShareView</name>
@@ -7489,6 +8010,16 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
         <location filename="../src/gui/wizard/qml/SyncOptionsPage.qml" line="90"/>
         <source>File Provider</source>
         <translation>Soláthraí Comhad</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/qml/SyncOptionsPage.qml" line="90"/>
+        <source>Virtual files (beta)</source>
+        <translation>Comhaid fhíorúla (béite)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/wizard/qml/SyncOptionsPage.qml" line="92"/>
+        <source>Download files on-demand. This feature is in an early preview. Recommended only for testing.</source>
+        <translation>Íoslódáil comhaid ar éileamh. Tá an ghné seo i gcéim luathréamhamhairc. Moltar í a úsáid chun críocha tástála amháin.</translation>
     </message>
     <message>
         <location filename="../src/gui/wizard/qml/SyncOptionsPage.qml" line="91"/>
@@ -7609,32 +8140,32 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
         <translation>Fillteán áitiúil</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="62"/>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="58"/>
         <source>Open local folder</source>
         <translation>Oscail fillteán áitiúil</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="62"/>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="58"/>
         <source>Open local or team folders</source>
         <translation>Oscail fillteáin áitiúla nó foirne</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="176"/>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="172"/>
         <source>Open local folder &quot;%1&quot;</source>
         <translation>Oscail fillteán logánta&quot;% 1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="176"/>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="172"/>
         <source>Open team folder &quot;%1&quot;</source>
         <translation>Oscail fillteán foirne &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="191"/>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="187"/>
         <source>Open %1 in file explorer</source>
         <translation>Oscail % 1 i taiscéalaí comhad</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="196"/>
+        <location filename="../src/gui/tray/TrayFoldersMenuButton.qml" line="192"/>
         <source>User group and local folders menu</source>
         <translation>Roghchlár grúpa úsáideoirí agus fillteáin áitiúla</translation>
     </message>
@@ -7647,17 +8178,17 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
         <translation>Aipeanna</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="76"/>
+        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="68"/>
         <source>Open local or team folders</source>
         <translation>Oscail fillteáin áitiúla nó foirne</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="119"/>
+        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="103"/>
         <source>More apps</source>
         <translation>Tuilleadh aipeanna</translation>
     </message>
     <message>
-        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="142"/>
+        <location filename="../src/gui/tray/TrayWindowHeader.qml" line="126"/>
         <source>Open %1 in browser</source>
         <translation>Oscail %1 sa bhrabhsálaí</translation>
     </message>
@@ -7717,77 +8248,80 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
 <context>
     <name>UnifiedSearchFilterBar</name>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="50"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="51"/>
         <source>Type</source>
+        <extracomment>Search filter for selecting a result provider type.</extracomment>
         <translation>Cineál</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="57"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="58"/>
         <source>Filter by type</source>
         <translation>Scag de réir cineáil</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="101"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="103"/>
         <source>Date</source>
+        <extracomment>Search filter for restricting results by date.</extracomment>
         <translation>Dáta</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="109"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="111"/>
         <source>Filter by date</source>
         <translation>Scag de réir dáta</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="110"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="112"/>
         <source>No search source supports date filtering</source>
         <translation>Níl aon fhoinse cuardaigh a thacaíonn le scagadh dáta</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="121"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="123"/>
         <source>Today</source>
         <translation>Inniu</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="125"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="127"/>
         <source>Last 7 days</source>
         <translation>7 lá anuas</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="129"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="131"/>
         <source>Last 30 days</source>
         <translation>30 lá anuas</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="133"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="135"/>
         <source>This year</source>
         <translation>I mbliana</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="137"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="139"/>
         <source>Last year</source>
         <translation>Anuraidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="142"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="144"/>
         <source>Custom range …</source>
         <translation>Raon saincheaptha …</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="146"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="148"/>
         <source>Clear date</source>
         <translation>Glan an dáta</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="157"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="160"/>
         <source>People</source>
+        <extracomment>Search filter for restricting results to a person.</extracomment>
         <translation>Daoine</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="165"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="168"/>
         <source>Filter by person</source>
         <translation>Scag de réir duine</translation>
     </message>
     <message>
-        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="166"/>
+        <location filename="../src/gui/search/UnifiedSearchFilterBar.qml" line="169"/>
         <source>No search source supports people filtering</source>
         <translation>Níl aon fhoinse cuardaigh a thacaíonn le scagadh daoine</translation>
     </message>
@@ -7917,26 +8451,32 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
     <name>UserStatusWindow</name>
     <message>
         <location filename="../src/gui/UserStatusWindow.qml" line="22"/>
+        <location filename="../src/gui/accountsettings.cpp" line="184"/>
         <source>Online status</source>
         <translation>Stádas ar líne</translation>
     </message>
     <message>
         <location filename="../src/gui/UserStatusWindow.qml" line="99"/>
+        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="211"/>
+        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="223"/>
         <source>Online</source>
         <translation>Ar líne</translation>
     </message>
     <message>
         <location filename="../src/gui/UserStatusWindow.qml" line="108"/>
+        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="213"/>
         <source>Away</source>
         <translation>Ar shiúl</translation>
     </message>
     <message>
         <location filename="../src/gui/UserStatusWindow.qml" line="118"/>
+        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="215"/>
         <source>Busy</source>
         <translation>Gnóthach</translation>
     </message>
     <message>
         <location filename="../src/gui/UserStatusWindow.qml" line="127"/>
+        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="217"/>
         <source>Do not disturb</source>
         <translation>Ná cuir isteach</translation>
     </message>
@@ -7947,6 +8487,7 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
     </message>
     <message>
         <location filename="../src/gui/UserStatusWindow.qml" line="139"/>
+        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="219"/>
         <source>Invisible</source>
         <translation>Dofheicthe</translation>
     </message>
@@ -8097,7 +8638,7 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
 <context>
     <name>nextcloudTheme::aboutInfo()</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="629"/>
+        <location filename="../src/libsync/theme.cpp" line="638"/>
         <source>&lt;p&gt;&lt;small&gt;Built from Git revision &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; on %3, %4 using Qt %5, %6&lt;/small&gt;&lt;/p&gt;</source>
         <extracomment>%1 is the full Git commit URL. %2 is the abbreviated Git revision. %3 is the build date. %4 is the build time. %5 is the Qt version. %6 is the TLS library version.</extracomment>
         <translation>&lt;p&gt;&lt;small&gt;Tógtha ó athbhreithniú Git &lt;a href=&quot;%1&quot;&gt;%2&lt;/a&gt; ar %3, %4 ag úsáid %5, %6&lt;/small&gt;&lt;/p&gt;</translation>
@@ -8226,52 +8767,52 @@ D&apos;fhreagair an freastalaí le hearráid: % 2</translation>
 <context>
     <name>theme</name>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="105"/>
+        <location filename="../src/libsync/theme.cpp" line="114"/>
         <source>Sync status is unknown</source>
         <translation>Níl an stádas sioncronaithe anaithnid</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="108"/>
+        <location filename="../src/libsync/theme.cpp" line="117"/>
         <source>Waiting to start syncing</source>
         <translation>Ag fanacht le sioncronú a thosú</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="111"/>
+        <location filename="../src/libsync/theme.cpp" line="120"/>
         <source>Sync is running</source>
         <translation>Tá Sync ar siúl</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="114"/>
+        <location filename="../src/libsync/theme.cpp" line="123"/>
         <source>Sync was successful</source>
         <translation>D&apos;éirigh leis an tsioncronú</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="117"/>
+        <location filename="../src/libsync/theme.cpp" line="126"/>
         <source>Sync was successful but some files were ignored</source>
         <translation>D&apos;éirigh le sioncronú ach níor tugadh aird ar roinnt comhad</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="120"/>
+        <location filename="../src/libsync/theme.cpp" line="129"/>
         <source>Error occurred during sync</source>
         <translation>Tharla earráid le linn sioncronaithe</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="123"/>
+        <location filename="../src/libsync/theme.cpp" line="132"/>
         <source>Error occurred during setup</source>
         <translation>Tharla earráid le linn an tsocraithe</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="129"/>
+        <location filename="../src/libsync/theme.cpp" line="138"/>
         <source>Stopping sync</source>
         <translation>Sioncronú á stopadh</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="126"/>
+        <location filename="../src/libsync/theme.cpp" line="135"/>
         <source>Preparing to sync</source>
         <translation>Ag ullmhú chun sioncronaithe</translation>
     </message>
     <message>
-        <location filename="../src/libsync/theme.cpp" line="132"/>
+        <location filename="../src/libsync/theme.cpp" line="141"/>
         <source>Sync is paused</source>
         <translation>Tá an sioncronú ar sos</translation>
     </message>
@@ -9253,32 +9794,32 @@ Is modh turgnamhach nua é seo. Má shocraíonn tú é a úsáid, cuir in iúl l
 <context>
     <name>UserStatusMessageView</name>
     <message>
-        <location filename="../src/gui/UserStatusMessageView.qml" line="43"/>
+        <location filename="../src/gui/UserStatusMessageView.qml" line="40"/>
         <source>Status message</source>
         <translation>Teachtaireacht stádais</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusMessageView.qml" line="120"/>
+        <location filename="../src/gui/UserStatusMessageView.qml" line="116"/>
         <source>What is your status?</source>
         <translation>Cén stádas atá agat?</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusMessageView.qml" line="174"/>
+        <location filename="../src/gui/UserStatusMessageView.qml" line="168"/>
         <source>Clear status message after</source>
         <translation>Glan an teachtaireacht stádais ina dhiaidh</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusMessageView.qml" line="212"/>
+        <location filename="../src/gui/UserStatusMessageView.qml" line="205"/>
         <source>Cancel</source>
         <translation>Cealaigh</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusMessageView.qml" line="219"/>
+        <location filename="../src/gui/UserStatusMessageView.qml" line="212"/>
         <source>Clear</source>
         <translation>Glan</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusMessageView.qml" line="229"/>
+        <location filename="../src/gui/UserStatusMessageView.qml" line="221"/>
         <source>Apply</source>
         <translation>Cuir isteach</translation>
     </message>
@@ -9286,53 +9827,47 @@ Is modh turgnamhach nua é seo. Má shocraíonn tú é a úsáid, cuir in iúl l
 <context>
     <name>UserStatusSetStatusView</name>
     <message>
-        <location filename="../src/gui/UserStatusSetStatusView.qml" line="44"/>
+        <location filename="../src/gui/UserStatusSetStatusView.qml" line="42"/>
         <source>Online status</source>
         <translation>Stádas ar líne</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSetStatusView.qml" line="54"/>
-        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="211"/>
-        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="223"/>
+        <location filename="../src/gui/UserStatusSetStatusView.qml" line="51"/>
         <source>Online</source>
         <translation>Ar Líne</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSetStatusView.qml" line="65"/>
-        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="213"/>
+        <location filename="../src/gui/UserStatusSetStatusView.qml" line="61"/>
         <source>Away</source>
         <translation>Ar shiúl</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSetStatusView.qml" line="77"/>
-        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="215"/>
+        <location filename="../src/gui/UserStatusSetStatusView.qml" line="72"/>
         <source>Busy</source>
         <translation>Gnóthach</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSetStatusView.qml" line="88"/>
-        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="217"/>
+        <location filename="../src/gui/UserStatusSetStatusView.qml" line="82"/>
         <source>Do not disturb</source>
         <translation>Ná cuir isteach</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSetStatusView.qml" line="89"/>
+        <location filename="../src/gui/UserStatusSetStatusView.qml" line="83"/>
         <source>Mute all notifications</source>
         <translation>Balbhaigh gach fógra</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSetStatusView.qml" line="101"/>
-        <location filename="../src/gui/trayaccountpopup_qt.cpp" line="219"/>
+        <location filename="../src/gui/UserStatusSetStatusView.qml" line="94"/>
         <source>Invisible</source>
         <translation>Dofheicthe</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSetStatusView.qml" line="102"/>
+        <location filename="../src/gui/UserStatusSetStatusView.qml" line="95"/>
         <source>Appear offline</source>
         <translation>Le feiceáil as líne</translation>
     </message>
     <message>
-        <location filename="../src/gui/UserStatusSetStatusView.qml" line="113"/>
+        <location filename="../src/gui/UserStatusSetStatusView.qml" line="106"/>
         <source>Status message</source>
         <translation>Teachtaireacht stádais</translation>
     </message>
