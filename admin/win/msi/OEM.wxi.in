@@ -14,6 +14,7 @@
 
     <?define AppIcon = "@APPLICATION_ICON_NAME@.ico" ?>
     <?define AppExe = "@APPLICATION_EXECUTABLE@.exe" ?>
+    <?define OldAppName = "MagentaCLOUD Software" ?>
 
     <?define AppHelpLink = "https://@APPLICATION_DOMAIN@/" ?>
     <?define AppInfoLink = "$(var.AppHelpLink)" ?>
@@ -24,6 +25,7 @@
                          and uncomment <WixVariable Id="WixUILicenseRtf"...
     <?define AppLicenseRtf = "path\License.rtf" ?>
     -->
+    <?define AppLicenseRtf = "$(sys.CURRENTDIR)\License.rtf" ?>
 
     <!-- App Version -->
     <?define VerMajor = "@MIRALL_VERSION_MAJOR@" ?>
