@@ -248,11 +248,12 @@ Application::Application(int &argc, char **argv)
     // TODO: Can't set this without breaking current config paths
     //    setOrganizationName(QLatin1String(APPLICATION_VENDOR));
     setOrganizationDomain(QLatin1String(APPLICATION_REV_DOMAIN));
-
     setDesktopFileName(QString(LINUX_APPLICATION_ID));
-
     setApplicationName(_theme->appName());
+    
+#ifndef Q_OS_MACOS
     setWindowIcon(_theme->applicationIcon());
+#endif
 
     parseOptions(arguments());
     //no need to waste time;
