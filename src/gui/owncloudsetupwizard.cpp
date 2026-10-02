@@ -9,9 +9,6 @@
 #include "accountmanager.h"
 #include "clientproxy.h"
 #include "common/utility.h"
-#ifdef Q_OS_MACOS
-#include "common/utility_mac_sandbox.h"
-#endif
 #include "configfile.h"
 #include "filesystem.h"
 #include "folderman.h"
@@ -22,7 +19,6 @@
 #include "sslerrordialog.h"
 #include "wizard/owncloudwizard.h"
 #include "wizard/owncloudwizardcommon.h"
-#include "account.h"
 
 #include "creds/credentialsfactory.h"
 #include "creds/abstractcredentials.h"
@@ -118,25 +114,26 @@ void OwncloudSetupWizard::startWizard()
     // remoteFolder may be empty, which means /
     QString localFolder = Theme::instance()->defaultClientFolder();
 
-    // if its a relative path, prepend with users home dir, otherwise use as absolute path
-
-    if (!QDir(localFolder).isAbsolute()) {
-        const auto homeDirectory =
 #ifdef Q_OS_MACOS
-            Utility::getRealHomeDirectory();
+    // The sandbox home is not a suitable external location for classic sync.
+    // Require the user to choose a folder so macOS can grant access to it.
+    localFolder.clear();
 #else
-            QDir::homePath();
-#endif
+    // If it is a relative path, prepend the user's home directory; otherwise use it as an absolute path.
+    if (!QDir(localFolder).isAbsolute()) {
+        const auto homeDirectory = QDir::homePath();
         localFolder = QDir(homeDirectory).filePath(localFolder);
     }
+#endif
 
-    _ocWizard->setProperty("localFolder", localFolder);
     {
         ConfigFile cfg;
         if (!cfg.overrideLocalDir().isEmpty()) {
-            _ocWizard->setProperty("localFolder", cfg.overrideLocalDir());
+            localFolder = cfg.overrideLocalDir();
         }
     }
+
+    _ocWizard->setProperty("localFolder", localFolder);
 
     // remember the local folder to compare later if it changed, but clean first
     _initLocalFolder = Utility::trailingSlashPath(QDir::fromNativeSeparators(localFolder));
@@ -479,7 +476,7 @@ void OwncloudSetupWizard::slotAuthError()
         if (!_ocWizard->account()->credentials()->stillValid(reply)) {
             errorMsg = tr("Access forbidden by server. To verify that you have proper access, "
                           "<a href=\"%1\">click here</a> to access the service with your browser.")
-                           .arg(Utility::escape(_ocWizard->account()->url().toString()));
+                           .arg(Utility::escape(redirectUrl.toString()));
         } else {
             errorMsg = job->errorStringParsingBody();
         }
