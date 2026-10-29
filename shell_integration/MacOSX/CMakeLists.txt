@@ -2,7 +2,13 @@
 # SPDX-FileCopyrightText: 2014 ownCloud GmbH
 # SPDX-License-Identifier: GPL-2.0-or-later
 if(APPLE)
-    set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_ICON_NAME}.icns")
+    if(MACOS_USE_ICON_COMPOSER)
+        set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/AppIconCompiled/AppIcon.icns")
+    elseif(NOT APPLICATION_NAME STREQUAL "Nextcloud")
+        set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_SHORTNAME}.icns")
+    else()
+        set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_ICON_NAME}.icns")
+    endif()
 
     if (NEXTCLOUD_DEV)
         set(XCODE_TARGET_CONFIGURATION "Debug")

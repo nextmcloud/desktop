@@ -597,7 +597,15 @@ if(NOT BUILD_OWNCLOUD_OSX_BUNDLE)
     )
 else()
     # set(CMAKE_INSTALL_PREFIX ".") # Examples use /Applications. hurmpf.
-    set(MACOSX_BUNDLE_ICON_FILE "${APPLICATION_ICON_NAME}.icns")
+	if(MACOS_USE_ICON_COMPOSER)
+        set(MACOSX_BUNDLE_ICON_FILE "AppIcon")
+        # Modern Icon Composer path also publishes CFBundleIconName so Finder
+        # finds the asset in the bundle's Assets.car.
+        set(MACOSX_BUNDLE_ICON_NAME_BLOCK "<key>CFBundleIconName</key>\n    <string>AppIcon</string>")
+    else()
+        set(MACOSX_BUNDLE_ICON_FILE "${APPLICATION_ICON_NAME}.icns")
+        set(MACOSX_BUNDLE_ICON_NAME_BLOCK "")
+    endif()
 
     # we must add MACOSX_BUNDLE only if building a bundle
     add_executable(nextcloud WIN32 MACOSX_BUNDLE main.cpp ${APP_ICON})
