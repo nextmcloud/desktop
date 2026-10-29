@@ -20,6 +20,7 @@
 		<file alias="theme/colored/state-error-256.png">theme/colored/@STATE_SUBDIR@state-error-256.png</file>
 
 		<file alias="theme/colored/state-ok.svg">theme/colored/@STATE_SUBDIR@state-ok.svg</file>
+        <file alias="theme/colored/state-tray-ok.svg">theme/colored/state-tray-ok.svg</file>
 		<file alias="theme/colored/state-ok-16.png">theme/colored/@STATE_SUBDIR@state-ok-16.png</file>
 		<file alias="theme/colored/state-ok-32.png">theme/colored/@STATE_SUBDIR@state-ok-32.png</file>
 		<file alias="theme/colored/state-ok-64.png">theme/colored/@STATE_SUBDIR@state-ok-64.png</file>
@@ -63,6 +64,7 @@
 		<file alias="theme/white/state-error-256.png">theme/white/@STATE_SUBDIR@state-error-256.png</file>
 
 		<file alias="theme/white/state-ok.svg">theme/white/@STATE_SUBDIR@state-ok.svg</file>
+        <file alias="theme/white/state-tray-ok.svg">theme/white/state-tray-ok.svg</file>
 		<file alias="theme/white/state-ok-16.png">theme/white/@STATE_SUBDIR@state-ok-16.png</file>
 		<file alias="theme/white/state-ok-32.png">theme/white/@STATE_SUBDIR@state-ok-32.png</file>
 		<file alias="theme/white/state-ok-64.png">theme/white/@STATE_SUBDIR@state-ok-64.png</file>
@@ -108,6 +110,7 @@
 		<file alias="theme/black/state-error-256.png">theme/black/@STATE_SUBDIR@state-error-256.png</file>
 
 		<file alias="theme/black/state-ok.svg">theme/black/@STATE_SUBDIR@state-ok.svg</file>
+        <file alias="theme/black/state-tray-ok.svg">theme/black/state-tray-ok.svg</file>
 		<file alias="theme/black/state-ok-16.png">theme/black/@STATE_SUBDIR@state-ok-16.png</file>
 		<file alias="theme/black/state-ok-32.png">theme/black/@STATE_SUBDIR@state-ok-32.png</file>
 		<file alias="theme/black/state-ok-64.png">theme/black/@STATE_SUBDIR@state-ok-64.png</file>
