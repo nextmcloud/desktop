@@ -375,14 +375,6 @@ void OwncloudAdvancedSetupPage::updateStatus()
         true;
 #endif
 
-    const auto freeSpaceText = hasLocalSyncFolder ? QString(tr("%1 free space", "%1 gets replaced with the size and a matching unit. Example: 3 MB or 5 GB")).arg(Utility::octetsToString(availableLocalSpace())) : QString();
-
-    _filePathLabel->setText(filePathText);
-    _ui.lFreeSpace->setText(freeSpaceText);
-
-#ifdef BUILD_FILE_PROVIDER_MODULE
-    updateMacOsFileProviderRelatedViews();
-#endif
     const auto freeSpaceText = hasLocalSyncFolder ? QString(tr("%1 free space", "%1 gets replaced with the size and a matching unit. Example: 3 MB or 5 GB"))
                                                         .arg(Utility::octetsToString(availableLocalSpace()))
                                                   : QString();
