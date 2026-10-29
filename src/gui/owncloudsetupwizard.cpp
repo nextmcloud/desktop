@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
+#include "owncloudsetupwizard.h"
 #include "accessmanager.h"
 #include "account.h"
 #include "accountmanager.h"
@@ -14,7 +15,6 @@
 #include "folderman.h"
 #include "networkjobs.h"
 #include "owncloudgui.h"
-#include "owncloudsetupwizard.h"
 #include "owncloudpropagator_p.h"
 #include "sslerrordialog.h"
 #include "wizard/owncloudwizard.h"
@@ -119,7 +119,8 @@ void OwncloudSetupWizard::startWizard()
     // Require the user to choose a folder so macOS can grant access to it.
     localFolder.clear();
 #else
-    // If it is a relative path, prepend the user's home directory; otherwise use it as an absolute path.
+    // If it is a relative path, prepend the user's home directory; otherwise
+    // use it as an absolute path.
     if (!QDir(localFolder).isAbsolute()) {
         const auto homeDirectory = QDir::homePath();
         localFolder = QDir(homeDirectory).filePath(localFolder);

@@ -77,15 +77,6 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
     connect(_ui.rSyncEverything, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotSyncEverythingClicked);
     connect(_ui.rSelectiveSync, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotSelectiveSyncClicked);
     connect(_ui.rVirtualFileSync, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotVirtualFileSyncClicked);
-    connect(_ui.rVirtualFileSync, &QRadioButton::toggled, this, [this](const bool checked) {
-        if (checked) {
-            _ui.lSelectiveSyncSizeLabel->clear();
-            _selectiveSyncBlacklist.clear();
-        }
-#ifdef BUILD_FILE_PROVIDER_MODULE
-        updateMacOsFileProviderRelatedViews();
-#endif
-    });
     connect(_ui.bSelectiveSync, &QAbstractButton::clicked, this, &OwncloudAdvancedSetupPage::slotSelectiveSyncClicked);
 
     const auto theme = Theme::instance();
@@ -119,6 +110,19 @@ OwncloudAdvancedSetupPage::OwncloudAdvancedSetupPage(OwncloudWizard *wizard)
         vfsExperimentalText = "";
     }
     _ui.rVirtualFileSync->setText(tr("Use &virtual files instead of downloading content immediately %1").arg(vfsExperimentalText));
+
+    connect(_ui.rVirtualFileSync, &QRadioButton::toggled, this, [this](const bool checked) {
+        if (checked) {
+            _ui.lSelectiveSyncSizeLabel->clear();
+            _selectiveSyncBlacklist.clear();
+        }
+#ifdef BUILD_FILE_PROVIDER_MODULE
+        updateMacOsFileProviderRelatedViews();
+#endif
+#ifdef Q_OS_MACOS
+        updateStatus();
+#endif
+    });
 }
 
 void OwncloudAdvancedSetupPage::setupCustomization()
@@ -145,7 +149,11 @@ void OwncloudAdvancedSetupPage::setupCustomization()
 
 bool OwncloudAdvancedSetupPage::isComplete() const
 {
+#ifdef Q_OS_MACOS
+    return !_checking && (useVirtualFileSync() || _localFolderValid);
+#else
     return !_checking && _localFolderValid;
+#endif
 }
 
 void OwncloudAdvancedSetupPage::initializePage()
@@ -183,7 +191,6 @@ void OwncloudAdvancedSetupPage::initializePage()
 #else
     auto goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(localFolder(), serverUrl(), FolderMan::GoodPathStrategy::AllowOnlyNewPath);
 #endif
-
     if (overrideLocalDir) {
         goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(cfg.overrideLocalDir(), serverUrl(), FolderMan::GoodPathStrategy::AllowOverrideExistingPath);
     }
@@ -376,7 +383,15 @@ void OwncloudAdvancedSetupPage::updateStatus()
 #ifdef BUILD_FILE_PROVIDER_MODULE
     updateMacOsFileProviderRelatedViews();
 #endif
+    const auto freeSpaceText = hasLocalSyncFolder ? QString(tr("%1 free space", "%1 gets replaced with the size and a matching unit. Example: 3 MB or 5 GB"))
+                                                        .arg(Utility::octetsToString(availableLocalSpace()))
+                                                  : QString();
+    _filePathLabel->setText(filePathText);
+    _ui.lFreeSpace->setText(freeSpaceText);
 
+#ifdef BUILD_FILE_PROVIDER_MODULE
+    updateMacOsFileProviderRelatedViews();
+#endif
     _ui.syncModeLabel->setText(t);
     _ui.syncModeLabel->setFixedHeight(_ui.syncModeLabel->sizeHint().height());
 
