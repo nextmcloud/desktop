@@ -1,0 +1,53 @@
+###
+# SPDX-License-Identifier: AGPL-3.0
+#
+# Author: Mauro Mura <mauro-efisio.mura@t-systems.com>
+#
+# Creates customisation ports between supported baseline branches.
+#
+# Examples:
+#   master      -> stable-34.0
+#   stable-33.0 -> stable-34.0
+#   stable-34.0 -> stable-35.0
+#   stable-35.0 -> master
+#
+###
+
+name: MCLOUD port customisations
+
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        type: choice
+        description: Customisations from base branch
+        required: true
+        options:
+          - master
+          - stable-35.0
+          - stable-34.0
+          - stable-33.0
+        default: master
+
+      target:
+        type: choice
+        description: Create customisations for base branch
+        required: true
+        options:
+          - master
+          - stable-35.0
+          - stable-34.0
+          - stable-33.0
+        default: stable-35.0
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  port-custom:
+    uses: nextmcloud/.github/.github/workflows/nmc-custom-source-stables.yml@master
+    with:
+      source: ${{ inputs.source }}
+      target: ${{ inputs.target }}
+    secrets: inherit
