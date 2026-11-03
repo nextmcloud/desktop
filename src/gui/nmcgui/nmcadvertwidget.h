@@ -53,7 +53,7 @@
      explicit NMCClickableLabel(QWidget *parent = nullptr);
      ~NMCClickableLabel() override = default;
  
- signals:
+ Q_SIGNALS:
      void clicked();
  
  protected:
