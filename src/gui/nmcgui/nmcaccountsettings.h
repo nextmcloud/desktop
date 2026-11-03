@@ -52,7 +52,7 @@ public:
     explicit NMCAccountSettings(AccountState *accountState, QWidget *parent = nullptr);
     ~NMCAccountSettings() override = default;
 
-public slots:
+public Q_SLOTS:
     void slotUpdateQuota(qint64 total, qint64 used) override;
 
 private:
