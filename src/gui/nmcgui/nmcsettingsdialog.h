@@ -46,7 +46,7 @@ public:
      */
     ~NMCSettingsDialog() = default;
 
-public slots:
+public Q_SLOTS:
     /**
      * @brief Slot for handling changes in the account avatar
      */
