@@ -264,7 +264,7 @@ NMCClickableLabel::NMCClickableLabel(QWidget *parent)
 void NMCClickableLabel::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        emit clicked();
+        Q_EMIT clicked();
     }
     QLabel::mousePressEvent(event);
 }
