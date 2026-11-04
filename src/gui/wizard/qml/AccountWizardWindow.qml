@@ -226,7 +226,7 @@ WizardStyledWindow {
         footer: [
             BrowserAuthFooter {
                 controller: root.controller
-                visible: root.controller && root.controller.currentStep === AccountWizardController.BrowserAuthStep
+                visible: false
                 Layout.fillWidth: visible
                 Layout.fillHeight: visible
             },
@@ -392,7 +392,7 @@ WizardStyledWindow {
 
     Component {
         id: browserAuthPage
-        BrowserAuthPage {
+        NMCBrowserAuthPage {
             controller: root.controller
         }
     }
