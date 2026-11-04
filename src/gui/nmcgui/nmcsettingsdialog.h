@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Eugen Fischer
+ * Copyright (C) by Mauro Mura
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 #ifndef MIRALL_SETTINGSDIALOGMAGENTA_H
 #define MIRALL_SETTINGSDIALOGMAGENTA_H
 
-#include <settingsdialog.h>
+#include "settingsdialog.h"
 
 namespace OCC {
 
@@ -23,8 +23,8 @@ namespace OCC {
  * @brief The NMCSettingsDialog class
  *
  * This class represents the settings dialog specific to the Magenta theme.
- * It inherits from SettingsDialog and provides additional functionalities
- * or customizations related to the Magenta theme.
+ * It inherits from SettingsDialog and provides customizations related to
+ * the Magenta theme.
  *
  * @ingroup gui
  */
@@ -44,26 +44,15 @@ public:
     /**
      * @brief Destructor for NMCSettingsDialog
      */
-    ~NMCSettingsDialog() = default;
-
-public Q_SLOTS:
-    /**
-     * @brief Slot for handling changes in the account avatar
-     */
-    void slotAccountAvatarChanged();
-
-    // NMCGuiInterface interface
+    ~NMCSettingsDialog() override = default;
 
 private:
     /**
-     * @brief Fixes the appearance of the account button
-     */
-    void fixAccountButton() const;
-    /**
-     * @brief Fixes the appearance of the navigation background
+     * @brief Fixes the appearance of the navigation background.
      */
     void fixNavigationBackground() const;
 };
 
 } // namespace OCC
+
 #endif // MIRALL_SETTINGSDIALOGMAGENTA_H
