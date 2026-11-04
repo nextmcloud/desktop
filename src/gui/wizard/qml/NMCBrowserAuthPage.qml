@@ -35,7 +35,7 @@ Item {
                     Layout.preferredHeight: 36
                 }
 
-                Label {
+                EnforcedPlainTextLabel {
                     text: "MagentaCLOUD"
                     font.pixelSize: 15
                     font.bold: true
@@ -51,7 +51,7 @@ Item {
             }
 
             // Überschrift
-            Label {
+            EnforcedPlainTextLabel {
                 text: qsTranslate("", "SETUP_HEADER_TEXT_1")
                 font.pixelSize: 24
                 font.weight: Font.Normal
@@ -65,7 +65,7 @@ Item {
             }
 
             // Beschreibung
-            Label {
+            EnforcedPlainTextLabel {
                 text: qsTranslate("", "SETUP_DESCRIPTION_TEXT_1")
                 font.pixelSize: 14
                 wrapMode: Text.WordWrap

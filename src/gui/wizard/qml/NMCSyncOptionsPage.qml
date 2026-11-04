@@ -60,7 +60,7 @@ Item {
                     Layout.preferredHeight: 36
                 }
 
-                Label {
+                EnforcedPlainTextLabel {
                     text: "MagentaCLOUD"
 
                     font.pixelSize: 15
@@ -77,7 +77,7 @@ Item {
             }
 
             // Headline
-            Label {
+            EnforcedPlainTextLabel {
                 text: qsTranslate("", "SETUP_HEADER_TEXT_2")
 
                 font.pixelSize: 28
@@ -93,7 +93,7 @@ Item {
             }
 
             // Selected local folder
-            Label {
+            EnforcedPlainTextLabel {
                 text: root.hasLocalFolder
                     ? root.controller.localSyncFolderDisplay
                     : qsTranslate("", "NO_STORAGE_LOCATION_SELECTED")
@@ -108,7 +108,7 @@ Item {
             }
 
             // Free space or selection hint
-            Label {
+            EnforcedPlainTextLabel {
                 text: {
                     if (!root.hasLocalFolder) {
                         return qsTranslate("", "SELECT_FOLDER_ON_DEVICE")
@@ -127,7 +127,7 @@ Item {
             }
 
             // Validation error from stable-35 controller
-            Label {
+            EnforcedPlainTextLabel {
                 text: root.controller.localSyncFolderError
 
                 visible: text !== ""
@@ -185,7 +185,7 @@ Item {
             }
 
             // Description changes depending on folder selection
-            Label {
+            EnforcedPlainTextLabel {
                 text: root.hasLocalFolder
                     ? qsTranslate("", "SETUP_DESCRIPTION_FOLDER_SELECTED")
                     : qsTranslate("", "SETUP_DESCRIPTION_SELECT_FOLDER")
