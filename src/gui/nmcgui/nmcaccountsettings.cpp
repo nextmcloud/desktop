@@ -290,28 +290,103 @@ void NMCAccountSettings::setLayout()
     getUi()->_folderList->viewport()->setAutoFillBackground(false);
     getUi()->_folderList->viewport()->setAttribute(Qt::WA_StyledBackground, false);
 
-    auto *e2eePanel = createPanel(QStringLiteral("nmcE2eePanel"), this);
-    auto *e2eeHLayout = createPanelHorizontalLayout(e2eePanel);
-    auto *e2eeVLayout = createContentVerticalLayout(8);
+    // stable-35 already creates a dedicated encryption panel in AccountSettings.
+    // Reuse it instead of moving encryptionMessage into another panel.
+    auto *e2eePanel = getUi()->encryptionMessage->parentWidget();
 
-    auto *e2eeTitle = new QLabel(QCoreApplication::translate("", "E2E_ENCRYPTION"), e2eePanel);
-    styleTitleLabel(e2eeTitle);
+    if (e2eePanel) {
+        e2eePanel->setObjectName(QStringLiteral("nmcE2eePanel"));
+        e2eePanel->setAttribute(Qt::WA_StyledBackground, true);
+        e2eePanel->setStyleSheet(
+            panelStyleSheet(QStringLiteral("nmcE2eePanel")));
 
-    auto *e2eeTitleIcon = new QLabel(e2eePanel);
-    e2eeTitleIcon->setFixedSize(24, 24);
-    e2eeTitleIcon->setPixmap(
-        Theme::createColorAwareIcon(QStringLiteral(":/client/theme/NMCIcons/cloud-security.svg"))
-            .pixmap(24, 24));
-    e2eeTitleIcon->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        if (auto *panelLayout = e2eePanel->layout()) {
+            panelLayout->setContentsMargins(
+                panelPadding,
+                panelPadding,
+                panelPadding,
+                panelPadding);
+            panelLayout->setSpacing(8);
+        }
+    }
 
-    auto *e2eeTitleLayout = new QHBoxLayout();
-    setupTransparentLayout(e2eeTitleLayout, 8);
-    e2eeTitleLayout->addWidget(e2eeTitleIcon);
-    e2eeTitleLayout->addWidget(e2eeTitle);
-    e2eeTitleLayout->addStretch();
+    // Keep the stable-35 encryptionMessage hierarchy intact.
+    setupTransparentWidget(getUi()->encryptionMessage);
+    setupTransparentLayout(getUi()->encryptionMessageLayout);
+    setupTransparentLayout(getUi()->encryptionMessageHeaderLayout);
 
-    getUi()->accountStatusLayout->removeWidget(getUi()->encryptionMessage);
-    getUi()->encryptionMessageLayout->removeItem(getUi()->encryptionMessageButtonsLayout);
+    getUi()->encryptionMessageIcon->clear();
+    getUi()->encryptionMessageIcon->hide();
+
+    setupContentLabel(getUi()->encryptionMessageLabel);
+    setupTransparentWidget(getUi()->encryptionMessageLabel);
+
+    // Style the buttons where stable-35 created them instead of moving them
+    // into another layout.
+    if (auto *buttonLayout = getUi()->encryptionMessageButtonsLayout) {
+        buttonLayout->setContentsMargins(0, 8, 0, 0);
+        buttonLayout->setSpacing(8);
+
+        for (int i = 0; i < buttonLayout->count(); ++i) {
+            auto *item = buttonLayout->itemAt(i);
+            if (!item) {
+                continue;
+            }
+
+            if (auto *button = qobject_cast<QPushButton *>(item->widget())) {
+                styleSecondaryButton(button);
+            }
+        }
+    }
+
+    auto updateE2eePanelVisibility = [this, e2eePanel]() {
+        if (!e2eePanel) {
+            return false;
+        }
+
+        const auto accountState = accountsState();
+        const auto account = accountState ? accountState->account() : nullptr;
+
+        const bool visible =
+            account
+            && account->capabilities().clientSideEncryptionAvailable();
+
+        e2eePanel->setVisible(visible);
+        return visible;
+    };
+
+    // Move the existing stable-35 panel to the desired NMC position.
+    if (e2eePanel) {
+        getUi()->verticalLayout_2->removeWidget(e2eePanel);
+        getUi()->verticalLayout_2->insertWidget(0, e2eePanel);
+    }
+
+    getUi()->accountStatusPanel->setVisible(false);
+
+    if (auto *accountState = accountsState()) {
+        connect(accountState, &AccountState::stateChanged,
+                this, [this, updateE2eePanelVisibility]() {
+            QTimer::singleShot(0, this, updateE2eePanelVisibility);
+        });
+
+        if (accountState->account() && accountState->account()->e2e()) {
+            connect(accountState->account()->e2e(),
+                    &ClientSideEncryption::initializationFinished,
+                    this,
+                    [this, updateE2eePanelVisibility]() {
+                QTimer::singleShot(0, this, updateE2eePanelVisibility);
+            });
+
+            connect(accountState->account()->e2e(),
+                    &ClientSideEncryption::sensitiveDataForgotten,
+                    this,
+                    [this, updateE2eePanelVisibility]() {
+                QTimer::singleShot(0, this, updateE2eePanelVisibility);
+            });
+        }
+    }
+
+    QTimer::singleShot(0, this, updateE2eePanelVisibility);
 
     setupTransparentWidget(getUi()->encryptionMessage);
     setupTransparentLayout(getUi()->encryptionMessageLayout);
@@ -561,25 +636,7 @@ void NMCAccountSettings::setLayout()
 
     getUi()->verticalLayout_2->addWidget(connectionWrapper);
 
-    getUi()->encryptionMessage->hide();
-    checkClientSideEncryptionState();
     updateE2eePanelVisibility();
-
-    QTimer::singleShot(0, this, normalizeEncryptionLayout);
-
-    auto collapseFolderTree = [this]() {
-        getUi()->_folderList->collapseAll();
-    };
-
-    QTimer::singleShot(0, this, collapseFolderTree);
-
-    connect(getUi()->_folderList->model(), &QAbstractItemModel::modelReset, this, [this, collapseFolderTree]() {
-        QTimer::singleShot(0, this, collapseFolderTree);
-    });
-
-    connect(getUi()->_folderList->model(), &QAbstractItemModel::rowsInserted, this, [this, collapseFolderTree]() {
-        QTimer::singleShot(0, this, collapseFolderTree);
-    });
 
     // Keep all account setting panels grouped at the top.
     // verticalLayout_2 contains an expanding spacer from the original UI.
