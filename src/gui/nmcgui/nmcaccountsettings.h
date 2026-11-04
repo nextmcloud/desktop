@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Eugen Fischer
+ * Copyright (C) by Mauro Mura
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QSize>
 
 #include <accountsettings.h>
 
@@ -62,7 +63,6 @@ private:
     CustomButton *m_liveAccountButton = nullptr;
     QLabel *m_liveTitle = nullptr;
     QLabel *m_liveDescription = nullptr;
-    QLabel *m_folderSync = nullptr;
 
     QLabel *m_quotaInfoLabel = nullptr;
     QProgressBar *m_quotaProgressBar = nullptr;
