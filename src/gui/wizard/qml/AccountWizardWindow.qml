@@ -234,7 +234,7 @@ WizardStyledWindow {
             WizardButton {
                 visible: root.controller
                     && root.controller.currentStep !== AccountWizardController.ServerStep
-                    && root.controller.currentStep !== AccountWizardController.BrowserAuthStep
+                    && root.controller.currentStep !== AccountWizardController.BrowserAuthStep && root.controller.currentStep !== AccountWizardController.SyncOptionsStep
                 enabled: root.controller && !root.controller.busy
                 Layout.fillWidth: root.controller
                     && (root.controller.currentStep === AccountWizardController.BasicAuthStep
@@ -257,7 +257,7 @@ WizardStyledWindow {
             },
 
             WizardButton {
-                visible: root.controller && root.controller.currentStep === AccountWizardController.SyncOptionsStep
+                visible: false
                 enabled: root.controller && !root.controller.busy
                 text: qsTr("Set up later")
                 Layout.fillWidth: true
@@ -266,7 +266,7 @@ WizardStyledWindow {
             },
 
             WizardButton {
-                visible: root.controller
+                visible: false
                     && root.controller.currentStep === AccountWizardController.SyncOptionsStep
                     && root.controller.hasAdvancedOptions
                 enabled: root.controller && !root.controller.busy
@@ -338,7 +338,7 @@ WizardStyledWindow {
             WizardButton {
                 visible: root.controller
                     && root.controller.currentStep !== AccountWizardController.ServerStep
-                    && root.controller.currentStep !== AccountWizardController.BrowserAuthStep
+                    && root.controller.currentStep !== AccountWizardController.BrowserAuthStep && root.controller.currentStep !== AccountWizardController.SyncOptionsStep
                 primary: true
                 enabled: root.controller
                     && !root.controller.busy
@@ -406,7 +406,7 @@ WizardStyledWindow {
 
     Component {
         id: syncOptionsPage
-        SyncOptionsPage {
+        NMCSyncOptionsPage {
             controller: root.controller
         }
     }
