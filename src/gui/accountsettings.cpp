@@ -1358,6 +1358,7 @@ void AccountSettings::showConnectionLabel(const QString &message, QStringList er
         _ui->connectLabel->setToolTip({});
         _ui->connectLabel->setStyleSheet(errStyle);
     }
+    _ui->accountStatus->setVisible(!message.isEmpty());
 }
 
 void AccountSettings::showConnectionSettingsDialog()
@@ -1479,6 +1480,7 @@ void AccountSettings::slotUpdateQuota(qint64 total, qint64 used)
         //: %1 is the used storage size. %2 is the total storage size.
         _spaceUsageText = tr("%1 of %2 in use").arg(usedStr, totalStr);
     } else {
+        /* -1 means not computed; -2 means unknown; -3 means unlimited  (#owncloud/client/issues/3940)*/
         if (total == 0 || total == -1) {
             _spaceUsageText.clear();
         } else {
