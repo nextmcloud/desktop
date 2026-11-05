@@ -9,7 +9,7 @@ import QtQuick.Layouts
 
 import Style
 import "./tray"
-import "qrc:/qml/NMCGui"
+import "nmcgui"
 
 import com.nextcloud.desktopclient
 
