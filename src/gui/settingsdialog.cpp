@@ -375,7 +375,6 @@ int SettingsDialog::userIndexForAccount(AccountState *account) const
     return userModel ? userModel->findUserIdForAccount(account) : -1;
 }
 
-void SettingsDialog::accountAdded(AccountState *s)
 {
     auto height = _toolBar->sizeHint().height();
     bool brandingSingleAccount = !Theme::instance()->multiAccount();
@@ -384,13 +383,18 @@ void SettingsDialog::accountAdded(AccountState *s)
     const auto actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
     const auto accountAction = createColorAwareAction(QLatin1String(":/client/theme/account.svg"), actionText);
     updateAccountAvatar(s->account().data());
-    
+
     if (!brandingSingleAccount) {
         accountAction->setToolTip(s->account()->displayName());
-        accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
+        accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio())));
     }
 
-    _toolBar->insertAction(_toolBar->actions().at(0), accountAction);
+    if (_firstNonAccountAction) {
+        _toolBar->insertAction(_firstNonAccountAction, accountAction);
+    } else {
+        _toolBar->addAction(accountAction);
+    }
+
     auto accountSettings = new NMCAccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
     objectName += s->account()->displayName();
