@@ -387,7 +387,7 @@ void SettingsDialog::accountAdded(AccountState *s)
 
     if (!brandingSingleAccount) {
         accountAction->setToolTip(s->account()->displayName());
-        accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio())));
+        accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
     }
 
     if (_firstNonAccountAction) {
