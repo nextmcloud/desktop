@@ -53,6 +53,21 @@ void warnSystray()
     );
 }
 
+static void registerNmcThemeResource()
+{
+    bool resourceLoaded = false;
+
+    if (Utility::isMac()) {
+        resourceLoaded = QResource::registerResource(
+            QDir::toNativeSeparators(QStringLiteral("/Applications/MagentaCLOUD.app/Contents/Resources/nmctheme_v1.rcc")));
+    }
+
+    if (Utility::isWindows() || !resourceLoaded) {
+        QResource::registerResource(
+            QDir::toNativeSeparators(QDir::currentPath() + QStringLiteral("/nmctheme_v1.rcc")));
+    }
+}
+
 static int runApplication(int argc, char **argv)
 {
 #ifdef Q_OS_WIN
@@ -60,16 +75,7 @@ static int runApplication(int argc, char **argv)
     qputenv("QML_IMPORT_PATH", (QDir::currentPath() + QStringLiteral("/qml")).toLatin1());
 #endif
 
-    bool resourceLoaded = false;
-    const QString currentPath = QDir::currentPath();
-
-    if (Utility::isMac()) {
-        resourceLoaded = QResource::registerResource(QDir::toNativeSeparators("/Applications/MagentaCLOUD.app/Contents/Resources/nmctheme_v1.rcc"));
-    }
-
-    if (Utility::isWindows() || !resourceLoaded) {
-        resourceLoaded = QResource::registerResource(QDir::toNativeSeparators(currentPath + "/nmctheme_v1.rcc"));
-    }
+    registerNmcThemeResource();
 
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
