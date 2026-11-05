@@ -1,11 +1,9 @@
 <RCC>
     <qresource prefix="/qml">
-        <file alias="NMCGui/qmldir">src/gui/nmcgui/qmldir</file>
-        <file alias="NMCGui/NMCHeaderButton.qml">src/gui/nmcgui/NMCHeaderButton.qml</file>
-        <file alias="NMCGui/NMCMenuItem.qml">src/gui/nmcgui/NMCMenuItem.qml</file>   
         <file>src/gui/WizardStyledWindow.qml</file>
         <file>src/gui/UserStatusWindow.qml</file>
         <file>src/gui/WindowAccountHeader.qml</file>
+        <file>src/gui/NMCWindowAccountHeader.qml</file>
         <file>src/gui/activity/qml/ActivitiesWindow.qml</file>
         <file>src/gui/search/SearchWindow.qml</file>
         <file>src/gui/UserStatusWindowStatusRow.qml</file>
