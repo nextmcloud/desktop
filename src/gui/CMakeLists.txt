@@ -48,16 +48,14 @@ endif()
 message(STATUS "APPLICATION_ICON_SOURCE_NAME: ${APPLICATION_ICON_SOURCE_NAME}")
 message(STATUS "APPLICATION_ICON_NAME: ${APPLICATION_ICON_NAME}")
 
-set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
-
 # The Brander still provides the customized source assets using the
 # Nextcloud filenames. Create branded aliases used by the build.
 if(NOT APPLICATION_ICON_SOURCE_NAME STREQUAL APPLICATION_ICON_NAME)
 
     set(APP_ICON_SOURCE_SVG
-        "${theme_dir}/colored/${APPLICATION_ICON_SOURCE_NAME}-icon.svg")
+        "${CMAKE_SOURCE_DIR}/theme/colored/${APPLICATION_ICON_SOURCE_NAME}-icon.svg")
     set(APP_ICON_BRANDED_SVG
-        "${theme_dir}/colored/${APPLICATION_ICON_NAME}-icon.svg")
+        "${CMAKE_SOURCE_DIR}/theme/colored/${APPLICATION_ICON_NAME}-icon.svg")
 
     if(NOT EXISTS "${APP_ICON_SOURCE_SVG}")
         message(FATAL_ERROR
@@ -73,12 +71,12 @@ if(NOT APPLICATION_ICON_SOURCE_NAME STREQUAL APPLICATION_ICON_NAME)
     if(APPLE)
         # Prefer the macOS-specific sidebar source.
         set(MACOS_SIDEBAR_SOURCE_SVG
-            "${theme_dir}/colored/${APPLICATION_ICON_SOURCE_NAME}-macOS-sidebar.svg")
+            "${CMAKE_SOURCE_DIR}/theme/colored/${APPLICATION_ICON_SOURCE_NAME}-macOS-sidebar.svg")
 
         # Fallback for themes using the old generic sidebar filename.
         if(NOT EXISTS "${MACOS_SIDEBAR_SOURCE_SVG}")
             set(MACOS_SIDEBAR_SOURCE_SVG
-                "${theme_dir}/colored/${APPLICATION_ICON_SOURCE_NAME}-sidebar.svg")
+                "${CMAKE_SOURCE_DIR}/theme/colored/${APPLICATION_ICON_SOURCE_NAME}-sidebar.svg")
         endif()
 
         if(NOT EXISTS "${MACOS_SIDEBAR_SOURCE_SVG}")
@@ -88,13 +86,14 @@ if(NOT APPLICATION_ICON_SOURCE_NAME STREQUAL APPLICATION_ICON_NAME)
 
         configure_file(
             "${MACOS_SIDEBAR_SOURCE_SVG}"
-            "${theme_dir}/colored/${APPLICATION_ICON_NAME}-sidebar.svg"
+            "${CMAKE_SOURCE_DIR}/theme/colored/${APPLICATION_ICON_NAME}-sidebar.svg"
             COPYONLY
         )
     endif()
 endif()
 
 configure_file(${CMAKE_SOURCE_DIR}/theme.qrc.in ${CMAKE_SOURCE_DIR}/theme.qrc)
+set(theme_dir ${CMAKE_SOURCE_DIR}/theme)
 
 set(client_UI_SRCS
     advancedsettings.ui
