@@ -375,6 +375,7 @@ int SettingsDialog::userIndexForAccount(AccountState *account) const
     return userModel ? userModel->findUserIdForAccount(account) : -1;
 }
 
+void SettingsDialog::accountAdded(AccountState *s)
 {
     auto height = _toolBar->sizeHint().height();
     bool brandingSingleAccount = !Theme::instance()->multiAccount();
