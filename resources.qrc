@@ -54,12 +54,14 @@
         <file>src/gui/wizard/qml/BasicAuthPage.qml</file>
         <file>src/gui/wizard/qml/BrowserAuthFooter.qml</file>
         <file>src/gui/wizard/qml/BrowserAuthPage.qml</file>
+        <file>src/gui/wizard/qml/NMCBrowserAuthPage.qml</file>
         <file>src/gui/wizard/qml/BrowserReAuthWindow.qml</file>
         <file>src/gui/wizard/qml/ClientCertificateDialog.qml</file>
         <file>src/gui/wizard/qml/OptionRow.qml</file>
         <file>src/gui/wizard/qml/ProxySettingsDialog.qml</file>
         <file>src/gui/wizard/qml/ServerPage.qml</file>
         <file>src/gui/wizard/qml/SyncOptionsPage.qml</file>
+        <file>src/gui/wizard/qml/NMCSyncOptionsPage.qml</file>
         <file>src/gui/wizard/qml/WizardButton.qml</file>
         <file>src/gui/wizard/qml/WizardChipButton.qml</file>
         <file>src/gui/wizard/qml/WizardComboBox.qml</file>
