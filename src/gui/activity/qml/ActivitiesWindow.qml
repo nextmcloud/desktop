@@ -57,10 +57,10 @@ WizardStyledWindow {
         anchors.bottomMargin: Style.wizardWindowMargin
         spacing: Style.wizardSectionSpacing
 
-        WindowAccountHeader {
+        NMCWindowAccountHeader {
             Layout.fillWidth: true
-            title: root.headline
-            user: root.account
+            account: root.account
+            user: root.activityUser
         }
 
         Rectangle {
