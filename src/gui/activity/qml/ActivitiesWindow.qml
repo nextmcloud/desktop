@@ -20,8 +20,8 @@ WizardStyledWindow {
     readonly property string headline: qsTr("Activities")
 
     title: ""
-    width: Style.nmcTrayWindowWidth
-    height: Style.nmcTrayWindowHeight
+    width: Style.activitiesWindowWidth
+    height: Style.activitiesWindowHeight
     minimumWidth: Style.wizardStandaloneWindowMinimumWidth
     minimumHeight: Style.wizardStandaloneWindowMinimumHeight
 
