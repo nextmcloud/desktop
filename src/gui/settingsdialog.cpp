@@ -13,6 +13,7 @@
 #include "infosettings.h"
 #include "networksettings.h"
 #include "accountsettings.h"
+#include "nmcgui/nmcaccountsettings.h"
 #include "configfile.h"
 #include "progressdispatcher.h"
 #include "owncloudgui.h"
@@ -383,7 +384,7 @@ void SettingsDialog::accountAdded(AccountState *s)
     const auto actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
     const auto accountAction = createColorAwareAction(QLatin1String(":/client/theme/account.svg"), actionText);
     updateAccountAvatar(s->account().data());
-    
+
     if (!brandingSingleAccount) {
         accountAction->setToolTip(s->account()->displayName());
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
@@ -394,7 +395,8 @@ void SettingsDialog::accountAdded(AccountState *s)
     } else {
         _toolBar->addAction(accountAction);
     }
-    auto accountSettings = new AccountSettings(s, this);
+
+    auto accountSettings = new NMCAccountSettings(s, this);
     QString objectName = QLatin1String("accountSettings_");
     objectName += s->account()->displayName();
     accountSettings->setObjectName(objectName);
@@ -474,7 +476,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
 void SettingsDialog::accountRemoved(AccountState *s)
 {
     for (auto it = _actionGroupWidgets.begin(); it != _actionGroupWidgets.end(); ++it) {
-        auto as = qobject_cast<AccountSettings *>(*it);
+        auto as = qobject_cast<NMCAccountSettings *>(*it);
         if (!as) {
             continue;
         }
