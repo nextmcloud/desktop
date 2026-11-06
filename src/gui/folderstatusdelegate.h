@@ -54,6 +54,7 @@ public:
     static QRect errorsListRect(QRect within);
     static QRect sandboxButtonRect(QRect errorBannerRect);
     static int rootFolderHeightWithoutErrors(const QFontMetrics &fm, const QFontMetrics &aliasFm);
+    static QRect moreRectPos(const QRect &rectIndex);
 
 public slots:
     void slotStyleChanged();
@@ -65,6 +66,7 @@ private:
     QPersistentModelIndex _pressedIndex;
 
     QIcon _iconMore;
+    QStyleOptionViewItem _newOption;
 };
 
 } // namespace OCC
