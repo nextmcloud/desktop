@@ -4,6 +4,11 @@
 if(APPLE)
     set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_ICON_NAME}.icns")
 
+    # Branded builds generate the FinderSync icon using the application short name.
+    if(NOT APPLICATION_NAME STREQUAL "Nextcloud" AND NOT NEXTCLOUD_DEV)
+        set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_SHORTNAME}.icns")
+    endif()
+
     if (NEXTCLOUD_DEV)
         set(XCODE_TARGET_CONFIGURATION "Debug")
     else()
