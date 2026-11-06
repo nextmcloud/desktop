@@ -11,6 +11,7 @@
 #include "theme.h"
 #include "generalsettings.h"
 #include "infosettings.h"
+#include "nmcgui/nmcgeneralsettings.h"
 #include "networksettings.h"
 #include "accountsettings.h"
 #include "configfile.h"
@@ -183,7 +184,7 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     _toolBar->addWidget(accountSpacer);
 
     //: Name of the General settings page.
-    addSettingsPage(QLatin1String(":/client/theme/settings.svg"), tr("General"), new GeneralSettings(this));
+    addSettingsPage(QLatin1String(":/client/theme/settings.svg"), tr("General"), new NMCGeneralSettings(this));
     //: Name of the Advanced settings feature.
     addSettingsPage(QLatin1String(":/client/theme/advanced.svg"), AdvancedSettings::tr("Advanced"), new AdvancedSettings(this));
     //: Name of the Info settings page.
