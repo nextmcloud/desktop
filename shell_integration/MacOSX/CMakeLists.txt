@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2014 ownCloud GmbH
 # SPDX-License-Identifier: GPL-2.0-or-later
 if(APPLE)
-    set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_ICON_NAME}.icns")
+    set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${MACOSX_APPLICATION_ICON_NAME}.icns")
 
     # Branded builds generate the FinderSync icon using the application short name.
     if(NOT APPLICATION_NAME STREQUAL "Nextcloud" AND NOT NEXTCLOUD_DEV)
