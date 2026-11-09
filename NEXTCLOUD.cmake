@@ -1,4 +1,3 @@
-cat > NEXTCLOUD.cmake <<'EOF'
 # MagentaCLOUD local branding overlay
 #
 # This file combines the common branding settings with the platform-specific
@@ -235,4 +234,3 @@ else()
         "com.t_systems.android.webdav"
     )
 endif()
-EOF
