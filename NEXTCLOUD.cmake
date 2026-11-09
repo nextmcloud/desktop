@@ -138,6 +138,14 @@ if(APPLE)
     # The Branding Service supplies its macOS source assets under the historic
     # Nextcloud names. src/gui/CMakeLists.txt creates MagentaCLOUD aliases from
     # these source files for branded builds.
+
+    set(
+        BUILD_OWNCLOUD_OSX_BUNDLE
+        ON
+        CACHE BOOL
+        "Build macOS application bundle"
+    )
+
     set(APPLICATION_ICON_NAME "Nextcloud")
 
     set(
@@ -163,6 +171,13 @@ if(APPLE)
         "12.0"
         CACHE STRING
         "Minimum OS X deployment version"
+    )
+
+    set(
+        CMAKE_OSX_ARCHITECTURES
+        "arm64"
+        CACHE STRING
+        "macOS target architectures"
     )
 
 
