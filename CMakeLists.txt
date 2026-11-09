@@ -312,6 +312,14 @@ if (NOT DEFINED APPLICATION_ICON_NAME)
     set(APPLICATION_ICON_NAME ${APPLICATION_SHORTNAME})
 endif()
 
+if(APPLE)
+    if(APPLICATION_NAME STREQUAL "MagentaCLOUD")
+        set(MACOSX_APPLICATION_ICON_NAME "${APPLICATION_CONFIG_NAME}")
+    else()
+        set(MACOSX_APPLICATION_ICON_NAME "${APPLICATION_ICON_NAME}")
+    endif()
+endif()
+
 include(NextcloudCPack.cmake)
 
 add_definitions(-DUNICODE)
