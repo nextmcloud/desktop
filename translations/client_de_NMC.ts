@@ -254,5 +254,12 @@ Durch das Deaktivieren der Verschlüsselung werden verschlüsselte Inhalte nicht
         <translation>Bitte geben Sie Ihren 12-Wort-Schlüssel (Passphrase) ein.</translation>
     </message>
 </context>
+<context>
+    <name>TrayFoldersMenuButton</name>
+    <message>
+        <source>Reveal in Finder</source>
+        <translation>Im Finder anzeigen</translation>
+    </message>
+</context>
 <!-- NMC custom translations end -->
 </TS>
