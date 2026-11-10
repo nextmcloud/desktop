@@ -602,6 +602,44 @@ if ((APPLICATION_ICON_SET MATCHES "PNG")
   file(TOUCH "${theme_dir}/colored/${APPLICATION_ICON_NAME}-icon.svg")
 endif()
 
+# Generate the dedicated monochrome Finder sidebar icons on macOS.
+if(APPLE)
+    set(MACOS_SIDEBAR_ICON_SVG "${theme_dir}/colored/${APPLICATION_ICON_NAME}-sidebar.svg")
+
+    # Fallback for an unbranded build where no branded alias had to be generated.
+    if(NOT EXISTS "${MACOS_SIDEBAR_ICON_SVG}")
+        set(MACOS_SIDEBAR_ICON_SVG "${theme_dir}/colored/${APPLICATION_ICON_SOURCE_NAME}-macOS-sidebar.svg")
+    endif()
+
+    # Final fallback for themes still using the old generic filename.
+    if(NOT EXISTS "${MACOS_SIDEBAR_ICON_SVG}")
+        set(MACOS_SIDEBAR_ICON_SVG "${theme_dir}/colored/${APPLICATION_ICON_SOURCE_NAME}-sidebar.svg")
+    endif()
+
+    if(NOT EXISTS "${MACOS_SIDEBAR_ICON_SVG}")
+        message(FATAL_ERROR "macOS sidebar icon source does not exist. Checked branded and source icon names.")
+    endif()
+
+    message(STATUS "macOS sidebar icon source: ${MACOS_SIDEBAR_ICON_SVG}")
+
+    foreach(size IN ITEMS 16 32 64 128 256)
+        generate_sized_png_from_svg(
+            "${MACOS_SIDEBAR_ICON_SVG}"
+            ${size}
+            OUTPUT_ICON_NAME "${APPLICATION_ICON_NAME}-sidebar"
+            OUTPUT_ICON_PATH "${theme_dir}/colored/"
+        )
+    endforeach()
+endif()
+
+if(APPLE)
+    install(
+        FILES "${theme_dir}/colored/32-${APPLICATION_ICON_NAME}-sidebar.png"
+        DESTINATION "${OWNCLOUD_OSX_BUNDLE}/Contents/Resources"
+        RENAME "nmc-account-icon.png"
+    )
+endif()
+
 if(WIN32)
   set(STARTMENU_ICON_SVG "${theme_dir}/colored/${APPLICATION_ICON_NAME}-w10startmenu.svg")
   generate_sized_png_from_svg(${STARTMENU_ICON_SVG} 70)
@@ -627,12 +665,30 @@ endif()
 
 file(GLOB OWNCLOUD_ICONS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-icon*")
 
+if(APPLE)
+    file(GLOB OWNCLOUD_SIDEBAR_ICONS "${theme_dir}/colored/*-${APPLICATION_ICON_NAME}-sidebar.png")
+    list(SORT OWNCLOUD_SIDEBAR_ICONS)
+
+    if(NOT OWNCLOUD_SIDEBAR_ICONS)
+        message(FATAL_ERROR "No generated macOS sidebar icons found for ${APPLICATION_ICON_NAME}")
+    endif()
+
+    message(STATUS "OWNCLOUD_SIDEBAR_ICONS: ${OWNCLOUD_SIDEBAR_ICONS}")
+endif()
+
 if(APPLE AND MACOS_USE_ICON_COMPOSER)
     include(CompileAppleIconComposer)
     compile_apple_icon_composer(
         "${CMAKE_SOURCE_DIR}/theme/colored/AppIcon.icon"
         "${CMAKE_CURRENT_BINARY_DIR}/AppIconCompiled"
         APP_ICON)
+elseif(APPLE)
+    ecm_add_app_icon(
+        APP_ICON
+        ICONS ${OWNCLOUD_ICONS}
+        SIDEBAR_ICONS ${OWNCLOUD_SIDEBAR_ICONS}
+        OUTFILE_BASENAME "${APPLICATION_ICON_NAME}"
+    )
 else()
     ecm_add_app_icon(APP_ICON ICONS "${OWNCLOUD_ICONS}" OUTFILE_BASENAME "${APPLICATION_ICON_NAME}")
 endif()
