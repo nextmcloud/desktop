@@ -12,6 +12,7 @@
 #import "trayaccountpopupimageutils.h"
 #import "trayaccountpopupmetrics.h"
 #import "trayaccountpopupviewutils.h"
+#import "nmcgui/nmcaccountrowstyle.h"
 
 #include "systray.h"
 #include "tray/trayactivationpolicy.h"
@@ -123,83 +124,13 @@ using namespace OCC::Mac::TrayPopupViewUtils;
 
 - (NCAccountRow *)makeRowForIndex:(int)index
                              name:(NSString *)name
-                           server:(NSString *)server
-                           avatar:(NSImage *)avatar
                   syncStatusImage:(NSImage *)syncStatusImage
 {
-    NSImageView *avatarView = [[NSImageView alloc] init];
-    avatarView.image = avatar != nil ? avatar : [NSImage imageWithSystemSymbolName:@"person.circle.fill"
-                                                            accessibilityDescription:nil];
-    avatarView.wantsLayer = YES;
-    avatarView.layer.cornerRadius = kAvatarSize / 2.0;
-    avatarView.layer.masksToBounds = YES;
-    avatarView.imageScaling = NSImageScaleProportionallyUpOrDown;
-    avatarView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    NSTextField *nameLabel = [NSTextField labelWithString:name];
-    nameLabel.font = [NSFont systemFontOfSize:13 weight:NSFontWeightSemibold];
-    nameLabel.textColor = NSColor.labelColor;
-    nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    nameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-
-    NSTextField *serverLabel = [NSTextField labelWithString:server];
-    serverLabel.font = [NSFont systemFontOfSize:11];
-    serverLabel.textColor = NSColor.secondaryLabelColor;
-    serverLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    serverLabel.translatesAutoresizingMaskIntoConstraints = NO;
-
     NCAccountRow *row = [[NCAccountRow alloc] init];
     row.userIndex = index;
     row.popupDelegate = self;
 
-    NSImageView *statusView = [[NSImageView alloc] init];
-    statusView.image = syncStatusImage;
-    statusView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    NSImageView *chevron = [[NSImageView alloc] init];
-    chevron.image = [[NSImage imageWithSystemSymbolName:@"chevron.right" accessibilityDescription:nil]
-        imageWithSymbolConfiguration:[NSImageSymbolConfiguration configurationWithPointSize:11 weight:NSFontWeightMedium]];
-    chevron.contentTintColor = NSColor.tertiaryLabelColor;
-    chevron.translatesAutoresizingMaskIntoConstraints = NO;
-
-    [row addSubview:avatarView];
-    [row addSubview:nameLabel];
-    [row addSubview:serverLabel];
-    [row addSubview:statusView];
-    [row addSubview:chevron];
-
-    [NSLayoutConstraint activateConstraints:@[
-        [avatarView.leadingAnchor constraintEqualToAnchor:row.leadingAnchor constant:kHPad],
-        [avatarView.centerYAnchor constraintEqualToAnchor:row.centerYAnchor],
-        [avatarView.widthAnchor constraintEqualToConstant:kAvatarSize],
-        [avatarView.heightAnchor constraintEqualToConstant:kAvatarSize],
-
-        [nameLabel.leadingAnchor constraintEqualToAnchor:avatarView.trailingAnchor constant:10],
-        [nameLabel.topAnchor constraintEqualToAnchor:row.topAnchor constant:9],
-        [nameLabel.trailingAnchor constraintLessThanOrEqualToAnchor:statusView.leadingAnchor constant:-8],
-
-        [serverLabel.leadingAnchor constraintEqualToAnchor:nameLabel.leadingAnchor],
-        [serverLabel.topAnchor constraintEqualToAnchor:nameLabel.bottomAnchor constant:2],
-        [serverLabel.trailingAnchor constraintLessThanOrEqualToAnchor:statusView.leadingAnchor constant:-8],
-
-        [chevron.trailingAnchor constraintEqualToAnchor:row.trailingAnchor constant:-kHPad],
-        [chevron.centerYAnchor constraintEqualToAnchor:row.centerYAnchor],
-        [chevron.widthAnchor constraintEqualToConstant:8],
-        [chevron.heightAnchor constraintEqualToConstant:13],
-
-        [statusView.trailingAnchor constraintEqualToAnchor:chevron.leadingAnchor constant:-8],
-        [statusView.centerYAnchor constraintEqualToAnchor:row.centerYAnchor],
-        [statusView.widthAnchor constraintEqualToConstant:18],
-        [statusView.heightAnchor constraintEqualToConstant:18],
-
-        [row.heightAnchor constraintEqualToConstant:kRowHeight],
-        [row.widthAnchor constraintEqualToConstant:kPopupWidth],
-    ]];
-
-    const auto labelAvailableWidth = kPopupWidth - kHPad - kAvatarSize - 10.0 - 8.0 - 18.0 - 8.0 - 8.0 - kHPad;
-    if (labelLikelyClipsText(nameLabel, name, labelAvailableWidth) || labelLikelyClipsText(serverLabel, server, labelAvailableWidth)) {
-        setSharedToolTip(menuRowToolTipText(name, server, nil), @[row, nameLabel, serverLabel]);
-    }
+    configureNMCAccountRow(row, name, syncStatusImage);
 
     return row;
 }
@@ -215,16 +146,12 @@ using namespace OCC::Mac::TrayPopupViewUtils;
     addOwnedArrangedSubview(_stack, [[NCSpacerView alloc] initWithHeight:kTopPadding]);
     for (int i = 0; i < model->rowCount(); ++i) {
         const QModelIndex idx = model->index(i);
-        NSString *name   = model->data(idx, OCC::UserModel::NameRole).toString().toNSString();
-        NSString *server = model->data(idx, OCC::UserModel::ServerRole).toString().toNSString();
-        NSImage *avatar = nsImageFromQImage(model->avatarForRow(i));
+        NSString *name = model->data(idx, OCC::UserModel::NameRole).toString().toNSString();
         NSImage *syncStatus = nsImageFromQImage(model->syncStatusIconForRow(i));
         const auto accountAlert = model->data(idx, OCC::UserModel::AccountAlertRole).toMap();
         [_stack addArrangedSubview:[self makeRowForIndex:i
                                                     name:name
-                                                  server:server
-                                                  avatar:avatar
-                                         syncStatusImage:syncStatus]];
+                                        syncStatusImage:syncStatus]];
         const auto accountAlertTitle = accountAlert.value(QStringLiteral("title")).toString();
         if (!accountAlertTitle.isEmpty()) {
             addOwnedArrangedSubview(_stack, [[NCAlertBoxRow alloc] initWithTitle:accountAlertTitle.toNSString()

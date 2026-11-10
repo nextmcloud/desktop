@@ -17,6 +17,7 @@
 #import "trayaccountpopupviewutils.h"
 
 #include "systray.h"
+#include "nmcgui/nmctraycustomization.h"
 #include "tray/trayaccountappsmodel.h"
 #include "tray/trayaccountmenupolicy.h"
 #include "tray/usermodel.h"
@@ -297,9 +298,6 @@ static NSView *compactAccountActionsSeparator()
     const auto serverHasUserStatus = model->data(userModelIndex, OCC::UserModel::ServerHasUserStatusRole).toBool();
     const auto onlineStatusEnabled = policy.showConnectedSections() && serverHasUserStatus;
 
-    auto appsModel = OCC::TrayAccountAppsModel::instance();
-    appsModel->setUserId(userIndex);
-    const auto appsEnabled = appsModel->rowCount() > 0;
     const auto assistantEnabled = model->data(userModelIndex, OCC::UserModel::AssistantEnabledRole).toBool();
     addOwnedArrangedSubview(_stack, [[NCSpacerView alloc] initWithHeight:kActionVerticalPadding width:kAccountActionsPopupWidth]);
     if (serverHasUserStatus) {
@@ -345,14 +343,20 @@ static NSView *compactAccountActionsSeparator()
     } hoverAction:^(NSView *) {
         [weakSelf hideAppsPopup];
     }]);
-    addOwnedArrangedSubview(_stack, [[NCActionRow alloc] initWithTitle:QCoreApplication::translate("TrayWindowHeader", "Apps").toNSString()
-                                                                  icon:nil
-                                                                 width:kAccountActionsPopupWidth
-                                                               enabled:appsEnabled
-                                                                action:^{}
-                                                           hoverAction:^(NSView *row) {
-        [weakSelf showAppsPopupFromRow:row forUserIndex:userIndex];
-    } showsSubmenuIndicator:YES]);
+    if (OCC::NMC::showAppsMenu) {
+        auto appsModel = OCC::TrayAccountAppsModel::instance();
+        appsModel->setUserId(userIndex);
+        const auto appsEnabled = appsModel->rowCount() > 0;
+
+        addOwnedArrangedSubview(_stack, [[NCActionRow alloc] initWithTitle:QCoreApplication::translate("TrayWindowHeader", "Apps").toNSString()
+                                                                    icon:nil
+                                                                    width:kAccountActionsPopupWidth
+                                                                enabled:appsEnabled
+                                                                    action:^{}
+                                                            hoverAction:^(NSView *row) {
+            [weakSelf showAppsPopupFromRow:row forUserIndex:userIndex];
+        } showsSubmenuIndicator:YES]);
+    }
 
     [_stack addArrangedSubview:accountActionsSeparator()];
 

@@ -7837,6 +7837,10 @@ Server antwortete mit Fehler: %2</translation>
         <source>Local folder</source>
         <translation>Lokaler Ordner</translation>
     </message>
+    <message>
+        <source>Reveal in Finder</source>
+        <translation>Im Finder anzeigen</translation>
+    </message>
 </context>
 <context>
     <name>TrayWindowHeader</name>
