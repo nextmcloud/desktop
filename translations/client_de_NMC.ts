@@ -261,5 +261,26 @@ Durch das Deaktivieren der Verschlüsselung werden verschlüsselte Inhalte nicht
         <translation>Im Finder anzeigen</translation>
     </message>
 </context>
+<context>
+    <name>UnifiedSearchResultDelegate</name>
+    <message>
+        <source>Show more</source>
+        <translation>Mehr anzeigen</translation>
+    </message>
+</context>
+<context>
+    <name>SearchWindow</name>
+    <message>
+        <source>Search files …</source>
+        <translation>Dateien durchsuchen …</translation>
+    </message>
+</context>
+<context>
+    <name>UnifiedSearchDetailHeader</name>
+    <message>
+        <source>Files</source>
+        <translation>Dateien</translation>
+    </message>
+</context>
 <!-- NMC custom translations end -->
 </TS>
