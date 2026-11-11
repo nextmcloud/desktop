@@ -7311,6 +7311,10 @@ Server antwortete mit Fehler: %2</translation>
         <source>More from connected services</source>
         <translation>Mehr von verbundenen Diensten</translation>
     </message>
+    <message>
+        <source>Search files …</source>
+        <translation>Dateien durchsuchen …</translation>
+    </message>
 </context>
 <context>
     <name>ServerPage</name>
@@ -7902,6 +7906,10 @@ Server antwortete mit Fehler: %2</translation>
         <source>Back to all search results</source>
         <translation>Zurück zu allen Suchergebnissen</translation>
     </message>
+    <message>
+        <source>Files</source>
+        <translation>Dateien</translation>
+    </message>
 </context>
 <context>
     <name>UnifiedSearchFilterBar</name>
@@ -8030,6 +8038,10 @@ Server antwortete mit Fehler: %2</translation>
         <source>More from %1  →</source>
         <extracomment>%1 is the name of a search provider, for example &quot;Files&quot;.</extracomment>
         <translation>Mehr von %1  →</translation>
+    </message>
+    <message>
+        <source>Show more →</source>
+        <translation>Mehr anzeigen →</translation>
     </message>
     <message>
         <location filename="../src/gui/search/UnifiedSearchResultDelegate.qml" line="131"/>
