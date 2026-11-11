@@ -19,17 +19,15 @@ Rectangle {
     property var account: null
     property var user: null
 
+    property int accountTextYOffset: 0
+    property int accountTextExtraSpacing: 0
+
     implicitHeight: Style.nmcTrayWindowHeaderHeight
-    color: Style.nmcTrayWindowHeaderBackgroundColor
+    color: Style.wizardWindowBackground
 
     RowLayout {
         anchors.fill: parent
         spacing: 0
-
-        Item {
-            Layout.preferredWidth: 10
-            Layout.fillHeight: true
-        }
 
         Image {
             id: tLogo
@@ -46,74 +44,81 @@ Rectangle {
         }
 
         Item {
-            Layout.preferredWidth: 10
+            Layout.preferredWidth: 16
             Layout.fillHeight: true
         }
 
-        Item {
+        RowLayout {
             id: accountContainer
 
             Layout.preferredWidth: Style.nmcCurrentAccountButtonWidth
-            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignVCenter
 
-            RowLayout {
-                anchors.fill: parent
-                spacing: Style.userStatusSpacing
+            spacing: Style.userStatusSpacing + root.accountTextExtraSpacing
 
-                Image {
-                    id: accountAvatar
+            Image {
+                id: accountAvatar
 
-                    Layout.preferredWidth: Style.nmcTrayWindowIconWidth
-                    Layout.preferredHeight: Style.nmcTrayWindowIconWidth
+                Layout.preferredWidth: Style.nmcTrayWindowIconWidth
+                Layout.preferredHeight: Style.nmcTrayWindowIconWidth
+                Layout.alignment: Qt.AlignVCenter
 
-                    source: Style.nmcAccountAvatarIcon
-                    fillMode: Image.PreserveAspectFit
-                    cache: false
+                source: Style.nmcAccountAvatarIcon
+                fillMode: Image.PreserveAspectFit
+                cache: false
 
-                    Accessible.role: Accessible.Graphic
-                    Accessible.name: qsTr("Current account avatar")
+                Accessible.role: Accessible.Graphic
+                Accessible.name: qsTr("Current account avatar")
+            }
+
+            ColumnLayout {
+                id: accountTextContainer
+
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignVCenter
+
+                spacing: 0
+
+                transform: Translate {
+                    y: root.accountTextYOffset
                 }
 
-                ColumnLayout {
+                EnforcedPlainTextLabel {
+                    id: accountName
+
                     Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignVCenter
-                    spacing: 0
+
+                    text: root.account ? root.account.name : ""
+                    color: Style.nmcTrayWindowHeaderTextColor
+                    font.pixelSize: Style.topLinePixelSize
+                    font.bold: false
+                    elide: Text.ElideRight
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Style.accountLabelsSpacing
+
+                    visible: root.user
+                        && root.user.isConnected
+                        && root.user.serverHasUserStatus
+                        && (root.user.statusEmoji !== "" || root.user.statusMessage !== "")
+
+                    EnforcedPlainTextLabel {
+                        visible: root.user && root.user.statusEmoji !== ""
+                        text: root.user ? root.user.statusEmoji : ""
+                        color: Style.nmcTrayWindowHeaderTextColor
+                        font.pixelSize: Style.subLinePixelSize
+                    }
 
                     EnforcedPlainTextLabel {
                         Layout.fillWidth: true
 
-                        text: root.account ? root.account.name : ""
+                        visible: root.user && root.user.statusMessage !== ""
+                        text: root.user ? root.user.statusMessage : ""
                         color: Style.nmcTrayWindowHeaderTextColor
-                        font.pixelSize: Style.topLinePixelSize
-                        font.bold: false
+                        font.pixelSize: Style.subLinePixelSize
                         elide: Text.ElideRight
-                    }
-
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: Style.accountLabelsSpacing
-
-                        visible: root.user
-                            && root.user.isConnected
-                            && root.user.serverHasUserStatus
-                            && (root.user.statusEmoji !== "" || root.user.statusMessage !== "")
-
-                        EnforcedPlainTextLabel {
-                            visible: root.user && root.user.statusEmoji !== ""
-                            text: root.user ? root.user.statusEmoji : ""
-                            color: Style.nmcTrayWindowHeaderTextColor
-                            font.pixelSize: Style.subLinePixelSize
-                        }
-
-                        EnforcedPlainTextLabel {
-                            Layout.fillWidth: true
-
-                            visible: root.user && root.user.statusMessage !== ""
-                            text: root.user ? root.user.statusMessage : ""
-                            color: Style.nmcTrayWindowHeaderTextColor
-                            font.pixelSize: Style.subLinePixelSize
-                            elide: Text.ElideRight
-                        }
                     }
                 }
             }
@@ -126,7 +131,7 @@ Rectangle {
         Rectangle {
             id: websiteButtonContainer
 
-            Layout.preferredWidth: 92
+            Layout.preferredWidth: websiteButton.implicitWidth
             Layout.fillHeight: true
 
             color: websiteHover.hovered
@@ -134,6 +139,8 @@ Rectangle {
                 : "transparent"
 
             NMCHeaderButton {
+                id: websiteButton
+
                 anchors.fill: parent
 
                 iconSource: Style.darkMode
@@ -159,7 +166,7 @@ Rectangle {
         Rectangle {
             id: localFolderButtonContainer
 
-            Layout.preferredWidth: 92
+            Layout.preferredWidth: localFolderButton.implicitWidth
             Layout.fillHeight: true
 
             color: localFolderHover.hovered
@@ -167,6 +174,8 @@ Rectangle {
                 : "transparent"
 
             NMCHeaderButton {
+                id: localFolderButton
+
                 anchors.fill: parent
 
                 iconSource: Style.darkMode

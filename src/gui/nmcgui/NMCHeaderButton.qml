@@ -8,8 +8,11 @@ import com.nextcloud.desktopclient
 Item {
     id: rec
 
-    width: 92
-    height: Style.nmcTrayWindowHeaderHeight
+    implicitWidth: Math.max(92, buttonText.implicitWidth + 16)
+    implicitHeight: Style.nmcTrayWindowHeaderHeight
+
+    width: implicitWidth
+    height: implicitHeight
 
     signal clickedButton
 
@@ -17,22 +20,24 @@ Item {
     property string iconSource: ""
     property bool iconHovered: false
 
-    ColumnLayout {
-        spacing: 0
+    Column {
+        width: parent.width
         anchors.centerIn: parent
+        spacing: 0
 
         Button {
             id: button
+
+            anchors.horizontalCenter: parent.horizontalCenter
+
             flat: true
             focusPolicy: Qt.NoFocus
-            Layout.alignment: Qt.AlignHCenter
 
             contentItem: Image {
                 source: rec.iconSource
                 width: Style.nmcTrayWindowIconWidth
                 height: Style.nmcTrayWindowIconWidth
                 fillMode: Image.PreserveAspectFit
-                anchors.centerIn: parent
             }
 
             background: Rectangle {
@@ -40,26 +45,27 @@ Item {
                 opacity: 0.05
                 radius: 4
             }
-
-            MouseArea {
-                id: buttonArea
-                anchors.fill: parent
-                onClicked: rec.clickedButton()  // Trigger the button click signal
-            }
-
-            // Optional: Handle hover on icon to change its state
-            onClicked: rec.clickedButton()
         }
 
         Text {
-            width: rec.width
+            id: buttonText
+
+            width: parent.width
+
             text: rec.iconText
-            elide: Text.ElideRight
+            elide: Text.ElideNone
+
             color: Style.nmcTrayWindowHeaderTextColor
             font.pixelSize: Style.nmcFontSizeIconText
+
             horizontalAlignment: Text.AlignHCenter
-            leftPadding: 8
-            rightPadding: 8
+            verticalAlignment: Text.AlignVCenter
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        onClicked: rec.clickedButton()
     }
 }

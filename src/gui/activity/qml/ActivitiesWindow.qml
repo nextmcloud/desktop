@@ -59,8 +59,12 @@ WizardStyledWindow {
 
         NMCWindowAccountHeader {
             Layout.fillWidth: true
+
             account: root.account
-            user: root.activityUser
+            user: root.account
+
+            accountTextYOffset: 8
+            accountTextExtraSpacing: 6
         }
 
         Rectangle {

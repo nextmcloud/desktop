@@ -5,12 +5,13 @@
 
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.Basic as Basic
 
 import Style
 import com.nextcloud.desktopclient as NC
 import "../../tray"
 
-ScrollView {
+Basic.ScrollView {
     id: controlRoot
     property alias model: sortedActivityList.sourceModel
     property alias count: activityList.count
@@ -40,15 +41,11 @@ ScrollView {
     leftPadding: 0
     topPadding: 0
     bottomPadding: 0
-    rightPadding: ScrollBar.vertical.width
+    rightPadding: 0
     
     focus: false
 
-    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-    ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-    ScrollBar.vertical.width: Math.max(ScrollBar.vertical.implicitWidth, Style.minimumScrollBarWidth)
-    ScrollBar.vertical.minimumSize: Style.minimumScrollBarThumbSize
-
+    Basic.ScrollBar.horizontal.policy: Basic.ScrollBar.AlwaysOff
     data: NC.WheelHandler {
         target: controlRoot.contentItem
         onWheel: {
