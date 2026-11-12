@@ -6843,7 +6843,7 @@ Server antwortete mit Fehler: %2</translation>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="445"/>
         <source>Account synchronization is disabled</source>
-        <translation>Konto-Synchronisierung ist deaktiviert</translation>
+        <translation>Synchronisierung pausiert</translation>
     </message>
     <message>
         <location filename="../src/gui/owncloudgui.cpp" line="612"/>
@@ -7840,6 +7840,10 @@ Server antwortete mit Fehler: %2</translation>
         <location filename="../src/gui/trayaccountpopup_qt.cpp" line="790"/>
         <source>Local folder</source>
         <translation>Lokaler Ordner</translation>
+    </message>
+    <message>
+        <source>Reveal in Finder</source>
+        <translation>Im Finder anzeigen</translation>
     </message>
 </context>
 <context>
