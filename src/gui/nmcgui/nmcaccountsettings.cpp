@@ -12,49 +12,56 @@
  */
 
 #include "nmcgui/nmcaccountsettings.h"
-#include "ui_accountsettings.h"
-#include "common/utility.h"
-#include "accountstate.h"
 #include "account.h"
+#include "accountstate.h"
+#include "common/utility.h"
 #include "theme.h"
+#include "ui_accountsettings.h"
 
-#include <cmath>
 #include <QCoreApplication>
 #include <QDesktopServices>
+#include <QGuiApplication>
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QLabel>
 #include <QLayout>
 #include <QList>
+#include <QPalette>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QSize>
 #include <QSizePolicy>
-#include <QTimer>
 #include <QToolButton>
 #include <QUrl>
 #include <QVBoxLayout>
-
-#define BACKGROUND_PALETTE "light"
+#include <cmath>
 
 namespace OCC {
 
 namespace {
 constexpr int panelPadding = 24;
 constexpr int contentWidth = 450;
-constexpr int actionButtonWidth = 180;
-constexpr int actionButtonHeight = 32;
 constexpr int panelRadius = 10;
 constexpr int panelSpacing = 32;
+
+QColor settingsPanelColor()
+{
+#ifdef Q_OS_WIN
+    return QGuiApplication::palette().color(QPalette::AlternateBase);
+#else
+    return Theme::settingsPanelColor(QGuiApplication::palette());
+#endif
+}
 
 QString panelStyleSheet(const QString &objectName)
 {
     return QStringLiteral(
-        "#%1 {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: %2px;"
-        "}"
-    ).arg(objectName).arg(panelRadius);
+               "#%1 {"
+               " background: %2;"
+               " border-radius: %3px;"
+               "}")
+        .arg(objectName, settingsPanelColor().name())
+        .arg(panelRadius);
 }
 
 QWidget *createPanel(const QString &objectName, QWidget *parent)
@@ -64,6 +71,24 @@ QWidget *createPanel(const QString &objectName, QWidget *parent)
     panel->setAttribute(Qt::WA_StyledBackground, true);
     panel->setStyleSheet(panelStyleSheet(objectName));
     return panel;
+}
+
+QString connectionSettingsStyleSheet()
+{
+    return QStringLiteral(
+               "QFrame#connectionSettingsPanel,"
+               "QWidget#connectionSettingsPanelContents {"
+               " background: transparent;"
+               " border: none;"
+               "}"
+               "NetworkSettings,"
+               "NetworkSettings QWidget {"
+               " background: transparent;"
+               "}"
+               "NetworkSettings QGroupBox {"
+               " background: %1;"
+               "}")
+        .arg(settingsPanelColor().name());
 }
 
 QHBoxLayout *createPanelHorizontalLayout(QWidget *panel)
@@ -106,27 +131,6 @@ void setupContentLabel(QLabel *label)
     label->setFixedWidth(contentWidth);
 }
 
-void styleSecondaryButton(QPushButton *button)
-{
-    if (!button) {
-        return;
-    }
-
-    button->setFixedSize(actionButtonWidth, actionButtonHeight);
-    button->setStyleSheet(QStringLiteral(
-        "QPushButton {"
-        " border: 1px solid black;"
-        " background-color: #ededed;"
-        " color: black;"
-        " font-size: 13px;"
-        " border-radius: 4px;"
-        "}"
-        "QPushButton:hover {"
-        " background-color: white;"
-        "}"
-    ));
-}
-
 void setupTransparentWidget(QWidget *widget)
 {
     if (!widget) {
@@ -135,12 +139,11 @@ void setupTransparentWidget(QWidget *widget)
 
     widget->setAutoFillBackground(false);
     widget->setAttribute(Qt::WA_StyledBackground, false);
-    widget->setStyleSheet(QStringLiteral(
-        "background: transparent;"
-        "border: none;"
-        "padding: 0px;"
-        "margin: 0px;"
-    ));
+    widget->setStyleSheet(
+        QStringLiteral("background: transparent;"
+                       "border: none;"
+                       "padding: 0px;"
+                       "margin: 0px;"));
 }
 
 void setupTransparentLayout(QLayout *layout, int spacing = 0)
@@ -171,8 +174,7 @@ void moveExpandingSpacersToEnd(QBoxLayout *layout)
 
         const auto verticalPolicy = spacer->sizePolicy().verticalPolicy();
 
-        if (verticalPolicy == QSizePolicy::Expanding
-            || verticalPolicy == QSizePolicy::MinimumExpanding) {
+        if (verticalPolicy == QSizePolicy::Expanding || verticalPolicy == QSizePolicy::MinimumExpanding) {
             expandingSpacerItems.prepend(layout->takeAt(i));
         }
     }
@@ -185,10 +187,7 @@ void moveExpandingSpacersToEnd(QBoxLayout *layout)
 
 NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *parent)
     : AccountSettings(accountState, parent)
-    , m_liveAccountButton(new CustomButton(
-        QCoreApplication::translate("", "ADD_LIVE_BACKUP"),
-        QIcon(),
-        this))
+    , m_liveAccountButton(new CustomButton(QCoreApplication::translate("", "ADD_LIVE_BACKUP"), QIcon(), this))
     , m_liveTitle(new QLabel(QCoreApplication::translate("", "LIVE_BACKUPS"), this))
     , m_liveDescription(new QLabel(QCoreApplication::translate("", "LIVE_DESCRIPTION"), this))
     , m_quotaInfoLabel(new QLabel(this))
@@ -197,6 +196,8 @@ NMCAccountSettings::NMCAccountSettings(AccountState *accountState, QWidget *pare
 {
     setDefaultSettings();
     setLayout();
+    updatePanelStyles();
+    connect(this, &AccountSettings::styleChanged, this, &NMCAccountSettings::updatePanelStyles);
 
     connect(m_liveAccountButton, &CustomButton::clicked, this, &NMCAccountSettings::slotAddFolder);
 }
@@ -213,6 +214,7 @@ void NMCAccountSettings::setDefaultSettings()
 void NMCAccountSettings::setLayout()
 {
     getUi()->verticalLayout_2->removeWidget(getUi()->connectionSettingsPanel);
+    getUi()->verticalLayout_2->removeWidget(getUi()->accountActionsPanel);
 
     styleTitleLabel(getUi()->syncFoldersPanelTitle);
 
@@ -222,24 +224,22 @@ void NMCAccountSettings::setLayout()
 
     getUi()->syncFoldersPanelContents->setAutoFillBackground(false);
     getUi()->syncFoldersPanelContents->setAttribute(Qt::WA_StyledBackground, false);
-    getUi()->syncFoldersPanelContents->setStyleSheet(QStringLiteral(
-        "QWidget#syncFoldersPanelContents {"
-        " background: transparent;"
-        " border: none;"
-        "}"
-    ));
+    getUi()->syncFoldersPanelContents->setStyleSheet(
+        QStringLiteral("QWidget#syncFoldersPanelContents {"
+                       " background: transparent;"
+                       " border: none;"
+                       "}"));
 
     getUi()->_folderList->setAutoFillBackground(false);
     getUi()->_folderList->setAttribute(Qt::WA_StyledBackground, false);
     getUi()->_folderList->viewport()->setAutoFillBackground(false);
     getUi()->_folderList->viewport()->setAttribute(Qt::WA_StyledBackground, false);
-    getUi()->_folderList->setStyleSheet(QStringLiteral(
-        "QTreeView,"
-        "QTreeView::viewport {"
-        " background: transparent;"
-        " border: none;"
-        "}"
-    ));
+    getUi()->_folderList->setStyleSheet(
+        QStringLiteral("QTreeView,"
+                       "QTreeView::viewport {"
+                       " background: transparent;"
+                       " border: none;"
+                       "}"));
 
     if (auto *syncFoldersPanelLayout = getUi()->syncFoldersPanel->layout()) {
         syncFoldersPanelLayout->setContentsMargins(16, 16, 16, 16);
@@ -276,6 +276,9 @@ void NMCAccountSettings::setLayout()
         getUi()->verticalLayout_2->insertWidget(0, e2eePanel);
     }
 
+    getUi()->verticalLayout_2->removeWidget(getUi()->accountShortcutsPanel);
+    getUi()->verticalLayout_2->insertWidget(getUi()->verticalLayout_2->indexOf(getUi()->syncFoldersPanel) + 1, getUi()->accountShortcutsPanel);
+
     setupTransparentWidget(getUi()->encryptionMessage);
     setupTransparentLayout(getUi()->encryptionMessageLayout);
     setupTransparentLayout(getUi()->encryptionMessageHeaderLayout);
@@ -286,50 +289,10 @@ void NMCAccountSettings::setLayout()
     setupContentLabel(getUi()->encryptionMessageLabel);
     setupTransparentWidget(getUi()->encryptionMessageLabel);
 
-    auto styleEncryptionButtons = [this]() {
-        auto *buttonLayout = getUi()->encryptionMessageButtonsLayout;
-
-        if (!buttonLayout) {
-            return;
-        }
-
-        buttonLayout->setContentsMargins(0, 8, 0, 0);
-        buttonLayout->setSpacing(8);
-
-        for (int i = 0; i < buttonLayout->count(); ++i) {
-            auto *item = buttonLayout->itemAt(i);
-
-            if (!item) {
-                continue;
-            }
-
-            if (auto *button = qobject_cast<QPushButton *>(item->widget())) {
-                styleSecondaryButton(button);
-            }
-        }
-    };
-
-    styleEncryptionButtons();
+    getUi()->encryptionMessageButtonsLayout->setContentsMargins(0, 8, 0, 0);
+    getUi()->encryptionMessageButtonsLayout->setSpacing(8);
 
     getUi()->accountStatusPanel->setVisible(false);
-
-    if (auto *accountState = accountsState()) {
-        connect(accountState, &AccountState::stateChanged, this, [this, styleEncryptionButtons]() {
-            QTimer::singleShot(0, this, styleEncryptionButtons);
-        });
-
-        if (accountState->account() && accountState->account()->e2e()) {
-            connect(accountState->account()->e2e(), &ClientSideEncryption::initializationFinished, this, [this, styleEncryptionButtons]() {
-                QTimer::singleShot(0, this, styleEncryptionButtons);
-            });
-
-            connect(accountState->account()->e2e(), &ClientSideEncryption::sensitiveDataForgotten, this, [this, styleEncryptionButtons]() {
-                QTimer::singleShot(0, this, styleEncryptionButtons);
-            });
-        }
-    }
-
-    QTimer::singleShot(0, this, styleEncryptionButtons);
 
     auto *liveWidget = createPanel(QStringLiteral("nmcLiveBackupPanel"), this);
     auto *liveHLayout = createPanelHorizontalLayout(liveWidget);
@@ -338,14 +301,7 @@ void NMCAccountSettings::setLayout()
     liveHLayout->addLayout(liveVLayout);
     liveHLayout->addStretch();
 
-    const QString primaryButtonStyle = QStringLiteral(
-        "QPushButton { font-size: %5px; border: %1px solid; border-color: black; "
-        "border-radius: 4px; background-color: %2; color: %3; } "
-        "QPushButton:hover { background-color: %4; }");
-
-    m_liveAccountButton->setStyleSheet(primaryButtonStyle.arg("0", "#E20074", "white", "#c00063", "13"));
-    m_liveAccountButton->setFixedSize(actionButtonWidth, actionButtonHeight);
-    m_liveAccountButton->setIcon(QIcon());
+    m_liveAccountButton->setObjectName(QStringLiteral("nmcLiveBackupButton"));
 
     liveHLayout->addWidget(m_liveAccountButton, 0, Qt::AlignRight | Qt::AlignVCenter);
 
@@ -372,20 +328,19 @@ void NMCAccountSettings::setLayout()
     m_quotaProgressBar->setFixedWidth(contentWidth);
     m_quotaProgressBar->setFixedHeight(8);
     m_quotaProgressBar->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    m_quotaProgressBar->setStyleSheet(QStringLiteral(
-        "QProgressBar {"
-        " background-color: #e5e5e5;"
-        " color: black;"
-        " border: 1px solid black;"
-        " border-radius: 4px;"
-        " margin: 0px;"
-        " padding: 0px;"
-        "} "
-        "QProgressBar::chunk {"
-        " background-color: #E20074;"
-        " border-radius: 3px;"
-        "}"
-    ));
+    m_quotaProgressBar->setStyleSheet(
+        QStringLiteral("QProgressBar {"
+                       " background-color: #e5e5e5;"
+                       " color: black;"
+                       " border: 1px solid black;"
+                       " border-radius: 4px;"
+                       " margin: 0px;"
+                       " padding: 0px;"
+                       "} "
+                       "QProgressBar::chunk {"
+                       " background-color: #E20074;"
+                       " border-radius: 3px;"
+                       "}"));
     quotaVLayout->addWidget(m_quotaProgressBar);
 
     m_quotaInfoText->setFixedWidth(contentWidth);
@@ -396,7 +351,7 @@ void NMCAccountSettings::setLayout()
     quotaHLayout->addStretch();
 
     auto *storageLinkButton = new QPushButton(QCoreApplication::translate("", "STORAGE_EXTENSION"), quotaWidget);
-    styleSecondaryButton(storageLinkButton);
+    storageLinkButton->setObjectName(QStringLiteral("nmcStorageExtensionButton"));
 
     connect(storageLinkButton, &QPushButton::clicked, this, []() {
         QDesktopServices::openUrl(QUrl(QStringLiteral("https://cloud.telekom-dienste.de/tarife")));
@@ -420,16 +375,15 @@ void NMCAccountSettings::setLayout()
     connectionToggle->setArrowType(Qt::NoArrow);
     connectionToggle->setIcon(nmcCollapseIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
     connectionToggle->setIconSize(QSize(24, 24));
-    connectionToggle->setStyleSheet(QStringLiteral(
-        "QToolButton {"
-        " border: none;"
-        " background: transparent;"
-        " font-size: 15px;"
-        " font-weight: 600;"
-        " padding: 0px;"
-        " text-align: left;"
-        "}"
-    ));
+    connectionToggle->setStyleSheet(
+        QStringLiteral("QToolButton {"
+                       " border: none;"
+                       " background: transparent;"
+                       " font-size: 15px;"
+                       " font-weight: 600;"
+                       " padding: 0px;"
+                       " text-align: left;"
+                       "}"));
 
     getUi()->connectionSettingsPanel->setParent(connectionWrapper);
 
@@ -441,22 +395,7 @@ void NMCAccountSettings::setLayout()
     getUi()->connectionSettingsPanel->setStyleSheet(QString());
     getUi()->connectionSettingsPanel->setVisible(false);
 
-    getUi()->connectionSettingsPanel->setStyleSheet(QStringLiteral(
-        "QFrame#connectionSettingsPanel,"
-        "QWidget#connectionSettingsPanelContents {"
-        " background: transparent;"
-        " border: none;"
-        "}"
-
-        "NetworkSettings,"
-        "NetworkSettings QWidget {"
-        " background: transparent;"
-        "}"
-
-        "NetworkSettings QGroupBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        "}"
-    ));
+    getUi()->connectionSettingsPanel->setStyleSheet(connectionSettingsStyleSheet());
 
     if (auto *connectionPanelLayout = getUi()->connectionSettingsPanel->layout()) {
         connectionPanelLayout->setContentsMargins(0, 0, 0, 0);
@@ -464,10 +403,8 @@ void NMCAccountSettings::setLayout()
     }
 
     connect(connectionToggle, &QToolButton::toggled, this, [this, connectionToggle](bool checked) {
-        connectionToggle->setIcon(nmcCollapseIcon(
-            checked
-                ? QStringLiteral(":/client/theme/NMCIcons/collapse-down.svg")
-                : QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
+        connectionToggle->setIcon(nmcCollapseIcon(checked ? QStringLiteral(":/client/theme/NMCIcons/collapse-down.svg")
+                                                          : QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
 
         getUi()->connectionSettingsPanel->setVisible(checked);
     });
@@ -476,12 +413,32 @@ void NMCAccountSettings::setLayout()
     connectionWrapperLayout->addWidget(getUi()->connectionSettingsPanel);
 
     getUi()->verticalLayout_2->addWidget(connectionWrapper);
+    getUi()->verticalLayout_2->addWidget(getUi()->accountActionsPanel);
 
-    // Keep all account setting panels grouped at the top.
+    // Keep all account setting panels above the expanding spacer.
     // verticalLayout_2 contains an expanding spacer from the original UI.
     // Widgets added with addWidget() would otherwise end up below that spacer.
     moveExpandingSpacersToEnd(getUi()->verticalLayout_2);
     getUi()->verticalLayout_2->setAlignment(Qt::AlignTop);
+}
+
+void NMCAccountSettings::updatePanelStyles()
+{
+    const auto panelNames = {
+        QStringLiteral("nmcSyncFoldersPanel"),
+        QStringLiteral("nmcE2eePanel"),
+        QStringLiteral("nmcLiveBackupPanel"),
+        QStringLiteral("nmcQuotaPanel"),
+        QStringLiteral("nmcConnectionSettingsPanel"),
+    };
+
+    for (const auto &panelName : panelNames) {
+        if (auto *panel = findChild<QWidget *>(panelName)) {
+            panel->setStyleSheet(panelStyleSheet(panelName));
+        }
+    }
+
+    getUi()->connectionSettingsPanel->setStyleSheet(connectionSettingsStyleSheet());
 }
 
 void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
@@ -493,7 +450,7 @@ void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
         const auto percentStr = Utility::compactFormatDouble(percent, 1);
 
         const auto toolTip = tr("%1 (%3%) of %2 in use. Some folders, including network mounted or shared folders, might have different limits.")
-            .arg(usedStr, totalStr, percentStr);
+                                 .arg(usedStr, totalStr, percentStr);
 
         m_quotaInfoLabel->setText(QCoreApplication::translate("", "%1_OF_%2").arg(usedStr, totalStr));
         m_quotaInfoLabel->setToolTip(toolTip);

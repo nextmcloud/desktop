@@ -59,6 +59,7 @@ public Q_SLOTS:
 private:
     void setDefaultSettings();
     void setLayout();
+    void updatePanelStyles();
 
     CustomButton *m_liveAccountButton = nullptr;
     QLabel *m_liveTitle = nullptr;
