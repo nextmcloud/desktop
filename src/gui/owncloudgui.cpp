@@ -40,6 +40,7 @@
 #include "owncloudsetupwizard.h"
 #include "progressdispatcher.h"
 #include "settingsdialog.h"
+#include "nmcgui/nmcsettingsdialog.h"
 #include "syncconflictsmodel.h"
 #include "syncengine.h"
 #include "theme.h"
@@ -700,7 +701,7 @@ void ownCloudGui::slotShowGuiMessage(const QString &title, const QString &messag
 void ownCloudGui::slotShowSettings()
 {
     if (_settingsDialog.isNull()) {
-        _settingsDialog = new SettingsDialog(this);
+        _settingsDialog = new NMCSettingsDialog(this);
         _settingsDialog->setAttribute(Qt::WA_DeleteOnClose, true);
 
 #ifdef Q_OS_MACOS
