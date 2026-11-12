@@ -721,7 +721,7 @@ void SettingsDialog::setupUi()
     setLayout(mainLayout);
 
     _toolBar = new QToolBar;
-    _toolBar->setIconSize(QSize(24, 24));
+    _toolBar->setIconSize(QSize(32, 32));
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     _toolBar->setOrientation(Qt::Vertical);
     _toolBar->setMovable(false);
