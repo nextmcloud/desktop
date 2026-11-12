@@ -174,7 +174,7 @@ void SyncStatusSummary::setSyncStateForFolder(const Folder *folder)
         setTotalFiles(0);
         setSyncStatusString(tr("Reauthorization required"));
         setSyncStatusDetailString(tr("Please grant access to your sync folders"));
-        setSyncIcon(Theme::instance()->error());
+        setSyncIcon(Theme::instance()->syncStatusError());
         setNeedsSandboxReapproval(true);
         return;
     }
@@ -210,7 +210,7 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
         setTotalFiles(0);
         setSyncStatusString(tr("Offline"));
         setSyncStatusDetailString("");
-        setSyncIcon(Theme::instance()->offline());
+        setSyncIcon(Theme::instance()->folderOffline());
         return;
     }
 
@@ -236,7 +236,7 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
             setTotalFiles(0);
             setSyncStatusString(tr("All synced!"));
             setSyncStatusDetailString("");
-            setSyncIcon(Theme::instance()->ok());
+            setSyncIcon(Theme::instance()->syncStatusOk());
         }
         break;
     case SyncResult::Error:
@@ -245,7 +245,7 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
         setTotalFiles(0);
         setSyncStatusString(tr("Some files couldn't be synced!"));
         setSyncStatusDetailString(tr("See below for errors"));
-        setSyncIcon(Theme::instance()->error());
+        setSyncIcon(Theme::instance()->syncStatusError());
         break;
     case SyncResult::SyncRunning:
     case SyncResult::NotYetStarted:
@@ -256,7 +256,7 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
             setSyncStatusString(tr("Syncing changes"));
         }
         setSyncStatusDetailString("");
-        setSyncIcon(Theme::instance()->sync());
+        setSyncIcon(Theme::instance()->syncStatusRunning());
         break;
     case SyncResult::Paused:
     case SyncResult::SyncAbortRequested:
@@ -264,14 +264,14 @@ void SyncStatusSummary::setSyncState(const SyncResult::Status state)
         setTotalFiles(0);
         setSyncStatusString(tr("Sync paused"));
         setSyncStatusDetailString("");
-        setSyncIcon(Theme::instance()->pause());
+        setSyncIcon(Theme::instance()->syncStatusPause());
         break;
     case SyncResult::Problem:
         setSyncing(false);
         setTotalFiles(0);
         setSyncStatusString(tr("Some files could not be synced!"));
         setSyncStatusDetailString(tr("See below for warnings"));
-        setSyncIcon(Theme::instance()->warning());
+        setSyncIcon(Theme::instance()->syncStatusWarning());
         break;
     }
 }
@@ -480,7 +480,7 @@ void SyncStatusSummary::setSyncStateToConnectedState()
         setSyncIcon(Theme::instance()->folderOffline());
     } else if (!hasConfiguredSyncSource(_accountState)) {
         setSyncStatusString(tr("No synchronisation configured"));
-        setSyncIcon(Theme::instance()->pause());
+        setSyncIcon(Theme::instance()->syncStatusPause());
     } else {
         setSyncStatusString(tr("All synced!"));
         setSyncIcon(Theme::instance()->syncStatusOk());
