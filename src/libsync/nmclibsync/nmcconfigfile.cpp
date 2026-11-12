@@ -1,5 +1,5 @@
 /*
- * Copyright (C) by Eugen Fischer
+ * Copyright (C) by Mauro Mura
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,8 +30,7 @@ bool NMCConfigFile::transferUsageData(const QString &connection) const
     QVariant fallback = getValue(m_transferUsageData, QString(), false);
     fallback = getValue(m_transferUsageData, group, fallback);
 
-    const QVariant value = getPolicySetting(m_transferUsageData, fallback);
-    return value.toBool();
+    return getConfig(m_transferUsageData, fallback, group).value.toBool();
 }
 
 void NMCConfigFile::setTransferUsageData(bool usageData, const QString &connection)
