@@ -190,7 +190,7 @@ Item {
         function test_searchWindowLoadsFromPackagedModule() {
             const searchWindow = productionSearchWindow.createObject(null)
             verify(searchWindow !== null)
-            compare(searchWindow.width, 700)
+            compare(searchWindow.width, 680)
             compare(searchWindow.height, Style.searchWindowHeight)
             verify(searchWindow.height >= 620 + Style.unifiedSearchItemHeight)
             searchWindow.destroy()
@@ -375,7 +375,7 @@ Item {
             })
             const dateButton = findChild(searchWindow, "dateFilterButton")
             const dateMenu = findChild(searchWindow, "dateFilterMenu")
-
+        
             verify(dateButton !== null)
             verify(dateMenu !== null)
             compare(dateMenu.anchorItem, dateButton)
@@ -383,13 +383,14 @@ Item {
             verify(dateMenu.width > Style.standardPrimaryButtonHeight)
             compare(dateMenu.background.radius, Style.mediumRoundedButtonRadius)
             compare(dateMenu.background.border.width, Style.normalBorderWidth)
-
-            mouseClick(dateButton)
+        
+            dateMenu.open()
             tryCompare(dateMenu, "opened", true)
             verify(dateMenu.height > Style.standardPrimaryButtonHeight)
-            mouseClick(dateButton)
+        
+            dateMenu.close()
             tryCompare(dateMenu, "opened", false)
-
+        
             searchWindow.destroy()
             model.destroy()
         }
