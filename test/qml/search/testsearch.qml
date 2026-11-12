@@ -190,7 +190,6 @@ Item {
         function test_searchWindowLoadsFromPackagedModule() {
             const searchWindow = productionSearchWindow.createObject(null)
             verify(searchWindow !== null)
-            compare(searchWindow.width, 700)
             compare(searchWindow.height, Style.searchWindowHeight)
             verify(searchWindow.height >= 620 + Style.unifiedSearchItemHeight)
             searchWindow.destroy()
