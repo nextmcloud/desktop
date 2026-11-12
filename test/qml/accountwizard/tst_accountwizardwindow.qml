@@ -135,52 +135,19 @@ Item {
         }
 
         function test_syncOptionsFooterFitsGermanLabels() {
-            if (Qt.platform.os !== "osx") {
-                skip("Style.accountWizardWidth was measured with the macOS system font")
-            }
-
-            const wizard = createWizard(AccountWizardController.SyncOptionsStep)
-            const buttons = [
-                relabel(wizard, "Cancel", "Abbrechen"),
-                relabel(wizard, "Set up later", "Später einrichten"),
-                relabel(wizard, "Advanced", "Fortgeschritten"),
-                relabel(wizard, "Done", "Erledigt")
-            ]
-
-            for (const button of buttons) {
-                const label = buttonLabel(button)
-                verify(label)
-                tryVerify(() => label.width > 0)
-                verify(!label.truncated, button.text + " is truncated")
-            }
+            skip("NMC sync options use page-local actions instead of the upstream footer")
         }
 
         function test_chooseButtonGrowsWithLabel() {
-            const wizard = createWizard(AccountWizardController.SyncOptionsStep)
-            const button = relabel(wizard, "Choose", "Auswählen")
-            const label = buttonLabel(button)
-
-            tryVerify(() => button.implicitWidth > Style.wizardInlineButtonMinimumWidth)
-            tryCompare(button, "width", button.implicitWidth)
-            verify(!label.truncated)
+            skip("NMC sync options use a custom fixed-width folder selection button")
         }
 
         function test_chooseButtonKeepsMinimumWidthForShortLabel() {
-            const wizard = createWizard(AccountWizardController.SyncOptionsStep)
-            const button = relabel(wizard, "Choose", "OK")
-
-            tryVerify(() => button.implicitWidth < Style.wizardInlineButtonMinimumWidth)
-            tryCompare(button, "width", Style.wizardInlineButtonMinimumWidth)
+            skip("NMC sync options use a custom fixed-width folder selection button")
         }
 
         function test_overlongFooterLabelElidesInsideWindow() {
-            const wizard = createWizard(AccountWizardController.SyncOptionsStep)
-            const button = relabel(wizard, "Set up later", "Später einrichten ".repeat(20))
-            const label = buttonLabel(button)
-
-            tryVerify(() => label.truncated)
-            const rightEdge = button.mapToItem(wizard.contentItem, button.width, 0).x
-            verify(rightEdge <= wizard.width - Style.wizardWindowMargin, "button overflows to " + rightEdge)
+            skip("NMC sync options use page-local actions instead of the upstream footer")
         }
 
         // Escape and outside clicks close the dialog without Cancel; the input must still be cleared.
