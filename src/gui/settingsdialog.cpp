@@ -104,8 +104,9 @@ constexpr auto TOOLBAR_CSS = QLatin1String(
 );
 
 const float buttonSizeRatio = 1.618f; // golden ratio
-constexpr auto settingsDialogDefaultWidth = 1024;
-constexpr auto settingsDialogDefaultHeight = 666;
+constexpr auto settingsDialogDefaultWidth = 950;
+constexpr auto settingsDialogDefaultHeight = 500;
+constexpr auto settingsNavigationMinimumWidth = 150;
 const auto settingsNavigationIconTextSpacing = QLatin1String("  ");
 
 /** display name with two lines that is displayed in the settings
@@ -724,7 +725,7 @@ void SettingsDialog::setupUi()
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     _toolBar->setOrientation(Qt::Vertical);
     _toolBar->setMovable(false);
-    _toolBar->setMinimumWidth(220);
+    _toolBar->setMinimumWidth(settingsNavigationMinimumWidth);
     _toolBar->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 
     auto *navigationContainer = new QWidget(this);
