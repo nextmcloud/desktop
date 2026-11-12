@@ -72,6 +72,7 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
+#include <QWindow>
 
 #ifdef Q_OS_MACOS
 #include "foregroundbackground_interface.h"
@@ -236,7 +237,30 @@ void ownCloudGui::slotOpenSettingsDialog()
         }
     } else {
         qCInfo(lcApplication) << "No configured folders yet, starting setup wizard";
-        slotNewAccountWizard();
+
+        if (!_advertWidget) {
+            _advertWidget = new NMCAdvertWidget();
+            _advertWidget->setAttribute(Qt::WA_DeleteOnClose);
+
+            connect(_advertWidget, &QObject::destroyed, this, [this]() {
+                slotNewAccountWizard();
+            });
+
+            _advertWidget->show();
+            return;
+        }
+
+        if (_advertWidget->isVisible()) {
+            if (auto *window = _advertWidget->windowHandle()) {
+                window->raise();
+                window->requestActivate();
+            } else {
+                _advertWidget->raise();
+                _advertWidget->activateWindow();
+            }
+        } else {
+            _advertWidget->show();
+        }
     }
 }
 
