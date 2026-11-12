@@ -12,9 +12,9 @@
 #include <theme.h>
 #include <account.h>
 
+#include <QCursor>
 #include <QFileIconProvider>
 #include <QPainter>
-#include <QPainterPath>
 #include <QRect>
 #include <QApplication>
 #include <QMouseEvent>
@@ -437,49 +437,40 @@ void FolderStatusDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     }
 
     {
-        QStyleOptionToolButton btnOpt;
-        btnOpt.state = option.state;
-        btnOpt.state &= ~(QStyle::State_Selected | QStyle::State_HasFocus);
-        btnOpt.state |= QStyle::State_Raised;
-        btnOpt.arrowType = Qt::NoArrow;
-        btnOpt.subControls = QStyle::SC_ToolButton;
-        //NMC customization
-        btnOpt.rect = currentButtonRectPos;
+        QStyleOptionButton buttonOption;
+        buttonOption.initFrom(&_moreButton);
+        buttonOption.direction = option.direction;
+        buttonOption.fontMetrics = option.fontMetrics;
+        buttonOption.palette = option.palette;
+        buttonOption.state &= ~(QStyle::State_Selected | QStyle::State_HasFocus | QStyle::State_MouseOver);
+        buttonOption.state |= QStyle::State_Raised;
+        buttonOption.rect = moreRectPos(option.rect);
+        buttonOption.text = QCoreApplication::translate("", "MORE");
+        buttonOption.icon = _iconMore;
 
-        // Create QPainterPath with rounded corners
-        QPainterPath path;
-        path.addRoundedRect(btnOpt.rect, 4, 4);  // 4 ist der Radius für die abgerundeten Ecken
+        _moreButton.setEnabled(option.state & QStyle::State_Enabled);
+        _moreButton.setFont(option.font);
+        _moreButton.setPalette(option.palette);
+        _moreButton.setText(buttonOption.text);
+        _moreButton.setIcon(buttonOption.icon);
 
-        // Draw border line
-        QPen borderPen(QColor(0, 0, 0)); // Beispiel: Schwarzer Rand
-        borderPen.setWidth(1);
-        painter->setPen(borderPen);
-        painter->drawPath(path);
+        const auto *const style = option.widget ? option.widget->style() : QApplication::style();
+        const auto buttonSize = style->pixelMetric(QStyle::PM_ButtonIconSize, &buttonOption, &_moreButton);
+        buttonOption.iconSize = QSize(buttonSize, buttonSize);
+        _moreButton.setIconSize(buttonOption.iconSize);
 
-        // Fill the rectangle
-        painter->fillPath(path, Qt::transparent);
+        if ((option.state & QStyle::State_MouseOver) && option.widget) {
+            const auto *const treeView = qobject_cast<const QTreeView *>(option.widget);
+            const auto cursorPosition = treeView
+                ? treeView->viewport()->mapFromGlobal(QCursor::pos())
+                : option.widget->mapFromGlobal(QCursor::pos());
 
-        // Draw the icon in rectangle
-        btnOpt.icon = _iconMore;
-        const auto buttonSize = QApplication::style()->pixelMetric(QStyle::PM_ButtonIconSize);
-        btnOpt.iconSize = QSize(buttonSize, buttonSize);
+            if (buttonOption.rect.contains(cursorPosition)) {
+                buttonOption.state |= QStyle::State_MouseOver;
+            }
+        }
 
-        // Set icon position
-        int iconX = btnOpt.rect.x() + btnOpt.rect.width()/5;
-        int iconY = btnOpt.rect.y() + (btnOpt.rect.height() - btnOpt.iconSize.height()) / 2;
-
-        painter->drawPixmap(iconX, iconY, btnOpt.icon.pixmap(btnOpt.iconSize));
-
-        //Add text
-        const QString buttonText = QCoreApplication::translate("", "MORE");
-        painter->setFont(btnOpt.font);
-        painter->setPen(option.palette.color(QPalette::ButtonText));
-        int textX = iconX + btnOpt.iconSize.width() + 10;
-        int textY = iconY;
-        int textWidth = currentButtonRectPos.x() + currentButtonRectPos.width() - textX;
-        int textHeight = btnOpt.fontMetrics.height();
-
-        painter->drawText(QRect(textX, textY, textWidth, textHeight), Qt::AlignLeft | Qt::AlignVCenter, buttonText);
+        style->drawControl(QStyle::CE_PushButton, &buttonOption, painter, &_moreButton);
     }
 
     painter->restore();

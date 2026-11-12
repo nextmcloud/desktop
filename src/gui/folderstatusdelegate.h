@@ -5,6 +5,7 @@
  */
 
 #pragma once
+#include <QPushButton>
 #include <QStyledItemDelegate>
 
 namespace OCC {
@@ -66,6 +67,7 @@ private:
     QPersistentModelIndex _pressedIndex;
 
     QIcon _iconMore;
+    mutable QPushButton _moreButton;
     QStyleOptionViewItem _newOption;
 };
 

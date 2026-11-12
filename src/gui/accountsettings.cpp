@@ -83,6 +83,17 @@ constexpr auto e2EeUiActionForgetEncryptionId = "forget_encryption";
 constexpr auto e2EeUiActionDisplayMnemonicId = "display_mnemonic";
 constexpr auto e2EeUiActionMigrateCertificateId = "migrate_certificate";
 constexpr auto mnemonicVisibleLineCount = 2;
+
+void setFolderContextMenuStyle(QMenu *menu)
+{
+    menu->setStyleSheet(
+        QStringLiteral("QMenu::item { padding: 5px 12px; }"
+                       "QMenu::item:selected, QMenu::item:hover {"
+                       " background-color: palette(highlight);"
+                       " color: palette(highlighted-text);"
+                       " border-radius: 4px;"
+                       "}"));
+}
 }
 
 namespace OCC {
@@ -689,6 +700,7 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
 
     auto menu = new QMenu(this);
     menu->setAttribute(Qt::WA_DeleteOnClose);
+    setFolderContextMenuStyle(menu);
     auto ac = menu->addAction(tr("Open folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentLocalSubFolder);
 
@@ -746,25 +758,6 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         connect(ac, &QAction::triggered, this, [this, folder, path] { slotSetSubFolderAvailability(folder, path, PinState::OnlineOnly); });
     }
 
-    const auto highlightColor = palette().highlight().color();
-    menu->setStyleSheet(QString(R"(
-        QMenu {
-            background-color: palette(window);
-            color: palette(window-text);
-            border: 1px solid black;
-            border-radius: 4px;
-            padding: 6px;
-        }
-        QMenu::item {
-            background-color: transparent;
-            padding: 8px;
-        }
-        QMenu::item:selected,
-        QMenu::item:hover {
-            background-color: %1;
-        }
-    )").arg(highlightColor.name(QColor::HexRgb)));
-
     menu->popup(QCursor::pos());
 }
 
@@ -799,6 +792,7 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
     auto menu = new QMenu(treeView);
 
     menu->setAttribute(Qt::WA_DeleteOnClose);
+    setFolderContextMenuStyle(menu);
 
     auto ac = menu->addAction(tr("Open folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentFolder);
@@ -838,10 +832,6 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
 
         ac = availabilityMenu->addAction(Utility::vfsFreeSpaceActionText());
         connect(ac, &QAction::triggered, this, [this]() { slotSetCurrentFolderAvailability(PinState::OnlineOnly); });
-
-        ac = menu->addAction(tr("Disable virtual file support …"));
-        connect(ac, &QAction::triggered, this, &AccountSettings::slotDisableVfsCurrentFolder);
-        ac->setDisabled(Theme::instance()->enforceVirtualFilesSyncFolder());
     }
 
     if (const auto mode = bestAvailableVfsMode();
@@ -858,26 +848,6 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
             connect(ac, &QAction::triggered, this, &AccountSettings::slotEnableVfsCurrentFolder);
         }
     }
-
-    const auto highlightColor = palette().highlight().color();
-
-    menu->setStyleSheet(QString(R"(
-        QMenu {
-            background-color: palette(window);
-            color: palette(window-text);
-            border: 1px solid black;
-            border-radius: 4px;
-            padding: 6px;
-        }
-        QMenu::item {
-            background-color: transparent;
-            padding: 8px;
-        }
-        QMenu::item:selected,
-        QMenu::item:hover {
-            background-color: %1;
-        }
-    )").arg(highlightColor.name(QColor::HexRgb)));
 
     menu->popup(treeView->viewport()->mapToGlobal(pos));
 }
@@ -2196,5 +2166,3 @@ void AccountSettings::updateEncryptionMessageActions()
 }
 
 } // namespace OCC
-
-#include "accountsettings.moc"
