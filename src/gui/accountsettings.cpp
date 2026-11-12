@@ -2166,3 +2166,5 @@ void AccountSettings::updateEncryptionMessageActions()
 }
 
 } // namespace OCC
+
+#include "accountsettings.moc"
