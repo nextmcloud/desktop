@@ -35,10 +35,17 @@ public Q_SLOTS:
     void restoreUpdateChannel();
 #endif
 
+protected Q_SLOTS:
+#if defined(BUILD_UPDATER)
+    void slotUpdateInfo();
+#endif
+
+protected:
+    [[nodiscard]] virtual QString customizeUpdateStatus(const QString &status) const;
+
 private Q_SLOTS:
     void slotShowLegalNotice();
 #if defined(BUILD_UPDATER)
-    void slotUpdateInfo();
     void slotUpdateChannelChanged();
     void slotUpdateCheckNow();
     void slotToggleAutoUpdateCheck();
