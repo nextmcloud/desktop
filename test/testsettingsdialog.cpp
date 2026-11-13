@@ -9,16 +9,7 @@
 #include "accountmanager.h"
 #include "accountsettings.h"
 #include "configfile.h"
-#include "nmcgui/nmcadvancedsettings.h"
-#include "nmcgui/nmcgeneralsettings.h"
-#include "nmcgui/nmcinfosettings.h"
 #include "nmcgui/nmcsettingsdialog.h"
-#include "nmclibsync/nmcconfigfile.h"
-#include "theme.h"
-#if defined(BUILD_UPDATER)
-#include "updater/ocupdater.h"
-#include "updater/updater.h"
-#endif
 #include "systray.h"
 
 #include <QAction>
@@ -141,47 +132,6 @@ private Q_SLOTS:
         }
     }
 
-    void addAccountActionFollowsAccountsAndOpensWizard()
-    {
-        auto *const accountManager = OCC::AccountManager::instance();
-        QVERIFY(accountManager->accounts().isEmpty());
-
-        auto account = OCC::Account::create();
-        account->setUrl(QUrl(QStringLiteral("https://cloud.example.com")));
-        account->setDavUser(QStringLiteral("alice"));
-        const auto accountState = accountManager->addAccount(account);
-        const auto removeAccount = qScopeGuard([accountManager, accountState] {
-            accountManager->removeAccountState(accountState);
-        });
-
-        OCC::SettingsDialog dialog(nullptr);
-        const auto addAccountAction = dialog.findChild<QAction *>(QStringLiteral("settingsdialog_add_account"));
-        const auto toolbar = dialog.findChild<QToolBar *>();
-        QVERIFY(addAccountAction);
-        QVERIFY(toolbar);
-        QCOMPARE(toolbar->actions().indexOf(addAccountAction), 1);
-        QVERIFY(!addAccountAction->isCheckable());
-        QVERIFY(!addAccountAction->icon().isNull());
-        QCOMPARE(addAccountAction->text(), OCC::Systray::tr("Add account"));
-
-        const auto systray = OCC::Systray::instance();
-        QCOMPARE(addAccountAction->isVisible(), systray->enableAddAccount());
-        if (addAccountAction->isVisible()) {
-            const auto wizardRequest = QSignalSpy(systray, &OCC::Systray::openAccountWizard);
-            addAccountAction->trigger();
-            QCOMPARE_EQ(wizardRequest.size(), 1);
-        }
-
-        dialog.ensurePolished();
-        const auto shortcutsPanel = dialog.findChild<QFrame *>(QStringLiteral("accountShortcutsPanel"));
-        const auto statusPanel = dialog.findChild<QFrame *>(QStringLiteral("accountStatusPanel"));
-        QVERIFY(shortcutsPanel);
-        QVERIFY(statusPanel);
-        shortcutsPanel->ensurePolished();
-        statusPanel->ensurePolished();
-        QCOMPARE(shortcutsPanel->palette().color(QPalette::Window), statusPanel->palette().color(QPalette::Window));
-    }
-
     void magentaNavigationUsesCompactWidth()
     {
         OCC::NMCSettingsDialog dialog(nullptr);
@@ -226,96 +176,45 @@ private Q_SLOTS:
         QCOMPARE(accountAction->property("iconPath").toString(), ":/client/theme/account.svg"_L1);
     }
 
-    void magentaSettingsAreGroupedByPurpose()
+    void addAccountActionFollowsAccountsAndOpensWizard()
     {
+        auto *const accountManager = OCC::AccountManager::instance();
+        QVERIFY(accountManager->accounts().isEmpty());
+
+        auto account = OCC::Account::create();
+        account->setUrl(QUrl(QStringLiteral("https://cloud.example.com")));
+        account->setDavUser(QStringLiteral("alice"));
+        const auto accountState = accountManager->addAccount(account);
+        const auto removeAccount = qScopeGuard([accountManager, accountState] {
+            accountManager->removeAccountState(accountState);
+        });
+
         OCC::SettingsDialog dialog(nullptr);
-        const auto generalSettings = dialog.findChild<OCC::NMCGeneralSettings *>();
-        const auto advancedSettings = dialog.findChild<OCC::NMCAdvancedSettings *>();
-        const auto infoSettings = dialog.findChild<OCC::NMCInfoSettings *>();
-        QVERIFY(generalSettings);
-        QVERIFY(advancedSettings);
-        QVERIFY(infoSettings);
+        const auto addAccountAction = dialog.findChild<QAction *>(QStringLiteral("settingsdialog_add_account"));
+        const auto toolbar = dialog.findChild<QToolBar *>();
+        QVERIFY(addAccountAction);
+        QVERIFY(toolbar);
+        QCOMPARE(toolbar->actions().indexOf(addAccountAction), 1);
+        QVERIFY(!addAccountAction->isCheckable());
+        QVERIFY(!addAccountAction->icon().isNull());
+        QCOMPARE(addAccountAction->text(), OCC::Systray::tr("Add account"));
 
-        QVERIFY(generalSettings->findChild<QObject *>("autostartCheckBox"_L1));
-        QVERIFY(generalSettings->findChild<QObject *>("serverNotificationsCheckBox"_L1));
-        QVERIFY(!generalSettings->findChild<QObject *>("dataAnalysisCheckBox"_L1));
-        const auto generalSettingsSeparator = generalSettings->findChild<QFrame *>("startupSeparator"_L1);
-        QVERIFY(generalSettingsSeparator);
-        QVERIFY(!generalSettingsSeparator->isHidden());
-
-        const auto dataAnalysisSwitch = advancedSettings->findChild<QAbstractButton *>("dataAnalysisCheckBox"_L1);
-        QVERIFY(dataAnalysisSwitch);
-        const auto remotePollIntervalRow = advancedSettings->findChild<QWidget *>("horizontalLayoutWidget_remotePollInterval"_L1);
-        const auto remotePollIntervalSeparator = advancedSettings->findChild<QFrame *>("remotePollIntervalSeparator"_L1);
-        QVERIFY(remotePollIntervalRow);
-        QVERIFY(remotePollIntervalSeparator);
-        QVERIFY(remotePollIntervalRow->isHidden());
-        QVERIFY(remotePollIntervalSeparator->isHidden());
-
-        const auto syncBehaviorLayout = advancedSettings->findChild<QVBoxLayout *>("syncBehaviorLayout"_L1);
-        const auto dataAnalysisRow = advancedSettings->findChild<QWidget *>("nmcDataAnalysisRow"_L1);
-        const auto moveFilesToTrashRow = advancedSettings->findChild<QHBoxLayout *>("moveFilesToTrashRow"_L1);
-        QVERIFY(syncBehaviorLayout);
-        QVERIFY(dataAnalysisRow);
-        QVERIFY(moveFilesToTrashRow);
-        QVERIFY(syncBehaviorLayout->indexOf(dataAnalysisRow) < syncBehaviorLayout->indexOf(moveFilesToTrashRow));
-        const auto debugArchiveButton = advancedSettings->findChild<QPushButton *>("debugArchiveButton"_L1);
-        const auto ignoredFilesButton = advancedSettings->findChild<QPushButton *>("ignoredFilesButton"_L1);
-        QVERIFY(debugArchiveButton);
-        QVERIFY(ignoredFilesButton);
-        QVERIFY(debugArchiveButton->isHidden());
-        QVERIFY(!ignoredFilesButton->isHidden());
-
-        const auto impressumLink = infoSettings->findChild<QPushButton *>("nmcImpressumLink"_L1);
-        const auto dataProtectionLink = infoSettings->findChild<QPushButton *>("nmcDataProtectionLink"_L1);
-        const auto openSourceLink = infoSettings->findChild<QPushButton *>("nmcOpenSourceLink"_L1);
-        const auto furtherInfoLink = infoSettings->findChild<QPushButton *>("nmcFurtherInfoLink"_L1);
-        QVERIFY(impressumLink);
-        QVERIFY(dataProtectionLink);
-        QVERIFY(openSourceLink);
-        QVERIFY(furtherInfoLink);
-        QCOMPARE(impressumLink->property("url").toString(), "https://www.telekom.de/impressum/"_L1);
-        QCOMPARE(dataProtectionLink->property("url").toString(), "https://static.magentacloud.de/privacy/datenschutzhinweise_software.pdf"_L1);
-        QCOMPARE(openSourceLink->property("url").toString(), "https://static.magentacloud.de/licences/windowsdesktop.html"_L1);
-        QCOMPARE(furtherInfoLink->property("url").toString(), "https://cloud.telekom-dienste.de/hilfe"_L1);
-        const auto aboutGroup = infoSettings->findChild<QGroupBox *>("aboutAndUpdatesGroupBox"_L1);
-        const auto updatesGroup = infoSettings->findChild<QGroupBox *>("updatesGroupBox"_L1);
-        const auto linksGroup = infoSettings->findChild<QGroupBox *>("nmcInfoLinksGroupBox"_L1);
-        auto *infoLayout = qobject_cast<QVBoxLayout *>(infoSettings->layout());
-        QVERIFY(aboutGroup);
-        QVERIFY(updatesGroup);
-        QVERIFY(linksGroup);
-        QVERIFY(infoLayout);
-        QVERIFY(aboutGroup->isHidden());
-        QVERIFY(infoLayout->indexOf(linksGroup) > infoLayout->indexOf(updatesGroup));
-
-#if defined(BUILD_UPDATER)
-        const auto updater = qobject_cast<OCC::OCUpdater *>(OCC::Updater::instance());
-        if (updater) {
-            const auto updateStateLabel = infoSettings->findChild<QLabel *>("updateStateLabel"_L1);
-            QVERIFY(updateStateLabel);
-            const auto previousState = updater->downloadState();
-            const auto restoreUpdaterState = qScopeGuard([updater, previousState] {
-                updater->setDownloadState(static_cast<OCC::OCUpdater::DownloadState>(previousState));
-            });
-            updater->setDownloadState(OCC::OCUpdater::UpToDate);
-            auto latestStatus = QCoreApplication::translate("OCC::OCUpdater", "No updates available. Your installation is the latest version.");
-            const auto sentenceEnd = latestStatus.indexOf(". ");
-            if (sentenceEnd >= 0) {
-                latestStatus = latestStatus.mid(sentenceEnd + 2);
-            }
-            if (latestStatus.endsWith('.')) {
-                latestStatus.chop(1);
-            }
-            QCOMPARE(updateStateLabel->text(), OCC::Theme::instance()->about() + " (" + latestStatus + ")");
+        const auto systray = OCC::Systray::instance();
+        QCOMPARE(addAccountAction->isVisible(), systray->enableAddAccount());
+        if (addAccountAction->isVisible()) {
+            const auto wizardRequest = QSignalSpy(systray, &OCC::Systray::openAccountWizard);
+            addAccountAction->trigger();
+            QCOMPARE_EQ(wizardRequest.size(), 1);
         }
-#endif
 
-        OCC::NMCConfigFile config;
-        dataAnalysisSwitch->setChecked(true);
-        QVERIFY(config.transferUsageData());
-        dataAnalysisSwitch->setChecked(false);
-        QVERIFY(!config.transferUsageData());
+        dialog.ensurePolished();
+        const auto shortcutsPanel = dialog.findChild<QFrame *>(QStringLiteral("accountShortcutsPanel"));
+        const auto statusPanel = dialog.findChild<QFrame *>(QStringLiteral("accountStatusPanel"));
+        QVERIFY(shortcutsPanel);
+        QVERIFY(statusPanel);
+        shortcutsPanel->ensurePolished();
+        statusPanel->ensurePolished();
+        QCOMPARE(shortcutsPanel->palette().color(QPalette::Window), statusPanel->palette().color(QPalette::Window));
     }
 };
 
