@@ -49,8 +49,8 @@ WizardStyledWindow {
     }
 
     title: ""
-    width: Style.activitiesWindowWidth
-    height: Style.activitiesWindowHeight
+    width: Style.searchWindowWidth
+    height: Style.searchWindowHeight
     minimumWidth: Style.wizardStandaloneWindowMinimumWidth
     minimumHeight: Style.wizardStandaloneWindowMinimumHeight
 
