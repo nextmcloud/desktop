@@ -5,7 +5,19 @@ if(APPLE)
     if(MACOS_USE_ICON_COMPOSER)
         set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/AppIconCompiled/AppIcon.icns")
     else()
-        set(OC_OEM_SHARE_ICNS "${CMAKE_BINARY_DIR}/src/gui/${APPLICATION_ICON_NAME}.icns")
+        # src/gui/CMakeLists.txt uses APPLICATION_SHORTNAME as the generated
+        # icon basename for branded clients, while APPLICATION_ICON_NAME keeps
+        # the Brander source asset name.
+        set(OC_OEM_SHARE_ICON_NAME "${APPLICATION_ICON_NAME}")
+
+        if(NOT APPLICATION_NAME STREQUAL "Nextcloud")
+            set(OC_OEM_SHARE_ICON_NAME "${APPLICATION_SHORTNAME}")
+        endif()
+
+        set(
+            OC_OEM_SHARE_ICNS
+            "${CMAKE_BINARY_DIR}/src/gui/${OC_OEM_SHARE_ICON_NAME}.icns"
+        )
     endif()
 
     if (NEXTCLOUD_DEV)
