@@ -314,7 +314,7 @@ Item {
         function test_detailHeaderShowsBackButtonAndClosesProviderDetail() {
             const model = windowSearchModel.createObject(this, {
                 viewMode: UnifiedSearchResultsListModel.ProviderDetail,
-                detailProviderName: "Files"
+                detailProviderName: "A provider name that is intentionally much too long for the available search header"
             })
             const searchWindow = productionSearchWindow.createObject(null, {
                 searchModel: model,
