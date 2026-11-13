@@ -6,20 +6,20 @@
 
 #include "settingsdialog.h"
 
-#include "accountmanager.h"
-#include "accountsettings.h"
 #include "advancedsettings.h"
-#include "configfile.h"
 #include "folderman.h"
+#include "theme.h"
 #include "generalsettings.h"
 #include "infosettings.h"
 #include "networksettings.h"
+#include "accountsettings.h"
+#include "configfile.h"
+#include "progressdispatcher.h"
+#include "owncloudgui.h"
+#include "accountmanager.h"
 #include "nmcgui/nmcadvancedsettings.h"
 #include "nmcgui/nmcgeneralsettings.h"
 #include "nmcgui/nmcinfosettings.h"
-#include "owncloudgui.h"
-#include "progressdispatcher.h"
-#include "theme.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
