@@ -19,37 +19,50 @@ Item {
     objectName: "searchDetailHeader"
     implicitHeight: Style.unifiedSearchDetailHeaderHeight
 
-    ToolButton {
+    Button {
         id: backButton
 
         objectName: "searchDetailBackButton"
-        anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
-        text: qsTr("Back")
-        icon.source: "image://svgimage-custom-color/"
-            + (root.LayoutMirroring.enabled ? "arrow-right.svg/" : "arrow-left.svg/")
-            + Style.wizardPrimaryText
-        icon.width: Style.smallIconSize
-        icon.height: Style.smallIconSize
-        display: AbstractButton.TextBesideIcon
-        Accessible.name: qsTr("Back to all search results")
+
+        width: root.width
+        height: Style.unifiedSearchDetailHeaderHeight
+
+        flat: true
+        text: "← " + qsTr("Back")
+        font.bold: false
+        font.pixelSize: Style.unifiedSearchResultTitleFontSize
+
+        leftPadding: 0
+        rightPadding: 0
+        hoverEnabled: true
+        activeFocusOnTab: true
+
+        Accessible.role: Accessible.Button
+        Accessible.name: text
+
+        HoverHandler {
+            cursorShape: Qt.PointingHandCursor
+        }
+
+        background: Rectangle {
+            color: backButton.hovered
+                ? Style.listItemHoverBackground
+                : "transparent"
+            radius: Style.mediumRoundedButtonRadius
+        }
+
+        contentItem: EnforcedPlainTextLabel {
+            text: backButton.text
+            color: Style.wizardPrimaryText
+            font: backButton.font
+            elide: Text.ElideRight
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignVCenter
+        }
+
         onClicked: {
             root.searchModel.closeProviderDetail()
             root.navigateBack()
         }
-    }
-
-    EnforcedPlainTextLabel {
-        objectName: "searchDetailProviderTitle"
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin: backButton.width + Style.smallSpacing
-        anchors.rightMargin: backButton.width + Style.smallSpacing
-        anchors.verticalCenter: parent.verticalCenter
-        text: root.searchModel ? root.searchModel.detailProviderName : ""
-        font.bold: true
-        font.pixelSize: Style.wizardHeaderTitleFontPixelSize
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignHCenter
     }
 }

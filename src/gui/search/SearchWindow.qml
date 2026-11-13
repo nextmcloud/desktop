@@ -22,6 +22,7 @@ WizardStyledWindow {
     property var searchModel: UnifiedSearchResultsListModel {
         accountId: root.accountId
     }
+
     //: Name of the Search feature.
     readonly property string headline: qsTr("Search")
     readonly property bool aggregateView: searchModel && searchModel.viewMode === UnifiedSearchResultsListModel.Aggregate
@@ -32,8 +33,20 @@ WizardStyledWindow {
     readonly property bool isSearchInProgress: searchModel !== null && searchModel.isSearchInProgress
     readonly property bool canEditSearch: searchModel !== null && searchModel.canEditSearch
     readonly property bool isAccountConnected: searchModel !== null && searchModel.isAccountConnected
-    readonly property bool peoplePopupOpened: peoplePopupLoader.status === Loader.Ready && peoplePopupLoader.item.opened
     readonly property bool customRangeDialogOpened: customRangeDialogLoader.status === Loader.Ready && customRangeDialogLoader.item.opened
+
+    readonly property var displayedActiveFilters: {
+        const filters = searchModel ? searchModel.activeFilters : []
+        const displayedFilters = []
+
+        for (let i = 0; i < filters.length; ++i) {
+            if (filters[i].type !== "provider") {
+                displayedFilters.push(filters[i])
+            }
+        }
+
+        return displayedFilters
+    }
 
     title: ""
     width: Style.searchWindowWidth
@@ -42,15 +55,9 @@ WizardStyledWindow {
     minimumHeight: Style.wizardStandaloneWindowMinimumHeight
 
     function focusSearchInput() {
-        if (visible && searchInput.enabled) searchInput.forceActiveFocus()
-    }
-
-    function openPeoplePopup() {
-        if (peoplePopupLoader.status === Loader.Ready) {
-            peoplePopupLoader.item.open()
-            return
+        if (visible && searchInput.enabled) {
+            searchInput.forceActiveFocus()
         }
-        peoplePopupLoader.active = true
     }
 
     function openCustomRangeDialog() {
@@ -58,44 +65,91 @@ WizardStyledWindow {
             customRangeDialogLoader.item.open()
             return
         }
+
         customRangeDialogLoader.active = true
+    }
+
+    function enforceFilesProvider() {
+        if (!searchModel || !searchModel.providersReady) {
+            return
+        }
+
+        let filesProviderId = ""
+
+        for (let i = 0; i < searchModel.providers.length; ++i) {
+            const provider = searchModel.providers[i]
+            const id = String(provider.id).toLowerCase()
+            const name = String(provider.name).toLowerCase()
+
+            if (id === "files" || name === "files") {
+                filesProviderId = provider.id
+                break
+            }
+        }
+
+        if (filesProviderId === "") {
+            return
+        }
+
+        for (let i = 0; i < searchModel.activeFilters.length; ++i) {
+            const filter = searchModel.activeFilters[i]
+            if (filter.type === "provider" && filter.id === filesProviderId) {
+                return
+            }
+        }
+
+        searchModel.clearTypeFilters()
+        searchModel.toggleProviderFilter(filesProviderId)
     }
 
     Shortcut {
         sequences: [StandardKey.Cancel]
-        enabled: !filterBar.opened && !root.peoplePopupOpened && !root.customRangeDialogOpened
+        enabled: !filterBar.opened && !root.customRangeDialogOpened
         onActivated: root.close()
-    }
-
-    UnifiedSearchPeopleModel {
-        id: peopleSuggestionsModel
-        accountState: root.searchModel ? root.searchModel.accountState : null
     }
 
     Connections {
         target: root.searchModel
+
+        function onProvidersReadyChanged() {
+            root.enforceFilesProvider()
+        }
+
         function onSelectedRowChanged() {
-            if (root.searchModel && root.searchModel.selectedRow >= 0
+            if (root.searchModel
+                    && root.searchModel.selectedRow >= 0
                     && root.searchModel.selectedRow < resultsList.count) {
                 resultsList.positionViewAtIndex(root.searchModel.selectedRow, ListView.Contain)
             }
         }
+
         function onViewModeChanged() {
             Qt.callLater(function() {
-                if (root.searchModel && root.searchModel.selectedRow >= 0
+                if (root.searchModel
+                        && root.searchModel.selectedRow >= 0
                         && root.searchModel.selectedRow < resultsList.count) {
                     resultsList.positionViewAtIndex(root.searchModel.selectedRow, ListView.Beginning)
                 }
             })
         }
+
         function onAccessibilityStatusChanged() {
-            if (root.searchModel.accessibilityStatus.length > 0)
+            if (root.searchModel.accessibilityStatus.length > 0) {
                 Accessible.announce(root.searchModel.accessibilityStatus, Accessible.Polite)
+            }
         }
     }
 
-    Component.onCompleted: Qt.callLater(focusSearchInput)
-    onVisibleChanged: if (visible) Qt.callLater(focusSearchInput)
+    Component.onCompleted: {
+        root.enforceFilesProvider()
+        Qt.callLater(focusSearchInput)
+    }
+
+    onVisibleChanged: {
+        if (visible) {
+            Qt.callLater(focusSearchInput)
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -103,29 +157,48 @@ WizardStyledWindow {
         anchors.topMargin: Style.wizardWindowTopMargin
         spacing: Style.smallSpacing
 
-        WindowAccountHeader {
+        NMCWindowAccountHeader {
             Layout.fillWidth: true
-            //: Name of the Search feature.
-            title: qsTr("Search")
+
+            account: root.account
             user: root.account
+
+            accountTextYOffset: 8
+            accountTextExtraSpacing: 6
         }
 
         UnifiedSearchInputContainer {
             id: searchInput
+
             Layout.fillWidth: true
             Layout.preferredHeight: Style.unifiedSearchInputContainerHeight
+            Layout.topMargin: Math.max(0, Style.wizardSectionSpacing - Style.smallSpacing)
+
             enabled: root.searchModel !== null
             readOnly: !root.searchModel || !root.searchModel.canEditSearch
             text: root.searchModel ? root.searchModel.searchTerm : ""
+
             isSearchInProgress: root.searchModel
                 && (root.searchModel.isSearchInProgress
                     || root.searchModel.waitingForSearchTermEditEnd
                     || root.searchModel.isFetchMoreInProgress)
+
             placeholderText: root.searchModel && !root.searchModel.isAccountConnected
                 ? qsTr("Search is available when this account is connected")
-                : qsTr("Search files, messages, events …")
-            onTextEdited: if (root.searchModel) root.searchModel.searchTerm = text
-            onClearText: if (root.searchModel) root.searchModel.searchTerm = ""
+                : qsTr("Search files …")
+
+            onTextEdited: {
+                if (root.searchModel) {
+                    root.searchModel.searchTerm = text
+                }
+            }
+
+            onClearText: {
+                if (root.searchModel) {
+                    root.searchModel.searchTerm = ""
+                }
+            }
+
             onMoveSelection: direction => root.searchModel.moveSelection(direction)
             onActivateSelection: root.searchModel.activateSelected()
         }
@@ -133,8 +206,10 @@ WizardStyledWindow {
         UnifiedSearchDetailHeader {
             Layout.fillWidth: true
             Layout.preferredHeight: implicitHeight
+
             visible: root.searchModel && !root.aggregateView
             searchModel: root.searchModel
+
             onNavigateBack: root.focusSearchInput()
         }
 
@@ -143,32 +218,44 @@ WizardStyledWindow {
 
             Layout.fillWidth: true
             Layout.preferredHeight: visible ? implicitHeight : 0
+
             visible: root.filtersVisible
             searchModel: root.searchModel
+
             onCustomDateRangeRequested: root.openCustomRangeDialog()
-            onPeopleRequested: root.openPeoplePopup()
         }
 
         Flow {
             objectName: "activeFilterFlow"
+
             Layout.fillWidth: true
             Layout.preferredHeight: visible ? implicitHeight : 0
-            visible: root.filtersVisible && root.searchModel && root.searchModel.activeFilters.length > 0
+
+            visible: root.filtersVisible && root.displayedActiveFilters.length > 0
             spacing: Style.smallSpacing
+
             Repeater {
-                model: root.searchModel ? root.searchModel.activeFilters : []
+                model: root.displayedActiveFilters
+
                 delegate: WizardChipButton {
                     id: chipButton
+
                     objectName: "activeFilterChip"
+
                     required property var modelData
+
                     text: modelData.label
                     textSuffix: "×"
                     iconBeforeText: true
-                    iconSource: modelData.icon ? "image://tray-image-provider/" + modelData.icon : ""
+                    iconSource: modelData.icon
+                        ? "image://tray-image-provider/" + modelData.icon
+                        : ""
                     tintIcon: true
                     iconTintColor: Style.wizardPrimaryText
-                    //: %1 is an active search filter label, such as a provider name, date range, or person name.
+
+                    //: %1 is an active search filter label, such as a date range.
                     Accessible.name: qsTr("Remove %1 filter").arg(modelData.label)
+
                     onClicked: root.searchModel.removeFilter(modelData.type, modelData.id)
                 }
             }
@@ -177,6 +264,7 @@ WizardStyledWindow {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: Style.normalBorderWidth
+
             color: Style.wizardRowBorder
         }
 
@@ -187,12 +275,20 @@ WizardStyledWindow {
             ColumnLayout {
                 anchors.centerIn: parent
                 width: Math.min(parent.width, Style.wizardDialogMaximumWidth)
+
                 visible: root.searchState === UnifiedSearchResultsListModel.SearchError
-                ErrorBox { Layout.fillWidth: true; text: root.searchModel ? root.searchModel.errorString : "" }
+
+                ErrorBox {
+                    Layout.fillWidth: true
+                    text: root.searchModel ? root.searchModel.errorString : ""
+                }
+
                 WizardButton {
                     Layout.alignment: Qt.AlignHCenter
+
                     primary: true
                     text: qsTr("Retry")
+
                     onClicked: root.searchModel.retry()
                 }
             }
@@ -204,26 +300,33 @@ WizardStyledWindow {
 
             UnifiedSearchResultNothingFound {
                 anchors.fill: parent
+
                 visible: root.searchState === UnifiedSearchResultsListModel.NothingFound
                 text: root.searchModel ? root.searchModel.searchTerm : ""
             }
 
             ScrollView {
                 anchors.fill: parent
+
                 contentWidth: availableWidth
+
                 visible: root.searchState === UnifiedSearchResultsListModel.Results
-                      || root.searchState === UnifiedSearchResultsListModel.Skeleton
+                    || root.searchState === UnifiedSearchResultsListModel.Skeleton
+
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                 ListView {
                     id: resultsList
 
                     objectName: "searchResultsList"
+
                     clip: true
                     reuseItems: true
                     spacing: Style.extraSmallSpacing
+
                     model: root.searchModel
                     currentIndex: root.searchModel ? root.searchModel.selectedRow : -1
+
                     Accessible.role: Accessible.List
                     Accessible.name: qsTr("Search results")
 
@@ -234,17 +337,23 @@ WizardStyledWindow {
 
                     footer: Column {
                         objectName: "searchResultsLoadingFooter"
+
                         width: resultsList.width
                         height: visible ? implicitHeight : 0
                         spacing: Style.smallSpacing
+
                         visible: root.searchModel && root.searchModel.isSearchInProgress
                         Accessible.ignored: true
+
                         Repeater {
                             model: Style.unifiedSearchLoadingPlaceholderCount
+
                             Rectangle {
                                 required property int index
-                                width: resultsList.width * (Style.unifiedSearchLoadingPlaceholderInitialWidthRatio
-                                    + index * Style.unifiedSearchLoadingPlaceholderWidthStep)
+
+                                width: resultsList.width
+                                    * (Style.unifiedSearchLoadingPlaceholderInitialWidthRatio
+                                        + index * Style.unifiedSearchLoadingPlaceholderWidthStep)
                                 height: Style.unifiedSearchProviderHeaderHeight
                                 radius: Style.mediumRoundedButtonRadius
                                 color: palette.alternateBase
@@ -258,43 +367,37 @@ WizardStyledWindow {
 
         RowLayout {
             objectName: "partialFailureFooter"
+
             Layout.fillWidth: true
-            visible: root.aggregateView && root.searchModel && root.searchModel.hasPartialFailure
-            EnforcedPlainTextLabel { Layout.fillWidth: true; text: qsTr("Some sources unavailable"); color: palette.placeholderText }
-            WizardButton { text: qsTr("Retry"); onClicked: root.searchModel.retryFailedProviders() }
+
+            visible: root.aggregateView
+                && root.searchModel
+                && root.searchModel.hasPartialFailure
+
+            EnforcedPlainTextLabel {
+                Layout.fillWidth: true
+
+                text: qsTr("Some sources unavailable")
+                color: palette.placeholderText
+            }
+
+            WizardButton {
+                text: qsTr("Retry")
+                onClicked: root.searchModel.retryFailedProviders()
+            }
         }
 
         WizardButton {
             Layout.fillWidth: true
+
             visible: root.searchModel && root.searchModel.showConnectedServicesAction
+
             text: root.searchModel && root.searchModel.externalProvidersEnabled
-                ? qsTr("Less from connected services") : qsTr("More from connected services")
-            onClicked: root.searchModel.setExternalProvidersEnabled(!root.searchModel.externalProvidersEnabled)
-        }
-    }
+                ? qsTr("Less from connected services")
+                : qsTr("More from connected services")
 
-    Component {
-        id: peoplePopupComponent
-
-        UnifiedSearchPeoplePopup {
-            searchModel: root.searchModel
-            peopleModel: peopleSuggestionsModel
-            windowWidth: root.width
-            onClosed: peoplePopupLoader.active = false
-            onPersonSelected: root.focusSearchInput()
-        }
-    }
-
-    Loader {
-        id: peoplePopupLoader
-
-        objectName: "peoplePopupLoader"
-        active: false
-        sourceComponent: peoplePopupComponent
-        onLoaded: {
-            if (status === Loader.Ready) {
-                item.open()
-            }
+            onClicked: root.searchModel.setExternalProvidersEnabled(
+                !root.searchModel.externalProvidersEnabled)
         }
     }
 
@@ -312,11 +415,11 @@ WizardStyledWindow {
 
         active: false
         sourceComponent: customRangeDialogComponent
+
         onLoaded: {
             if (status === Loader.Ready) {
                 item.open()
             }
         }
     }
-
 }
