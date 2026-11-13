@@ -83,6 +83,17 @@ constexpr auto e2EeUiActionForgetEncryptionId = "forget_encryption";
 constexpr auto e2EeUiActionDisplayMnemonicId = "display_mnemonic";
 constexpr auto e2EeUiActionMigrateCertificateId = "migrate_certificate";
 constexpr auto mnemonicVisibleLineCount = 2;
+
+void setFolderContextMenuStyle(QMenu *menu)
+{
+    menu->setStyleSheet(
+        QStringLiteral("QMenu::item { padding: 5px 12px; }"
+                       "QMenu::item:selected, QMenu::item:hover {"
+                       " background-color: palette(highlight);"
+                       " color: palette(highlighted-text);"
+                       " border-radius: 4px;"
+                       "}"));
+}
 }
 
 namespace OCC {
@@ -162,7 +173,7 @@ protected:
             const auto index = folderList->indexAt(pos);
             if (model->classify(index) == FolderStatusModel::RootFolder &&
                 (FolderStatusDelegate::errorsListRect(folderList->visualRect(index)).contains(pos) ||
-                    FolderStatusDelegate::optionsButtonRect(folderList->visualRect(index),folderList->layoutDirection()).contains(pos))) {
+                    FolderStatusDelegate::moreRectPos(folderList->visualRect(index)).contains(pos))) {
                 shape = Qt::PointingHandCursor;
             }
             folderList->setCursor(shape);
@@ -687,8 +698,10 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
 {
     Q_UNUSED(pos);
 
-    QMenu menu;
-    auto ac = menu.addAction(tr("Open folder"));
+    auto menu = new QMenu(this);
+    menu->setAttribute(Qt::WA_DeleteOnClose);
+    setFolderContextMenuStyle(menu);
+    auto ac = menu->addAction(tr("Open folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentLocalSubFolder);
 
     const auto fileName = _model->data(index, FolderStatusDelegate::FolderPathRole).toString();
@@ -707,7 +720,7 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         const auto isExternal = info->_isExternal;
 
         if (!isEncrypted && !isParentEncrypted && !isExternal && isTopFolder) {
-            ac = menu.addAction(tr("Encrypt"));
+            ac = menu->addAction(tr("Encrypt"));
             connect(ac, &QAction::triggered, [this, info] { slotMarkSubfolderEncrypted(info); });
         } else {
             // Ignore decrypting for now since it only works with an empty folder
@@ -715,17 +728,14 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         }
     }
 
-    ac = menu.addAction(tr("Edit Ignored Files"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentLocalIgnoredFiles);
-
-    ac = menu.addAction(tr("Create new folder"));
+    ac = menu->addAction(tr("Create new folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
     ac->setEnabled(QFile::exists(fileName));
 
     const auto folder = info->_folder;
     if (folder && folder->virtualFilesEnabled()) {
         //: Name of the submenu containing virtual-file availability actions.
-        auto availabilityMenu = menu.addMenu(tr("Availability"));
+        auto availabilityMenu = menu->addMenu(tr("Availability"));
 
         // Has '/' suffix convention for paths here but VFS and
         // sync engine expects no such suffix
@@ -748,7 +758,7 @@ void AccountSettings::slotSubfolderContextMenuRequested(const QModelIndex& index
         connect(ac, &QAction::triggered, this, [this, folder, path] { slotSetSubFolderAvailability(folder, path, PinState::OnlineOnly); });
     }
 
-    menu.exec(QCursor::pos());
+    menu->popup(QCursor::pos());
 }
 
 void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
@@ -779,15 +789,13 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         return;
     }
 
-    const auto menu = new QMenu(treeView);
+    auto menu = new QMenu(treeView);
 
     menu->setAttribute(Qt::WA_DeleteOnClose);
+    setFolderContextMenuStyle(menu);
 
     auto ac = menu->addAction(tr("Open folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenCurrentFolder);
-
-    ac = menu->addAction(tr("Edit Ignored Files"));
-    connect(ac, &QAction::triggered, this, &AccountSettings::slotEditCurrentIgnoredFiles);
 
     ac = menu->addAction(tr("Create new folder"));
     connect(ac, &QAction::triggered, this, &AccountSettings::slotOpenMakeFolderDialog);
@@ -841,40 +849,16 @@ void AccountSettings::slotCustomContextMenuRequested(const QPoint &pos)
         }
     }
 
-
-    menu->popup(treeView->mapToGlobal(pos));
+    menu->popup(treeView->viewport()->mapToGlobal(pos));
 }
 
 void AccountSettings::slotFolderListClicked(const QModelIndex &indx)
 {
-    if (indx.data(FolderStatusDelegate::AddButton).toBool()) {
-        // "Add Folder Sync Connection"
-        const auto treeView = _ui->_folderList;
-        const auto pos = treeView->mapFromGlobal(QCursor::pos());
-        QStyleOptionViewItem opt;
-        opt.initFrom(treeView);
-        const auto btnRect = treeView->visualRect(indx);
-        const auto btnSize = treeView->itemDelegateForIndex(indx)->sizeHint(opt, indx);
-        const auto actual = QStyle::visualRect(opt.direction, btnRect, QRect(btnRect.topLeft(), btnSize));
-        if (!actual.contains(pos)) {
-            return;
-        }
-
-        if (indx.flags() & Qt::ItemIsEnabled) {
-            slotAddFolder();
-        } else {
-            QToolTip::showText(
-                QCursor::pos(),
-                _model->data(indx, Qt::ToolTipRole).toString(),
-                this);
-        }
-        return;
-    }
     if (_model->classify(indx) == FolderStatusModel::RootFolder) {
         // tries to find if we clicked on the '...' button.
         const auto treeView = _ui->_folderList;
         const auto pos = treeView->mapFromGlobal(QCursor::pos());
-        if (FolderStatusDelegate::optionsButtonRect(treeView->visualRect(indx), layoutDirection()).contains(pos)) {
+        if (FolderStatusDelegate::moreRectPos(treeView->visualRect(indx)).contains(pos)) {
             slotCustomContextMenuRequested(pos);
             return;
         }
