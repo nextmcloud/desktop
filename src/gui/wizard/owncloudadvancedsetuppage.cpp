@@ -6,6 +6,7 @@
 
 #include <QDir>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QUrl>
 #include <QTimer>
 #include <QStorageInfo>
@@ -27,7 +28,6 @@
 #include <folderman.h>
 #include "creds/abstractcredentials.h"
 #include "networkjobs.h"
-#include "wizard/owncloudwizard.h"
 
 #ifdef BUILD_FILE_PROVIDER_MODULE
 #include "gui/macOS/fileprovider.h"
@@ -192,9 +192,9 @@ void OwncloudAdvancedSetupPage::initializePage()
     auto goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(localFolder(), serverUrl(), FolderMan::GoodPathStrategy::AllowOnlyNewPath);
 #endif
     if (overrideLocalDir) {
-        ConfigFile cfg;
         goodLocalFolder = FolderMan::instance()->findGoodPathForNewSyncFolder(cfg.overrideLocalDir(), serverUrl(), FolderMan::GoodPathStrategy::AllowOverrideExistingPath);
     }
+
     wizard()->setProperty("localFolder", goodLocalFolder);
 
     // call to init label
@@ -326,13 +326,11 @@ void OwncloudAdvancedSetupPage::updateStatus()
 #ifdef Q_OS_MACOS
     if (locFolder.isEmpty()) {
         _localFolderValid = false;
-        if (!useVirtualFileSync()) {
-            errorStr = tr("Please choose a folder to sync your files.");
-        }
+        errorStr = tr("Please choose a folder to sync your files.");
     } else
 #endif
     {
-        // Check if the local folder exists. If so, and if it is not empty, show a warning.
+        // check if the local folder exists. If so, and if its not empty, show a warning.
         const auto pathValidityCheckResult = FolderMan::instance()->checkPathValidityForNewFolder(locFolder, serverUrl());
         errorStr = pathValidityCheckResult.second;
         _localFolderValid = errorStr.isEmpty() || pathValidityCheckResult.first == FolderMan::PathValidityResult::ErrorNonEmptyFolder;
@@ -365,18 +363,18 @@ void OwncloudAdvancedSetupPage::updateStatus()
 
     auto filePathText = QDir::toNativeSeparators(locFolder);
 #ifdef Q_OS_MACOS
-    if (useVirtualFileSync()) {
-        filePathText = tr("In Finder's \"Locations\" sidebar section");
-    } else if (locFolder.isEmpty()) {
+    if (locFolder.isEmpty()) {
         filePathText = tr("Choose where to sync your files");
     }
 #endif
+
     const auto hasLocalSyncFolder =
 #ifdef Q_OS_MACOS
-        !locFolder.isEmpty() && !useVirtualFileSync();
+        !locFolder.isEmpty();
 #else
         true;
 #endif
+
     const auto freeSpaceText = hasLocalSyncFolder ? QString(tr("%1 free space", "%1 gets replaced with the size and a matching unit. Example: 3 MB or 5 GB"))
                                                         .arg(Utility::octetsToString(availableLocalSpace()))
                                                   : QString();
@@ -396,8 +394,6 @@ void OwncloudAdvancedSetupPage::updateStatus()
         errorStr = spaceError;
     }
     setErrorString(errorStr);
-
-    emit completeChanged();
 }
 
 void OwncloudAdvancedSetupPage::setResolutionGuiVisible(bool value)
@@ -467,7 +463,7 @@ bool OwncloudAdvancedSetupPage::isConfirmBigFolderChecked() const
 bool OwncloudAdvancedSetupPage::validatePage()
 {
 #ifdef Q_OS_MACOS
-    if (!useVirtualFileSync() && localFolder().isEmpty()) {
+    if (localFolder().isEmpty()) {
         setErrorString(tr("Please choose a folder to sync your files."));
         return false;
     }
@@ -547,21 +543,49 @@ void OwncloudAdvancedSetupPage::slotSelectFolder()
 #else
         QDir::homePath();
 #endif
-    QString dir = QFileDialog::getExistingDirectory(nullptr, tr("Local Sync Folder"), homeDirectory);
-    if (!dir.isEmpty()) {
-        // TODO: remove when UX decision is made
-        refreshVirtualFilesAvailibility(dir);
 
-        wizard()->setProperty("localFolder", dir);
+    const QString selectedDirectory = QFileDialog::getExistingDirectory(nullptr, tr("Storage Location"), homeDirectory, QFileDialog::ShowDirsOnly);
+
+    if (selectedDirectory.isEmpty()) {
+        updateStatus();
+        return;
     }
 
-#ifdef Q_OS_MACOS
+    QString folderName = Theme::instance()->defaultClientFolder();
+
+    // defaultClientFolder() is normally just "MagentaCLOUD".
+    // In case a theme provides a path, only use the actual folder name here.
+    folderName = QDir::cleanPath(folderName);
+    const int lastSeparator = qMax(folderName.lastIndexOf(QLatin1Char('/')), folderName.lastIndexOf(QLatin1Char('\\')));
+    if (lastSeparator >= 0) {
+        folderName = folderName.mid(lastSeparator + 1);
+    }
+
+    if (folderName.isEmpty() || folderName == QLatin1String(".")) {
+        folderName = Theme::instance()->appName();
+    }
+
+    const QDir parentDirectory(selectedDirectory);
+
+    QString localSyncFolder = parentDirectory.filePath(folderName);
+    int counter = 1;
+
+    while (QFileInfo::exists(localSyncFolder)) {
+        localSyncFolder = parentDirectory.filePath(folderName + QString::number(counter));
+        ++counter;
+    }
+
+    if (!QDir().mkpath(localSyncFolder)) {
+        setErrorString(tr("Could not create local folder %1").arg(QDir::toNativeSeparators(localSyncFolder)));
+        return;
+    }
+
+    // TODO: remove when UX decision is made
+    refreshVirtualFilesAvailibility(localSyncFolder);
+
+    wizard()->setProperty("localFolder", localSyncFolder);
+
     updateStatus();
-#else
-    qint64 rSpace = _ui.rSyncEverything->isChecked() ? _rSize : _rSelectedSize;
-    QString errorStr = checkLocalSpace(rSpace);
-    setErrorString(errorStr);
-#endif
 }
 
 void OwncloudAdvancedSetupPage::slotSelectiveSyncClicked()
@@ -630,7 +654,7 @@ void OwncloudAdvancedSetupPage::slotSyncEverythingClicked()
 #ifdef Q_OS_MACOS
     updateStatus();
 #else
-    const QString errorStr = checkLocalSpace(_rSize);
+    QString errorStr = checkLocalSpace(_rSize);
     setErrorString(errorStr);
 #endif
 }
@@ -655,21 +679,37 @@ void OwncloudAdvancedSetupPage::slotQuotaRetrievedWithError(QNetworkReply *reply
 qint64 OwncloudAdvancedSetupPage::availableLocalSpace() const
 {
     QString localDir = localFolder();
+
+    if (localDir.isEmpty()) {
+        return -1;
+    }
+
     const auto homeDirectory =
 #ifdef Q_OS_MACOS
         Utility::getRealHomeDirectory();
 #else
         QDir::homePath();
 #endif
-    QString path = !QDir(localDir).exists() && localDir.contains(homeDirectory) ? homeDirectory : localDir;
+    QString path = !QDir(localDir).exists() && localDir.contains(homeDirectory)
+        ? homeDirectory
+        : localDir;
+
     QStorageInfo storage(QDir::toNativeSeparators(path));
 
-    return storage.bytesAvailable();
+    return storage.isValid() ? storage.bytesAvailable() : -1;
 }
 
 QString OwncloudAdvancedSetupPage::checkLocalSpace(qint64 remoteSize) const
 {
-    return (availableLocalSpace()>remoteSize) ? QString() : tr("There isn't enough free space in the local folder!");
+    const auto localSpace = availableLocalSpace();
+
+    if (localSpace < 0 || remoteSize < 0) {
+        return {};
+    }
+
+    return localSpace > remoteSize
+        ? QString()
+        : tr("There isn't enough free space in the local folder!");
 }
 
 void OwncloudAdvancedSetupPage::slotStyleChanged()
