@@ -84,7 +84,7 @@ OCC::SyncResult::Status determineSyncStatus(const OCC::SyncResult &syncResult)
 SyncStatusInfo syncStatusForAccount(const OCC::AccountStatePtr &accountState)
 {
     if (!accountState || !accountState->isConnected()) {
-        return {OCC::Theme::instance()->offline(), false};
+        return {OCC::Theme::instance()->folderOffline(), false};
     }
 
     auto hasConfiguredSyncSource = false;
@@ -173,7 +173,7 @@ SyncStatusInfo syncStatusForAccount(const OCC::AccountStatePtr &accountState)
         return {OCC::Theme::instance()->pause(), false};
     }
 
-    return {OCC::Theme::instance()->ok(), true};
+    return {OCC::Theme::instance()->syncStatusOk(), true};
 }
 
 SyncIssueKind syncIssueKindForSyncResult(const OCC::SyncResult::Status status)
