@@ -16,12 +16,10 @@ Flow {
 
     required property var searchModel
 
-    readonly property bool opened: typeMenu.opened || dateMenu.opened
-    readonly property int filterButtonCount: 3
-    readonly property int filterButtonGapCount: filterButtonCount - 1
-    readonly property real filterButtonWidth: Math.max(
-        Style.unifiedSearchFilterButtonMinimumWidth,
-        (width - filterButtonGapCount * spacing) / filterButtonCount)
+    readonly property bool opened: dateMenu.opened
+    readonly property int filterButtonCount: 1
+    readonly property int filterButtonGapCount: 0
+    readonly property real filterButtonWidth: width
 
     signal customDateRangeRequested()
     signal peopleRequested()
@@ -44,7 +42,7 @@ Flow {
 
     WizardButton {
         id: typeFilterButton
-
+        visible: false
         objectName: "typeFilterButton"
         width: root.filterButtonWidth
         //: Search filter for selecting a result provider type.
@@ -153,7 +151,7 @@ Flow {
 
     WizardButton {
         id: peopleButton
-
+        visible: false
         objectName: "peopleFilterButton"
         width: root.filterButtonWidth
         //: Search filter for restricting results to a person.
