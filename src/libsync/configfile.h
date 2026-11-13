@@ -371,12 +371,13 @@ protected:
     void removeData(const QString &group, const QString &key);
     [[nodiscard]] bool dataExists(const QString &group, const QString &key) const;
 
-private:
+    [[nodiscard]] QVariant getValue(const QString &param, const QString &group = QString(),
+        const QVariant &defaultValue = QVariant()) const;
+
+private:    
     [[nodiscard]] ResolvedSetting
     resolveSetting(const QString &name, const QVariant &builtinDefault, const QString &connectionGroupName, const ServerManagedSettings &serverSettings) const;
 
-    [[nodiscard]] QVariant getValue(const QString &param, const QString &group = QString(),
-        const QVariant &defaultValue = QVariant()) const;
     void setValue(const QString &key, const QVariant &value);
 
     [[nodiscard]] QString keychainProxyPasswordKey() const;
