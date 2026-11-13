@@ -6,18 +6,20 @@
 
 #include "settingsdialog.h"
 
+#include "accountmanager.h"
+#include "accountsettings.h"
 #include "advancedsettings.h"
+#include "configfile.h"
 #include "folderman.h"
-#include "theme.h"
 #include "generalsettings.h"
 #include "infosettings.h"
-#include "nmcgui/nmcgeneralsettings.h"
 #include "networksettings.h"
-#include "accountsettings.h"
-#include "configfile.h"
-#include "progressdispatcher.h"
+#include "nmcgui/nmcadvancedsettings.h"
+#include "nmcgui/nmcgeneralsettings.h"
+#include "nmcgui/nmcinfosettings.h"
 #include "owncloudgui.h"
-#include "accountmanager.h"
+#include "progressdispatcher.h"
+#include "theme.h"
 
 #include <QLabel>
 #include <QStandardItemModel>
@@ -186,9 +188,9 @@ SettingsDialog::SettingsDialog(ownCloudGui *gui, QWidget *parent)
     //: Name of the General settings page.
     addSettingsPage(QLatin1String(":/client/theme/settings.svg"), tr("General"), new NMCGeneralSettings(this));
     //: Name of the Advanced settings feature.
-    addSettingsPage(QLatin1String(":/client/theme/advanced.svg"), AdvancedSettings::tr("Advanced"), new AdvancedSettings(this));
+    addSettingsPage(QLatin1String(":/client/theme/advanced.svg"), AdvancedSettings::tr("Advanced"), new NMCAdvancedSettings(this));
     //: Name of the Info settings page.
-    addSettingsPage(QLatin1String(":/client/theme/info.svg"), tr("Info"), new InfoSettings(this), true);
+    addSettingsPage(QLatin1String(":/client/theme/info.svg"), tr("Info"), new NMCInfoSettings(this), true);
 
     QTimer::singleShot(1, this, &SettingsDialog::showFirstPage);
 
@@ -580,7 +582,8 @@ void SettingsDialog::customizeStyle()
 
                                  /* Panels */
                                  "#generalGroupBox, #fileProviderGroupBox, #notificationsGroupBox, #advancedGroupBox, #syncBehaviorGroupBox,"
-                                 "#advancedActionsGroupBox, #aboutAndUpdatesGroupBox, #updatesGroupBox {"
+                                 "#advancedActionsGroupBox, #aboutAndUpdatesGroupBox, #updatesGroupBox,"
+                                 "#nmcInfoLinksGroupBox {"
                                  " background: %2;"
                                  " border: none;"
                                  " border-radius: 12px;"
@@ -597,7 +600,8 @@ void SettingsDialog::customizeStyle()
                                  " }"
                                  "#generalGroupBox QLabel, #fileProviderGroupBox QLabel, #notificationsGroupBox QLabel, #advancedGroupBox QLabel,"
                                  "#syncBehaviorGroupBox QLabel, #advancedActionsGroupBox QLabel,"
-                                 "#aboutAndUpdatesGroupBox QLabel, #updatesGroupBox QLabel {"
+                                 "#aboutAndUpdatesGroupBox QLabel, #updatesGroupBox QLabel,"
+                                 "#nmcInfoLinksGroupBox QLabel {"
                                  " margin: 0px;"
                                  " padding: 0px;"
                                  " }"
@@ -608,7 +612,7 @@ void SettingsDialog::customizeStyle()
                                  "#startupSeparator, #serverNotificationsSeparator, #chatNotificationsSeparator,"
                                  "#callNotificationsSeparator, #existingFolderLimitSeparator,"
                                  "#stopExistingFolderNowBigSyncSeparator, #remotePollIntervalSeparator,"
-                                 "#moveFilesToTrashSeparator, #showInExplorerNavigationPaneSeparator,"
+                                 "#moveFilesToTrashSeparator, #nmcDataAnalysisSeparator, #showInExplorerNavigationPaneSeparator,"
                                  "#updateControlsSeparator {"
                                  " color: %1;"
                                  " background: %1;"
