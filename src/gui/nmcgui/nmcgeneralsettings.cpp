@@ -67,15 +67,7 @@ void NMCGeneralSettings::setNMCLayout()
     serverNotificationsRow->addWidget(getUi()->serverNotificationsCheckBox);
 
     getUi()->generalGroupBox->setTitle({});
-    getUi()->generalGroupBox->setObjectName(QStringLiteral("nmcGeneralSettingsBox"));
     getUi()->generalGroupBox->setAttribute(Qt::WA_StyledBackground, true);
-    getUi()->generalGroupBox->setStyleSheet(QStringLiteral(
-        "#nmcGeneralSettingsBox {"
-        " background: palette(" BACKGROUND_PALETTE ");"
-        " border-radius: 10px;"
-        " border: none;"
-        "}"
-    ));
 
     getUi()->generalSettingsLayout->insertWidget(0, generalSettingsLabel);
     getUi()->generalSettingsLayout->addLayout(serverNotificationsRow);
