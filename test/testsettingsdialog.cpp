@@ -9,8 +9,8 @@
 #include "accountmanager.h"
 #include "accountsettings.h"
 #include "configfile.h"
-#include "nmcgui/nmcsettingsdialog.h"
 #include "systray.h"
+#include "nmcgui/nmcsettingsdialog.h"
 
 #include <QAction>
 #include <QApplication>
