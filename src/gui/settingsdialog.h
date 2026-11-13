@@ -60,8 +60,7 @@ public Q_SLOTS:
     /** @brief Requests the Search window for the user associated with @p account. */
     void showSearch(OCC::AccountState *account);
     void slotSwitchPage(QAction *action);
-    virtual void slotAccountAvatarChanged();
-    void slotAccountDisplayNameChanged();
+    virtual void slotAccountDisplayNameChanged();
 
 Q_SIGNALS:
     void styleChanged();
@@ -87,10 +86,12 @@ protected:
     void updateAddAccountActionVisibility();
     /** @brief Returns the current user-model index for @p account, or -1 if it is not found. */
     [[nodiscard]] int userIndexForAccount(OCC::AccountState *account) const;
-    void updateAccountAvatar(const Account *account);
+    [[nodiscard]] virtual bool accountAvatarInNavigationEnabled() const;
     void addSettingsPage(const QString &iconPath, const QString &title, QWidget *settingsPage, bool updateChannelAware = false);
 
 private:
+    void updateAccountAvatar(const Account *account);
+    void slotAccountAvatarChanged();
     QAction *createColorAwareAction(const QString &iconName, const QString &fileName);
     QAction *createActionWithIcon(const QIcon &icon, const QString &text, const QString &iconPath = QString());
 

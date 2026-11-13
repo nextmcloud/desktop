@@ -383,8 +383,6 @@ void SettingsDialog::accountAdded(AccountState *s)
     //: Name of the account settings entry shown when only one account is allowed.
     const auto actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
     const auto accountAction = createColorAwareAction(QLatin1String(":/client/theme/account.svg"), actionText);
-    updateAccountAvatar(s->account().data());
-    
     if (!brandingSingleAccount) {
         accountAction->setToolTip(s->account()->displayName());
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
@@ -404,6 +402,9 @@ void SettingsDialog::accountAdded(AccountState *s)
     _actionGroup->addAction(accountAction);
     _actionGroupWidgets.insert(accountAction, accountSettings);
     _actionForAccount.insert(s->account().data(), accountAction);
+
+    connect(s->account().data(), &Account::accountChangedAvatar, this, &SettingsDialog::slotAccountAvatarChanged);
+
     accountAction->trigger();
 
     connect(accountSettings, &AccountSettings::folderChanged, _gui, &ownCloudGui::slotComputeOverallSyncStatus);
@@ -413,7 +414,6 @@ void SettingsDialog::accountAdded(AccountState *s)
     connect(accountSettings, &AccountSettings::showUserStatus, this, &SettingsDialog::showUserStatus);
     connect(accountSettings, &AccountSettings::showAssistant, this, &SettingsDialog::showAssistant);
     connect(accountSettings, &AccountSettings::showSearch, this, &SettingsDialog::showSearch);
-    connect(s->account().data(), &Account::accountChangedAvatar, this, &SettingsDialog::slotAccountAvatarChanged);
     connect(s->account().data(), &Account::accountChangedDisplayName, this, &SettingsDialog::slotAccountDisplayNameChanged);
 
     // Connect styleChanged event, to adapt (Dark-/Light-Mode switching)
@@ -431,8 +431,17 @@ void SettingsDialog::accountAdded(AccountState *s)
     updateAddAccountActionVisibility();
 }
 
+bool SettingsDialog::accountAvatarInNavigationEnabled() const
+{
+    return true;
+}
+
 void SettingsDialog::slotAccountAvatarChanged()
 {
+    if (!accountAvatarInNavigationEnabled()) {
+        return;
+    }
+
     auto *account = dynamic_cast<Account *>(sender());
     if (!account) {
         return;

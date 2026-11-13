@@ -15,39 +15,62 @@
 #include "nmcsettingsdialog.h"
 
 #include <QScrollArea>
+#include <QScrollBar>
 
 namespace OCC {
+
+namespace
+{
+constexpr auto settingsNavigationWidth = 280;
+}
 
 NMCSettingsDialog::NMCSettingsDialog(ownCloudGui *gui, QWidget *parent)
     : SettingsDialog(gui, parent)
 {
-    fixNavigationBackground();
+    if (auto *navigationScroll = findChild<QScrollArea *>(QStringLiteral("settings_navigation_scroll"))) {
+        navigationScroll->setFixedWidth(settingsNavigationWidth);
+    }
+
+    styleContentScrollBar();
 }
 
-void NMCSettingsDialog::fixNavigationBackground() const
+bool NMCSettingsDialog::accountAvatarInNavigationEnabled() const
 {
-    auto *navigationScroll = findChild<QScrollArea *>(QStringLiteral("settings_navigation_scroll"));
-    if (!navigationScroll) {
+    return false;
+}
+
+void NMCSettingsDialog::styleContentScrollBar() const
+{
+    auto *contentScroll = findChild<QScrollArea *>(QStringLiteral("settings_content_scroll"));
+
+    if (!contentScroll) {
         return;
     }
 
-    navigationScroll->setAttribute(Qt::WA_StyledBackground, true);
-    navigationScroll->setStyleSheet(QStringLiteral(
-        "QScrollArea#settings_navigation_scroll {"
-        " background: palette(light);"
-        " border-radius: 10px;"
-        " border: none;"
-        " padding: 4px;"
-        "}"
-        "QScrollArea#settings_navigation_scroll > QWidget > QWidget {"
-        " background: transparent;"
-        "}"
-    ));
-
-    if (navigationScroll->viewport()) {
-        navigationScroll->viewport()->setAutoFillBackground(false);
-        navigationScroll->viewport()->setStyleSheet(QStringLiteral("background: transparent;"));
-    }
+    contentScroll->verticalScrollBar()->setStyleSheet(
+        QStringLiteral("QScrollBar:vertical {"
+                       "    background: transparent;"
+                       "    width: 8px;"
+                       "    margin: 4px 2px 4px 2px;"
+                       "}"
+                       "QScrollBar::handle:vertical {"
+                       "    background: palette(mid);"
+                       "    min-height: 28px;"
+                       "    border-radius: 3px;"
+                       "}"
+                       "QScrollBar::handle:vertical:hover {"
+                       "    background: palette(midlight);"
+                       "}"
+                       "QScrollBar::add-line:vertical,"
+                       "QScrollBar::sub-line:vertical {"
+                       "    height: 0px;"
+                       "    background: transparent;"
+                       "    border: none;"
+                       "}"
+                       "QScrollBar::add-page:vertical,"
+                       "QScrollBar::sub-page:vertical {"
+                       "    background: transparent;"
+                       "}"));
 }
 
 } // namespace OCC

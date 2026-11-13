@@ -47,10 +47,9 @@ public:
     ~NMCSettingsDialog() override = default;
 
 private:
-    /**
-     * @brief Fixes the appearance of the navigation background.
-     */
-    void fixNavigationBackground() const;
+    [[nodiscard]] bool accountAvatarInNavigationEnabled() const override;
+
+    void styleContentScrollBar() const;
 };
 
 } // namespace OCC
