@@ -10,6 +10,7 @@
 #include "accountsettings.h"
 #include "configfile.h"
 #include "systray.h"
+#include "nmcgui/nmcsettingsdialog.h"
 
 #include <QAction>
 #include <QApplication>
@@ -19,9 +20,12 @@
 #include <QScrollArea>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QString>
 #include <QTemporaryDir>
 #include <QTest>
 #include <QToolBar>
+
+using namespace Qt::StringLiterals;
 
 class TestSettingsDialog : public QObject
 {
@@ -129,6 +133,50 @@ private Q_SLOTS:
             QVERIFY(reopenedPanel);
             QCOMPARE(reopenedPanel->palette().color(QPalette::Window), expected);
         }
+    }
+
+    void magentaNavigationUsesCompactWidth()
+    {
+        OCC::NMCSettingsDialog dialog(nullptr);
+        const auto navigation = dialog.findChild<QScrollArea *>("settings_navigation_scroll"_L1);
+        QVERIFY(navigation);
+        QCOMPARE(navigation->width(), 280);
+        QCOMPARE(navigation->minimumWidth(), 280);
+        QCOMPARE(navigation->maximumWidth(), 280);
+    }
+
+    void accountNavigationKeepsDefaultIconAfterAvatarChanges()
+    {
+        auto *const accountManager = OCC::AccountManager::instance();
+        QVERIFY(accountManager->accounts().isEmpty());
+
+        auto account = OCC::Account::create();
+        account->setUrl(QUrl("https://cloud.example.com"_L1));
+        account->setDavUser("alice"_L1);
+        const auto accountState = accountManager->addAccount(account);
+        const auto removeAccount = qScopeGuard([accountManager, accountState] {
+            accountManager->removeAccountState(accountState);
+        });
+
+        OCC::NMCSettingsDialog dialog(nullptr);
+        const auto toolbar = dialog.findChild<QToolBar *>();
+        QVERIFY(toolbar);
+        QAction *accountAction = nullptr;
+        for (auto *action : toolbar->actions()) {
+            if (action->property("iconPath").toString().contains("account.svg"_L1)) {
+                accountAction = action;
+                break;
+            }
+        }
+        QVERIFY(accountAction);
+        const auto defaultIconCacheKey = accountAction->icon().cacheKey();
+
+        QImage avatar(32, 32, QImage::Format_ARGB32);
+        avatar.fill(Qt::magenta);
+        account->setAvatar(avatar);
+
+        QCOMPARE(accountAction->icon().cacheKey(), defaultIconCacheKey);
+        QCOMPARE(accountAction->property("iconPath").toString(), ":/client/theme/account.svg"_L1);
     }
 
     void addAccountActionFollowsAccountsAndOpensWizard()
