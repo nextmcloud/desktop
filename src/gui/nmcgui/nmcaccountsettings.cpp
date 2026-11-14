@@ -29,9 +29,7 @@
 #include <QPalette>
 #include <QProgressBar>
 #include <QPushButton>
-#include <QSize>
 #include <QSizePolicy>
-#include <QToolButton>
 #include <QUrl>
 #include <QVBoxLayout>
 #include <cmath>
@@ -73,24 +71,6 @@ QWidget *createPanel(const QString &objectName, QWidget *parent)
     return panel;
 }
 
-QString connectionSettingsStyleSheet()
-{
-    return QStringLiteral(
-               "QFrame#connectionSettingsPanel,"
-               "QWidget#connectionSettingsPanelContents {"
-               " background: transparent;"
-               " border: none;"
-               "}"
-               "NetworkSettings,"
-               "NetworkSettings QWidget {"
-               " background: transparent;"
-               "}"
-               "NetworkSettings QGroupBox {"
-               " background: %1;"
-               "}")
-        .arg(settingsPanelColor().name());
-}
-
 QHBoxLayout *createPanelHorizontalLayout(QWidget *panel)
 {
     auto *layout = new QHBoxLayout(panel);
@@ -105,11 +85,6 @@ QVBoxLayout *createContentVerticalLayout(int spacing = 4)
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(spacing);
     return layout;
-}
-
-QIcon nmcCollapseIcon(const QString &path)
-{
-    return QIcon(Theme::createColorAwareIcon(path).pixmap(QSize(24, 24), QIcon::Normal, QIcon::Off));
 }
 
 void styleTitleLabel(QLabel *label)
@@ -213,6 +188,8 @@ void NMCAccountSettings::setDefaultSettings()
 
 void NMCAccountSettings::setLayout()
 {
+    // Temporarily remove these upstream panels so they can be placed below
+    // the custom Live Backup and quota panels without changing their own UI.
     getUi()->verticalLayout_2->removeWidget(getUi()->connectionSettingsPanel);
     getUi()->verticalLayout_2->removeWidget(getUi()->accountActionsPanel);
 
@@ -361,58 +338,10 @@ void NMCAccountSettings::setLayout()
 
     getUi()->verticalLayout_2->addWidget(quotaWidget);
 
-    // Connection settings, moved below live backup and quota
-    auto *connectionWrapper = createPanel(QStringLiteral("nmcConnectionSettingsPanel"), this);
-    auto *connectionWrapperLayout = new QVBoxLayout(connectionWrapper);
-    connectionWrapperLayout->setContentsMargins(panelPadding, panelPadding, panelPadding, panelPadding);
-    connectionWrapperLayout->setSpacing(12);
+    // Reinsert the original Nextcloud connection settings panel unchanged.
+    getUi()->verticalLayout_2->addWidget(getUi()->connectionSettingsPanel);
 
-    auto *connectionToggle = new QToolButton(connectionWrapper);
-    connectionToggle->setText(QCoreApplication::translate("", "CONNECTION_SETTINGS"));
-    connectionToggle->setCheckable(true);
-    connectionToggle->setChecked(false);
-    connectionToggle->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    connectionToggle->setArrowType(Qt::NoArrow);
-    connectionToggle->setIcon(nmcCollapseIcon(QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
-    connectionToggle->setIconSize(QSize(24, 24));
-    connectionToggle->setStyleSheet(
-        QStringLiteral("QToolButton {"
-                       " border: none;"
-                       " background: transparent;"
-                       " font-size: 15px;"
-                       " font-weight: 600;"
-                       " padding: 0px;"
-                       " text-align: left;"
-                       "}"));
-
-    getUi()->connectionSettingsPanel->setParent(connectionWrapper);
-
-    getUi()->connectionSettingsPanelTitle->hide();
-    getUi()->connectionSettingsPanelLayout->removeWidget(getUi()->connectionSettingsPanelTitle);
-
-    getUi()->connectionSettingsPanel->setAutoFillBackground(false);
-    getUi()->connectionSettingsPanel->setAttribute(Qt::WA_StyledBackground, false);
-    getUi()->connectionSettingsPanel->setStyleSheet(QString());
-    getUi()->connectionSettingsPanel->setVisible(false);
-
-    getUi()->connectionSettingsPanel->setStyleSheet(connectionSettingsStyleSheet());
-
-    if (auto *connectionPanelLayout = getUi()->connectionSettingsPanel->layout()) {
-        connectionPanelLayout->setContentsMargins(0, 0, 0, 0);
-        connectionPanelLayout->setSpacing(0);
-    }
-
-    connect(connectionToggle, &QToolButton::toggled, this, [this, connectionToggle](bool checked) {
-        connectionToggle->setIcon(nmcCollapseIcon(checked ? QStringLiteral(":/client/theme/NMCIcons/collapse-down.svg")
-                                                          : QStringLiteral(":/client/theme/NMCIcons/collapse-right.svg")));
-
-        getUi()->connectionSettingsPanel->setVisible(checked);
-    });
-
-    connectionWrapperLayout->addWidget(connectionToggle);
-    connectionWrapperLayout->addWidget(getUi()->connectionSettingsPanel);
-
-    getUi()->verticalLayout_2->addWidget(connectionWrapper);
+    // Keep the original Nextcloud account actions panel below it.
     getUi()->verticalLayout_2->addWidget(getUi()->accountActionsPanel);
 
     // Keep all account setting panels above the expanding spacer.
@@ -429,7 +358,6 @@ void NMCAccountSettings::updatePanelStyles()
         QStringLiteral("nmcE2eePanel"),
         QStringLiteral("nmcLiveBackupPanel"),
         QStringLiteral("nmcQuotaPanel"),
-        QStringLiteral("nmcConnectionSettingsPanel"),
     };
 
     for (const auto &panelName : panelNames) {
@@ -437,8 +365,6 @@ void NMCAccountSettings::updatePanelStyles()
             panel->setStyleSheet(panelStyleSheet(panelName));
         }
     }
-
-    getUi()->connectionSettingsPanel->setStyleSheet(connectionSettingsStyleSheet());
 }
 
 void NMCAccountSettings::slotUpdateQuota(qint64 total, qint64 used)
