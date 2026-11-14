@@ -20,6 +20,7 @@
 #include <QScrollArea>
 #include <QSignalSpy>
 #include <QStandardPaths>
+#include <QString>
 #include <QTemporaryDir>
 #include <QTest>
 #include <QToolBar>
