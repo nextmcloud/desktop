@@ -24,6 +24,8 @@
 #include <QTest>
 #include <QToolBar>
 
+using namespace Qt::StringLiterals;
+
 class TestSettingsDialog : public QObject
 {
     Q_OBJECT
