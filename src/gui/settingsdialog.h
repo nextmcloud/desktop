@@ -43,6 +43,11 @@ public:
 
     QWidget* currentPage();
 
+    QToolBar *getToolBar() const
+    {
+        return _toolBar;
+    }
+
 public Q_SLOTS:
     void showFirstPage();
     void showAccount(OCC::AccountState *account);
@@ -55,8 +60,7 @@ public Q_SLOTS:
     /** @brief Requests the Search window for the user associated with @p account. */
     void showSearch(OCC::AccountState *account);
     void slotSwitchPage(QAction *action);
-    void slotAccountAvatarChanged();
-    void slotAccountDisplayNameChanged();
+    virtual void slotAccountDisplayNameChanged();
 
 Q_SIGNALS:
     void styleChanged();
@@ -75,16 +79,19 @@ private Q_SLOTS:
     void accountAdded(OCC::AccountState *);
     void accountRemoved(OCC::AccountState *);
 
-private:
+protected:
     void customizeStyle();
     void requestStyleUpdate();
     /** @brief Shows the Add account action only when an account may be configured. */
     void updateAddAccountActionVisibility();
     /** @brief Returns the current user-model index for @p account, or -1 if it is not found. */
     [[nodiscard]] int userIndexForAccount(OCC::AccountState *account) const;
-    void updateAccountAvatar(const Account *account);
+    [[nodiscard]] virtual bool accountAvatarInNavigationEnabled() const;
     void addSettingsPage(const QString &iconPath, const QString &title, QWidget *settingsPage, bool updateChannelAware = false);
 
+private:
+    void updateAccountAvatar(const Account *account);
+    void slotAccountAvatarChanged();
     QAction *createColorAwareAction(const QString &iconName, const QString &fileName);
     QAction *createActionWithIcon(const QIcon &icon, const QString &text, const QString &iconPath = QString());
 
