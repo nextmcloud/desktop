@@ -32,6 +32,11 @@
 
 namespace OCC {
 
+QString InfoSettings::customizeUpdateStatus(const QString &status) const
+{
+    return status;
+}
+
 namespace {
 QString aboutTextForInfoPanel()
 {
@@ -156,6 +161,7 @@ void InfoSettings::slotUpdateInfo()
                               .arg(tr("Connected to an enterprise system. Update channel (%1) cannot be changed.")
                                        .arg(currentChannel)));
         }
+        status = customizeUpdateStatus(status);
         Theme::replaceLinkColorStringBackgroundAware(status);
 
         _ui->updateStateLabel->setOpenExternalLinks(false);
@@ -182,6 +188,7 @@ void InfoSettings::slotUpdateInfo()
             status.append(tr("Connected to an enterprise system. Update channel (%1) cannot be changed.")
                         .arg(currentChannel));
         }
+        status = customizeUpdateStatus(status);
         _ui->updateStateLabel->setText(status);
         _ui->restartButton->setVisible(false);
 
