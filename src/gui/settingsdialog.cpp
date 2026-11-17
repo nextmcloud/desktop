@@ -101,7 +101,7 @@ public:
 
 constexpr auto TOOLBAR_CSS = QLatin1String(
     "QToolBar { background: transparent; margin: 0; padding: 0; border: none; spacing: 0; } "
-    "QToolBar QToolButton { background: transparent; border: none; margin: 0; padding: 8px 12px; font-size: 14px; border-radius: 8px; } "
+    "QToolBar QToolButton { background: transparent; border: none; margin: 0 0 8px; padding: 8px 12px; font-size: 14px; border-radius: 8px; } "
     "QToolBar QToolBarExtension { padding: 0; } "
     "QToolBar QToolButton:checked { background: palette(highlight); color: palette(highlighted-text); }"
 );
@@ -109,6 +109,7 @@ constexpr auto TOOLBAR_CSS = QLatin1String(
 const float buttonSizeRatio = 1.618f; // golden ratio
 constexpr auto settingsDialogDefaultWidth = 950;
 constexpr auto settingsDialogDefaultHeight = 500;
+constexpr auto settingsNavigationMinimumWidth = 150;
 const auto settingsNavigationIconTextSpacing = QLatin1String("  ");
 
 /** display name with two lines that is displayed in the settings
@@ -129,7 +130,7 @@ QString shortDisplayNameForSettings(OCC::Account *account, int width)
         host = fm.elidedText(host, Qt::ElideMiddle, width);
         user = fm.elidedText(user, Qt::ElideRight, width);
     }
-    return QStringLiteral("%1\n%2").arg(user, host);
+    return QStringLiteral("%1").arg(user);
 }
 }
 
@@ -385,8 +386,6 @@ void SettingsDialog::accountAdded(AccountState *s)
     //: Name of the account settings entry shown when only one account is allowed.
     const auto actionText = brandingSingleAccount ? tr("Account") : s->account()->displayName();
     const auto accountAction = createColorAwareAction(QLatin1String(":/client/theme/account.svg"), actionText);
-    updateAccountAvatar(s->account().data());
-    
     if (!brandingSingleAccount) {
         accountAction->setToolTip(s->account()->displayName());
         accountAction->setIconText(shortDisplayNameForSettings(s->account().data(), static_cast<int>(height * buttonSizeRatio)));
@@ -406,6 +405,9 @@ void SettingsDialog::accountAdded(AccountState *s)
     _actionGroup->addAction(accountAction);
     _actionGroupWidgets.insert(accountAction, accountSettings);
     _actionForAccount.insert(s->account().data(), accountAction);
+
+    connect(s->account().data(), &Account::accountChangedAvatar, this, &SettingsDialog::slotAccountAvatarChanged);
+
     accountAction->trigger();
 
     connect(accountSettings, &AccountSettings::folderChanged, _gui, &ownCloudGui::slotComputeOverallSyncStatus);
@@ -415,7 +417,6 @@ void SettingsDialog::accountAdded(AccountState *s)
     connect(accountSettings, &AccountSettings::showUserStatus, this, &SettingsDialog::showUserStatus);
     connect(accountSettings, &AccountSettings::showAssistant, this, &SettingsDialog::showAssistant);
     connect(accountSettings, &AccountSettings::showSearch, this, &SettingsDialog::showSearch);
-    connect(s->account().data(), &Account::accountChangedAvatar, this, &SettingsDialog::slotAccountAvatarChanged);
     connect(s->account().data(), &Account::accountChangedDisplayName, this, &SettingsDialog::slotAccountDisplayNameChanged);
 
     // Connect styleChanged event, to adapt (Dark-/Light-Mode switching)
@@ -433,8 +434,17 @@ void SettingsDialog::accountAdded(AccountState *s)
     updateAddAccountActionVisibility();
 }
 
+bool SettingsDialog::accountAvatarInNavigationEnabled() const
+{
+    return true;
+}
+
 void SettingsDialog::slotAccountAvatarChanged()
 {
+    if (!accountAvatarInNavigationEnabled()) {
+        return;
+    }
+
     auto *account = dynamic_cast<Account *>(sender());
     if (!account) {
         return;
@@ -468,6 +478,7 @@ void SettingsDialog::slotAccountDisplayNameChanged()
             QString displayName = account->displayName();
             action->setText(displayName);
             auto height = _toolBar->sizeHint().height();
+            action->setToolTip(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
             action->setIconText(shortDisplayNameForSettings(account, static_cast<int>(height * buttonSizeRatio)));
         }
     }
@@ -728,7 +739,7 @@ void SettingsDialog::setupUi()
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     _toolBar->setOrientation(Qt::Vertical);
     _toolBar->setMovable(false);
-    _toolBar->setMinimumWidth(220);
+    _toolBar->setMinimumWidth(settingsNavigationMinimumWidth);
     _toolBar->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 
     auto *navigationContainer = new QWidget(this);
