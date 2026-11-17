@@ -409,8 +409,8 @@ void AccountSettings::slotE2eEncryptionMnemonicReady()
         });
     }
 
-    QCoreApplication::translate("", "E2E_MNEMONIC_TEXT3").arg(account->prettyName()),
-        setEncryptionMessageIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/lock.svg")));
+    _ui->encryptionMessageLabel->setText(QCoreApplication::translate("", "E2E_MNEMONIC_TEXT3"));
+    setEncryptionMessageIcon(Theme::createColorAwareIcon(QStringLiteral(":/client/theme/lock.svg")));
     setEncryptionPanelVisible(true);
 }
 
