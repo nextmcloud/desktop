@@ -1,12 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 28.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}
-</style>
-<g id="icon_x2F_navigation_x2F_right_x2F_default">
-	<path id="Icon" class="st0" d="M9,5.9C8.7,5.7,8.2,5.7,7.9,6C7.7,6.4,7.7,6.8,8.1,7.1l6.2,4.9l-6.2,4.9c-0.3,0.3-0.4,0.7-0.1,1.1
-		c0.1,0.2,0.4,0.3,0.6,0.3c0.2,0,0.3-0.1,0.5-0.2l7.7-6.1L9,5.9z"/>
-</g>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.67392 5.44541C6.36756 5.90493 6.49174 6.5258 6.95127 6.83216L14.7032 12.0001L6.95127 17.1681C6.49174 17.4744 6.36756 18.0953 6.67392 18.5548C6.98027 19.0143 7.60114 19.1385 8.06067 18.8322L17.0607 12.8322C17.3389 12.6467 17.506 12.3345 17.506 12.0001C17.506 11.6658 17.3389 11.3535 17.0607 11.1681L8.06067 5.16806C7.60114 4.8617 6.98027 4.98588 6.67392 5.44541Z" fill="white"/>
 </svg>
