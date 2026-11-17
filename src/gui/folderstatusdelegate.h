@@ -5,6 +5,7 @@
  */
 
 #pragma once
+#include <QPushButton>
 #include <QStyledItemDelegate>
 
 namespace OCC {
@@ -54,6 +55,7 @@ public:
     static QRect errorsListRect(QRect within);
     static QRect sandboxButtonRect(QRect errorBannerRect);
     static int rootFolderHeightWithoutErrors(const QFontMetrics &fm, const QFontMetrics &aliasFm);
+    static QRect moreRectPos(const QRect &rectIndex);
 
 public Q_SLOTS:
     void slotStyleChanged();
@@ -65,6 +67,8 @@ private:
     QPersistentModelIndex _pressedIndex;
 
     QIcon _iconMore;
+    mutable QPushButton _moreButton;
+    QStyleOptionViewItem _newOption;
 };
 
 } // namespace OCC
