@@ -11,10 +11,17 @@
 #include <QSizePolicy>
 #include <QtGlobal>
 
+#include <QApplication>
+#include <QEvent>
+#include <QPainter>
+#include <QPainterPath>
+#include <QTimer>
+
 namespace OCC {
 
 FolderStatusView::FolderStatusView(QWidget *parent) : QTreeView(parent)
 {
+    this->setStyleSheet("QTreeView { border: none; }");
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 }
 
@@ -48,6 +55,30 @@ QRect FolderStatusView::visualRect(const QModelIndex &index) const
         return FolderStatusDelegate::addButtonRect(rect, layoutDirection());
     }
     return rect;
+}
+
+void FolderStatusView::drawBranches(QPainter *painter, const QRect &rect, const QModelIndex &index) const {
+    Q_UNUSED(painter)
+    Q_UNUSED(rect)
+    Q_UNUSED(index)
+
+    // Empty function: This overrides the default behavior to remove the left column 
+    // containing the collapse and expand icons. Instead, this is handled 
+    // in FolderStatusDelegate::paint().
+}
+
+void FolderStatusView::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(viewport());
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    const QRect rect = viewport()->rect();
+    QPainterPath path;
+    path.addRoundedRect(rect, 4, 4);
+
+    painter.fillPath(path, Qt::transparent);
+
+    QTreeView::paintEvent(event);
 }
 
 int FolderStatusView::visibleRowsHeight(const QModelIndex &parent) const
