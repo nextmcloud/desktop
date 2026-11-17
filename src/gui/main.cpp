@@ -53,12 +53,29 @@ void warnSystray()
     );
 }
 
+static void registerNmcThemeResource()
+{
+    bool resourceLoaded = false;
+
+    if (Utility::isMac()) {
+        resourceLoaded = QResource::registerResource(
+            QDir::toNativeSeparators(QStringLiteral("/Applications/MagentaCLOUD.app/Contents/Resources/nmctheme_v1.rcc")));
+    }
+
+    if (Utility::isWindows() || !resourceLoaded) {
+        QResource::registerResource(
+            QDir::toNativeSeparators(QDir::currentPath() + QStringLiteral("/nmctheme_v1.rcc")));
+    }
+}
+
 static int runApplication(int argc, char **argv)
 {
 #ifdef Q_OS_WIN
     SetDllDirectory(L"");
     qputenv("QML_IMPORT_PATH", (QDir::currentPath() + QStringLiteral("/qml")).toLatin1());
 #endif
+
+    registerNmcThemeResource();
 
     Q_INIT_RESOURCE(resources);
     Q_INIT_RESOURCE(theme);
