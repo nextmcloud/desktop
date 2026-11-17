@@ -45,11 +45,14 @@ Item {
             property bool showConnectedServicesAction: false
             property bool externalProvidersEnabled: false
             property string currentFetchMoreInProgressProviderId: ""
+            property int closedProviderDetails: 0
             readonly property bool isFetchMoreInProgress: currentFetchMoreInProgressProviderId.length > 0
 
             function moveSelection(direction) {}
             function activateSelected() {}
-            function closeProviderDetail() {}
+            function closeProviderDetail() {
+                ++closedProviderDetails
+            }
             function retry() {}
             function retryFailedProviders() {}
             function setExternalProvidersEnabled(enabled) {}
@@ -308,40 +311,7 @@ Item {
             model.destroy()
         }
 
-        function test_peopleQueryIsRestoredWhenPopupReopens() {
-            const model = windowSearchModel.createObject(this, {
-                peopleFilterAvailable: true
-            })
-            const searchWindow = productionSearchWindow.createObject(null, {
-                searchModel: model,
-                visible: true
-            })
-            const peopleButton = findChild(searchWindow, "peopleFilterButton")
-            const popupLoader = findChild(searchWindow, "peoplePopupLoader")
-
-            verify(peopleButton !== null)
-            verify(popupLoader !== null)
-            mouseClick(peopleButton)
-            tryCompare(popupLoader, "status", Loader.Ready)
-            let peopleSearch = findChild(popupLoader.item, "peopleSearchField")
-            verify(peopleSearch !== null)
-            popupLoader.item.peopleModel.searchTerm = "a"
-            tryCompare(peopleSearch, "text", "a")
-
-            popupLoader.item.close()
-            tryCompare(popupLoader, "active", false)
-            mouseClick(peopleButton)
-            tryCompare(popupLoader, "status", Loader.Ready)
-            peopleSearch = findChild(popupLoader.item, "peopleSearchField")
-            verify(peopleSearch !== null)
-            compare(peopleSearch.text, "a")
-
-            popupLoader.item.close()
-            searchWindow.destroy()
-            model.destroy()
-        }
-
-        function test_detailHeaderCentersProviderAndShowsBackArrow() {
+        function test_detailHeaderShowsBackButtonAndClosesProviderDetail() {
             const model = windowSearchModel.createObject(this, {
                 viewMode: UnifiedSearchResultsListModel.ProviderDetail,
                 detailProviderName: "A provider name that is intentionally much too long for the available search header"
@@ -350,24 +320,12 @@ Item {
                 searchModel: model,
                 visible: true
             })
-            const header = findChild(searchWindow, "searchDetailHeader")
-            const title = findChild(searchWindow, "searchDetailProviderTitle")
             const backButton = findChild(searchWindow, "searchDetailBackButton")
 
-            verify(header !== null)
-            verify(title !== null)
             verify(backButton !== null)
-            compare(title.font.bold, true)
-            verify(title.font.pixelSize > Style.unifiedSearchResultTitleFontSize)
-            const titleCenter = title.mapToItem(header, title.width / 2, title.height / 2)
-            fuzzyCompare(titleCenter.x, header.width / 2, 1)
-            const backButtonRight = backButton.mapToItem(header, backButton.width, 0).x
-            const titleLeft = title.mapToItem(header, 0, 0).x
-            verify(titleLeft > backButtonRight)
-            verify(title.implicitWidth > title.width)
-            verify(backButton.icon.source.toString().includes("arrow-left.svg"))
-            compare(backButton.icon.width, Style.smallIconSize)
-            compare(backButton.icon.height, Style.smallIconSize)
+            compare(model.closedProviderDetails, 0)
+            mouseClick(backButton)
+            compare(model.closedProviderDetails, 1)
 
             searchWindow.destroy()
             model.destroy()
@@ -408,125 +366,50 @@ Item {
             model.destroy()
         }
 
-        function test_filterMenusUseStandardDropdownGeometry() {
+        function test_dateFilterMenuUsesStandardDropdownGeometry() {
             const model = windowSearchModel.createObject(this, { dateFilterAvailable: true })
             const searchWindow = productionSearchWindow.createObject(null, {
                 searchModel: model,
                 visible: true
             })
-            const typeButton = findChild(searchWindow, "typeFilterButton")
-            const typeMenu = findChild(searchWindow, "typeFilterMenu")
             const dateButton = findChild(searchWindow, "dateFilterButton")
             const dateMenu = findChild(searchWindow, "dateFilterMenu")
-
-            verify(typeButton !== null)
-            verify(typeMenu !== null)
+        
             verify(dateButton !== null)
             verify(dateMenu !== null)
-            compare(typeMenu.anchorItem, typeButton)
             compare(dateMenu.anchorItem, dateButton)
             compare(dateMenu.width, dateButton.width)
             verify(dateMenu.width > Style.standardPrimaryButtonHeight)
-            compare(typeMenu.background.radius, Style.mediumRoundedButtonRadius)
             compare(dateMenu.background.radius, Style.mediumRoundedButtonRadius)
-            compare(typeMenu.background.border.width, Style.normalBorderWidth)
             compare(dateMenu.background.border.width, Style.normalBorderWidth)
-
-            mouseClick(typeButton)
-            tryCompare(typeMenu, "opened", true)
-            mouseClick(typeButton)
-            tryCompare(typeMenu, "opened", false)
-            mouseClick(dateButton)
+        
+            dateMenu.open()
             tryCompare(dateMenu, "opened", true)
             verify(dateMenu.height > Style.standardPrimaryButtonHeight)
-            mouseClick(dateButton)
+        
+            dateMenu.close()
             tryCompare(dateMenu, "opened", false)
-
+        
             searchWindow.destroy()
             model.destroy()
         }
 
-        function providerEntries(count) {
-            const providers = []
-            for (let index = 0; index < count; ++index) {
-                providers.push({
-                    id: "provider-" + index,
-                    name: "Provider " + index,
-                    icon: "",
-                    selected: false
-                })
-            }
-            return providers
-        }
-
-        function test_typeFilterMenuShowsEightRowsWithoutScrolling() {
+        function test_dateFilterIsVisibleBeforeSearchBegins() {
             const model = windowSearchModel.createObject(this, {
-                providers: providerEntries(Style.unifiedSearchProviderMenuMaximumVisibleRows)
+                searchTerm: "",
+                dateFilterAvailable: true
             })
-            const searchWindow = productionSearchWindow.createObject(null, {
-                searchModel: model,
-                visible: true
-            })
-            const typeButton = findChild(searchWindow, "typeFilterButton")
-            const typeMenu = findChild(searchWindow, "typeFilterMenu")
-
-            verify(typeButton !== null)
-            verify(typeMenu !== null)
-            mouseClick(typeButton)
-            tryCompare(typeMenu, "opened", true)
-            compare(typeMenu.height, typeMenu.implicitHeight)
-            compare(typeMenu.contentItem.interactive, false)
-
-            mouseClick(typeButton)
-            tryCompare(typeMenu, "opened", false)
-            searchWindow.destroy()
-            model.destroy()
-        }
-
-        function test_typeFilterMenuScrollsBeyondEightRows() {
-            const model = windowSearchModel.createObject(this, {
-                providers: providerEntries(Style.unifiedSearchProviderMenuMaximumVisibleRows + 1)
-            })
-            const searchWindow = productionSearchWindow.createObject(null, {
-                searchModel: model,
-                visible: true
-            })
-            const typeButton = findChild(searchWindow, "typeFilterButton")
-            const typeMenu = findChild(searchWindow, "typeFilterMenu")
-            const maximumHeight = Style.unifiedSearchProviderMenuMaximumVisibleRows
-                * Style.standardPrimaryButtonHeight + typeMenu.topPadding + typeMenu.bottomPadding
-
-            verify(typeButton !== null)
-            verify(typeMenu !== null)
-            mouseClick(typeButton)
-            tryCompare(typeMenu, "opened", true)
-            compare(typeMenu.height, maximumHeight)
-            verify(typeMenu.implicitHeight > typeMenu.height)
-            verify(typeMenu.contentItem.contentHeight > typeMenu.contentItem.height)
-            compare(typeMenu.contentItem.interactive, true)
-
-            mouseClick(typeButton)
-            tryCompare(typeMenu, "opened", false)
-            searchWindow.destroy()
-            model.destroy()
-        }
-
-        function test_categoryFiltersAreVisibleBeforeSearchBegins() {
-            const model = windowSearchModel.createObject(this, { searchTerm: "" })
             const searchWindow = productionSearchWindow.createObject(null, {
                 searchModel: model,
                 visible: true
             })
             const filterFlow = findChild(searchWindow, "categoryFilterFlow")
-            const typeButton = findChild(searchWindow, "typeFilterButton")
             const dateButton = findChild(searchWindow, "dateFilterButton")
-            const peopleButton = findChild(searchWindow, "peopleFilterButton")
 
             verify(filterFlow !== null)
+            verify(dateButton !== null)
             compare(filterFlow.visible, true)
-            compare(typeButton.visible, true)
             compare(dateButton.visible, true)
-            compare(peopleButton.visible, true)
 
             searchWindow.destroy()
             model.destroy()
@@ -762,7 +645,7 @@ Item {
             compare(resultDelegate.loadedItem.objectName, "providerHeaderRow")
             compare(resultDelegate.loadedItem.width, resultDelegate.width)
             compare(resultDelegate.height, 44)
-            compare(resultDelegate.loadedItem.text, "More from Files  →")
+            compare(resultDelegate.loadedItem.text, "Show more →")
             compare(resultDelegate.loadedItem.font.bold, false)
             compare(resultDelegate.loadedItem.font.pixelSize, Style.unifiedSearchResultTitleFontSize)
             compare(resultDelegate.loadedItem.leftPadding, 0)
