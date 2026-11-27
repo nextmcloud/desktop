@@ -20,6 +20,7 @@
 #include "wizard/owncloudhttpcredspage.h"
 #include "wizard/termsofservicewizardpage.h"
 #include "wizard/owncloudadvancedsetuppage.h"
+#include "nmcgui/nmcowncloudadvancedsetuppage.h"
 #include "wizard/webviewpage.h"
 #include "wizard/flow2authcredspage.h"
 
@@ -50,7 +51,7 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
     , _httpCredsPage(new OwncloudHttpCredsPage(this))
     , _flow2CredsPage(new Flow2AuthCredsPage)
     , _termsOfServicePage(new TermsOfServiceWizardPage)
-    , _advancedSetupPage(new OwncloudAdvancedSetupPage(this))
+    , _advancedSetupPage(new NMCOwncloudAdvancedSetupPage(this))
 #ifdef WITH_WEBENGINE
     , _webViewPage(new WebViewPage(this))
 #else // WITH_WEBENGINE
@@ -127,6 +128,8 @@ OwncloudWizard::OwncloudWizard(QWidget *parent)
 
     adjustWizardSize();
     centerWindow();
+
+    this->setStyleSheet("QWizard { margin: 0; padding: 0; }" "QWizard::separator { width: 0; }");
 }
 
 void OwncloudWizard::centerWindow()
@@ -144,17 +147,7 @@ void OwncloudWizard::centerWindow()
 
 void OwncloudWizard::adjustWizardSize()
 {
-    const auto pageSizes = calculateWizardPageSizes();
-    const auto currentPageIndex = currentId();
-
-    // If we can, just use the size of the current page
-    if(currentPageIndex > -1 && currentPageIndex < pageSizes.count()) {
-        resize(pageSizes.at(currentPageIndex));
-        return;
-    }
-
-    // As a backup, resize to largest page
-    resize(calculateLargestSizeOfWizardPages(pageSizes));
+    resize(698, 474); // NMC customization
 }
 
 QList<QSize> OwncloudWizard::calculateWizardPageSizes() const
@@ -364,8 +357,9 @@ void OwncloudWizard::slotCurrentPageChanged(int id)
         id == WizardCommon::Page_Flow2AuthCreds ||
         id == WizardCommon::Page_TermsOfService) {
         setButtonLayout({QWizard::BackButton, QWizard::Stretch});
+        button(QWizard::BackButton)->setVisible(false);
     } else if (id == WizardCommon::Page_AdvancedSetup) {
-        setButtonLayout({QWizard::CustomButton2, QWizard::Stretch, QWizard::CustomButton1, QWizard::FinishButton});
+        setButtonLayout({ });
         setNextButtonAsDefault();
     } else if (id == WizardCommon::Page_ServerSetup) {
         if constexpr (Theme::doNotUseProxy()) {
@@ -455,6 +449,11 @@ void OwncloudWizard::changeEvent(QEvent *e)
     }
 
     QWizard::changeEvent(e);
+}
+
+void OwncloudWizard::paintEvent(QPaintEvent *event)
+{
+    QWizard::paintEvent(event);
 }
 
 void OwncloudWizard::hideEvent(QHideEvent *event)

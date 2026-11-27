@@ -13,6 +13,7 @@
 #include "wizard/owncloudwizardcommon.h"
 #include "wizard/owncloudwizard.h"
 #include "wizard/flow2authwidget.h"
+#include "nmcgui/nmcflow2authwidget.h"
 #include "creds/credentialsfactory.h"
 #include "creds/webflowcredentials.h"
 
@@ -23,7 +24,7 @@ Flow2AuthCredsPage::Flow2AuthCredsPage()
 {
     _layout = new QVBoxLayout(this);
 
-    _flow2AuthWidget = new Flow2AuthWidget();
+    _flow2AuthWidget = new NMCFlow2AuthWidget();
     _layout->addWidget(_flow2AuthWidget);
 
     connect(_flow2AuthWidget, &Flow2AuthWidget::authResult, this, &Flow2AuthCredsPage::slotFlow2AuthResult);

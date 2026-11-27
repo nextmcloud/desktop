@@ -127,13 +127,14 @@ void OwncloudSetupWizard::startWizard()
     }
 #endif
 
-    _ocWizard->setProperty("localFolder", localFolder);
     {
         ConfigFile cfg;
         if (!cfg.overrideLocalDir().isEmpty()) {
-            _ocWizard->setProperty("localFolder", cfg.overrideLocalDir());
+            localFolder = cfg.overrideLocalDir();
         }
     }
+
+    _ocWizard->setProperty("localFolder", localFolder);
 
     // remember the local folder to compare later if it changed, but clean first
     _initLocalFolder = Utility::trailingSlashPath(QDir::fromNativeSeparators(localFolder));
@@ -476,7 +477,7 @@ void OwncloudSetupWizard::slotAuthError()
         if (!_ocWizard->account()->credentials()->stillValid(reply)) {
             errorMsg = tr("Access forbidden by server. To verify that you have proper access, "
                           "<a href=\"%1\">click here</a> to access the service with your browser.")
-                           .arg(Utility::escape(_ocWizard->account()->url().toString()));
+                           .arg(Utility::escape(redirectUrl.toString()));
         } else {
             errorMsg = job->errorStringParsingBody();
         }
